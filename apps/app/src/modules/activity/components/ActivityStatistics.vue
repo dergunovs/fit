@@ -6,8 +6,7 @@
         <span>длительность: {{ formatDuration(props.activityStatistics.duration) }}, </span>
         <span>занятия: {{ props.activityStatistics.activitiesCount }}, </span>
         <span>сеты: {{ props.activityStatistics.setsCount }}, </span>
-        <span>повторы: {{ props.activityStatistics.repeatsCount }}, </span>
-        <span>отдых: {{ props.activityStatistics.averageRestPercent }}%.</span>
+        <span>повторы: {{ props.activityStatistics.repeatsCount }}.</span>
       </div>
 
       <div>
@@ -15,7 +14,7 @@
         <span>длительность: {{ formatDuration(props.activityStatistics.averageDuration) }}, </span>
         <span>сетов в занятии: {{ props.activityStatistics.averageSetsPerActivity }}, </span>
         <span>повторов в сете: {{ props.activityStatistics.averageRepeatsPerSet }}, </span>
-        <span>повторов в занятии: {{ props.activityStatistics.averageRepeatsPerActivity }}.</span>
+        <span>отдых: {{ props.activityStatistics.averageRestPercent }}%.</span>
       </div>
     </UiFlex>
   </div>

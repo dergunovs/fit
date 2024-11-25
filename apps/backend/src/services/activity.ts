@@ -43,7 +43,6 @@ export const activityService: IActivityService = {
     }, 0);
 
     const averageSetsPerActivity = Math.round(setsCount / activitiesCount);
-    const averageRepeatsPerActivity = Math.round(repeatsCount / activitiesCount);
     const averageRepeatsPerSet = Math.round(repeatsCount / setsCount);
     const averageDuration = Math.round(duration / activitiesCount);
 
@@ -64,7 +63,6 @@ export const activityService: IActivityService = {
       repeatsCount,
       duration,
       averageSetsPerActivity,
-      averageRepeatsPerActivity,
       averageRepeatsPerSet,
       averageDuration,
       averageRestPercent,

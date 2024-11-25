@@ -45,7 +45,6 @@ export interface IActivityStatistics {
   repeatsCount: number;
   duration: number;
   averageSetsPerActivity: number;
-  averageRepeatsPerActivity: number;
   averageRepeatsPerSet: number;
   averageDuration: number;
   averageRestPercent: number;

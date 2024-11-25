@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiFlex column>
+    <UiFlex column gap="16">
       <UiFlex>
         <UiButton
           v-for="chartType in CHART_TYPES"

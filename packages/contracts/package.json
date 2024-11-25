@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-contracts",
   "description": "Fitness tracker contracts",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
