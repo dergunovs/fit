@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex column>
-      <UiFlex gap="16">
+      <UiFlex>
         <UiButton
           v-for="chartType in CHART_TYPES"
           :key="chartType.value"
@@ -12,7 +12,8 @@
         >
       </UiFlex>
 
-      <UiChart v-if="chart" :labels="chart.labels" :data="chart.data" type="Line" :key="type" />
+      <UiChart v-if="chart" :labels="chart.labels" :data="chart.data" type="Line" :key="type" :class="$style.chart" />
+      <div v-else :class="$style.chartSkeleton"></div>
     </UiFlex>
   </div>
 </template>
@@ -29,3 +30,11 @@ const type = ref<TActivityChartType>('activity');
 
 const { data: chart } = getActivityChart(type);
 </script>
+
+<style module lang="scss">
+.chart,
+.chartSkeleton {
+  width: 100%;
+  aspect-ratio: 2/1;
+}
+</style>

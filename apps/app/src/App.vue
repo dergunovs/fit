@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component v-if="isLoaded" :is="layoutComponent" :data-layout="layoutComponent.name" />
+    <component v-if="isLoaded" :is="layoutComponent" />
   </div>
 </template>
 
