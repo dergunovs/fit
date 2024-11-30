@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
 import { API_ACTIVITY, IActivity, IExerciseDone } from 'fitness-tracker-contracts';
@@ -35,6 +36,7 @@ import { API_ACTIVITY, IActivity, IExerciseDone } from 'fitness-tracker-contract
 import ActivityExerciseList from '@/activity/components/ActivityExerciseList.vue';
 
 import { updateActivity } from '@/activity/services';
+import { URL_HOME } from '@/common/constants';
 
 interface IProps {
   activity: IActivity;
@@ -48,6 +50,8 @@ const formData = ref<IActivity>({
 });
 
 const activeExerciseId = ref<string>();
+
+const router = useRouter();
 
 const queryClient = useQueryClient();
 
@@ -80,9 +84,9 @@ function stopExercise(exerciseDone: IExerciseDone) {
 
   formData.value.isDone = !formData.value.exercises?.some((exercise) => !exercise.isDone);
 
-  if (formData.value.isDone) toast.success('Занятие закончено');
-
   mutateUpdate(formData.value);
+
+  if (formData.value.isDone) exitActivity();
 }
 
 function finishActivity() {
@@ -90,7 +94,13 @@ function finishActivity() {
 
   mutateUpdate(formData.value);
 
+  exitActivity();
+}
+
+function exitActivity() {
   toast.success('Занятие закончено');
+
+  router.push(URL_HOME);
 }
 
 onMounted(() => {

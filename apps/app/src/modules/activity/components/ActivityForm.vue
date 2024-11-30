@@ -71,7 +71,7 @@ const potentialActivityDuration = computed(() => {
     return acc + averageDuration * exercise.repeats;
   }, 0);
 
-  const durationWithRest = Math.round(totalDuration + totalDuration * (props.averageRestPercent / 100));
+  const durationWithRest = Math.round(totalDuration / (1 - props.averageRestPercent / 100));
 
   return formatDuration(durationWithRest);
 });

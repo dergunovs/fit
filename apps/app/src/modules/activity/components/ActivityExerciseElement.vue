@@ -1,13 +1,16 @@
 <template>
-  <div :class="$style.element" :data-current="props.isCurrentExercise" :data-active="isCurrentExerciseActive">
+  <div
+    v-if="!props.exercise.isDone"
+    :class="$style.element"
+    :data-current="props.isCurrentExercise"
+    :data-active="isCurrentExerciseActive"
+  >
     <div :class="$style.title" :data-current="props.isCurrentExercise">
       {{ props.index }}<template v-if="props.isCurrentExercise">{{ ` из ${props.exercisesCount}` }}</template
       >.
       {{ props.exercise.exercise?.title || 'Упражнение удалено' }}
 
       <template v-if="props.exercise.weight">{{ props.exercise.weight }} кг.</template>
-
-      <IconDone v-if="props.exercise.isDone" width="16" height="16" />
     </div>
 
     <template v-if="props.isCurrentExercise">
@@ -46,7 +49,6 @@ import { UiButton, UiCheckbox, UiFlex } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
 import ActivityDuration from '@/activity/components/ActivityDuration.vue';
-import IconDone from '@/layout/icons/to-failure.svg';
 
 interface IProps {
   exercise: IExerciseDone;

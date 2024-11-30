@@ -151,13 +151,11 @@ export const activityService: IActivityService = {
           .lean()
           .exec();
 
-        let count = 0;
+        const count = activities.reduce((acc, activity) => {
+          const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
 
-        activities.forEach((activity) => {
-          const repeats = activity.exercises.reduce((acc, current) => acc + (current.repeats || 0), 0);
-
-          count += repeats;
-        });
+          return acc + repeats;
+        }, 0);
 
         data.push(count);
       }
