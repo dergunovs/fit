@@ -34,11 +34,11 @@
     "mongoose": "8.8.3"
   },
   "devDependencies": {
-    "@eslint/js": "9.15.0",
+    "@eslint/js": "9.16.0",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "22.10.1",
     "esbuild": "0.24.0",
-    "eslint": "9.15.0",
+    "eslint": "9.16.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-typescript": "3.6.3",
     "eslint-plugin-import-x": "4.4.3",
