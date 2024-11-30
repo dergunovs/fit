@@ -53,9 +53,7 @@ export function updateExercise(options: object) {
 export function deleteExercise(options: object) {
   return useMutation({
     mutationKey: [API_EXERCISE],
-    mutationFn: async (id?: string) => {
-      if (!id) return null;
-
+    mutationFn: async (id: string) => {
       const { data } = await api.delete<IBaseReply>(`${API_EXERCISE}/${id}`);
 
       return data;

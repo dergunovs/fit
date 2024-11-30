@@ -1,8 +1,6 @@
-import type { IExercise } from 'fitness-tracker-contracts';
+import type { IExercise, IExerciseService } from 'fitness-tracker-contracts';
 
 import Exercise from '../models/exercise.js';
-
-import { IExerciseService } from '../interface/index.js';
 
 export const exerciseService: IExerciseService = {
   getAll: async () => {
@@ -17,7 +15,7 @@ export const exerciseService: IExerciseService = {
     return { data: exercise as T };
   },
 
-  update: async <T>(itemToUpdate: T, _id?: string) => {
+  update: async <T>(_id: string, itemToUpdate: T) => {
     await Exercise.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 

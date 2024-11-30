@@ -24,7 +24,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_EXERCISE}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      await exerciseService.update<IExercise>(request.body, request.params.id);
+      await exerciseService.update<IExercise>(request.params.id, request.body);
 
       reply.code(200).send({ message: 'Упражнение обновлено' });
     }

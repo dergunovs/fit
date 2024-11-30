@@ -1,6 +1,7 @@
+import { IPaginatedReply } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 
-export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: string) {
+export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: string): Promise<IPaginatedReply<T>> {
   const page = Number(pageQuery) || 1;
 
   const limit = 24;

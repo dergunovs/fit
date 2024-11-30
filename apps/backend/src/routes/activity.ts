@@ -13,13 +13,15 @@ import type {
   IActivityChart,
   IExerciseStatistics,
   TActivityChartType,
+  IPaginatedReply,
+  IPaginatedQuery,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../interface/index.js';
 import { activityService } from '../services/activity.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Querystring: { page: number }; Reply: { 200: { data: IActivity[]; total?: number } } }>(
+  fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IActivity> } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -80,7 +82,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      await activityService.update<IActivity>(request.body, request.params.id);
+      await activityService.update<IActivity>(request.params.id, request.body);
 
       reply.code(200).send({ message: 'Занятие обновлено' });
     }

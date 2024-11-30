@@ -11,6 +11,8 @@ import {
   IBaseReply,
   IExerciseStatistics,
   TActivityChartType,
+  IPaginatedQuery,
+  IPaginatedReply,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
@@ -18,9 +20,9 @@ export function getActivities(page: Ref<number>) {
   return useQuery({
     queryKey: [API_ACTIVITY, page],
     queryFn: async () => {
-      const { data } = await api.get<{ data: IActivity[]; total: number }>(API_ACTIVITY, {
-        params: { page: page.value },
-      });
+      const params: IPaginatedQuery = { page: page.value };
+
+      const { data } = await api.get<IPaginatedReply<IActivity>>(API_ACTIVITY, { params });
 
       return data;
     },
@@ -117,9 +119,7 @@ export function updateActivity(options: object) {
 export function deleteActivity(options: object) {
   return useMutation({
     mutationKey: [API_ACTIVITY],
-    mutationFn: async (id?: string) => {
-      if (!id) return null;
-
+    mutationFn: async (id: string) => {
       const { data } = await api.delete<IBaseReply>(`${API_ACTIVITY}/${id}`);
 
       return data;

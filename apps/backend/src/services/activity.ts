@@ -3,13 +3,13 @@ import type {
   IActivityStatistics,
   IExerciseStatistics,
   TActivityChartType,
+  IActivityService,
 } from 'fitness-tracker-contracts';
 
 import Activity from '../models/activity.js';
 import Exercise from '../models/exercise.js';
 
 import { paginate, getFirstAndLastWeekDays } from '../helpers/index.js';
-import { IActivityService } from '../interface/index.js';
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
@@ -183,7 +183,7 @@ export const activityService: IActivityService = {
     return { data: activity as T };
   },
 
-  update: async <T>(itemToUpdate: T, _id?: string) => {
+  update: async <T>(_id: string, itemToUpdate: T) => {
     await Activity.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 

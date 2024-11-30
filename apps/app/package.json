@@ -19,7 +19,7 @@
     "ts": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "fitness-tracker-contracts": "1.0.14",
+    "fitness-tracker-contracts": "*",
     "mhz-ui": "1.0.89",
     "mhz-helpers": "1.0.73",
     "vue": "3.5.13",

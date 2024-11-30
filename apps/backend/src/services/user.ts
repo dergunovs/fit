@@ -1,10 +1,9 @@
 import bcrypt from 'bcryptjs';
-import type { IUser } from 'fitness-tracker-contracts';
+import type { IUser, IBaseService } from 'fitness-tracker-contracts';
 
 import User from '../models/user.js';
 
 import { paginate } from '../helpers/index.js';
-import { IBaseService } from '../interface/index.js';
 
 export const userService: IBaseService = {
   getMany: async <T>(page?: number) => {
@@ -19,7 +18,7 @@ export const userService: IBaseService = {
     return { data: user as T };
   },
 
-  update: async <T>(itemToUpdate: T, _id?: string) => {
+  update: async <T>(_id: string, itemToUpdate: T) => {
     await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 

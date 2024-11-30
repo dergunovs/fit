@@ -1,11 +1,11 @@
 import { API_USER } from 'fitness-tracker-contracts';
-import type { IBaseReply, IUser, IBaseParams } from 'fitness-tracker-contracts';
+import type { IBaseReply, IUser, IBaseParams, IPaginatedReply, IPaginatedQuery } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../interface/index.js';
 import { userService } from '../services/user.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Querystring: { page: number }; Reply: { 200: { data: IUser[]; total?: number } } }>(
+  fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IUser> } }>(
     API_USER,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -29,7 +29,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      await userService.update<IUser>(request.body, request.params.id);
+      await userService.update<IUser>(request.params.id, request.body);
 
       reply.code(200).send({ message: 'Пользователь обновлен' });
     }
