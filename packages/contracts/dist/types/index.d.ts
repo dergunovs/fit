@@ -1,5 +1,3 @@
-export * from "../index";
-
 export interface IEntity {
   _id?: string;
   dateCreated?: Date | string;
