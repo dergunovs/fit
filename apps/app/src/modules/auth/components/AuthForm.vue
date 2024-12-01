@@ -48,9 +48,7 @@ const { mutate: mutateLogin } = login({
   onSuccess: (user: { token: string }) => {
     toast.success('Добро пожаловать!');
     auth(user.token, setAuthHeader, TOKEN_NAME);
-
     emit('login');
-
     router.push(URL_ACTIVITY_CREATE);
   },
 });
@@ -58,7 +56,6 @@ const { mutate: mutateLogin } = login({
 const { mutate: mutateSetup } = setup({
   onSuccess: () => {
     toast.success('Админ создан!');
-
     router.push(URL_HOME);
   },
 });
@@ -73,12 +70,12 @@ const rules = computed(() => {
 const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
-  if (isValid()) {
-    if (props.isSetup) {
-      mutateSetup(formData.value);
-    } else {
-      mutateLogin(formData.value);
-    }
+  if (!isValid()) return;
+
+  if (props.isSetup) {
+    mutateSetup(formData.value);
+  } else {
+    mutateLogin(formData.value);
   }
 }
 </script>

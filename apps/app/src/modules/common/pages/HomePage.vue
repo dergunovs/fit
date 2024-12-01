@@ -7,7 +7,7 @@
     </div>
 
     <div :class="$style.statistics">
-      <ExerciseStatistics :exerciseStatistics="statistics?.exercise" />
+      <ExerciseStatistics v-if="statistics" :exerciseStatistics="statistics.exercise" />
     </div>
   </div>
 </template>

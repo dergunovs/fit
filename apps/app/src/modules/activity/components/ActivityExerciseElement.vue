@@ -6,11 +6,7 @@
     :data-active="isCurrentExerciseActive"
   >
     <div :class="$style.title" :data-current="props.isCurrentExercise">
-      {{ props.index }}<template v-if="props.isCurrentExercise">{{ ` из ${props.exercisesCount}` }}</template
-      >.
-      {{ props.exercise.exercise?.title || 'Упражнение удалено' }}
-
-      <template v-if="props.exercise.weight">{{ props.exercise.weight }} кг.</template>
+      {{ exerciseTitle }}
     </div>
 
     <template v-if="props.isCurrentExercise">
@@ -38,7 +34,7 @@
         </UiFlex>
       </div>
 
-      <ActivityDuration :duration="exercise.duration" :start="start" :stop="stop" @stop="sendDurationData" />
+      <ActivityDuration :start="start" :stop="stop" @stop="sendDurationData" />
     </template>
   </div>
 </template>
@@ -82,6 +78,13 @@ const repeatButtons = [
   props.exercise.repeats + 2,
 ];
 
+const exerciseTitle = computed(
+  () => `
+    ${props.index}${props.isCurrentExercise ? ` из ${props.exercisesCount}.` : `.`}
+    ${props.exercise.exercise?.title || 'Упражнение удалено'}${props.exercise.weight ? ` ${props.exercise.weight} кг.` : `.`}
+  `
+);
+
 const buttonTitle = computed(() => (isCurrentExerciseActive.value ? 'Завершить' : 'Начать'));
 
 function handleClick() {
@@ -105,8 +108,8 @@ function sendDurationData(duration: number) {
 
   &[data-current='true'] {
     padding: 8px 0;
-    border-top: 8px solid var(--color-gray);
-    border-bottom: 8px solid var(--color-gray);
+    border-top: 16px solid var(--color-gray);
+    border-bottom: 16px solid var(--color-gray);
   }
 
   &[data-active='true'] {

@@ -15,6 +15,7 @@ export const EXERCISE_WEIGHT_OPTIONS = [9, 16];
 export const EXERCISE_REPEATS_OPTIONS = [8, 10, 12, 15];
 
 export const EXERCISE_STATISTICS_HEADERS = [{ title: 'Упражнение' }, { title: 'Сеты' }, { title: 'Повторы' }];
+export const EXERCISE_LIST_HEADERS = [{ title: 'Название' }];
 
 export const EXERCISE_MUSCLE_GROUPS: IMuscleGroup[] = [
   { _id: '1', title: 'Плечи', icon: ImageShoulders },

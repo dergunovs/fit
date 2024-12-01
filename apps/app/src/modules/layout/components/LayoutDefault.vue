@@ -21,7 +21,7 @@ import { UiModal } from 'mhz-ui';
 import TheHeader from '@/layout/components/TheHeader.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 
-defineOptions({ name: 'LayoutEmpty' });
+defineOptions({ name: 'LayoutDefault' });
 
 const isShowLogin = ref(false);
 </script>

@@ -1,14 +1,12 @@
 <template>
-  <UiTable :headers="tableHeaders" :isLoading="!props.exercises?.length" lang="ru">
-    <template v-if="props.exercises?.length">
-      <tr v-for="exercise in props.exercises" :key="exercise._id">
-        <td data-grow>
-          <RouterLink :to="`${URL_EXERCISE_EDIT}/${exercise._id}`">
-            {{ exercise.title }}
-          </RouterLink>
-        </td>
-      </tr>
-    </template>
+  <UiTable :headers="EXERCISE_LIST_HEADERS" :isLoading="!props.exercises?.length" lang="ru">
+    <tr v-for="exercise in props.exercises" :key="exercise._id">
+      <td data-grow>
+        <RouterLink :to="`${URL_EXERCISE_EDIT}/${exercise._id}`">
+          {{ exercise.title }}
+        </RouterLink>
+      </td>
+    </tr>
   </UiTable>
 </template>
 
@@ -16,13 +14,11 @@
 import { UiTable } from 'mhz-ui';
 import { IExercise } from 'fitness-tracker-contracts';
 
-import { URL_EXERCISE_EDIT } from '@/exercise/constants';
+import { URL_EXERCISE_EDIT, EXERCISE_LIST_HEADERS } from '@/exercise/constants';
 
 interface IProps {
   exercises?: IExercise[];
 }
 
 const props = defineProps<IProps>();
-
-const tableHeaders = [{ title: 'Название' }];
 </script>

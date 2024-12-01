@@ -12,7 +12,7 @@ export const routes: RouteRecordRaw[] = [
   ...exerciseRoutes,
   ...activityRoutes,
 
-  { path: URL_HOME, name: 'Home', component: () => import('@/common/pages/HomePage.vue'), meta: { layout: 'empty' } },
-  { path: URL_ERROR, name: '404', component: () => import('@/common/pages/ErrorPage.vue'), meta: { layout: 'empty' } },
+  { path: URL_HOME, name: 'Home', component: () => import('@/common/pages/HomePage.vue') },
+  { path: URL_ERROR, name: '404', component: () => import('@/common/pages/ErrorPage.vue') },
   { path: '/:catchAll(.*)', name: 'error', redirect: '404' },
 ];

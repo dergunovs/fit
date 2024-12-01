@@ -29,7 +29,6 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-
 const emit = defineEmits(['delete']);
 
 const isShowConfirm = ref(false);

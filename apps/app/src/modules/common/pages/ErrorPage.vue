@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <div>Ошибка</div>
-  </div>
+  <h1>Ошибка</h1>
 </template>

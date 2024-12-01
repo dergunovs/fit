@@ -106,7 +106,6 @@ const { mutate: mutatePost, isPending: isLoadingPost } = postActivity({
   onSuccess: async (id: string) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
     toast.success('Занятие начато');
-
     router.push(`${URL_ACTIVITY_EDIT}/${id}`);
   },
 });

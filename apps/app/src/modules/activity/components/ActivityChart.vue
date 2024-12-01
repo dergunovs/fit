@@ -12,8 +12,9 @@
         >
       </UiFlex>
 
-      <UiChart v-if="chart" :labels="chart.labels" :data="chart.data" type="Line" :key="type" :class="$style.chart" />
-      <div v-else :class="$style.chartSkeleton"></div>
+      <div :class="$style.chart">
+        <UiChart v-if="chart" :labels="chart.labels" :data="chart.data" type="Line" :key="type" :class="$style.chart" />
+      </div>
     </UiFlex>
   </div>
 </template>
@@ -32,8 +33,7 @@ const { data: chart } = getActivityChart(type);
 </script>
 
 <style module lang="scss">
-.chart,
-.chartSkeleton {
+.chart {
   width: 100%;
   aspect-ratio: 2/1;
 }

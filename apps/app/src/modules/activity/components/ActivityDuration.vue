@@ -10,9 +10,8 @@ import { ref, watch, onMounted } from 'vue';
 import { addZero } from 'mhz-helpers';
 
 interface IProps {
-  duration?: number;
-  start?: boolean;
-  stop?: boolean;
+  start: boolean;
+  stop: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -21,8 +20,8 @@ const emit = defineEmits(['stop']);
 watch(
   () => [props.start, props.stop],
   () => {
-    if (props.start && !props.duration) startTimer();
-    if (props.stop && !props.duration) stopTimer();
+    if (props.start) startTimer();
+    if (props.stop) stopTimer();
   }
 );
 
@@ -51,12 +50,7 @@ function stopTimer() {
 }
 
 onMounted(() => {
-  if (props.start && !props.duration) startTimer();
-
-  if (props.duration) {
-    minutes.value = Math.floor(props.duration / 60);
-    seconds.value = props.duration - minutes.value * 60;
-  }
+  if (props.start) startTimer();
 });
 </script>
 

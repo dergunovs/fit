@@ -8,15 +8,13 @@
         <td>
           <div :class="$style.cell">
             <span>{{ exercise.sets }}</span>
-            <span :class="$style.time">
-              {{ ((exercise.averageDuration * exercise.repeats) / exercise.sets || 0).toFixed(1) }}с
-            </span>
+            <span :class="$style.time">{{ getAverageDuration(exercise, 'set') }}</span>
           </div>
         </td>
         <td>
           <div :class="$style.cell">
             <span>{{ exercise.repeats }}</span>
-            <span :class="$style.time">{{ exercise.averageDuration.toFixed(1) }}с</span>
+            <span :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</span>
           </div>
         </td>
       </tr>
@@ -31,10 +29,16 @@ import { UiTable } from 'mhz-ui';
 import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
 
 interface IProps {
-  exerciseStatistics?: IExerciseStatistics[];
+  exerciseStatistics: IExerciseStatistics[];
 }
 
 const props = defineProps<IProps>();
+
+function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat') {
+  return type === 'set'
+    ? `${((exercise.averageDuration * exercise.repeats) / exercise.sets || 0).toFixed(1)}с`
+    : `${exercise.averageDuration.toFixed(1)}с`;
+}
 </script>
 
 <style module lang="scss">
