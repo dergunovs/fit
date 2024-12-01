@@ -17,10 +17,12 @@ import type {
   IPaginatedQuery,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../interface/index.js';
-import { activityService } from '../services/activity.js';
+import { IFastifyInstance } from '../common/types.js';
+import { activityService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
+  if (!fastify.onlyUser) return;
+
   fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IActivity> } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },

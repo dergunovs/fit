@@ -6,10 +6,9 @@ import type {
   IActivityService,
 } from 'fitness-tracker-contracts';
 
-import Activity from '../models/activity.js';
-import Exercise from '../models/exercise.js';
-
-import { paginate, getFirstAndLastWeekDays } from '../helpers/index.js';
+import { paginate, getFirstAndLastWeekDays } from '../common/helpers.js';
+import Exercise from '../exercise/model.js';
+import Activity from './model.js';
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {

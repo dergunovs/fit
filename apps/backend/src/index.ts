@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 import { buildApp, AppOptions } from './app.js';
 
 dotenv.config();

@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-
 import type { IUser } from 'fitness-tracker-contracts';
 
 const userSchema = new Schema<IUser>(

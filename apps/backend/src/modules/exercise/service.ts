@@ -1,6 +1,6 @@
 import type { IExercise, IExerciseService } from 'fitness-tracker-contracts';
 
-import Exercise from '../models/exercise.js';
+import Exercise from './model.js';
 
 export const exerciseService: IExerciseService = {
   getAll: async () => {

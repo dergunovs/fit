@@ -1,5 +1,4 @@
-// eslint-disable-next-line import-x/named
-import { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
 import jwt from '@fastify/jwt';
 

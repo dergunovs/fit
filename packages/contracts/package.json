@@ -1,11 +1,11 @@
 {
   "name": "fitness-tracker-contracts",
   "description": "Fitness tracker contracts",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
-  "main": "dist/types/index.d.ts",
+  "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "sideEffects": false,
   "files": [

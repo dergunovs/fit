@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import type { IUserToken, ILoginData, IAuthService } from 'fitness-tracker-contracts';
 
-import User from '../models/user.js';
+import User from '../user/model.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<void> }) => {

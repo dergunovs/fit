@@ -1,10 +1,12 @@
 import { API_EXERCISE } from 'fitness-tracker-contracts';
 import type { IBaseReply, IExercise, IBaseParams } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../interface/index.js';
-import { exerciseService } from '../services/exercise.js';
+import { IFastifyInstance } from '../common/types.js';
+import { exerciseService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
+  if (!fastify.onlyUser) return;
+
   fastify.get<{ Reply: { 200: IExercise[] } }>(API_EXERCISE, async function (request, reply) {
     const data = await exerciseService.getAll();
 

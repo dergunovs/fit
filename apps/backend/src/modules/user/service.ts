@@ -1,9 +1,8 @@
 import bcrypt from 'bcryptjs';
 import type { IUser, IBaseService } from 'fitness-tracker-contracts';
 
-import User from '../models/user.js';
-
-import { paginate } from '../helpers/index.js';
+import { paginate } from '../common/helpers.js';
+import User from './model.js';
 
 export const userService: IBaseService = {
   getMany: async <T>(page?: number) => {

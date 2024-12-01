@@ -1,10 +1,12 @@
 import { API_USER } from 'fitness-tracker-contracts';
 import type { IBaseReply, IUser, IBaseParams, IPaginatedReply, IPaginatedQuery } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../interface/index.js';
-import { userService } from '../services/user.js';
+import { IFastifyInstance } from '../common/types.js';
+import { userService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
+  if (!fastify.onlyUser) return;
+
   fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IUser> } }>(
     API_USER,
     { preValidation: [fastify.onlyUser] },

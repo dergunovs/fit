@@ -1,8 +1,8 @@
 import { API_AUTH_CHECK, API_AUTH_LOGIN, API_AUTH_SETUP } from 'fitness-tracker-contracts';
 import type { ILoginData, IUserToken, IBaseReply } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../interface/index.js';
-import { authService } from '../services/auth.js';
+import { IFastifyInstance } from '../common/types.js';
+import { authService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: IBaseReply } }>(API_AUTH_CHECK, async function (request, reply) {

@@ -1,13 +1,18 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
 import Fastify, { FastifyServerOptions } from 'fastify';
-import autoload from '@fastify/autoload';
 import { Schema, connect } from 'mongoose';
 import dotenv from 'dotenv';
 
-dotenv.config();
+import corsPlugin from './modules/common/plugins/cors.js';
+import helmetPlugin from './modules/common/plugins/helmet.js';
+import jwtPlugin from './modules/common/plugins/jwt.js';
+import ratePlugin from './modules/common/plugins/rate.js';
 
-const dirname = path.dirname(fileURLToPath(import.meta.url));
+import activityRoutes from './modules/activity/routes.js';
+import authRoutes from './modules/auth/routes.js';
+import exerciseRoutes from './modules/exercise/routes.js';
+import userRoutes from './modules/user/routes.js';
+
+dotenv.config();
 
 Schema.Types.Boolean.convertToFalse.add('');
 connect(`mongodb://127.0.0.1/${process.env.DATABASE}`);
@@ -17,8 +22,15 @@ type AppOptions = Partial<FastifyServerOptions>;
 async function buildApp(options: AppOptions = {}) {
   const fastify = Fastify(options);
 
-  fastify.register(autoload, { dir: path.join(dirname, 'plugins'), options: { ...options } });
-  fastify.register(autoload, { dir: path.join(dirname, 'routes'), options: { ...options, prefix: '/api' } });
+  fastify.register(corsPlugin);
+  fastify.register(helmetPlugin);
+  fastify.register(jwtPlugin);
+  fastify.register(ratePlugin);
+
+  fastify.register(activityRoutes, { prefix: '/api' });
+  fastify.register(authRoutes, { prefix: '/api' });
+  fastify.register(exerciseRoutes, { prefix: '/api' });
+  fastify.register(userRoutes, { prefix: '/api' });
 
   fastify.setErrorHandler(function (error, request, reply) {
     reply.status(500).send({ message: error.message || 'Server error' });

@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-
 import type { IExercise } from 'fitness-tracker-contracts';
 
 const exerciseSchema = new Schema<IExercise>(
