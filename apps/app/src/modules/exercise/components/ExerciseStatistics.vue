@@ -13,7 +13,7 @@
         </td>
         <td>
           <div :class="$style.cell">
-            <span>{{ exercise.repeats }}</span>
+            <span>{{ Math.round(exercise.repeats / exercise.sets) }}</span>
             <span :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</span>
           </div>
         </td>
