@@ -1,23 +1,58 @@
+import Fastify from 'fastify';
 import dotenv from 'dotenv';
+import { Schema, connect } from 'mongoose';
 
-import { buildApp, AppOptions } from './app.js';
+import corsPlugin from './modules/common/plugins/cors.js';
+import helmetPlugin from './modules/common/plugins/helmet.js';
+import jwtPlugin from './modules/common/plugins/jwt.js';
+import ratePlugin from './modules/common/plugins/rate.js';
+
+import activityRoutes from './modules/activity/routes.js';
+import authRoutes from './modules/auth/routes.js';
+import exerciseRoutes from './modules/exercise/routes.js';
+import userRoutes from './modules/user/routes.js';
 
 dotenv.config();
 
-const options: AppOptions = {
-  logger: true,
-};
+function connectToDatabase() {
+  Schema.Types.Boolean.convertToFalse.add('');
+  connect(`mongodb://127.0.0.1/${process.env.DATABASE}`);
+}
 
-const start = async () => {
-  const app = await buildApp(options);
+async function buildApp() {
+  const fastify = Fastify();
+
+  fastify.register(corsPlugin);
+  fastify.register(helmetPlugin);
+  fastify.register(jwtPlugin);
+  fastify.register(ratePlugin);
+
+  fastify.register(activityRoutes, { prefix: '/api' });
+  fastify.register(authRoutes, { prefix: '/api' });
+  fastify.register(exerciseRoutes, { prefix: '/api' });
+  fastify.register(userRoutes, { prefix: '/api' });
+
+  fastify.setErrorHandler(function (error, request, reply) {
+    reply.status(500).send({ message: error.message || 'Server error' });
+  });
+
+  return fastify;
+}
+
+async function startApp() {
+  connectToDatabase();
+
+  const app = await buildApp();
+
   const port = Number(process.env.PORT);
+  const host = 'localhost';
 
   try {
-    await app.listen({ port, host: 'localhost' });
+    await app.listen({ port, host });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
   }
-};
+}
 
-start();
+startApp();
