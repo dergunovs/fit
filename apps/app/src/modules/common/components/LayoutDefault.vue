@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 import { UiModal } from 'mhz-ui';
 
-import TheHeader from '@/layout/components/TheHeader.vue';
+import TheHeader from '@/common/components/TheHeader.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 
 defineOptions({ name: 'LayoutDefault' });

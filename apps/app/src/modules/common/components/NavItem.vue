@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { INavItem } from '@/layout/interface';
+import { INavItem } from '@/common/interface';
 
 interface IProps {
   navItem: INavItem;

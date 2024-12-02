@@ -23,7 +23,7 @@ import { useRouter } from 'vue-router';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
 
-import IconLogo from '@/common/images/logo.svg';
+import IconLogo from '@/common/icons/logo.svg';
 
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME } from '@/common/constants';

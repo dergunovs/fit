@@ -37,8 +37,8 @@ import { UiButton, UiFlex, UiTable } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth } from 'mhz-helpers';
 
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
-import IconDate from '@/layout/icons/date.svg';
-import IconDuration from '@/layout/icons/duration.svg';
+import IconDate from '@/common/icons/date.svg';
+import IconDuration from '@/common/icons/duration.svg';
 
 import { URL_ACTIVITY_CREATE, ACTIVITY_STATISTICS_HEADERS } from '@/activity/constants';
 import { EXERCISE_MUSCLE_GROUPS } from '@/exercise/constants';

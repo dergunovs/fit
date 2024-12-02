@@ -1,8 +1,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-import LayoutAdmin from '@/layout/components/LayoutAdmin.vue';
-import LayoutDefault from '@/layout/components/LayoutDefault.vue';
+import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
+import LayoutDefault from '@/common/components/LayoutDefault.vue';
 
 export function useLayout() {
   const router = useRouter();

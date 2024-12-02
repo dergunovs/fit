@@ -47,10 +47,10 @@ import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiChip, UiFlex } from 'mhz-ui';
 import { formatDuration } from 'mhz-helpers';
 
-import IconDuration from '@/layout/icons/duration.svg';
-import IconToFailure from '@/layout/icons/to-failure.svg';
-import IconFail from '@/layout/icons/fail.svg';
-import IconWeight from '@/layout/icons/weight.svg';
+import IconDuration from '@/common/icons/duration.svg';
+import IconToFailure from '@/common/icons/to-failure.svg';
+import IconFail from '@/common/icons/fail.svg';
+import IconWeight from '@/common/icons/weight.svg';
 
 interface IProps {
   exercise: IExerciseDone;

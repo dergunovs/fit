@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import NavItem from '@/layout/components/NavItem.vue';
+import NavItem from '@/common/components/NavItem.vue';
 
-import { NAV_ITEMS } from '@/layout/constants';
+import { NAV_ITEMS } from '@/common/constants';
 </script>
 
 <style module lang="scss">
