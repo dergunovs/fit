@@ -21,7 +21,7 @@ import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
-import { getActivitiesCalendar, getStatistics } from '@/activity/services';
+import { getActivitiesCalendar, getActivitiesStatistics } from '@/activity/services';
 import { IActivityCalendarEvent, ICalendarEvent } from '@/activity/interface';
 
 const dateFrom = ref('');
@@ -30,7 +30,7 @@ const dateTo = ref('');
 const isRequestEnabled = ref(false);
 
 const { data } = getActivitiesCalendar({ enabled: isRequestEnabled }, dateFrom, dateTo);
-const { data: statistics } = getStatistics();
+const { data: statistics } = getActivitiesStatistics();
 
 const events = computed<IActivityCalendarEvent<IExerciseDone>[] | undefined>(() =>
   data.value?.map((activity: IActivity) => {

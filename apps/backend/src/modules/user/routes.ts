@@ -1,5 +1,14 @@
 import { API_USER } from 'fitness-tracker-contracts';
-import type { IBaseReply, IUser, IBaseParams, IPaginatedReply, IPaginatedQuery } from 'fitness-tracker-contracts';
+import type {
+  IUser,
+  IBaseParams,
+  TGetUsersDTO,
+  TGetUsersQueryDTO,
+  TGetUserDTO,
+  TPostUserDTO,
+  TUpdateUserDTO,
+  TDeleteUserDTO,
+} from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
 import { userService } from './service.js';
@@ -7,7 +16,7 @@ import { userService } from './service.js';
 export default async function (fastify: IFastifyInstance) {
   if (!fastify.onlyUser) return;
 
-  fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IUser> } }>(
+  fastify.get<{ Querystring: TGetUsersQueryDTO; Reply: { 200: TGetUsersDTO } }>(
     API_USER,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -17,7 +26,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.get<{ Params: IBaseParams; Reply: { 200: { data: IUser | null } } }>(
+  fastify.get<{ Params: IBaseParams; Reply: { 200: TGetUserDTO } }>(
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -27,17 +36,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.patch<{ Body: IUser; Params: IBaseParams; Reply: { 200: IBaseReply } }>(
-    `${API_USER}/:id`,
-    { preValidation: [fastify.onlyUser] },
-    async function (request, reply) {
-      await userService.update<IUser>(request.params.id, request.body);
-
-      reply.code(200).send({ message: 'Пользователь обновлен' });
-    }
-  );
-
-  fastify.post<{ Body: IUser; Reply: { 201: IBaseReply } }>(
+  fastify.post<{ Body: IUser; Reply: { 201: TPostUserDTO } }>(
     API_USER,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -47,7 +46,17 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.delete<{ Params: IBaseParams; Reply: { 200: IBaseReply } }>(
+  fastify.patch<{ Body: IUser; Params: IBaseParams; Reply: { 200: TUpdateUserDTO } }>(
+    `${API_USER}/:id`,
+    { preValidation: [fastify.onlyUser] },
+    async function (request, reply) {
+      await userService.update<IUser>(request.params.id, request.body);
+
+      reply.code(200).send({ message: 'Пользователь обновлен' });
+    }
+  );
+
+  fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {

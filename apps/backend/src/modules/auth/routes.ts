@@ -1,17 +1,23 @@
-import { API_AUTH_CHECK, API_AUTH_LOGIN, API_AUTH_SETUP } from 'fitness-tracker-contracts';
-import type { ILoginData, IUserToken, IBaseReply } from 'fitness-tracker-contracts';
+import { API_GET_AUTH, API_AUTH_LOGIN, API_AUTH_SETUP } from 'fitness-tracker-contracts';
+import type {
+  ILoginData,
+  IBaseReply,
+  TGetAuthDTO,
+  TPostAuthLoginDTO,
+  TPostAuthSetupDTO,
+} from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
 import { authService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Reply: { 200: IBaseReply } }>(API_AUTH_CHECK, async function (request, reply) {
+  fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_GET_AUTH, async function (request, reply) {
     await authService.check(request);
 
     return reply.code(200).send({ message: 'Успешно авторизован' });
   });
 
-  fastify.post<{ Body: ILoginData; Reply: { 200: IUserToken; '4xx': IBaseReply } }>(
+  fastify.post<{ Body: ILoginData; Reply: { 200: TPostAuthLoginDTO; '4xx': IBaseReply } }>(
     API_AUTH_LOGIN,
     async function (request, reply) {
       const { user, isUserNotFound, isWrongPassword } = await authService.login(request.body, fastify.jwt.sign);
@@ -26,7 +32,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: ILoginData; Reply: { 201: IBaseReply; '5xx': IBaseReply } }>(
+  fastify.post<{ Body: ILoginData; Reply: { 201: TPostAuthSetupDTO; '5xx': IBaseReply } }>(
     API_AUTH_SETUP,
     async function (request, reply) {
       const isUserExists = await authService.setup(request.body);

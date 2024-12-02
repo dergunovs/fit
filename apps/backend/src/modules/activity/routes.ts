@@ -9,12 +9,18 @@ import type {
   IBaseReply,
   IActivity,
   IBaseParams,
-  IActivityStatistics,
-  IActivityChart,
-  IExerciseStatistics,
-  TActivityChartType,
-  IPaginatedReply,
-  IPaginatedQuery,
+  TGetActivitiesDTO,
+  TGetActivitiesQueryDTO,
+  TGetActivitiesCalendarDTO,
+  TGetActivitiesCalendarQueryDTO,
+  TGetActivitiesStatisticsDTO,
+  TGetActivitiesChartDTO,
+  TGetActivitiesChartQueryDTO,
+  TGetActivityDTO,
+  TGetActivityLastDTO,
+  TUpdateActivityDTO,
+  TPostActivityDTO,
+  TDeleteActivityDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
@@ -23,7 +29,7 @@ import { activityService } from './service.js';
 export default async function (fastify: IFastifyInstance) {
   if (!fastify.onlyUser) return;
 
-  fastify.get<{ Querystring: IPaginatedQuery; Reply: { 200: IPaginatedReply<IActivity> } }>(
+  fastify.get<{ Querystring: TGetActivitiesQueryDTO; Reply: { 200: TGetActivitiesDTO } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -33,7 +39,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.get<{ Querystring: { dateFrom: string; dateTo: string }; Reply: { 200: IActivity[] } }>(
+  fastify.get<{ Querystring: TGetActivitiesCalendarQueryDTO; Reply: { 200: TGetActivitiesCalendarDTO } }>(
     API_ACTIVITY_CALENDAR,
     async function (request, reply) {
       const data = await activityService.getCalendar(request.query.dateFrom, request.query.dateTo);
@@ -42,7 +48,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.get<{ Reply: { 200: { activity: IActivityStatistics; exercise: IExerciseStatistics[] } } }>(
+  fastify.get<{ Reply: { 200: TGetActivitiesStatisticsDTO } }>(
     API_ACTIVITY_STATISTICS,
     async function (request, reply) {
       const data = await activityService.getStatistics();
@@ -51,46 +57,36 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.get<{ Querystring: { type: TActivityChartType }; Reply: { 200: IActivityChart } }>(
+  fastify.get<{ Querystring: TGetActivitiesChartQueryDTO; Reply: { 200: TGetActivitiesChartDTO } }>(
     API_ACTIVITY_CHART,
     async function (request, reply) {
-      const data = await activityService.getChart(request.query.type);
+      const data: TGetActivitiesChartDTO = await activityService.getChart(request.query.type);
 
       reply.code(200).send(data);
     }
   );
 
-  fastify.get<{ Params: IBaseParams; Reply: { 200: { data: IActivity | null } } }>(
+  fastify.get<{ Params: IBaseParams; Reply: { 200: TGetActivityDTO } }>(
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      const data = await activityService.getOne<IActivity>(request.params.id);
+      const data: TGetActivityDTO = await activityService.getOne<IActivity>(request.params.id);
 
       reply.code(200).send(data);
     }
   );
 
-  fastify.get<{ Reply: { 200: { data: IActivity | null } } }>(
+  fastify.get<{ Reply: { 200: TGetActivityLastDTO } }>(
     API_ACTIVITY_LAST,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      const data = await activityService.getLast<IActivity>();
+      const data: TGetActivityLastDTO = await activityService.getLast<IActivity>();
 
       reply.code(200).send(data);
     }
   );
 
-  fastify.patch<{ Body: IActivity; Params: IBaseParams; Reply: { 200: IBaseReply } }>(
-    `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyUser] },
-    async function (request, reply) {
-      await activityService.update<IActivity>(request.params.id, request.body);
-
-      reply.code(200).send({ message: 'Занятие обновлено' });
-    }
-  );
-
-  fastify.post<{ Body: IActivity; Reply: { 201: string; 500: IBaseReply } }>(
+  fastify.post<{ Body: IActivity; Reply: { 201: TPostActivityDTO; 500: IBaseReply } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -104,7 +100,17 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.delete<{ Params: IBaseParams; Reply: { 200: IBaseReply } }>(
+  fastify.patch<{ Body: IActivity; Params: IBaseParams; Reply: { 200: TUpdateActivityDTO } }>(
+    `${API_ACTIVITY}/:id`,
+    { preValidation: [fastify.onlyUser] },
+    async function (request, reply) {
+      await activityService.update<IActivity>(request.params.id, request.body);
+
+      reply.code(200).send({ message: 'Занятие обновлено' });
+    }
+  );
+
+  fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteActivityDTO } }>(
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {

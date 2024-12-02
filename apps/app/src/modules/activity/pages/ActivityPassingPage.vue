@@ -14,7 +14,7 @@ import { getActivity } from '@/activity/services';
 
 const route = useRoute();
 
-const activityId = computed(() => route.params.activity);
+const activityId = computed(() => route.params.activity.toString());
 
 const { data: activity } = getActivity({}, activityId);
 </script>

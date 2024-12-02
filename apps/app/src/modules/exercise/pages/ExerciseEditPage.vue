@@ -14,7 +14,7 @@ import { getExercise } from '@/exercise/services';
 
 const route = useRoute();
 
-const exerciseId = computed(() => route.params.exercise);
+const exerciseId = computed(() => route.params.exercise.toString());
 
 const { data: exercise } = getExercise(exerciseId);
 </script>

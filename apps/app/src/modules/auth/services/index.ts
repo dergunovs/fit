@@ -1,18 +1,19 @@
 import {
-  API_AUTH_CHECK,
+  API_GET_AUTH,
   API_AUTH_LOGIN,
   API_AUTH_SETUP,
-  IBaseReply,
   ILoginData,
-  IUserToken,
+  TGetAuthDTO,
+  TPostAuthLoginDTO,
+  TPostAuthSetupDTO,
 } from 'fitness-tracker-contracts';
 import { useQuery, useMutation, api, setAuth } from 'mhz-helpers';
 
-export function checkAuth() {
+export function getAuth() {
   return useQuery({
-    queryKey: [API_AUTH_CHECK],
+    queryKey: [API_GET_AUTH],
     queryFn: async () => {
-      const { data } = await api.get<IBaseReply>(API_AUTH_CHECK);
+      const { data } = await api.get<TGetAuthDTO>(API_GET_AUTH);
 
       if (data.message) setAuth(true);
 
@@ -21,11 +22,11 @@ export function checkAuth() {
   });
 }
 
-export function setup(options: object) {
+export function login(options: object) {
   return useMutation({
-    mutationKey: [API_AUTH_SETUP],
+    mutationKey: [API_AUTH_LOGIN],
     mutationFn: async (formData: ILoginData) => {
-      const { data } = await api.post<IBaseReply>(API_AUTH_SETUP, formData);
+      const { data } = await api.post<TPostAuthLoginDTO>(API_AUTH_LOGIN, formData);
 
       return data;
     },
@@ -33,11 +34,11 @@ export function setup(options: object) {
   });
 }
 
-export function login(options: object) {
+export function setup(options: object) {
   return useMutation({
-    mutationKey: [API_AUTH_LOGIN],
+    mutationKey: [API_AUTH_SETUP],
     mutationFn: async (formData: ILoginData) => {
-      const { data } = await api.post<IUserToken>(API_AUTH_LOGIN, formData);
+      const { data } = await api.post<TPostAuthSetupDTO>(API_AUTH_SETUP, formData);
 
       return data;
     },

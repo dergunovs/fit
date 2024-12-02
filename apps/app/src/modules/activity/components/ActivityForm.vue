@@ -34,13 +34,14 @@ import {
   IExerciseChoosen,
   IExerciseDone,
   IExerciseStatistics,
+  TPostActivityDTO,
 } from 'fitness-tracker-contracts';
 
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { getExercises } from '@/exercise/services';
-import { getLastActivity, getActivity, postActivity } from '@/activity/services';
+import { getActivityLast, getActivity, postActivity } from '@/activity/services';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 interface IProps {
@@ -79,10 +80,10 @@ const potentialActivityDuration = computed(() => {
 const isShowModal = ref(false);
 const isShowForm = ref(true);
 
-const copyId = computed(() => props.copy);
+const copyId = computed(() => props.copy || '');
 
 const { data: exercises } = getExercises();
-const { data: lastActivity } = getLastActivity();
+const { data: lastActivity } = getActivityLast();
 const { data: activity } = getActivity({ enabled: !!copyId.value }, copyId);
 
 watch(
@@ -103,7 +104,7 @@ function updateExercises(id: string) {
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = postActivity({
-  onSuccess: async (id: string) => {
+  onSuccess: async (id: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
     toast.success('Занятие начато');
     router.push(`${URL_ACTIVITY_EDIT}/${id}`);

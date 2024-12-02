@@ -13,9 +13,9 @@ import { useRoute } from 'vue-router';
 
 import ActivityForm from '@/activity/components/ActivityForm.vue';
 
-import { getStatistics } from '@/activity/services';
+import { getActivitiesStatistics } from '@/activity/services';
 
 const route = useRoute();
 
-const { data: statistics } = getStatistics();
+const { data: statistics } = getActivitiesStatistics();
 </script>

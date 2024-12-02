@@ -14,7 +14,7 @@ import { getUser } from '@/user/services';
 
 const route = useRoute();
 
-const userId = computed(() => route.params.user);
+const userId = computed(() => route.params.user.toString());
 
 const { data: user } = getUser(userId);
 </script>

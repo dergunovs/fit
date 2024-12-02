@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { getCookieToken, setAuthHeader } from 'mhz-helpers';
 
-import { checkAuth } from '@/auth/services';
+import { getAuth } from '@/auth/services';
 import { TOKEN_NAME } from '@/auth/constants';
 import { useLayout } from '@/layout/composables';
 
@@ -15,6 +15,6 @@ const token = getCookieToken(TOKEN_NAME);
 
 if (token) {
   setAuthHeader(token);
-  checkAuth();
+  getAuth();
 }
 </script>
