@@ -24,6 +24,6 @@ export type TGetAuthDTO = IBaseReply;
 export type TPostAuthLoginDTO = IToken;
 export type TPostAuthSetupDTO = IBaseReply;
 
-export declare const API_GET_AUTH = "/auth/check";
+export declare const API_AUTH_GET = "/auth/check";
 export declare const API_AUTH_LOGIN = "/auth/login";
 export declare const API_AUTH_SETUP = "/auth/setup";

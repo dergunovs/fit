@@ -1,4 +1,4 @@
-import { API_GET_AUTH, API_AUTH_LOGIN, API_AUTH_SETUP } from 'fitness-tracker-contracts';
+import { API_AUTH_GET, API_AUTH_LOGIN, API_AUTH_SETUP } from 'fitness-tracker-contracts';
 import type {
   ILoginData,
   IBaseReply,
@@ -11,7 +11,7 @@ import { IFastifyInstance } from '../common/types.js';
 import { authService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_GET_AUTH, async function (request, reply) {
+  fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, async function (request, reply) {
     await authService.check(request);
 
     return reply.code(200).send({ message: 'Успешно авторизован' });

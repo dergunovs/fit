@@ -1,5 +1,5 @@
 import {
-  API_GET_AUTH,
+  API_AUTH_GET,
   API_AUTH_LOGIN,
   API_AUTH_SETUP,
   ILoginData,
@@ -11,9 +11,9 @@ import { useQuery, useMutation, api, setAuth } from 'mhz-helpers';
 
 export function getAuth() {
   return useQuery({
-    queryKey: [API_GET_AUTH],
+    queryKey: [API_AUTH_GET],
     queryFn: async () => {
-      const { data } = await api.get<TGetAuthDTO>(API_GET_AUTH);
+      const { data } = await api.get<TGetAuthDTO>(API_AUTH_GET);
 
       if (data.message) setAuth(true);
 
