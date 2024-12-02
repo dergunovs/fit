@@ -12,6 +12,7 @@
   "scripts": {
     "lint": "turbo run lint --no-daemon",
     "ts": "turbo run ts --no-daemon",
+    "test": "turbo run test --concurrency=1 --no-daemon",
     "dev": "turbo run dev --no-daemon",
     "build": "turbo run build --no-daemon",
     "pub": "changeset version && changeset publish"
