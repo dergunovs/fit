@@ -62,8 +62,13 @@ export type TGetActivitiesChartDTO = IActivityChart;
 export type TGetActivitiesChartQueryDTO = { type: TActivityChartType };
 export type TGetActivityDTO = { data: IActivity | null };
 export type TGetActivityLastDTO = { data: IActivity | null };
+
 export type TPostActivityDTO = string;
+export type TPostActivityDataDTO = IActivity;
+
 export type TUpdateActivityDTO = IBaseReply;
+export type TUpdateActivityDataDTO = IActivity;
+
 export type TDeleteActivityDTO = IBaseReply;
 
 export declare const API_ACTIVITY = "/activity";

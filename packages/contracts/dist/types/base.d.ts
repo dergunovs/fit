@@ -4,12 +4,18 @@ export interface IEntity {
   dateUpdated?: Date | string;
 }
 
-export interface IBaseReply {
-  message: string;
+export interface IToken {
+  _id: string;
+  email: string;
+  token?: string;
 }
 
 export interface IBaseParams {
   id: string;
+}
+
+export interface IBaseReply {
+  message: string;
 }
 
 export interface IPaginatedQuery {
@@ -19,12 +25,6 @@ export interface IPaginatedQuery {
 export interface IPaginatedReply<T> {
   data: T[];
   total: number;
-}
-
-export interface IToken {
-  _id: string;
-  email: string;
-  token?: string;
 }
 
 export interface IBaseService {

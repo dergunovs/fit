@@ -1,12 +1,13 @@
 import { ComputedRef, Ref } from 'vue';
 import {
   API_USER,
-  IUser,
   TGetUsersDTO,
   TGetUsersQueryDTO,
   TGetUserDTO,
   TPostUserDTO,
+  TPostUserDataDTO,
   TUpdateUserDTO,
+  TUpdateUserDataDTO,
   TDeleteUserDTO,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
@@ -40,7 +41,7 @@ export function getUser(id?: ComputedRef<string>) {
 export function postUser(options: object) {
   return useMutation({
     mutationKey: [API_USER],
-    mutationFn: async (formData: IUser) => {
+    mutationFn: async (formData: TPostUserDataDTO) => {
       const { data } = await api.post<TPostUserDTO>(API_USER, formData);
 
       return data;
@@ -52,7 +53,7 @@ export function postUser(options: object) {
 export function updateUser(options: object) {
   return useMutation({
     mutationKey: [API_USER],
-    mutationFn: async (formData: IUser) => {
+    mutationFn: async (formData: TUpdateUserDataDTO) => {
       const { data } = await api.patch<TUpdateUserDTO>(`${API_USER}/${formData._id}`, formData);
 
       return data;

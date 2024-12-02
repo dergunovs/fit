@@ -43,8 +43,13 @@ export interface IExerciseService
 
 export type TGetExercisesDTO = IExercise[];
 export type TGetExerciseDTO = { data: IExercise | null };
+
 export type TPostExerciseDTO = IBaseReply;
+export type TPostExerciseDataDTO = IExercise;
+
 export type TUpdateExerciseDTO = IBaseReply;
+export type TUpdateExerciseDataDTO = IExercise;
+
 export type TDeleteExerciseDTO = IBaseReply;
 
 export declare const API_EXERCISE = "/exercise";

@@ -1,11 +1,12 @@
 import { ComputedRef } from 'vue';
 import {
   API_EXERCISE,
-  IExercise,
   TGetExercisesDTO,
   TGetExerciseDTO,
   TPostExerciseDTO,
+  TPostExerciseDataDTO,
   TUpdateExerciseDTO,
+  TUpdateExerciseDataDTO,
   TDeleteExerciseDTO,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
@@ -37,7 +38,7 @@ export function getExercise(id?: ComputedRef<string>) {
 export function postExercise(options: object) {
   return useMutation({
     mutationKey: [API_EXERCISE],
-    mutationFn: async (formData: IExercise) => {
+    mutationFn: async (formData: TPostExerciseDataDTO) => {
       const { data } = await api.post<TPostExerciseDTO>(API_EXERCISE, formData);
 
       return data;
@@ -49,7 +50,7 @@ export function postExercise(options: object) {
 export function updateExercise(options: object) {
   return useMutation({
     mutationKey: [API_EXERCISE],
-    mutationFn: async (formData: IExercise) => {
+    mutationFn: async (formData: TUpdateExerciseDataDTO) => {
       const { data } = await api.patch<TUpdateExerciseDTO>(`${API_EXERCISE}/${formData._id}`, formData);
 
       return data;

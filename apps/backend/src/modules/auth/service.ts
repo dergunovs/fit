@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import type { IToken, ILoginData, IAuthService } from 'fitness-tracker-contracts';
+import type { IToken, IAuthData, IAuthService } from 'fitness-tracker-contracts';
 
 import User from '../user/model.js';
 
@@ -8,7 +8,7 @@ export const authService: IAuthService = {
     await request.jwtVerify();
   },
 
-  login: async (loginData: ILoginData, sign: (payload: IToken, options: object) => string) => {
+  login: async (loginData: IAuthData, sign: (payload: IToken, options: object) => string) => {
     const { email, password } = loginData;
 
     const foundUser = await User.findOne({ email }).exec();
@@ -33,7 +33,7 @@ export const authService: IAuthService = {
     return { user: { ...user, token }, isUserNotFound: false, isWrongPassword: false };
   },
 
-  setup: async (userToCreate: ILoginData) => {
+  setup: async (userToCreate: IAuthData) => {
     const users = await User.find().lean().exec();
 
     if (users.length) return true;

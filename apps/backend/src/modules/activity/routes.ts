@@ -20,7 +20,9 @@ import type {
   TGetActivityLastDTO,
   TUpdateActivityDTO,
   TPostActivityDTO,
+  TPostActivityDataDTO,
   TDeleteActivityDTO,
+  TUpdateActivityDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
@@ -86,7 +88,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: IActivity; Reply: { 201: TPostActivityDTO; 500: IBaseReply } }>(
+  fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO; 500: IBaseReply } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -100,7 +102,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.patch<{ Body: IActivity; Params: IBaseParams; Reply: { 200: TUpdateActivityDTO } }>(
+  fastify.patch<{ Body: TUpdateActivityDataDTO; Params: IBaseParams; Reply: { 200: TUpdateActivityDTO } }>(
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {

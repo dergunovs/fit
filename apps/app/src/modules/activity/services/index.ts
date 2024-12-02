@@ -5,7 +5,6 @@ import {
   API_ACTIVITY_LAST,
   API_ACTIVITY_STATISTICS,
   API_ACTIVITY_CHART,
-  IActivity,
   TActivityChartType,
   TGetActivitiesDTO,
   TGetActivitiesQueryDTO,
@@ -17,7 +16,9 @@ import {
   TGetActivityDTO,
   TGetActivityLastDTO,
   TPostActivityDTO,
+  TPostActivityDataDTO,
   TUpdateActivityDTO,
+  TUpdateActivityDataDTO,
   TDeleteActivityDTO,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
@@ -101,7 +102,7 @@ export function getActivityLast() {
 export function postActivity(options: object) {
   return useMutation({
     mutationKey: [API_ACTIVITY],
-    mutationFn: async (formData: IActivity) => {
+    mutationFn: async (formData: TPostActivityDataDTO) => {
       const { data } = await api.post<TPostActivityDTO>(API_ACTIVITY, formData);
 
       return data;
@@ -113,7 +114,7 @@ export function postActivity(options: object) {
 export function updateActivity(options: object) {
   return useMutation({
     mutationKey: [API_ACTIVITY],
-    mutationFn: async (formData: IActivity) => {
+    mutationFn: async (formData: TUpdateActivityDataDTO) => {
       const { data } = await api.patch<TUpdateActivityDTO>(`${API_ACTIVITY}/${formData._id}`, formData);
 
       return data;

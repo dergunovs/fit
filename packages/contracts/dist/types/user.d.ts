@@ -22,8 +22,13 @@ export interface IUserService extends IBaseService {
 export type TGetUsersDTO = IPaginatedReply<IUser>;
 export type TGetUsersQueryDTO = IPaginatedQuery;
 export type TGetUserDTO = { data: IUser | null };
+
 export type TPostUserDTO = IBaseReply;
+export type TPostUserDataDTO = IUser;
+
 export type TUpdateUserDTO = IBaseReply;
+export type TUpdateUserDataDTO = IUser;
+
 export type TDeleteUserDTO = IBaseReply;
 
 export declare const API_USER = "/user";

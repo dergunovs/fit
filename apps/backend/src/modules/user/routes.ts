@@ -6,7 +6,9 @@ import type {
   TGetUsersQueryDTO,
   TGetUserDTO,
   TPostUserDTO,
+  TPostUserDataDTO,
   TUpdateUserDTO,
+  TUpdateUserDataDTO,
   TDeleteUserDTO,
 } from 'fitness-tracker-contracts';
 
@@ -36,7 +38,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: IUser; Reply: { 201: TPostUserDTO } }>(
+  fastify.post<{ Body: TPostUserDataDTO; Reply: { 201: TPostUserDTO } }>(
     API_USER,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
@@ -46,7 +48,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.patch<{ Body: IUser; Params: IBaseParams; Reply: { 200: TUpdateUserDTO } }>(
+  fastify.patch<{ Body: TUpdateUserDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserDTO } }>(
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
