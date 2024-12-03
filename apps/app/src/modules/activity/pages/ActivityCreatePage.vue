@@ -3,7 +3,7 @@
     <ActivityForm
       :copy="route.query.copy?.toString()"
       :exerciseStatistics="statistics?.exercise"
-      :averageRestPercent="statistics?.activity.averageRestPercent"
+      :averageRestPercent="statistics?.activity.averageRestPercent.cur"
     />
   </div>
 </template>
