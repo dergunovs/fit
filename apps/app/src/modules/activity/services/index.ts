@@ -11,6 +11,7 @@ import {
   TGetActivitiesCalendarDTO,
   TGetActivitiesCalendarQueryDTO,
   TGetActivitiesStatisticsDTO,
+  TGetActivitiesStatisticsQueryDTO,
   TGetActivitiesChartDTO,
   TGetActivitiesChartQueryDTO,
   TGetActivityDTO,
@@ -50,11 +51,13 @@ export function getActivitiesCalendar(options: object, dateFrom: Ref<string>, da
   });
 }
 
-export function getActivitiesStatistics() {
+export function getActivitiesStatistics(gap: number) {
   return useQuery({
     queryKey: [API_ACTIVITY_STATISTICS],
     queryFn: async () => {
-      const { data } = await api.get<TGetActivitiesStatisticsDTO>(API_ACTIVITY_STATISTICS);
+      const params: TGetActivitiesStatisticsQueryDTO = { gap };
+
+      const { data } = await api.get<TGetActivitiesStatisticsDTO>(API_ACTIVITY_STATISTICS, { params });
 
       return data;
     },

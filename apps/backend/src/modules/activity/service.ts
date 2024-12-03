@@ -12,8 +12,8 @@ export const activityService: IActivityService = {
     return { data: data as T[], total };
   },
 
-  getStatistics: async () => {
-    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(14);
+  getStatistics: async (gap: number) => {
+    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
     const activities = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
       .select('_id exercises dateCreated dateUpdated')
@@ -33,7 +33,7 @@ export const activityService: IActivityService = {
 
     const exercises = await Exercise.find().select(['_id', 'title']).lean().exec();
 
-    const exerciseStatistics = exerciseGetStatistics(activities, exercises);
+    const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },

@@ -14,6 +14,7 @@ import type {
   TGetActivitiesCalendarDTO,
   TGetActivitiesCalendarQueryDTO,
   TGetActivitiesStatisticsDTO,
+  TGetActivitiesStatisticsQueryDTO,
   TGetActivitiesChartDTO,
   TGetActivitiesChartQueryDTO,
   TGetActivityDTO,
@@ -50,10 +51,10 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.get<{ Reply: { 200: TGetActivitiesStatisticsDTO } }>(
+  fastify.get<{ Querystring: TGetActivitiesStatisticsQueryDTO; Reply: { 200: TGetActivitiesStatisticsDTO } }>(
     API_ACTIVITY_STATISTICS,
     async function (request, reply) {
-      const data = await activityService.getStatistics();
+      const data = await activityService.getStatistics(request.query.gap);
 
       reply.code(200).send(data);
     }

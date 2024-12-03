@@ -2,7 +2,7 @@
   <div :class="$style.info">
     <div :class="$style.calendar">
       <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" />
-      <ActivityStatistics v-if="statistics" :activityStatistics="statistics.activity" />
+      <ActivityStatistics v-if="statistics" :activityStatistics="statistics.activity" :gap="activityStatisticsGap" />
       <ActivityChart />
     </div>
 
@@ -29,8 +29,10 @@ const dateTo = ref('');
 
 const isRequestEnabled = ref(false);
 
+const activityStatisticsGap = 21;
+
 const { data } = getActivitiesCalendar({ enabled: isRequestEnabled }, dateFrom, dateTo);
-const { data: statistics } = getActivitiesStatistics();
+const { data: statistics } = getActivitiesStatistics(activityStatisticsGap);
 
 const events = computed<IActivityCalendarEvent<IExerciseDone>[] | undefined>(() =>
   data.value?.map((activity: IActivity) => {

@@ -29,7 +29,9 @@ export interface IExerciseStatistics {
   _id: string;
   title: string;
   sets: number;
+  setsDynamics: number;
   repeats: number;
+  repeatsDynamics: number;
   averageDuration: number;
 }
 

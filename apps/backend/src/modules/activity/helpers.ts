@@ -90,7 +90,7 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   return activityStatistics;
 }
 
-export function exerciseGetStatistics(activities: IActivity[], exercises: IExercise[]) {
+export function exerciseGetStatistics(activities: IActivity[], activitiesPrev: IActivity[], exercises: IExercise[]) {
   const exerciseStatistics: IExerciseStatistics[] = [];
 
   exercises.forEach((exercise) => {
@@ -98,7 +98,9 @@ export function exerciseGetStatistics(activities: IActivity[], exercises: IExerc
       _id: exercise._id || '',
       title: exercise.title,
       sets: 0,
+      setsDynamics: 0,
       repeats: 0,
+      repeatsDynamics: 0,
       averageDuration: 0,
     };
 
@@ -116,6 +118,29 @@ export function exerciseGetStatistics(activities: IActivity[], exercises: IExerc
         0
       );
     });
+
+    activitiesPrev.forEach((activity: IActivity) => {
+      const filteredExercises = activity.exercises.filter(
+        (exerciseToFilter) => exerciseToFilter.exercise?.toString() === exercise._id?.toString()
+      );
+
+      exerciseStatisticsElement.setsDynamics += filteredExercises.length;
+
+      exerciseStatisticsElement.repeatsDynamics += filteredExercises.reduce(
+        (acc, current) => acc + (current.repeats || 0),
+        0
+      );
+    });
+
+    exerciseStatisticsElement.setsDynamics = getDynamics(
+      exerciseStatisticsElement.sets,
+      exerciseStatisticsElement.setsDynamics
+    );
+
+    exerciseStatisticsElement.repeatsDynamics = getDynamics(
+      exerciseStatisticsElement.repeats,
+      exerciseStatisticsElement.repeatsDynamics
+    );
 
     exerciseStatisticsElement.averageDuration =
       exerciseStatisticsElement.averageDuration / exerciseStatisticsElement.repeats || 0;

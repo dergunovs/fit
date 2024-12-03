@@ -7,14 +7,22 @@
         </td>
         <td>
           <div :class="$style.cell">
-            <span>{{ exercise.sets }}</span>
-            <span :class="$style.time">{{ getAverageDuration(exercise, 'set') }}</span>
+            <div :class="$style.count">
+              {{ exercise.sets }}
+              <DynamicPercent :percent="exercise.setsDynamics" />
+            </div>
+
+            <div :class="$style.time">{{ getAverageDuration(exercise, 'set') }}</div>
           </div>
         </td>
         <td>
           <div :class="$style.cell">
-            <span>{{ Math.round(exercise.repeats / exercise.sets) }}</span>
-            <span :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</span>
+            <div :class="$style.count">
+              {{ Math.round(exercise.repeats / exercise.sets) }}
+              <DynamicPercent :percent="exercise.repeatsDynamics" />
+            </div>
+
+            <div :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</div>
           </div>
         </td>
       </tr>
@@ -25,6 +33,8 @@
 <script setup lang="ts">
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable } from 'mhz-ui';
+
+import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
 
@@ -45,10 +55,15 @@ function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat
 .cell {
   display: flex;
   gap: 4px;
-  align-items: baseline;
+}
+
+.count {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .time {
+  align-self: flex-end;
   font-size: 0.875rem;
   color: var(--color-gray-dark-extra);
 }
@@ -56,6 +71,10 @@ function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat
 @media (max-width: 960px) {
   .cell {
     flex-direction: column;
+  }
+
+  .time {
+    align-self: flex-start;
   }
 }
 </style>
