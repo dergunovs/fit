@@ -65,5 +65,5 @@ export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: s
 }
 
 export function getDynamics(cur: number, prev: number) {
-  return Math.round(((cur - prev) / cur) * 100);
+  return Math.round(((cur - prev) / cur) * 100) || 0;
 }

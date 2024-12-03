@@ -58,4 +58,10 @@ const router = useRouter();
   color: var(--color-primary-dark);
   text-decoration: none;
 }
+
+@media (max-width: 960px) {
+  .header {
+    padding: 16px;
+  }
+}
 </style>

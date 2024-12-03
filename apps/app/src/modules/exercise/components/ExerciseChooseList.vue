@@ -76,7 +76,7 @@ function setCurrentGroup(id: string) {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  height: 64vh;
+  height: 64dvh;
   overflow: auto;
 }
 

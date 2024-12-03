@@ -116,7 +116,7 @@ function copyActivity() {
   gap: 16px;
 
   &[data-scrollable='true'] {
-    max-height: 64vh;
+    max-height: 64dvh;
     overflow-y: auto;
   }
 }
