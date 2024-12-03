@@ -17,5 +17,7 @@ import { getActivitiesStatistics } from '@/activity/services';
 
 const route = useRoute();
 
-const { data: statistics } = getActivitiesStatistics();
+const activityStatisticsGap = 21;
+
+const { data: statistics } = getActivitiesStatistics(activityStatisticsGap);
 </script>
