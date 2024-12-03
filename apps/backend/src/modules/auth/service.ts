@@ -23,11 +23,7 @@ export const authService: IAuthService = {
       return { user: undefined, isUserNotFound: false, isWrongPassword: true };
     }
 
-    const user: IToken = {
-      _id: foundUser._id,
-      email: foundUser.email,
-    };
-
+    const user: IToken = { _id: foundUser._id, email: foundUser.email };
     const token = sign(user, { expiresIn: '12h' });
 
     return { user: { ...user, token }, isUserNotFound: false, isWrongPassword: false };

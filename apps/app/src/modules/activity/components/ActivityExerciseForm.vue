@@ -100,7 +100,9 @@ function finishActivity() {
 function exitActivity() {
   toast.success('Занятие закончено');
 
-  router.push(URL_HOME);
+  setTimeout(() => {
+    router.push(URL_HOME);
+  }, 2000);
 }
 
 onMounted(() => {

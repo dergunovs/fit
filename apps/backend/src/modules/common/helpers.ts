@@ -1,8 +1,10 @@
 import { IPaginatedReply } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 
+import { IWeekDays } from './types.js';
+
 export function getFirstAndLastWeekDays(weeksCount: number) {
-  const days = [];
+  const days: IWeekDays[] = [];
 
   for (let i = 0; i < weeksCount; i++) {
     const today = new Date();
