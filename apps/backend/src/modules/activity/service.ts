@@ -1,6 +1,6 @@
 import type { IActivity, TActivityChartType, IActivityService } from 'fitness-tracker-contracts';
 
-import { paginate, getFirstAndLastWeekDays } from '../common/helpers.js';
+import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
@@ -13,13 +13,23 @@ export const activityService: IActivityService = {
   },
 
   getStatistics: async () => {
-    const activities = await Activity.find()
+    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(21);
+
+    const activities = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
       .select('_id exercises dateCreated dateUpdated')
       .populate({ path: 'exercises' })
       .lean()
       .exec();
 
-    const activityStatistics = activitiesGetStatistics(activities);
+    const activitiesPrev = await Activity.find({
+      dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
+    })
+      .select('_id exercises dateCreated dateUpdated')
+      .populate({ path: 'exercises' })
+      .lean()
+      .exec();
+
+    const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
     const exercises = await Exercise.find().select(['_id', 'title']).lean().exec();
 
@@ -38,7 +48,7 @@ export const activityService: IActivityService = {
   },
 
   getChart: async (type: TActivityChartType) => {
-    const weeks = getFirstAndLastWeekDays(5);
+    const weeks = getFirstAndLastWeekDays(6);
 
     const { labels, data } = await activitiesGetChartData(Activity, weeks, type);
 

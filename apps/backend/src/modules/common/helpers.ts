@@ -3,6 +3,18 @@ import { Model } from 'mongoose';
 
 import { IWeekDays } from './types.js';
 
+export function getDatesByDayGap(gap: number) {
+  const day = 86400000;
+
+  const dateTo = new Date();
+  const dateFrom = new Date(dateTo.getTime() - gap * day);
+
+  const dateToPrev = new Date(dateFrom.getTime() - 1);
+  const dateFromPrev = new Date(dateToPrev.getTime() - gap * day);
+
+  return { dateFrom, dateTo, dateFromPrev, dateToPrev };
+}
+
 export function getFirstAndLastWeekDays(weeksCount: number) {
   const days: IWeekDays[] = [];
 
@@ -50,4 +62,8 @@ export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: s
     data,
     total,
   };
+}
+
+export function getDynamics(cur: number, prev: number) {
+  return Math.round(((cur - prev) / cur) * 100);
 }

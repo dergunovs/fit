@@ -20,7 +20,7 @@ function connectToDatabase() {
 }
 
 async function buildApp() {
-  const fastify = Fastify();
+  const fastify = Fastify({ logger: true });
 
   fastify.register(corsPlugin);
   fastify.register(helmetPlugin);

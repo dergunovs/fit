@@ -13,15 +13,20 @@ export interface IActivity extends IEntity {
   isDone: boolean;
 }
 
+export interface IActivityStatisticsValues {
+  cur: number;
+  dynamics: number;
+}
+
 export interface IActivityStatistics {
-  activitiesCount: number;
-  setsCount: number;
-  repeatsCount: number;
-  duration: number;
-  averageSetsPerActivity: number;
-  averageRepeatsPerSet: number;
-  averageDuration: number;
-  averageRestPercent: number;
+  activitiesCount: IActivityStatisticsValues;
+  setsCount: IActivityStatisticsValues;
+  repeatsCount: IActivityStatisticsValues;
+  duration: IActivityStatisticsValues;
+  averageSetsPerActivity: IActivityStatisticsValues;
+  averageRepeatsPerSet: IActivityStatisticsValues;
+  averageDuration: IActivityStatisticsValues;
+  averageRestPercent: IActivityStatisticsValues;
 }
 
 export interface IActivityChart {

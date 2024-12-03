@@ -8,6 +8,7 @@ import {
 import { Model } from 'mongoose';
 
 import { IWeekDays } from '../common/types.js';
+import { getDynamics } from '../common/helpers.js';
 
 function activitiesGetCount(activities: IActivity[]) {
   const activitiesCount = activities.length;
@@ -44,23 +45,46 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
   return Math.floor(100 - (exercisesDurationSumm / duration) * 100);
 }
 
-export function activitiesGetStatistics(activities: IActivity[]) {
+export function activitiesGetStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {
   const { activitiesCount, setsCount, repeatsCount } = activitiesGetCount(activities);
+  const {
+    activitiesCount: activitiesCountPrev,
+    setsCount: setsCountPrev,
+    repeatsCount: repeatsCountPrev,
+  } = activitiesGetCount(activitiesPrev);
+  const activitiesCountDynamics = getDynamics(activitiesCount, activitiesCountPrev);
+  const setsCountDynamics = getDynamics(setsCount, setsCountPrev);
+  const repeatsCountDynamics = getDynamics(repeatsCount, repeatsCountPrev);
+
   const duration = activitiesGetAverageDuration(activities);
+  const durationPrev = activitiesGetAverageDuration(activitiesPrev);
+  const durationDynamics = getDynamics(duration, durationPrev);
+
   const averageSetsPerActivity = Math.round(setsCount / activitiesCount);
+  const averageSetsPerActivityPrev = Math.round(setsCountPrev / activitiesCountPrev);
+  const averageSetsPerActivityDynamics = getDynamics(averageSetsPerActivity, averageSetsPerActivityPrev);
+
   const averageRepeatsPerSet = Math.round(repeatsCount / setsCount);
+  const averageRepeatsPerSetPrev = Math.round(repeatsCountPrev / setsCountPrev);
+  const averageRepeatsPerSetDynamics = getDynamics(averageRepeatsPerSet, averageRepeatsPerSetPrev);
+
   const averageDuration = Math.round(duration / activitiesCount);
+  const averageDurationPrev = Math.round(durationPrev / activitiesCountPrev);
+  const averageDurationDynamics = getDynamics(averageDuration, averageDurationPrev);
+
   const averageRestPercent = activitiesGetAverageRest(activities, duration);
+  const averageRestPercentPrev = activitiesGetAverageRest(activitiesPrev, durationPrev);
+  const averageRestPercentDynamics = getDynamics(averageRestPercent, averageRestPercentPrev);
 
   const activityStatistics: IActivityStatistics = {
-    activitiesCount,
-    setsCount,
-    repeatsCount,
-    duration,
-    averageSetsPerActivity,
-    averageRepeatsPerSet,
-    averageDuration,
-    averageRestPercent,
+    activitiesCount: { cur: activitiesCount, dynamics: activitiesCountDynamics },
+    setsCount: { cur: setsCount, dynamics: setsCountDynamics },
+    repeatsCount: { cur: repeatsCount, dynamics: repeatsCountDynamics },
+    duration: { cur: duration, dynamics: durationDynamics },
+    averageSetsPerActivity: { cur: averageSetsPerActivity, dynamics: averageSetsPerActivityDynamics },
+    averageRepeatsPerSet: { cur: averageRepeatsPerSet, dynamics: averageRepeatsPerSetDynamics },
+    averageDuration: { cur: averageDuration, dynamics: averageDurationDynamics },
+    averageRestPercent: { cur: averageRestPercent, dynamics: averageRestPercentDynamics },
   };
 
   return activityStatistics;
