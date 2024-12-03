@@ -13,7 +13,7 @@ export const activityService: IActivityService = {
   },
 
   getStatistics: async () => {
-    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(21);
+    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(14);
 
     const activities = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
       .select('_id exercises dateCreated dateUpdated')

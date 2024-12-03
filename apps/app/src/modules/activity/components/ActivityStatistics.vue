@@ -2,7 +2,7 @@
   <div>
     <UiFlex column>
       <div>
-        <b>Данные за 21 день</b>
+        <b>Данные за 14 дней</b>
         <br />
         <span
           >Длительность: {{ formatDuration(props.activityStatistics.duration.cur) }}
