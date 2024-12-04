@@ -43,11 +43,11 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import { API_EXERCISE, IExercise, IMuscleGroup } from 'fitness-tracker-contracts';
+import { API_EXERCISE, IExercise, IMuscleGroup, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
-import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS, EXERCISE_MUSCLE_GROUPS } from '@/exercise/constants';
+import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';
 import { postExercise, updateExercise, deleteExercise } from '@/exercise/services';
 
 interface IProps {

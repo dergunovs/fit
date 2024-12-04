@@ -1,4 +1,5 @@
 import { IBaseReply, IToken } from "./base";
+export { API_AUTH_GET, API_AUTH_LOGIN, API_AUTH_SETUP } from "../index";
 
 export interface IAuthData {
   email: string;
@@ -26,7 +27,3 @@ export type TPostAuthLoginDTO = IToken;
 export type TPostAuthLoginDataDTO = IAuthData;
 export type TPostAuthSetupDTO = IBaseReply;
 export type TPostAuthSetupDataDTO = IAuthData;
-
-export declare const API_AUTH_GET = "/auth/check";
-export declare const API_AUTH_LOGIN = "/auth/login";
-export declare const API_AUTH_SETUP = "/auth/setup";

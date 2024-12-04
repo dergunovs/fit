@@ -8,6 +8,14 @@ import {
 } from "./base";
 import { IExerciseDone, IExerciseStatistics } from "./exercise";
 
+export {
+  API_ACTIVITY,
+  API_ACTIVITY_CALENDAR,
+  API_ACTIVITY_STATISTICS,
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_LAST,
+} from "../index";
+
 export interface IActivity extends IEntity {
   exercises: IExerciseDone[];
   isDone: boolean;
@@ -29,12 +37,17 @@ export interface IActivityStatistics {
   averageRestPercent: IActivityStatisticsValues;
 }
 
-export interface IActivityChart {
-  labels: string[];
+export interface IActivityChartDataset {
   data: number[];
+  label?: string;
 }
 
-export type TActivityChartType = "activity" | "set" | "repeat";
+export interface IActivityChart {
+  labels: string[];
+  datasets: IActivityChartDataset[];
+}
+
+export type TActivityChartType = "activity" | "set" | "repeat" | "group";
 
 export interface IActivityService extends IBaseService {
   getCalendar: (dateFrom: string, dateTo: string) => Promise<IActivity[]>;
@@ -76,9 +89,3 @@ export type TUpdateActivityDTO = IBaseReply;
 export type TUpdateActivityDataDTO = IActivity;
 
 export type TDeleteActivityDTO = IBaseReply;
-
-export declare const API_ACTIVITY = "/activity";
-export declare const API_ACTIVITY_CALENDAR = "/activity_calendar";
-export declare const API_ACTIVITY_STATISTICS = "/activity_statistics";
-export declare const API_ACTIVITY_CHART = "/activity_chart";
-export declare const API_ACTIVITY_LAST = "/activity_last";

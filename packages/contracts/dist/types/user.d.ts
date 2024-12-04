@@ -7,6 +7,8 @@ import {
   IPaginatedReply,
 } from "./base";
 
+export { API_USER } from "../index";
+
 export interface IUser extends IEntity {
   email: string;
   password?: string;
@@ -30,5 +32,3 @@ export type TUpdateUserDTO = IBaseReply;
 export type TUpdateUserDataDTO = IUser;
 
 export type TDeleteUserDTO = IBaseReply;
-
-export declare const API_USER = "/user";

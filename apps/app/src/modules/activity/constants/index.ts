@@ -14,4 +14,5 @@ export const CHART_TYPES: { title: string; value: TActivityChartType }[] = [
   { title: 'Занятия', value: 'activity' },
   { title: 'Сеты', value: 'set' },
   { title: 'Повторы', value: 'repeat' },
+  { title: 'Мышцы', value: 'group' },
 ];

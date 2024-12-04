@@ -1,25 +1,9 @@
 <template>
   <div>
     <UiFlex column>
-      <UiFlex v-if="!props.isHideTitle" grow wrap align="center">
-        <div :class="$style.title">
-          {{ props.exercise.exercise?.title || 'Упражнение удалено' }}
-        </div>
-
-        <UiFlex v-if="props.exercise.exercise" shrink>
-          <img
-            v-for="group in props.exercise.exercise?.muscleGroups"
-            :key="group._id"
-            :src="group.icon"
-            width="32"
-            height="32"
-            :alt="group.title"
-            :title="group.title"
-            :class="$style.muscleGroup"
-            loading="lazy"
-          />
-        </UiFlex>
-      </UiFlex>
+      <div v-if="!props.isHideTitle" :class="$style.title">
+        {{ props.exercise.exercise?.title || 'Упражнение удалено' }}
+      </div>
 
       <UiFlex wrap>
         <UiChip v-if="!props.exercise.isDone" type="error"> <IconFail width="16" height="16" /> Не выполнено</UiChip>
@@ -64,11 +48,5 @@ const props = defineProps<IProps>();
 .title {
   font-weight: 700;
   line-height: 1.3;
-}
-
-.muscleGroup {
-  padding: 4px;
-  background-color: var(--color-primary-light-extra);
-  border-radius: 50%;
 }
 </style>

@@ -1,9 +1,9 @@
 import { IBaseReply, IBaseService, IEntity, IToken } from "./base";
+export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
 
 export interface IMuscleGroup {
   _id: string;
   title: string;
-  icon: string;
 }
 
 export interface IExercise extends IEntity {
@@ -53,5 +53,3 @@ export type TUpdateExerciseDTO = IBaseReply;
 export type TUpdateExerciseDataDTO = IExercise;
 
 export type TDeleteExerciseDTO = IBaseReply;
-
-export declare const API_EXERCISE = "/exercise";

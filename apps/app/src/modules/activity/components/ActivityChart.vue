@@ -13,7 +13,14 @@
       </UiFlex>
 
       <div :class="$style.chart">
-        <UiChart v-if="chart" :labels="chart.labels" :data="chart.data" type="Line" :key="type" :class="$style.chart" />
+        <UiChart
+          v-if="chart"
+          :labels="chart.labels"
+          :datasets="chart.datasets"
+          type="Line"
+          :key="type"
+          :class="$style.chart"
+        />
       </div>
     </UiFlex>
   </div>

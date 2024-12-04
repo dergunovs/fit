@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { IExerciseDone } from 'fitness-tracker-contracts';
+import { IExerciseDone, EXERCISE_MUSCLE_GROUPS, IMuscleGroup } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex, UiTable } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth } from 'mhz-helpers';
 
@@ -41,7 +41,6 @@ import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
 import { URL_ACTIVITY_CREATE, ACTIVITY_STATISTICS_HEADERS } from '@/activity/constants';
-import { EXERCISE_MUSCLE_GROUPS } from '@/exercise/constants';
 
 interface IProps {
   id?: string;
@@ -64,7 +63,7 @@ const router = useRouter();
 const activityStatistics = computed(() => {
   const groups: IMuscleGroupStatistics[] = [];
 
-  EXERCISE_MUSCLE_GROUPS.forEach((group) => {
+  EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
     const title = group.title;
     let sets = 0;
     let repeats = 0;

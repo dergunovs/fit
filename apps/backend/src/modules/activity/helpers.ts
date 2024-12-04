@@ -4,6 +4,9 @@ import {
   IExercise,
   IExerciseStatistics,
   TActivityChartType,
+  IMuscleGroup,
+  EXERCISE_MUSCLE_GROUPS,
+  IActivityChartDataset,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 
@@ -153,7 +156,7 @@ export function exerciseGetStatistics(activities: IActivity[], activitiesPrev: I
 
 export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IWeekDays[], type: TActivityChartType) {
   const labels: string[] = [];
-  const data: number[] = [];
+  const datasets: IActivityChartDataset[] = [];
 
   for (const week of weeks) {
     labels.push(week.label);
@@ -163,7 +166,11 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
         .countDocuments()
         .exec();
 
-      data.push(count);
+      if (datasets.length) {
+        datasets[0].data.push(count);
+      } else {
+        datasets.push({ data: [count], label: 'Занятия' });
+      }
     }
 
     if (type === 'set') {
@@ -175,7 +182,11 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
 
       const count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
 
-      data.push(count);
+      if (datasets.length) {
+        datasets[0].data.push(count);
+      } else {
+        datasets.push({ data: [count], label: 'Сеты' });
+      }
     }
 
     if (type === 'repeat') {
@@ -191,9 +202,54 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
         return acc + repeats;
       }, 0);
 
-      data.push(count);
+      if (datasets.length) {
+        datasets[0].data.push(count);
+      } else {
+        datasets.push({ data: [count], label: 'Повторы' });
+      }
+    }
+
+    if (type === 'group') {
+      const groupCount = (EXERCISE_MUSCLE_GROUPS as IMuscleGroup[]).map((group) => {
+        return {
+          label: group.title,
+          count: 0,
+        };
+      });
+
+      for (const [index, muscleGroup] of groupCount.entries()) {
+        const activities = await Entity.find({ dateCreated: { $gte: week.dateFrom, $lt: week.dateTo } })
+          .select('_id exercises dateCreated')
+          .populate({ path: 'exercises.exercise' })
+          .lean()
+          .exec();
+
+        const count = activities.reduce((acc, current) => {
+          let sets = 0;
+
+          current.exercises.forEach((e) => {
+            if (e.exercise?.muscleGroups.some((group) => group.title === muscleGroup.label)) ++sets;
+          });
+
+          return acc + (sets || 0);
+        }, 0);
+
+        groupCount[index].count = count;
+      }
+
+      if (datasets.length) {
+        groupCount.forEach((group) => {
+          datasets.forEach((set) => {
+            if (set.label === group.label) set.data.push(group.count);
+          });
+        });
+      } else {
+        groupCount.forEach((group) => {
+          datasets.push({ data: [group.count], label: group.label });
+        });
+      }
     }
   }
 
-  return { labels, data };
+  return { labels, datasets };
 }
