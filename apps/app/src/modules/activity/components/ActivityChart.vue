@@ -17,6 +17,7 @@
           v-if="chart"
           :labels="chart.labels"
           :datasets="chart.datasets"
+          :isShowLegend="type === 'group'"
           type="Line"
           :key="type"
           :class="$style.chart"
