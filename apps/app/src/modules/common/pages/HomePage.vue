@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Фитнер трекер</h1>
+    <h1>Фитнес трекер</h1>
 
     <div :class="$style.info">
       <div :class="$style.calendar">
