@@ -1,13 +1,17 @@
 <template>
-  <div :class="$style.info">
-    <div :class="$style.calendar">
-      <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" />
-      <ActivityStatistics v-if="statistics" :activityStatistics="statistics.activity" :gap="activityStatisticsGap" />
-      <ActivityChart />
-    </div>
+  <div>
+    <h1>Фитнер трекер</h1>
 
-    <div :class="$style.statistics">
-      <ExerciseStatistics v-if="statistics" :exerciseStatistics="statistics.exercise" />
+    <div :class="$style.info">
+      <div :class="$style.calendar">
+        <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" />
+        <ActivityStatistics v-if="statistics" :activityStatistics="statistics.activity" :gap="activityStatisticsGap" />
+        <ActivityChart />
+      </div>
+
+      <div :class="$style.statistics">
+        <ExerciseStatistics v-if="statistics" :exerciseStatistics="statistics.exercise" />
+      </div>
     </div>
   </div>
 </template>
