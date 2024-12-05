@@ -61,7 +61,7 @@ function updateDates(dates: ICalendarEvent) {
 <style module lang="scss">
 .info {
   display: flex;
-  gap: 32px;
+  gap: 48px;
 }
 
 .calendar {

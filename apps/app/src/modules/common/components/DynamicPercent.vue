@@ -26,6 +26,7 @@ function formatStatisticsPercent(percent: number) {
   }
 
   &[data-negative='true'] {
+    font-weight: 700;
     color: var(--color-error-dark);
   }
 }

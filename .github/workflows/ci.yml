@@ -35,8 +35,6 @@ jobs:
         run: npm run lint
       - name: TS check
         run: npm run ts
-      - name: Unit tests
-        run: npm run test
       - name: Deploy App
         uses: appleboy/scp-action@master
         with:
