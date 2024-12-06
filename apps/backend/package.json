@@ -29,7 +29,7 @@
     "fastify": "5.1.0",
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
-    "mongoose": "8.8.3"
+    "mongoose": "8.8.4"
   },
   "devDependencies": {
     "@eslint/js": "9.16.0",

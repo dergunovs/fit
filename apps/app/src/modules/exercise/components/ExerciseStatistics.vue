@@ -14,7 +14,8 @@
         <td>
           <div :class="$style.cell">
             <div :class="$style.count">
-              {{ Math.round(exercise.repeats / exercise.sets) }}<DynamicPercent :percent="exercise.repeatsDynamics" />
+              {{ Math.round(exercise.repeats / exercise.sets) || 0
+              }}<DynamicPercent :percent="exercise.repeatsDynamics" />
             </div>
             <div :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</div>
           </div>
