@@ -2,8 +2,8 @@
   <div>
     <UiFlex column gap="16">
       <UiFlex justify="space-between">
-        <UiField v-if="props.exercise?.weights?.length" label="Вес гантелей, кг.">
-          <UiSelect v-model="choosenExercise.weight" :options="props.exercise?.weights" lang="ru" />
+        <UiField v-if="!isNoWeights" label="Вес гантелей, кг.">
+          <UiSelect v-model="choosenExercise.weight" :options="weightOptions" lang="ru" />
         </UiField>
 
         <UiField label="Повторы">
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { IExercise } from 'fitness-tracker-contracts';
 import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
@@ -38,6 +38,16 @@ const choosenExercise = ref({
   repeats: 12,
   weight: 0,
 });
+
+const weightOptions = computed(() => {
+  const weights = props.exercise.weights?.length ? [...props.exercise.weights] : [];
+
+  return weights.sort((a, b) => a - b);
+});
+
+const isNoWeights = computed(
+  () => !props.exercise.weights?.length || (props.exercise.weights?.length === 1 && props.exercise.weights.includes(0))
+);
 
 function addExercise(count: number) {
   for (let i = 0; i < count; i++) {

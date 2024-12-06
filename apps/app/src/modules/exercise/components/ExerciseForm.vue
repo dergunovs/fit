@@ -13,7 +13,7 @@
           :key="weight"
           :modelValue="choosenWeights.some((choosen) => choosen === weight)"
           @update:modelValue="updateWeights(weight, $event)"
-          :label="`${weight} кг.`"
+          :label="weight ? `${weight} кг.` : 'Без веса'"
         />
       </UiFlex>
 
@@ -30,7 +30,7 @@
       </UiFlex>
 
       <UiField label="Вес по-умолчанию" v-if="formData.weights?.length">
-        <UiSelect v-model="formData.defaultWeight" :options="[0, ...formData.weights]" lang="ru" />
+        <UiSelect v-model="formData.defaultWeight" :options="formData.weights.sort((a, b) => a - b)" lang="ru" />
       </UiField>
 
       <FormButtons :id="props.exercise?._id" :isLoading="isLoadingPost || isLoadingUpdate" @delete="handleDelete" />
