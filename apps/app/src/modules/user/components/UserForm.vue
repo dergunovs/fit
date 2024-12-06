@@ -94,8 +94,6 @@ function submit() {
 }
 
 function update() {
-  formData.value.role = 'admin';
-
   if (isValid()) mutateUpdate(formData.value);
 }
 

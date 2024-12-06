@@ -28,9 +28,9 @@ export const authService: IAuthService = {
     const userData: IToken = {
       _id: foundUser._id,
       email: foundUser.email,
-      firstName: foundUser.firstName || 'empty',
-      lastName: foundUser.lastName || 'empty',
-      role: foundUser.role || 'admin',
+      firstName: foundUser.firstName || '',
+      lastName: foundUser.lastName || '',
+      role: foundUser.role,
     };
 
     const token = sign(userData, { expiresIn: '12h' });
