@@ -13,9 +13,9 @@ import { authService } from './service.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, async function (request, reply) {
-    await authService.check(request);
+    const token = await authService.check(request);
 
-    return reply.code(200).send({ message: 'Успешно авторизован' });
+    return reply.code(200).send(token);
   });
 
   fastify.post<{ Body: TPostAuthLoginDataDTO; Reply: { 200: TPostAuthLoginDTO; '4xx': IBaseReply } }>(

@@ -16,7 +16,7 @@ export function getAuth() {
     queryFn: async () => {
       const { data } = await api.get<TGetAuthDTO>(API_AUTH_GET);
 
-      if (data.message) setAuth(true);
+      if (data._id) setAuth(true);
 
       return data;
     },

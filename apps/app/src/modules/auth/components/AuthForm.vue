@@ -21,7 +21,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
-import { IAuthData } from 'fitness-tracker-contracts';
+import { IAuthData, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
 
 import { login, setup } from '@/auth/services';
 import { TOKEN_NAME } from '@/auth/constants';
@@ -45,8 +45,10 @@ const formData = ref<IAuthData>({
 });
 
 const { mutate: mutateLogin } = login({
-  onSuccess: (user: { token: string }) => {
-    toast.success('Добро пожаловать!');
+  onSuccess: (user: TPostAuthLoginDTO) => {
+    if (!user.token) return;
+
+    toast.success(`Добро пожаловать, ${user.firstName}!`);
     auth(user.token, setAuthHeader, TOKEN_NAME);
     emit('login');
     router.push(URL_ACTIVITY_CREATE);
@@ -55,7 +57,7 @@ const { mutate: mutateLogin } = login({
 
 const { mutate: mutateSetup } = setup({
   onSuccess: () => {
-    toast.success('Админ создан!');
+    toast.success('Администратор создан!');
     router.push(URL_HOME);
   },
 });

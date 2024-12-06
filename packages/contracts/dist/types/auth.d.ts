@@ -7,7 +7,7 @@ export interface IAuthData {
 }
 
 export interface IAuthService {
-  check: (request: { jwtVerify: () => Promise<void> }) => Promise<void>;
+  check: (request: { jwtVerify: () => Promise<IToken> }) => Promise<IToken>;
 
   login: (
     loginData: IAuthData,
@@ -21,7 +21,7 @@ export interface IAuthService {
   setup: (admin: IAuthData) => Promise<boolean>;
 }
 
-export type TGetAuthDTO = IBaseReply;
+export type TGetAuthDTO = IToken;
 
 export type TPostAuthLoginDTO = IToken;
 export type TPostAuthLoginDataDTO = IAuthData;

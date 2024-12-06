@@ -9,16 +9,15 @@ import {
 
 export { API_USER } from "../index";
 
+export type TUserRole = "admin" | "user";
+
 export interface IUser extends IEntity {
+  firstName?: string;
+  lastName?: string;
+  role: TUserRole;
   email: string;
   password?: string;
-}
-
-export interface IUserService extends IBaseService {
-  getCurrent: (
-    decode: (token: string) => IToken | null,
-    token?: string,
-  ) => Promise<IUser | null>;
+  dateLoggedIn?: Date | string;
 }
 
 export type TGetUsersDTO = IPaginatedReply<IUser>;

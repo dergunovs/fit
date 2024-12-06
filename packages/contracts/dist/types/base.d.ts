@@ -1,3 +1,5 @@
+import { TUserRole } from "./user";
+
 export interface IEntity {
   _id?: string;
   dateCreated?: Date | string;
@@ -7,7 +9,10 @@ export interface IEntity {
 export interface IToken {
   _id: string;
   email: string;
+  firstName: string;
+  lastName: string;
   token?: string;
+  role?: TUserRole;
 }
 
 export interface IBaseParams {

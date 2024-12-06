@@ -1,8 +1,18 @@
 <template>
   <div>
     <UiFlex @submit.prevent="props.user?._id ? update() : submit()" tag="form" column gap="24" align="flex-start">
+      <div v-if="formData.role === 'admin'" :class="$style.admin">Пользователь с правами администратора</div>
+
       <UiField label="Электронная почта" isRequired :error="error('email')">
         <UiInput v-model="formData.email" />
+      </UiField>
+
+      <UiField label="Имя" isRequired :error="error('firstName')">
+        <UiInput v-model="formData.firstName" />
+      </UiField>
+
+      <UiField label="Фамилия" isRequired :error="error('lastName')">
+        <UiInput v-model="formData.lastName" />
       </UiField>
 
       <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
@@ -38,7 +48,10 @@ const router = useRouter();
 
 const formData = ref<IUser>({
   email: '',
+  firstName: '',
+  lastName: '',
   password: '',
+  role: 'user',
 });
 
 const { mutate: mutatePost, isPending: isLoadingPost } = postUser({
@@ -68,6 +81,8 @@ const { mutate: mutateDelete } = deleteUser({
 const rules = computed(() => {
   return {
     email: [required('ru'), email('ru')],
+    firstName: required('ru'),
+    lastName: required('ru'),
     password: !props.user?._id && required('ru'),
   };
 });
@@ -79,6 +94,8 @@ function submit() {
 }
 
 function update() {
+  formData.value.role = 'admin';
+
   if (isValid()) mutateUpdate(formData.value);
 }
 
@@ -90,3 +107,10 @@ onMounted(() => {
   if (props.user) formData.value = clone(props.user);
 });
 </script>
+
+<style module lang="scss">
+.admin {
+  font-weight: 700;
+  color: var(--color-success);
+}
+</style>

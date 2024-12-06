@@ -4,8 +4,10 @@ import type { IToken, IAuthData, IAuthService } from 'fitness-tracker-contracts'
 import User from '../user/model.js';
 
 export const authService: IAuthService = {
-  check: async (request: { jwtVerify: () => Promise<void> }) => {
-    await request.jwtVerify();
+  check: async (request: { jwtVerify: () => Promise<IToken> }) => {
+    const token = await request.jwtVerify();
+
+    return token;
   },
 
   login: async (loginData: IAuthData, sign: (payload: IToken, options: object) => string) => {
@@ -23,10 +25,23 @@ export const authService: IAuthService = {
       return { user: undefined, isUserNotFound: false, isWrongPassword: true };
     }
 
-    const user: IToken = { _id: foundUser._id, email: foundUser.email };
-    const token = sign(user, { expiresIn: '12h' });
+    const userData: IToken = {
+      _id: foundUser._id,
+      email: foundUser.email,
+      firstName: foundUser.firstName || '',
+      lastName: foundUser.lastName || '',
+      role: foundUser.role,
+    };
 
-    return { user: { ...user, token }, isUserNotFound: false, isWrongPassword: false };
+    const token = sign(userData, { expiresIn: '12h' });
+
+    const user = { ...userData, token };
+
+    foundUser.dateLoggedIn = new Date();
+
+    await foundUser.save();
+
+    return { user, isUserNotFound: false, isWrongPassword: false };
   },
 
   setup: async (userToCreate: IAuthData) => {
@@ -34,7 +49,7 @@ export const authService: IAuthService = {
 
     if (users.length) return true;
 
-    const user = new User(userToCreate);
+    const user = new User({ ...userToCreate, role: 'admin' });
 
     if (!user.password) return true;
 
