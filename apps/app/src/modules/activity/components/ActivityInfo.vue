@@ -34,7 +34,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { IExerciseDone, EXERCISE_MUSCLE_GROUPS, IMuscleGroup } from 'fitness-tracker-contracts';
-import { UiButton, UiFlex, UiTable } from 'mhz-ui';
+import { toast, UiButton, UiFlex, UiTable } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth, formatDuration } from 'mhz-helpers';
 
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
@@ -119,6 +119,7 @@ ${props.exercises
   .join('')}`;
 
   await navigator.clipboard.writeText(textHeader);
+  toast.success('Скопировано в буфер');
 }
 </script>
 
