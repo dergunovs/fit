@@ -114,8 +114,7 @@ async function copyToClipboard() {
 
 ${props.exercises
   .map((exercise, index) => {
-    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}кг` : ''}
-${formatDuration(exercise.duration || 0)} ${exercise.isToFailure ? 'До отказа' : ''}\n\n`;
+    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}кг` : ''} ${formatDuration(exercise.duration)} ${exercise.isToFailure ? 'ДО ОТКАЗА' : ''}\n`;
   })
   .join('')}`;
 
