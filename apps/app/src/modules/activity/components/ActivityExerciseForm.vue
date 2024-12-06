@@ -5,7 +5,6 @@
         v-if="props.activity.exercises?.length"
         :exercises="props.activity.exercises"
         :activeExerciseId="activeExerciseId"
-        :isActivityDone="formData.isDone"
         @start="startExercise"
         @stop="stopExercise"
       />

@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { UiButton, UiCheckbox, UiFlex } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
@@ -49,7 +49,6 @@ import ActivityDuration from '@/activity/components/ActivityDuration.vue';
 interface IProps {
   exercise: IExerciseDone;
   activeExerciseId?: string;
-  isActivityDone: boolean;
   isCurrentExercise: boolean;
   index: number;
   exercisesCount: number;
@@ -66,9 +65,7 @@ const repeats = ref(props.exercise.repeats);
 
 const isCurrentExerciseActive = computed(() => props.exercise._id === props.activeExerciseId);
 
-const isButtonDisabled = computed(
-  () => props.isActivityDone || props.exercise.isDone || (!isCurrentExerciseActive.value && !!props.activeExerciseId)
-);
+const isButtonDisabled = ref(false);
 
 const repeatButtons = [
   props.exercise.repeats - 2,
@@ -87,10 +84,29 @@ const exerciseTitle = computed(
 
 const buttonTitle = computed(() => (isCurrentExerciseActive.value ? 'Завершить' : 'Начать'));
 
+watch(
+  () => props.isCurrentExercise,
+  () => {
+    if (props.isCurrentExercise) {
+      isButtonDisabled.value = true;
+
+      setTimeout(() => {
+        isButtonDisabled.value = false;
+      }, 1000);
+    }
+  }
+);
+
 function handleClick() {
+  isButtonDisabled.value = true;
+
   emit('start', props.exercise._id);
   start.value = !isCurrentExerciseActive.value;
   stop.value = isCurrentExerciseActive.value;
+
+  setTimeout(() => {
+    isButtonDisabled.value = false;
+  }, 1000);
 }
 
 function sendDurationData(duration: number) {
