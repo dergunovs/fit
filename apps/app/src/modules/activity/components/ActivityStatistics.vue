@@ -13,7 +13,7 @@
           }}<DynamicPercent :percent="props.activityStatistics.activitiesCount.dynamics" />,
         </span>
         <span>
-          сеты: {{ props.activityStatistics.setsCount.cur
+          подходы: {{ props.activityStatistics.setsCount.cur
           }}<DynamicPercent :percent="props.activityStatistics.setsCount.dynamics" />,
         </span>
         <span>
@@ -30,11 +30,11 @@
           }}<DynamicPercent :percent="props.activityStatistics.averageDuration.dynamics" />,
         </span>
         <span>
-          сетов в занятии: {{ props.activityStatistics.averageSetsPerActivity.cur
+          подходов в занятии: {{ props.activityStatistics.averageSetsPerActivity.cur
           }}<DynamicPercent :percent="props.activityStatistics.averageSetsPerActivity.dynamics" />,
         </span>
         <span>
-          повторов в сете: {{ props.activityStatistics.averageRepeatsPerSet.cur
+          повторов в подходе: {{ props.activityStatistics.averageRepeatsPerSet.cur
           }}<DynamicPercent :percent="props.activityStatistics.averageRepeatsPerSet.dynamics" />,
         </span>
         <span>

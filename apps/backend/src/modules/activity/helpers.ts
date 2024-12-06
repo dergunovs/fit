@@ -185,7 +185,7 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
       if (datasets.length) {
         datasets[0].data.push(count);
       } else {
-        datasets.push({ data: [count], label: 'Сеты' });
+        datasets.push({ data: [count], label: 'Подходы' });
       }
     }
 

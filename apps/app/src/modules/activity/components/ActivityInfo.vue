@@ -3,7 +3,8 @@
     <UiFlex gap="4" align="center" wrap>
       <span><IconDate width="16" height="16" /> {{ formatDate(props.start, 'ru') }}</span>
       <span><IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start) }}</span>
-      <span>Сеты: {{ props.exercises.length }}, отказы: {{ toFailurePercent }}, отдых: {{ restPercent }}.</span>
+      <span>Подходы: {{ props.exercises.length }}, отказы: {{ toFailurePercent }}, отдых: {{ restPercent }}</span>
+      <UiButton @click="copyToClipboard" layout="plain">Копировать</UiButton>
     </UiFlex>
 
     <div :class="$style.table">
@@ -34,7 +35,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { IExerciseDone, EXERCISE_MUSCLE_GROUPS, IMuscleGroup } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex, UiTable } from 'mhz-ui';
-import { formatDate, subtractDates, isAuth } from 'mhz-helpers';
+import { formatDate, subtractDates, isAuth, formatDuration } from 'mhz-helpers';
 
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 import IconDate from '@/common/icons/date.svg';
@@ -105,6 +106,20 @@ function isPrevExerciseSame(index: number, id?: string) {
 
 function copyActivity() {
   router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`);
+}
+
+async function copyToClipboard() {
+  const textHeader = `${formatDate(props.start, 'ru')}, длительность: ${subtractDates(props.end, props.start)}
+Подходы: ${props.exercises.length}, отказы: ${toFailurePercent.value}, отдых: ${restPercent.value}.
+
+${props.exercises
+  .map((exercise, index) => {
+    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}кг` : ''}
+${formatDuration(exercise.duration || 0)} ${exercise.isToFailure ? 'До отказа' : ''}\n\n`;
+  })
+  .join('')}`;
+
+  await navigator.clipboard.writeText(textHeader);
 }
 </script>
 
