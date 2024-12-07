@@ -74,12 +74,13 @@ function setCurrentGroup(id: string) {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 320px;
   height: 64dvh;
   overflow: auto;
 }
 
 .button {
-  padding: 4px;
+  padding: 4px 1px;
   font-size: 1rem;
   font-weight: 700;
   color: var(--color-gray-dark-extra);
@@ -90,13 +91,6 @@ function setCurrentGroup(id: string) {
 
   &[data-current='true'] {
     color: var(--color-primary);
-  }
-}
-
-@media (max-width: 960px) {
-  .button {
-    padding: 4px 1px;
-    font-size: 0.875rem;
   }
 }
 </style>

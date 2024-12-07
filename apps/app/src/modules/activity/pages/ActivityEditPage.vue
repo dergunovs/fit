@@ -10,7 +10,14 @@
         isAdmin
       />
 
-      <UiModal v-if="activity?._id" v-model="isShowConfirm" isConfirm @confirm="mutateDelete(activity._id)" lang="ru">
+      <UiModal
+        v-if="activity?._id"
+        v-model="isShowConfirm"
+        isConfirm
+        @confirm="mutateDelete(activity._id)"
+        width="380"
+        lang="ru"
+      >
         Подтверждаете удаление?
       </UiModal>
 

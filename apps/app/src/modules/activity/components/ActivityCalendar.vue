@@ -7,7 +7,7 @@
       @update="(dates) => emit('update', dates)"
     />
 
-    <UiModal v-model="isShowModal">
+    <UiModal v-model="isShowModal" width="380">
       <ActivityInfo :start="start" :end="end" :exercises="exercises" :id="id" />
     </UiModal>
   </div>

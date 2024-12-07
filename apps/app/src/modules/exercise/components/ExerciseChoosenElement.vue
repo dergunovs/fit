@@ -1,12 +1,12 @@
 <template>
   <div :class="$style.exercise">
-    <span>{{ props.index }}. {{ props.exercise.exercise?.title }}</span>
-
+    <span>{{ exerciseTitle }}</span>
     <button @click="emit('delete', props.exercise._id)" :class="$style.delete" type="button">×</button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
 interface IProps {
@@ -16,6 +16,8 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const emit = defineEmits(['delete']);
+
+const exerciseTitle = computed(() => `${props.index}. ${props.exercise.exercise?.title} x${props.exercise.repeats}`);
 </script>
 
 <style module lang="scss">
