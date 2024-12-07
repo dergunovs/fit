@@ -1,12 +1,12 @@
 <template>
   <header :class="$style.header">
-    <UiFlex align="center" gap="64" shrink>
+    <UiFlex align="center" gap="64">
       <RouterLink :to="URL_HOME" :class="$style.logo" aria-label="Logo">
         <IconLogo width="32" height="32" /> FiT
       </RouterLink>
     </UiFlex>
 
-    <UiFlex gap="16" shrink justify="flex-end">
+    <UiFlex gap="16" justify="flex-end">
       <template v-if="isAuth">
         <UiButton @click="router.push(URL_EXERCISE)" layout="plain">Админка</UiButton>
         <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain">Занятие</UiButton>

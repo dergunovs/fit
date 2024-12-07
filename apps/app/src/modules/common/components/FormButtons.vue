@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.buttons">
-    <UiFlex gap="16" shrink>
+    <UiFlex gap="16">
       <UiButton type="submit" :isDisabled="props.isLoading">
         {{ props.id ? 'Обновить' : 'Добавить' }}
       </UiButton>
