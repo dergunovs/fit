@@ -7,6 +7,7 @@ import {
   IToken,
 } from "./base";
 import { IExerciseDone, IExerciseStatistics } from "./exercise";
+import { IUser } from "./user";
 
 export {
   API_ACTIVITY,
@@ -19,6 +20,7 @@ export {
 export interface IActivity extends IEntity {
   exercises: IExerciseDone[];
   isDone: boolean;
+  createdBy?: IUser;
 }
 
 export interface IActivityStatisticsValues {

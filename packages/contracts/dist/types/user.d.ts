@@ -1,11 +1,4 @@
-import {
-  IBaseReply,
-  IBaseService,
-  IEntity,
-  IToken,
-  IPaginatedQuery,
-  IPaginatedReply,
-} from "./base";
+import { IBaseReply, IEntity, IPaginatedQuery, IPaginatedReply } from "./base";
 
 export { API_USER } from "../index";
 

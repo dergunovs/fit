@@ -17,10 +17,6 @@ export const userService: IBaseService = {
     return { data: user as T };
   },
 
-  update: async <T>(_id: string, itemToUpdate: T) => {
-    await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
-  },
-
   create: async <T>(userToCreate: T) => {
     const user = new User(userToCreate);
 
@@ -29,6 +25,10 @@ export const userService: IBaseService = {
     user.password = await bcrypt.hash(user.password, 10);
 
     await user.save();
+  },
+
+  update: async <T>(_id: string, itemToUpdate: T) => {
+    await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   delete: async (_id?: string) => {

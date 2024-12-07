@@ -9,6 +9,7 @@ const exerciseSchema = new Schema<IExercise>(
     defaultWeight: { type: Number },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false }
 );

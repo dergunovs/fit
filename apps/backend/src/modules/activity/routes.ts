@@ -93,7 +93,11 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      const id = await activityService.create<IActivity>(request.body);
+      const id = await activityService.create<IActivity>(
+        request.body,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       if (id) {
         reply.code(201).send(id.toString());

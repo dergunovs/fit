@@ -36,7 +36,7 @@ export default async function (fastify: IFastifyInstance) {
     API_EXERCISE,
     { preValidation: [fastify.onlyUser] },
     async function (request, reply) {
-      await exerciseService.create<IExercise>(request.body);
+      await exerciseService.create<IExercise>(request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(201).send({ message: 'Упражнение создано' });
     }

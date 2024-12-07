@@ -1,13 +1,33 @@
-import type { IActivity, TActivityChartType, IActivityService } from 'fitness-tracker-contracts';
+import type { IActivity, TActivityChartType, IActivityService, IToken } from 'fitness-tracker-contracts';
 
+import { decodeToken } from '../auth/helpers.js';
 import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
+import User from '../user/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
+
+async function temporarySetCreatedBy() {
+  const user = await User.findOne();
+
+  const activities = await Activity.find().lean().exec();
+
+  for (const activity of activities) {
+    await Activity.findOneAndUpdate({ _id: activity._id }, { ...activity, createdBy: user?._id });
+  }
+
+  const exercises = await Exercise.find().lean().exec();
+
+  for (const exercise of exercises) {
+    await Exercise.findOneAndUpdate({ _id: exercise._id }, { ...exercise, createdBy: user?._id });
+  }
+}
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
     const { data, total } = await paginate(Activity, page);
+
+    await temporarySetCreatedBy();
 
     return { data: data as T[], total };
   },
@@ -57,7 +77,10 @@ export const activityService: IActivityService = {
 
   getOne: async <T>(_id: string) => {
     const activity: IActivity | null = await Activity.findOne({ _id })
-      .populate({ path: 'exercises.exercise', select: ['title', 'muscleGroups'] })
+      .populate([
+        { path: 'exercises.exercise', select: ['title', 'muscleGroups'] },
+        { path: 'createdBy', select: ['_id', 'firstName', 'lastName'] },
+      ])
       .lean()
       .exec();
 
@@ -74,18 +97,20 @@ export const activityService: IActivityService = {
     return { data: activity as T };
   },
 
-  update: async <T>(_id: string, itemToUpdate: T) => {
-    await Activity.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
-  },
+  create: async <T>(activityToCreate: T, decode?: (token: string) => IToken | null, token?: string) => {
+    const user = decodeToken(decode, token);
 
-  create: async <T>(activityToCreate: T) => {
-    const activity = new Activity(activityToCreate);
+    const activity = new Activity({ ...activityToCreate, createdBy: user?._id });
 
     const newActivity = await activity.save();
 
     const id = newActivity._id.toString();
 
     return id;
+  },
+
+  update: async <T>(_id: string, itemToUpdate: T) => {
+    await Activity.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   delete: async (_id?: string) => {

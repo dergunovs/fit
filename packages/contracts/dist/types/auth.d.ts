@@ -1,4 +1,5 @@
 import { IBaseReply, IToken } from "./base";
+
 export { API_AUTH_GET, API_AUTH_LOGIN, API_AUTH_SETUP } from "../index";
 
 export interface IAuthData {

@@ -1,5 +1,6 @@
-import type { IExercise, IExerciseService } from 'fitness-tracker-contracts';
+import type { IExercise, IExerciseService, IToken } from 'fitness-tracker-contracts';
 
+import { decodeToken } from '../auth/helpers.js';
 import Exercise from './model.js';
 
 export const exerciseService: IExerciseService = {
@@ -10,19 +11,24 @@ export const exerciseService: IExerciseService = {
   },
 
   getOne: async <T>(_id: string) => {
-    const exercise: IExercise | null = await Exercise.findOne({ _id }).lean().exec();
+    const exercise: IExercise | null = await Exercise.findOne({ _id })
+      .populate({ path: 'createdBy', select: ['_id', 'firstName', 'lastName'] })
+      .lean()
+      .exec();
 
     return { data: exercise as T };
   },
 
-  update: async <T>(_id: string, itemToUpdate: T) => {
-    await Exercise.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
-  },
+  create: async <T>(exerciseToCreate: T, decode?: (token: string) => IToken | null, token?: string) => {
+    const user = decodeToken(decode, token);
 
-  create: async <T>(exerciseToCreate: T) => {
-    const exercise = new Exercise(exerciseToCreate);
+    const exercise = new Exercise({ ...exerciseToCreate, createdBy: user?._id });
 
     await exercise.save();
+  },
+
+  update: async <T>(_id: string, itemToUpdate: T) => {
+    await Exercise.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   delete: async (_id?: string) => {

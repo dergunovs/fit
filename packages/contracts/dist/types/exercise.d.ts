@@ -1,4 +1,6 @@
 import { IBaseReply, IBaseService, IEntity, IToken } from "./base";
+import { IUser } from "./user";
+
 export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
 
 export interface IMuscleGroup {
@@ -8,6 +10,7 @@ export interface IMuscleGroup {
 
 export interface IExercise extends IEntity {
   title: string;
+  createdBy?: IUser;
   muscleGroups: IMuscleGroup[];
   weights?: number[];
   defaultWeight?: number;

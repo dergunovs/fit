@@ -18,6 +18,7 @@ const activitySchema = new Schema<IActivity>(
     isDone: { type: Boolean, required: true },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false }
 );
