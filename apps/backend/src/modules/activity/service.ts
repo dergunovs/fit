@@ -3,31 +3,12 @@ import type { IActivity, TActivityChartType, IActivityService, IToken } from 'fi
 import { decodeToken } from '../auth/helpers.js';
 import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
-import User from '../user/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
-
-async function temporarySetCreatedBy() {
-  const user = await User.findOne();
-
-  const activities = await Activity.find().lean().exec();
-
-  for (const activity of activities) {
-    await Activity.findOneAndUpdate({ _id: activity._id }, { ...activity, createdBy: user?._id });
-  }
-
-  const exercises = await Exercise.find().lean().exec();
-
-  for (const exercise of exercises) {
-    await Exercise.findOneAndUpdate({ _id: exercise._id }, { ...exercise, createdBy: user?._id });
-  }
-}
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
     const { data, total } = await paginate(Activity, page);
-
-    await temporarySetCreatedBy();
 
     return { data: data as T[], total };
   },
