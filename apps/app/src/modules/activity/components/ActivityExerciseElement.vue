@@ -16,23 +16,7 @@
 
       <UiCheckbox v-model="isToFailure" label="Упражнение выполнено до отказа" :isDisabled="!isCurrentExerciseActive" />
 
-      <div>
-        <div :class="$style.repeats">Количество повторов</div>
-
-        <UiFlex justify="space-between">
-          <UiButton
-            v-for="repeat in repeatButtons"
-            :key="repeat"
-            @click="repeats = repeat"
-            :layout="repeat === repeats ? 'accent' : 'primary'"
-            isNarrow
-            isTall
-            :isDisabled="!isCurrentExerciseActive"
-          >
-            {{ repeat }}
-          </UiButton>
-        </UiFlex>
-      </div>
+      <ExerciseRepeatsChoice v-model="repeats" :options="repeatsOptions" title="Количество повторов" isTall />
 
       <ActivityDuration :start="start" :stop="stop" @stop="sendDurationData" />
     </template>
@@ -41,10 +25,11 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { UiButton, UiCheckbox, UiFlex } from 'mhz-ui';
+import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
 import ActivityDuration from '@/activity/components/ActivityDuration.vue';
+import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 interface IProps {
   exercise: IExerciseDone;
@@ -67,7 +52,7 @@ const isCurrentExerciseActive = computed(() => props.exercise._id === props.acti
 
 const isButtonDisabled = ref(false);
 
-const repeatButtons = [
+const repeatsOptions = [
   props.exercise.repeats - 2,
   props.exercise.repeats - 1,
   props.exercise.repeats,
@@ -143,9 +128,5 @@ function sendDurationData(duration: number) {
     font-weight: 700;
     color: var(--color-black);
   }
-}
-
-.repeats {
-  text-align: center;
 }
 </style>

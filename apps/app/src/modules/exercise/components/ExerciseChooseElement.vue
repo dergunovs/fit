@@ -1,15 +1,11 @@
 <template>
   <div>
-    <UiFlex column gap="16">
-      <UiFlex justify="space-between">
-        <UiField v-if="!isNoWeights" label="Вес гантелей, кг.">
-          <UiSelect v-model="choosenExercise.weight" :options="weightOptions" lang="ru" />
-        </UiField>
+    <UiFlex column gap="20">
+      <UiField v-if="!isNoWeights" label="Вес гантелей, кг.">
+        <UiSelect v-model="choosenExercise.weight" :options="weightOptions" lang="ru" />
+      </UiField>
 
-        <UiField label="Повторы">
-          <UiSelect v-model="choosenExercise.repeats" :options="EXERCISE_REPEATS_OPTIONS" lang="ru" />
-        </UiField>
-      </UiFlex>
+      <ExerciseRepeatsChoice v-model="choosenExercise.repeats" :options="EXERCISE_REPEATS_OPTIONS" title="Повторы" />
 
       <UiFlex justify="space-between">
         <UiButton @click="addExercise(1)">Добавить</UiButton>
@@ -28,6 +24,8 @@ import { onMounted, ref, computed } from 'vue';
 import { IExercise } from 'fitness-tracker-contracts';
 import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
+
+import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 import { EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
 
