@@ -58,7 +58,7 @@ function updateValue(value: number | Event) {
   border: 1px solid var(--color-gray);
   border-radius: 16px;
 
-  &[data-tall] {
+  &[data-tall='true'] {
     height: 52px;
   }
 }

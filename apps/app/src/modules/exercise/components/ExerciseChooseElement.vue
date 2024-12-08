@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiFlex column gap="20">
+    <UiFlex column gap="16">
       <UiField v-if="!isNoWeights" label="Вес гантелей, кг.">
         <UiSelect v-model="choosenExercise.weight" :options="weightOptions" lang="ru" />
       </UiField>
