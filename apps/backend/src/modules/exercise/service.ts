@@ -12,7 +12,7 @@ export const exerciseService: IExerciseService = {
 
   getOne: async <T>(_id: string) => {
     const exercise: IExercise | null = await Exercise.findOne({ _id })
-      .populate({ path: 'createdBy', select: ['_id', 'firstName', 'lastName'] })
+      .populate({ path: 'createdBy', select: ['_id', 'name'] })
       .lean()
       .exec();
 

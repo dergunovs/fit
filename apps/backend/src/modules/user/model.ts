@@ -4,8 +4,7 @@ import type { IUser } from 'fitness-tracker-contracts';
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
-    firstName: { type: String },
-    lastName: { type: String },
+    name: { type: String },
     role: { type: String },
     password: { type: String, required: true },
     dateLoggedIn: { type: Date, default: Date.now },

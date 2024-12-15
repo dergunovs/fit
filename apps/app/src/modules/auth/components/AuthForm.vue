@@ -48,7 +48,7 @@ const { mutate: mutateLogin } = login({
   onSuccess: (user: TPostAuthLoginDTO) => {
     if (!user.token) return;
 
-    toast.success(`Добро пожаловать, ${user.firstName}!`);
+    toast.success(`Добро пожаловать, ${user.name}!`);
     auth(user.token, setAuthHeader, TOKEN_NAME);
     emit('login');
     router.push(URL_ACTIVITY_CREATE);

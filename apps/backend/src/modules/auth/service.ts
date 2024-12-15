@@ -28,8 +28,7 @@ export const authService: IAuthService = {
     const userData: IToken = {
       _id: foundUser._id,
       email: foundUser.email,
-      firstName: foundUser.firstName || '',
-      lastName: foundUser.lastName || '',
+      name: foundUser.name || '',
       role: foundUser.role,
     };
 

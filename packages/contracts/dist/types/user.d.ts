@@ -5,8 +5,7 @@ export { API_USER } from "../index";
 export type TUserRole = "admin" | "user";
 
 export interface IUser extends IEntity {
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   role: TUserRole;
   email: string;
   password?: string;

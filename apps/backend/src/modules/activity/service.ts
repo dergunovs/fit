@@ -60,7 +60,7 @@ export const activityService: IActivityService = {
     const activity: IActivity | null = await Activity.findOne({ _id })
       .populate([
         { path: 'exercises.exercise', select: ['title', 'muscleGroups'] },
-        { path: 'createdBy', select: ['_id', 'firstName', 'lastName'] },
+        { path: 'createdBy', select: ['_id', 'name'] },
       ])
       .lean()
       .exec();

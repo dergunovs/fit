@@ -9,8 +9,7 @@ export interface IEntity {
 export interface IToken {
   _id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   token?: string;
   role?: TUserRole;
 }

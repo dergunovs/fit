@@ -7,12 +7,8 @@
         <UiInput v-model="formData.email" />
       </UiField>
 
-      <UiField label="Имя" isRequired :error="error('firstName')">
-        <UiInput v-model="formData.firstName" />
-      </UiField>
-
-      <UiField label="Фамилия" isRequired :error="error('lastName')">
-        <UiInput v-model="formData.lastName" />
+      <UiField label="Имя" isRequired :error="error('name')">
+        <UiInput v-model="formData.name" />
       </UiField>
 
       <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
@@ -48,8 +44,7 @@ const router = useRouter();
 
 const formData = ref<IUser>({
   email: '',
-  firstName: '',
-  lastName: '',
+  name: '',
   password: '',
   role: 'user',
 });
@@ -81,8 +76,7 @@ const { mutate: mutateDelete } = deleteUser({
 const rules = computed(() => {
   return {
     email: [required('ru'), email('ru')],
-    firstName: required('ru'),
-    lastName: required('ru'),
+    name: required('ru'),
     password: !props.user?._id && required('ru'),
   };
 });
