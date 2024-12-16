@@ -71,11 +71,11 @@ const activityStatistics = computed(() => {
 
     props.exercises.forEach((exercise) => {
       const setsCount =
-        exercise.exercise?.muscleGroups.filter((muscleGroup) => muscleGroup._id === group._id).length || 0;
+        exercise.exercise?.muscleGroups?.filter((muscleGroup) => muscleGroup._id === group._id).length || 0;
 
       sets += setsCount;
 
-      if (exercise.exercise?.muscleGroups.some((groupToFilter) => groupToFilter._id === group._id)) {
+      if (exercise.exercise?.muscleGroups?.some((groupToFilter) => groupToFilter._id === group._id)) {
         repeats += exercise.repeats;
       }
     });

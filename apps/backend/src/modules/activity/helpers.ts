@@ -228,7 +228,7 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
           let sets = 0;
 
           current.exercises.forEach((e) => {
-            if (e.exercise?.muscleGroups.some((group) => group.title === muscleGroup.label)) ++sets;
+            if (e.exercise?.muscleGroups?.some((group) => group.title === muscleGroup.label)) ++sets;
           });
 
           return acc + (sets || 0);

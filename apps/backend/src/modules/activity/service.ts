@@ -8,7 +8,14 @@ import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData 
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
-    const { data, total } = await paginate(Activity, page);
+    const { data, total } = await paginate(Activity, page, '-dateCreated', [
+      {
+        path: 'exercises.exercise',
+        select: ['_id', 'title', 'muscleGroups', 'createdBy'],
+        populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+      },
+      { path: 'createdBy', select: ['_id', 'name', 'email'] },
+    ]);
 
     return { data: data as T[], total };
   },
@@ -41,7 +48,14 @@ export const activityService: IActivityService = {
 
   getCalendar: async <T>(dateFrom: string, dateTo: string) => {
     const data = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
-      .populate({ path: 'exercises.exercise', select: ['title', 'muscleGroups'] })
+      .populate([
+        {
+          path: 'exercises.exercise',
+          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
+          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        },
+        { path: 'createdBy', select: ['_id', 'name', 'email'] },
+      ])
       .lean()
       .exec();
 
@@ -59,8 +73,12 @@ export const activityService: IActivityService = {
   getOne: async <T>(_id: string) => {
     const activity: IActivity | null = await Activity.findOne({ _id })
       .populate([
-        { path: 'exercises.exercise', select: ['title', 'muscleGroups'] },
-        { path: 'createdBy', select: ['_id', 'name'] },
+        {
+          path: 'exercises.exercise',
+          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
+          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        },
+        { path: 'createdBy', select: ['_id', 'name', 'email'] },
       ])
       .lean()
       .exec();
@@ -71,7 +89,14 @@ export const activityService: IActivityService = {
   getLast: async <T>() => {
     const activity: IActivity | null = await Activity.findOne()
       .sort('-dateCreated')
-      .populate({ path: 'exercises.exercise', select: ['title', 'muscleGroups'] })
+      .populate([
+        {
+          path: 'exercises.exercise',
+          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
+          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        },
+        { path: 'createdBy', select: ['_id', 'name', 'email'] },
+      ])
       .lean()
       .exec();
 

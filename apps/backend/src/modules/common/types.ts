@@ -1,7 +1,11 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifySchema } from 'fastify';
 
 export interface IFastifyInstance extends FastifyInstance {
   onlyUser?: () => void;
+}
+
+export interface ISchema {
+  schema: FastifySchema;
 }
 
 export interface IWeekDays {

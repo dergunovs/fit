@@ -6,11 +6,14 @@ import corsPlugin from './modules/common/plugins/cors.js';
 import helmetPlugin from './modules/common/plugins/helmet.js';
 import jwtPlugin from './modules/common/plugins/jwt.js';
 import ratePlugin from './modules/common/plugins/rate.js';
+import swaggerPlugin from './modules/common/plugins/swagger.js';
 
 import activityRoutes from './modules/activity/routes.js';
 import authRoutes from './modules/auth/routes.js';
 import exerciseRoutes from './modules/exercise/routes.js';
 import userRoutes from './modules/user/routes.js';
+
+import { addSchemas } from './modules/common/addSchemas.js';
 
 dotenv.config();
 
@@ -26,11 +29,14 @@ async function buildApp() {
   fastify.register(helmetPlugin);
   fastify.register(jwtPlugin);
   fastify.register(ratePlugin);
+  fastify.register(swaggerPlugin);
 
   fastify.register(activityRoutes, { prefix: '/api' });
   fastify.register(authRoutes, { prefix: '/api' });
   fastify.register(exerciseRoutes, { prefix: '/api' });
   fastify.register(userRoutes, { prefix: '/api' });
+
+  addSchemas(fastify);
 
   fastify.setErrorHandler(function (error, request, reply) {
     reply.status(500).send({ message: error.message || 'Server error' });

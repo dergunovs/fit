@@ -13,18 +13,30 @@ import type {
 
 import { IFastifyInstance } from '../common/types.js';
 import { exerciseService } from './service.js';
+import {
+  exerciseDeleteSchema,
+  exerciseGetManySchema,
+  exerciseGetOneSchema,
+  exercisePostSchema,
+  exerciseUpdateSchema,
+} from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   if (!fastify.onlyUser) return;
 
-  fastify.get<{ Reply: { 200: TGetExercisesDTO } }>(API_EXERCISE, async function (request, reply) {
-    const data = await exerciseService.getAll();
+  fastify.get<{ Reply: { 200: TGetExercisesDTO } }>(
+    API_EXERCISE,
+    { ...exerciseGetManySchema },
+    async function (request, reply) {
+      const data = await exerciseService.getAll();
 
-    reply.code(200).send(data);
-  });
+      reply.code(200).send(data);
+    }
+  );
 
   fastify.get<{ Params: IBaseParams; Reply: { 200: TGetExerciseDTO } }>(
     `${API_EXERCISE}/:id`,
+    { ...exerciseGetOneSchema },
     async function (request, reply) {
       const data = await exerciseService.getOne<IExercise>(request.params.id);
 
@@ -34,7 +46,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
     API_EXERCISE,
-    { preValidation: [fastify.onlyUser] },
+    { preValidation: [fastify.onlyUser], ...exercisePostSchema },
     async function (request, reply) {
       await exerciseService.create<IExercise>(request.body, fastify.jwt.decode, request.headers.authorization);
 
@@ -44,7 +56,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.patch<{ Body: TUpdateExerciseDataDTO; Params: IBaseParams; Reply: { 200: TUpdateExerciseDTO } }>(
     `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser] },
+    { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
     async function (request, reply) {
       await exerciseService.update<IExercise>(request.params.id, request.body);
 
@@ -54,7 +66,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteExerciseDTO } }>(
     `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser] },
+    { preValidation: [fastify.onlyUser], ...exerciseDeleteSchema },
     async function (request, reply) {
       await exerciseService.delete(request.params.id);
 

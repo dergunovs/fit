@@ -57,7 +57,7 @@ const muscleGroups = computed(() => [{ _id: '', title: 'Все' }, ...EXERCISE_M
 const filteredExercises = computed(() =>
   props.exercises.filter((exercise) => {
     const titleFilter = exercise.title.toLowerCase().includes(muscleGroupTitle.value.toLocaleLowerCase());
-    const muscleGroupFilter = exercise.muscleGroups.some((group) => group._id === currentMuscleGroup.value);
+    const muscleGroupFilter = exercise.muscleGroups?.some((group) => group._id === currentMuscleGroup.value);
 
     return currentMuscleGroup.value ? muscleGroupFilter && titleFilter : titleFilter;
   })

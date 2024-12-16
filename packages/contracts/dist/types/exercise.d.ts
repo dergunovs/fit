@@ -11,7 +11,7 @@ export interface IMuscleGroup {
 export interface IExercise extends IEntity {
   title: string;
   createdBy?: IUser;
-  muscleGroups: IMuscleGroup[];
+  muscleGroups?: IMuscleGroup[];
   weights?: number[];
   defaultWeight?: number;
 }

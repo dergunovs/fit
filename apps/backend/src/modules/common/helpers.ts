@@ -40,7 +40,12 @@ export function getFirstAndLastWeekDays(weeksCount: number) {
   return days.reverse();
 }
 
-export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: string): Promise<IPaginatedReply<T>> {
+export async function paginate<T>(
+  Entity: Model<T>,
+  pageQuery?: number,
+  sort?: string,
+  populate?: { path: string; select: string[]; populate?: { path: string; select: string[] } }[]
+): Promise<IPaginatedReply<T>> {
   const page = Number(pageQuery) || 1;
 
   const limit = 24;
@@ -53,6 +58,7 @@ export async function paginate<T>(Entity: Model<T>, pageQuery?: number, sort?: s
     .find()
     .skip((page - 1) * limit)
     .limit(limit)
+    .populate(populate || [])
     .select('-password')
     .sort(sort || '-dateCreated')
     .lean()
