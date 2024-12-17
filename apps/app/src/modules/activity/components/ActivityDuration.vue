@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.timer">
+  <div :class="$style.timer" :data-active="props.start">
     <span>{{ addZero(minutes) }}</span
     >:<span>{{ addZero(seconds) }}</span>
   </div>
@@ -56,7 +56,13 @@ onMounted(() => {
 
 <style module lang="scss">
 .timer {
-  font-size: 2rem;
+  padding: 16px 0;
+  font-size: 3rem;
+  color: var(--color-gray);
   text-align: center;
+
+  &[data-active='true'] {
+    color: var(--color-black);
+  }
 }
 </style>
