@@ -1,12 +1,21 @@
+import { ref, computed } from 'vue';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
 import App from './App.vue';
-import { wrapperFactory, router } from '@/common/test';
+import LayoutDefault from '@/common/components/LayoutDefault.vue';
+import { wrapperFactory } from '@/common/test';
 
 import * as authComposables from '@/auth/composables';
+import * as commonComposables from '@/common/composables';
+
+const isLoaded = ref(false);
 
 const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockImplementation(() => vi.fn());
+
+const spyUseLayout = vi.spyOn(commonComposables, 'useLayout').mockImplementation(() => {
+  return { isLoaded, layoutComponent: computed(() => LayoutDefault) };
+});
 
 const layout = '[data-test="layout"]';
 
@@ -26,8 +35,8 @@ describe('App', async () => {
   it('shows layout component', async () => {
     expect(wrapper.find(layout).exists()).toBe(false);
 
-    router.push('/');
-    await router.isReady();
+    expect(spyUseLayout).toBeCalledTimes(1);
+    isLoaded.value = true;
 
     await new Promise((r) => {
       setTimeout(r, 10);
@@ -37,9 +46,6 @@ describe('App', async () => {
   });
 
   it('checks auth', async () => {
-    router.push('/');
-    await router.isReady();
-
     expect(spyUseAuthCheck).toBeCalledTimes(1);
   });
 });
