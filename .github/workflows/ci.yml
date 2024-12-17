@@ -28,6 +28,7 @@ jobs:
           envkey_SECRET: ${{ secrets.SECRET }}
           envkey_PORT: ${{ secrets.PORT }}
           envkey_APP_URL: ${{ secrets.APP_URL }}
+          envkey_IS_DEV: ${{ secrets.IS_DEV }}
           directory: apps/backend/
       - name: Build
         run: npm run build
@@ -35,6 +36,8 @@ jobs:
         run: npm run lint
       - name: TS check
         run: npm run ts
+      - name: Unit tests
+        run: npm run test
       - name: Deploy App
         uses: appleboy/scp-action@master
         with:
