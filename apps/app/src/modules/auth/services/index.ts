@@ -8,18 +8,17 @@ import {
   TPostAuthSetupDTO,
   TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
-import { useQuery, useMutation, api, setAuth } from 'mhz-helpers';
+import { useQuery, useMutation, api } from 'mhz-helpers';
 
-export function getAuth() {
+export function getAuth(options: object) {
   return useQuery({
     queryKey: [API_AUTH_GET],
     queryFn: async () => {
       const { data } = await api.get<TGetAuthDTO>(API_AUTH_GET);
 
-      if (data._id) setAuth(true);
-
       return data;
     },
+    ...options,
   });
 }
 

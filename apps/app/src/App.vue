@@ -1,20 +1,12 @@
 <template>
-  <component v-if="isLoaded" :is="layoutComponent" />
+  <component v-if="isLoaded" :is="layoutComponent" data-test="layout" />
 </template>
 
 <script setup lang="ts">
-import { getCookieToken, setAuthHeader } from 'mhz-helpers';
-
-import { getAuth } from '@/auth/services';
-import { TOKEN_NAME } from '@/auth/constants';
 import { useLayout } from '@/common/composables';
+import { useAuthCheck } from '@/auth/composables';
 
 const { isLoaded, layoutComponent } = useLayout();
 
-const token = getCookieToken(TOKEN_NAME);
-
-if (token) {
-  setAuthHeader(token);
-  getAuth();
-}
+useAuthCheck();
 </script>
