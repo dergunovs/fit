@@ -40,8 +40,8 @@ import {
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
-import { getExercises } from '@/exercise/services';
-import { getActivityLast, getActivity, postActivity } from '@/activity/services';
+import { exerciseService } from '@/exercise/services';
+import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 interface IProps {
@@ -82,9 +82,9 @@ const isShowForm = ref(true);
 
 const copyId = computed(() => props.copy || '');
 
-const { data: exercises } = getExercises();
-const { data: lastActivity } = getActivityLast();
-const { data: activity } = getActivity({ enabled: !!copyId.value }, copyId);
+const { data: exercises } = exerciseService.getAll();
+const { data: lastActivity } = activityService.getLast();
+const { data: activity } = activityService.getOne({ enabled: !!copyId.value }, copyId);
 
 watch(
   () => activity.value,
@@ -103,7 +103,7 @@ function updateExercises(id: string) {
   formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== id);
 }
 
-const { mutate: mutatePost, isPending: isLoadingPost } = postActivity({
+const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
   onSuccess: async (id: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
     toast.success('Занятие начато');

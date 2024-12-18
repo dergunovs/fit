@@ -48,7 +48,7 @@ import { API_EXERCISE, IExercise, IMuscleGroup, EXERCISE_MUSCLE_GROUPS } from 'f
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';
-import { postExercise, updateExercise, deleteExercise } from '@/exercise/services';
+import { exerciseService } from '@/exercise/services';
 
 interface IProps {
   exercise?: IExercise;
@@ -86,7 +86,7 @@ function updateMuscleGroups(muscleGroup: IMuscleGroup, isChecked: boolean) {
   formData.value.muscleGroups = [...choosenMuscleGroups.value];
 }
 
-const { mutate: mutatePost, isPending: isLoadingPost } = postExercise({
+const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     toast.success('Упражнение добавлено');
@@ -94,14 +94,14 @@ const { mutate: mutatePost, isPending: isLoadingPost } = postExercise({
   },
 });
 
-const { mutate: mutateUpdate, isPending: isLoadingUpdate } = updateExercise({
+const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     toast.success('Упражнение обновлено');
   },
 });
 
-const { mutate: mutateDelete } = deleteExercise({
+const { mutate: mutateDelete } = exerciseService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });

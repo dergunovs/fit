@@ -1,7 +1,7 @@
 import { watch } from 'vue';
 import { getCookieToken, setAuth, setAuthHeader } from 'mhz-helpers';
 
-import { getAuth } from '@/auth/services';
+import { authService } from '@/auth/services';
 import { TOKEN_NAME } from '@/auth/constants';
 
 export function useAuthCheck() {
@@ -9,7 +9,7 @@ export function useAuthCheck() {
 
   if (cookieToken) setAuthHeader(cookieToken);
 
-  const { data: token } = getAuth({ enabled: !!cookieToken });
+  const { data: token } = authService.check({ enabled: !!cookieToken });
 
   watch(
     () => token.value,

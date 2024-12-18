@@ -22,12 +22,12 @@ import { usePagination, usePageNumber } from 'mhz-helpers';
 
 import UserList from '@/user/components/UserList.vue';
 
-import { getUsers } from '@/user/services';
+import { userService } from '@/user/services';
 import { URL_USER_CREATE } from '@/user/constants';
 
 const { page, setPage } = usePageNumber();
 
-const { data } = getUsers(page);
+const { data } = userService.getMany(page);
 
 const { data: users, total, setPaginationPage } = usePagination(data);
 </script>

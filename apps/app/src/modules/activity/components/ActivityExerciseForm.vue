@@ -34,7 +34,7 @@ import { API_ACTIVITY, IActivity, IExerciseDone } from 'fitness-tracker-contract
 
 import ActivityExerciseList from '@/activity/components/ActivityExerciseList.vue';
 
-import { updateActivity } from '@/activity/services';
+import { activityService } from '@/activity/services';
 import { URL_HOME } from '@/common/constants';
 
 interface IProps {
@@ -54,7 +54,7 @@ const router = useRouter();
 
 const queryClient = useQueryClient();
 
-const { mutate: mutateUpdate } = updateActivity({
+const { mutate: mutateUpdate } = activityService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
   },

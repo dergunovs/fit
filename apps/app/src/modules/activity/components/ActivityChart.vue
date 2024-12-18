@@ -32,12 +32,12 @@ import { ref } from 'vue';
 import { UiButton, UiChart, UiFlex } from 'mhz-ui';
 import { TActivityChartType } from 'fitness-tracker-contracts';
 
-import { getActivitiesChart } from '@/activity/services';
+import { activityService } from '@/activity/services';
 import { CHART_TYPES } from '@/activity/constants';
 
 const type = ref<TActivityChartType>('activity');
 
-const { data: chart } = getActivitiesChart(type);
+const { data: chart } = activityService.getChart(type);
 </script>
 
 <style module lang="scss">

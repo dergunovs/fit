@@ -20,11 +20,11 @@ import { usePageNumber, usePagination } from 'mhz-helpers';
 
 import ActivityAdminList from '@/activity/components/ActivityAdminList.vue';
 
-import { getActivities } from '@/activity/services';
+import { activityService } from '@/activity/services';
 
 const { page, setPage } = usePageNumber();
 
-const { data } = getActivities(page);
+const { data } = activityService.getMany(page);
 
 const { data: activities, total, setPaginationPage } = usePagination(data);
 </script>

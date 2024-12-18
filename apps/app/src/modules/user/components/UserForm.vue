@@ -30,7 +30,7 @@ import { API_USER, IUser } from 'fitness-tracker-contracts';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { URL_USER } from '@/user/constants';
-import { postUser, updateUser, deleteUser } from '@/user/services';
+import { userService } from '@/user/services';
 
 interface IProps {
   user?: IUser;
@@ -49,7 +49,7 @@ const formData = ref<IUser>({
   role: 'user',
 });
 
-const { mutate: mutatePost, isPending: isLoadingPost } = postUser({
+const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     toast.success('Пользователь добавлен');
@@ -57,14 +57,14 @@ const { mutate: mutatePost, isPending: isLoadingPost } = postUser({
   },
 });
 
-const { mutate: mutateUpdate, isPending: isLoadingUpdate } = updateUser({
+const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     toast.success('Пользователь обновлен');
   },
 });
 
-const { mutate: mutateDelete } = deleteUser({
+const { mutate: mutateDelete } = userService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_USER] });
     await queryClient.refetchQueries({ queryKey: [API_USER] });

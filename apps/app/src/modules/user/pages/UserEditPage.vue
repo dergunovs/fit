@@ -10,11 +10,11 @@ import { useRoute } from 'vue-router';
 
 import UserForm from '@/user/components/UserForm.vue';
 
-import { getUser } from '@/user/services';
+import { userService } from '@/user/services';
 
 const route = useRoute();
 
 const userId = computed(() => route.params.user.toString());
 
-const { data: user } = getUser(userId);
+const { data: user } = userService.getOne(userId);
 </script>

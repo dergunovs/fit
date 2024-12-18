@@ -12,8 +12,8 @@
 import { UiFlex } from 'mhz-ui';
 
 import ExerciseList from '@/exercise/components/ExerciseList.vue';
-import { getExercises } from '@/exercise/services';
+import { exerciseService } from '@/exercise/services';
 import { URL_EXERCISE_CREATE } from '@/exercise/constants';
 
-const { data: exercises } = getExercises();
+const { data: exercises } = exerciseService.getAll();
 </script>

@@ -38,7 +38,7 @@ import { API_ACTIVITY } from 'fitness-tracker-contracts';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
-import { getActivity, deleteActivity } from '@/activity/services';
+import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
 
 const isShowConfirm = ref(false);
@@ -50,9 +50,9 @@ const queryClient = useQueryClient();
 
 const activityId = computed(() => route.params.activity.toString());
 
-const { data: activity } = getActivity({}, activityId);
+const { data: activity } = activityService.getOne({}, activityId);
 
-const { mutate: mutateDelete } = deleteActivity({
+const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_ACTIVITY] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });

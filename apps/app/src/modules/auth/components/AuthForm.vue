@@ -23,7 +23,7 @@ import { UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
 import { IAuthData, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
 
-import { login, setup } from '@/auth/services';
+import { authService } from '@/auth/services';
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME } from '@/common/constants';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
@@ -44,7 +44,7 @@ const formData = ref<IAuthData>({
   password: '',
 });
 
-const { mutate: mutateLogin } = login({
+const { mutate: mutateLogin } = authService.login({
   onSuccess: (user: TPostAuthLoginDTO) => {
     if (!user.token) return;
 
@@ -55,7 +55,7 @@ const { mutate: mutateLogin } = login({
   },
 });
 
-const { mutate: mutateSetup } = setup({
+const { mutate: mutateSetup } = authService.setup({
   onSuccess: () => {
     toast.success('Администратор создан!');
     router.push(URL_HOME);

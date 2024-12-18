@@ -10,11 +10,11 @@ import { useRoute } from 'vue-router';
 
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
-import { getExercise } from '@/exercise/services';
+import { exerciseService } from '@/exercise/services';
 
 const route = useRoute();
 
 const exerciseId = computed(() => route.params.exercise.toString());
 
-const { data: exercise } = getExercise(exerciseId);
+const { data: exercise } = exerciseService.getOne(exerciseId);
 </script>

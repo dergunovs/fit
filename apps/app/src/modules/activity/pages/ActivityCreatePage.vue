@@ -13,11 +13,11 @@ import { useRoute } from 'vue-router';
 
 import ActivityForm from '@/activity/components/ActivityForm.vue';
 
-import { getActivitiesStatistics } from '@/activity/services';
+import { activityService } from '@/activity/services';
 
 const route = useRoute();
 
 const activityStatisticsGap = 21;
 
-const { data: statistics } = getActivitiesStatistics(activityStatisticsGap);
+const { data: statistics } = activityService.getStatistics(activityStatisticsGap);
 </script>
