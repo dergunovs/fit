@@ -1,8 +1,7 @@
-import { Component, ref } from 'vue';
+import { Component } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { shallowMount } from '@vue/test-utils';
 import { VueQueryPlugin } from 'mhz-helpers';
-import type { UseQueryReturnType, UseMutationReturnType } from 'mhz-helpers';
 
 import { routes } from '@/common/router/routes';
 
@@ -44,14 +43,6 @@ export function wrapperFactory(component: Component, { mocks, props, slots, stub
     slots,
     attachTo: document.getElementById('app') as HTMLElement,
   });
-}
-
-export function mockQueryReply<T>(reply: object, refetch?: () => void) {
-  return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
-}
-
-export function mockMutationReply<T, T2>(mutate: () => void) {
-  return { mutate } as unknown as UseMutationReturnType<T, Error, T2, unknown>;
 }
 
 export function dataTest(value: string) {

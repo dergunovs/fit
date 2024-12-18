@@ -1,24 +1,12 @@
-import { ref, computed } from 'vue';
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
 import App from './App.vue';
-import LayoutDefault from '@/common/components/LayoutDefault.vue';
 import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { spyUseLayout, isLoaded, layoutDefaultName } from '@/common/mocks';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
-import * as authComposables from '@/auth/composables';
-import * as commonComposables from '@/common/composables';
-
-const isLoaded = ref(false);
-const layoutComponent = computed(() => LayoutDefault);
-
-const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockImplementation(() => vi.fn());
-
-const spyUseLayout = vi.spyOn(commonComposables, 'useLayout').mockImplementation(() => {
-  return { isLoaded, layoutComponent };
-});
-
-const layout = dataTest('layout');
+const layout = dataTest('app-layout');
 
 let wrapper: VueWrapper;
 
@@ -42,7 +30,7 @@ describe('App', async () => {
     await wait();
 
     expect(wrapper.find(layout).exists()).toBe(true);
-    expect(wrapper.find(layout).attributes('data-layout')).toBe(LayoutDefault.name);
+    expect(wrapper.find(layout).attributes('data-layout')).toBe(layoutDefaultName);
   });
 
   it('checks auth', async () => {
