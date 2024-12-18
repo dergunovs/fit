@@ -53,3 +53,13 @@ export function mockQueryReply<T>(reply: object, refetch?: () => void) {
 export function mockMutationReply<T, T2>(mutate: () => void) {
   return { mutate } as unknown as UseMutationReturnType<T, Error, T2, unknown>;
 }
+
+export function dataTest(value: string) {
+  return `[data-test="${value}"]`;
+}
+
+export async function wait(time?: number) {
+  await new Promise((r) => {
+    setTimeout(r, time || 10);
+  });
+}

@@ -1,5 +1,5 @@
 <template>
-  <component v-if="isLoaded" :is="layoutComponent" data-test="layout" />
+  <component v-if="isLoaded" :is="layoutComponent" data-test="layout" :data-layout="layoutComponent.name" />
 </template>
 
 <script setup lang="ts">
