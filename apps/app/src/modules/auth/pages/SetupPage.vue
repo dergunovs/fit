@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AuthForm isSetup />
+    <AuthForm isSetup data-test="setup-page-auth-form" />
   </div>
 </template>
 
