@@ -16,3 +16,5 @@ export const CHART_TYPES: { title: string; value: TActivityChartType }[] = [
   { title: 'Повторы', value: 'repeat' },
   { title: 'Мышцы', value: 'group' },
 ];
+
+export const ACTIVITY_STATISTICS_GAP = 28;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiTable :headers="EXERCISE_STATISTICS_HEADERS" lang="ru">
-      <tr v-for="exercise in props.exerciseStatistics" :key="exercise._id">
+      <tr v-for="exercise in props.statistics" :key="exercise._id">
         <td>
           <span>{{ exercise.title }}</span>
         </td>
@@ -34,7 +34,7 @@ import DynamicPercent from '@/common/components/DynamicPercent.vue';
 import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
 
 interface IProps {
-  exerciseStatistics: IExerciseStatistics[];
+  statistics: IExerciseStatistics[];
 }
 
 const props = defineProps<IProps>();

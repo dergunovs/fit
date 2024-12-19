@@ -4,58 +4,41 @@
 
     <div :class="$style.info">
       <div :class="$style.calendar">
-        <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" />
-        <ActivityStatistics v-if="statistics" :activityStatistics="statistics.activity" :gap="activityStatisticsGap" />
+        <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" data-test="activity-calendar" />
+
+        <ActivityStatistics
+          v-if="statistics"
+          :statistics="statistics.activity"
+          :gap="ACTIVITY_STATISTICS_GAP"
+          data-test="activity-statistics"
+        />
+
         <ActivityChart />
       </div>
 
       <div :class="$style.statistics">
-        <ExerciseStatistics v-if="statistics" :exerciseStatistics="statistics.exercise" />
+        <ExerciseStatistics v-if="statistics" :statistics="statistics.exercise" data-test="exercise-statistics" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { IActivity, IExerciseDone } from 'fitness-tracker-contracts';
-
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
 import { activityService } from '@/activity/services';
-import { IActivityCalendarEvent, ICalendarEvent } from '@/activity/interface';
+import { useActivityCalendar, computedActivityCalendarEvents } from '@/activity/composables';
+import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 
-const dateFrom = ref('');
-const dateTo = ref('');
+const { dateFrom, dateTo, isDatesReady, updateDates } = useActivityCalendar();
 
-const isRequestEnabled = ref(false);
+const { data: calendar } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
+const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 
-const activityStatisticsGap = 21;
-
-const { data } = activityService.getCalendar({ enabled: isRequestEnabled }, dateFrom, dateTo);
-const { data: statistics } = activityService.getStatistics(activityStatisticsGap);
-
-const events = computed<IActivityCalendarEvent<IExerciseDone>[] | undefined>(() =>
-  data.value?.map((activity: IActivity) => {
-    return {
-      _id: activity._id,
-      start: new Date(`${activity.dateCreated}`),
-      end: new Date(`${activity.dateUpdated}`),
-      title: '+',
-      content: activity.exercises,
-    };
-  })
-);
-
-function updateDates(dates: ICalendarEvent) {
-  isRequestEnabled.value = true;
-
-  dateFrom.value = dates.firstCellDate;
-  dateTo.value = dates.lastCellDate;
-}
+const events = computedActivityCalendarEvents(calendar);
 </script>
 
 <style module lang="scss">

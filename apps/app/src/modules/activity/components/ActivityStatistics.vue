@@ -2,23 +2,23 @@
   <div>
     <UiFlex column>
       <div>
-        <b>Общие данные ({{ gap }} дн.)</b>
+        <b>Общие данные ({{ props.gap }} дн.)</b>
         <br />
-        <span>
-          Длительность: {{ formatDuration(props.activityStatistics.duration.cur)
-          }}<DynamicPercent :percent="props.activityStatistics.duration.dynamics" />,
+        <span
+          >Длительность: {{ formatDuration(props.statistics.duration.cur)
+          }}<DynamicPercent :percent="props.statistics.duration.dynamics" />,
         </span>
         <span>
-          занятия: {{ props.activityStatistics.activitiesCount.cur
-          }}<DynamicPercent :percent="props.activityStatistics.activitiesCount.dynamics" />,
+          занятия: {{ props.statistics.activitiesCount.cur
+          }}<DynamicPercent :percent="props.statistics.activitiesCount.dynamics" />,
         </span>
         <span>
-          подходы: {{ props.activityStatistics.setsCount.cur
-          }}<DynamicPercent :percent="props.activityStatistics.setsCount.dynamics" />,
+          подходы: {{ props.statistics.setsCount.cur
+          }}<DynamicPercent :percent="props.statistics.setsCount.dynamics" />,
         </span>
         <span>
-          повторы: {{ props.activityStatistics.repeatsCount.cur
-          }}<DynamicPercent :percent="props.activityStatistics.repeatsCount.dynamics" />
+          повторы: {{ props.statistics.repeatsCount.cur
+          }}<DynamicPercent :percent="props.statistics.repeatsCount.dynamics" />
         </span>
       </div>
 
@@ -26,20 +26,20 @@
         <b>Средние значения</b>
         <br />
         <span>
-          Длительность: {{ formatDuration(props.activityStatistics.averageDuration.cur)
-          }}<DynamicPercent :percent="props.activityStatistics.averageDuration.dynamics" />,
+          Длительность: {{ formatDuration(props.statistics.averageDuration.cur)
+          }}<DynamicPercent :percent="props.statistics.averageDuration.dynamics" />,
         </span>
         <span>
-          подходов в занятии: {{ props.activityStatistics.averageSetsPerActivity.cur
-          }}<DynamicPercent :percent="props.activityStatistics.averageSetsPerActivity.dynamics" />,
+          подходов в занятии: {{ props.statistics.averageSetsPerActivity.cur
+          }}<DynamicPercent :percent="props.statistics.averageSetsPerActivity.dynamics" />,
         </span>
         <span>
-          повторов в подходе: {{ props.activityStatistics.averageRepeatsPerSet.cur
-          }}<DynamicPercent :percent="props.activityStatistics.averageRepeatsPerSet.dynamics" />,
+          повторов в подходе: {{ props.statistics.averageRepeatsPerSet.cur
+          }}<DynamicPercent :percent="props.statistics.averageRepeatsPerSet.dynamics" />,
         </span>
         <span>
-          отдых: {{ props.activityStatistics.averageRestPercent.cur }}%<DynamicPercent
-            :percent="props.activityStatistics.averageRestPercent.dynamics"
+          отдых: {{ props.statistics.averageRestPercent.cur }}%<DynamicPercent
+            :percent="props.statistics.averageRestPercent.dynamics"
           />
         </span>
       </div>
@@ -55,7 +55,7 @@ import { formatDuration } from 'mhz-helpers';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 interface IProps {
-  activityStatistics: IActivityStatistics;
+  statistics: IActivityStatistics;
   gap: number;
 }
 

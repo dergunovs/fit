@@ -6,7 +6,7 @@ export type TUserRole = "admin" | "user";
 
 export interface IUser extends IEntity {
   name?: string;
-  role: TUserRole;
+  role?: TUserRole;
   email: string;
   password?: string;
   dateLoggedIn?: Date | string;
