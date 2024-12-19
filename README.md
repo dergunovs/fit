@@ -1,8 +1,8 @@
 Приложение фитнес трекера для силовых тренировок
 
-**Фронт:** Typescript, Vite, Vue, Tanstack Query
+**Фронт:** Typescript, Vite, Vue, Tanstack Query, Vitest
 
-**Бэк:** Typescript, Fastify, Mongoose, MongoDB
+**Бэк:** Typescript, Fastify, Mongoose, MongoDB, Swagger
 
 **Сайт:** https://app-fit.ru
 
