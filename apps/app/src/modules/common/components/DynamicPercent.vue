@@ -1,19 +1,22 @@
 <template>
-  <sup :class="$style.dynamics" :data-positive="props.percent > 0" :data-negative="props.percent < 0">
+  <sup
+    :class="$style.dynamics"
+    :data-positive="props.percent > 0"
+    :data-negative="props.percent < 0"
+    data-test="dynamic-percent"
+  >
     {{ formatStatisticsPercent(props.percent) }}
   </sup>
 </template>
 
 <script setup lang="ts">
+import { formatStatisticsPercent } from '@/common/helpers';
+
 interface IProps {
   percent: number;
 }
 
 const props = defineProps<IProps>();
-
-function formatStatisticsPercent(percent: number) {
-  return percent === null ? '' : `${percent > 0 ? `+` : ``}${percent}%`;
-}
 </script>
 
 <style module lang="scss">

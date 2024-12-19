@@ -14,5 +14,8 @@ export const NAV_ITEMS: INavItem[] = [
   { _id: '3', url: URL_USER, title: 'Пользователи', icon: IconUser },
 ];
 
+export const UPDATE_BUTTON_TEXT = 'Обновить';
+export const CREATE_BUTTON_TEXT = 'Создать';
+
 export const URL_HOME = '/';
 export const URL_ERROR = '/404';

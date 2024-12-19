@@ -17,6 +17,7 @@ export const spyUseLayout = vi.spyOn(commonComposables, 'useLayout').mockImpleme
 export const layoutDefaultName = LayoutDefault.name;
 
 export const spyRouterPush = vi.spyOn(router, 'push');
+export const spyRouterGo = vi.spyOn(router, 'go');
 
 export * from './helpers';
 export * from './ui';

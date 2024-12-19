@@ -23,11 +23,11 @@ const ID = 'vf9gwr9bunrwber';
 const NAME = 'Иван';
 const TOKEN = 'fdigheburb09ure0hr9g9ureu9bhr9ugh9rh94hvre';
 
-const authForm = dataTest('auth-form');
-const authFormHeader = dataTest('auth-form-header');
-const authFormEmail = dataTest('auth-form-email');
-const authFormPassword = dataTest('auth-form-password');
-const authFormSubmitButton = dataTest('auth-form-submit-button');
+const form = dataTest('auth-form');
+const formHeader = dataTest('auth-form-header');
+const formEmail = dataTest('auth-form-email');
+const formPassword = dataTest('auth-form-password');
+const formSubmitButton = dataTest('auth-form-submit-button');
 
 let wrapper: VueWrapper;
 
@@ -47,13 +47,13 @@ describe('AuthForm', async () => {
   });
 
   it('shows form header and submit button text', async () => {
-    expect(wrapper.find(authFormHeader).text()).toBe(AUTH_FORM_HEADER_LOGIN);
-    expect(wrapper.find(authFormSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_LOGIN);
+    expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_LOGIN);
+    expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_LOGIN);
 
     await wrapper.setProps({ isSetup: true });
 
-    expect(wrapper.find(authFormHeader).text()).toBe(AUTH_FORM_HEADER_SETUP);
-    expect(wrapper.find(authFormSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_SETUP);
+    expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_SETUP);
+    expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_SETUP);
   });
 
   it('handles login by form submit', async () => {
@@ -63,10 +63,10 @@ describe('AuthForm', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('login');
     expect(spyRouterPush).toBeCalledTimes(0);
 
-    await wrapper.findComponent(authFormEmail).setValue(EMAIL);
-    await wrapper.findComponent(authFormPassword).setValue(PASSWORD);
+    await wrapper.findComponent(formEmail).setValue(EMAIL);
+    await wrapper.findComponent(formPassword).setValue(PASSWORD);
 
-    await wrapper.find(authForm).trigger('submit');
+    await wrapper.find(form).trigger('submit');
 
     expect(spyMutateLogin).toBeCalledTimes(1);
     expect(spyMutateLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
@@ -88,10 +88,10 @@ describe('AuthForm', async () => {
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(spyRouterPush).toBeCalledTimes(0);
 
-    await wrapper.findComponent(authFormEmail).setValue(EMAIL);
-    await wrapper.findComponent(authFormPassword).setValue(PASSWORD);
+    await wrapper.findComponent(formEmail).setValue(EMAIL);
+    await wrapper.findComponent(formPassword).setValue(PASSWORD);
 
-    await wrapper.find(authForm).trigger('submit');
+    await wrapper.find(form).trigger('submit');
 
     expect(spyMutateSetup).toBeCalledTimes(1);
     expect(spyMutateSetup).toBeCalledWith({ email: EMAIL, password: PASSWORD });

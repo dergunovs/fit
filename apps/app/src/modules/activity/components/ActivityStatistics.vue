@@ -4,8 +4,8 @@
       <div>
         <b>Общие данные ({{ props.gap }} дн.)</b>
         <br />
-        <span
-          >Длительность: {{ formatDuration(props.statistics.duration.cur)
+        <span>
+          Длительность: {{ formatDuration(props.statistics.duration.cur)
           }}<DynamicPercent :percent="props.statistics.duration.dynamics" />,
         </span>
         <span>

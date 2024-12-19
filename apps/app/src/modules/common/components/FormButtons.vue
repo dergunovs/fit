@@ -1,27 +1,43 @@
 <template>
   <div :class="$style.buttons">
     <UiFlex gap="16">
-      <UiButton type="submit" :isDisabled="props.isLoading">
-        {{ props.id ? 'Обновить' : 'Добавить' }}
+      <UiButton type="submit" :isDisabled="props.isLoading" data-test="form-buttons-submit">
+        {{ submitButtonText }}
       </UiButton>
 
-      <UiButton @click="router.go(-1)" layout="secondary" :isDisabled="props.isLoading">Назад</UiButton>
+      <UiButton @click="router.go(-1)" layout="secondary" :isDisabled="props.isLoading" data-test="form-buttons-back">
+        Назад
+      </UiButton>
     </UiFlex>
 
-    <UiButton v-if="props.id" @click="isShowConfirm = true" layout="secondary" :isDisabled="props.isLoading">
+    <UiButton
+      v-if="props.id"
+      @click="isShowConfirm = true"
+      layout="secondary"
+      :isDisabled="props.isLoading"
+      data-test="form-buttons-delete"
+    >
       Удалить
     </UiButton>
 
-    <UiModal v-model="isShowConfirm" isConfirm @confirm="emit('delete', props.id)" width="380" lang="ru">
+    <UiModal
+      v-model="isShowConfirm"
+      isConfirm
+      @confirm="emit('delete', props.id)"
+      width="380"
+      lang="ru"
+      data-test="form-buttons-confirm-modal"
+    >
       Подтверждаете удаление?
     </UiModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
+import { CREATE_BUTTON_TEXT, UPDATE_BUTTON_TEXT } from '@/common/constants';
 
 interface IProps {
   id?: string;
@@ -34,6 +50,8 @@ const emit = defineEmits(['delete']);
 const isShowConfirm = ref(false);
 
 const router = useRouter();
+
+const submitButtonText = computed(() => (props.id ? UPDATE_BUTTON_TEXT : CREATE_BUTTON_TEXT));
 </script>
 
 <style module lang="scss">

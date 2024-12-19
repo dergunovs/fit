@@ -56,11 +56,11 @@ describe('HomePage', async () => {
   it('updates dates on ready and update activity calendar events', async () => {
     expect(spyUpdateDates).toBeCalledTimes(0);
 
-    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('ready'));
+    wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('ready');
 
     expect(spyUpdateDates).toBeCalledTimes(1);
 
-    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('update'));
+    wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('update');
 
     expect(spyUpdateDates).toBeCalledTimes(2);
   });
