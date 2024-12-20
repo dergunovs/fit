@@ -1,19 +1,25 @@
 <template>
   <header :class="$style.header">
     <UiFlex align="center" gap="64">
-      <RouterLink :to="URL_HOME" :class="$style.logo" aria-label="Logo">
+      <RouterLink :to="URL_HOME" :class="$style.logo" aria-label="Logo" data-test="header-logo">
         <IconLogo width="32" height="32" /> FiT
       </RouterLink>
     </UiFlex>
 
     <UiFlex gap="16" justify="flex-end">
       <template v-if="isAuth">
-        <UiButton @click="router.push(URL_EXERCISE)" layout="plain">Админка</UiButton>
-        <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain">Занятие</UiButton>
-        <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain">Выйти</UiButton>
+        <UiButton @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">Админка</UiButton>
+
+        <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain" data-test="header-activity">
+          Занятие
+        </UiButton>
+
+        <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain" data-test="header-logout">
+          Выйти
+        </UiButton>
       </template>
 
-      <UiButton v-else @click="emit('showLogin')" layout="plain">Войти</UiButton>
+      <UiButton v-else @click="emit('showLogin')" layout="plain" data-test="header-login">Войти</UiButton>
     </UiFlex>
   </header>
 </template>

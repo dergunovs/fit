@@ -7,14 +7,15 @@ const spyAuth = vi.fn();
 
 vi.spyOn(helpers, 'useAuth').mockReturnValue({ auth: spyAuth, redirectIfAuth: () => undefined });
 
-export { spyAuth };
+const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
+const spyLogout = vi.spyOn(helpers, 'logout');
 
-export const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
-
-export function mockQueryReply<T>(reply: object, refetch?: () => void) {
+function mockQueryReply<T>(reply: object, refetch?: () => void) {
   return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
 }
 
-export function mockMutationReply<T, T2>(mutate: () => void) {
+function mockMutationReply<T, T2>(mutate: () => void) {
   return { mutate } as unknown as UseMutationReturnType<T, Error, T2, unknown>;
 }
+
+export { spyAuth, spySetAuthHeaders, spyLogout, mockQueryReply, mockMutationReply };
