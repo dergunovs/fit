@@ -1,6 +1,6 @@
 <template>
   <nav :class="$style.nav">
-    <NavItem v-for="item in NAV_ITEMS" :key="item._id" :navItem="item" />
+    <NavItem v-for="item in NAV_ITEMS" :key="item._id" :navItem="item" data-test="nav-list-item" />
   </nav>
 </template>
 
