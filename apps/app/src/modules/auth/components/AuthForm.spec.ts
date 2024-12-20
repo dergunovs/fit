@@ -4,7 +4,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import AuthForm from './AuthForm.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
-import { onSuccess, spyMutateLogin, spyMutateSetup } from '@/auth/mocks';
+import { onSuccess, spyLogin, spySetup } from '@/auth/mocks';
 import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
@@ -57,7 +57,7 @@ describe('AuthForm', async () => {
   });
 
   it('handles login by form submit', async () => {
-    expect(spyMutateLogin).toBeCalledTimes(0);
+    expect(spyLogin).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(spyAuth).toBeCalledTimes(0);
     expect(wrapper.emitted()).not.toHaveProperty('login');
@@ -68,10 +68,10 @@ describe('AuthForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyMutateLogin).toBeCalledTimes(1);
-    expect(spyMutateLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
+    expect(spyLogin).toBeCalledTimes(1);
+    expect(spyLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
 
-    onSuccess.login?.({ _id: ID, email: EMAIL, name: NAME, token: TOKEN });
+    await onSuccess.login?.({ _id: ID, email: EMAIL, name: NAME, token: TOKEN });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
     expect(spyAuth).toBeCalledTimes(1);
@@ -84,7 +84,7 @@ describe('AuthForm', async () => {
   it('handles setup by form submit', async () => {
     await wrapper.setProps({ isSetup: true });
 
-    expect(spyMutateSetup).toBeCalledTimes(0);
+    expect(spySetup).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(spyRouterPush).toBeCalledTimes(0);
 
@@ -93,10 +93,10 @@ describe('AuthForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyMutateSetup).toBeCalledTimes(1);
-    expect(spyMutateSetup).toBeCalledWith({ email: EMAIL, password: PASSWORD });
+    expect(spySetup).toBeCalledTimes(1);
+    expect(spySetup).toBeCalledWith({ email: EMAIL, password: PASSWORD });
 
-    onSuccess.setup?.();
+    await onSuccess.setup?.();
 
     expect(spyToastSuccess).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledTimes(1);

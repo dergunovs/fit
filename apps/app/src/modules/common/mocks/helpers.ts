@@ -31,6 +31,14 @@ const spyUsePagination = vi
 const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
 const spyLogout = vi.spyOn(helpers, 'logout');
 
+const spyRefetchQueries = vi.fn();
+const spyRemoveQueries = vi.fn();
+
+vi.spyOn(helpers, 'useQueryClient').mockReturnValue({
+  refetchQueries: spyRefetchQueries,
+  removeQueries: spyRemoveQueries,
+} as unknown as helpers.QueryClient);
+
 function mockQueryReply<T>(reply: object, refetch?: () => void) {
   return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
 }
@@ -49,4 +57,6 @@ export {
   mockMutationReply,
   pageNumber,
   spySetPage,
+  spyRefetchQueries,
+  spyRemoveQueries,
 };

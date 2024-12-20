@@ -48,7 +48,6 @@ export default defineConfig({
   ],
 
   test: {
-    pool: 'vmThreads',
     alias: { '@': resolve(__dirname, './src/modules') },
     cache: false,
     clearMocks: true,

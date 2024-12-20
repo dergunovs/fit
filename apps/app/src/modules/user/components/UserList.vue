@@ -1,8 +1,8 @@
 <template>
   <UiTable :headers="USER_LIST_HEADERS" :isLoading="!props.users?.length" lang="ru">
-    <tr v-for="user in props.users" :key="user._id">
+    <tr v-for="user in props.users" :key="user._id" data-test="user-table-row">
       <td data-grow>
-        <RouterLink :to="`${URL_USER_EDIT}/${user._id}`">
+        <RouterLink :to="`${URL_USER_EDIT}/${user._id}`" data-test="user-table-email-link">
           {{ user.email }}
         </RouterLink>
       </td>

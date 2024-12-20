@@ -1,14 +1,15 @@
 import { beforeAll, vi } from 'vitest';
-import { computed } from 'vue';
 import * as helpers from 'mhz-helpers';
 import { UseQueryReturnType, UseMutationReturnType } from 'mhz-helpers';
+
+import { returnComputed } from './src/modules/common/test';
 
 beforeAll(() => {
   vi.spyOn(helpers, 'useValidator').mockImplementation(() => {
     return {
       error: () => undefined,
       isValid: () => true,
-      errors: computed(() => undefined),
+      errors: returnComputed(undefined),
     };
   });
 

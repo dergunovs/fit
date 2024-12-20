@@ -1,21 +1,26 @@
 <template>
   <div>
-    <UiFlex @submit.prevent="props.user?._id ? update() : submit()" tag="form" column gap="24" align="flex-start">
-      <div v-if="formData.role === 'admin'" :class="$style.admin">Пользователь с правами администратора</div>
+    <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="user-form">
+      <div v-if="isAdmin" :class="$style.admin" data-test="user-form-admin">Пользователь с правами администратора</div>
 
       <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" />
+        <UiInput v-model="formData.email" data-test="user-form-email" />
       </UiField>
 
       <UiField label="Имя" isRequired :error="error('name')">
-        <UiInput v-model="formData.name" />
+        <UiInput v-model="formData.name" data-test="user-form-name" />
       </UiField>
 
       <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" />
+        <UiInput v-model="formData.password" data-test="user-form-password" />
       </UiField>
 
-      <FormButtons :id="props.user?._id" :isLoading="isLoadingPost || isLoadingUpdate" @delete="handleDelete" />
+      <FormButtons
+        :id="props.user?._id"
+        :isLoading="isLoadingPost || isLoadingUpdate"
+        @delete="(id) => mutateDelete(id)"
+        data-test="user-form-buttons"
+      />
     </UiFlex>
   </div>
 </template>
@@ -48,6 +53,8 @@ const formData = ref<IUser>({
   password: '',
   role: 'user',
 });
+
+const isAdmin = computed(() => props.user?.role === 'admin');
 
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {
@@ -84,15 +91,13 @@ const rules = computed(() => {
 const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
-  if (isValid()) mutatePost(formData.value);
-}
+  if (!isValid()) return;
 
-function update() {
-  if (isValid()) mutateUpdate(formData.value);
-}
-
-function handleDelete(id: string) {
-  mutateDelete(id);
+  if (props.user?._id) {
+    mutateUpdate(formData.value);
+  } else {
+    mutatePost(formData.value);
+  }
 }
 
 onMounted(() => {
