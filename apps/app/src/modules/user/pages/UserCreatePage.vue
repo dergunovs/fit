@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UserForm />
+    <UserForm data-test="create-user-form" />
   </div>
 </template>
 

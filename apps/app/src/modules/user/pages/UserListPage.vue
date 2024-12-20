@@ -1,9 +1,9 @@
 <template>
   <div>
     <UiFlex column gap="32">
-      <RouterLink :to="URL_USER_CREATE">Добавить пользователя</RouterLink>
+      <RouterLink :to="URL_USER_CREATE" data-test="add-user">Добавить пользователя</RouterLink>
 
-      <UserList :users="users" />
+      <UserList :users="users" data-test="user-list" />
 
       <UiPagination
         v-show="users?.length"
@@ -11,6 +11,7 @@
         :total="total"
         @update="(value: number) => setPage(setPaginationPage(value, page))"
         lang="ru"
+        data-test="user-list-pagination"
       />
     </UiFlex>
   </div>

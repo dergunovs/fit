@@ -1,4 +1,4 @@
-import { Component } from 'vue';
+import { Component, computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { shallowMount } from '@vue/test-utils';
 import { VueQueryPlugin } from 'mhz-helpers';
@@ -53,4 +53,8 @@ export async function wait(time?: number) {
   await new Promise((r) => {
     setTimeout(r, time || 10);
   });
+}
+
+export function returnComputed<T>(value: T) {
+  return computed(() => value);
 }
