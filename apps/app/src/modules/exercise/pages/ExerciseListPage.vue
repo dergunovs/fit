@@ -1,9 +1,9 @@
 <template>
   <div>
     <UiFlex column gap="32">
-      <RouterLink :to="URL_EXERCISE_CREATE">Добавить упражнение</RouterLink>
+      <RouterLink :to="URL_EXERCISE_CREATE" data-test="add-exercise">Добавить упражнение</RouterLink>
 
-      <ExerciseList :exercises="exercises" />
+      <ExerciseList :exercises="exercises" data-test="exercise-list" />
     </UiFlex>
   </div>
 </template>

@@ -8,7 +8,7 @@ import { dataTest, wrapperFactory } from '@/common/test';
 import { spyGetUser } from '@/user/mocks';
 import { USER_FIXTURE } from '@/user/fixtures';
 
-const userForm = dataTest('edit-user-form');
+const userForm = dataTest('user-form');
 
 let wrapper: VueWrapper;
 

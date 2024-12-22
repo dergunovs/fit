@@ -5,7 +5,7 @@ import UserCreatePage from './UserCreatePage.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
 
-const userForm = dataTest('create-user-form');
+const userForm = dataTest('user-form');
 
 let wrapper: VueWrapper;
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ExerciseForm />
+    <ExerciseForm data-test="exercise-form" />
   </div>
 </template>
 
