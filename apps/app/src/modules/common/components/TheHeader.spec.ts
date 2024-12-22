@@ -1,10 +1,11 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { deleteAuthHeader, setAuth } from 'mhz-helpers';
 
 import TheHeader from './TheHeader.vue';
 
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { dataTest, wrapperFactory } from '@/common/test';
 import { URL_HOME } from '@/common/constants';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
@@ -43,7 +44,7 @@ describe('TheHeader', async () => {
 
     setAuth(true);
 
-    await wait();
+    await nextTick();
 
     expect(wrapper.find(login).exists()).toBe(false);
 
@@ -78,7 +79,7 @@ describe('TheHeader', async () => {
   it('emits show login', async () => {
     setAuth(false);
 
-    await wait();
+    await nextTick();
 
     expect(wrapper.emitted()).not.toHaveProperty('showLogin');
 

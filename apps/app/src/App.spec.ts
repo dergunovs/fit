@@ -1,8 +1,9 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
 import App from './App.vue';
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { dataTest, wrapperFactory } from '@/common/test';
 import { spyUseLayout, isLoaded, layoutDefaultName } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
@@ -27,7 +28,7 @@ describe('App', async () => {
     expect(spyUseLayout).toBeCalledTimes(1);
     isLoaded.value = true;
 
-    await wait();
+    await nextTick();
 
     expect(wrapper.find(layout).exists()).toBe(true);
     expect(wrapper.find(layout).attributes('data-layout')).toBe(layoutDefaultName);

@@ -1,3 +1,4 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
@@ -5,7 +6,7 @@ import LayoutDefault from './LayoutDefault.vue';
 import TheHeader from '@/common/components/TheHeader.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { dataTest, wrapperFactory } from '@/common/test';
 
 const header = dataTest('layout-default-header');
 const loginForm = dataTest('layout-default-login-form');
@@ -29,13 +30,13 @@ describe('LayoutDefault', async () => {
 
     wrapper.findComponent<typeof TheHeader>(header).vm.$emit('showLogin');
 
-    await wait();
+    await nextTick();
 
     expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('true');
 
     wrapper.findComponent<typeof AuthForm>(loginForm).vm.$emit('login');
 
-    await wait();
+    await nextTick();
 
     expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
   });
