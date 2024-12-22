@@ -5,15 +5,22 @@ import * as helpers from 'mhz-helpers';
 
 import { returnComputed } from '@/common/test';
 
+const mockTempId = 'fd98bye9rbrube';
+
+vi.spyOn(helpers, 'createTempId').mockReturnValue(mockTempId);
+
 const spyAuth = vi.fn();
-const spySetPage = vi.fn();
 
 vi.spyOn(helpers, 'useAuth').mockReturnValue({ auth: spyAuth, redirectIfAuth: () => undefined });
 
-const pageNumber = ref(1);
+const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
+const spyLogout = vi.spyOn(helpers, 'logout');
+
+const mockPageNumber = ref(1);
+const spySetPage = vi.fn();
 
 const spyUsePageNumber = vi.spyOn(helpers, 'usePageNumber').mockReturnValue({
-  page: pageNumber,
+  page: mockPageNumber,
   setPage: spySetPage,
   resetPage: () => undefined,
 });
@@ -27,9 +34,6 @@ const spyUsePagination = vi
       setPaginationPage: () => 1,
     };
   });
-
-const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
-const spyLogout = vi.spyOn(helpers, 'logout');
 
 const spyRefetchQueries = vi.fn();
 const spyRemoveQueries = vi.fn();
@@ -53,10 +57,11 @@ export {
   spyLogout,
   spyUsePageNumber,
   spyUsePagination,
-  mockQueryReply,
-  mockMutationReply,
-  pageNumber,
   spySetPage,
   spyRefetchQueries,
   spyRemoveQueries,
+  mockQueryReply,
+  mockMutationReply,
+  mockTempId,
+  mockPageNumber,
 };

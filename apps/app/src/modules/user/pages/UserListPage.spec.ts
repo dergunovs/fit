@@ -8,7 +8,7 @@ import UserList from '@/user/components/UserList.vue';
 import { dataTest, wrapperFactory } from '@/common/test';
 import { getUsersData, spyGetUsers } from '@/user/mocks';
 import { USERS_FIXTURE } from '@/user/fixtures';
-import { pageNumber, spyUsePageNumber, spyUsePagination } from '@/common/mocks';
+import { mockPageNumber, spyUsePageNumber, spyUsePagination } from '@/common/mocks';
 import { URL_USER_CREATE } from '@/user/constants';
 
 const userList = dataTest('user-list');
@@ -36,7 +36,7 @@ describe('UserListPage', async () => {
     expect(spyUsePageNumber).toBeCalledTimes(1);
 
     expect(spyGetUsers).toBeCalledTimes(1);
-    expect(spyGetUsers).toBeCalledWith(pageNumber);
+    expect(spyGetUsers).toBeCalledWith(mockPageNumber);
 
     expect(spyUsePagination).toBeCalledTimes(1);
     expect(spyUsePagination).toBeCalledWith(ref(getUsersData));
@@ -45,7 +45,7 @@ describe('UserListPage', async () => {
   });
 
   it('sets data to pagination', async () => {
-    expect(wrapper.find(userListPagination).attributes('page')).toEqual(pageNumber.value.toString());
+    expect(wrapper.find(userListPagination).attributes('page')).toEqual(mockPageNumber.value.toString());
     expect(wrapper.find(userListPagination).attributes('total')).toEqual(USERS_FIXTURE.length.toString());
   });
 });
