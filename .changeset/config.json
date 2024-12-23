@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["fitness-tracker-app", "fitness-tracker-backend"]
+  "ignore": ["fitness-tracker-frontend", "fitness-tracker-backend"]
 }

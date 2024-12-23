@@ -20,7 +20,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v2.0.2
         with:
           envkey_VITE_API: ${{ secrets.VITE_API }}
-          directory: apps/app/
+          directory: apps/frontend/
       - name: Create Backend .env
         uses: SpicyPizza/create-envfile@v2.0.2
         with:
@@ -44,7 +44,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: apps/app/dist
+          source: apps/frontend/dist
           target: ${{ secrets.SSH_PATH }}
       - name: Deploy Backend
         uses: appleboy/scp-action@master
