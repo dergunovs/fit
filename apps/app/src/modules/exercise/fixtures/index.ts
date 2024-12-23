@@ -19,4 +19,13 @@ export const EXERCISE_FIXTURE_2 = {
   defaultWeight: 0,
 };
 
-export const EXERCISES_FIXTURE = [EXERCISE_FIXTURE, EXERCISE_FIXTURE_2];
+export const EXERCISE_FIXTURE_3 = {
+  title: 'Жим лёжа',
+  _id: '3',
+  createdBy: USER_FIXTURE,
+  muscleGroups: [EXERCISE_MUSCLE_GROUPS[4], EXERCISE_MUSCLE_GROUPS[5]],
+  weights: [9, 16],
+  defaultWeight: 16,
+};
+
+export const EXERCISES_FIXTURE = [EXERCISE_FIXTURE, EXERCISE_FIXTURE_2, EXERCISE_FIXTURE_3];

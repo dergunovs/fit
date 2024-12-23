@@ -8,6 +8,7 @@
         type="button"
         :class="$style.button"
         :data-current="group._id === currentMuscleGroup"
+        data-test="exercise-muscle-group"
       >
         {{ group.title }}
       </button>
@@ -15,7 +16,7 @@
 
     <div>
       <UiField label="Фильтр по названию упражнения">
-        <UiInput v-model="muscleGroupTitle" />
+        <UiInput v-model="muscleGroupTitle" data-test="exercise-muscle-group-title" />
       </UiField>
     </div>
 
@@ -25,8 +26,13 @@
         :title="exercise.title"
         v-for="(exercise, index) in filteredExercises"
         :key="exercise._id"
+        data-test="exercise-muscle-group-spoiler"
       >
-        <ExerciseChooseElement :exercise="exercise" @add="(choosenExercise) => emit('choose', choosenExercise)" />
+        <ExerciseChooseElement
+          :exercise="exercise"
+          @add="(choosenExercise) => emit('choose', choosenExercise)"
+          data-test="exercise-choose-element"
+        />
       </UiSpoiler>
     </UiFlex>
   </div>
