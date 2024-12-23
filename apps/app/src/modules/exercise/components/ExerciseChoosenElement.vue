@@ -1,7 +1,15 @@
 <template>
   <div :class="$style.exercise">
-    <span>{{ exerciseTitle }}</span>
-    <button @click="emit('delete', props.exercise._id)" :class="$style.delete" type="button">×</button>
+    <span data-test="exercise-title">{{ exerciseTitle }}</span>
+
+    <button
+      @click="emit('delete', props.exercise._id)"
+      :class="$style.delete"
+      type="button"
+      data-test="exercise-delete"
+    >
+      ×
+    </button>
   </div>
 </template>
 

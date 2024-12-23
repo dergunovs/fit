@@ -8,14 +8,14 @@
       <UiFlex wrap>
         <UiChip v-if="!props.exercise.isDone" type="error"> <IconFail width="16" height="16" /> Не выполнено</UiChip>
 
-        <UiChip v-if="props.exercise.duration">
-          <IconDuration width="16" height="16" /> {{ formatDuration(props.exercise.duration) }}
-        </UiChip>
-
         <UiChip>x{{ props.exercise.repeats }}</UiChip>
 
         <UiChip v-if="props.exercise.weight">
           <IconWeight width="16" height="16" />{{ props.exercise.weight }} кг.
+        </UiChip>
+
+        <UiChip v-if="props.exercise.duration">
+          <IconDuration width="16" height="16" /> {{ formatDuration(props.exercise.duration) }}
         </UiChip>
 
         <UiChip v-if="props.exercise.isToFailure" type="success">

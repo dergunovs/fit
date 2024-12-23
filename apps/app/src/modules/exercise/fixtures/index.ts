@@ -1,5 +1,7 @@
 import { EXERCISE_MUSCLE_GROUPS, IExercise } from 'fitness-tracker-contracts';
+
 import { USER_FIXTURE } from '@/user/fixtures';
+import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
 
 export const EXERCISE_FIXTURE: IExercise = {
   title: 'Отжимание от скамьи',
@@ -29,3 +31,10 @@ export const EXERCISE_FIXTURE_3 = {
 };
 
 export const EXERCISES_FIXTURE = [EXERCISE_FIXTURE, EXERCISE_FIXTURE_2, EXERCISE_FIXTURE_3];
+
+export const EXERCISE_CHOOSEN_FIXTURE = {
+  _id: '1',
+  exercise: EXERCISE_FIXTURE,
+  repeats: EXERCISE_REPEATS_DEFAULT,
+  weight: EXERCISE_FIXTURE.defaultWeight,
+};
