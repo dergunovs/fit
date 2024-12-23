@@ -60,19 +60,19 @@ describe('ExerciseChooseElement', async () => {
     await wrapper.find(exerciseAdd1).trigger('click');
 
     expect(wrapper.emitted('add')).toHaveLength(1);
-    expect(wrapper.emitted()['add'][0]).toEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][0]).toStrictEqual([choosenExercise]);
 
     await wrapper.find(exerciseAdd2).trigger('click');
 
     expect(wrapper.emitted('add')).toHaveLength(1 + 2);
-    expect(wrapper.emitted()['add'][1]).toEqual([choosenExercise]);
-    expect(wrapper.emitted()['add'][2]).toEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][1]).toStrictEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][2]).toStrictEqual([choosenExercise]);
 
     await wrapper.find(exerciseAdd3).trigger('click');
 
     expect(wrapper.emitted('add')).toHaveLength(1 + 2 + 3);
-    expect(wrapper.emitted()['add'][3]).toEqual([choosenExercise]);
-    expect(wrapper.emitted()['add'][4]).toEqual([choosenExercise]);
-    expect(wrapper.emitted()['add'][5]).toEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][3]).toStrictEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][4]).toStrictEqual([choosenExercise]);
+    expect(wrapper.emitted()['add'][5]).toStrictEqual([choosenExercise]);
   });
 });

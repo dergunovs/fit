@@ -7,6 +7,7 @@
         :exercise="exercise"
         :index="index + 1"
         @delete="(id) => emit('delete', id)"
+        data-test="exercise-choosen"
       />
     </UiFlex>
   </div>

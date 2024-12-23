@@ -38,6 +38,6 @@ describe('ExerciseChoosenElement', async () => {
     await wrapper.find(exerciseDelete).trigger('click');
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
-    expect(wrapper.emitted()['delete'][0]).toEqual([EXERCISE_CHOOSEN_FIXTURE._id]);
+    expect(wrapper.emitted()['delete'][0]).toStrictEqual([EXERCISE_CHOOSEN_FIXTURE._id]);
   });
 });

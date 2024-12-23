@@ -48,7 +48,7 @@ describe('HomePage', async () => {
     expect(spyComputedActivityCalendarEvents).toBeCalledTimes(1);
     expect(spyComputedActivityCalendarEvents).toBeCalledWith(ref(ACTIVITIES_CALENDAR_FIXTURE));
 
-    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toEqual(
+    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toStrictEqual(
       computedActivityCalendarEvents.value
     );
   });
@@ -71,17 +71,17 @@ describe('HomePage', async () => {
   });
 
   it('sets activity statistics and gap', async () => {
-    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.statistics).toEqual(
+    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.statistics).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.activity
     );
 
-    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.gap).toEqual(
+    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.gap).toStrictEqual(
       ACTIVITY_STATISTICS_GAP
     );
   });
 
   it('sets exercise statistics', async () => {
-    expect(wrapper.findComponent<typeof ExerciseStatistics>(exerciseStatistics).vm.$props.statistics).toEqual(
+    expect(wrapper.findComponent<typeof ExerciseStatistics>(exerciseStatistics).vm.$props.statistics).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.exercise
     );
   });

@@ -25,6 +25,6 @@ describe('ExerciseEditPage', async () => {
 
   it('gets and sets exercise to form', async () => {
     expect(spyGetExercise).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof ExerciseForm>(exerciseForm).vm.$props.exercise).toEqual(EXERCISE_FIXTURE);
+    expect(wrapper.findComponent<typeof ExerciseForm>(exerciseForm).vm.$props.exercise).toStrictEqual(EXERCISE_FIXTURE);
   });
 });

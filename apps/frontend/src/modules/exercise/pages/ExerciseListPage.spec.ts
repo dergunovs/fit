@@ -31,6 +31,8 @@ describe('ExerciseListPage', async () => {
 
   it('gets and sets exercises to list', async () => {
     expect(spyGetExercises).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).vm.$props.exercises).toEqual(EXERCISES_FIXTURE);
+    expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).vm.$props.exercises).toStrictEqual(
+      EXERCISES_FIXTURE
+    );
   });
 });

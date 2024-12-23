@@ -25,6 +25,6 @@ describe('UserEditPage', async () => {
 
   it('gets and sets user to form', async () => {
     expect(spyGetUser).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toEqual(USER_FIXTURE);
+    expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toStrictEqual(USER_FIXTURE);
   });
 });

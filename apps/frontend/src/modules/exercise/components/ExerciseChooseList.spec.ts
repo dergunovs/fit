@@ -40,7 +40,7 @@ describe('ExerciseChooseList', async () => {
 
   it('shows exercises to choose', async () => {
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(EXERCISES_FIXTURE.length);
-    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.exercise).toEqual(
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.exercise).toStrictEqual(
       EXERCISES_FIXTURE[0]
     );
   });
@@ -75,6 +75,6 @@ describe('ExerciseChooseList', async () => {
     wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$emit('add', EXERCISES_FIXTURE[0]);
 
     expect(wrapper.emitted('choose')).toHaveLength(1);
-    expect(wrapper.emitted()['choose'][0]).toEqual([EXERCISES_FIXTURE[0]]);
+    expect(wrapper.emitted()['choose'][0]).toStrictEqual([EXERCISES_FIXTURE[0]]);
   });
 });

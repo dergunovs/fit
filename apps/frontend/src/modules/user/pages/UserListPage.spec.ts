@@ -41,11 +41,11 @@ describe('UserListPage', async () => {
     expect(spyUsePagination).toBeCalledTimes(1);
     expect(spyUsePagination).toBeCalledWith(ref(getUsersData));
 
-    expect(wrapper.findComponent<typeof UserList>(userList).vm.$props.users).toEqual(USERS_FIXTURE);
+    expect(wrapper.findComponent<typeof UserList>(userList).vm.$props.users).toStrictEqual(USERS_FIXTURE);
   });
 
   it('sets data to pagination', async () => {
-    expect(wrapper.find(userListPagination).attributes('page')).toEqual(mockPageNumber.value.toString());
-    expect(wrapper.find(userListPagination).attributes('total')).toEqual(USERS_FIXTURE.length.toString());
+    expect(wrapper.find(userListPagination).attributes('page')).toBe(mockPageNumber.value.toString());
+    expect(wrapper.find(userListPagination).attributes('total')).toBe(USERS_FIXTURE.length.toString());
   });
 });
