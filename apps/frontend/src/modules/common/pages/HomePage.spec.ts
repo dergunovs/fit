@@ -70,13 +70,9 @@ describe('HomePage', async () => {
     expect(spyGetActivitiesStatistics).toBeCalledWith(ACTIVITY_STATISTICS_GAP);
   });
 
-  it('sets activity statistics and gap', async () => {
+  it('sets activity statistics', async () => {
     expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.statistics).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.activity
-    );
-
-    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.gap).toStrictEqual(
-      ACTIVITY_STATISTICS_GAP
     );
   });
 

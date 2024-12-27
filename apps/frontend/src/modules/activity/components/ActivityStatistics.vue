@@ -2,7 +2,7 @@
   <div>
     <UiFlex column>
       <div>
-        <b>Общие данные ({{ props.gap }} дн.)</b>
+        <b>Данные за месяц</b>
         <br />
         <span>
           Длительность: {{ formatDuration(props.statistics.duration.cur)
@@ -56,7 +56,6 @@ import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 interface IProps {
   statistics: IActivityStatistics;
-  gap: number;
 }
 
 const props = defineProps<IProps>();

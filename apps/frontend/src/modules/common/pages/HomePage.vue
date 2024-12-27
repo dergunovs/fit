@@ -5,14 +5,7 @@
     <div :class="$style.info">
       <div :class="$style.calendar">
         <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" data-test="activity-calendar" />
-
-        <ActivityStatistics
-          v-if="statistics"
-          :statistics="statistics.activity"
-          :gap="ACTIVITY_STATISTICS_GAP"
-          data-test="activity-statistics"
-        />
-
+        <ActivityStatistics v-if="statistics" :statistics="statistics.activity" data-test="activity-statistics" />
         <ActivityChart />
       </div>
 
