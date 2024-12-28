@@ -5,7 +5,7 @@ import AuthForm from './AuthForm.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
 import { onSuccess, spyLogin, spySetup } from '@/auth/mocks';
-import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess } from '@/common/mocks';
+import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
 import {
@@ -54,6 +54,16 @@ describe('AuthForm', async () => {
 
     expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_SETUP);
     expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_SETUP);
+  });
+
+  it('uses validation', async () => {
+    mockIsValid.value = false;
+
+    await wrapper.find(form).trigger('submit');
+
+    expect(spyLogin).toBeCalledTimes(0);
+
+    mockIsValid.value = true;
   });
 
   it('handles login by form submit', async () => {

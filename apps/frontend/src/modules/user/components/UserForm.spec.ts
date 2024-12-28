@@ -8,7 +8,7 @@ import FormButtons from '@/common/components/FormButtons.vue';
 import { dataTest, wrapperFactory } from '@/common/test';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { onSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
-import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
+import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_USER } from '@/user/constants';
 
 const EMAIL = 'unique@mail.ru';
@@ -61,6 +61,16 @@ describe('UserForm', async () => {
     expect(wrapper.find(formPassword).exists()).toBe(false);
 
     await wrapper.setProps({ user: undefined });
+  });
+
+  it('uses validation', async () => {
+    mockIsValid.value = false;
+
+    await wrapper.find(form).trigger('submit');
+
+    expect(spyCreateUser).toBeCalledTimes(0);
+
+    mockIsValid.value = true;
   });
 
   it('creates user', async () => {

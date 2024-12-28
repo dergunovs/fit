@@ -5,16 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-
 import UserForm from '@/user/components/UserForm.vue';
 
 import { userService } from '@/user/services';
+import { useRouteId } from '@/common/composables';
 
-const route = useRoute();
+const { id } = useRouteId('user');
 
-const userId = computed(() => route.params.user.toString());
-
-const { data: user } = userService.getOne(userId);
+const { data: user } = userService.getOne(id);
 </script>

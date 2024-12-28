@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
@@ -44,16 +44,13 @@ export default defineConfig({
         ],
       },
     }),
-    { name: 'vitest-setup', config: () => ({ test: { setupFiles: ['./vitest.setup.ts'] } }) },
   ],
 
   test: {
-    alias: { '@': resolve(__dirname, './src/modules') },
-    cache: false,
     clearMocks: true,
     environment: 'happy-dom',
     include: ['**/*.spec.ts'],
-    coverage: { provider: 'v8', reporter: ['text'], include: ['**/*.vue'], all: true },
+    coverage: { provider: 'istanbul', reporter: ['text'], include: ['**/*.vue'], all: true },
     css: false,
     deps: { inline: true },
   },

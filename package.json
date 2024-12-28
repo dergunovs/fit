@@ -10,11 +10,12 @@
     "url": "git+https://github.com/dergunovs/fit"
   },
   "scripts": {
-    "lint": "turbo run lint --no-daemon",
-    "ts": "turbo run ts --no-daemon",
-    "dev": "turbo run dev --no-daemon",
-    "build": "turbo run build --no-daemon",
-    "test": "turbo run test --no-daemon",
+    "lint": "turbo run lint",
+    "ts": "turbo run ts",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:cov": "turbo run test:cov",
     "pub": "changeset version && changeset publish"
   },
   "dependencies": {

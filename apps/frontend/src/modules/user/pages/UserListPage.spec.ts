@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { UiPagination } from 'mhz-ui';
 
 import UserListPage from './UserListPage.vue';
 import UserList from '@/user/components/UserList.vue';
@@ -8,7 +9,7 @@ import UserList from '@/user/components/UserList.vue';
 import { dataTest, wrapperFactory } from '@/common/test';
 import { getUsersData, spyGetUsers } from '@/user/mocks';
 import { USERS_FIXTURE } from '@/user/fixtures';
-import { mockPageNumber, spyUsePageNumber, spyUsePagination } from '@/common/mocks';
+import { mockPageNumber, spyUsePageNumber, spyUsePagination, spySetPage } from '@/common/mocks';
 import { URL_USER_CREATE } from '@/user/constants';
 
 const userList = dataTest('user-list');
@@ -47,5 +48,11 @@ describe('UserListPage', async () => {
   it('sets data to pagination', async () => {
     expect(wrapper.find(userListPagination).attributes('page')).toBe(mockPageNumber.value.toString());
     expect(wrapper.find(userListPagination).attributes('total')).toBe(USERS_FIXTURE.length.toString());
+  });
+
+  it('updates pagination', async () => {
+    wrapper.findComponent<typeof UiPagination>(userListPagination).vm.$emit('update', 2);
+
+    expect(spySetPage).toBeCalledTimes(1);
   });
 });

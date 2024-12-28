@@ -15,6 +15,10 @@
       "cache": false,
       "outputs": []
     },
+    "test:cov": {
+      "cache": false,
+      "outputs": []
+    },
     "dev": {
       "cache": false,
       "persistent": true

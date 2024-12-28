@@ -5,6 +5,7 @@ import UserEditPage from './UserEditPage.vue';
 import UserForm from '@/user/components/UserForm.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
+import { mockRouteId, spyUseRouteId } from '@/common/mocks';
 import { spyGetUser } from '@/user/mocks';
 import { USER_FIXTURE } from '@/user/fixtures';
 
@@ -24,7 +25,12 @@ describe('UserEditPage', async () => {
   });
 
   it('gets and sets user to form', async () => {
+    expect(spyUseRouteId).toBeCalledTimes(1);
+    expect(spyUseRouteId).toBeCalledWith('user');
+
     expect(spyGetUser).toBeCalledTimes(1);
+    expect(spyGetUser).toBeCalledWith(mockRouteId);
+
     expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toStrictEqual(USER_FIXTURE);
   });
 });

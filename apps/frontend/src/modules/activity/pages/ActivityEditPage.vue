@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { useQueryClient } from 'mhz-helpers';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
@@ -40,17 +40,17 @@ import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
+import { useRouteId } from '@/common/composables';
 
 const isShowConfirm = ref(false);
 
-const route = useRoute();
 const router = useRouter();
 
 const queryClient = useQueryClient();
 
-const activityId = computed(() => route.params.activity.toString());
+const { id } = useRouteId('activity');
 
-const { data: activity } = activityService.getOne({}, activityId);
+const { data: activity } = activityService.getOne({}, id);
 
 const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {

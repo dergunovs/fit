@@ -5,16 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
 import { exerciseService } from '@/exercise/services';
+import { useRouteId } from '@/common/composables';
 
-const route = useRoute();
+const { id } = useRouteId('exercise');
 
-const exerciseId = computed(() => route.params.exercise.toString());
-
-const { data: exercise } = exerciseService.getOne(exerciseId);
+const { data: exercise } = exerciseService.getOne(id);
 </script>

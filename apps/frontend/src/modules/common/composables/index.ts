@@ -22,3 +22,11 @@ export function useLayout() {
     layoutComponent,
   };
 }
+
+export function useRouteId(title: string) {
+  const route = useRoute();
+
+  const id = computed(() => route.params[title].toString());
+
+  return { id };
+}
