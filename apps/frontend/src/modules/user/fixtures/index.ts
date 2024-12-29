@@ -14,4 +14,4 @@ export const USER_FIXTURE_2: IUser = {
   name: 'Иван',
 };
 
-export const USERS_FIXTURE = [USER_FIXTURE, USER_FIXTURE_2];
+export const USERS_FIXTURE: IUser[] = [USER_FIXTURE, USER_FIXTURE_2];

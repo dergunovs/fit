@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.container">
-    <div>{{ props.title }}</div>
+    <div data-test="exercise-repeats-choice-title">{{ props.title }}</div>
 
-    <div :class="$style.repeats" :data-tall="props.isTall">
+    <div :class="$style.repeats" :data-tall="props.isTall" data-test="exercise-repeats-choice-buttons">
       <button
         v-for="repeat in props.options"
         :key="repeat"
@@ -10,6 +10,7 @@
         type="button"
         :class="$style.button"
         :data-current="props.modelValue === repeat"
+        data-test="exercise-repeats-choice-button"
       >
         {{ repeat }}
       </button>
@@ -22,6 +23,7 @@
         step="1"
         min="2"
         max="30"
+        data-test="exercise-repeats-choice-input"
       />
     </div>
   </div>

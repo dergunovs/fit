@@ -1,23 +1,28 @@
 <template>
   <div>
     <UiTable :headers="EXERCISE_STATISTICS_HEADERS" lang="ru">
-      <tr v-for="exercise in props.statistics" :key="exercise._id">
+      <tr v-for="exercise in props.statistics" :key="exercise._id" data-test="exercise-statistics-table-row">
         <td>
-          <span>{{ exercise.title }}</span>
+          <span data-test="exercise-statistics-title">{{ exercise.title }}</span>
         </td>
         <td>
           <div :class="$style.cell">
-            <div :class="$style.count">{{ exercise.sets }}<DynamicPercent :percent="exercise.setsDynamics" /></div>
-            <div :class="$style.time">{{ getAverageDuration(exercise, 'set') }}</div>
+            <div :class="$style.count" data-test="exercise-statistics-sets-count">
+              {{ exercise.sets }}<DynamicPercent :percent="exercise.setsDynamics" />
+            </div>
+            <div :class="$style.duration" data-test="exercise-statistics-sets-duration">
+              {{ getAverageDuration(exercise, 'set') }}
+            </div>
           </div>
         </td>
         <td>
           <div :class="$style.cell">
-            <div :class="$style.count">
-              {{ Math.round(exercise.repeats / exercise.sets) || 0
-              }}<DynamicPercent :percent="exercise.repeatsDynamics" />
+            <div :class="$style.count" data-test="exercise-statistics-repeats-count">
+              {{ exercise.repeats }}<DynamicPercent :percent="exercise.repeatsDynamics" />
             </div>
-            <div :class="$style.time">{{ getAverageDuration(exercise, 'repeat') }}</div>
+            <div :class="$style.duration" data-test="exercise-statistics-repeats-duration">
+              {{ getAverageDuration(exercise, 'repeat') }}
+            </div>
           </div>
         </td>
       </tr>
@@ -32,18 +37,13 @@ import { UiTable } from 'mhz-ui';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
+import { getAverageDuration } from '@/exercise/helpers';
 
 interface IProps {
   statistics: IExerciseStatistics[];
 }
 
 const props = defineProps<IProps>();
-
-function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat') {
-  return type === 'set'
-    ? `${((exercise.averageDuration * exercise.repeats) / exercise.sets || 0).toFixed(1)}с`
-    : `${exercise.averageDuration.toFixed(1)}с`;
-}
 </script>
 
 <style module lang="scss">
@@ -57,7 +57,7 @@ function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat
   flex-wrap: nowrap;
 }
 
-.time {
+.duration {
   align-self: flex-end;
   font-size: 0.875rem;
   color: var(--color-gray-dark-extra);
@@ -68,7 +68,7 @@ function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat
     flex-direction: column;
   }
 
-  .time {
+  .duration {
     align-self: flex-start;
   }
 }

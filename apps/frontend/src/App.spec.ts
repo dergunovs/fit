@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
 import App from './App.vue';
+
 import { dataTest, wrapperFactory } from '@/common/test';
 import { spyUseLayout, isLoaded, layoutDefaultName } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';

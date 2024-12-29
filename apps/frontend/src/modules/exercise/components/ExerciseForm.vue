@@ -43,7 +43,7 @@
       <FormButtons
         :id="props.exercise?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
-        @delete="handleDelete"
+        @delete="(id) => mutateDelete(id)"
         data-test="exercise-form-buttons"
       />
     </UiFlex>
@@ -138,10 +138,6 @@ function submit() {
   } else {
     mutatePost(formData.value);
   }
-}
-
-function handleDelete(id: string) {
-  mutateDelete(id);
 }
 
 onMounted(() => {
