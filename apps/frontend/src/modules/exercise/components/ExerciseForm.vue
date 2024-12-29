@@ -1,8 +1,8 @@
 <template>
   <div>
-    <UiFlex @submit.prevent="props.exercise?._id ? update() : submit()" tag="form" column gap="24" align="flex-start">
+    <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="exercise-form">
       <UiField label="Название" isRequired :error="error('title')">
-        <UiInput v-model="formData.title" />
+        <UiInput v-model="formData.title" data-test="exercise-form-title" />
       </UiField>
 
       <UiFlex column>
@@ -14,6 +14,7 @@
           :modelValue="choosenWeights.some((choosen) => choosen === weight)"
           @update:modelValue="updateWeights(weight, $event)"
           :label="weight ? `${weight} кг.` : 'Без веса'"
+          data-test="exercise-form-weights"
         />
       </UiFlex>
 
@@ -26,14 +27,25 @@
           :modelValue="choosenMuscleGroups.some((group) => group._id === muscleGroup._id)"
           @update:modelValue="updateMuscleGroups(muscleGroup, $event)"
           :label="muscleGroup.title"
+          data-test="exercise-form-muscle-groups"
         />
       </UiFlex>
 
       <UiField label="Вес по-умолчанию" v-if="formData.weights?.length">
-        <UiSelect v-model="formData.defaultWeight" :options="formData.weights.sort((a, b) => a - b)" lang="ru" />
+        <UiSelect
+          v-model="formData.defaultWeight"
+          :options="formData.weights.sort((a, b) => a - b)"
+          lang="ru"
+          data-test="exercise-form-default-weight"
+        />
       </UiField>
 
-      <FormButtons :id="props.exercise?._id" :isLoading="isLoadingPost || isLoadingUpdate" @delete="handleDelete" />
+      <FormButtons
+        :id="props.exercise?._id"
+        :isLoading="isLoadingPost || isLoadingUpdate"
+        @delete="handleDelete"
+        data-test="exercise-form-buttons"
+      />
     </UiFlex>
   </div>
 </template>
@@ -119,11 +131,13 @@ const rules = computed(() => {
 const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
-  if (isValid()) mutatePost(formData.value);
-}
+  if (!isValid()) return;
 
-function update() {
-  if (isValid()) mutateUpdate(formData.value);
+  if (props.exercise?._id) {
+    mutateUpdate(formData.value);
+  } else {
+    mutatePost(formData.value);
+  }
 }
 
 function handleDelete(id: string) {
@@ -133,6 +147,7 @@ function handleDelete(id: string) {
 onMounted(() => {
   if (props.exercise) {
     formData.value = clone(props.exercise);
+
     if (formData.value.weights?.length) choosenWeights.value = [...formData.value.weights];
     if (formData.value.muscleGroups?.length) choosenMuscleGroups.value = [...formData.value.muscleGroups];
   }
