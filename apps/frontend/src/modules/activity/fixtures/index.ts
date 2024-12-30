@@ -1,6 +1,70 @@
-import { TGetActivitiesCalendarDTO, TGetActivitiesStatisticsDTO } from 'fitness-tracker-contracts';
+import { IActivity, TGetActivitiesCalendarDTO, TGetActivitiesStatisticsDTO } from 'fitness-tracker-contracts';
 import { EXERCISE_FIXTURE, EXERCISE_FIXTURE_2 } from '@/exercise/fixtures';
 import { USER_FIXTURE } from '@/user/fixtures';
+
+export const ACTIVITY_FIXTURE: IActivity = {
+  exercises: [
+    {
+      repeats: 8,
+      _id: '677142a9b34c976f4269d6b2',
+      exercise: {
+        title: 'Подтягивание прямым хватом',
+        _id: '6717def846b2ab2ee5d4e8ab',
+        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        muscleGroups: [
+          { _id: '2', title: 'Руки' },
+          { _id: '5', title: 'Спина' },
+          { _id: '1', title: 'Плечи' },
+        ],
+      },
+      weight: 0,
+      isToFailure: false,
+      duration: 42,
+      isDone: true,
+    },
+    {
+      repeats: 6,
+      _id: '677142a9b34c976f4269d6b3',
+      exercise: {
+        title: 'Подтягивание прямым хватом',
+        _id: '6717def846b2ab2ee5d4e8ab',
+        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        muscleGroups: [
+          { _id: '2', title: 'Руки' },
+          { _id: '5', title: 'Спина' },
+          { _id: '1', title: 'Плечи' },
+        ],
+      },
+      weight: 0,
+      isToFailure: false,
+      duration: 43,
+      isDone: true,
+    },
+    {
+      repeats: 15,
+      _id: '677142a9b34c976f4269d6b4',
+      exercise: {
+        title: 'Отжимание от пола',
+        _id: '671e14aa66531a0a9c8a4435',
+        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        muscleGroups: [
+          { _id: '1', title: 'Плечи' },
+          { _id: '2', title: 'Руки' },
+          { _id: '3', title: 'Грудь' },
+        ],
+      },
+      weight: 0,
+      isToFailure: false,
+      duration: 41,
+      isDone: true,
+    },
+  ],
+  isDone: true,
+  _id: '123123',
+  dateCreated: '2024-12-29T12:38:01.406Z',
+  dateUpdated: '2024-12-29T13:40:01.456Z',
+  createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+};
 
 export const ACTIVITIES_CALENDAR_FIXTURE: TGetActivitiesCalendarDTO = [
   {

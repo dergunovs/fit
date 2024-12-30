@@ -11,6 +11,7 @@ import {
 import { userService } from '@/user/services';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { USER_FIXTURE, USERS_FIXTURE } from '@/user/fixtures';
+import { IOnSuccess } from '@/common/interface';
 
 const spyGetUser = vi.spyOn(userService, 'getOne').mockReturnValue(mockQueryReply(USER_FIXTURE));
 
@@ -21,12 +22,6 @@ const spyGetUsers = vi.spyOn(userService, 'getMany').mockImplementation(() => mo
 const spyCreateUser = vi.fn();
 const spyUpdateUser = vi.fn();
 const spyDeleteUser = vi.fn();
-
-interface IOnSuccess {
-  create?: () => Promise<void>;
-  update?: () => Promise<void>;
-  delete?: () => Promise<void>;
-}
 
 const onSuccess: IOnSuccess = {
   create: undefined,

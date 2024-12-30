@@ -9,16 +9,12 @@ import {
 import { authService } from '@/auth/services';
 import { mockMutationReply } from '@/common/mocks';
 import * as authComposables from '@/auth/composables';
+import { IOnSuccess } from '@/common/interface';
 
 const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue();
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();
-
-interface IOnSuccess {
-  login?: (user: TPostAuthLoginDTO) => Promise<void>;
-  setup?: () => Promise<void>;
-}
 
 const onSuccess: IOnSuccess = {
   login: undefined,

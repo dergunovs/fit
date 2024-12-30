@@ -62,8 +62,6 @@ describe('ExerciseChooseList', async () => {
 
     await wrapper.findAll(exerciseMuscleGroup)[2].trigger('click');
 
-    await nextTick();
-
     const filteredExercises = EXERCISES_FIXTURE.filter((exercise) =>
       exercise.muscleGroups?.some((group) => group._id === muscleGroupToFilter._id)
     );

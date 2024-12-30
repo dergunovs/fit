@@ -43,9 +43,9 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { useRouteId } from '@/common/composables';
 
 interface IProps {
-  copy?: string;
   exerciseStatistics?: IExerciseStatistics[];
   averageRestPercent?: number;
 }
@@ -53,6 +53,8 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
+
+const { id } = useRouteId('copy', true);
 
 const queryClient = useQueryClient();
 
@@ -80,11 +82,9 @@ const potentialActivityDuration = computed(() => {
 const isShowModal = ref(false);
 const isShowForm = ref(true);
 
-const copyId = computed(() => props.copy || '');
-
 const { data: exercises } = exerciseService.getAll();
 const { data: lastActivity } = activityService.getLast();
-const { data: activity } = activityService.getOne({ enabled: !!copyId.value }, copyId);
+const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
 
 watch(
   () => activity.value,
@@ -99,15 +99,15 @@ function addExercise(exercise: IExerciseChoosen) {
   isShowModal.value = false;
 }
 
-function updateExercises(id: string) {
-  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== id);
+function updateExercises(idToUpdate: string) {
+  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToUpdate);
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
-  onSuccess: async (id: TPostActivityDTO) => {
+  onSuccess: async (activityId: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
     toast.success('Занятие начато');
-    router.push(`${URL_ACTIVITY_EDIT}/${id}`);
+    router.push(`${URL_ACTIVITY_EDIT}/${activityId}`);
   },
 });
 

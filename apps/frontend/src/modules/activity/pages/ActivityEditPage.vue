@@ -8,6 +8,7 @@
         :end="activity.dateUpdated"
         :exercises="activity.exercises"
         isAdmin
+        data-test="activity-info"
       />
 
       <UiModal
@@ -17,13 +18,14 @@
         @confirm="mutateDelete(activity._id)"
         width="380"
         lang="ru"
+        data-test="activity-modal"
       >
         Подтверждаете удаление?
       </UiModal>
 
       <UiFlex justify="space-between">
-        <UiButton @click="router.go(-1)">Назад</UiButton>
-        <UiButton @click="isShowConfirm = true" layout="secondary">Удалить</UiButton>
+        <UiButton @click="router.go(-1)" data-test="activity-go-back-button">Назад</UiButton>
+        <UiButton @click="isShowConfirm = true" layout="secondary" data-test="activity-delete-button">Удалить</UiButton>
       </UiFlex>
     </UiFlex>
   </div>

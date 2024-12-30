@@ -45,14 +45,6 @@ const spyUsePagination = vi
     };
   });
 
-vi.spyOn(helpers, 'api').mockImplementation(async () => Promise<unknown>);
-
-vi.spyOn(helpers, 'useQuery').mockImplementation(<T>(value: T) => value as unknown as UseQueryReturnType<T, Error>);
-
-vi.spyOn(helpers, 'useMutation').mockImplementation(
-  <T, T2>(value: T) => value as unknown as UseMutationReturnType<T, Error, T2, unknown>
-);
-
 const spyRefetchQueries = vi.fn();
 const spyRemoveQueries = vi.fn();
 

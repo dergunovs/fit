@@ -11,6 +11,7 @@ import {
 import { exerciseService } from '@/exercise/services';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { EXERCISE_FIXTURE, EXERCISES_FIXTURE } from '@/exercise/fixtures';
+import { IOnSuccess } from '@/common/interface';
 
 const spyGetExercise = vi.spyOn(exerciseService, 'getOne').mockReturnValue(mockQueryReply(EXERCISE_FIXTURE));
 
@@ -21,12 +22,6 @@ const spyGetExercises = vi.spyOn(exerciseService, 'getAll').mockImplementation((
 const spyCreateExercise = vi.fn();
 const spyUpdateExercise = vi.fn();
 const spyDeleteExercise = vi.fn();
-
-interface IOnSuccess {
-  create?: () => Promise<void>;
-  update?: () => Promise<void>;
-  delete?: () => Promise<void>;
-}
 
 const onSuccess: IOnSuccess = {
   create: undefined,

@@ -58,7 +58,7 @@ describe('ExerciseRepeatsChoice', async () => {
   });
 
   it('emits choosen value', async () => {
-    wrapper.find(button).trigger('click');
+    await wrapper.find(button).trigger('click');
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([options[0]]);
