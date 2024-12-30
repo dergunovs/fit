@@ -24,5 +24,5 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['delete']);
+const emit = defineEmits<{ delete: [id: string] }>();
 </script>

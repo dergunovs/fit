@@ -3,6 +3,7 @@
     <span data-test="exercise-title">{{ exerciseTitle }}</span>
 
     <button
+      v-if="props.exercise._id"
       @click="emit('delete', props.exercise._id)"
       :class="$style.delete"
       type="button"
@@ -23,7 +24,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['delete']);
+const emit = defineEmits<{ delete: [id: string] }>();
 
 const exerciseTitle = computed(() => `${props.index}. ${props.exercise.exercise?.title} x${props.exercise.repeats}`);
 </script>

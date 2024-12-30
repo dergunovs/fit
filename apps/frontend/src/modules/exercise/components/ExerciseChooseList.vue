@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { IExercise, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
+import { IExercise, EXERCISE_MUSCLE_GROUPS, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 
 import ExerciseChooseElement from './ExerciseChooseElement.vue';
@@ -50,7 +50,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['choose']);
+const emit = defineEmits<{ choose: [choosenExercise: IExerciseChoosen] }>();
 
 const exerciseSpoilers = ref([]);
 

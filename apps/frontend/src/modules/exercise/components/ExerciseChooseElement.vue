@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
-import { IExercise } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
@@ -39,7 +39,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['add']);
+const emit = defineEmits<{ add: [choosenExercise: IExerciseChoosen] }>();
 
 const choosenExercise = ref({
   repeats: EXERCISE_REPEATS_DEFAULT,

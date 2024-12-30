@@ -29,7 +29,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['start', 'stop']);
+const emit = defineEmits<{ start: [id: string]; stop: [exerciseDone: IExerciseDone] }>();
 
 const currentExerciseIndex = computed(() => props.exercises.filter((exercise) => exercise.isDone).length);
 </script>

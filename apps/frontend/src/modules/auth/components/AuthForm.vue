@@ -39,7 +39,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['login']);
+const emit = defineEmits<{ login: [] }>();
 
 const router = useRouter();
 

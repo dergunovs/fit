@@ -20,14 +20,14 @@ import { UiCalendar, UiModal } from 'mhz-ui';
 
 import ActivityInfo from './ActivityInfo.vue';
 
-import { IActivityCalendarEvent } from '@/activity/interface';
+import { IActivityCalendarEvent, ICalendarEvent } from '@/activity/interface';
 
 interface IProps {
   events?: IActivityCalendarEvent<IExerciseDone>[];
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['ready', 'update']);
+const emit = defineEmits<{ ready: [dates: ICalendarEvent]; update: [dates: ICalendarEvent] }>();
 
 const isShowModal = ref(false);
 

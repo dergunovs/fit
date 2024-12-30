@@ -36,7 +36,7 @@ import { URL_HOME } from '@/common/constants';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 
-const emit = defineEmits(['showLogin']);
+const emit = defineEmits<{ showLogin: [] }>();
 
 const router = useRouter();
 </script>

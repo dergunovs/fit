@@ -38,7 +38,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{ 'update:modelValue': [repeats: number] }>();
 
 function updateValue(value: number | Event) {
   emit('update:modelValue', typeof value === 'number' ? value : Number((value.target as HTMLInputElement).value));

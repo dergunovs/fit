@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['stop']);
+const emit = defineEmits<{ stop: [duration: number] }>();
 
 watch(
   () => [props.start, props.stop],

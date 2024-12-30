@@ -40,7 +40,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['start', 'stop']);
+const emit = defineEmits<{ start: [id: string]; stop: [exerciseDone: IExerciseDone] }>();
 
 const start = ref(false);
 const stop = ref(false);
@@ -83,6 +83,8 @@ watch(
 );
 
 function handleClick() {
+  if (!props.exercise._id) return;
+
   isButtonDisabled.value = true;
 
   emit('start', props.exercise._id);
