@@ -66,6 +66,46 @@ export const ACTIVITY_FIXTURE: IActivity = {
   createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
 };
 
+export const ACTIVITY_FIXTURE_2: IActivity = {
+  exercises: [
+    {
+      repeats: 12,
+      _id: '67691f4dd934e8f2ec643947',
+      exercise: {
+        title: 'Разведение рук лёжа на спине',
+        _id: '671e22e0954dbe8ca19617f0',
+        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        muscleGroups: [{ _id: '3', title: 'Грудь' }],
+      },
+      weight: 9,
+      isToFailure: false,
+      duration: 52,
+      isDone: true,
+    },
+    {
+      repeats: 12,
+      _id: '67691f4dd934e8f2ec64394c',
+      exercise: {
+        title: 'Разведение рук стоя',
+        _id: '671e1849954dbe8ca196175f',
+        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        muscleGroups: [{ _id: '1', title: 'Плечи' }],
+      },
+      weight: 9,
+      isToFailure: false,
+      duration: 37,
+      isDone: true,
+    },
+  ],
+  isDone: true,
+  _id: '321321',
+  dateCreated: '2024-12-23T08:29:01.628Z',
+  dateUpdated: '2024-12-23T09:21:48.779Z',
+  createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+};
+
+export const ACTIVITIES_FIXTURE: IActivity[] = [ACTIVITY_FIXTURE, ACTIVITY_FIXTURE_2];
+
 export const ACTIVITIES_CALENDAR_FIXTURE: TGetActivitiesCalendarDTO = [
   {
     _id: '1',

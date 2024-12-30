@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex column gap="32">
-      <ActivityAdminList :activities="activities" />
+      <ActivityAdminList :activities="activities" data-test="activities-list" />
 
       <UiPagination
         v-show="activities?.length"
@@ -9,6 +9,7 @@
         :total="total"
         @update="(value: number) => setPage(setPaginationPage(value, page))"
         lang="ru"
+        data-test="activities-pagination"
       />
     </UiFlex>
   </div>

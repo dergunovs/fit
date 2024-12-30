@@ -1,10 +1,15 @@
 import { ref, computed } from 'vue';
 import { vi } from 'vitest';
-import { TDeleteActivityDTO } from 'fitness-tracker-contracts';
+import { TDeleteActivityDTO, TGetActivitiesDTO } from 'fitness-tracker-contracts';
 
 import * as activityComposables from '@/activity/composables';
 import { activityService } from '@/activity/services';
-import { ACTIVITIES_CALENDAR_FIXTURE, ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE } from '@/activity/fixtures';
+import {
+  ACTIVITIES_CALENDAR_FIXTURE,
+  ACTIVITIES_FIXTURE,
+  ACTIVITIES_STATISTICS_FIXTURE,
+  ACTIVITY_FIXTURE,
+} from '@/activity/fixtures';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { IOnSuccess } from '@/common/interface';
 
@@ -14,6 +19,12 @@ const isDatesReady = ref(true);
 const spyUpdateDates = vi.fn();
 
 const spyGetActivity = vi.spyOn(activityService, 'getOne').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE));
+
+const getActivitiesData: TGetActivitiesDTO = { data: ACTIVITIES_FIXTURE, total: ACTIVITIES_FIXTURE.length };
+
+const spyGetActivities = vi
+  .spyOn(activityService, 'getMany')
+  .mockImplementation(() => mockQueryReply(getActivitiesData));
 
 const spyDeleteActivity = vi.fn();
 
@@ -51,16 +62,18 @@ const spyGetActivitiesStatistics = vi
   .mockImplementation(() => mockQueryReply(ACTIVITIES_STATISTICS_FIXTURE));
 
 export {
+  spyGetActivities,
   spyGetActivity,
+  spyGetActivitiesStatistics,
   spyDeleteActivity,
   spyUseActivityCalendar,
   spyComputedActivityCalendarEvents,
   spyGetActivitiesCalendar,
+  spyUpdateDates,
   dateFrom,
   dateTo,
   isDatesReady,
-  spyUpdateDates,
   computedActivityCalendarEvents,
-  spyGetActivitiesStatistics,
+  getActivitiesData,
   onSuccess,
 };

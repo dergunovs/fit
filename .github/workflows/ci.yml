@@ -37,7 +37,7 @@ jobs:
       - name: TS check
         run: npm run ts
       - name: Unit tests
-        run: npm run test
+        run: npm run test:cov
       - name: Deploy App
         uses: appleboy/scp-action@master
         with:
