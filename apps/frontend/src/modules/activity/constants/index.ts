@@ -17,4 +17,4 @@ export const CHART_TYPES: { title: string; value: TActivityChartType }[] = [
   { title: 'Мышцы', value: 'group' },
 ];
 
-export const ACTIVITY_STATISTICS_GAP = 62;
+export const ACTIVITY_STATISTICS_GAP = 30;
