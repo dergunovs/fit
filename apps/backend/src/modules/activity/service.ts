@@ -63,7 +63,7 @@ export const activityService: IActivityService = {
   },
 
   getChart: async (type: TActivityChartType) => {
-    const weeks = getFirstAndLastWeekDays(7);
+    const weeks = getFirstAndLastWeekDays(10);
 
     const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type);
 
