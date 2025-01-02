@@ -1,7 +1,7 @@
 export interface IActivityCalendarEvent<T> {
   _id?: string;
-  start: Date;
-  end: Date;
+  start: Date | null;
+  end: Date | null;
   title: string;
   content: T[];
 }

@@ -1,6 +1,12 @@
-import { IActivity, TGetActivitiesCalendarDTO, TGetActivitiesStatisticsDTO } from 'fitness-tracker-contracts';
+import {
+  IActivity,
+  IExerciseDone,
+  TGetActivitiesCalendarDTO,
+  TGetActivitiesStatisticsDTO,
+} from 'fitness-tracker-contracts';
 import { EXERCISE_FIXTURE, EXERCISE_FIXTURE_2 } from '@/exercise/fixtures';
 import { USER_FIXTURE } from '@/user/fixtures';
+import { IActivityCalendarEvent } from '@/activity/interface';
 
 export const ACTIVITY_FIXTURE: IActivity = {
   exercises: [
@@ -204,3 +210,72 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
     },
   ],
 };
+
+export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] = [
+  {
+    _id: '1',
+    start: new Date('2024-12-30T12:07:40.135Z'),
+    end: null,
+    title: '+',
+    content: [
+      {
+        _id: '1',
+        repeats: 12,
+        exercise: {
+          _id: '1',
+          title: 'Название',
+          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+        },
+        weight: 9,
+      },
+      {
+        _id: '2',
+        repeats: 12,
+        exercise: {
+          _id: '1',
+          title: 'Название',
+          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+        },
+        weight: 9,
+      },
+    ],
+  },
+  {
+    _id: '2',
+    start: new Date('2024-12-30T12:07:54.432Z'),
+    end: new Date('2024-12-30T12:08:03.794Z'),
+    title: '+',
+    content: [
+      {
+        _id: '3',
+        repeats: 13,
+        exercise: {
+          title: 'Новое!',
+          _id: '2',
+          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+        },
+        weight: 9,
+        isToFailure: false,
+        duration: 2,
+        isDone: true,
+      },
+      {
+        _id: '4',
+        repeats: 11,
+        exercise: {
+          title: 'Новое!',
+          _id: '2',
+          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+        },
+        weight: 9,
+        isToFailure: true,
+        duration: 1,
+        isDone: true,
+      },
+    ],
+  },
+];

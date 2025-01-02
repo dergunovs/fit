@@ -44,9 +44,9 @@ import IconDuration from '@/common/icons/duration.svg';
 import { URL_ACTIVITY_CREATE, ACTIVITY_STATISTICS_HEADERS } from '@/activity/constants';
 
 interface IProps {
-  id?: string;
-  start?: Date | string;
-  end?: Date | string;
+  id: string;
+  start: Date | null | string;
+  end: Date | null | string;
   exercises: IExerciseDone[];
   isAdmin?: boolean;
 }

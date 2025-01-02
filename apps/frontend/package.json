@@ -22,14 +22,14 @@
   },
   "dependencies": {
     "fitness-tracker-contracts": "*",
-    "mhz-ui": "1.0.105",
-    "mhz-helpers": "1.0.81",
+    "mhz-ui": "1.0.106",
+    "mhz-helpers": "1.0.82",
     "vue": "3.5.13",
     "vue-router": "4.5.0"
   },
   "devDependencies": {
     "@eslint/js": "9.17.0",
-    "@types/node": "22.10.2",
+    "@types/node": "22.10.3",
     "@vitejs/plugin-vue": "5.2.1",
     "@vitest/coverage-istanbul": "3.0.0-beta.3",
     "@vue/test-utils": "2.4.6",
@@ -40,7 +40,7 @@
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-vue": "9.32.0",
     "globals": "15.14.0",
-    "happy-dom": "16.2.6",
+    "happy-dom": "16.3.0",
     "postcss-html": "1.7.0",
     "prettier": "3.4.2",
     "sass-embedded": "1.83.0",
