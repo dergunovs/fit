@@ -1,6 +1,11 @@
 import { ref } from 'vue';
 import { vi } from 'vitest';
-import { TDeleteActivityDTO, TGetActivitiesDTO } from 'fitness-tracker-contracts';
+import {
+  TDeleteActivityDTO,
+  TGetActivitiesDTO,
+  TPostActivityDataDTO,
+  TPostActivityDTO,
+} from 'fitness-tracker-contracts';
 
 import * as activityComposables from '@/activity/composables';
 import { activityService } from '@/activity/services';
@@ -30,11 +35,21 @@ const spyGetActivities = vi
   .spyOn(activityService, 'getMany')
   .mockImplementation(() => mockQueryReply(getActivitiesData));
 
+const spyCreateActivity = vi.fn();
 const spyDeleteActivity = vi.fn();
 
 const onSuccess: IOnSuccess = {
+  create: undefined,
   delete: undefined,
 };
+
+vi.spyOn(activityService, 'create').mockImplementation(
+  (options: { onSuccess?: (id?: TPostActivityDTO) => Promise<void> }) => {
+    if (options.onSuccess) onSuccess.create = options.onSuccess;
+
+    return mockMutationReply<TPostActivityDTO, TPostActivityDataDTO>(spyCreateActivity);
+  }
+);
 
 vi.spyOn(activityService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) onSuccess.delete = options.onSuccess;
@@ -67,6 +82,7 @@ export {
   spyGetActivityLast,
   spyGetActivitiesStatistics,
   spyGetActivitiesChart,
+  spyCreateActivity,
   spyDeleteActivity,
   spyUseActivityCalendar,
   spyGetActivitiesCalendar,

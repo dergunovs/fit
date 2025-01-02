@@ -9,7 +9,7 @@ export interface INavItem {
 }
 
 export interface IOnSuccess {
-  create?: () => Promise<void>;
+  create?: (id?: string) => Promise<void>;
   update?: () => Promise<void>;
   delete?: () => Promise<void>;
   login?: (user: TPostAuthLoginDTO) => Promise<void>;

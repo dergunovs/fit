@@ -1,5 +1,5 @@
 import { IActivity, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-contracts';
-import { formatDuration } from 'mhz-helpers';
+import { createTempId, formatDuration } from 'mhz-helpers';
 
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
@@ -31,4 +31,21 @@ export function convertActivityCalendarEvents(activities?: IActivity[]) {
       content: activity.exercises,
     };
   });
+}
+
+export function generateExercises(exercisesDone: IExerciseDone[]): IExerciseDone[] {
+  const activityExercises = exercisesDone.map((exercise) => {
+    return {
+      _id: createTempId(),
+      exercise: {
+        _id: exercise.exercise?._id || '',
+        title: exercise.exercise?.title || '',
+        muscleGroups: exercise.exercise?.muscleGroups || [],
+      },
+      repeats: exercise.repeats,
+      weight: exercise.weight,
+    };
+  });
+
+  return activityExercises?.length ? [...activityExercises] : [];
 }

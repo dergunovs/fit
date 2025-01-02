@@ -4,7 +4,7 @@
 
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" data-test="activity-form">
       <p>
-        <span>Примерная длительность:</span>
+        <span>Примерная длительность: </span>
 
         <span v-if="formData.exercises" data-test="activity-form-potential-duration">
           {{ getPotentialActivityDuration(formData.exercises, props.exerciseStatistics, props.averageRestPercent) }}
@@ -31,7 +31,7 @@
 
         <ExerciseChoosenList
           :choosenExercises="formData.exercises"
-          @delete="updateExercises"
+          @delete="deleteExercise"
           data-test="activity-form-exercises-choosen"
         />
       </div>
@@ -44,15 +44,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { createTempId, deleteTempId, useQueryClient } from 'mhz-helpers';
+import { deleteTempId, useQueryClient } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   IActivity,
   IExerciseChoosen,
-  IExerciseDone,
   IExerciseStatistics,
   TPostActivityDTO,
 } from 'fitness-tracker-contracts';
@@ -62,7 +61,7 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
-import { getPotentialActivityDuration } from '@/activity/helpers';
+import { getPotentialActivityDuration, generateExercises } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { useRouteId } from '@/common/composables';
 
@@ -94,7 +93,7 @@ const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
 watch(
   () => activity.value,
   () => {
-    if (activity.value) formData.value.exercises = generateExercises(activity.value?.exercises);
+    if (activity.value) formData.value.exercises = generateExercises(activity.value.exercises);
   }
 );
 
@@ -104,8 +103,14 @@ function addExercise(exercise: IExerciseChoosen) {
   isShowModal.value = false;
 }
 
-function updateExercises(idToUpdate: string) {
-  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToUpdate);
+function deleteExercise(idToDelete: string) {
+  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToDelete);
+}
+
+function repeatLastActivity() {
+  if (!lastActivity.value) return;
+
+  formData.value.exercises = generateExercises(lastActivity.value.exercises);
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
@@ -122,34 +127,7 @@ function submit() {
   if (!isValid.value) return;
 
   isShowForm.value = false;
-  if (formData.value.exercises) formData.value.exercises = deleteTempId(formData.value.exercises);
+  formData.value.exercises = deleteTempId(formData.value.exercises);
   mutatePost(formData.value);
 }
-
-function generateExercises(exercisesDone: IExerciseDone[]) {
-  const lastActivityExercises = exercisesDone.map((exercise) => {
-    return {
-      _id: createTempId(),
-      exercise: {
-        _id: exercise.exercise?._id,
-        title: exercise.exercise?.title || '',
-        muscleGroups: exercise.exercise?.muscleGroups || [],
-      },
-      repeats: exercise.repeats,
-      weight: exercise.weight,
-    };
-  });
-
-  return lastActivityExercises?.length ? [...lastActivityExercises] : [];
-}
-
-function repeatLastActivity() {
-  if (!lastActivity.value) return;
-
-  formData.value.exercises = generateExercises(lastActivity.value.exercises);
-}
-
-onMounted(() => {
-  if (activity.value) formData.value.exercises = generateExercises(activity.value?.exercises);
-});
 </script>
