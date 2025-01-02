@@ -2,6 +2,7 @@ import {
   IActivity,
   IExerciseDone,
   TGetActivitiesCalendarDTO,
+  TGetActivitiesChartDTO,
   TGetActivitiesStatisticsDTO,
 } from 'fitness-tracker-contracts';
 import { EXERCISE_FIXTURE, EXERCISE_FIXTURE_2 } from '@/exercise/fixtures';
@@ -279,3 +280,21 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
     ],
   },
 ];
+
+export const ACTIVITIES_CHART_FIXTURE: TGetActivitiesChartDTO = {
+  labels: [
+    '18.11 - 24.11',
+    '25.11 - 01.12',
+    '02.12 - 08.12',
+    '09.12 - 15.12',
+    '16.12 - 22.12',
+    '23.12 - 29.12',
+    '30.12 - 05.01',
+  ],
+  datasets: [
+    {
+      data: [2, 3, 4, 3, 2, 3, 1],
+      label: 'Занятия',
+    },
+  ],
+};

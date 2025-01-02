@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.timer" :data-active="props.start">
+  <div :class="$style.timer" :data-active="props.start" data-test="activity-duration">
     <span>{{ addZero(minutes) }}</span
     >:<span>{{ addZero(seconds) }}</span>
   </div>

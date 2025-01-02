@@ -48,14 +48,14 @@ describe('ActivityCalendar', async () => {
   });
 
   it('shows event in modal', async () => {
-    const event = ACTIVITY_CALENDAR_EVENTS[1];
-
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
 
     expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.start).toStrictEqual(null);
     expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.end).toStrictEqual(null);
     expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.exercises).toStrictEqual([]);
     expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.id).toStrictEqual('');
+
+    const event = ACTIVITY_CALENDAR_EVENTS[1];
 
     wrapper.findComponent<typeof UiCalendar>(calendar).vm.$emit('eventClick', event);
 

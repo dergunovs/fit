@@ -8,6 +8,7 @@
           :layout="chartType.value === type ? 'accent' : 'primary'"
           isNarrow
           @click="type = chartType.value"
+          data-test="activity-chart-type"
           >{{ chartType.title }}</UiButton
         >
       </UiFlex>
@@ -21,6 +22,7 @@
           type="Line"
           :key="type"
           :class="$style.chart"
+          data-test="activity-chart"
         />
       </div>
     </UiFlex>
@@ -35,7 +37,7 @@ import { TActivityChartType } from 'fitness-tracker-contracts';
 import { activityService } from '@/activity/services';
 import { CHART_TYPES } from '@/activity/constants';
 
-const type = ref<TActivityChartType>('activity');
+const type = ref<TActivityChartType>(CHART_TYPES[0].value);
 
 const { data: chart } = activityService.getChart(type);
 </script>
