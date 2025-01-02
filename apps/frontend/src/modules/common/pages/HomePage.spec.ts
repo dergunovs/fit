@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
@@ -8,19 +7,18 @@ import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
 import { wrapperFactory, dataTest } from '@/common/test';
-import { ACTIVITIES_CALENDAR_FIXTURE, ACTIVITIES_STATISTICS_FIXTURE } from '@/activity/fixtures';
+import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE } from '@/activity/fixtures';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import {
   spyUseActivityCalendar,
   spyGetActivitiesCalendar,
-  spyComputedActivityCalendarEvents,
   dateFrom,
   dateTo,
   isDatesReady,
   spyUpdateDates,
-  computedActivityCalendarEvents,
   spyGetActivitiesStatistics,
 } from '@/activity/mocks';
+import { convertActivityCalendarEvents } from '@/activity/helpers';
 
 const activityCalendar = dataTest('activity-calendar');
 const activityStatistics = dataTest('activity-statistics');
@@ -45,11 +43,8 @@ describe('HomePage', async () => {
     expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
     expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: isDatesReady }, dateFrom, dateTo);
 
-    expect(spyComputedActivityCalendarEvents).toBeCalledTimes(1);
-    expect(spyComputedActivityCalendarEvents).toBeCalledWith(ref(ACTIVITIES_CALENDAR_FIXTURE));
-
     expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toStrictEqual(
-      computedActivityCalendarEvents.value
+      convertActivityCalendarEvents(ACTIVITIES_CALENDAR_FIXTURE)
     );
   });
 

@@ -4,7 +4,12 @@
 
     <div :class="$style.info">
       <div :class="$style.calendar">
-        <ActivityCalendar :events="events" @ready="updateDates" @update="updateDates" data-test="activity-calendar" />
+        <ActivityCalendar
+          :events="convertActivityCalendarEvents(calendar)"
+          @ready="updateDates"
+          @update="updateDates"
+          data-test="activity-calendar"
+        />
         <ActivityStatistics v-if="statistics" :statistics="statistics.activity" data-test="activity-statistics" />
         <ActivityChart />
       </div>
@@ -23,15 +28,14 @@ import ActivityChart from '@/activity/components/ActivityChart.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
 import { activityService } from '@/activity/services';
-import { useActivityCalendar, computedActivityCalendarEvents } from '@/activity/composables';
+import { useActivityCalendar } from '@/activity/composables';
+import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 
 const { dateFrom, dateTo, isDatesReady, updateDates } = useActivityCalendar();
 
 const { data: calendar } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
 const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
-
-const events = computedActivityCalendarEvents(calendar);
 </script>
 
 <style module lang="scss">

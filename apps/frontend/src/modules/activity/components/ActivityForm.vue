@@ -1,24 +1,44 @@
 <template>
-  <div v-if="isShowForm">
+  <div v-if="isShowForm" data-test="activity-form-container">
     <h2>Сформировать занятие</h2>
 
-    <UiFlex @submit.prevent="submit" tag="form" column gap="24">
-      <p>Примерная длительность: {{ potentialActivityDuration }}</p>
+    <UiFlex @submit.prevent="submit" tag="form" column gap="24" data-test="activity-form">
+      <p>
+        <span>Примерная длительность:</span>
 
-      <UiButton @click="repeatLastActivity" layout="secondary">Повторить прошлое</UiButton>
+        <span v-if="formData.exercises" data-test="activity-form-potential-duration">
+          {{ getPotentialActivityDuration(formData.exercises, props.exerciseStatistics, props.averageRestPercent) }}
+        </span>
+      </p>
 
-      <UiButton @click="isShowModal = true">Добавить упражнение</UiButton>
+      <UiButton @click="repeatLastActivity" layout="secondary" data-test="activity-form-repeat-last">
+        Повторить прошлое
+      </UiButton>
 
-      <UiModal v-model="isShowModal" width="380">
-        <ExerciseChooseList v-if="exercises?.length" :exercises="exercises" @choose="addExercise" />
+      <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">Добавить упражнение</UiButton>
+
+      <UiModal v-model="isShowModal" width="380" data-test="activity-form-add-exercise-modal">
+        <ExerciseChooseList
+          v-if="exercises?.length"
+          :exercises="exercises"
+          @choose="addExercise"
+          data-test="activity-form-exercise-choose-list"
+        />
       </UiModal>
 
-      <div v-if="formData.exercises?.length">
+      <div v-if="formData.exercises?.length" data-test="activity-form-exercises-choosen-container">
         <h3>Упражнения</h3>
-        <ExerciseChoosenList :choosenExercises="formData.exercises" @delete="updateExercises" />
+
+        <ExerciseChoosenList
+          :choosenExercises="formData.exercises"
+          @delete="updateExercises"
+          data-test="activity-form-exercises-choosen"
+        />
       </div>
 
-      <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit">Начать</UiButton>
+      <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit" data-test="activity-form-submit">
+        Начать
+      </UiButton>
     </UiFlex>
   </div>
 </template>
@@ -27,7 +47,7 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { createTempId, deleteTempId, formatDuration, useQueryClient } from 'mhz-helpers';
+import { createTempId, deleteTempId, useQueryClient } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   IActivity,
@@ -42,12 +62,13 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
+import { getPotentialActivityDuration } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { useRouteId } from '@/common/composables';
 
 interface IProps {
-  exerciseStatistics?: IExerciseStatistics[];
-  averageRestPercent?: number;
+  exerciseStatistics: IExerciseStatistics[];
+  averageRestPercent: number;
 }
 
 const props = defineProps<IProps>();
@@ -61,22 +82,6 @@ const queryClient = useQueryClient();
 const formData = ref<IActivity>({
   exercises: [],
   isDone: false,
-});
-
-const potentialActivityDuration = computed(() => {
-  if (!props.averageRestPercent) return '-';
-
-  const totalDuration = formData.value.exercises.reduce((acc, exercise) => {
-    const averageDuration =
-      props.exerciseStatistics?.find((choosenExericse) => choosenExericse._id === exercise.exercise?._id)
-        ?.averageDuration || 0;
-
-    return acc + averageDuration * exercise.repeats;
-  }, 0);
-
-  const durationWithRest = Math.round(totalDuration / (1 - props.averageRestPercent / 100));
-
-  return formatDuration(durationWithRest);
 });
 
 const isShowModal = ref(false);
@@ -114,11 +119,11 @@ const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create(
 const isValid = computed(() => !!formData.value.exercises?.length);
 
 function submit() {
-  if (isValid.value) {
-    isShowForm.value = false;
-    if (formData.value.exercises) formData.value.exercises = deleteTempId(formData.value.exercises);
-    mutatePost(formData.value);
-  }
+  if (!isValid.value) return;
+
+  isShowForm.value = false;
+  if (formData.value.exercises) formData.value.exercises = deleteTempId(formData.value.exercises);
+  mutatePost(formData.value);
 }
 
 function generateExercises(exercisesDone: IExerciseDone[]) {

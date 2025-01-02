@@ -1,8 +1,9 @@
 <template>
   <div>
     <ActivityForm
-      :exerciseStatistics="statistics?.exercise"
-      :averageRestPercent="statistics?.activity.averageRestPercent.cur"
+      v-if="statistics"
+      :exerciseStatistics="statistics.exercise"
+      :averageRestPercent="statistics.activity.averageRestPercent.cur"
       data-test="activity-form"
     />
   </div>
