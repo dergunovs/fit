@@ -14,12 +14,10 @@ const exerciseAdd1 = dataTest('exercise-add-1');
 const exerciseAdd2 = dataTest('exercise-add-2');
 const exerciseAdd3 = dataTest('exercise-add-3');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseChooseElement>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChooseElement, {
-    props: { exercise: EXERCISE_FIXTURE },
-  });
+  wrapper = wrapperFactory(ExerciseChooseElement, { exercise: EXERCISE_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

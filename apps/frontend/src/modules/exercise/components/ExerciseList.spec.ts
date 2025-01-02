@@ -10,12 +10,10 @@ import { URL_EXERCISE_EDIT } from '@/exercise/constants';
 const exerciseTableRow = dataTest('exercise-table-row');
 const exerciseTableTitleLink = dataTest('exercise-table-title-link');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseList, {
-    props: { exercises: EXERCISES_FIXTURE },
-  });
+  wrapper = wrapperFactory(ExerciseList, { exercises: EXERCISES_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

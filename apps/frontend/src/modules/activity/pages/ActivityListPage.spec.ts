@@ -14,10 +14,10 @@ import { mockPageNumber, spySetPage, spyUsePageNumber, spyUsePagination } from '
 const list = dataTest('activities-list');
 const pagination = dataTest('activities-pagination');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ActivityListPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityListPage, {});
+  wrapper = wrapperFactory(ActivityListPage);
 });
 
 enableAutoUnmount(afterEach);

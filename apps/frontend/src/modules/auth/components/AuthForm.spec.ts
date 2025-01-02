@@ -29,14 +29,10 @@ const formEmail = dataTest('auth-form-email');
 const formPassword = dataTest('auth-form-password');
 const formSubmitButton = dataTest('auth-form-submit-button');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof AuthForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(AuthForm, {
-    props: {
-      isSetup: false,
-    },
-  });
+  wrapper = wrapperFactory(AuthForm, { isSetup: false });
 });
 
 enableAutoUnmount(afterEach);

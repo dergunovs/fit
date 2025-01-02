@@ -16,10 +16,10 @@ const userList = dataTest('user-list');
 const userListPagination = dataTest('user-list-pagination');
 const addUser = dataTest('add-user');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof UserListPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserListPage, {});
+  wrapper = wrapperFactory(UserListPage);
 });
 
 enableAutoUnmount(afterEach);

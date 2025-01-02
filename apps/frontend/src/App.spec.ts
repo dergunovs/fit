@@ -10,10 +10,10 @@ import { spyUseAuthCheck } from '@/auth/mocks';
 
 const layout = dataTest('app-layout');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof App>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(App, {});
+  wrapper = wrapperFactory(App);
 });
 
 enableAutoUnmount(afterEach);

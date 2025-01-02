@@ -7,10 +7,10 @@ import { dataTest, wrapperFactory } from '@/common/test';
 
 const exerciseForm = dataTest('exercise-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseCreatePage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseCreatePage, {});
+  wrapper = wrapperFactory(ExerciseCreatePage);
 });
 
 enableAutoUnmount(afterEach);

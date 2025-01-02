@@ -9,10 +9,10 @@ import { NAV_ITEMS } from '@/common/constants';
 
 const item = dataTest('nav-list-item');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof NavList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(NavList, {});
+  wrapper = wrapperFactory(NavList);
 });
 
 enableAutoUnmount(afterEach);

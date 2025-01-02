@@ -10,12 +10,10 @@ import { URL_USER_EDIT } from '@/user/constants';
 const userTableRow = dataTest('user-table-row');
 const userTableEmailLink = dataTest('user-table-email-link');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof UserList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserList, {
-    props: { users: USERS_FIXTURE },
-  });
+  wrapper = wrapperFactory(UserList, { users: USERS_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

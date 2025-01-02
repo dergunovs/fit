@@ -11,10 +11,10 @@ import { ACTIVITIES_STATISTICS_FIXTURE } from '@/activity/fixtures';
 
 const activityForm = dataTest('activity-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ActivityCreatePage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityCreatePage, {});
+  wrapper = wrapperFactory(ActivityCreatePage);
 });
 
 enableAutoUnmount(afterEach);

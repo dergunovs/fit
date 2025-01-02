@@ -15,12 +15,10 @@ const weight = dataTest('exercise-weight');
 const duration = dataTest('exercise-duration');
 const toFailure = dataTest('exercise-to-failure');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseTitle>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseTitle, {
-    props: { exercise: EXERCISE_DONE_FIXTURE, isHideTitle: false },
-  });
+  wrapper = wrapperFactory(ExerciseTitle, { exercise: EXERCISE_DONE_FIXTURE, isHideTitle: false });
 });
 
 enableAutoUnmount(afterEach);

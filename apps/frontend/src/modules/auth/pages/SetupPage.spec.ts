@@ -7,10 +7,10 @@ import { dataTest, wrapperFactory } from '@/common/test';
 
 const authForm = dataTest('setup-page-auth-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof SetupPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(SetupPage, {});
+  wrapper = wrapperFactory(SetupPage);
 });
 
 enableAutoUnmount(afterEach);

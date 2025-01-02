@@ -1,4 +1,4 @@
-import { Component, computed } from 'vue';
+import { Component, ComponentPublicInstance, computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { shallowMount } from '@vue/test-utils';
 import { VueQueryPlugin } from 'mhz-helpers';
@@ -7,16 +7,9 @@ import { routes } from '@/common/router/routes';
 
 document.body.innerHTML = '<div id="app"></div>';
 
-interface IWrapperFactoryArgs {
-  mocks?: object;
-  props?: object;
-  slots?: object;
-  stubs?: object;
-}
-
 export const router = createRouter({ history: createWebHistory('/'), routes });
 
-export function wrapperFactory(component: Component, { mocks, props, slots, stubs }: IWrapperFactoryArgs) {
+export function wrapperFactory<T>(component: Component<T>, props?: Partial<ComponentPublicInstance<T>['$props']>) {
   return shallowMount(component, {
     global: {
       plugins: [router, VueQueryPlugin],
@@ -35,12 +28,9 @@ export function wrapperFactory(component: Component, { mocks, props, slots, stub
         UiCalendar: { template: '<div></div>' },
         UiChart: { template: '<div></div>' },
         UiPagination: { template: '<div></div>' },
-        ...stubs,
       },
-      mocks,
     },
-    props,
-    slots,
+    props: props as ComponentPublicInstance<T>['$props'],
     attachTo: document.getElementById('app') as HTMLElement,
   });
 }

@@ -5,10 +5,10 @@ import LayoutAdmin from './LayoutAdmin.vue';
 
 import { wrapperFactory } from '@/common/test';
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof LayoutAdmin>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutAdmin, {});
+  wrapper = wrapperFactory(LayoutAdmin);
 });
 
 enableAutoUnmount(afterEach);

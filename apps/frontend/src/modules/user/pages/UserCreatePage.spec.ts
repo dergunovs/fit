@@ -7,10 +7,10 @@ import { dataTest, wrapperFactory } from '@/common/test';
 
 const userForm = dataTest('user-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof UserCreatePage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserCreatePage, {});
+  wrapper = wrapperFactory(UserCreatePage);
 });
 
 enableAutoUnmount(afterEach);

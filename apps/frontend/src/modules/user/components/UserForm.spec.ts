@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_USER } from 'fitness-tracker-contracts';
+import { API_USER, IUser } from 'fitness-tracker-contracts';
 
 import UserForm from './UserForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
@@ -22,20 +22,12 @@ const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
 const formButtons = dataTest('user-form-buttons');
 
-const wrapperWithUser = wrapperFactory(UserForm, {
-  props: {
-    user: USER_FIXTURE,
-  },
-});
+const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(UserForm, { user: USER_FIXTURE });
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof UserForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserForm, {
-    props: {
-      user: undefined,
-    },
-  });
+  wrapper = wrapperFactory(UserForm);
 });
 
 enableAutoUnmount(afterEach);
@@ -46,9 +38,11 @@ describe('UserForm', async () => {
   });
 
   it('shows admin role header', async () => {
+    const adminUser: IUser = { _id: '1', role: 'admin', email: 'a@b.ru' };
+
     expect(wrapper.find(formAdmin).exists()).toBe(false);
 
-    await wrapper.setProps({ user: { _id: '1', role: 'admin' } });
+    await wrapper.setProps({ user: adminUser });
 
     expect(wrapper.find(formAdmin).exists()).toBe(true);
   });
@@ -56,7 +50,7 @@ describe('UserForm', async () => {
   it('shows password field only when creating users', async () => {
     expect(wrapper.find(formPassword).exists()).toBe(true);
 
-    await wrapper.setProps({ user: { _id: '1' } });
+    await wrapper.setProps({ user: USER_FIXTURE });
 
     expect(wrapper.find(formPassword).exists()).toBe(false);
 

@@ -12,10 +12,10 @@ import { URL_EXERCISE_CREATE } from '@/exercise/constants';
 const exerciseList = dataTest('exercise-list');
 const addExercise = dataTest('add-exercise');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseListPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseListPage, {});
+  wrapper = wrapperFactory(ExerciseListPage);
 });
 
 enableAutoUnmount(afterEach);

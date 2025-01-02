@@ -9,14 +9,10 @@ import { formatStatisticsPercent } from '@/common/helpers';
 const dynamicPercent = dataTest('dynamic-percent');
 const percent = 0;
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof DynamicPercent>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(DynamicPercent, {
-    props: {
-      percent,
-    },
-  });
+  wrapper = wrapperFactory(DynamicPercent, { percent });
 });
 
 enableAutoUnmount(afterEach);

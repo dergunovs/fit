@@ -12,14 +12,10 @@ const itemTitle = dataTest('nav-item-title');
 
 const navItem = NAV_ITEMS[0];
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof NavItem>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(NavItem, {
-    props: {
-      navItem,
-    },
-  });
+  wrapper = wrapperFactory(NavItem, { navItem });
 });
 
 enableAutoUnmount(afterEach);

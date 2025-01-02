@@ -14,14 +14,10 @@ const repeatsCount = dataTest('exercise-statistics-repeats-count');
 const setsDuration = dataTest('exercise-statistics-sets-duration');
 const repeatsDuration = dataTest('exercise-statistics-repeats-duration');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseStatistics>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseStatistics, {
-    props: {
-      statistics: EXERCISES_STATISTICS_FIXTURE,
-    },
-  });
+  wrapper = wrapperFactory(ExerciseStatistics, { statistics: EXERCISES_STATISTICS_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

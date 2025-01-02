@@ -5,10 +5,10 @@ import ErrorPage from './ErrorPage.vue';
 
 import { wrapperFactory } from '@/common/test';
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ErrorPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ErrorPage, {});
+  wrapper = wrapperFactory(ErrorPage);
 });
 
 enableAutoUnmount(afterEach);

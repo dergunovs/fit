@@ -11,12 +11,10 @@ const exerciseDelete = dataTest('exercise-delete');
 
 const index = 1;
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseChoosenElement>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChoosenElement, {
-    props: { exercise: EXERCISE_CHOOSEN_FIXTURE, index },
-  });
+  wrapper = wrapperFactory(ExerciseChoosenElement, { exercise: EXERCISE_CHOOSEN_FIXTURE, index });
 });
 
 enableAutoUnmount(afterEach);

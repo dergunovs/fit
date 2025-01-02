@@ -26,10 +26,10 @@ const activityCalendar = dataTest('activity-calendar');
 const activityStatistics = dataTest('activity-statistics');
 const exerciseStatistics = dataTest('exercise-statistics');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof HomePage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(HomePage, {});
+  wrapper = wrapperFactory(HomePage);
 });
 
 enableAutoUnmount(afterEach);

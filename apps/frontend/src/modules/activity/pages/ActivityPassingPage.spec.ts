@@ -11,10 +11,10 @@ import { mockRouteId, spyUseRouteId } from '@/common/mocks';
 
 const form = dataTest('activity-exercise-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ActivityPassingPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityPassingPage, {});
+  wrapper = wrapperFactory(ActivityPassingPage);
 });
 
 enableAutoUnmount(afterEach);

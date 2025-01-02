@@ -12,10 +12,10 @@ const header = dataTest('layout-default-header');
 const loginForm = dataTest('layout-default-login-form');
 const loginFormModal = dataTest('layout-default-login-form-modal');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutDefault, {});
+  wrapper = wrapperFactory(LayoutDefault);
 });
 
 enableAutoUnmount(afterEach);

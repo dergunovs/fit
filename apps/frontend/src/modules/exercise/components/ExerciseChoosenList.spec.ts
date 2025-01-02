@@ -9,12 +9,10 @@ import { EXERCISES_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
 
 const exerciseChoosen = dataTest('exercise-choosen');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseChoosenList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChoosenList, {
-    props: { choosenExercises: EXERCISES_CHOOSEN_FIXTURE },
-  });
+  wrapper = wrapperFactory(ExerciseChoosenList, { choosenExercises: EXERCISES_CHOOSEN_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

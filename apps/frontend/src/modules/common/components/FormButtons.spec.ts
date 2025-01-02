@@ -15,12 +15,10 @@ const buttonsBack = dataTest('form-buttons-back');
 const buttonsDelete = dataTest('form-buttons-delete');
 const buttonsConfirmModal = dataTest('form-buttons-confirm-modal');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof FormButtons>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(FormButtons, {
-    props: { id, isLoading: false },
-  });
+  wrapper = wrapperFactory(FormButtons, { id, isLoading: false });
 });
 
 enableAutoUnmount(afterEach);

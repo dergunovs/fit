@@ -25,10 +25,10 @@ const modal = dataTest('activity-modal');
 const goBackButton = dataTest('activity-go-back-button');
 const deleteButton = dataTest('activity-delete-button');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ActivityEditPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityEditPage, {});
+  wrapper = wrapperFactory(ActivityEditPage);
 });
 
 enableAutoUnmount(afterEach);

@@ -14,12 +14,10 @@ const exerciseMuscleGroupTitle = dataTest('exercise-muscle-group-title');
 const exerciseMuscleGroupSpoiler = dataTest('exercise-muscle-group-spoiler');
 const exerciseChooseElement = dataTest('exercise-choose-element');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseChooseList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChooseList, {
-    props: { exercises: EXERCISES_FIXTURE },
-  });
+  wrapper = wrapperFactory(ExerciseChooseList, { exercises: EXERCISES_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);

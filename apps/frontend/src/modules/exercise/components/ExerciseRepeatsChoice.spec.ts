@@ -15,17 +15,10 @@ const modelValue = options[2];
 const title = 'Заголовок';
 const isTall = true;
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseRepeatsChoice>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseRepeatsChoice, {
-    props: {
-      options,
-      modelValue,
-      title,
-      isTall,
-    },
-  });
+  wrapper = wrapperFactory(ExerciseRepeatsChoice, { options, modelValue, title, isTall });
 });
 
 enableAutoUnmount(afterEach);

@@ -18,10 +18,10 @@ const activity = dataTest('header-activity');
 const login = dataTest('header-login');
 const logout = dataTest('header-logout');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader, {});
+  wrapper = wrapperFactory(TheHeader);
 });
 
 enableAutoUnmount(afterEach);

@@ -11,10 +11,10 @@ import { USER_FIXTURE } from '@/user/fixtures';
 
 const userForm = dataTest('user-form');
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof UserEditPage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserEditPage, {});
+  wrapper = wrapperFactory(UserEditPage);
 });
 
 enableAutoUnmount(afterEach);

@@ -23,20 +23,14 @@ const formMuscleGroups = dataTest('exercise-form-muscle-groups');
 const formDefaultWeight = dataTest('exercise-form-default-weight');
 const formButtons = dataTest('exercise-form-buttons');
 
-const wrapperWithExercise = wrapperFactory(ExerciseForm, {
-  props: {
-    exercise: EXERCISE_FIXTURE,
-  },
+const wrapperWithExercise: VueWrapper<InstanceType<typeof ExerciseForm>> = wrapperFactory(ExerciseForm, {
+  exercise: EXERCISE_FIXTURE,
 });
 
-let wrapper: VueWrapper;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseForm, {
-    props: {
-      exercise: undefined,
-    },
-  });
+  wrapper = wrapperFactory(ExerciseForm);
 });
 
 enableAutoUnmount(afterEach);
