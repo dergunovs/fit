@@ -4,21 +4,33 @@
     :class="$style.element"
     :data-current="props.isCurrentExercise"
     :data-active="isCurrentExerciseActive"
+    data-test="exercise-element"
   >
-    <div :class="$style.title" :data-current="props.isCurrentExercise">
-      {{ exerciseTitle }}
+    <div :class="$style.title" :data-current="props.isCurrentExercise" data-test="exercise-title">
+      {{ getExercisePassingTitle(props.index, props.isCurrentExercise, props.exercisesCount, props.exercise) }}
     </div>
 
     <template v-if="props.isCurrentExercise">
-      <UiButton @click="handleClick" :isDisabled="isButtonDisabled" isTall>
+      <UiButton @click="handleClick" :isDisabled="isButtonDisabled" isTall data-test="exercise-button">
         {{ buttonTitle }}
       </UiButton>
 
-      <UiCheckbox v-model="isToFailure" label="Упражнение выполнено до отказа" :isDisabled="!isCurrentExerciseActive" />
+      <UiCheckbox
+        v-model="isToFailure"
+        label="Упражнение выполнено до отказа"
+        :isDisabled="!isCurrentExerciseActive"
+        data-test="exercise-to-failure"
+      />
 
-      <ExerciseRepeatsChoice v-model="repeats" :options="repeatsOptions" title="Количество повторов" isTall />
+      <ExerciseRepeatsChoice
+        v-model="repeats"
+        :options="repeatsOptions"
+        title="Количество повторов"
+        isTall
+        data-test="exercise-repeats"
+      />
 
-      <ActivityDuration :start="start" :stop="stop" @stop="sendDurationData" />
+      <ExerciseDuration :start="start" :stop="stop" @stop="sendDurationData" data-test="exercise-duration" />
     </template>
   </div>
 </template>
@@ -28,8 +40,10 @@ import { ref, computed, watch } from 'vue';
 import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
-import ActivityDuration from '@/activity/components/ActivityDuration.vue';
+import ExerciseDuration from '@/exercise/components/ExerciseDuration.vue';
 import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
+
+import { getExercisePassingTitle } from '@/exercise/helpers';
 
 interface IProps {
   exercise: IExerciseDone;
@@ -60,13 +74,6 @@ const repeatsOptions = [
   props.exercise.repeats + 2,
 ];
 
-const exerciseTitle = computed(
-  () => `
-    ${props.index}${props.isCurrentExercise ? ` из ${props.exercisesCount}.` : `.`}
-    ${props.exercise.exercise?.title || 'Упражнение удалено'}${props.exercise.weight ? ` ${props.exercise.weight} кг.` : `.`}
-  `
-);
-
 const buttonTitle = computed(() => (isCurrentExerciseActive.value ? 'Завершить' : 'Начать'));
 
 watch(
@@ -77,7 +84,7 @@ watch(
 
       setTimeout(() => {
         isButtonDisabled.value = false;
-      }, 1000);
+      }, 500);
     }
   }
 );
@@ -87,19 +94,18 @@ function handleClick() {
 
   isButtonDisabled.value = true;
 
-  emit('start', props.exercise._id);
+  if (!isCurrentExerciseActive.value) emit('start', props.exercise._id);
+
   start.value = !isCurrentExerciseActive.value;
   stop.value = isCurrentExerciseActive.value;
 
   setTimeout(() => {
     isButtonDisabled.value = false;
-  }, 1000);
+  }, 500);
 }
 
 function sendDurationData(duration: number) {
-  if (isCurrentExerciseActive.value) {
-    emit('stop', { _id: props.exercise._id, duration, isToFailure: isToFailure.value, repeats: repeats.value });
-  }
+  emit('stop', { _id: props.exercise._id, duration, isToFailure: isToFailure.value, repeats: repeats.value });
 }
 </script>
 

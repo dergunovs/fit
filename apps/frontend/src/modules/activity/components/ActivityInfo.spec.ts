@@ -7,7 +7,7 @@ import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleG
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
-import { EXERCISE_DONE_FIXTURE } from '@/exercise/fixtures';
+import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { spyCopyActivityToClipboard } from '@/activity/mocks';
 import { spyRouterPush } from '@/common/mocks';
@@ -27,7 +27,7 @@ const generateCopy = dataTest('activity-info-generate-copy');
 const id = '123';
 const start = '01-01-2025';
 const end = '01-02-2025';
-const exercises = [EXERCISE_DONE_FIXTURE];
+const exercises = EXERCISES_DONE_FIXTURE;
 const isPopup = false;
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityInfo>>;

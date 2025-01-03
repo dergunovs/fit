@@ -1,23 +1,23 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
-import ActivityDuration from './ActivityDuration.vue';
+import ExerciseDuration from './ExerciseDuration.vue';
 
 import { dataTest, wait, wrapperFactory } from '@/common/test';
 
-const duration = dataTest('activity-duration');
+const duration = dataTest('exercise-duration');
 
-let wrapper: VueWrapper<InstanceType<typeof ActivityDuration>>;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseDuration>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityDuration, { start: false, stop: false });
+  wrapper = wrapperFactory(ExerciseDuration, { start: false, stop: false });
 });
 
 enableAutoUnmount(afterEach);
 
-describe('ActivityDuration', async () => {
+describe('ExerciseDuration', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(ActivityDuration)).toBeTruthy();
+    expect(wrapper.findComponent(ExerciseDuration)).toBeTruthy();
   });
 
   it('shows zero duration', async () => {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex column>
-      <ActivityPassingExerciseList
+      <ExercisePassingList
         v-if="props.activity.exercises?.length"
         :exercises="props.activity.exercises"
         :activeExerciseId="activeExerciseId"
@@ -32,7 +32,7 @@ import { toast, UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
 import { API_ACTIVITY, IActivity, IExerciseDone } from 'fitness-tracker-contracts';
 
-import ActivityPassingExerciseList from '@/activity/components/ActivityPassingExerciseList.vue';
+import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
 import { activityService } from '@/activity/services';
 import { URL_HOME } from '@/common/constants';

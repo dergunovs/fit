@@ -38,3 +38,8 @@ export function generateMuscleGroupStatistics(exercises: IExerciseDone[]) {
 export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id?: string) {
   return id && exercises[index - 1] ? id === exercises[index - 1].exercise?._id : false;
 }
+
+export function getExercisePassingTitle(index: number, isCurrent: boolean, count: number, exercise: IExerciseDone) {
+  return `${index}${isCurrent ? ` из ${count}.` : `.`}
+${exercise.exercise?.title || 'Упражнение удалено'}${exercise.weight ? ` ${exercise.weight} кг.` : `.`}`;
+}

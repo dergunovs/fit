@@ -64,6 +64,18 @@ export const EXERCISE_DONE_FIXTURE: IExerciseDone = {
   isDone: true,
 };
 
+export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
+  _id: '2',
+  exercise: EXERCISE_FIXTURE_2,
+  repeats: EXERCISE_REPEATS_DEFAULT,
+  weight: EXERCISE_FIXTURE_2.defaultWeight,
+  duration: undefined,
+  isToFailure: undefined,
+  isDone: false,
+};
+
+export const EXERCISES_DONE_FIXTURE: IExerciseDone[] = [EXERCISE_DONE_FIXTURE, EXERCISE_NOT_DONE_FIXTURE];
+
 export const EXERCISE_STATISTICS_FIXTURE: IExerciseStatistics = {
   _id: '1',
   title: 'Приседание',

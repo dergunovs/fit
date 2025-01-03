@@ -4,7 +4,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import ExerciseMuscleGroupStatistics from './ExerciseMuscleGroupStatistics.vue';
 
 import { dataTest, wrapperFactory } from '@/common/test';
-import { EXERCISE_DONE_FIXTURE } from '@/exercise/fixtures';
+import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { generateMuscleGroupStatistics } from '@/exercise/helpers';
 
 const exerciseTableRow = dataTest('exercise-muscle-group-row');
@@ -14,7 +14,7 @@ const exerciseRepeats = dataTest('exercise-muscle-group-repeats');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseMuscleGroupStatistics>>;
 
-const exercises = [EXERCISE_DONE_FIXTURE];
+const exercises = EXERCISES_DONE_FIXTURE;
 
 beforeEach(() => {
   wrapper = wrapperFactory(ExerciseMuscleGroupStatistics, { exercises });

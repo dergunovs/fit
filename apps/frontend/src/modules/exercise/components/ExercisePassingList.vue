@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex column>
-      <ActivityPassingExerciseElement
+      <ExercisePassingElement
         v-for="(exercise, index) in props.exercises"
         :key="exercise._id"
         :exercise="exercise"
@@ -11,6 +11,7 @@
         :exercisesCount="props.exercises.length"
         @start="(id) => emit('start', id)"
         @stop="(exerciseDone) => emit('stop', exerciseDone)"
+        data-test="exercise-element"
       />
     </UiFlex>
   </div>
@@ -21,7 +22,7 @@ import { computed } from 'vue';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
 
-import ActivityPassingExerciseElement from '@/activity/components/ActivityPassingExerciseElement.vue';
+import ExercisePassingElement from '@/exercise/components/ExercisePassingElement.vue';
 
 interface IProps {
   exercises: IExerciseDone[];
