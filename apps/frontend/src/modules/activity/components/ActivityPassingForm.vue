@@ -101,7 +101,7 @@ function exitActivity() {
 
   setTimeout(() => {
     router.push(URL_HOME);
-  }, 2000);
+  }, 1000);
 }
 
 onMounted(() => {

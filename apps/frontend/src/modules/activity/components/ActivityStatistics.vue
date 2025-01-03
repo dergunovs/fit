@@ -5,20 +5,22 @@
         <b>Данные за месяц</b>
         <br />
         <span>
-          Длительность: {{ formatDuration(props.statistics.duration.cur)
-          }}<DynamicPercent :percent="props.statistics.duration.dynamics" />,
+          Длительность:
+          <span data-test="activity-statistics-total-duration">
+            {{ formatDuration(props.statistics.duration.cur) }}</span
+          ><DynamicPercent :percent="props.statistics.duration.dynamics" />,
         </span>
         <span>
-          занятия: {{ props.statistics.activitiesCount.cur
-          }}<DynamicPercent :percent="props.statistics.activitiesCount.dynamics" />,
+          занятия: <span data-test="activity-statistics-total-count">{{ props.statistics.activitiesCount.cur }}</span
+          ><DynamicPercent :percent="props.statistics.activitiesCount.dynamics" />,
         </span>
         <span>
-          подходы: {{ props.statistics.setsCount.cur
-          }}<DynamicPercent :percent="props.statistics.setsCount.dynamics" />,
+          подходы: <span data-test="activity-statistics-total-sets">{{ props.statistics.setsCount.cur }}</span
+          ><DynamicPercent :percent="props.statistics.setsCount.dynamics" />,
         </span>
         <span>
-          повторы: {{ props.statistics.repeatsCount.cur
-          }}<DynamicPercent :percent="props.statistics.repeatsCount.dynamics" />
+          повторы: <span data-test="activity-statistics-total-repeats">{{ props.statistics.repeatsCount.cur }}</span
+          ><DynamicPercent :percent="props.statistics.repeatsCount.dynamics" />
         </span>
       </div>
 
@@ -26,21 +28,26 @@
         <b>Средние значения</b>
         <br />
         <span>
-          Длительность: {{ formatDuration(props.statistics.averageDuration.cur)
-          }}<DynamicPercent :percent="props.statistics.averageDuration.dynamics" />,
+          Длительность:
+          <span data-test="activity-statistics-average-duration">{{
+            formatDuration(props.statistics.averageDuration.cur)
+          }}</span
+          ><DynamicPercent :percent="props.statistics.averageDuration.dynamics" />,
         </span>
         <span>
-          подходов в занятии: {{ props.statistics.averageSetsPerActivity.cur
-          }}<DynamicPercent :percent="props.statistics.averageSetsPerActivity.dynamics" />,
+          подходов в занятии:
+          <span data-test="activity-statistics-average-sets">{{ props.statistics.averageSetsPerActivity.cur }}</span
+          ><DynamicPercent :percent="props.statistics.averageSetsPerActivity.dynamics" />,
         </span>
         <span>
-          повторов в подходе: {{ props.statistics.averageRepeatsPerSet.cur
-          }}<DynamicPercent :percent="props.statistics.averageRepeatsPerSet.dynamics" />,
+          повторов в подходе:
+          <span data-test="activity-statistics-average-repeats">{{ props.statistics.averageRepeatsPerSet.cur }}</span
+          ><DynamicPercent :percent="props.statistics.averageRepeatsPerSet.dynamics" />,
         </span>
         <span>
-          отдых: {{ props.statistics.averageRestPercent.cur }}%<DynamicPercent
-            :percent="props.statistics.averageRestPercent.dynamics"
-          />
+          отдых:
+          <span data-test="activity-statistics-average-rest">{{ props.statistics.averageRestPercent.cur }}%</span
+          ><DynamicPercent :percent="props.statistics.averageRestPercent.dynamics" />
         </span>
       </div>
     </UiFlex>
