@@ -5,7 +5,7 @@ const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
     name: { type: String },
-    role: { type: String },
+    role: { type: String, enum: ['admin', 'user'] },
     password: { type: String, required: true },
     dateLoggedIn: { type: Date, default: Date.now },
     dateCreated: { type: Date, default: Date.now },

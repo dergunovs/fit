@@ -9,7 +9,14 @@
     />
 
     <UiModal v-model="isShowModal" width="380" data-test="activity-calendar-modal">
-      <ActivityInfo :start="start" :end="end" :exercises="exercises" :id="id" data-test="activity-calendar-info" />
+      <ActivityInfo
+        :start="start"
+        :end="end"
+        :exercises="exercises"
+        :id="id"
+        isPopup
+        data-test="activity-calendar-info"
+      />
     </UiModal>
   </div>
 </template>

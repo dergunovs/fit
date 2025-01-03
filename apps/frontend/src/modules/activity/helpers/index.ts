@@ -1,5 +1,6 @@
 import { IActivity, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-contracts';
-import { createTempId, formatDuration } from 'mhz-helpers';
+import { createTempId, formatDate, formatDuration, subtractDates } from 'mhz-helpers';
+import { toast } from 'mhz-ui';
 
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
@@ -33,7 +34,7 @@ export function convertActivityCalendarEvents(activities?: IActivity[]) {
   });
 }
 
-export function generateExercises(exercisesDone: IExerciseDone[]): IExerciseDone[] {
+export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExerciseDone[] {
   const activityExercises = exercisesDone.map((exercise) => {
     return {
       _id: createTempId(),
@@ -48,4 +49,37 @@ export function generateExercises(exercisesDone: IExerciseDone[]): IExerciseDone
   });
 
   return activityExercises?.length ? [...activityExercises] : [];
+}
+
+export function getToFailurePercent(exercises: IExerciseDone[]) {
+  const allExercises = exercises.length;
+  const toFailureExercises = exercises.filter((exercise) => exercise.isToFailure).length;
+
+  return `${Math.floor((toFailureExercises / allExercises) * 100)}%`;
+}
+
+export function getRestPercent(exercises: IExerciseDone[], start?: Date | null | string, end?: Date | null | string) {
+  const activityDuration = Number(subtractDates(end, start, true));
+  const exercisesDuration = exercises.reduce((acc, current) => acc + (current.duration || 0), 0);
+
+  return `${Math.floor(100 - (exercisesDuration / activityDuration) * 100)}%`;
+}
+
+export async function copyActivityToClipboard(
+  exercises: IExerciseDone[],
+  start?: Date | null | string,
+  end?: Date | null | string
+) {
+  const textHeader = `${formatDate(start, 'ru')}, длительность: ${subtractDates(end, start)}
+Подходы: ${exercises.length}, отказы: ${getToFailurePercent(exercises)}, отдых: ${getRestPercent(exercises, start, end)}.
+
+${exercises
+  .map((exercise, index) => {
+    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}кг` : ''} ${formatDuration(exercise.duration)} ${exercise.isToFailure ? 'ДО ОТКАЗА' : ''}\n`;
+  })
+  .join('')}`;
+
+  await navigator.clipboard.writeText(textHeader);
+
+  toast.success('Скопировано в буфер');
 }

@@ -7,7 +7,6 @@
         :start="activity.dateCreated"
         :end="activity.dateUpdated"
         :exercises="activity.exercises"
-        isAdmin
         data-test="activity-info"
       />
 

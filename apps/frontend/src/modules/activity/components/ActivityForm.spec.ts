@@ -14,7 +14,7 @@ import { onSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from
 import { spyGetExercises } from '@/exercise/mocks';
 import { mockRouteId, spyRefetchQueries, spyRouterPush, spyToastSuccess, spyUseRouteId } from '@/common/mocks';
 import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
-import { generateExercises, getPotentialActivityDuration } from '@/activity/helpers';
+import { generateActivityExercises, getPotentialActivityDuration } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 const averageRestPercent = 50;
@@ -103,7 +103,7 @@ describe('ActivityForm', async () => {
 
     expect(
       wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual(generateExercises(ACTIVITY_FIXTURE_2.exercises));
+    ).toStrictEqual(generateActivityExercises(ACTIVITY_FIXTURE_2.exercises));
   });
 
   it('shows potential activity duration', async () => {

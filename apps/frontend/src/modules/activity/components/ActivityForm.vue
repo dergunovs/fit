@@ -61,7 +61,7 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
-import { getPotentialActivityDuration, generateExercises } from '@/activity/helpers';
+import { getPotentialActivityDuration, generateActivityExercises } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { useRouteId } from '@/common/composables';
 
@@ -93,7 +93,7 @@ const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
 watch(
   () => activity.value,
   () => {
-    if (activity.value) formData.value.exercises = generateExercises(activity.value.exercises);
+    if (activity.value) formData.value.exercises = generateActivityExercises(activity.value.exercises);
   }
 );
 
@@ -110,7 +110,7 @@ function deleteExercise(idToDelete: string) {
 function repeatLastActivity() {
   if (!lastActivity.value) return;
 
-  formData.value.exercises = generateExercises(lastActivity.value.exercises);
+  formData.value.exercises = generateActivityExercises(lastActivity.value.exercises);
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
