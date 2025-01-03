@@ -5,6 +5,8 @@ import {
   TGetActivitiesDTO,
   TPostActivityDataDTO,
   TPostActivityDTO,
+  TUpdateActivityDataDTO,
+  TUpdateActivityDTO,
 } from 'fitness-tracker-contracts';
 
 import * as activityComposables from '@/activity/composables';
@@ -37,10 +39,12 @@ const spyGetActivities = vi
   .mockImplementation(() => mockQueryReply(getActivitiesData));
 
 const spyCreateActivity = vi.fn();
+const spyUpdateActivity = vi.fn();
 const spyDeleteActivity = vi.fn();
 
 const onSuccess: IOnSuccess = {
   create: undefined,
+  update: undefined,
   delete: undefined,
 };
 
@@ -51,6 +55,12 @@ vi.spyOn(activityService, 'create').mockImplementation(
     return mockMutationReply<TPostActivityDTO, TPostActivityDataDTO>(spyCreateActivity);
   }
 );
+
+vi.spyOn(activityService, 'update').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
+  if (options.onSuccess) onSuccess.update = options.onSuccess;
+
+  return mockMutationReply<TUpdateActivityDTO, TUpdateActivityDataDTO>(spyUpdateActivity);
+});
 
 vi.spyOn(activityService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) onSuccess.delete = options.onSuccess;
@@ -86,6 +96,7 @@ export {
   spyGetActivitiesStatistics,
   spyGetActivitiesChart,
   spyCreateActivity,
+  spyUpdateActivity,
   spyDeleteActivity,
   spyUseActivityCalendar,
   spyGetActivitiesCalendar,

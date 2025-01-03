@@ -7,18 +7,28 @@
         :activeExerciseId="activeExerciseId"
         @start="startExercise"
         @stop="stopExercise"
+        data-test="exercise-passing-list"
       />
 
       <div>
-        <div>Занятие началось {{ formatDateTime(props.activity.dateCreated, 'ru') }}.</div>
+        <div>
+          Занятие началось <span data-test="activity-start">{{ formatDateTime(props.activity.dateCreated, 'ru') }}</span
+          >.
+        </div>
 
         <div v-if="props.activity.dateUpdated">
           Занятие {{ formData.isDone ? 'закончено' : 'обновлено' }}
-          {{ formatDateTime(props.activity.dateUpdated, 'ru') }}.
+          <span data-test="activity-updated">{{ formatDateTime(props.activity.dateUpdated, 'ru') }}</span
+          >.
         </div>
       </div>
 
-      <UiButton @click="finishActivity" layout="secondary" :isDisabled="props.activity.isDone">
+      <UiButton
+        @click="finishActivity"
+        layout="secondary"
+        :isDisabled="props.activity.isDone"
+        data-test="activity-finish"
+      >
         Завершить досрочно
       </UiButton>
     </UiFlex>

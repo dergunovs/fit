@@ -104,7 +104,7 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
       isDone: true,
     },
   ],
-  isDone: true,
+  isDone: false,
   _id: '321321',
   dateCreated: '2024-12-23T08:29:01.628Z',
   dateUpdated: '2024-12-23T09:21:48.779Z',

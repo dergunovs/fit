@@ -125,6 +125,11 @@ describe('ActivityForm', async () => {
   });
 
   it('creates activity', async () => {
+    expect(spyCreateActivity).toBeCalledTimes(0);
+    expect(spyRefetchQueries).toBeCalledTimes(0);
+    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyRouterPush).toBeCalledTimes(0);
+
     expect(wrapper.find(formContainer).exists()).toBe(true);
 
     await wrapper.find(addExercise).trigger('click');
