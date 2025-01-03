@@ -1,10 +1,14 @@
 <template>
   <div :class="$style.table">
     <UiTable :headers="MUSCLE_GROUP_STATISTICS_HEADERS" lang="ru">
-      <tr v-for="muscleGroup in generateMuscleGroupStatistics(props.exercises)" :key="muscleGroup.title">
-        <td>{{ muscleGroup.title }}</td>
-        <td>{{ muscleGroup.sets }}</td>
-        <td>{{ muscleGroup.repeats }}</td>
+      <tr
+        v-for="muscleGroup in generateMuscleGroupStatistics(props.exercises)"
+        :key="muscleGroup.title"
+        data-test="exercise-muscle-group-row"
+      >
+        <td data-test="exercise-muscle-group-title">{{ muscleGroup.title }}</td>
+        <td data-test="exercise-muscle-group-sets">{{ muscleGroup.sets }}</td>
+        <td data-test="exercise-muscle-group-repeats">{{ muscleGroup.repeats }}</td>
       </tr>
     </UiTable>
   </div>
