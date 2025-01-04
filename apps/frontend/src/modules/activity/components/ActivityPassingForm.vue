@@ -85,6 +85,7 @@ function stopExercise(exerciseDone: IExerciseDone) {
         duration: exerciseDone.duration,
         isToFailure: exerciseDone.isToFailure,
         repeats: exerciseDone.repeats,
+        dateUpdated: new Date(),
       };
     }
 

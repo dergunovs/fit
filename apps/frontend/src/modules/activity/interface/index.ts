@@ -10,3 +10,9 @@ export interface ICalendarEvent {
   firstCellDate: string;
   lastCellDate: string;
 }
+
+export interface ITimelineStep {
+  left: number;
+  right: number;
+  type: 'rest' | 'exercise';
+}

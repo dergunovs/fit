@@ -3,6 +3,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { formatDate, subtractDates, setAuth } from 'mhz-helpers';
 
 import ActivityInfo from './ActivityInfo.vue';
+import ActivityTimeline from './ActivityTimeline.vue';
 import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleGroupStatistics.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 
@@ -14,6 +15,7 @@ import { spyRouterPush } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 
 const activityInfo = dataTest('activity-info');
+const timeline = dataTest('activity-timeline');
 const startTime = dataTest('activity-info-start');
 const durationTime = dataTest('activity-info-duration');
 const sets = dataTest('activity-info-sets');
@@ -49,6 +51,15 @@ describe('ActivityInfo', async () => {
     await wrapper.setProps({ isPopup: true });
 
     expect(wrapper.find(activityInfo).attributes('data-scrollable')).toBe(true.toString());
+  });
+
+  it('shows timeline in popup', async () => {
+    expect(wrapper.find(timeline).exists()).toBe(false);
+
+    await wrapper.setProps({ isPopup: true });
+
+    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).vm.$props.exercises).toStrictEqual(exercises);
+    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).vm.$props.start).toStrictEqual(start);
   });
 
   it('shows start and duration time', async () => {

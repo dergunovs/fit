@@ -1,6 +1,13 @@
 <template>
   <div :class="$style.info" :data-scrollable="props.isPopup" data-test="activity-info">
     <UiFlex gap="4" align="center" wrap>
+      <ActivityTimeline
+        v-if="props.isPopup && props.exercises[0].dateUpdated"
+        :exercises="props.exercises"
+        :start="props.start"
+        data-test="activity-timeline"
+      />
+
       <span data-test="activity-info-start">
         <IconDate width="16" height="16" /> {{ formatDate(props.start, 'ru') }}
       </span>
@@ -56,6 +63,7 @@ import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth } from 'mhz-helpers';
 
+import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleGroupStatistics.vue';
 import IconDate from '@/common/icons/date.svg';
