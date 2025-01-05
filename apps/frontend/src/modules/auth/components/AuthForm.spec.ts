@@ -5,7 +5,7 @@ import { dataTest } from 'mhz-helpers';
 import AuthForm from './AuthForm.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { onSuccess, spyLogin, spySetup } from '@/auth/mocks';
+import { mockOnSuccess, spyLogin, spySetup } from '@/auth/mocks';
 import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
@@ -78,7 +78,7 @@ describe('AuthForm', async () => {
     expect(spyLogin).toBeCalledTimes(1);
     expect(spyLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
 
-    await onSuccess.login?.({ _id: ID, email: EMAIL, name: NAME, token: TOKEN });
+    await mockOnSuccess.login?.({ _id: ID, email: EMAIL, name: NAME, token: TOKEN });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
     expect(spyAuth).toBeCalledTimes(1);
@@ -103,7 +103,7 @@ describe('AuthForm', async () => {
     expect(spySetup).toBeCalledTimes(1);
     expect(spySetup).toBeCalledWith({ email: EMAIL, password: PASSWORD });
 
-    await onSuccess.setup?.();
+    await mockOnSuccess.setup?.();
 
     expect(spyToastSuccess).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledTimes(1);

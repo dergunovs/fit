@@ -13,9 +13,9 @@ import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import {
   spyUseActivityCalendar,
   spyGetActivitiesCalendar,
-  dateFrom,
-  dateTo,
-  isDatesReady,
+  mockDateFrom,
+  mockDateTo,
+  mockIsDatesReady,
   spyUpdateDates,
   spyGetActivitiesStatistics,
 } from '@/activity/mocks';
@@ -42,7 +42,7 @@ describe('HomePage', async () => {
     expect(spyUseActivityCalendar).toBeCalledTimes(1);
 
     expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
-    expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: isDatesReady }, dateFrom, dateTo);
+    expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
 
     expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toStrictEqual(
       convertActivityCalendarEvents(ACTIVITIES_CALENDAR_FIXTURE)

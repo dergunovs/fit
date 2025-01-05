@@ -8,7 +8,7 @@ import UserListPage from './UserListPage.vue';
 import UserList from '@/user/components/UserList.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { getUsersData, spyGetUsers } from '@/user/mocks';
+import { mockGetUsersData, spyGetUsers } from '@/user/mocks';
 import { USERS_FIXTURE } from '@/user/fixtures';
 import { mockPageNumber, spyUsePageNumber, spyUsePagination, spySetPage } from '@/common/mocks';
 import { URL_USER_CREATE } from '@/user/constants';
@@ -41,7 +41,7 @@ describe('UserListPage', async () => {
     expect(spyGetUsers).toBeCalledWith(mockPageNumber);
 
     expect(spyUsePagination).toBeCalledTimes(1);
-    expect(spyUsePagination).toBeCalledWith(ref(getUsersData));
+    expect(spyUsePagination).toBeCalledWith(ref(mockGetUsersData));
 
     expect(wrapper.findComponent<typeof UserList>(userList).vm.$props.users).toStrictEqual(USERS_FIXTURE);
   });

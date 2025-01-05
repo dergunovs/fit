@@ -23,26 +23,26 @@ import {
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { IOnSuccess } from '@/common/interface';
 
-const dateFrom = ref('2024-11-24T21:00:00.000Z');
-const dateTo = ref('2025-01-05T20:59:59.000Z');
-const isDatesReady = ref(true);
+const mockDateFrom = ref('2024-11-24T21:00:00.000Z');
+const mockDateTo = ref('2025-01-05T20:59:59.000Z');
+const mockIsDatesReady = ref(true);
 const spyUpdateDates = vi.fn();
 
 const spyGetActivity = vi.spyOn(activityService, 'getOne').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE));
 
 const spyGetActivityLast = vi.spyOn(activityService, 'getLast').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE_2));
 
-const getActivitiesData: TGetActivitiesDTO = { data: ACTIVITIES_FIXTURE, total: ACTIVITIES_FIXTURE.length };
+const mockGetActivitiesData: TGetActivitiesDTO = { data: ACTIVITIES_FIXTURE, total: ACTIVITIES_FIXTURE.length };
 
 const spyGetActivities = vi
   .spyOn(activityService, 'getMany')
-  .mockImplementation(() => mockQueryReply(getActivitiesData));
+  .mockImplementation(() => mockQueryReply(mockGetActivitiesData));
 
 const spyCreateActivity = vi.fn();
 const spyUpdateActivity = vi.fn();
 const spyDeleteActivity = vi.fn();
 
-const onSuccess: IOnSuccess = {
+const mockOnSuccess: IOnSuccess = {
   create: undefined,
   update: undefined,
   delete: undefined,
@@ -50,28 +50,28 @@ const onSuccess: IOnSuccess = {
 
 vi.spyOn(activityService, 'create').mockImplementation(
   (options: { onSuccess?: (id?: TPostActivityDTO) => Promise<void> }) => {
-    if (options.onSuccess) onSuccess.create = options.onSuccess;
+    if (options.onSuccess) mockOnSuccess.create = options.onSuccess;
 
     return mockMutationReply<TPostActivityDTO, TPostActivityDataDTO>(spyCreateActivity);
   }
 );
 
 vi.spyOn(activityService, 'update').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
-  if (options.onSuccess) onSuccess.update = options.onSuccess;
+  if (options.onSuccess) mockOnSuccess.update = options.onSuccess;
 
   return mockMutationReply<TUpdateActivityDTO, TUpdateActivityDataDTO>(spyUpdateActivity);
 });
 
 vi.spyOn(activityService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
-  if (options.onSuccess) onSuccess.delete = options.onSuccess;
+  if (options.onSuccess) mockOnSuccess.delete = options.onSuccess;
 
   return mockMutationReply<TDeleteActivityDTO, string>(spyDeleteActivity);
 });
 
 const spyUseActivityCalendar = vi.spyOn(activityComposables, 'useActivityCalendar').mockReturnValue({
-  dateFrom,
-  dateTo,
-  isDatesReady,
+  dateFrom: mockDateFrom,
+  dateTo: mockDateTo,
+  isDatesReady: mockIsDatesReady,
   updateDates: spyUpdateDates,
 });
 
@@ -102,9 +102,9 @@ export {
   spyGetActivitiesCalendar,
   spyUpdateDates,
   spyCopyActivityToClipboard,
-  dateFrom,
-  dateTo,
-  isDatesReady,
-  getActivitiesData,
-  onSuccess,
+  mockDateFrom,
+  mockDateTo,
+  mockIsDatesReady,
+  mockGetActivitiesData,
+  mockOnSuccess,
 };

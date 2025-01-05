@@ -9,7 +9,7 @@ import ActivityInfo from './ActivityInfo.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE } from '@/activity/fixtures';
-import { onSuccess, spyDeleteActivity, spyGetActivity } from '@/activity/mocks';
+import { mockOnSuccess, spyDeleteActivity, spyGetActivity } from '@/activity/mocks';
 import {
   mockRouteId,
   spyRefetchQueries,
@@ -76,7 +76,7 @@ describe('ActivityEditPage', async () => {
     expect(spyDeleteActivity).toBeCalledTimes(1);
     expect(spyDeleteActivity).toBeCalledWith(ACTIVITY_FIXTURE._id);
 
-    await onSuccess.delete?.();
+    await mockOnSuccess.delete?.();
 
     expect(spyRemoveQueries).toBeCalledTimes(1);
     expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });

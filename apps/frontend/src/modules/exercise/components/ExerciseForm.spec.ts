@@ -9,7 +9,7 @@ import ExerciseForm from './ExerciseForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { onSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
+import { mockOnSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
@@ -83,7 +83,7 @@ describe('ExerciseForm', async () => {
       defaultWeight: DEFAULT_WEIGHT,
     });
 
-    await onSuccess.create?.();
+    await mockOnSuccess.create?.();
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
@@ -115,7 +115,7 @@ describe('ExerciseForm', async () => {
       createdBy: EXERCISE_FIXTURE.createdBy,
     });
 
-    await onSuccess.update?.();
+    await mockOnSuccess.update?.();
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
@@ -135,7 +135,7 @@ describe('ExerciseForm', async () => {
     expect(spyDeleteExercise).toBeCalledTimes(1);
     expect(spyDeleteExercise).toBeCalledWith(EXERCISE_FIXTURE._id);
 
-    await onSuccess.delete?.();
+    await mockOnSuccess.delete?.();
 
     expect(spyRemoveQueries).toBeCalledTimes(1);
     expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });

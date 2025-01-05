@@ -6,7 +6,7 @@ import { dataTest } from 'mhz-helpers';
 import App from './App.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyUseLayout, isLoaded, layoutDefaultName } from '@/common/mocks';
+import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
 const layout = dataTest('app-layout');
@@ -28,12 +28,12 @@ describe('App', async () => {
     expect(wrapper.find(layout).exists()).toBe(false);
 
     expect(spyUseLayout).toBeCalledTimes(1);
-    isLoaded.value = true;
+    mockIsLoaded.value = true;
 
     await nextTick();
 
     expect(wrapper.find(layout).exists()).toBe(true);
-    expect(wrapper.find(layout).attributes('data-layout')).toBe(layoutDefaultName);
+    expect(wrapper.find(layout).attributes('data-layout')).toBe(mockLayoutDefaultName);
   });
 
   it('checks auth', async () => {

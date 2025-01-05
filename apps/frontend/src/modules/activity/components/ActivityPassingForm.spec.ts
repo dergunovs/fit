@@ -9,7 +9,7 @@ import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
-import { onSuccess, spyUpdateActivity } from '@/activity/mocks';
+import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
 
@@ -56,7 +56,7 @@ describe('ActivityPassingForm', async () => {
     expect(spyUpdateActivity).toBeCalledTimes(1);
     expect(spyUpdateActivity).toBeCalledWith({ ...activity, isDone: true });
 
-    await onSuccess.update?.();
+    await mockOnSuccess.update?.();
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });

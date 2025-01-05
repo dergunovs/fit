@@ -16,23 +16,23 @@ const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValu
 const spyLogin = vi.fn();
 const spySetup = vi.fn();
 
-const onSuccess: IOnSuccess = {
+const mockOnSuccess: IOnSuccess = {
   login: undefined,
   setup: undefined,
 };
 
 vi.spyOn(authService, 'login').mockImplementation(
   (options: { onSuccess?: (user: TPostAuthLoginDTO) => Promise<void> }) => {
-    if (options.onSuccess) onSuccess.login = options.onSuccess;
+    if (options.onSuccess) mockOnSuccess.login = options.onSuccess;
 
     return mockMutationReply<TPostAuthLoginDTO, TPostAuthLoginDataDTO>(spyLogin);
   }
 );
 
 vi.spyOn(authService, 'setup').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
-  if (options.onSuccess) onSuccess.setup = options.onSuccess;
+  if (options.onSuccess) mockOnSuccess.setup = options.onSuccess;
 
   return mockMutationReply<TPostAuthSetupDTO, TPostAuthSetupDataDTO>(spySetup);
 });
 
-export { spyUseAuthCheck, spyLogin, spySetup, onSuccess };
+export { spyUseAuthCheck, spyLogin, spySetup, mockOnSuccess };

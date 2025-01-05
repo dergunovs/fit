@@ -10,7 +10,7 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
-import { onSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from '@/activity/mocks';
+import { mockOnSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from '@/activity/mocks';
 import { spyGetExercises } from '@/exercise/mocks';
 import { mockRouteId, spyRefetchQueries, spyRouterPush, spyToastSuccess, spyUseRouteId } from '@/common/mocks';
 import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
@@ -150,7 +150,7 @@ describe('ActivityForm', async () => {
 
     const activityId = '123123';
 
-    await onSuccess.create?.(activityId);
+    await mockOnSuccess.create?.(activityId);
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });

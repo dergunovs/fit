@@ -9,7 +9,7 @@ import ActivityAdminList from './ActivityAdminList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_FIXTURE } from '@/activity/fixtures';
-import { spyGetActivities, getActivitiesData } from '@/activity/mocks';
+import { spyGetActivities, mockGetActivitiesData } from '@/activity/mocks';
 import { mockPageNumber, spySetPage, spyUsePageNumber, spyUsePagination } from '@/common/mocks';
 
 const list = dataTest('activities-list');
@@ -35,7 +35,7 @@ describe('ActivityListPage', async () => {
     expect(spyGetActivities).toBeCalledWith(mockPageNumber);
 
     expect(spyUsePagination).toBeCalledTimes(1);
-    expect(spyUsePagination).toBeCalledWith(ref(getActivitiesData));
+    expect(spyUsePagination).toBeCalledWith(ref(mockGetActivitiesData));
 
     expect(wrapper.findComponent<typeof ActivityAdminList>(list).vm.$props.activities).toStrictEqual(
       ACTIVITIES_FIXTURE

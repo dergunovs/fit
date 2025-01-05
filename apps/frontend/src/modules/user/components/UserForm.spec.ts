@@ -8,7 +8,7 @@ import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { USER_FIXTURE } from '@/user/fixtures';
-import { onSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
+import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_USER } from '@/user/constants';
 
@@ -83,7 +83,7 @@ describe('UserForm', async () => {
     expect(spyCreateUser).toBeCalledTimes(1);
     expect(spyCreateUser).toBeCalledWith({ email: EMAIL, name: NAME, password: PASSWORD, role: 'user' });
 
-    await onSuccess.create?.();
+    await mockOnSuccess.create?.();
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
@@ -114,7 +114,7 @@ describe('UserForm', async () => {
       role: USER_FIXTURE.role,
     });
 
-    await onSuccess.update?.();
+    await mockOnSuccess.update?.();
 
     expect(spyRefetchQueries).toBeCalledTimes(1);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
@@ -134,7 +134,7 @@ describe('UserForm', async () => {
     expect(spyDeleteUser).toBeCalledTimes(1);
     expect(spyDeleteUser).toBeCalledWith(USER_FIXTURE._id);
 
-    await onSuccess.delete?.();
+    await mockOnSuccess.delete?.();
 
     expect(spyRemoveQueries).toBeCalledTimes(1);
     expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_USER] });
