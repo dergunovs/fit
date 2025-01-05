@@ -26,7 +26,7 @@ import { ref } from 'vue';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiCalendar, UiModal } from 'mhz-ui';
 
-import ActivityInfo from './ActivityInfo.vue';
+import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { IActivityCalendarEvent, ICalendarEvent } from '@/activity/interface';
 

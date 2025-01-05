@@ -43,7 +43,7 @@ import { ref, computed } from 'vue';
 import { IExercise, EXERCISE_MUSCLE_GROUPS, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 
-import ExerciseChooseElement from './ExerciseChooseElement.vue';
+import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.vue';
 
 interface IProps {
   exercises: IExercise[];
