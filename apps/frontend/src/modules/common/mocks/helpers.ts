@@ -1,9 +1,11 @@
-import { ref, Ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import { vi } from 'vitest';
 import type { UseQueryReturnType, UseMutationReturnType } from 'mhz-helpers';
 import * as helpers from 'mhz-helpers';
 
-import { returnComputed } from '@/common/test';
+function returnComputed<T>(value: T) {
+  return computed(() => value);
+}
 
 const mockIsValid = ref(true);
 
@@ -53,6 +55,12 @@ vi.spyOn(helpers, 'useQueryClient').mockReturnValue({
   removeQueries: spyRemoveQueries,
 } as unknown as helpers.QueryClient);
 
+const mockRouteId = computed(() => '123');
+
+const spyUseRouteId = vi.spyOn(helpers, 'useRouteId').mockImplementation(() => {
+  return { id: mockRouteId };
+});
+
 function mockQueryReply<T>(reply: object, refetch?: () => void) {
   return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
 }
@@ -70,9 +78,11 @@ export {
   spySetPage,
   spyRefetchQueries,
   spyRemoveQueries,
+  spyUseRouteId,
   mockIsValid,
   mockQueryReply,
   mockMutationReply,
   mockTempId,
   mockPageNumber,
+  mockRouteId,
 };

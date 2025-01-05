@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDate } from 'mhz-helpers';
+import { formatDate, dataTest } from 'mhz-helpers';
 
 import ActivityAdminList from './ActivityAdminList.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_FIXTURE } from '@/activity/fixtures';
 import { URL_ACTIVITY_ADMIN_EDIT } from '@/activity/constants';
 

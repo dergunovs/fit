@@ -2,11 +2,12 @@ import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseChooseList from './ExerciseChooseList.vue';
 import ExerciseChooseElement from './ExerciseChooseElement.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
 
 const exerciseMuscleGroup = dataTest('exercise-muscle-group');

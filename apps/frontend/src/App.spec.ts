@@ -1,10 +1,11 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import App from './App.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { spyUseLayout, isLoaded, layoutDefaultName } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';
 

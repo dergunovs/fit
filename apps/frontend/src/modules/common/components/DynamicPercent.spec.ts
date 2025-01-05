@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { formatPercent, dataTest } from 'mhz-helpers';
 
 import DynamicPercent from './DynamicPercent.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
-import { formatStatisticsPercent } from '@/common/helpers';
+import { wrapperFactory } from '@/common/test';
 
 const dynamicPercent = dataTest('dynamic-percent');
 const percent = 0;
@@ -23,7 +23,7 @@ describe('DynamicPercent', async () => {
   });
 
   it('shows formatted percent', async () => {
-    expect(wrapper.find(dynamicPercent).text()).toBe(formatStatisticsPercent(percent));
+    expect(wrapper.find(dynamicPercent).text()).toBe(formatPercent(percent));
   });
 
   it('adds styling if percent is positive or negative', async () => {

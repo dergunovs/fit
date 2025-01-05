@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import AuthForm from './AuthForm.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { onSuccess, spyLogin, spySetup } from '@/auth/mocks';
 import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';

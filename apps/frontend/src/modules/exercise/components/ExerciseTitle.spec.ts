@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDuration } from 'mhz-helpers';
+import { formatDuration, dataTest } from 'mhz-helpers';
 
 import ExerciseTitle from './ExerciseTitle.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISE_DONE_FIXTURE } from '@/exercise/fixtures';
 import { EXERCISE_DELETED_TITLE } from '@/exercise/constants';
 

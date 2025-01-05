@@ -2,11 +2,12 @@ import { ref } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { UiPagination } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import ActivityListPage from './ActivityListPage.vue';
 import ActivityAdminList from './ActivityAdminList.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_FIXTURE } from '@/activity/fixtures';
 import { spyGetActivities, getActivitiesData } from '@/activity/mocks';
 import { mockPageNumber, spySetPage, spyUsePageNumber, spyUsePagination } from '@/common/mocks';

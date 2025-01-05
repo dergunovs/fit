@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest, wait } from 'mhz-helpers';
 
 import ExercisePassingElement from './ExercisePassingElement.vue';
 import ExerciseDuration from './ExerciseDuration.vue';
 
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISE_DONE_FIXTURE, EXERCISE_NOT_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getExercisePassingTitle } from '@/exercise/helpers';
 

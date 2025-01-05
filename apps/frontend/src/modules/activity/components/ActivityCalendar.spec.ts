@@ -2,11 +2,12 @@ import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { UiCalendar } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import ActivityCalendar from './ActivityCalendar.vue';
 import ActivityInfo from './ActivityInfo.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_CALENDAR_EVENTS } from '@/activity/fixtures';
 
 const calendar = dataTest('activity-calendar');

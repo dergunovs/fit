@@ -1,11 +1,11 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { deleteAuthHeader, setAuth } from 'mhz-helpers';
+import { deleteAuthHeader, setAuth, dataTest } from 'mhz-helpers';
 
 import TheHeader from './TheHeader.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { URL_HOME } from '@/common/constants';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';

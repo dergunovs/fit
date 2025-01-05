@@ -2,11 +2,12 @@ import { ref } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { UiPagination } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import UserListPage from './UserListPage.vue';
 import UserList from '@/user/components/UserList.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { getUsersData, spyGetUsers } from '@/user/mocks';
 import { USERS_FIXTURE } from '@/user/fixtures';
 import { mockPageNumber, spyUsePageNumber, spyUsePagination, spySetPage } from '@/common/mocks';

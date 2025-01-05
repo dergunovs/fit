@@ -16,12 +16,6 @@ export const spyUseLayout = vi.spyOn(commonComposables, 'useLayout').mockImpleme
 
 export const layoutDefaultName = LayoutDefault.name;
 
-export const mockRouteId = computed(() => '123');
-
-export const spyUseRouteId = vi.spyOn(commonComposables, 'useRouteId').mockImplementation(() => {
-  return { id: mockRouteId };
-});
-
 export const spyRouterPush = vi.spyOn(router, 'push');
 export const spyRouterGo = vi.spyOn(router, 'go');
 

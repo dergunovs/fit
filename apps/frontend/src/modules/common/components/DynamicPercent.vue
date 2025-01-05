@@ -5,12 +5,12 @@
     :data-negative="props.percent < 0"
     data-test="dynamic-percent"
   >
-    {{ formatStatisticsPercent(props.percent) }}
+    {{ formatPercent(props.percent) }}
   </sup>
 </template>
 
 <script setup lang="ts">
-import { formatStatisticsPercent } from '@/common/helpers';
+import { formatPercent } from 'mhz-helpers';
 
 interface IProps {
   percent: number;

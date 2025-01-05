@@ -1,14 +1,14 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { deleteTempId } from 'mhz-helpers';
+import { deleteTempId, dataTest } from 'mhz-helpers';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
 
 import ActivityForm from './ActivityForm.vue';
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
-import { wrapperFactory, dataTest } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { onSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from '@/activity/mocks';
 import { spyGetExercises } from '@/exercise/mocks';

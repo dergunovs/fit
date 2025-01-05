@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseChoosenElement from './ExerciseChoosenElement.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
 
 const exerciseTitle = dataTest('exercise-title');

@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { UiChart } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import ActivityChart from './ActivityChart.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { CHART_TYPES } from '@/activity/constants';
 import { spyGetActivitiesChart } from '@/activity/mocks';
 import { ACTIVITIES_CHART_FIXTURE } from '@/activity/fixtures';

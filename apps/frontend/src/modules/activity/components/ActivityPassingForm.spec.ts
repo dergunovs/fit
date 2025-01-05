@@ -2,12 +2,12 @@ import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
-import { formatDateTime } from 'mhz-helpers';
+import { formatDateTime, dataTest, wait } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
 import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { onSuccess, spyUpdateActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';

@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import ActivityCreatePage from './ActivityCreatePage.vue';
 import ActivityForm from './ActivityForm.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { spyGetActivitiesStatistics } from '@/activity/mocks';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import { ACTIVITIES_STATISTICS_FIXTURE } from '@/activity/fixtures';

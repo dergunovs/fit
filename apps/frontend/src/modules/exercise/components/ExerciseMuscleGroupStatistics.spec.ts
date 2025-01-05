@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseMuscleGroupStatistics from './ExerciseMuscleGroupStatistics.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { generateMuscleGroupStatistics } from '@/exercise/helpers';
 

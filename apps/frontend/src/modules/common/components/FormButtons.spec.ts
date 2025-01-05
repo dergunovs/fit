@@ -1,10 +1,11 @@
 import { DefineComponent } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import FormButtons from './FormButtons.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { spyRouterGo } from '@/common/mocks';
 import { CREATE_BUTTON_TEXT, UPDATE_BUTTON_TEXT } from '@/common/constants';
 

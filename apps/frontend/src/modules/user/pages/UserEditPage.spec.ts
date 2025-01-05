@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import UserEditPage from './UserEditPage.vue';
 import UserForm from '@/user/components/UserForm.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { mockRouteId, spyUseRouteId } from '@/common/mocks';
 import { spyGetUser } from '@/user/mocks';
 import { USER_FIXTURE } from '@/user/fixtures';

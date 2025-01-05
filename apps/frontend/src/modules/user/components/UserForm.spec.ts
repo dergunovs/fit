@@ -1,11 +1,12 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_USER, IUser } from 'fitness-tracker-contracts';
+import { dataTest } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { onSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';

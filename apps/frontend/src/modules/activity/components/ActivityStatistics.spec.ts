@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDuration } from 'mhz-helpers';
+import { formatDuration, dataTest } from 'mhz-helpers';
 
 import ActivityStatistics from './ActivityStatistics.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE } from '@/activity/fixtures';
 
 const totalDuration = dataTest('activity-statistics-total-duration');

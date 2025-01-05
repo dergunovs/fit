@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDate, subtractDates, setAuth } from 'mhz-helpers';
+import { formatDate, subtractDates, setAuth, dataTest } from 'mhz-helpers';
 
 import ActivityInfo from './ActivityInfo.vue';
 import ActivityTimeline from './ActivityTimeline.vue';
 import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleGroupStatistics.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { spyCopyActivityToClipboard } from '@/activity/mocks';

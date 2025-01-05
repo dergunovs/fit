@@ -34,14 +34,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { useQueryClient } from 'mhz-helpers';
+import { useQueryClient, useRouteId } from 'mhz-helpers';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
-import { useRouteId } from '@/common/composables';
 
 const isShowConfirm = ref(false);
 

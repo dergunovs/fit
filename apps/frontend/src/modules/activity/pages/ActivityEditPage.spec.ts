@@ -2,11 +2,12 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
 import { UiModal } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import ActivityEditPage from './ActivityEditPage.vue';
 import ActivityInfo from './ActivityInfo.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE } from '@/activity/fixtures';
 import { onSuccess, spyDeleteActivity, spyGetActivity } from '@/activity/mocks';
 import {

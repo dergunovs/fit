@@ -3,11 +3,12 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_EXERCISE, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
 import { UiCheckbox } from 'mhz-ui';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseForm from './ExerciseForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { onSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';

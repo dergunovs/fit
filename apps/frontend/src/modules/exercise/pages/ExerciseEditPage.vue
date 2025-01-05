@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { useRouteId } from 'mhz-helpers';
+
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
 import { exerciseService } from '@/exercise/services';
-import { useRouteId } from '@/common/composables';
 
 const { id } = useRouteId('exercise');
 

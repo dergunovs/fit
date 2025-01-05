@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest, wait } from 'mhz-helpers';
 
 import ExerciseDuration from './ExerciseDuration.vue';
 
-import { dataTest, wait, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 
 const duration = dataTest('exercise-duration');
 

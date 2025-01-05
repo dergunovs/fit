@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { useRouteId } from 'mhz-helpers';
+
 import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { activityService } from '@/activity/services';
-import { useRouteId } from '@/common/composables';
 
 const { id } = useRouteId('activity');
 

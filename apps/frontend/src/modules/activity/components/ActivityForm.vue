@@ -47,7 +47,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { deleteTempId, useQueryClient } from 'mhz-helpers';
+import { deleteTempId, useQueryClient, useRouteId } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   IActivity,
@@ -63,7 +63,6 @@ import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
 import { getPotentialActivityDuration, generateActivityExercises } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
-import { useRouteId } from '@/common/composables';
 
 interface IProps {
   exerciseStatistics: IExerciseStatistics[];

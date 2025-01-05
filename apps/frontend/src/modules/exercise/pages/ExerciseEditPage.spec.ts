@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseEditPage from './ExerciseEditPage.vue';
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
-import { dataTest, wrapperFactory } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { spyGetExercise } from '@/exercise/mocks';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 import { spyUseRouteId, mockRouteId } from '@/common/mocks';

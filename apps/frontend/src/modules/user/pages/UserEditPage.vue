@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { useRouteId } from 'mhz-helpers';
+
 import UserForm from '@/user/components/UserForm.vue';
 
 import { userService } from '@/user/services';
-import { useRouteId } from '@/common/composables';
 
 const { id } = useRouteId('user');
 

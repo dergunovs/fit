@@ -1,12 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
 
 import HomePage from './HomePage.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
-import { wrapperFactory, dataTest } from '@/common/test';
+import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE } from '@/activity/fixtures';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import {
