@@ -2,7 +2,7 @@
   <div>
     <UiCalendar
       :events="props.events"
-      :onEventClick="showEvent"
+      @eventClick="(event) => showEvent(event as IActivityCalendarEvent<IExerciseDone>)"
       @ready="(dates) => emit('ready', dates)"
       @update="(dates) => emit('update', dates)"
       data-test="activity-calendar"

@@ -12,7 +12,7 @@
           v-for="weight in EXERCISE_WEIGHT_OPTIONS"
           :key="weight"
           :modelValue="choosenWeights.some((choosen) => choosen === weight)"
-          @update:modelValue="updateWeights(weight, $event)"
+          @update:modelValue="updateWeights(weight, !!$event)"
           :label="weight ? `${weight} кг.` : 'Без веса'"
           data-test="exercise-form-weights"
         />
@@ -25,7 +25,7 @@
           v-for="muscleGroup in EXERCISE_MUSCLE_GROUPS"
           :key="muscleGroup._id"
           :modelValue="choosenMuscleGroups.some((group) => group._id === muscleGroup._id)"
-          @update:modelValue="updateMuscleGroups(muscleGroup, $event)"
+          @update:modelValue="updateMuscleGroups(muscleGroup, !!$event)"
           :label="muscleGroup.title"
           data-test="exercise-form-muscle-groups"
         />
