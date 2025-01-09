@@ -43,10 +43,10 @@ export interface IExerciseService
   getAll: (
     decode?: (token: string) => IToken | null,
     token?: string,
-  ) => Promise<IExercise[]>;
+  ) => Promise<{ data: IExercise[] }>;
 }
 
-export type TGetExercisesDTO = IExercise[];
+export type TGetExercisesDTO = { data: IExercise[] };
 export type TGetExerciseDTO = { data: IExercise | null };
 
 export type TPostExerciseDTO = IBaseReply;

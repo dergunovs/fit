@@ -5,11 +5,13 @@ import Exercise from './model.js';
 
 export const exerciseService: IExerciseService = {
   getAll: async () => {
-    const data = await Exercise.find()
+    const exercises = await Exercise.find()
       .sort('title')
-      .populate({ path: 'createdBy', select: ['_id', 'name', 'email'] });
+      .populate({ path: 'createdBy', select: ['_id', 'name', 'email'] })
+      .lean()
+      .exec();
 
-    return data as IExercise[];
+    return { data: exercises as IExercise[] };
   },
 
   getOne: async <T>(_id: string) => {

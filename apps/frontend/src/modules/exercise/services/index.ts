@@ -18,7 +18,7 @@ export const exerciseService = {
       queryFn: async () => {
         const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE);
 
-        return data;
+        return data.data;
       },
     });
   },

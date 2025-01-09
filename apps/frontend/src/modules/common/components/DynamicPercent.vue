@@ -1,11 +1,11 @@
 <template>
   <sup
     :class="$style.dynamics"
-    :data-positive="props.percent > 0"
-    :data-negative="props.percent < 0"
+    :data-positive="(props.percent || 0) > 0"
+    :data-negative="(props.percent || 0) < 0"
     data-test="dynamic-percent"
   >
-    {{ formatPercent(props.percent) }}
+    {{ formatPercent(props.percent || 0) }}
   </sup>
 </template>
 
@@ -13,7 +13,7 @@
 import { formatPercent } from 'mhz-helpers';
 
 interface IProps {
-  percent: number;
+  percent: number | null;
 }
 
 const props = defineProps<IProps>();

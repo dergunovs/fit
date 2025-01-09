@@ -12,7 +12,6 @@ const activitySchema = new Schema<IActivity>(
           isDone: Boolean,
           isToFailure: Boolean,
           weight: Number,
-          dateCreated: { type: Date },
           dateUpdated: { type: Date },
         },
       ],

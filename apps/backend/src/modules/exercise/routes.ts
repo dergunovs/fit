@@ -15,7 +15,7 @@ import { IFastifyInstance } from '../common/types.js';
 import { exerciseService } from './service.js';
 import {
   exerciseDeleteSchema,
-  exerciseGetManySchema,
+  exerciseGetAllSchema,
   exerciseGetOneSchema,
   exercisePostSchema,
   exerciseUpdateSchema,
@@ -26,11 +26,11 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.get<{ Reply: { 200: TGetExercisesDTO } }>(
     API_EXERCISE,
-    { ...exerciseGetManySchema },
+    { ...exerciseGetAllSchema },
     async function (request, reply) {
-      const data = await exerciseService.getAll();
+      const { data } = await exerciseService.getAll();
 
-      reply.code(200).send(data);
+      reply.code(200).send({ data });
     }
   );
 

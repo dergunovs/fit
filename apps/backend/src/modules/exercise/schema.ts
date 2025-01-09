@@ -67,8 +67,11 @@ export const exerciseDoneModel: JSONSchemaType<IExerciseDone> = {
 
 export const exercisesReply: JSONSchemaType<TGetExercisesDTO> = {
   $id: 'ExercisesReply',
-  type: 'array',
-  items: exerciseModel,
+  type: 'object',
+  properties: {
+    data: { type: 'array', items: exerciseModel },
+  },
+  required: ['data'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -84,7 +87,7 @@ export const exerciseReply: JSONSchemaType<TGetExerciseDTO> = {
   additionalProperties: false,
 };
 
-export const exerciseGetManySchema: ISchema = {
+export const exerciseGetAllSchema: ISchema = {
   schema: {
     tags,
     response: { 200: exercisesReply },
