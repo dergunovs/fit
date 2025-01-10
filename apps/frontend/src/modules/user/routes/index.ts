@@ -1,4 +1,4 @@
-import { URL_USER, URL_USER_CREATE, URL_USER_EDIT } from '@/user/constants';
+import { URL_USER, URL_USER_CREATE, URL_USER_EDIT, URL_USER_PROFILE } from '@/user/constants';
 
 export const userRoutes = [
   {
@@ -18,5 +18,10 @@ export const userRoutes = [
     name: 'UserEdit',
     component: () => import('@/user/pages/UserEditPage.vue'),
     meta: { layout: 'admin' },
+  },
+  {
+    path: URL_USER_PROFILE,
+    name: 'UserProfile',
+    component: () => import('@/user/pages/UserProfilePage.vue'),
   },
 ];

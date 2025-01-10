@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_USER, IUser } from 'fitness-tracker-contracts';
+import { API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
 import { dataTest } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
@@ -15,6 +15,7 @@ import { URL_USER } from '@/user/constants';
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
 const PASSWORD = 'unique';
+const EQUIPMENTS: IUserEquipment[] = [];
 
 const form = dataTest('user-form');
 const formAdmin = dataTest('user-form-admin');
@@ -81,7 +82,13 @@ describe('UserForm', async () => {
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateUser).toBeCalledTimes(1);
-    expect(spyCreateUser).toBeCalledWith({ email: EMAIL, name: NAME, password: PASSWORD, role: 'user' });
+    expect(spyCreateUser).toBeCalledWith({
+      email: EMAIL,
+      name: NAME,
+      password: PASSWORD,
+      equipments: EQUIPMENTS,
+      role: 'user',
+    });
 
     await mockOnSuccess.create?.();
 
@@ -111,6 +118,7 @@ describe('UserForm', async () => {
       email: USER_FIXTURE.email,
       name: NEW_NAME,
       password: USER_FIXTURE.password,
+      equipments: USER_FIXTURE.equipments,
       role: USER_FIXTURE.role,
     });
 

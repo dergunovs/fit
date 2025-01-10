@@ -1,0 +1,20 @@
+<template>
+  <div>
+    <UserForm v-if="user" :user="user" data-test="user-form" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+
+import UserForm from '@/user/components/UserForm.vue';
+
+import { userService } from '@/user/services';
+import { useAuthCheck } from '@/auth/composables';
+
+const { token } = useAuthCheck();
+
+const id = computed(() => token.value?._id || '');
+
+const { data: user } = userService.getOne(id);
+</script>

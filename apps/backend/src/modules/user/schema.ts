@@ -1,10 +1,21 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IUser, TGetUserDTO, TGetUsersDTO } from 'fitness-tracker-contracts';
+import type { IUser, IUserEquipment, TGetUserDTO, TGetUsersDTO } from 'fitness-tracker-contracts';
 
 import { ISchema } from '../common/types.js';
 import { paginatedQuery, baseParams, baseReply } from '../common/schema.js';
 
 const tags = ['User'];
+
+export const userEquipmentModel: JSONSchemaType<IUserEquipment> = {
+  $id: 'UserEquipment',
+  type: 'object',
+  properties: {
+    equipment: { type: 'object', $ref: 'Equipment', nullable: true },
+    weights: { type: 'array', items: { type: 'number' }, nullable: true },
+  },
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
 
 export const userModel: JSONSchemaType<IUser> = {
   $id: 'User',
@@ -18,6 +29,7 @@ export const userModel: JSONSchemaType<IUser> = {
     role: { type: 'string', enum: ['user', 'admin'], nullable: true },
     name: { type: 'string', nullable: true },
     dateLoggedIn: { type: 'string', format: 'date-time', nullable: true },
+    equipments: { type: 'array', items: userEquipmentModel, nullable: true },
   },
   required: ['email'],
   $schema: 'http://json-schema.org/draft-07/schema#',

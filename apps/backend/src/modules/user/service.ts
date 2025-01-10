@@ -12,7 +12,11 @@ export const userService: IBaseService = {
   },
 
   getOne: async <T>(_id: string) => {
-    const user: IUser | null = await User.findOne({ _id }).select('_id name role email').lean().exec();
+    const user: IUser | null = await User.findOne({ _id })
+      .select('_id name role email equipments')
+      .populate({ path: 'equipments.equipment' })
+      .lean()
+      .exec();
 
     return { data: user as T };
   },

@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 import { vi } from 'vitest';
 import {
   TPostAuthLoginDataDTO,
@@ -10,8 +11,9 @@ import { authService } from '@/auth/services';
 import { mockMutationReply } from '@/common/mocks';
 import * as authComposables from '@/auth/composables';
 import { IOnSuccess } from '@/common/interface';
+import { TOKEN_FIXTURE } from '@/auth/fixtures';
 
-const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue();
+const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ token: ref(TOKEN_FIXTURE) });
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();

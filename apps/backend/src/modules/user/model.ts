@@ -7,6 +7,14 @@ const userSchema = new Schema<IUser>(
     name: { type: String },
     role: { type: String, enum: ['admin', 'user'] },
     password: { type: String, required: true },
+    equipments: {
+      type: [
+        {
+          equipment: { type: Schema.Types.ObjectId, ref: 'Equipment', required: true },
+          weights: [Number],
+        },
+      ],
+    },
     dateLoggedIn: { type: Date, default: Date.now },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },

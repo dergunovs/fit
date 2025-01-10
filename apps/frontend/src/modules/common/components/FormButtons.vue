@@ -1,11 +1,17 @@
 <template>
   <div :class="$style.buttons">
-    <UiFlex gap="16">
+    <UiFlex>
       <UiButton type="submit" :isDisabled="props.isLoading" data-test="form-buttons-submit">
         {{ submitButtonText }}
       </UiButton>
 
-      <UiButton @click="router.go(-1)" layout="secondary" :isDisabled="props.isLoading" data-test="form-buttons-back">
+      <UiButton
+        @click="router.go(-1)"
+        layout="secondary"
+        :isDisabled="props.isLoading"
+        isNarrow
+        data-test="form-buttons-back"
+      >
         Назад
       </UiButton>
     </UiFlex>
@@ -15,6 +21,7 @@
       @click="isShowConfirm = true"
       layout="secondary"
       :isDisabled="props.isLoading"
+      isNarrow
       data-test="form-buttons-delete"
     >
       Удалить
@@ -61,13 +68,5 @@ const submitButtonText = computed(() => (props.id ? UPDATE_BUTTON_TEXT : CREATE_
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
-
-@media (max-width: 960px) {
-  .buttons {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-  }
 }
 </style>

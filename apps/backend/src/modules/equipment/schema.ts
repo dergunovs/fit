@@ -14,9 +14,9 @@ export const equipmentModel: JSONSchemaType<IEquipment> = {
     dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
     title: { type: 'string' },
-    weights: { type: 'array', items: { type: 'number' } },
+    isWeights: { type: 'boolean' },
   },
-  required: ['title', 'weights'],
+  required: ['title'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };

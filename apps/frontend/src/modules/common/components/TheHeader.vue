@@ -2,13 +2,15 @@
   <header :class="$style.header">
     <UiFlex align="center" gap="64">
       <RouterLink :to="URL_HOME" :class="$style.logo" aria-label="Logo" data-test="header-logo">
-        <IconLogo width="32" height="32" /> FiT
+        <IconLogo width="32" height="32" />FiT
       </RouterLink>
     </UiFlex>
 
     <UiFlex gap="16" justify="flex-end">
       <template v-if="isAuth">
         <UiButton @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">Админка</UiButton>
+
+        <UiButton @click="router.push(URL_USER_PROFILE)" layout="plain" data-test="header-profile">Профиль</UiButton>
 
         <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain" data-test="header-activity">
           Занятие
@@ -35,6 +37,7 @@ import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME } from '@/common/constants';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
+import { URL_USER_PROFILE } from '@/user/constants';
 
 const emit = defineEmits<{ showLogin: [] }>();
 

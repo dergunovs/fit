@@ -17,4 +17,6 @@ export function useAuthCheck() {
       if (token.value?._id) setAuth(true);
     }
   );
+
+  return { token };
 }
