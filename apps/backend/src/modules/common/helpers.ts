@@ -44,7 +44,7 @@ export async function paginate<T>(
   Entity: Model<T>,
   pageQuery?: number,
   sort?: string,
-  populate?: { path: string; select: string[]; populate?: { path: string; select: string[] } }[]
+  populate?: { path: string; select?: string[]; populate?: { path: string; select: string[] } }[]
 ): Promise<IPaginatedReply<T>> {
   const page = Number(pageQuery) || 1;
 

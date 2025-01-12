@@ -20,7 +20,13 @@
           <div>Оборудование</div>
 
           <UiFlex>
-            <UiSelect v-model="choosenEquipment" :options="equipments" lang="ru" data-test="user-equipment" />
+            <UiSelect
+              v-model="choosenEquipment"
+              :options="equipmentsFiltered"
+              :isDisabled="isEditEquipment"
+              lang="ru"
+              data-test="user-form-equipment-options"
+            />
           </UiFlex>
         </UiFlex>
 
@@ -34,10 +40,16 @@
               step="1"
               min="1"
               max="500"
-              data-test="equipment-form-weights"
+              data-test="user-form-weights"
             />
 
-            <UiButton :isDisabled="isAddWeightDisabled" layout="secondary" isNarrow @click="addWeight">
+            <UiButton
+              :isDisabled="isAddWeightDisabled"
+              layout="secondary"
+              isNarrow
+              @click="addWeight"
+              data-test="user-form-add-weight"
+            >
               Добавить
             </UiButton>
           </UiFlex>
@@ -51,31 +63,50 @@
           <UiChip v-for="weight in choosenEquipmentWeights" :key="weight">
             <IconWeight width="16" height="16" /><span>{{ weight }}</span> кг.
 
-            <button type="button" @click="deleteWeight(weight)" :class="$style.delete">×</button>
+            <button
+              type="button"
+              @click="deleteWeight(weight)"
+              :class="$style.delete"
+              data-test="user-form-delete-weight"
+            >
+              ×
+            </button>
           </UiChip>
         </UiFlex>
       </UiFlex>
 
       <UiFlex>
-        <UiButton v-if="isEditEquipment" @click="saveEquipment">Сохранить оборудование</UiButton>
-        <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment">Добавить оборудование</UiButton>
+        <UiButton v-if="isEditEquipment" @click="saveEquipment" data-test="user-form-save-equipment">
+          Сохранить оборудование
+        </UiButton>
+
+        <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment" data-test="user-form-add-equipment">
+          Добавить оборудование
+        </UiButton>
       </UiFlex>
 
       <UiFlex v-if="formData.equipments?.length" column>
         <div>Добавленное оборудование</div>
 
-        <UiFlex>
+        <UiFlex wrap>
           <UiChip
             v-for="equipment in formData.equipments"
             :key="`${equipment.equipment?._id}-${equipment.weights?.join()}`"
+            data-test="user-form-equipment"
           >
-            <span>{{ equipment.equipment?.title }}</span>
+            <span data-test="user-form-equipment-title">{{ equipment.equipment?.title }}</span>
 
-            <span v-for="weight in equipment.weights" :key="weight">
-              <span>{{ weight }}</span> кг.
+            <span v-for="weight in equipment.weights" :key="weight" data-test="user-form-equipment-weights">
+              <span data-test="user-form-equipment-weight">{{ weight }}</span> кг.
             </span>
 
-            <button v-if="equipment" type="button" @click="editEquipment(equipment)" :class="$style.edit">
+            <button
+              v-if="equipment.equipment?.isWeights"
+              type="button"
+              @click="editEquipment(equipment)"
+              :class="$style.edit"
+              data-test="user-form-equipment-edit"
+            >
               <IconEdit width="20" height="20" />
             </button>
 
@@ -84,6 +115,7 @@
               type="button"
               @click="deleteEquipment(equipment.equipment.title)"
               :class="$style.delete"
+              data-test="user-form-equipment-delete"
             >
               ×
             </button>
@@ -142,9 +174,17 @@ const choosenEquipmentWeights = ref<number[]>([]);
 
 const isEditEquipment = ref(false);
 
+const equipmentsFiltered = computed(() =>
+  equipments.value?.filter(
+    (equipment) =>
+      !formData.value.equipments?.some((equipmentToFilter) => equipment.title === equipmentToFilter.equipment?.title)
+  )
+);
+
 const isAddWeightDisabled = computed(
   () =>
-    choosenEquipmentWeightInput.value === 0 || choosenEquipmentWeights.value.includes(choosenEquipmentWeightInput.value)
+    choosenEquipmentWeightInput.value === 0 ||
+    choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeightInput.value))
 );
 
 const isAddEquipmentDisabled = computed(
@@ -157,7 +197,7 @@ const isAddEquipmentDisabled = computed(
 function addWeight() {
   if (isAddWeightDisabled.value) return;
 
-  choosenEquipmentWeights.value = [...choosenEquipmentWeights.value, choosenEquipmentWeightInput.value].sort();
+  choosenEquipmentWeights.value = [...choosenEquipmentWeights.value, Number(choosenEquipmentWeightInput.value)].sort();
 }
 
 function deleteWeight(weightToDelete: number) {

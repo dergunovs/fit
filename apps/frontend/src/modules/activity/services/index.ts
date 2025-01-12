@@ -94,7 +94,7 @@ export const activityService = {
 
   getLast: () => {
     return useQuery({
-      queryKey: [API_ACTIVITY],
+      queryKey: [API_ACTIVITY_LAST],
       queryFn: async () => {
         const { data } = await api.get<TGetActivityLastDTO>(API_ACTIVITY_LAST);
 

@@ -6,7 +6,7 @@ import User from './model.js';
 
 export const userService: IBaseService = {
   getMany: async <T>(page?: number) => {
-    const { data, total } = await paginate(User, page);
+    const { data, total } = await paginate(User, page, '-dateCreated', [{ path: 'equipments.equipment' }]);
 
     return { data: data as T[], total };
   },
