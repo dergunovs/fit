@@ -14,11 +14,7 @@ import { useAuthCheck } from '@/auth/composables';
 
 const { token } = useAuthCheck();
 
-console.log(token.value);
-
 const id = computed(() => token.value?._id);
-
-console.log(id.value);
 
 const { data: user } = userService.getOne({ enabled: !!id.value }, id);
 </script>
