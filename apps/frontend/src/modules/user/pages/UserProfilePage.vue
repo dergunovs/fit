@@ -16,5 +16,5 @@ const { token } = useAuthCheck();
 
 const id = computed(() => token.value?._id);
 
-const { data: user } = userService.getOne({ enabled: !!id.value }, id);
+const { data: user } = userService.getOne({}, id);
 </script>
