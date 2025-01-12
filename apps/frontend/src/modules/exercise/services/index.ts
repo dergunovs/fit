@@ -23,7 +23,7 @@ export const exerciseService = {
     });
   },
 
-  getOne: (id?: ComputedRef<string>) => {
+  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
     return useQuery({
       queryKey: [API_EXERCISE, id],
       queryFn: async () => {
@@ -33,6 +33,7 @@ export const exerciseService = {
 
         return data.data;
       },
+      ...options,
     });
   },
 

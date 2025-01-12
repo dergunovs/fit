@@ -15,7 +15,12 @@
         <UiInput v-model="formData.password" data-test="user-form-password" />
       </UiField>
 
-      <UserEquipmentForm v-if="equipments" :equipments="equipments" v-model="formData.equipments" />
+      <UserEquipmentForm
+        v-if="equipments"
+        :equipments="equipments"
+        v-model="formData.equipments"
+        data-test="user-form-equipments"
+      />
 
       <FormButtons
         :id="props.user?._id"

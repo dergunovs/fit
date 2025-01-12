@@ -23,7 +23,7 @@ export const equipmentService = {
     });
   },
 
-  getOne: (id?: ComputedRef<string>) => {
+  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
     return useQuery({
       queryKey: [API_EQUIPMENT, id],
       queryFn: async () => {
@@ -33,6 +33,7 @@ export const equipmentService = {
 
         return data.data;
       },
+      ...options,
     });
   },
 

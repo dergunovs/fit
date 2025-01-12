@@ -13,5 +13,5 @@ import { exerciseService } from '@/exercise/services';
 
 const { id } = useRouteId('exercise');
 
-const { data: exercise } = exerciseService.getOne(id);
+const { data: exercise } = exerciseService.getOne({}, id);
 </script>

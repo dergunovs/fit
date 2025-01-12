@@ -4,6 +4,7 @@ import { API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
 import { dataTest } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
+import UserEquipmentForm from './UserEquipmentForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -11,6 +12,8 @@ import { USER_FIXTURE } from '@/user/fixtures';
 import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_USER } from '@/user/constants';
+import { spyGetEquipments } from '@/equipment/mocks';
+import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
@@ -22,6 +25,7 @@ const formAdmin = dataTest('user-form-admin');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
+const formEquipments = dataTest('user-form-equipments');
 const formButtons = dataTest('user-form-buttons');
 
 const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(UserForm, { user: USER_FIXTURE });
@@ -159,5 +163,12 @@ describe('UserForm', async () => {
   it('sets form buttons id', async () => {
     expect(wrapper.find(formButtons).attributes('id')).toBe(undefined);
     expect(wrapperWithUser.find(formButtons).attributes('id')).toBe(USER_FIXTURE._id);
+  });
+
+  it('gets and sets equipment options', async () => {
+    expect(spyGetEquipments).toBeCalledTimes(1);
+    expect(wrapper.findComponent<typeof UserEquipmentForm>(formEquipments).vm.$props.equipments).toStrictEqual(
+      EQUIPMENTS_FIXTURE
+    );
   });
 });

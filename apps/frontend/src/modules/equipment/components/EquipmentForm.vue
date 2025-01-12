@@ -5,7 +5,11 @@
         <UiInput v-model="formData.title" data-test="equipment-form-title" />
       </UiField>
 
-      <UiCheckbox v-model="formData.isWeights" label="Наличие веса у оборудования" />
+      <UiCheckbox
+        v-model="formData.isWeights"
+        label="Наличие веса у оборудования"
+        data-test="equipment-form-is-weights"
+      />
 
       <FormButtons
         :id="props.equipment?._id"

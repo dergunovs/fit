@@ -13,7 +13,9 @@ import * as authComposables from '@/auth/composables';
 import { IOnSuccess } from '@/common/interface';
 import { TOKEN_FIXTURE } from '@/auth/fixtures';
 
-const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ token: ref(TOKEN_FIXTURE) });
+const token = ref(TOKEN_FIXTURE);
+
+const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ token });
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();

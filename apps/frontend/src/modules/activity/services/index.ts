@@ -78,7 +78,7 @@ export const activityService = {
     });
   },
 
-  getOne: (options: object, id?: ComputedRef<string>) => {
+  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
     return useQuery({
       queryKey: [API_ACTIVITY, id],
       queryFn: async () => {

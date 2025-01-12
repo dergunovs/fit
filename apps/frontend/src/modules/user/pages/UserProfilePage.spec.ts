@@ -2,35 +2,33 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
-import UserEditPage from './UserEditPage.vue';
+import UserProfilePage from './UserProfilePage.vue';
 import UserForm from '@/user/components/UserForm.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { mockRouteId, spyUseRouteId } from '@/common/mocks';
 import { spyGetUser } from '@/user/mocks';
 import { USER_FIXTURE } from '@/user/fixtures';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
 const userForm = dataTest('user-form');
 
-let wrapper: VueWrapper<InstanceType<typeof UserEditPage>>;
+let wrapper: VueWrapper<InstanceType<typeof UserProfilePage>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserEditPage);
+  wrapper = wrapperFactory(UserProfilePage);
 });
 
 enableAutoUnmount(afterEach);
 
-describe('UserEditPage', async () => {
+describe('UserProfilePage', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(UserEditPage)).toBeTruthy();
+    expect(wrapper.findComponent(UserProfilePage)).toBeTruthy();
   });
 
   it('gets and sets user to form', async () => {
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('user');
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
 
     expect(spyGetUser).toBeCalledTimes(1);
-    expect(spyGetUser).toBeCalledWith({}, mockRouteId);
 
     expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toStrictEqual(USER_FIXTURE);
   });
