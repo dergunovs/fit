@@ -7,10 +7,10 @@
         <UiFlex>
           <UiSelect
             v-model="choosenEquipment"
-            :options="equipmentsFiltered"
+            :options="excludeChoosenUserEquipment(props.equipments, props.modelValue)"
             :isDisabled="isEditEquipment"
             lang="ru"
-            data-test="user-form-equipment-options"
+            data-test="user-equipment-options"
           />
         </UiFlex>
       </UiFlex>
@@ -19,21 +19,14 @@
         <div>Возможный вес</div>
 
         <UiFlex>
-          <UiInput
-            v-model="choosenEquipmentWeightInput"
-            type="number"
-            step="1"
-            min="1"
-            max="500"
-            data-test="user-form-weights"
-          />
+          <UiInput v-model="choosenEquipmentWeight" type="number" step="1" min="1" max="500" data-test="user-weight" />
 
           <UiButton
             :isDisabled="isAddWeightDisabled"
             layout="secondary"
             isNarrow
             @click="addWeight"
-            data-test="user-form-add-weight"
+            data-test="user-add-weight"
           >
             Добавить
           </UiButton>
@@ -45,15 +38,10 @@
       <div>Добавленные веса</div>
 
       <UiFlex>
-        <UiChip v-for="weight in choosenEquipmentWeights" :key="weight">
-          <IconWeight width="16" height="16" /><span>{{ weight }}</span> кг.
+        <UiChip v-for="weight in choosenEquipmentWeights" :key="weight" data-test="user-added-weights">
+          <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> кг.
 
-          <button
-            type="button"
-            @click="deleteWeight(weight)"
-            :class="$style.delete"
-            data-test="user-form-delete-weight"
-          >
+          <button type="button" @click="deleteWeight(weight)" :class="$style.delete" data-test="user-delete-weight">
             ×
           </button>
         </UiChip>
@@ -61,15 +49,15 @@
     </UiFlex>
 
     <UiFlex>
-      <UiButton v-if="isEditEquipment" @click="saveEquipment" data-test="user-form-save-equipment">
+      <UiButton v-if="isEditEquipment" @click="saveEquipment" data-test="user-save-equipment">
         Сохранить оборудование
       </UiButton>
 
-      <UiButton v-if="isEditEquipment" @click="resetEquipment" layout="secondary" data-test="user-form-reset-equipment">
+      <UiButton v-if="isEditEquipment" @click="resetEquipment" layout="secondary" data-test="user-reset-equipment">
         Отменить редактирование
       </UiButton>
 
-      <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment" data-test="user-form-add-equipment">
+      <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment" data-test="user-add-equipment">
         Добавить оборудование
       </UiButton>
     </UiFlex>
@@ -81,12 +69,12 @@
         <UiChip
           v-for="equipment in props.modelValue"
           :key="`${equipment.equipment?._id}-${equipment.weights?.join()}`"
-          data-test="user-form-equipment"
+          data-test="user-equipment"
         >
-          <span data-test="user-form-equipment-title">{{ equipment.equipment?.title }}</span>
+          <span data-test="user-equipment-title">{{ equipment.equipment?.title }}</span>
 
-          <span v-for="weight in equipment.weights" :key="weight" data-test="user-form-equipment-weights">
-            <span data-test="user-form-equipment-weight">{{ weight }}</span> кг.
+          <span v-for="weight in equipment.weights" :key="weight" data-test="user-equipment-weights">
+            <span data-test="user-equipment-weight">{{ weight }}</span> кг.
           </span>
 
           <button
@@ -94,7 +82,7 @@
             type="button"
             @click="editEquipment(equipment)"
             :class="$style.edit"
-            data-test="user-form-equipment-edit"
+            data-test="user-equipment-edit"
           >
             <IconEdit width="20" height="20" />
           </button>
@@ -104,7 +92,7 @@
             type="button"
             @click="deleteEquipment(equipment.equipment.title)"
             :class="$style.delete"
-            data-test="user-form-equipment-delete"
+            data-test="user-delete-equipment"
           >
             ×
           </button>
@@ -122,6 +110,8 @@ import { UiButton, UiFlex, UiInput, UiSelect, UiChip } from 'mhz-ui';
 import IconWeight from '@/common/icons/weight.svg';
 import IconEdit from '@/common/icons/edit.svg';
 
+import { excludeChoosenUserEquipment } from '@/user/helpers';
+
 interface IProps {
   equipments: IEquipment[];
   modelValue?: IUserEquipment[];
@@ -131,22 +121,14 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ 'update:modelValue': [value?: IUserEquipment[]] }>();
 
 const choosenEquipment = ref<IEquipment>();
-const choosenEquipmentWeightInput = ref<number>(0);
+const choosenEquipmentWeight = ref<number>(0);
 const choosenEquipmentWeights = ref<number[]>([]);
 
 const isEditEquipment = ref(false);
 
-const equipmentsFiltered = computed(() =>
-  props.equipments.filter(
-    (equipment) =>
-      !props.modelValue?.some((equipmentToFilter) => equipment.title === equipmentToFilter.equipment?.title)
-  )
-);
-
 const isAddWeightDisabled = computed(
   () =>
-    choosenEquipmentWeightInput.value === 0 ||
-    choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeightInput.value))
+    choosenEquipmentWeight.value === 0 || choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeight.value))
 );
 
 const isAddEquipmentDisabled = computed(
@@ -159,7 +141,9 @@ const isAddEquipmentDisabled = computed(
 function addWeight() {
   if (isAddWeightDisabled.value) return;
 
-  choosenEquipmentWeights.value = [...choosenEquipmentWeights.value, Number(choosenEquipmentWeightInput.value)].sort();
+  choosenEquipmentWeights.value = [...choosenEquipmentWeights.value, Number(choosenEquipmentWeight.value)].sort(
+    (a, b) => a - b
+  );
 }
 
 function deleteWeight(weightToDelete: number) {
@@ -182,7 +166,7 @@ function editEquipment(equipment: IUserEquipment) {
   isEditEquipment.value = true;
 
   choosenEquipment.value = equipment.equipment;
-  choosenEquipmentWeightInput.value = 0;
+  choosenEquipmentWeight.value = 0;
   choosenEquipmentWeights.value = equipment.weights?.length ? [...equipment.weights] : [];
 }
 
@@ -206,7 +190,7 @@ function deleteEquipment(title: string) {
 
 function resetEquipment() {
   choosenEquipment.value = undefined;
-  choosenEquipmentWeightInput.value = 0;
+  choosenEquipmentWeight.value = 0;
   choosenEquipmentWeights.value = [];
 
   isEditEquipment.value = false;
