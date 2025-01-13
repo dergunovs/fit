@@ -4,7 +4,6 @@ import {
   IEntity,
   IPaginatedQuery,
   IPaginatedReply,
-  IToken,
 } from "./base";
 import { IExerciseDone, IExerciseStatistics } from "./exercise";
 import { IUser } from "./user";
@@ -62,7 +61,7 @@ export interface IActivityService extends IBaseService {
   getChart: (type: TActivityChartType) => Promise<IActivityChart>;
 
   getLast: <T>(
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<{ data: T | null }>;
 }

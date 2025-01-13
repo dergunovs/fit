@@ -1,17 +1,9 @@
-import { TUserRole } from "./user";
+import { IUser } from "./user";
 
 export interface IEntity {
   _id?: string;
   dateCreated?: Date | string;
   dateUpdated?: Date | string;
-}
-
-export interface IToken {
-  _id: string;
-  email: string;
-  name: string;
-  token?: string;
-  role?: TUserRole;
 }
 
 export interface IBaseParams {
@@ -34,32 +26,32 @@ export interface IPaginatedReply<T> {
 export interface IBaseService {
   getMany: <T>(
     page: number,
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<IPaginatedReply<T>>;
 
   getOne: <T>(
     id: string,
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<{ data: T | null }>;
 
   update: <T>(
     _id: string,
     itemToUpdate: T,
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<boolean | void>;
 
   create: <T>(
     item: T,
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<string | boolean | void>;
 
   delete: (
     _id: string,
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<boolean | void>;
 }

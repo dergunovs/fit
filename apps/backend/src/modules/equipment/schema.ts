@@ -16,7 +16,7 @@ export const equipmentModel: JSONSchemaType<IEquipment> = {
     title: { type: 'string' },
     isWeights: { type: 'boolean' },
   },
-  required: ['title'],
+  required: ['title', 'isWeights'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };

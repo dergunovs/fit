@@ -10,7 +10,7 @@ export interface IEquipment extends IEntity {
 export interface IEquipmentService
   extends Pick<IBaseService, "getOne" | "update" | "create" | "delete"> {
   getAll: (
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<{ data: IEquipment[] }>;
 }

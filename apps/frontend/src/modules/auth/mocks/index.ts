@@ -11,11 +11,9 @@ import { authService } from '@/auth/services';
 import { mockMutationReply } from '@/common/mocks';
 import * as authComposables from '@/auth/composables';
 import { IOnSuccess } from '@/common/interface';
-import { TOKEN_FIXTURE } from '@/auth/fixtures';
+import { USER_FIXTURE } from '@/user/fixtures';
 
-const token = ref(TOKEN_FIXTURE);
-
-const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ token });
+const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ user: ref(USER_FIXTURE) });
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();

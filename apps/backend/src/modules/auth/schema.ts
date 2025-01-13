@@ -1,25 +1,10 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IAuthData, IToken, TGetAuthDTO } from 'fitness-tracker-contracts';
+import type { IAuthData, TGetAuthDTO, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
 
 import { ISchema } from '../common/types.js';
 import { baseReply } from '../common/schema.js';
 
 const tags = ['Auth'];
-
-export const tokenModel: JSONSchemaType<IToken> = {
-  $id: 'Token',
-  type: 'object',
-  properties: {
-    _id: { type: 'string' },
-    email: { type: 'string' },
-    name: { type: 'string' },
-    token: { type: 'string', nullable: true },
-    role: { type: 'string', enum: ['user', 'admin'], nullable: true },
-  },
-  required: ['_id', 'email', 'name'],
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  additionalProperties: false,
-};
 
 export const authDataModel: JSONSchemaType<IAuthData> = {
   $id: 'AuthData',
@@ -33,11 +18,22 @@ export const authDataModel: JSONSchemaType<IAuthData> = {
   additionalProperties: false,
 };
 
+export const loginReply: JSONSchemaType<TPostAuthLoginDTO> = {
+  $id: 'LoginReply',
+  type: 'object',
+  properties: {
+    user: { type: 'object', $ref: 'User', nullable: true },
+    token: { type: 'string', nullable: true },
+  },
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
 export const authReply: JSONSchemaType<TGetAuthDTO> = {
   $id: 'AuthReply',
   type: 'object',
-  $ref: 'Token',
-  required: ['_id', 'email', 'name'],
+  $ref: 'User',
+  required: ['email'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -54,7 +50,7 @@ export const authLoginSchema: ISchema = {
   schema: {
     tags,
     body: authDataModel,
-    response: { 200: authReply },
+    response: { 200: loginReply },
   },
 };
 

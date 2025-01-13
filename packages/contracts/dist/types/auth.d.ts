@@ -1,4 +1,5 @@
-import { IBaseReply, IToken } from "./base";
+import { IBaseReply } from "./base";
+import { IUser } from "./user";
 
 export { API_AUTH_GET, API_AUTH_LOGIN, API_AUTH_SETUP } from "../index";
 
@@ -8,13 +9,16 @@ export interface IAuthData {
 }
 
 export interface IAuthService {
-  check: (request: { jwtVerify: () => Promise<IToken> }) => Promise<IToken>;
+  check: (request: {
+    jwtVerify: () => Promise<{ _doc: IUser }>;
+  }) => Promise<IUser>;
 
   login: (
     loginData: IAuthData,
-    signData: (payload: IToken, options: object) => string,
+    signData: (payload: IUser, options: object) => string,
   ) => Promise<{
-    user?: IToken;
+    user?: IUser;
+    token?: string;
     isUserNotFound: boolean;
     isWrongPassword: boolean;
   }>;
@@ -22,9 +26,9 @@ export interface IAuthService {
   setup: (admin: IAuthData) => Promise<boolean>;
 }
 
-export type TGetAuthDTO = IToken;
+export type TGetAuthDTO = IUser;
 
-export type TPostAuthLoginDTO = IToken;
+export type TPostAuthLoginDTO = { user?: IUser; token?: string };
 export type TPostAuthLoginDataDTO = IAuthData;
 export type TPostAuthSetupDTO = IBaseReply;
 export type TPostAuthSetupDataDTO = IAuthData;

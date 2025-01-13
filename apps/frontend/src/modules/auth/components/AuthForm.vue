@@ -54,11 +54,11 @@ const header = computed(() => (props.isSetup ? AUTH_FORM_HEADER_SETUP : AUTH_FOR
 const submitButton = computed(() => (props.isSetup ? AUTH_FORM_SUBMIT_BUTTON_SETUP : AUTH_FORM_SUBMIT_BUTTON_LOGIN));
 
 const { mutate: mutateLogin } = authService.login({
-  onSuccess: (user: TPostAuthLoginDTO) => {
-    if (!user.token) return;
+  onSuccess: (response: TPostAuthLoginDTO) => {
+    if (!response.token) return;
 
-    toast.success(`Добро пожаловать, ${user.name}!`);
-    auth(user.token, setAuthHeader, TOKEN_NAME);
+    toast.success(`Добро пожаловать, ${response.user?.name}!`);
+    auth(response.token, setAuthHeader, TOKEN_NAME);
     emit('login');
     router.push(URL_ACTIVITY_CREATE);
   },

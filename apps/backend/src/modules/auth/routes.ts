@@ -14,23 +14,23 @@ import { authGetSchema, authLoginSchema, authSetupSchema } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
-    const token = await authService.check(request);
+    const user = await authService.check(request);
 
-    return reply.code(200).send(token);
+    return reply.code(200).send(user);
   });
 
   fastify.post<{ Body: TPostAuthLoginDataDTO; Reply: { 200: TPostAuthLoginDTO; '4xx': IBaseReply } }>(
     API_AUTH_LOGIN,
     { ...authLoginSchema },
     async function (request, reply) {
-      const { user, isUserNotFound, isWrongPassword } = await authService.login(request.body, fastify.jwt.sign);
+      const { user, token, isUserNotFound, isWrongPassword } = await authService.login(request.body, fastify.jwt.sign);
 
       if (isUserNotFound) {
         reply.code(404).send({ message: 'Пользователь не найден' });
       } else if (isWrongPassword) {
         reply.code(401).send({ message: 'Неправильный пароль' });
       } else {
-        reply.code(200).send(user);
+        reply.code(200).send({ user, token });
       }
     }
   );

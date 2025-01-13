@@ -9,14 +9,14 @@ export function useAuthCheck() {
 
   if (cookieToken) setAuthHeader(cookieToken);
 
-  const { data: token } = authService.check({ enabled: !!cookieToken });
+  const { data: user } = authService.check({ enabled: !!cookieToken });
 
   watch(
-    () => token.value,
+    () => user.value,
     () => {
-      if (token.value?._id) setAuth(true);
+      if (user.value?._id) setAuth(true);
     }
   );
 
-  return { token };
+  return { user };
 }

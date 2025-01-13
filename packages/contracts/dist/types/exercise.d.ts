@@ -1,4 +1,4 @@
-import { IBaseReply, IBaseService, IEntity, IToken } from "./base";
+import { IBaseReply, IBaseService, IEntity } from "./base";
 import { IUser } from "./user";
 
 export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
@@ -41,7 +41,7 @@ export interface IExerciseStatistics {
 export interface IExerciseService
   extends Pick<IBaseService, "getOne" | "update" | "create" | "delete"> {
   getAll: (
-    decode?: (token: string) => IToken | null,
+    decode?: (token: string) => IUser | null,
     token?: string,
   ) => Promise<{ data: IExercise[] }>;
 }

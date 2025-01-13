@@ -6,7 +6,7 @@
       </RouterLink>
     </UiFlex>
 
-    <UiFlex gap="16" justify="flex-end">
+    <UiFlex gap="12" justify="flex-end">
       <template v-if="isAuth">
         <UiButton @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">Админка</UiButton>
 

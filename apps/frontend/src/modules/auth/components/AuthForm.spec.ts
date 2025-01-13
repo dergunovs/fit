@@ -9,6 +9,7 @@ import { mockOnSuccess, spyLogin, spySetup } from '@/auth/mocks';
 import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
+import { TOKEN_FIXTURE } from '@/auth/fixtures';
 import {
   TOKEN_NAME,
   AUTH_FORM_HEADER_SETUP,
@@ -22,7 +23,6 @@ const PASSWORD = 'qwerty';
 
 const ID = 'vf9gwr9bunrwber';
 const NAME = 'Иван';
-const TOKEN = 'fdigheburb09ure0hr9g9ureu9bhr9ugh9rh94hvre';
 
 const form = dataTest('auth-form');
 const formHeader = dataTest('auth-form-header');
@@ -78,11 +78,11 @@ describe('AuthForm', async () => {
     expect(spyLogin).toBeCalledTimes(1);
     expect(spyLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
 
-    await mockOnSuccess.login?.({ _id: ID, email: EMAIL, name: NAME, token: TOKEN });
+    await mockOnSuccess.login?.({ user: { _id: ID, email: EMAIL, name: NAME }, token: TOKEN_FIXTURE });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
     expect(spyAuth).toBeCalledTimes(1);
-    expect(spyAuth).toBeCalledWith(TOKEN, spySetAuthHeaders, TOKEN_NAME);
+    expect(spyAuth).toBeCalledWith(TOKEN_FIXTURE, spySetAuthHeaders, TOKEN_NAME);
     expect(wrapper.emitted('login')).toHaveLength(1);
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_ACTIVITY_CREATE);
