@@ -1,5 +1,6 @@
 import { IBaseReply, IBaseService, IEntity } from "./base";
 import { IUser } from "./user";
+import { TDecode } from "./auth";
 
 export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
 
@@ -40,10 +41,7 @@ export interface IExerciseStatistics {
 
 export interface IExerciseService
   extends Pick<IBaseService, "getOne" | "update" | "create" | "delete"> {
-  getAll: (
-    decode?: (token: string) => IUser | null,
-    token?: string,
-  ) => Promise<{ data: IExercise[] }>;
+  getAll: (decode?: TDecode, token?: string) => Promise<{ data: IExercise[] }>;
 }
 
 export type TGetExercisesDTO = { data: IExercise[] };

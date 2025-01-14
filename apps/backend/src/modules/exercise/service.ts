@@ -1,4 +1,4 @@
-import type { IExercise, IExerciseService, IUser } from 'fitness-tracker-contracts';
+import type { IExercise, IExerciseService, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
 import Exercise from './model.js';
@@ -23,7 +23,7 @@ export const exerciseService: IExerciseService = {
     return { data: exercise as T };
   },
 
-  create: async <T>(exerciseToCreate: T, decode?: (token: string) => IUser | null, token?: string) => {
+  create: async <T>(exerciseToCreate: T, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
     const exercise = new Exercise({ ...exerciseToCreate, createdBy: user?._id });

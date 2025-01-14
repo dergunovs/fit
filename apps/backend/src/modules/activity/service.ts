@@ -1,4 +1,4 @@
-import type { IActivity, TActivityChartType, IActivityService, IUser } from 'fitness-tracker-contracts';
+import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
 import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
@@ -103,7 +103,7 @@ export const activityService: IActivityService = {
     return { data: activity as T };
   },
 
-  create: async <T>(activityToCreate: T, decode?: (token: string) => IUser | null, token?: string) => {
+  create: async <T>(activityToCreate: T, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
     const activity = new Activity({ ...activityToCreate, createdBy: user?._id });

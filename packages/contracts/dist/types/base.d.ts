@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { TDecode } from "./auth";
 
 export interface IEntity {
   _id?: string;
@@ -26,32 +26,32 @@ export interface IPaginatedReply<T> {
 export interface IBaseService {
   getMany: <T>(
     page: number,
-    decode?: (token: string) => IUser | null,
+    decode?: TDecode,
     token?: string,
   ) => Promise<IPaginatedReply<T>>;
 
   getOne: <T>(
     id: string,
-    decode?: (token: string) => IUser | null,
+    decode?: TDecode,
     token?: string,
   ) => Promise<{ data: T | null }>;
 
   update: <T>(
     _id: string,
     itemToUpdate: T,
-    decode?: (token: string) => IUser | null,
+    decode?: TDecode,
     token?: string,
   ) => Promise<boolean | void>;
 
   create: <T>(
     item: T,
-    decode?: (token: string) => IUser | null,
+    decode?: TDecode,
     token?: string,
   ) => Promise<string | boolean | void>;
 
   delete: (
     _id: string,
-    decode?: (token: string) => IUser | null,
+    decode?: TDecode,
     token?: string,
   ) => Promise<boolean | void>;
 }

@@ -2,13 +2,14 @@ import bcrypt from 'bcryptjs';
 import type { IAuthData, IAuthService, IUser } from 'fitness-tracker-contracts';
 
 import User from '../user/model.js';
+import { filterUserData } from './helpers.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<{ _doc: IUser }> }) => {
     const user = await request.jwtVerify();
 
     // eslint-disable-next-line no-underscore-dangle
-    return user._doc;
+    return filterUserData(user._doc);
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
@@ -34,7 +35,7 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    return { user, token, isUserNotFound: false, isWrongPassword: false };
+    return { user: filterUserData(user), token, isUserNotFound: false, isWrongPassword: false };
   },
 
   setup: async (userToCreate: IAuthData) => {
