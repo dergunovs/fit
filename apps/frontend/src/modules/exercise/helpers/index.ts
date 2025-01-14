@@ -1,4 +1,11 @@
-import { EXERCISE_MUSCLE_GROUPS, IExerciseDone, IExerciseStatistics, IMuscleGroup } from 'fitness-tracker-contracts';
+import {
+  EXERCISE_MUSCLE_GROUPS,
+  IExercise,
+  IExerciseDone,
+  IExerciseStatistics,
+  IMuscleGroup,
+  IUser,
+} from 'fitness-tracker-contracts';
 
 import { ITimelineStep } from '@/activity/interface';
 
@@ -72,4 +79,43 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
   });
 
   return allSteps.sort((a, b) => a.left - b.left);
+}
+
+export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+  let result = false;
+
+  const isExerciseHasEquipment = exercise.equipment;
+  const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
+
+  const isUserHasEquipment = user?.equipments?.some(
+    (equipment) => equipment.equipment?.title === exercise.equipment?.title
+  );
+
+  const isUserHasEquipmentForWeight = user?.equipments?.some((equipment) =>
+    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+  );
+
+  if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
+    result = true;
+  } else if (isUserHasEquipment) {
+    result = true;
+  } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
+    result = true;
+  }
+
+  return result;
+}
+
+export function getAvailableExerciseWeights(exercise: IExercise, user?: IUser) {
+  const equipments = user?.equipments?.filter((equipment) =>
+    exercise.equipmentForWeight?.some((eq) => eq.title === equipment.equipment?.title)
+  );
+
+  if (!equipments?.length) return undefined;
+
+  const weights = equipments.reduce((acc: number[], eq) => (eq.weights ? [...acc, ...eq.weights] : []), []);
+
+  const sortedWeights = [...new Set(weights.sort((a, b) => a - b))];
+
+  return exercise.isWeightsRequired ? sortedWeights : [0, ...sortedWeights];
 }

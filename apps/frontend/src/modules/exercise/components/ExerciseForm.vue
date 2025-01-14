@@ -5,16 +5,34 @@
         <UiInput v-model="formData.title" data-test="exercise-form-title" />
       </UiField>
 
-      <UiFlex column>
-        <div>Возможный вес гантели</div>
+      <UiCheckbox v-model="formData.isWeights" label="Наличие веса" data-test="exercise-form-is-weights" />
+
+      <UiCheckbox
+        v-if="formData.isWeights"
+        v-model="formData.isWeightsRequired"
+        label="Обязательность веса"
+        data-test="exercise-form-is-weights-required"
+      />
+
+      <UiField label="Используемое оборудование">
+        <UiSelect
+          v-model="formData.equipment"
+          :options="equipmentWithoutWeight"
+          lang="ru"
+          data-test="exercise-equipment"
+        />
+      </UiField>
+
+      <UiFlex v-if="formData.isWeights" column>
+        <div>Возможное оборудование для веса</div>
 
         <UiCheckbox
-          v-for="weight in EXERCISE_WEIGHT_OPTIONS"
-          :key="weight"
-          :modelValue="choosenWeights.some((choosen) => choosen === weight)"
-          @update:modelValue="updateWeights(weight, !!$event)"
-          :label="weight ? `${weight} кг.` : 'Без веса'"
-          data-test="exercise-form-weights"
+          v-for="equipment in equipmentForWeight"
+          :key="equipment.title"
+          :modelValue="choosenEquipmentForWeight.some((eq) => equipment.title === eq.title)"
+          @update:modelValue="updateEquipment(equipment, !!$event)"
+          :label="equipment.title"
+          data-test="exercise-equipment-for-weight"
         />
       </UiFlex>
 
@@ -31,15 +49,6 @@
         />
       </UiFlex>
 
-      <UiField label="Вес по-умолчанию" v-if="formData.weights?.length">
-        <UiSelect
-          v-model="formData.defaultWeight"
-          :options="formData.weights.sort((a, b) => a - b)"
-          lang="ru"
-          data-test="exercise-form-default-weight"
-        />
-      </UiField>
-
       <FormButtons
         :id="props.exercise?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
@@ -55,12 +64,13 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import { API_EXERCISE, IExercise, IMuscleGroup, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
+import { API_EXERCISE, IExercise, IMuscleGroup, EXERCISE_MUSCLE_GROUPS, IEquipment } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
-import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';
+import { URL_EXERCISE } from '@/exercise/constants';
 import { exerciseService } from '@/exercise/services';
+import { equipmentService } from '@/equipment/services';
 
 interface IProps {
   exercise?: IExercise;
@@ -74,21 +84,20 @@ const router = useRouter();
 
 const formData = ref<IExercise>({
   title: '',
-  weights: [],
   muscleGroups: [],
-  defaultWeight: undefined,
+  isWeights: false,
+  isWeightsRequired: false,
+  equipment: undefined,
+  equipmentForWeight: [],
 });
 
-const choosenWeights = ref<number[]>([]);
 const choosenMuscleGroups = ref<IMuscleGroup[]>([]);
+const choosenEquipmentForWeight = ref<IEquipment[]>([]);
 
-function updateWeights(weight: number, isChecked: boolean) {
-  choosenWeights.value = isChecked
-    ? [...choosenWeights.value, weight]
-    : choosenWeights.value.filter((current) => current !== weight);
+const { data: equipments } = equipmentService.getAll();
 
-  formData.value.weights = [...choosenWeights.value];
-}
+const equipmentWithoutWeight = computed(() => equipments.value?.filter((equipment) => !equipment.isWeights));
+const equipmentForWeight = computed(() => equipments.value?.filter((equipment) => equipment.isWeights));
 
 function updateMuscleGroups(muscleGroup: IMuscleGroup, isChecked: boolean) {
   choosenMuscleGroups.value = isChecked
@@ -96,6 +105,14 @@ function updateMuscleGroups(muscleGroup: IMuscleGroup, isChecked: boolean) {
     : choosenMuscleGroups.value.filter((current) => current._id !== muscleGroup._id);
 
   formData.value.muscleGroups = [...choosenMuscleGroups.value];
+}
+
+function updateEquipment(equipment: IEquipment, isChecked: boolean) {
+  choosenEquipmentForWeight.value = isChecked
+    ? [...choosenEquipmentForWeight.value, equipment]
+    : choosenEquipmentForWeight.value.filter((current) => current.title !== equipment.title);
+
+  formData.value.equipmentForWeight = [...choosenEquipmentForWeight.value];
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create({
@@ -144,8 +161,9 @@ onMounted(() => {
   if (props.exercise) {
     formData.value = clone(props.exercise);
 
-    if (formData.value.weights?.length) choosenWeights.value = [...formData.value.weights];
     if (formData.value.muscleGroups?.length) choosenMuscleGroups.value = [...formData.value.muscleGroups];
+    if (formData.value.equipmentForWeight?.length)
+      choosenEquipmentForWeight.value = [...formData.value.equipmentForWeight];
   }
 });
 </script>

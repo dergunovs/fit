@@ -13,11 +13,19 @@ import { authService } from './service.js';
 import { authGetSchema, authLoginSchema, authSetupSchema } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
-    const user = await authService.check(request);
+  fastify.get<{ Reply: { 200: TGetAuthDTO; '4xx': IBaseReply } }>(
+    API_AUTH_GET,
+    { ...authGetSchema },
+    async function (request, reply) {
+      const { user, isUserNotFound } = await authService.check(request);
 
-    return reply.code(200).send(user);
-  });
+      if (isUserNotFound) {
+        reply.code(404).send({ message: 'Пользователь не найден' });
+      } else {
+        reply.code(200).send(user);
+      }
+    }
+  );
 
   fastify.post<{ Body: TPostAuthLoginDataDTO; Reply: { 200: TPostAuthLoginDTO; '4xx': IBaseReply } }>(
     API_AUTH_LOGIN,

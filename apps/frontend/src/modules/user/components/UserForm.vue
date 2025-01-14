@@ -37,7 +37,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiFlex, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useValidator, required, email, clone } from 'mhz-helpers';
-import { API_USER, IUser } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
@@ -47,7 +47,7 @@ import { userService } from '@/user/services';
 import { equipmentService } from '@/equipment/services';
 
 interface IProps {
-  user?: IUser;
+  user?: IUser | null;
 }
 
 const props = defineProps<IProps>();
@@ -79,6 +79,8 @@ const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_USER] });
+    await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success('Пользователь обновлен');
   },
 });

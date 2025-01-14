@@ -26,7 +26,7 @@ export const userService = {
     });
   },
 
-  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
+  getOne: (options: object, id?: ComputedRef<string | undefined> | Ref<string | undefined>) => {
     return useQuery({
       queryKey: [API_USER, id],
       queryFn: async () => {

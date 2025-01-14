@@ -20,12 +20,11 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiInput, toast } from 'mhz-ui';
-import { useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
-import { IAuthData, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
+import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
+import { API_ACTIVITY_STATISTICS, IAuthData, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
 import { URL_HOME } from '@/common/constants';
-import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import {
   TOKEN_NAME,
   AUTH_FORM_HEADER_SETUP,
@@ -42,6 +41,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ login: [] }>();
 
 const router = useRouter();
+const queryClient = useQueryClient();
 
 const { auth } = useAuth();
 
@@ -54,13 +54,14 @@ const header = computed(() => (props.isSetup ? AUTH_FORM_HEADER_SETUP : AUTH_FOR
 const submitButton = computed(() => (props.isSetup ? AUTH_FORM_SUBMIT_BUTTON_SETUP : AUTH_FORM_SUBMIT_BUTTON_LOGIN));
 
 const { mutate: mutateLogin } = authService.login({
-  onSuccess: (response: TPostAuthLoginDTO) => {
+  onSuccess: async (response: TPostAuthLoginDTO) => {
     if (!response.token) return;
 
     toast.success(`Добро пожаловать, ${response.user?.name}!`);
     auth(response.token, setAuthHeader, TOKEN_NAME);
     emit('login');
-    router.push(URL_ACTIVITY_CREATE);
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    router.push(URL_HOME);
   },
 });
 

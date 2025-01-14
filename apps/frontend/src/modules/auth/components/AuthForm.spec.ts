@@ -1,13 +1,20 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
+import { API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 
 import AuthForm from './AuthForm.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyLogin, spySetup } from '@/auth/mocks';
-import { spyAuth, spySetAuthHeaders, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
-import { URL_ACTIVITY_CREATE } from '@/activity/constants';
+import {
+  spyAuth,
+  spySetAuthHeaders,
+  spyRouterPush,
+  spyToastSuccess,
+  mockIsValid,
+  spyRefetchQueries,
+} from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_FIXTURE } from '@/auth/fixtures';
 import {
@@ -81,11 +88,17 @@ describe('AuthForm', async () => {
     await mockOnSuccess.login?.({ user: { _id: ID, email: EMAIL, name: NAME }, token: TOKEN_FIXTURE });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
+
     expect(spyAuth).toBeCalledTimes(1);
     expect(spyAuth).toBeCalledWith(TOKEN_FIXTURE, spySetAuthHeaders, TOKEN_NAME);
+
     expect(wrapper.emitted('login')).toHaveLength(1);
+
+    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+
     expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_ACTIVITY_CREATE);
+    expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });
 
   it('handles setup by form submit', async () => {
@@ -106,6 +119,7 @@ describe('AuthForm', async () => {
     await mockOnSuccess.setup?.();
 
     expect(spyToastSuccess).toBeCalledTimes(1);
+
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });

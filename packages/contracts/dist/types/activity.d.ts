@@ -54,7 +54,11 @@ export type TActivityChartType = "activity" | "set" | "repeat" | "group";
 export interface IActivityService extends IBaseService {
   getCalendar: (dateFrom: string, dateTo: string) => Promise<IActivity[]>;
 
-  getStatistics: (gap: number) => Promise<{
+  getStatistics: (
+    gap: number,
+    decode?: TDecode,
+    token?: string,
+  ) => Promise<{
     activity: IActivityStatistics;
     exercise: IExerciseStatistics[];
   }>;

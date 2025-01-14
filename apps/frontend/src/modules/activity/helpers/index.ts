@@ -42,6 +42,8 @@ export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExer
         _id: exercise.exercise?._id || '',
         title: exercise.exercise?.title || '',
         muscleGroups: exercise.exercise?.muscleGroups || [],
+        isWeights: exercise.exercise?.isWeights || false,
+        isWeightsRequired: exercise.exercise?.isWeightsRequired || false,
       },
       repeats: exercise.repeats,
       weight: exercise.weight,

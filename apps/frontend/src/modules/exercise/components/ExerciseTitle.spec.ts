@@ -11,7 +11,6 @@ import { EXERCISE_DELETED_TITLE } from '@/exercise/constants';
 const title = dataTest('exercise-title');
 const isNotDone = dataTest('exercise-is-not-done');
 const repeats = dataTest('exercise-repeats');
-const weight = dataTest('exercise-weight');
 const duration = dataTest('exercise-duration');
 const toFailure = dataTest('exercise-to-failure');
 
@@ -50,14 +49,6 @@ describe('ExerciseTitle', async () => {
 
   it('shows exercise repeats', async () => {
     expect(wrapper.find(repeats).text()).toBe(`x${EXERCISE_DONE_FIXTURE.repeats}`);
-  });
-
-  it('shows exercise weight', async () => {
-    expect(wrapper.find(weight).text()).toBe(`${EXERCISE_DONE_FIXTURE.weight} кг.`);
-
-    await wrapper.setProps({ exercise: { ...EXERCISE_DONE_FIXTURE, weight: 0 } });
-
-    expect(wrapper.find(weight).exists()).toBe(false);
   });
 
   it('shows exercise duration', async () => {

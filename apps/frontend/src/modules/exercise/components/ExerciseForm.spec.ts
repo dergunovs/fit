@@ -11,17 +11,14 @@ import FormButtons from '@/common/components/FormButtons.vue';
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
-import { URL_EXERCISE, EXERCISE_WEIGHT_OPTIONS } from '@/exercise/constants';
+import { URL_EXERCISE } from '@/exercise/constants';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 
 const TITLE = 'Название';
-const DEFAULT_WEIGHT = 9;
 
 const form = dataTest('exercise-form');
 const formTitle = dataTest('exercise-form-title');
-const formWeights = dataTest('exercise-form-weights');
 const formMuscleGroups = dataTest('exercise-form-muscle-groups');
-const formDefaultWeight = dataTest('exercise-form-default-weight');
 const formButtons = dataTest('exercise-form-buttons');
 
 const wrapperWithExercise: VueWrapper<InstanceType<typeof ExerciseForm>> = wrapperFactory(ExerciseForm, {
@@ -62,25 +59,21 @@ describe('ExerciseForm', async () => {
     await wrapper.findComponent(formTitle).setValue(TITLE);
 
     wrapper
-      .findAllComponents<typeof UiCheckbox>(formWeights)
-      [CHECKBOX_INDEX].vm.$emit('update:modelValue', EXERCISE_WEIGHT_OPTIONS[CHECKBOX_INDEX], true);
-
-    wrapper
       .findAllComponents<typeof UiCheckbox>(formMuscleGroups)
       [CHECKBOX_INDEX].vm.$emit('update:modelValue', EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX], true);
 
     await nextTick();
-
-    await wrapper.findComponent(formDefaultWeight).setValue(DEFAULT_WEIGHT);
 
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateExercise).toBeCalledTimes(1);
     expect(spyCreateExercise).toBeCalledWith({
       title: TITLE,
-      weights: [EXERCISE_WEIGHT_OPTIONS[CHECKBOX_INDEX]],
       muscleGroups: [EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX]],
-      defaultWeight: DEFAULT_WEIGHT,
+      equipment: undefined,
+      equipmentForWeight: [],
+      isWeights: false,
+      isWeightsRequired: false,
     });
 
     await mockOnSuccess.create?.();
@@ -109,10 +102,10 @@ describe('ExerciseForm', async () => {
     expect(spyUpdateExercise).toBeCalledWith({
       _id: EXERCISE_FIXTURE._id,
       title: NEW_TITLE,
-      weights: EXERCISE_FIXTURE.weights,
       muscleGroups: EXERCISE_FIXTURE.muscleGroups,
-      defaultWeight: EXERCISE_FIXTURE.defaultWeight,
       createdBy: EXERCISE_FIXTURE.createdBy,
+      isWeights: EXERCISE_FIXTURE.isWeights,
+      isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
     });
 
     await mockOnSuccess.update?.();

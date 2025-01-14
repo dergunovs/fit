@@ -3,6 +3,7 @@ import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'f
 import { decodeToken } from '../auth/helpers.js';
 import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
+import User from '../user/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
 
@@ -20,7 +21,17 @@ export const activityService: IActivityService = {
     return { data: data as T[], total };
   },
 
-  getStatistics: async (gap: number) => {
+  getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
+    const decodedUser = decodeToken(decode, token);
+
+    const user = decodedUser
+      ? await User.findOne({ email: decodedUser.email })
+          .select('_id name role email equipments')
+          .populate({ path: 'equipments.equipment' })
+          .lean()
+          .exec()
+      : null;
+
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
     const activities = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
@@ -39,9 +50,13 @@ export const activityService: IActivityService = {
 
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
-    const exercises = await Exercise.find().select(['_id', 'title']).lean().exec();
+    const exercises = await Exercise.find()
+      .select('_id title equipment equipmentForWeight')
+      .populate([{ path: 'equipment' }, { path: 'equipmentForWeight' }])
+      .lean()
+      .exec();
 
-    const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises);
+    const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises, user);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },

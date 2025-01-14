@@ -7,6 +7,7 @@ import {
   IMuscleGroup,
   EXERCISE_MUSCLE_GROUPS,
   IActivityChartDataset,
+  IUser,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 
@@ -46,6 +47,31 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
   }, 0);
 
   return Math.floor(100 - (exercisesDurationSumm / duration) * 100);
+}
+
+function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+  let result = false;
+
+  const isExerciseHasEquipment = exercise.equipment;
+  const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
+
+  const isUserHasEquipment = user?.equipments?.some(
+    (equipment) => equipment.equipment?.title === exercise.equipment?.title
+  );
+
+  const isUserHasEquipmentForWeight = user?.equipments?.some((equipment) =>
+    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+  );
+
+  if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
+    result = true;
+  } else if (isUserHasEquipment) {
+    result = true;
+  } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
+    result = true;
+  }
+
+  return result;
 }
 
 export function activitiesGetStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {
@@ -93,7 +119,12 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   return activityStatistics;
 }
 
-export function exerciseGetStatistics(activities: IActivity[], activitiesPrev: IActivity[], exercises: IExercise[]) {
+export function exerciseGetStatistics(
+  activities: IActivity[],
+  activitiesPrev: IActivity[],
+  exercises: IExercise[],
+  user: IUser | null
+) {
   const exerciseStatistics: IExerciseStatistics[] = [];
 
   exercises.forEach((exercise) => {
@@ -105,7 +136,12 @@ export function exerciseGetStatistics(activities: IActivity[], activitiesPrev: I
       repeats: 0,
       repeatsDynamics: 0,
       averageDuration: 0,
+      isUserEquipmentMatches: false,
     };
+
+    const isEquipmentMatches = !user || isUserEquipmentMatches(exercise, user);
+
+    if (isEquipmentMatches) exerciseStatisticsElement.isUserEquipmentMatches = true;
 
     activities.forEach((activity: IActivity) => {
       const filteredExercises = activity.exercises.filter(

@@ -30,6 +30,7 @@
       >
         <ExerciseChooseElement
           :exercise="exercise"
+          :weights="getAvailableExerciseWeights(exercise, user)"
           @add="(choosenExercise) => emit('choose', choosenExercise)"
           data-test="exercise-choose-element"
         />
@@ -45,12 +46,17 @@ import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 
 import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.vue';
 
+import { useAuthCheck } from '@/auth/composables';
+import { isUserEquipmentMatches, getAvailableExerciseWeights } from '@/exercise/helpers';
+
 interface IProps {
   exercises: IExercise[];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<{ choose: [choosenExercise: IExerciseChoosen] }>();
+
+const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);
 
@@ -62,8 +68,13 @@ const muscleGroups = computed(() => [{ _id: '', title: 'Все' }, ...EXERCISE_M
 
 const filteredExercises = computed(() =>
   props.exercises.filter((exercise) => {
-    const titleFilter = exercise.title.toLowerCase().includes(muscleGroupTitle.value.toLocaleLowerCase());
-    const muscleGroupFilter = exercise.muscleGroups?.some((group) => group._id === currentMuscleGroup.value);
+    const isEquipmentMatches = isUserEquipmentMatches(exercise, user.value);
+
+    const titleFilter =
+      exercise.title.toLowerCase().includes(muscleGroupTitle.value.toLocaleLowerCase()) && isEquipmentMatches;
+
+    const muscleGroupFilter =
+      exercise.muscleGroups?.some((group) => group._id === currentMuscleGroup.value) && isEquipmentMatches;
 
     return currentMuscleGroup.value ? muscleGroupFilter && titleFilter : titleFilter;
   })

@@ -7,7 +7,11 @@ export const exerciseService: IExerciseService = {
   getAll: async () => {
     const exercises = await Exercise.find()
       .sort('title')
-      .populate({ path: 'createdBy', select: ['_id', 'name', 'email'] })
+      .populate([
+        { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        { path: 'equipment' },
+        { path: 'equipmentForWeight' },
+      ])
       .lean()
       .exec();
 
@@ -16,7 +20,11 @@ export const exerciseService: IExerciseService = {
 
   getOne: async <T>(_id: string) => {
     const exercise: IExercise | null = await Exercise.findOne({ _id })
-      .populate({ path: 'createdBy', select: ['_id', 'name', 'email'] })
+      .populate([
+        { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        { path: 'equipment' },
+        { path: 'equipmentForWeight' },
+      ])
       .lean()
       .exec();
 

@@ -8,12 +8,12 @@ export interface IAuthData {
   password: string;
 }
 
-export type TDecode = (token: string) => IUser | null;
+export type TDecode = (token: string) => { _doc: IUser } | null;
 
 export interface IAuthService {
   check: (request: {
     jwtVerify: () => Promise<{ _doc: IUser }>;
-  }) => Promise<IUser>;
+  }) => Promise<{ user?: IUser; isUserNotFound: boolean }>;
 
   login: (
     loginData: IAuthData,

@@ -6,10 +6,19 @@ import { filterUserData } from './helpers.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<{ _doc: IUser }> }) => {
-    const user = await request.jwtVerify();
+    const verifiedUser = await request.jwtVerify();
 
     // eslint-disable-next-line no-underscore-dangle
-    return filterUserData(user._doc);
+    const user = await User.findOne({ email: verifiedUser._doc.email })
+      .populate({ path: 'equipments', populate: { path: 'equipment' } })
+      .lean()
+      .exec();
+
+    if (!user) {
+      return { user: undefined, isUserNotFound: true };
+    }
+
+    return { user: filterUserData(user), isUserNotFound: false };
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {

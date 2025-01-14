@@ -34,6 +34,7 @@ export const authReply: JSONSchemaType<TGetAuthDTO> = {
   type: 'object',
   $ref: 'User',
   required: ['email'],
+  nullable: true,
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };

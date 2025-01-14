@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
 import { dataTest } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
@@ -128,8 +128,10 @@ describe('UserForm', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledTimes(3);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
   });

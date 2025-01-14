@@ -3,7 +3,13 @@
     <UiTable :headers="EXERCISE_STATISTICS_HEADERS" lang="ru">
       <tr v-for="exercise in props.statistics" :key="exercise._id" data-test="exercise-statistics-table-row">
         <td>
-          <span data-test="exercise-statistics-title">{{ exercise.title }}</span>
+          <span
+            data-test="exercise-statistics-title"
+            :class="$style.title"
+            :data-equipment="exercise.isUserEquipmentMatches"
+          >
+            {{ exercise.title }}
+          </span>
         </td>
         <td>
           <div :class="$style.cell">
@@ -50,6 +56,12 @@ const props = defineProps<IProps>();
 .cell {
   display: flex;
   gap: 4px;
+}
+
+.title {
+  &[data-equipment='false'] {
+    color: var(--color-gray-dark);
+  }
 }
 
 .count {

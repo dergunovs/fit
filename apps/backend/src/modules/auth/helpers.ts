@@ -1,9 +1,14 @@
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
-export function decodeToken(decode?: TDecode, authorizationHeader?: string) {
+export function decodeToken(decode?: TDecode, authorizationHeader?: string): IUser | null {
   const token = authorizationHeader ? authorizationHeader.split('Bearer ')[1] : undefined;
 
-  return token && decode ? decode(token) : null;
+  if (!token || !decode) return null;
+
+  // eslint-disable-next-line no-underscore-dangle
+  const user = decode(token)?._doc || null;
+
+  return user;
 }
 
 export function filterUserData(user: IUser) {
