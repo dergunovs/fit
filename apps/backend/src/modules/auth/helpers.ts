@@ -5,8 +5,7 @@ export function decodeToken(decode?: TDecode, authorizationHeader?: string): IUs
 
   if (!token || !decode) return null;
 
-  // eslint-disable-next-line no-underscore-dangle
-  const user = decode(token)?._doc || null;
+  const user = decode(token) || null;
 
   return user;
 }
