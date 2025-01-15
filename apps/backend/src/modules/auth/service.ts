@@ -5,11 +5,10 @@ import User from '../user/model.js';
 import { filterUserData } from './helpers.js';
 
 export const authService: IAuthService = {
-  check: async (request: { jwtVerify: () => Promise<{ _doc: IUser }> }) => {
+  check: async (request: { jwtVerify: () => Promise<IUser> }) => {
     const verifiedUser = await request.jwtVerify();
 
-    // eslint-disable-next-line no-underscore-dangle
-    const user = await User.findOne({ email: verifiedUser._doc.email })
+    const user = await User.findOne({ email: verifiedUser.email })
       .populate({ path: 'equipments', populate: { path: 'equipment' } })
       .lean()
       .exec();
@@ -38,7 +37,7 @@ export const authService: IAuthService = {
       return { user: undefined, isUserNotFound: false, isWrongPassword: true };
     }
 
-    const token = sign(user, { expiresIn: '12h' });
+    const token = sign(filterUserData(user, true), { expiresIn: '12h' });
 
     user.dateLoggedIn = new Date();
 

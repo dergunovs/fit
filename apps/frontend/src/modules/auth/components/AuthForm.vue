@@ -59,8 +59,6 @@ const { mutate: mutateLogin } = authService.login({
 
     toast.success(`Добро пожаловать, ${response.user?.name}!`);
     auth(response.token, setAuthHeader, TOKEN_NAME);
-    alert(`${TOKEN_NAME}=${response.token};Secure;samesite=strict;`);
-    document.cookie = `${TOKEN_NAME}=${response.token};Secure;samesite=strict;`;
     emit('login');
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     router.push(URL_HOME);

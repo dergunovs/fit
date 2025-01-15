@@ -12,7 +12,7 @@ export type TDecode = (token: string) => { _doc: IUser } | null;
 
 export interface IAuthService {
   check: (request: {
-    jwtVerify: () => Promise<{ _doc: IUser }>;
+    jwtVerify: () => Promise<IUser>;
   }) => Promise<{ user?: IUser; isUserNotFound: boolean }>;
 
   login: (

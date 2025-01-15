@@ -11,13 +11,13 @@ export function decodeToken(decode?: TDecode, authorizationHeader?: string): IUs
   return user;
 }
 
-export function filterUserData(user: IUser) {
+export function filterUserData(user: IUser, isToken?: boolean) {
   const filteredUser: IUser = {
     _id: user._id,
     name: user.name,
     role: user.role,
     email: user.email,
-    equipments: user.equipments,
+    equipments: isToken ? undefined : user.equipments,
     dateLoggedIn: user.dateLoggedIn,
   };
 
