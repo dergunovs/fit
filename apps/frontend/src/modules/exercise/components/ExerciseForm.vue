@@ -18,6 +18,7 @@
         <UiSelect
           v-model="formData.equipment"
           :options="equipmentWithoutWeight"
+          isClearable
           lang="ru"
           data-test="exercise-equipment"
         />

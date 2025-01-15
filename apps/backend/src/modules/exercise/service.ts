@@ -40,7 +40,7 @@ export const exerciseService: IExerciseService = {
   },
 
   update: async <T>(_id: string, itemToUpdate: T) => {
-    await Exercise.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
+    await Exercise.findOneAndReplace({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   delete: async (_id?: string) => {
