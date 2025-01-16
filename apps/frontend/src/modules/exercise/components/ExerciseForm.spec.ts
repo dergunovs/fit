@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_EXERCISE, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_EXERCISE, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
 import { UiCheckbox } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
@@ -13,11 +13,17 @@ import { mockOnSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise 
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
+import { spyGetEquipments } from '@/equipment/mocks';
+import { filterEquipmentByWeights } from '@/equipment/helpers';
+import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 
 const TITLE = 'Название';
 
 const form = dataTest('exercise-form');
 const formTitle = dataTest('exercise-form-title');
+const formIsWeights = dataTest('exercise-form-is-weights');
+const formIsWeightsRequired = dataTest('exercise-form-is-weights-required');
+const formEquipmentForWeight = dataTest('exercise-form-equipment-for-weight');
 const formMuscleGroups = dataTest('exercise-form-muscle-groups');
 const formButtons = dataTest('exercise-form-buttons');
 
@@ -36,6 +42,22 @@ enableAutoUnmount(afterEach);
 describe('ExerciseForm', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(ExerciseForm)).toBeTruthy();
+  });
+
+  it('gets equipment', async () => {
+    expect(spyGetEquipments).toBeCalledTimes(1);
+  });
+
+  it('shows equipment for weights', async () => {
+    await wrapper.findComponent(formIsWeights).setValue(true);
+
+    expect(wrapper.findAll(formEquipmentForWeight).length).toBe(
+      filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true).length
+    );
+
+    expect(wrapper.find(formEquipmentForWeight).attributes('label')).toBe(
+      filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0].title
+    );
   });
 
   it('uses validation', async () => {
@@ -58,6 +80,16 @@ describe('ExerciseForm', async () => {
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
 
+    expect(wrapper.find(formIsWeightsRequired).exists()).toBe(false);
+
+    await wrapper.findComponent(formIsWeights).setValue(true);
+
+    expect(wrapper.find(formIsWeightsRequired).exists()).toBe(true);
+
+    await wrapper.findComponent(formIsWeightsRequired).setValue(true);
+
+    await wrapper.findComponent(formEquipmentForWeight).setValue(true);
+
     wrapper
       .findAllComponents<typeof UiCheckbox>(formMuscleGroups)
       [CHECKBOX_INDEX].vm.$emit('update:modelValue', EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX], true);
@@ -71,9 +103,9 @@ describe('ExerciseForm', async () => {
       title: TITLE,
       muscleGroups: [EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX]],
       equipment: undefined,
-      equipmentForWeight: [],
-      isWeights: false,
-      isWeightsRequired: false,
+      equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],
+      isWeights: true,
+      isWeightsRequired: true,
     });
 
     await mockOnSuccess.create?.();
@@ -106,12 +138,15 @@ describe('ExerciseForm', async () => {
       createdBy: EXERCISE_FIXTURE.createdBy,
       isWeights: EXERCISE_FIXTURE.isWeights,
       isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
+      equipment: EXERCISE_FIXTURE.equipment,
+      equipmentForWeight: EXERCISE_FIXTURE.equipmentForWeight,
     });
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledTimes(2);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
   });

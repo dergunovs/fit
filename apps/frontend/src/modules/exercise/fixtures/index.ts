@@ -8,6 +8,7 @@ import {
 
 import { USER_FIXTURE } from '@/user/fixtures';
 import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
+import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 
 export const EXERCISE_FIXTURE: IExercise = {
   title: 'Отжимание от скамьи',
@@ -16,6 +17,8 @@ export const EXERCISE_FIXTURE: IExercise = {
   muscleGroups: [EXERCISE_MUSCLE_GROUPS[0], EXERCISE_MUSCLE_GROUPS[1]],
   isWeights: true,
   isWeightsRequired: true,
+  equipment: EQUIPMENT_FIXTURE_2,
+  equipmentForWeight: [EQUIPMENT_FIXTURE],
 };
 
 export const EXERCISE_FIXTURE_2: IExercise = {

@@ -7,7 +7,7 @@
         @click="setCurrentGroup(group._id)"
         type="button"
         :class="$style.button"
-        :data-current="group._id === currentMuscleGroup"
+        :data-current="group._id === muscleGroup"
         data-test="exercise-muscle-group"
       >
         {{ group.title }}
@@ -16,7 +16,7 @@
 
     <div>
       <UiField label="Фильтр по названию упражнения">
-        <UiInput v-model="muscleGroupTitle" data-test="exercise-muscle-group-title" />
+        <UiInput v-model="title" data-test="exercise-muscle-group-title" />
       </UiField>
     </div>
 
@@ -24,7 +24,7 @@
       <UiSpoiler
         v-model="exerciseSpoilers[index]"
         :title="exercise.title"
-        v-for="(exercise, index) in filteredExercises"
+        v-for="(exercise, index) in filterExercisesByTitleAndMuscleGroup(props.exercises, title, muscleGroup, user)"
         :key="exercise._id"
         data-test="exercise-muscle-group-spoiler"
       >
@@ -47,7 +47,7 @@ import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.vue';
 
 import { useAuthCheck } from '@/auth/composables';
-import { isUserEquipmentMatches, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { filterExercisesByTitleAndMuscleGroup, getAvailableExerciseWeights } from '@/exercise/helpers';
 
 interface IProps {
   exercises: IExercise[];
@@ -60,28 +60,13 @@ const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);
 
-const currentMuscleGroup = ref('');
-
-const muscleGroupTitle = ref('');
+const muscleGroup = ref('');
+const title = ref('');
 
 const muscleGroups = computed(() => [{ _id: '', title: 'Все' }, ...EXERCISE_MUSCLE_GROUPS]);
 
-const filteredExercises = computed(() =>
-  props.exercises.filter((exercise) => {
-    const isEquipmentMatches = isUserEquipmentMatches(exercise, user.value);
-
-    const titleFilter =
-      exercise.title.toLowerCase().includes(muscleGroupTitle.value.toLocaleLowerCase()) && isEquipmentMatches;
-
-    const muscleGroupFilter =
-      exercise.muscleGroups?.some((group) => group._id === currentMuscleGroup.value) && isEquipmentMatches;
-
-    return currentMuscleGroup.value ? muscleGroupFilter && titleFilter : titleFilter;
-  })
-);
-
 function setCurrentGroup(id: string) {
-  currentMuscleGroup.value = id;
+  muscleGroup.value = id;
   exerciseSpoilers.value = [];
 }
 </script>

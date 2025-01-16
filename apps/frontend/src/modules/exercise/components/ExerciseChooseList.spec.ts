@@ -9,6 +9,7 @@ import ExerciseChooseElement from './ExerciseChooseElement.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
+import { filterExercisesByTitleAndMuscleGroup } from '@/exercise/helpers';
 
 const exerciseMuscleGroup = dataTest('exercise-muscle-group');
 const exerciseMuscleGroupTitle = dataTest('exercise-muscle-group-title');
@@ -33,25 +34,29 @@ describe('ExerciseChooseList', async () => {
   });
 
   it('shows exercise spoilers', async () => {
-    expect(wrapper.findAll(exerciseMuscleGroupSpoiler).length).toBe(EXERCISES_FIXTURE.length);
-    expect(wrapper.find(exerciseMuscleGroupSpoiler).attributes('title')).toBe(EXERCISES_FIXTURE[0].title);
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '');
+
+    expect(wrapper.findAll(exerciseMuscleGroupSpoiler).length).toBe(filteredExercises.length);
+    expect(wrapper.find(exerciseMuscleGroupSpoiler).attributes('title')).toBe(filteredExercises[0].title);
   });
 
   it('shows exercises to choose', async () => {
-    expect(wrapper.findAll(exerciseChooseElement).length).toBe(EXERCISES_FIXTURE.length);
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '');
+
+    expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
     expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.exercise).toStrictEqual(
-      EXERCISES_FIXTURE[0]
+      filteredExercises[0]
     );
   });
 
   it('filters exercises to choose by title', async () => {
     const titleToFilter = EXERCISES_FIXTURE[0].title;
 
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, titleToFilter, '');
+
     await wrapper.findComponent(exerciseMuscleGroupTitle).setValue(titleToFilter);
 
     await nextTick();
-
-    const filteredExercises = EXERCISES_FIXTURE.filter((exercise) => exercise.title.includes(titleToFilter));
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });
@@ -59,11 +64,9 @@ describe('ExerciseChooseList', async () => {
   it('filters exercises to choose by muscle group', async () => {
     const muscleGroupToFilter = EXERCISE_MUSCLE_GROUPS[0];
 
-    await wrapper.findAll(exerciseMuscleGroup)[2].trigger('click');
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', muscleGroupToFilter);
 
-    const filteredExercises = EXERCISES_FIXTURE.filter((exercise) =>
-      exercise.muscleGroups?.some((group) => group._id === muscleGroupToFilter._id)
-    );
+    await wrapper.findAll(exerciseMuscleGroup)[2].trigger('click');
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });

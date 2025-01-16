@@ -37,11 +37,23 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.exercises).toStrictEqual(
       activity.exercises
     );
+
+    const activityWithoutExercises = { ...ACTIVITY_FIXTURE_2, exercises: [] };
+
+    await wrapper.setProps({ activity: activityWithoutExercises });
+
+    expect(wrapper.find(exerciseList).exists()).toBe(false);
   });
 
   it('shows start and update time', async () => {
     expect(wrapper.find(activityStart).text()).toBe(formatDateTime(activity.dateCreated, 'ru'));
     expect(wrapper.find(activityUpdated).text()).toBe(formatDateTime(activity.dateUpdated, 'ru'));
+
+    const activityWithoutDate = { ...ACTIVITY_FIXTURE_2, dateUpdated: undefined };
+
+    await wrapper.setProps({ activity: activityWithoutDate });
+
+    expect(wrapper.find(activityUpdated).exists()).toBe(false);
   });
 
   it('finishes activity early', async () => {

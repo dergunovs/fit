@@ -15,25 +15,19 @@
       />
 
       <UiField label="Используемое оборудование">
-        <UiSelect
-          v-model="formData.equipment"
-          :options="equipmentWithoutWeight"
-          isClearable
-          lang="ru"
-          data-test="exercise-equipment"
-        />
+        <UiSelect v-model="formData.equipment" :options="filterEquipmentByWeights(equipments)" isClearable lang="ru" />
       </UiField>
 
       <UiFlex v-if="formData.isWeights" column>
         <div>Возможное оборудование для веса</div>
 
         <UiCheckbox
-          v-for="equipment in equipmentForWeight"
+          v-for="equipment in filterEquipmentByWeights(equipments, true)"
           :key="equipment.title"
           :modelValue="choosenEquipmentForWeight.some((eq) => equipment.title === eq.title)"
           @update:modelValue="updateEquipment(equipment, !!$event)"
           :label="equipment.title"
-          data-test="exercise-equipment-for-weight"
+          data-test="exercise-form-equipment-for-weight"
         />
       </UiFlex>
 
@@ -65,13 +59,21 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import { API_EXERCISE, IExercise, IMuscleGroup, EXERCISE_MUSCLE_GROUPS, IEquipment } from 'fitness-tracker-contracts';
+import {
+  API_EXERCISE,
+  IExercise,
+  IMuscleGroup,
+  EXERCISE_MUSCLE_GROUPS,
+  IEquipment,
+  API_ACTIVITY_STATISTICS,
+} from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { URL_EXERCISE } from '@/exercise/constants';
 import { exerciseService } from '@/exercise/services';
 import { equipmentService } from '@/equipment/services';
+import { filterEquipmentByWeights } from '@/equipment/helpers';
 
 interface IProps {
   exercise?: IExercise;
@@ -96,9 +98,6 @@ const choosenMuscleGroups = ref<IMuscleGroup[]>([]);
 const choosenEquipmentForWeight = ref<IEquipment[]>([]);
 
 const { data: equipments } = equipmentService.getAll();
-
-const equipmentWithoutWeight = computed(() => equipments.value?.filter((equipment) => !equipment.isWeights));
-const equipmentForWeight = computed(() => equipments.value?.filter((equipment) => equipment.isWeights));
 
 function updateMuscleGroups(muscleGroup: IMuscleGroup, isChecked: boolean) {
   choosenMuscleGroups.value = isChecked
@@ -127,6 +126,7 @@ const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create(
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success('Упражнение обновлено');
   },
 });
