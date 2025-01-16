@@ -38,7 +38,10 @@ const widthWithPx = computed(() => `${width}px`);
 .timeline {
   position: relative;
   width: v-bind(widthWithPx);
-  height: 48px;
+  height: 40px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px var(--color-black-transparent);
 }
 
 .step {
@@ -46,11 +49,11 @@ const widthWithPx = computed(() => `${width}px`);
   height: 40px;
 
   &[data-type='rest'] {
-    background-color: var(--color-primary-light);
+    background-color: var(--color-gray);
   }
 
   &[data-type='exercise'] {
-    background-color: var(--color-primary-dark);
+    background-color: var(--color-primary);
   }
 
   &:first-child {
