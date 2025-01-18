@@ -41,7 +41,6 @@ const widthWithPx = computed(() => `${width}px`);
   height: 40px;
   margin-bottom: 8px;
   border-radius: 8px;
-  box-shadow: 0 0 4px var(--color-black-transparent);
 }
 
 .step {

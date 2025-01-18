@@ -30,6 +30,15 @@ export const userModel: JSONSchemaType<IUser> = {
     name: { type: 'string', nullable: true },
     dateLoggedIn: { type: 'string', format: 'date-time', nullable: true },
     equipments: { type: 'array', items: userEquipmentModel, nullable: true },
+    defaultWeights: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: { exerciseId: { type: 'string' }, weight: { type: 'number' } },
+        required: ['exerciseId', 'weight'],
+      },
+      nullable: true,
+    },
   },
   required: ['email'],
   $schema: 'http://json-schema.org/draft-07/schema#',

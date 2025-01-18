@@ -92,9 +92,9 @@ function updateValue(value: number | Event) {
   max-width: 80px;
   font-size: 1rem;
   text-align: center;
+  outline: none;
   border: none;
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
-  outline: none;
 }
 </style>

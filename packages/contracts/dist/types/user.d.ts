@@ -10,12 +10,18 @@ export interface IUserEquipment {
   weights?: number[];
 }
 
+export interface IUserDefaultWeight {
+  exerciseId: string;
+  weight: number;
+}
+
 export interface IUser extends IEntity {
   name?: string;
   role?: TUserRole;
   email: string;
   password?: string;
   equipments?: IUserEquipment[];
+  defaultWeights?: IUserDefaultWeight[];
   dateLoggedIn?: Date | string;
 }
 

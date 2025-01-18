@@ -15,6 +15,7 @@ const userSchema = new Schema<IUser>(
         },
       ],
     },
+    defaultWeights: { type: [{ exerciseId: String, weight: Number }] },
     dateLoggedIn: { type: Date, default: Date.now },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },
