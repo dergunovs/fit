@@ -29,8 +29,10 @@
         data-test="exercise-muscle-group-spoiler"
       >
         <ExerciseChooseElement
+          v-if="user"
           :exercise="exercise"
           :weights="getAvailableExerciseWeights(exercise, user)"
+          :user="user"
           @add="(choosenExercise) => emit('choose', choosenExercise)"
           data-test="exercise-choose-element"
         />

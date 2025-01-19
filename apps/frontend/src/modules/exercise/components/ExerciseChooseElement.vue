@@ -26,16 +26,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
 import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
 import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
+import { getDefaultExerciseWeight } from '@/exercise/helpers';
 
 interface IProps {
   exercise: IExercise;
+  user: IUser;
   weights?: number[];
 }
 
@@ -44,21 +46,19 @@ const emit = defineEmits<{ add: [choosenExercise: IExerciseChoosen] }>();
 
 const choosenExercise = ref({
   repeats: EXERCISE_REPEATS_DEFAULT,
-  weight: props.weights?.length && props.exercise.isWeightsRequired ? props.weights[0] : 0,
+  weight: getDefaultExerciseWeight(props.exercise, props.user, props.weights),
 });
 
 function addExercise(count: number) {
   for (let i = 0; i < count; i++) {
-    emit('add', {
-      _id: createTempId(),
-      exercise: {
-        _id: props.exercise?._id,
-        title: props.exercise?.title,
-        isWeights: props.exercise?.isWeights,
-        isWeightsRequired: props.exercise?.isWeightsRequired,
-      },
-      ...choosenExercise.value,
-    });
+    const exercise = {
+      _id: props.exercise?._id,
+      title: props.exercise?.title,
+      isWeights: props.exercise?.isWeights,
+      isWeightsRequired: props.exercise?.isWeightsRequired,
+    };
+
+    emit('add', { _id: createTempId(), exercise, ...choosenExercise.value });
   }
 }
 </script>

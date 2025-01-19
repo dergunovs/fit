@@ -108,18 +108,6 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
   return allSteps.sort((a, b) => a.left - b.left);
 }
 
-export function getAvailableExerciseWeights(exercise: IExercise, user?: IUser) {
-  const equipments = user?.equipments?.filter((equipment) =>
-    exercise.equipmentForWeight?.some((eq) => eq.title === equipment.equipment?.title)
-  );
-
-  if (!equipments?.length) return undefined;
-
-  const weights = getWeightsForUserEquipment(equipments);
-
-  return exercise.isWeightsRequired ? weights : [0, ...weights];
-}
-
 export function filterExercisesByTitleAndMuscleGroup(
   exercises: IExercise[],
   title: string,
@@ -134,6 +122,18 @@ export function filterExercisesByTitleAndMuscleGroup(
 
     return muscleGroup ? muscleGroupFilter && titleFilter : titleFilter;
   });
+}
+
+export function getAvailableExerciseWeights(exercise: IExercise, user: IUser) {
+  const equipments = user.equipments?.filter((equipment) =>
+    exercise.equipmentForWeight?.some((eq) => eq.title === equipment.equipment?.title)
+  );
+
+  if (!equipments?.length) return undefined;
+
+  const weights = getWeightsForUserEquipment(equipments);
+
+  return exercise.isWeightsRequired ? weights : [0, ...weights];
 }
 
 export function getExercisesToChooseDefaultWeight(exercises: IExercise[], userEquipments?: IUserEquipment[]) {
@@ -155,4 +155,14 @@ export function getExercisesToChooseDefaultWeight(exercises: IExercise[], userEq
   });
 
   return tableData.filter((ex) => ex.options.length > 1);
+}
+
+export function getDefaultExerciseWeight(exercise: IExercise, user: IUser, weights?: number[]) {
+  let weight = weights?.length && exercise.isWeightsRequired ? weights[0] : 0;
+
+  if (user.defaultWeights && exercise._id && Object.hasOwn(user.defaultWeights, exercise._id)) {
+    weight = user.defaultWeights[exercise._id];
+  }
+
+  return weight;
 }

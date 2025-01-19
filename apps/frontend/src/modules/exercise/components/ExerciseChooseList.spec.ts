@@ -1,4 +1,3 @@
-import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
@@ -9,7 +8,9 @@ import ExerciseChooseElement from './ExerciseChooseElement.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
-import { filterExercisesByTitleAndMuscleGroup } from '@/exercise/helpers';
+import { filterExercisesByTitleAndMuscleGroup, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { USER_FIXTURE } from '@/user/fixtures';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
 const exerciseMuscleGroup = dataTest('exercise-muscle-group');
 const exerciseMuscleGroupTitle = dataTest('exercise-muscle-group-title');
@@ -34,39 +35,54 @@ describe('ExerciseChooseList', async () => {
   });
 
   it('shows exercise spoilers', async () => {
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '');
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
 
     expect(wrapper.findAll(exerciseMuscleGroupSpoiler).length).toBe(filteredExercises.length);
     expect(wrapper.find(exerciseMuscleGroupSpoiler).attributes('title')).toBe(filteredExercises[0].title);
   });
 
   it('shows exercises to choose', async () => {
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '');
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
+
     expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.exercise).toStrictEqual(
       filteredExercises[0]
+    );
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.weights).toStrictEqual(
+      getAvailableExerciseWeights(filteredExercises[0], USER_FIXTURE)
+    );
+  });
+
+  it('gets and sets user data', async () => {
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
+
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.user).toStrictEqual(
+      USER_FIXTURE
     );
   });
 
   it('filters exercises to choose by title', async () => {
     const titleToFilter = EXERCISES_FIXTURE[0].title;
 
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, titleToFilter, '');
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, titleToFilter, '', USER_FIXTURE);
 
     await wrapper.findComponent(exerciseMuscleGroupTitle).setValue(titleToFilter);
-
-    await nextTick();
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });
 
   it('filters exercises to choose by muscle group', async () => {
-    const muscleGroupToFilter = EXERCISE_MUSCLE_GROUPS[0];
+    const muscleGroupToFilter = EXERCISE_MUSCLE_GROUPS[0]._id;
 
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', muscleGroupToFilter);
+    const filteredExercises = filterExercisesByTitleAndMuscleGroup(
+      EXERCISES_FIXTURE,
+      '',
+      muscleGroupToFilter,
+      USER_FIXTURE
+    );
 
-    await wrapper.findAll(exerciseMuscleGroup)[2].trigger('click');
+    await wrapper.findAll(exerciseMuscleGroup)[1].trigger('click');
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });
