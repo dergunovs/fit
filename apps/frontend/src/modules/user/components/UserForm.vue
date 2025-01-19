@@ -1,7 +1,28 @@
 <template>
   <div>
-    <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="user-form">
+    <UiFlex @submit.prevent="submit" tag="form" column gap="16" align="flex-start" data-test="user-form">
       <div v-if="isAdmin" :class="$style.admin" data-test="user-form-admin">Пользователь с правами администратора</div>
+
+      <div :class="$style.title">Ваше оборудование</div>
+
+      <UserEquipmentForm
+        v-if="equipments"
+        :equipments="equipments"
+        v-model="formData.equipments"
+        data-test="user-form-equipments"
+      />
+
+      <div :class="$style.title">Выбор веса по-умолчанию</div>
+
+      <UserDefaultWeightsForm
+        v-if="formData.equipments && exercises"
+        :userEquipments="formData.equipments"
+        :exercises="exercises"
+        v-model="formData.defaultWeights"
+        data-test="user-form-default-weights"
+      />
+
+      <div :class="$style.title">Общие данные</div>
 
       <UiField label="Электронная почта" isRequired :error="error('email')">
         <UiInput v-model="formData.email" data-test="user-form-email" />
@@ -14,21 +35,6 @@
       <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
         <UiInput v-model="formData.password" data-test="user-form-password" />
       </UiField>
-
-      <UserEquipmentForm
-        v-if="equipments"
-        :equipments="equipments"
-        v-model="formData.equipments"
-        data-test="user-form-equipments"
-      />
-
-      <UserDefaultWeightsForm
-        v-if="formData.equipments && exercises"
-        :userEquipments="formData.equipments"
-        :exercises="exercises"
-        v-model="formData.defaultWeights"
-        data-test="user-form-default-weights"
-      />
 
       <FormButtons
         :id="props.user?._id"
@@ -136,5 +142,10 @@ onMounted(() => {
 .admin {
   font-weight: 700;
   color: var(--color-success);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 </style>

@@ -1,7 +1,7 @@
 import { IEquipment } from 'fitness-tracker-contracts';
 
 export const EQUIPMENT_FIXTURE: IEquipment = {
-  _id: '1',
+  _id: '147456456',
   title: 'Гантели',
   isWeights: true,
   dateCreated: '2025-01-09T15:01:04.310Z',
@@ -9,7 +9,7 @@ export const EQUIPMENT_FIXTURE: IEquipment = {
 };
 
 export const EQUIPMENT_FIXTURE_2: IEquipment = {
-  _id: '2',
+  _id: '245645645645',
   title: 'Скамья',
   dateCreated: '2025-01-10T12:35:59.559Z',
   isWeights: false,

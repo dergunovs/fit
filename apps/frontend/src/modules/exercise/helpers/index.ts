@@ -5,6 +5,7 @@ import {
   IExerciseStatistics,
   IMuscleGroup,
   IUser,
+  IUserEquipment,
 } from 'fitness-tracker-contracts';
 
 import { ITimelineStep } from '@/activity/interface';
@@ -133,4 +134,25 @@ export function filterExercisesByTitleAndMuscleGroup(
 
     return muscleGroup ? muscleGroupFilter && titleFilter : titleFilter;
   });
+}
+
+export function getExercisesToChooseDefaultWeight(exercises: IExercise[], userEquipments?: IUserEquipment[]) {
+  const equipmentsForWeight = userEquipments?.filter((eq) => eq.weights?.length);
+  const exercisesWithWeight = exercises.filter((ex) => ex.isWeights);
+
+  const tableData = exercisesWithWeight.map((ex) => {
+    const exerciseEquipment = ex.equipmentForWeight
+      ?.filter((eq) => equipmentsForWeight?.some((equipment) => equipment.equipment?.title === eq.title))
+      .map((exToMap) => exToMap.title);
+
+    const availableEqupment = equipmentsForWeight?.filter((eq) =>
+      exerciseEquipment?.some((equipmentTitle) => equipmentTitle === eq.equipment?.title)
+    );
+
+    const options = getWeightsForUserEquipment(availableEqupment);
+
+    return { _id: ex._id, title: ex.title, options: ex.isWeightsRequired ? options : [0, ...options] };
+  });
+
+  return tableData.filter((ex) => ex.options.length > 1);
 }

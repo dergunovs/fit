@@ -4,7 +4,7 @@ import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 
 export const USER_FIXTURE: IUser = {
   email: 'a@b.ru',
-  _id: '1',
+  _id: '15546435',
   role: 'admin',
   name: 'Александр',
   equipments: [
@@ -15,7 +15,7 @@ export const USER_FIXTURE: IUser = {
 
 export const USER_FIXTURE_2: IUser = {
   email: 'a2@b.ru',
-  _id: '2',
+  _id: '264564564',
   role: 'user',
   name: 'Иван',
   equipments: [],
