@@ -10,9 +10,8 @@ export interface IUserEquipment {
   weights?: number[];
 }
 
-export interface IUserDefaultWeight {
-  exerciseId: string;
-  weight: number;
+export interface IUserDefaultWeights {
+  [key: string]: number;
 }
 
 export interface IUser extends IEntity {
@@ -21,7 +20,7 @@ export interface IUser extends IEntity {
   email: string;
   password?: string;
   equipments?: IUserEquipment[];
-  defaultWeights?: IUserDefaultWeight[];
+  defaultWeights?: IUserDefaultWeights;
   dateLoggedIn?: Date | string;
 }
 

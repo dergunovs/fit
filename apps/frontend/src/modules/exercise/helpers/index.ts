@@ -8,6 +8,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { ITimelineStep } from '@/activity/interface';
+import { getWeightsForUserEquipment } from '@/equipment/helpers';
 
 function checkIsUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   let result = false;
@@ -113,11 +114,9 @@ export function getAvailableExerciseWeights(exercise: IExercise, user?: IUser) {
 
   if (!equipments?.length) return undefined;
 
-  const weights = equipments.reduce((acc: number[], eq) => (eq.weights ? [...acc, ...eq.weights] : []), []);
+  const weights = getWeightsForUserEquipment(equipments);
 
-  const sortedWeights = [...new Set(weights.sort((a, b) => a - b))];
-
-  return exercise.isWeightsRequired ? sortedWeights : [0, ...sortedWeights];
+  return exercise.isWeightsRequired ? weights : [0, ...weights];
 }
 
 export function filterExercisesByTitleAndMuscleGroup(

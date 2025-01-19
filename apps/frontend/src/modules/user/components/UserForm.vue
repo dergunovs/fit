@@ -22,6 +22,14 @@
         data-test="user-form-equipments"
       />
 
+      <UserDefaultWeightsForm
+        v-if="formData.equipments && exercises"
+        :userEquipments="formData.equipments"
+        :exercises="exercises"
+        v-model="formData.defaultWeights"
+        data-test="user-form-default-weights"
+      />
+
       <FormButtons
         :id="props.user?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
@@ -41,10 +49,12 @@ import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-
 
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
+import UserDefaultWeightsForm from '@/user/components/UserDefaultWeightsForm.vue';
 
 import { URL_USER } from '@/user/constants';
 import { userService } from '@/user/services';
 import { equipmentService } from '@/equipment/services';
+import { exerciseService } from '@/exercise/services';
 
 interface IProps {
   user?: IUser | null;
@@ -58,11 +68,14 @@ const queryClient = useQueryClient();
 
 const { data: equipments } = equipmentService.getAll();
 
+const { data: exercises } = exerciseService.getAll();
+
 const formData = ref<IUser>({
   email: '',
   name: '',
   password: '',
   equipments: [],
+  defaultWeights: {},
   role: 'user',
 });
 

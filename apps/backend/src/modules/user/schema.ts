@@ -31,13 +31,10 @@ export const userModel: JSONSchemaType<IUser> = {
     dateLoggedIn: { type: 'string', format: 'date-time', nullable: true },
     equipments: { type: 'array', items: userEquipmentModel, nullable: true },
     defaultWeights: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: { exerciseId: { type: 'string' }, weight: { type: 'number' } },
-        required: ['exerciseId', 'weight'],
-      },
+      type: 'object',
+      additionalProperties: { type: 'number' },
       nullable: true,
+      required: [],
     },
   },
   required: ['email'],

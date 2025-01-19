@@ -17,6 +17,7 @@ export function filterUserData(user: IUser, isToken?: boolean) {
     role: user.role,
     email: user.email,
     equipments: isToken ? undefined : user.equipments,
+    defaultWeights: isToken ? {} : user.defaultWeights,
     dateLoggedIn: user.dateLoggedIn,
   };
 

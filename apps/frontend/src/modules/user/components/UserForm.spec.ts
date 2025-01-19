@@ -5,6 +5,7 @@ import { dataTest } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
 import UserEquipmentForm from './UserEquipmentForm.vue';
+import UserDefaultWeightsForm from './UserDefaultWeightsForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -14,6 +15,8 @@ import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mo
 import { URL_USER } from '@/user/constants';
 import { spyGetEquipments } from '@/equipment/mocks';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
+import { spyGetExercises } from '@/exercise/mocks';
+import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
 
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
@@ -26,6 +29,7 @@ const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
 const formEquipments = dataTest('user-form-equipments');
+const formDefaultWeights = dataTest('user-form-default-weights');
 const formButtons = dataTest('user-form-buttons');
 
 const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(UserForm, { user: USER_FIXTURE });
@@ -91,6 +95,7 @@ describe('UserForm', async () => {
       name: NAME,
       password: PASSWORD,
       equipments: EQUIPMENTS,
+      defaultWeights: {},
       role: 'user',
     });
 
@@ -172,5 +177,17 @@ describe('UserForm', async () => {
     expect(wrapper.findComponent<typeof UserEquipmentForm>(formEquipments).vm.$props.equipments).toStrictEqual(
       EQUIPMENTS_FIXTURE
     );
+  });
+
+  it('gets and sets default weights and exercises', async () => {
+    expect(spyGetExercises).toBeCalledTimes(1);
+
+    expect(
+      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.exercises
+    ).toStrictEqual(EXERCISES_FIXTURE);
+
+    expect(
+      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.userEquipments
+    ).toStrictEqual(USER_FIXTURE.equipments);
   });
 });
