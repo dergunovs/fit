@@ -11,25 +11,34 @@ import {
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
 
+function isUserHasEquipment(exercise: IExercise, user?: IUser | null) {
+  return user?.equipments?.some((equipment) => equipment.equipment?.title === exercise.equipment?.title);
+}
+
+function isUserHasEquipmentForWeight(exercise: IExercise, user?: IUser | null) {
+  user?.equipments?.some((equipment) =>
+    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+  );
+}
+
 function checkIsUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   let result = false;
 
   const isExerciseHasEquipment = exercise.equipment;
   const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
-
-  const isUserHasEquipment = user?.equipments?.some(
-    (equipment) => equipment.equipment?.title === exercise.equipment?.title
-  );
-
-  const isUserHasEquipmentForWeight = user?.equipments?.some((equipment) =>
-    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
-  );
+  const isWeightsRequired = exercise.isWeightsRequired;
 
   if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
     result = true;
-  } else if (isUserHasEquipment) {
+  } else if (isUserHasEquipment(exercise, user)) {
     result = true;
-  } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
+  } else if (
+    !isExerciseHasEquipment &&
+    isExerciseHasEquipmentForWeight &&
+    isUserHasEquipmentForWeight(exercise, user)
+  ) {
+    result = true;
+  } else if (!isExerciseHasEquipment && !isWeightsRequired) {
     result = true;
   }
 

@@ -54,6 +54,7 @@ function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
 
   const isExerciseHasEquipment = exercise.equipment;
   const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
+  const isWeightsRequired = exercise.isWeightsRequired;
 
   const isUserHasEquipment = user?.equipments?.some(
     (equipment) => equipment.equipment?.title === exercise.equipment?.title
@@ -68,6 +69,8 @@ function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   } else if (isUserHasEquipment) {
     result = true;
   } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
+    result = true;
+  } else if (!isExerciseHasEquipment && !isWeightsRequired) {
     result = true;
   }
 
