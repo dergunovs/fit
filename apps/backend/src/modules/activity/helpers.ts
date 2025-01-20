@@ -92,20 +92,20 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   const durationPrev = activitiesGetAverageDuration(activitiesPrev);
   const durationDynamics = getDynamics(duration, durationPrev);
 
-  const averageSetsPerActivity = Math.round(setsCount / activitiesCount);
-  const averageSetsPerActivityPrev = Math.round(setsCountPrev / activitiesCountPrev);
+  const averageSetsPerActivity = activitiesCount ? Math.round(setsCount / activitiesCount) : 0;
+  const averageSetsPerActivityPrev = activitiesCountPrev ? Math.round(setsCountPrev / activitiesCountPrev) : 0;
   const averageSetsPerActivityDynamics = getDynamics(averageSetsPerActivity, averageSetsPerActivityPrev);
 
-  const averageRepeatsPerSet = Math.round(repeatsCount / setsCount);
-  const averageRepeatsPerSetPrev = Math.round(repeatsCountPrev / setsCountPrev);
+  const averageRepeatsPerSet = setsCount ? Math.round(repeatsCount / setsCount) : 0;
+  const averageRepeatsPerSetPrev = setsCountPrev ? Math.round(repeatsCountPrev / setsCountPrev) : 0;
   const averageRepeatsPerSetDynamics = getDynamics(averageRepeatsPerSet, averageRepeatsPerSetPrev);
 
-  const averageDuration = Math.round(duration / activitiesCount);
-  const averageDurationPrev = Math.round(durationPrev / activitiesCountPrev);
+  const averageDuration = activitiesCount ? Math.round(duration / activitiesCount) : 0;
+  const averageDurationPrev = activitiesCountPrev ? Math.round(durationPrev / activitiesCountPrev) : 0;
   const averageDurationDynamics = getDynamics(averageDuration, averageDurationPrev);
 
-  const averageRestPercent = activitiesGetAverageRest(activities, duration);
-  const averageRestPercentPrev = activitiesGetAverageRest(activitiesPrev, durationPrev);
+  const averageRestPercent = duration ? activitiesGetAverageRest(activities, duration) : 0;
+  const averageRestPercentPrev = durationPrev ? activitiesGetAverageRest(activitiesPrev, durationPrev) : 0;
   const averageRestPercentDynamics = getDynamics(averageRestPercent, averageRestPercentPrev);
 
   const activityStatistics: IActivityStatistics = {
@@ -193,7 +193,12 @@ export function exerciseGetStatistics(
   return exerciseStatistics.sort((a, b) => b.sets - a.sets);
 }
 
-export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IWeekDays[], type: TActivityChartType) {
+export async function activitiesGetChartData(
+  Entity: Model<IActivity>,
+  weeks: IWeekDays[],
+  type: TActivityChartType,
+  user: IUser | null
+) {
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
 
@@ -201,7 +206,10 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
     labels.push(week.label);
 
     if (type === 'activity') {
-      const count = await Entity.find({ dateCreated: { $gte: week.dateFrom, $lt: week.dateTo } })
+      const count = await Entity.find({
+        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        createdBy: user?._id,
+      })
         .countDocuments()
         .exec();
 
@@ -213,7 +221,10 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
     }
 
     if (type === 'set') {
-      const activities = await Entity.find({ dateCreated: { $gte: week.dateFrom, $lt: week.dateTo } })
+      const activities = await Entity.find({
+        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        createdBy: user?._id,
+      })
         .select('_id exercises dateCreated')
         .populate({ path: 'exercises' })
         .lean()
@@ -229,7 +240,10 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
     }
 
     if (type === 'repeat') {
-      const activities = await Entity.find({ dateCreated: { $gte: week.dateFrom, $lt: week.dateTo } })
+      const activities = await Entity.find({
+        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        createdBy: user?._id,
+      })
         .select('_id exercises dateCreated')
         .populate({ path: 'exercises.exercise', select: ['title'] })
         .lean()
@@ -257,7 +271,10 @@ export async function activitiesGetChartData(Entity: Model<IActivity>, weeks: IW
       });
 
       for (const [index, muscleGroup] of groupCount.entries()) {
-        const activities = await Entity.find({ dateCreated: { $gte: week.dateFrom, $lt: week.dateTo } })
+        const activities = await Entity.find({
+          dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+          createdBy: user?._id,
+        })
           .select('_id exercises dateCreated')
           .populate({ path: 'exercises.exercise' })
           .lean()

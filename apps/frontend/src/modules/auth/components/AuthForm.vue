@@ -21,7 +21,13 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
-import { API_ACTIVITY_STATISTICS, IAuthData, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
+import {
+  API_ACTIVITY_CALENDAR,
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_STATISTICS,
+  IAuthData,
+  TPostAuthLoginDTO,
+} from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
 import { URL_HOME } from '@/common/constants';
@@ -60,7 +66,11 @@ const { mutate: mutateLogin } = authService.login({
     toast.success(`Добро пожаловать, ${response.user?.name}!`);
     auth(response.token, setAuthHeader, TOKEN_NAME);
     emit('login');
+
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CALENDAR] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+
     router.push(URL_HOME);
   },
 });

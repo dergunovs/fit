@@ -24,17 +24,18 @@ export const activityService: IActivityService = {
   getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
     const decodedUser = decodeToken(decode, token);
 
-    const user = decodedUser
-      ? await User.findOne({ email: decodedUser.email })
-          .select('_id name role email equipments')
-          .populate({ path: 'equipments.equipment' })
-          .lean()
-          .exec()
-      : null;
+    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
+      .select('_id name role email equipments')
+      .populate({ path: 'equipments.equipment' })
+      .lean()
+      .exec();
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const activities = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
+    const activities = await Activity.find({
+      dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
+      createdBy: user?._id,
+    })
       .select('_id exercises dateCreated dateUpdated')
       .populate({ path: 'exercises' })
       .lean()
@@ -42,6 +43,7 @@ export const activityService: IActivityService = {
 
     const activitiesPrev = await Activity.find({
       dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
+      createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
       .populate({ path: 'exercises' })
@@ -61,8 +63,18 @@ export const activityService: IActivityService = {
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
 
-  getCalendar: async <T>(dateFrom: string, dateTo: string) => {
-    const data = await Activity.find({ dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } })
+  getCalendar: async <T>(dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
+    const decodedUser = decodeToken(decode, token);
+
+    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
+      .select('_id')
+      .lean()
+      .exec();
+
+    const calendarData = await Activity.find({
+      dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
+      createdBy: user?._id,
+    })
       .populate([
         {
           path: 'exercises.exercise',
@@ -74,13 +86,20 @@ export const activityService: IActivityService = {
       .lean()
       .exec();
 
-    return data as T[];
+    return calendarData as T[];
   },
 
-  getChart: async (type: TActivityChartType) => {
+  getChart: async (type: TActivityChartType, decode?: TDecode, token?: string) => {
+    const decodedUser = decodeToken(decode, token);
+
+    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
+      .select('_id')
+      .lean()
+      .exec();
+
     const weeks = getFirstAndLastWeekDays(7);
 
-    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type);
+    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, user);
 
     return { labels, datasets };
   },

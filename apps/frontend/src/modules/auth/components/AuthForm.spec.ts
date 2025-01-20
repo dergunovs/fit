@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
-import { API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_CALENDAR, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 
 import AuthForm from './AuthForm.vue';
 
@@ -94,8 +94,10 @@ describe('AuthForm', async () => {
 
     expect(wrapper.emitted('login')).toHaveLength(1);
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledTimes(3);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CALENDAR] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_HOME);

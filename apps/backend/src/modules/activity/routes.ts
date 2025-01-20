@@ -57,7 +57,12 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_CALENDAR,
     { ...activityGetCalendarSchema },
     async function (request, reply) {
-      const data = await activityService.getCalendar(request.query.dateFrom, request.query.dateTo);
+      const data = await activityService.getCalendar(
+        request.query.dateFrom,
+        request.query.dateTo,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send(data);
     }
@@ -81,7 +86,11 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_CHART,
     { ...activityGetChartSchema },
     async function (request, reply) {
-      const data: TGetActivitiesChartDTO = await activityService.getChart(request.query.type);
+      const data: TGetActivitiesChartDTO = await activityService.getChart(
+        request.query.type,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send(data);
     }

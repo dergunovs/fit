@@ -20,7 +20,7 @@
           :datasets="chart.datasets"
           :isShowLegend="type === 'group'"
           type="Line"
-          :key="type"
+          :key="`${type}-${chart?.datasets[0].data.join()}`"
           :class="$style.chart"
           data-test="activity-chart"
         />
