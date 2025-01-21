@@ -13,11 +13,11 @@ export const authService: IAuthService = {
       .lean()
       .exec();
 
-    if (!user) {
+    if (user) {
+      return { user: filterUserData(user), isUserNotFound: false };
+    } else {
       return { user: undefined, isUserNotFound: true };
     }
-
-    return { user: filterUserData(user), isUserNotFound: false };
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {

@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
-import type { IUser, IBaseService } from 'fitness-tracker-contracts';
+import type { IUser, IBaseService, TDecode } from 'fitness-tracker-contracts';
 
 import { paginate } from '../common/helpers.js';
+import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 
 export const userService: IBaseService = {
@@ -31,7 +32,9 @@ export const userService: IBaseService = {
     await user.save();
   },
 
-  update: async <T>(_id: string, itemToUpdate: T) => {
+  update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+    allowAccessToAdminAndCurrentUser(_id, decode, token);
+
     await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 

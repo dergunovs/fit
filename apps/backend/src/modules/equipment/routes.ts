@@ -22,7 +22,7 @@ import {
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  if (!fastify.onlyUser) return;
+  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Reply: { 200: TGetEquipmentsDTO } }>(
     API_EQUIPMENT,
@@ -46,7 +46,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostEquipmentDataDTO; Reply: { 201: TPostEquipmentDTO } }>(
     API_EQUIPMENT,
-    { preValidation: [fastify.onlyUser], ...equipmentPostSchema },
+    { preValidation: [fastify.onlyAdmin], ...equipmentPostSchema },
     async function (request, reply) {
       await equipmentService.create<IEquipment>(request.body, fastify.jwt.decode, request.headers.authorization);
 
@@ -56,7 +56,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.patch<{ Body: TUpdateEquipmentDataDTO; Params: IBaseParams; Reply: { 200: TUpdateEquipmentDTO } }>(
     `${API_EQUIPMENT}/:id`,
-    { preValidation: [fastify.onlyUser], ...equipmentUpdateSchema },
+    { preValidation: [fastify.onlyAdmin], ...equipmentUpdateSchema },
     async function (request, reply) {
       await equipmentService.update<IEquipment>(request.params.id, request.body);
 
@@ -66,7 +66,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteEquipmentDTO } }>(
     `${API_EQUIPMENT}/:id`,
-    { preValidation: [fastify.onlyUser], ...equipmentDeleteSchema },
+    { preValidation: [fastify.onlyAdmin], ...equipmentDeleteSchema },
     async function (request, reply) {
       await equipmentService.delete(request.params.id);
 

@@ -107,7 +107,7 @@ function deleteExercise(idToDelete: string) {
 }
 
 function repeatLastActivity() {
-  if (!lastActivity.value) return;
+  if (!lastActivity.value || !Object.keys(lastActivity.value).length) return;
 
   formData.value.exercises = generateActivityExercises(lastActivity.value.exercises);
 }

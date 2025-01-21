@@ -41,7 +41,11 @@ async function buildApp() {
   addSchemas(fastify);
 
   fastify.setErrorHandler(function (error, request, reply) {
-    reply.status(500).send({ message: error.message || 'Server error' });
+    if (error.cause && (error.cause as { code: number }).code === 403) {
+      reply.code(403).send({ message: error.message });
+    } else {
+      reply.code(500).send({ message: error.message || 'Server error' });
+    }
   });
 
   return fastify;

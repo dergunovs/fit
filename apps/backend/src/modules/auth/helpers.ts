@@ -23,3 +23,11 @@ export function filterUserData(user: IUser, isToken?: boolean) {
 
   return filteredUser;
 }
+
+export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, token?: string) {
+  const user = decodeToken(decode, token);
+
+  if (user?.role !== 'admin' && id.toString() !== user?._id) {
+    throw new Error('Ошибка доступа', { cause: { code: 403 } });
+  }
+}

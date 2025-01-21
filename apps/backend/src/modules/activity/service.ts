@@ -1,6 +1,6 @@
 import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
 
-import { decodeToken } from '../auth/helpers.js';
+import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
 import User from '../user/model.js';
@@ -34,6 +34,7 @@ export const activityService: IActivityService = {
 
     const activities = await Activity.find({
       dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
+      isDone: true,
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
@@ -43,6 +44,7 @@ export const activityService: IActivityService = {
 
     const activitiesPrev = await Activity.find({
       dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
+      isDone: true,
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
@@ -104,7 +106,7 @@ export const activityService: IActivityService = {
     return { labels, datasets };
   },
 
-  getOne: async <T>(_id: string) => {
+  getOne: async <T>(_id: string, decode?: TDecode, token?: string) => {
     const activity: IActivity | null = await Activity.findOne({ _id })
       .populate([
         {
@@ -117,11 +119,17 @@ export const activityService: IActivityService = {
       .lean()
       .exec();
 
+    if (!activity?.createdBy?._id) return { data: null };
+
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+
     return { data: activity as T };
   },
 
-  getLast: async <T>() => {
-    const activity: IActivity | null = await Activity.findOne()
+  getLast: async <T>(decode?: TDecode, token?: string) => {
+    const decodedUser = decodeToken(decode, token);
+
+    const activity: IActivity | null = await Activity.findOne({ createdBy: decodedUser })
       .sort('-dateCreated')
       .populate([
         {
@@ -149,8 +157,16 @@ export const activityService: IActivityService = {
     return id;
   },
 
-  update: async <T>(_id: string, itemToUpdate: T) => {
-    await Activity.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
+  update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+    const activity = await Activity.findOne({ _id });
+
+    if (!activity?.createdBy?._id) return;
+
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+
+    await activity.updateOne({ ...itemToUpdate, dateUpdated: new Date() });
+
+    await activity.save();
   },
 
   delete: async (_id?: string) => {

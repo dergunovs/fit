@@ -17,11 +17,11 @@ import { userService } from './service.js';
 import { userPostSchema, userDeleteSchema, userGetManySchema, userGetOneSchema, userUpdateSchema } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  if (!fastify.onlyUser) return;
+  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Querystring: TGetUsersQueryDTO; Reply: { 200: TGetUsersDTO } }>(
     API_USER,
-    { preValidation: [fastify.onlyUser], ...userGetManySchema },
+    { preValidation: [fastify.onlyAdmin], ...userGetManySchema },
     async function (request, reply) {
       const { data, total } = await userService.getMany<IUser>(request.query.page);
 
@@ -31,7 +31,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.get<{ Params: IBaseParams; Reply: { 200: TGetUserDTO } }>(
     `${API_USER}/:id`,
-    { preValidation: [fastify.onlyUser], ...userGetOneSchema },
+    { preValidation: [fastify.onlyAdmin], ...userGetOneSchema },
     async function (request, reply) {
       const data = await userService.getOne<IUser>(request.params.id);
 
@@ -41,7 +41,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostUserDataDTO; Reply: { 201: TPostUserDTO } }>(
     API_USER,
-    { preValidation: [fastify.onlyUser], ...userPostSchema },
+    { preValidation: [fastify.onlyAdmin], ...userPostSchema },
     async function (request, reply) {
       await userService.create<IUser>(request.body);
 
@@ -53,7 +53,12 @@ export default async function (fastify: IFastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser], ...userUpdateSchema },
     async function (request, reply) {
-      await userService.update<IUser>(request.params.id, request.body);
+      await userService.update<IUser>(
+        request.params.id,
+        request.body,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send({ message: 'Пользователь обновлен' });
     }
@@ -61,7 +66,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
     `${API_USER}/:id`,
-    { preValidation: [fastify.onlyUser], ...userDeleteSchema },
+    { preValidation: [fastify.onlyAdmin], ...userDeleteSchema },
     async function (request, reply) {
       await userService.delete(request.params.id);
 

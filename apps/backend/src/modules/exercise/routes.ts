@@ -22,7 +22,7 @@ import {
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  if (!fastify.onlyUser) return;
+  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Reply: { 200: TGetExercisesDTO } }>(
     API_EXERCISE,
@@ -46,7 +46,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
     API_EXERCISE,
-    { preValidation: [fastify.onlyUser], ...exercisePostSchema },
+    { preValidation: [fastify.onlyAdmin], ...exercisePostSchema },
     async function (request, reply) {
       await exerciseService.create<IExercise>(request.body, fastify.jwt.decode, request.headers.authorization);
 
@@ -56,7 +56,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.patch<{ Body: TUpdateExerciseDataDTO; Params: IBaseParams; Reply: { 200: TUpdateExerciseDTO } }>(
     `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
+    { preValidation: [fastify.onlyAdmin], ...exerciseUpdateSchema },
     async function (request, reply) {
       await exerciseService.update<IExercise>(request.params.id, request.body);
 
@@ -66,7 +66,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteExerciseDTO } }>(
     `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser], ...exerciseDeleteSchema },
+    { preValidation: [fastify.onlyAdmin], ...exerciseDeleteSchema },
     async function (request, reply) {
       await exerciseService.delete(request.params.id);
 

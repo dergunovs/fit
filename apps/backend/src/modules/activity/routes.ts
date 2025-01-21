@@ -41,11 +41,11 @@ import {
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  if (!fastify.onlyUser) return;
+  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Querystring: TGetActivitiesQueryDTO; Reply: { 200: TGetActivitiesDTO } }>(
     API_ACTIVITY,
-    { preValidation: [fastify.onlyUser], ...activityGetManySchema },
+    { preValidation: [fastify.onlyAdmin], ...activityGetManySchema },
     async function (request, reply) {
       const { data, total } = await activityService.getMany<IActivity>(request.query.page);
 
@@ -100,7 +100,11 @@ export default async function (fastify: IFastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
     async function (request, reply) {
-      const data: TGetActivityDTO = await activityService.getOne<IActivity>(request.params.id);
+      const data: TGetActivityDTO = await activityService.getOne<IActivity>(
+        request.params.id,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send(data);
     }
@@ -110,7 +114,10 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_LAST,
     { preValidation: [fastify.onlyUser], ...activityGetLastSchema },
     async function (request, reply) {
-      const data: TGetActivityLastDTO = await activityService.getLast<IActivity>();
+      const data: TGetActivityLastDTO = await activityService.getLast<IActivity>(
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send(data);
     }
@@ -138,7 +145,12 @@ export default async function (fastify: IFastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityUpdateSchema },
     async function (request, reply) {
-      await activityService.update<IActivity>(request.params.id, request.body);
+      await activityService.update<IActivity>(
+        request.params.id,
+        request.body,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
 
       reply.code(200).send({ message: 'Занятие обновлено' });
     }
@@ -146,7 +158,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteActivityDTO } }>(
     `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyUser], ...activityDeleteSchema },
+    { preValidation: [fastify.onlyAdmin], ...activityDeleteSchema },
     async function (request, reply) {
       await activityService.delete(request.params.id);
 

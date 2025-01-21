@@ -208,6 +208,7 @@ export async function activitiesGetChartData(
     if (type === 'activity') {
       const count = await Entity.find({
         dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        isDone: true,
         createdBy: user?._id,
       })
         .countDocuments()
@@ -223,6 +224,7 @@ export async function activitiesGetChartData(
     if (type === 'set') {
       const activities = await Entity.find({
         dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        isDone: true,
         createdBy: user?._id,
       })
         .select('_id exercises dateCreated')
@@ -242,6 +244,7 @@ export async function activitiesGetChartData(
     if (type === 'repeat') {
       const activities = await Entity.find({
         dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+        isDone: true,
         createdBy: user?._id,
       })
         .select('_id exercises dateCreated')
@@ -273,6 +276,7 @@ export async function activitiesGetChartData(
       for (const [index, muscleGroup] of groupCount.entries()) {
         const activities = await Entity.find({
           dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+          isDone: true,
           createdBy: user?._id,
         })
           .select('_id exercises dateCreated')
