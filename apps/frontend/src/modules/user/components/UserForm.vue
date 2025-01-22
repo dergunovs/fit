@@ -1,7 +1,9 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="16" align="flex-start" data-test="user-form">
-      <div v-if="isAdmin" :class="$style.admin" data-test="user-form-admin">Пользователь с правами администратора</div>
+      <div v-if="props.user?.role === 'admin'" :class="$style.admin" data-test="user-form-admin">
+        Пользователь с правами администратора
+      </div>
 
       <div :class="$style.title">Ваше оборудование</div>
 
@@ -84,8 +86,6 @@ const formData = ref<IUser>({
   defaultWeights: {},
   role: 'user',
 });
-
-const isAdmin = computed(() => props.user?.role === 'admin');
 
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {

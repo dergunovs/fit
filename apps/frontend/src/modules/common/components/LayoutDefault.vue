@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.layout">
-    <TheHeader @showLogin="isShowLogin = true" data-test="layout-default-header" />
+    <TheHeader @showLogin="isShowLogin = true" :isAdmin="props.isAdmin" data-test="layout-default-header" />
 
     <div :class="$style.container">
       <main :class="$style.main">
@@ -20,6 +20,12 @@ import { UiModal } from 'mhz-ui';
 
 import TheHeader from '@/common/components/TheHeader.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
+
+interface IProps {
+  isAdmin: boolean;
+}
+
+const props = defineProps<IProps>();
 
 defineOptions({ name: 'LayoutDefault' });
 

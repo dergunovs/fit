@@ -8,6 +8,7 @@ import { URL_EXERCISE } from '@/exercise/constants';
 import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
 import { URL_EQUIPMENT } from '@/equipment/constants';
 import { INavItem } from '@/common/interface';
+import { URL_SETUP } from '@/auth/constants';
 
 export const NAV_ITEMS: INavItem[] = [
   { _id: '1', url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
@@ -21,3 +22,5 @@ export const CREATE_BUTTON_TEXT = 'Создать';
 
 export const URL_HOME = '/';
 export const URL_ERROR = '/404';
+
+export const GUEST_PAGES = [URL_HOME, URL_SETUP];

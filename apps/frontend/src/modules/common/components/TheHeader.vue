@@ -8,7 +8,9 @@
 
     <UiFlex gap="12" justify="flex-end">
       <template v-if="isAuth">
-        <UiButton @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">Админка</UiButton>
+        <UiButton v-if="props.isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
+          Админка
+        </UiButton>
 
         <UiButton @click="router.push(URL_USER_PROFILE)" layout="plain" data-test="header-profile">Профиль</UiButton>
 
@@ -39,6 +41,11 @@ import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { URL_USER_PROFILE } from '@/user/constants';
 
+interface IProps {
+  isAdmin: boolean;
+}
+
+const props = defineProps<IProps>();
 const emit = defineEmits<{ showLogin: [] }>();
 
 const router = useRouter();

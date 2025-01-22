@@ -16,7 +16,7 @@ const loginFormModal = dataTest('layout-default-login-form-modal');
 let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutDefault);
+  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true });
 });
 
 enableAutoUnmount(afterEach);

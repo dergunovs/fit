@@ -21,7 +21,7 @@ const logout = dataTest('header-logout');
 let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader);
+  wrapper = wrapperFactory(TheHeader, { isAdmin: true });
 });
 
 enableAutoUnmount(afterEach);
@@ -51,6 +51,18 @@ describe('TheHeader', async () => {
     expect(wrapper.find(admin).exists()).toBe(true);
     expect(wrapper.find(activity).exists()).toBe(true);
     expect(wrapper.find(logout).exists()).toBe(true);
+  });
+
+  it('hides admin link by props', async () => {
+    setAuth(true);
+
+    await nextTick();
+
+    expect(wrapper.find(admin).exists()).toBe(true);
+
+    await wrapper.setProps({ isAdmin: false });
+
+    expect(wrapper.find(admin).exists()).toBe(false);
   });
 
   it('navigates to admin and activity', async () => {

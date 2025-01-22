@@ -13,7 +13,11 @@ import * as authComposables from '@/auth/composables';
 import { IOnSuccess } from '@/common/interface';
 import { USER_FIXTURE } from '@/user/fixtures';
 
-const spyUseAuthCheck = vi.spyOn(authComposables, 'useAuthCheck').mockReturnValue({ user: ref(USER_FIXTURE) });
+const mockIsAdmin = ref(true);
+
+const spyUseAuthCheck = vi
+  .spyOn(authComposables, 'useAuthCheck')
+  .mockReturnValue({ user: ref(USER_FIXTURE), isAdmin: ref(mockIsAdmin) });
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();
@@ -37,4 +41,4 @@ vi.spyOn(authService, 'setup').mockImplementation((options: { onSuccess?: () => 
   return mockMutationReply<TPostAuthSetupDTO, TPostAuthSetupDataDTO>(spySetup);
 });
 
-export { spyUseAuthCheck, spyLogin, spySetup, mockOnSuccess };
+export { spyUseAuthCheck, spyLogin, spySetup, mockOnSuccess, mockIsAdmin };

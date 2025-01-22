@@ -1,5 +1,11 @@
 <template>
-  <component v-if="isLoaded" :is="layoutComponent" data-test="app-layout" :data-layout="layoutComponent.name" />
+  <component
+    v-if="isLoaded"
+    :is="layoutComponent"
+    :isAdmin="isAdmin"
+    data-test="app-layout"
+    :data-layout="layoutComponent.name"
+  />
 </template>
 
 <script setup lang="ts">
@@ -8,5 +14,5 @@ import { useAuthCheck } from '@/auth/composables';
 
 const { isLoaded, layoutComponent } = useLayout();
 
-useAuthCheck();
+const { isAdmin } = useAuthCheck();
 </script>
