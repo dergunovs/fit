@@ -1,15 +1,17 @@
 <template>
   <div>
     <UiTable :headers="EXERCISE_STATISTICS_HEADERS" lang="ru">
-      <tr v-for="exercise in props.statistics" :key="exercise._id" data-test="exercise-statistics-table-row">
+      <tr v-for="exercise in props.statistics" :key="exercise.exercise._id" data-test="exercise-statistics-table-row">
         <td>
-          <span
+          <UiButton
+            @click="showExercise(exercise)"
+            layout="plain"
             data-test="exercise-statistics-title"
             :class="$style.title"
             :data-equipment="exercise.isUserEquipmentMatches"
           >
-            {{ exercise.title }}
-          </span>
+            {{ exercise.exercise.title }}
+          </UiButton>
         </td>
         <td>
           <div :class="$style.cell">
@@ -33,13 +35,19 @@
         </td>
       </tr>
     </UiTable>
+
+    <UiModal v-model="isShowModal">
+      <ExerciseInfo v-if="currentExercise" :exercise="currentExercise" />
+    </UiModal>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
-import { UiTable } from 'mhz-ui';
+import { UiTable, UiButton, UiModal } from 'mhz-ui';
 
+import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
@@ -50,6 +58,16 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const isShowModal = ref(false);
+
+const currentExercise = ref<IExerciseStatistics>();
+
+function showExercise(exercise: IExerciseStatistics) {
+  currentExercise.value = exercise;
+
+  isShowModal.value = true;
+}
 </script>
 
 <style module lang="scss">

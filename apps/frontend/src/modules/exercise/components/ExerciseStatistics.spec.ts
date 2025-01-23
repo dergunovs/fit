@@ -33,7 +33,7 @@ describe('ExerciseStatistics', async () => {
   });
 
   it('shows statistics title', async () => {
-    expect(wrapper.find(title).text()).toBe(EXERCISES_STATISTICS_FIXTURE[0].title);
+    expect(wrapper.find(title).text()).toBe(EXERCISES_STATISTICS_FIXTURE[0].exercise.title);
   });
 
   it('shows sets and repeats count', async () => {

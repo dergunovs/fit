@@ -145,8 +145,7 @@ export const activitiesStatisticsReply: JSONSchemaType<TGetActivitiesStatisticsD
       items: {
         type: 'object',
         properties: {
-          _id: { type: 'string' },
-          title: { type: 'string' },
+          exercise: { type: 'object', $ref: 'Exercise' },
           sets: { type: 'number' },
           setsDynamics: { type: 'number' },
           repeats: { type: 'number' },
@@ -155,13 +154,12 @@ export const activitiesStatisticsReply: JSONSchemaType<TGetActivitiesStatisticsD
           isUserEquipmentMatches: { type: 'boolean' },
         },
         required: [
-          '_id',
-          'averageDuration',
-          'repeats',
-          'repeatsDynamics',
+          'exercise',
           'sets',
           'setsDynamics',
-          'title',
+          'repeats',
+          'repeatsDynamics',
+          'averageDuration',
           'isUserEquipmentMatches',
         ],
         additionalProperties: false,

@@ -32,6 +32,7 @@ export const exerciseModel: JSONSchemaType<IExercise> = {
     dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
     title: { type: 'string' },
+    description: { type: 'string', nullable: true },
     createdBy: { type: 'object', $ref: 'User', nullable: true },
     muscleGroups: {
       type: 'array',

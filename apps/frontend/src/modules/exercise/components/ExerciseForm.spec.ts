@@ -18,9 +18,11 @@ import { filterEquipmentByWeights } from '@/equipment/helpers';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 
 const TITLE = 'Название';
+const DESCRIPTION = 'Описание';
 
 const form = dataTest('exercise-form');
 const formTitle = dataTest('exercise-form-title');
+const formDescription = dataTest('exercise-form-description');
 const formIsWeights = dataTest('exercise-form-is-weights');
 const formIsWeightsRequired = dataTest('exercise-form-is-weights-required');
 const formEquipmentForWeight = dataTest('exercise-form-equipment-for-weight');
@@ -79,6 +81,7 @@ describe('ExerciseForm', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
+    await wrapper.findComponent(formDescription).setValue(DESCRIPTION);
 
     expect(wrapper.find(formIsWeightsRequired).exists()).toBe(false);
 
@@ -101,6 +104,7 @@ describe('ExerciseForm', async () => {
     expect(spyCreateExercise).toBeCalledTimes(1);
     expect(spyCreateExercise).toBeCalledWith({
       title: TITLE,
+      description: DESCRIPTION,
       muscleGroups: [EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX]],
       equipment: undefined,
       equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],
@@ -134,6 +138,7 @@ describe('ExerciseForm', async () => {
     expect(spyUpdateExercise).toBeCalledWith({
       _id: EXERCISE_FIXTURE._id,
       title: NEW_TITLE,
+      description: EXERCISE_FIXTURE.description,
       muscleGroups: EXERCISE_FIXTURE.muscleGroups,
       createdBy: EXERCISE_FIXTURE.createdBy,
       isWeights: EXERCISE_FIXTURE.isWeights,

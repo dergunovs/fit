@@ -5,6 +5,10 @@
         <UiInput v-model="formData.title" data-test="exercise-form-title" />
       </UiField>
 
+      <UiField label="Описание">
+        <UiEditor v-model="formData.description" data-test="exercise-form-description" />
+      </UiField>
+
       <UiCheckbox v-model="formData.isWeights" label="Наличие веса" data-test="exercise-form-is-weights" />
 
       <UiCheckbox
@@ -57,7 +61,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex } from 'mhz-ui';
+import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
 import {
   API_EXERCISE,
@@ -87,6 +91,7 @@ const router = useRouter();
 
 const formData = ref<IExercise>({
   title: '',
+  description: '',
   muscleGroups: [],
   isWeights: false,
   isWeightsRequired: false,

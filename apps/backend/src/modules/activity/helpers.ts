@@ -132,8 +132,7 @@ export function exerciseGetStatistics(
 
   exercises.forEach((exercise) => {
     const exerciseStatisticsElement: IExerciseStatistics = {
-      _id: exercise._id || '',
-      title: exercise.title,
+      exercise,
       sets: 0,
       setsDynamics: 0,
       repeats: 0,

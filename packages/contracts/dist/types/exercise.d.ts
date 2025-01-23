@@ -12,6 +12,7 @@ export interface IMuscleGroup {
 
 export interface IExercise extends IEntity {
   title: string;
+  description?: string;
   createdBy?: IUser;
   muscleGroups?: IMuscleGroup[];
   isWeights: boolean;
@@ -33,8 +34,7 @@ export interface IExerciseDone extends IExerciseChoosen {
 }
 
 export interface IExerciseStatistics {
-  _id: string;
-  title: string;
+  exercise: IExercise;
   sets: number;
   setsDynamics: number;
   repeats: number;

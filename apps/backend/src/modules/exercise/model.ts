@@ -4,6 +4,7 @@ import type { IExercise } from 'fitness-tracker-contracts';
 const exerciseSchema = new Schema<IExercise>(
   {
     title: { type: String, required: true, unique: true },
+    description: { type: String },
     muscleGroups: [{ _id: String, title: String, icon: String }],
     isWeights: { type: Boolean },
     isWeightsRequired: { type: Boolean },

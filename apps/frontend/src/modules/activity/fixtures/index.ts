@@ -193,8 +193,7 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
   },
   exercise: [
     {
-      _id: '1',
-      title: 'Приседание',
+      exercise: EXERCISE_FIXTURE,
       sets: 33,
       setsDynamics: 79,
       repeats: 554,
@@ -203,24 +202,13 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
       isUserEquipmentMatches: false,
     },
     {
-      _id: '2',
-      title: 'Отжимание от пола',
+      exercise: EXERCISE_FIXTURE_2,
       sets: 27,
       setsDynamics: 26,
       repeats: 324,
       repeatsDynamics: 6,
       averageDuration: 3.3333333333333335,
       isUserEquipmentMatches: false,
-    },
-    {
-      _id: '3',
-      title: 'Сгибание на скамье',
-      sets: 22,
-      setsDynamics: 59,
-      repeats: 323,
-      repeatsDynamics: 70,
-      averageDuration: 4.352941176470588,
-      isUserEquipmentMatches: true,
     },
   ],
 };

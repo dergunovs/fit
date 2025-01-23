@@ -11,8 +11,9 @@ import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
 import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 
 export const EXERCISE_FIXTURE: IExercise = {
-  title: 'Отжимание от скамьи',
   _id: '1',
+  title: 'Отжимание от скамьи',
+  description: 'Описание 1',
   createdBy: USER_FIXTURE,
   muscleGroups: [EXERCISE_MUSCLE_GROUPS[0], EXERCISE_MUSCLE_GROUPS[1]],
   isWeights: true,
@@ -22,8 +23,9 @@ export const EXERCISE_FIXTURE: IExercise = {
 };
 
 export const EXERCISE_FIXTURE_2: IExercise = {
-  title: 'Подтягивание',
   _id: '2',
+  title: 'Подтягивание',
+  description: 'Описание 2',
   createdBy: USER_FIXTURE,
   muscleGroups: [EXERCISE_MUSCLE_GROUPS[2], EXERCISE_MUSCLE_GROUPS[3]],
   isWeights: true,
@@ -31,8 +33,9 @@ export const EXERCISE_FIXTURE_2: IExercise = {
 };
 
 export const EXERCISE_FIXTURE_3: IExercise = {
-  title: 'Жим лёжа',
   _id: '3',
+  title: 'Жим лёжа',
+  description: 'Описание 3',
   createdBy: USER_FIXTURE,
   muscleGroups: [EXERCISE_MUSCLE_GROUPS[4], EXERCISE_MUSCLE_GROUPS[5]],
   isWeights: true,
@@ -82,8 +85,7 @@ export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
 export const EXERCISES_DONE_FIXTURE: IExerciseDone[] = [EXERCISE_DONE_FIXTURE, EXERCISE_NOT_DONE_FIXTURE];
 
 export const EXERCISE_STATISTICS_FIXTURE: IExerciseStatistics = {
-  _id: '1',
-  title: 'Приседание',
+  exercise: EXERCISE_FIXTURE,
   sets: 35,
   setsDynamics: 74,
   repeats: 578,
@@ -93,8 +95,7 @@ export const EXERCISE_STATISTICS_FIXTURE: IExerciseStatistics = {
 };
 
 export const EXERCISE_STATISTICS_FIXTURE_2: IExerciseStatistics = {
-  _id: '2',
-  title: 'Отжимание',
+  exercise: EXERCISE_FIXTURE_2,
   sets: 30,
   setsDynamics: -10,
   repeats: 374,

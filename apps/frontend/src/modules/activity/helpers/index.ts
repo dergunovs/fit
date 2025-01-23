@@ -11,8 +11,8 @@ export function getPotentialActivityDuration(
 
   const totalDuration = exercises.reduce((acc, exercise) => {
     const averageDuration =
-      exerciseStatistics.find((choosenExericse) => choosenExericse._id === exercise.exercise?._id)?.averageDuration ||
-      0;
+      exerciseStatistics.find((choosenExericse) => choosenExericse.exercise._id === exercise.exercise?._id)
+        ?.averageDuration || 0;
 
     return acc + averageDuration * exercise.repeats;
   }, 0);

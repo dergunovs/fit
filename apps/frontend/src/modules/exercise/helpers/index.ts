@@ -16,7 +16,7 @@ function isUserHasEquipment(exercise: IExercise, user?: IUser | null) {
 }
 
 function isUserHasEquipmentForWeight(exercise: IExercise, user?: IUser | null) {
-  user?.equipments?.some((equipment) =>
+  return user?.equipments?.some((equipment) =>
     exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
   );
 }
