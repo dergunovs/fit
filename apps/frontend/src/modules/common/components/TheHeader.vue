@@ -12,11 +12,11 @@
           Админка
         </UiButton>
 
-        <UiButton @click="router.push(URL_USER_PROFILE)" layout="plain" data-test="header-profile">Профиль</UiButton>
-
         <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain" data-test="header-activity">
           Занятие
         </UiButton>
+
+        <UiButton @click="router.push(URL_USER_PROFILE)" layout="plain" data-test="header-profile">Профиль</UiButton>
 
         <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain" data-test="header-logout">
           Выйти
