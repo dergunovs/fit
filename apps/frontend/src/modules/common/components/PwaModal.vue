@@ -1,7 +1,7 @@
 <template>
   <UiModal v-model="needRefresh" width="380">
     <UiFlex column>
-      <div>Обновите страницу, чтобы использовать последнюю версию приложения.</div>
+      <div>Обновите страницу для использования последней версии приложения</div>
 
       <UiButton @click="updateServiceWorker">Обновить</UiButton>
     </UiFlex>
