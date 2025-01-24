@@ -28,7 +28,7 @@ export const EXERCISE_FIXTURE_2: IExercise = {
   description: 'Описание 2',
   createdBy: USER_FIXTURE,
   muscleGroups: [EXERCISE_MUSCLE_GROUPS[2], EXERCISE_MUSCLE_GROUPS[3]],
-  isWeights: true,
+  isWeights: false,
   isWeightsRequired: false,
 };
 

@@ -1,6 +1,7 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { dataTest } from 'mhz-helpers';
+import { dataTest, setAuth } from 'mhz-helpers';
 
 import ExerciseStatistics from './ExerciseStatistics.vue';
 
@@ -14,6 +15,8 @@ const setsCount = dataTest('exercise-statistics-sets-count');
 const repeatsCount = dataTest('exercise-statistics-repeats-count');
 const setsDuration = dataTest('exercise-statistics-sets-duration');
 const repeatsDuration = dataTest('exercise-statistics-repeats-duration');
+const modal = dataTest('exercise-statistics-modal');
+const info = dataTest('exercise-statistics-info');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseStatistics>>;
 
@@ -44,5 +47,27 @@ describe('ExerciseStatistics', async () => {
   it('shows sets and repeats average duration', async () => {
     expect(wrapper.find(setsDuration).text()).toBe(getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'set'));
     expect(wrapper.find(repeatsDuration).text()).toBe(getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'repeat'));
+  });
+
+  it('shows info modal by button click', async () => {
+    expect(wrapper.find(modal).attributes('modelvalue')).toBe('false');
+    expect(wrapper.find(info).exists()).toBe(false);
+
+    await wrapper.find(title).trigger('click');
+
+    expect(wrapper.find(modal).attributes('modelvalue')).toBe('true');
+    expect(wrapper.find(info).exists()).toBe(true);
+  });
+
+  it('shows equipment matches', async () => {
+    expect(wrapper.find(title).attributes('data-equipment')).toBe('true');
+
+    setAuth(true);
+
+    await nextTick();
+
+    expect(wrapper.find(title).attributes('data-equipment')).toBe(
+      EXERCISES_STATISTICS_FIXTURE[0].isUserEquipmentMatches.toString()
+    );
   });
 });

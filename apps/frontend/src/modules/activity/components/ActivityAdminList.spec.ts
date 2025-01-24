@@ -7,9 +7,11 @@ import ActivityAdminList from './ActivityAdminList.vue';
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_FIXTURE } from '@/activity/fixtures';
 import { URL_ACTIVITY_ADMIN_EDIT } from '@/activity/constants';
+import { URL_USER_EDIT } from '@/user/constants';
 
 const activityTableRow = dataTest('activity-table-row');
-const activityTableEmailLink = dataTest('activity-table-email-link');
+const activityTableDateLink = dataTest('activity-table-date-link');
+const activityTableUserLink = dataTest('activity-table-user-link');
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityAdminList>>;
 
@@ -26,12 +28,18 @@ describe('ActivityAdminList', async () => {
 
   it('shows activities in table', async () => {
     expect(wrapper.findAll(activityTableRow).length).toBe(ACTIVITIES_FIXTURE.length);
-    expect(wrapper.find(activityTableEmailLink).text()).toBe(formatDate(ACTIVITIES_FIXTURE[0].dateCreated, 'ru'));
+
+    expect(wrapper.find(activityTableDateLink).text()).toBe(formatDate(ACTIVITIES_FIXTURE[0].dateCreated, 'ru'));
+    expect(wrapper.find(activityTableUserLink).text()).toBe(ACTIVITIES_FIXTURE[0].createdBy?.email);
   });
 
-  it('sets activity page link', async () => {
-    expect(wrapper.find(activityTableEmailLink).attributes('to')).toBe(
+  it('sets activity links', async () => {
+    expect(wrapper.find(activityTableDateLink).attributes('to')).toBe(
       `${URL_ACTIVITY_ADMIN_EDIT}/${ACTIVITIES_FIXTURE[0]._id}`
+    );
+
+    expect(wrapper.find(activityTableUserLink).attributes('to')).toBe(
+      `${URL_USER_EDIT}/${ACTIVITIES_FIXTURE[0].createdBy?._id}`
     );
   });
 });

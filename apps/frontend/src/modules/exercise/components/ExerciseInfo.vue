@@ -12,7 +12,7 @@
       выполнять это упражнение.
     </div>
 
-    <div data-test="exercise-info-muscle-groups">
+    <div>
       <div>Задействованные группы мышц</div>
 
       <UiFlex>
@@ -23,6 +23,14 @@
         >
           {{ group.title }}
         </UiChip>
+      </UiFlex>
+    </div>
+
+    <div v-if="props.exercise.exercise.equipment" data-test="exercise-info-equipment">
+      <div>Необходимое оборудование</div>
+
+      <UiFlex>
+        <UiChip data-test="exercise-info-equipment-title">{{ props.exercise.exercise.equipment?.title }}</UiChip>
       </UiFlex>
     </div>
 
@@ -42,14 +50,6 @@
 
     <div v-if="props.exercise.exercise.isWeightsRequired" data-test="exercise-info-is-weights-required">
       <b>Оборудование для веса обязательно.</b>
-    </div>
-
-    <div v-if="props.exercise.exercise.equipment" data-test="exercise-info-equipment">
-      <div>Необходимо оборудование</div>
-
-      <UiFlex>
-        <UiChip data-test="exercise-info-equipment-title">{{ props.exercise.exercise.equipment?.title }}</UiChip>
-      </UiFlex>
     </div>
 
     <div
