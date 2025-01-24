@@ -29,6 +29,8 @@ export default defineConfig({
     }),
     svgLoader(),
     VitePWA({
+      registerType: 'prompt',
+      workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg}'] },
       manifest: {
         name: 'FiT',
         short_name: 'FiT',
