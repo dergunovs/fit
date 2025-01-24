@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_ACTIVITY } from 'fitness-tracker-contracts';
+import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 import { formatDateTime, dataTest, wait } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
@@ -78,6 +78,10 @@ describe('ActivityPassingForm', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wait(1001);
+
+    expect(spyRefetchQueries).toBeCalledTimes(3);
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_HOME);

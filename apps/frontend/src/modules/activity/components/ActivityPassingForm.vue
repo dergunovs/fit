@@ -40,7 +40,13 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
-import { API_ACTIVITY, IActivity, IExerciseDone } from 'fitness-tracker-contracts';
+import {
+  API_ACTIVITY,
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_STATISTICS,
+  IActivity,
+  IExerciseDone,
+} from 'fitness-tracker-contracts';
 
 import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
@@ -110,7 +116,10 @@ function finishActivity() {
 function exitActivity() {
   toast.success('Занятие закончено');
 
-  setTimeout(() => {
+  setTimeout(async () => {
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+
     router.push(URL_HOME);
   }, 1000);
 }
