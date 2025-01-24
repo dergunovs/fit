@@ -55,7 +55,7 @@ export const activityService: IActivityService = {
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
     const exercises = await Exercise.find()
-      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired')
+      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscleGroups')
       .populate([{ path: 'equipment' }, { path: 'equipmentForWeight' }])
       .lean()
       .exec();

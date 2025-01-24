@@ -3,6 +3,7 @@
     <div :class="$style.title" data-test="exercise-info-title">{{ props.exercise.exercise.title }}</div>
 
     <div
+      v-if="isAuth"
       :class="$style.isMatches"
       :data-matches="props.exercise.isUserEquipmentMatches"
       data-test="exercise-info-matches"
@@ -11,8 +12,22 @@
       выполнять это упражнение.
     </div>
 
+    <div data-test="exercise-info-muscle-groups">
+      <div>Задействованные группы мышц</div>
+
+      <UiFlex>
+        <UiChip
+          v-for="group in props.exercise.exercise.muscleGroups"
+          :key="group._id"
+          data-test="exercise-info-muscle-group"
+        >
+          {{ group.title }}
+        </UiChip>
+      </UiFlex>
+    </div>
+
     <div v-if="props.exercise.exercise.isWeights" data-test="exercise-info-is-weights">
-      <div>Можно использовать оборудование для веса:</div>
+      <div>Возможное оборудование для веса</div>
 
       <UiFlex>
         <UiChip
@@ -26,11 +41,11 @@
     </div>
 
     <div v-if="props.exercise.exercise.isWeightsRequired" data-test="exercise-info-is-weights-required">
-      Наличие оборудования для веса обязательно.
+      <b>Оборудование для веса обязательно.</b>
     </div>
 
     <div v-if="props.exercise.exercise.equipment" data-test="exercise-info-equipment">
-      <div>Используется оборудование:</div>
+      <div>Необходимо оборудование</div>
 
       <UiFlex>
         <UiChip data-test="exercise-info-equipment-title">{{ props.exercise.exercise.equipment?.title }}</UiChip>
@@ -48,6 +63,7 @@
 <script setup lang="ts">
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiFlex, UiChip } from 'mhz-ui';
+import { isAuth } from 'mhz-helpers';
 
 interface IProps {
   exercise: IExerciseStatistics;

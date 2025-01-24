@@ -6,9 +6,10 @@
           <UiButton
             @click="showExercise(exercise)"
             layout="plain"
+            isWrap
             data-test="exercise-statistics-title"
             :class="$style.title"
-            :data-equipment="exercise.isUserEquipmentMatches"
+            :data-equipment="isAuth ? exercise.isUserEquipmentMatches : true"
           >
             {{ exercise.exercise.title }}
           </UiButton>
@@ -36,8 +37,8 @@
       </tr>
     </UiTable>
 
-    <UiModal v-model="isShowModal">
-      <ExerciseInfo v-if="currentExercise" :exercise="currentExercise" />
+    <UiModal v-model="isShowModal" width="380" data-test="exercise-statistics-modal">
+      <ExerciseInfo v-if="currentExercise" :exercise="currentExercise" data-test="exercise-statistics-info" />
     </UiModal>
   </div>
 </template>
@@ -46,6 +47,7 @@
 import { ref } from 'vue';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
+import { isAuth } from 'mhz-helpers';
 
 import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
