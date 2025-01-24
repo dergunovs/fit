@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
@@ -115,7 +115,16 @@ function exitActivity() {
   }, 1000);
 }
 
-onMounted(() => {
+const screenLock = ref<WakeLockSentinel>();
+
+onMounted(async () => {
   if (props.activity) formData.value = clone(props.activity);
+
+  screenLock.value = await navigator.wakeLock?.request();
+});
+
+onBeforeUnmount(() => {
+  screenLock.value?.release();
+  screenLock.value = undefined;
 });
 </script>
