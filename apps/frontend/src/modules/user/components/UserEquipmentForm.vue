@@ -40,10 +40,7 @@
       <UiFlex>
         <UiChip v-for="weight in choosenEquipmentWeights" :key="weight" data-test="user-added-weights">
           <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> кг.
-
-          <button type="button" @click="deleteWeight(weight)" :class="$style.delete" data-test="user-delete-weight">
-            ×
-          </button>
+          <UiClose @click="deleteWeight(weight)" isSmall isDelete data-test="user-delete-weight" />
         </UiChip>
       </UiFlex>
     </UiFlex>
@@ -87,15 +84,13 @@
             <IconEdit width="20" height="20" />
           </button>
 
-          <button
+          <UiClose
             v-if="equipment.equipment?.title"
-            type="button"
             @click="deleteEquipment(equipment.equipment.title)"
-            :class="$style.delete"
+            isSmall
+            isDelete
             data-test="user-delete-equipment"
-          >
-            ×
-          </button>
+          />
         </UiChip>
       </UiFlex>
     </UiFlex>
@@ -105,7 +100,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { IEquipment, IUserEquipment } from 'fitness-tracker-contracts';
-import { UiButton, UiFlex, UiInput, UiSelect, UiChip } from 'mhz-ui';
+import { UiButton, UiFlex, UiInput, UiSelect, UiChip, UiClose } from 'mhz-ui';
 
 import IconWeight from '@/common/icons/weight.svg';
 import IconEdit from '@/common/icons/edit.svg';
@@ -206,20 +201,5 @@ function resetEquipment() {
   cursor: pointer;
   background: none;
   border: none;
-}
-
-.delete {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--color-white);
-  cursor: pointer;
-  background-color: var(--color-error);
-  border: none;
-  border-radius: 50%;
 }
 </style>

@@ -19,7 +19,7 @@
     "pub": "changeset version && changeset publish"
   },
   "dependencies": {
-    "@changesets/cli": "2.27.11"
+    "@changesets/cli": "2.27.12"
   },
   "devDependencies": {
     "@turbo/gen": "2.3.4",
