@@ -8,12 +8,17 @@
       :data-layout="layoutComponent.name"
     />
 
-    <PwaModal />
+    <PwaUpdateModal />
+
+    <PwaInstallModal :isAuth="isAuth" />
   </div>
 </template>
 
 <script setup lang="ts">
-import PwaModal from '@/common/components/PwaModal.vue';
+import { isAuth } from 'mhz-helpers';
+
+import PwaUpdateModal from '@/common/components/PwaUpdateModal.vue';
+import PwaInstallModal from '@/common/components/PwaInstallModal.vue';
 
 import { useLayout } from '@/common/composables';
 import { useAuthCheck } from '@/auth/composables';

@@ -3,7 +3,10 @@
     <UiFlex column>
       <div>Обновите страницу для использования последней версии приложения</div>
 
-      <UiButton @click="updateServiceWorker">Обновить</UiButton>
+      <UiFlex>
+        <UiButton @click="updateServiceWorker">Обновить</UiButton>
+        <UiButton @click="needRefresh = false" layout="secondary">Отмена</UiButton>
+      </UiFlex>
     </UiFlex>
   </UiModal>
 </template>

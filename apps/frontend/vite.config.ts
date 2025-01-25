@@ -33,12 +33,16 @@ export default defineConfig({
       workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg}'] },
       manifest: {
         name: 'FiT',
+        start_url: '/',
+        scope: '/',
         short_name: 'FiT',
-        description: 'Фитнес трекер',
+        description: 'Фитнес трекер домашних тренировок FiT',
         display: 'standalone',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         lang: 'ru',
+        orientation: 'natural',
+        categories: ['fitness', 'sports'],
         icons: [
           { src: 'pwa-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png' },
