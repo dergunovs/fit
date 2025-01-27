@@ -1,11 +1,11 @@
 <template>
-  <UiModal v-model="needRefresh" width="380">
+  <UiModal v-model="needRefresh" width="380" data-test="pwa-update-modal">
     <UiFlex column>
       <div>Обновите страницу для использования последней версии приложения</div>
 
       <UiFlex>
-        <UiButton @click="updateServiceWorker">Обновить</UiButton>
-        <UiButton @click="needRefresh = false" layout="secondary">Отмена</UiButton>
+        <UiButton @click="updateServiceWorker" data-test="pwa-update-submit">Обновить</UiButton>
+        <UiButton @click="needRefresh = false" layout="secondary" data-test="pwa-update-cancel">Отмена</UiButton>
       </UiFlex>
     </UiFlex>
   </UiModal>
