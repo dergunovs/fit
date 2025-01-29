@@ -35,7 +35,6 @@ export default defineConfig({
     svgLoader(),
     VitePWA({
       registerType: 'prompt',
-      devOptions: { enabled: true },
       workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'] },
       manifest: {
         name: 'FiT',
