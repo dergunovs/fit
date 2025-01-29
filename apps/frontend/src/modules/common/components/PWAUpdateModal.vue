@@ -1,5 +1,5 @@
 <template>
-  <UiModal v-model="needRefresh" width="380" data-test="pwa-update-modal">
+  <UiModal v-model="needRefresh" width="360" data-test="pwa-update-modal">
     <UiFlex column>
       <div>Обновите страницу для использования последней версии приложения</div>
 

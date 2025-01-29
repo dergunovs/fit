@@ -7,7 +7,7 @@
         <RouterView :class="$style.content" />
       </main>
 
-      <UiModal v-model="isShowLogin" width="380" data-test="layout-default-login-form-modal">
+      <UiModal v-model="isShowLogin" width="360" data-test="layout-default-login-form-modal">
         <AuthForm @login="isShowLogin = false" data-test="layout-default-login-form" />
       </UiModal>
     </div>

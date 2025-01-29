@@ -15,7 +15,7 @@
         v-model="isShowConfirm"
         isConfirm
         @confirm="mutateDelete(activity._id)"
-        width="380"
+        width="360"
         lang="ru"
         data-test="activity-modal"
       >

@@ -1,5 +1,5 @@
 <template>
-  <UiModal v-if="props.isAuth" v-model="isShowInstallPWA" width="380" data-test="pwa-install-modal">
+  <UiModal v-if="props.isAuth" v-model="isShowInstallPWA" width="360" data-test="pwa-install-modal">
     <UiFlex column>
       <div>Установить приложение FiT на устройство?</div>
 

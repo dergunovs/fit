@@ -17,7 +17,7 @@
 
       <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">Добавить упражнение</UiButton>
 
-      <UiModal v-model="isShowModal" width="380" data-test="activity-form-add-exercise-modal">
+      <UiModal v-model="isShowModal" width="360" data-test="activity-form-add-exercise-modal">
         <ExerciseChooseList
           v-if="exercises?.length"
           :exercises="exercises"
