@@ -19,10 +19,11 @@
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 
-import packageJson from '../../../../package.json';
+import { commonService } from '@/common/services';
 
 const { needRefresh, updateServiceWorker } = useRegisterSW();
 
-const latestVersion = import.meta.env.VITE_VERSION;
-const currentVersion = packageJson.version;
+const currentVersion = import.meta.env.VITE_VERSION;
+
+const { data: latestVersion } = commonService.getLatestVersion();
 </script>

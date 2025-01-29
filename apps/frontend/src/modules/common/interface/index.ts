@@ -19,3 +19,7 @@ export interface IOnSuccess {
 export interface IPromptEvent extends Event {
   prompt: () => Promise<void>;
 }
+
+export interface IGetLatestVersionDTO {
+  'dist-tags': { latest: string };
+}
