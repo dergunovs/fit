@@ -24,7 +24,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const width = 312;
+const width = 308;
 
 const lastStepDate = props.exercises[props.exercises.length - 1].dateUpdated;
 
