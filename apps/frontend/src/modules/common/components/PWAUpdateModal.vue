@@ -1,7 +1,9 @@
 <template>
   <UiModal v-model="needRefresh" width="360" data-test="pwa-update-modal">
-    <UiFlex column>
-      <div>Обновите страницу для использования последней версии приложения</div>
+    <UiFlex column gap="16">
+      <div><b>Обновление</b></div>
+
+      <div>Обновить приложение до версии {{ version }}?</div>
 
       <UiFlex>
         <UiButton @click="updateServiceWorker" data-test="pwa-update-submit">Обновить</UiButton>
@@ -16,4 +18,6 @@ import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 
 const { needRefresh, updateServiceWorker } = useRegisterSW();
+
+const version = import.meta.env.VITE_VERSION;
 </script>
