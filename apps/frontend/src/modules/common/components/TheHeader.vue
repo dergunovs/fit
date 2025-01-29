@@ -1,10 +1,13 @@
 <template>
   <header :class="$style.header">
-    <UiFlex align="center" gap="64">
-      <RouterLink :to="URL_HOME" :class="$style.logo" aria-label="Logo" data-test="header-logo">
-        <IconLogo width="32" height="32" />FiT
-      </RouterLink>
-    </UiFlex>
+    <RouterLink :to="URL_HOME" :class="$style.link" aria-label="Logo" data-test="header-logo">
+      <IconLogo width="32" height="32" />
+
+      <UiFlex column gap="0">
+        <div :class="$style.logo">FiT</div>
+        <div :class="$style.version">v. {{ version }}</div>
+      </UiFlex>
+    </RouterLink>
 
     <UiFlex gap="12" justify="flex-end">
       <template v-if="isAuth">
@@ -49,6 +52,8 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ showLogin: [] }>();
 
 const router = useRouter();
+
+const version = import.meta.env.VITE_VERSION;
 </script>
 
 <style module lang="scss">
@@ -65,14 +70,24 @@ const router = useRouter();
   border-bottom: 1px solid var(--color-gray);
 }
 
-.logo {
+.link {
   display: flex;
-  gap: 4px;
   align-items: center;
+  text-decoration: none;
+}
+
+.logo {
   font-size: 2rem;
   font-weight: 700;
+  line-height: 1;
   color: var(--color-primary-dark);
-  text-decoration: none;
+}
+
+.version {
+  padding-left: 2px;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--color-gray-dark-extra);
 }
 
 @media (max-width: 960px) {

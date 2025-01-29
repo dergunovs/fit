@@ -13,7 +13,12 @@ function removeDataTest(node) {
 }
 
 export default defineConfig({
-  server: { port: 8080 },
+  server: {
+    port: 8080,
+    headers: {
+      'Content-Security-Policy': `default-src 'self';img-src 'self' data: localhost:5000 https://app-fit.ru;script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';connect-src 'self' localhost:5000 https://app-fit.ru;frame-src 'self';`,
+    },
+  },
 
   build: { target: 'esnext' },
 
@@ -30,7 +35,7 @@ export default defineConfig({
     svgLoader(),
     VitePWA({
       registerType: 'prompt',
-      workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg}'] },
+      workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'] },
       manifest: {
         name: 'FiT',
         start_url: '/',
