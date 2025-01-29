@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h1>Фитнес трекер</h1>
+  <UiFlex column gap="64">
+    <TheHero v-if="!isAuth" data-test="hero" />
 
-    <div :class="$style.info">
+    <div :class="$style.main">
       <div :class="$style.calendar">
         <ActivityCalendar
           :events="convertActivityCalendarEvents(calendar)"
@@ -18,10 +18,14 @@
         <ExerciseStatistics v-if="statistics" :statistics="statistics.exercise" data-test="exercise-statistics" />
       </div>
     </div>
-  </div>
+  </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { UiFlex } from 'mhz-ui';
+import { isAuth } from 'mhz-helpers';
+
+import TheHero from '@/common/components/TheHero.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
@@ -39,7 +43,7 @@ const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_G
 </script>
 
 <style module lang="scss">
-.info {
+.main {
   display: flex;
   gap: 48px;
 }
@@ -56,8 +60,9 @@ const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_G
 }
 
 @media (max-width: 960px) {
-  .info {
+  .main {
     flex-direction: column;
+    gap: 24px;
   }
 
   .calendar {

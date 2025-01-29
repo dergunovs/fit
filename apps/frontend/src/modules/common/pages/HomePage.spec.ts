@@ -1,6 +1,7 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { dataTest } from 'mhz-helpers';
+import { dataTest, setAuth } from 'mhz-helpers';
 
 import HomePage from './HomePage.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
@@ -21,6 +22,7 @@ import {
 } from '@/activity/mocks';
 import { convertActivityCalendarEvents } from '@/activity/helpers';
 
+const hero = dataTest('hero');
 const activityCalendar = dataTest('activity-calendar');
 const activityStatistics = dataTest('activity-statistics');
 const exerciseStatistics = dataTest('exercise-statistics');
@@ -76,5 +78,15 @@ describe('HomePage', async () => {
     expect(wrapper.findComponent<typeof ExerciseStatistics>(exerciseStatistics).vm.$props.statistics).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.exercise
     );
+  });
+
+  it('hides hero section to auth users', async () => {
+    expect(wrapper.find(hero).exists()).toBe(true);
+
+    setAuth(true);
+
+    await nextTick();
+
+    expect(wrapper.find(hero).exists()).toBe(false);
   });
 });

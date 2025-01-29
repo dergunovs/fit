@@ -6,7 +6,8 @@
       <div>Текущая версия: {{ currentVersion }}.</div>
 
       <div>
-        Обновить приложение до версии <span data-test="pwa-update-latest-version">{{ latestVersion }}</span
+        Обновить приложение<span v-if="!isSameVersion">
+          до версии <span data-test="pwa-update-latest-version">{{ latestVersion }}</span></span
         >?
       </div>
 
@@ -19,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 
@@ -26,7 +28,9 @@ import { commonService } from '@/common/services';
 
 const { needRefresh, updateServiceWorker } = useRegisterSW();
 
+const { data: latestVersion } = commonService.getLatestVersion();
+
 const currentVersion = import.meta.env.VITE_VERSION;
 
-const { data: latestVersion } = commonService.getLatestVersion();
+const isSameVersion = computed(() => currentVersion === latestVersion.value);
 </script>

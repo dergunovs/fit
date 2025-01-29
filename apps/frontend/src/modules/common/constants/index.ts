@@ -10,6 +10,14 @@ import { URL_EQUIPMENT } from '@/equipment/constants';
 import { INavItem } from '@/common/interface';
 import { URL_SETUP } from '@/auth/constants';
 
+export const HERO_BENEFITS = [
+  'Простейший способ улучшить здоровье и настоение',
+  'Календарь с визуализацией каждого занятия',
+  'Отслеживание прогресса: статистика, графики, динамика',
+  'Эффективные упражнения с простым оборудованием и без него',
+  'Универсальное бесплатное приложение для Android, iOS и ПК',
+];
+
 export const NAV_ITEMS: INavItem[] = [
   { _id: '1', url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
   { _id: '2', url: URL_ACTIVITY_ADMIN, title: 'Занятия', icon: IconActivity },
