@@ -3,7 +3,9 @@
     <UiFlex column gap="16">
       <div><b>Обновление</b></div>
 
-      <div>Обновить приложение до версии {{ version }}?</div>
+      <div>Текущая версия: {{ currentVersion }}.</div>
+
+      <div>Обновить приложение до версии {{ latestVersion }}?</div>
 
       <UiFlex>
         <UiButton @click="updateServiceWorker" data-test="pwa-update-submit">Обновить</UiButton>
@@ -17,7 +19,10 @@
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 
+import packageJson from '../../../../package.json';
+
 const { needRefresh, updateServiceWorker } = useRegisterSW();
 
-const version = import.meta.env.VITE_VERSION;
+const latestVersion = import.meta.env.VITE_VERSION;
+const currentVersion = packageJson.version;
 </script>
