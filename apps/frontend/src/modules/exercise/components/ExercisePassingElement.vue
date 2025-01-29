@@ -113,7 +113,7 @@ function sendDurationData(duration: number) {
 .element {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 
   &[data-current='true'] {
     padding: 8px 0;
