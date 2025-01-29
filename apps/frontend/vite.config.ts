@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     port: 8080,
     headers: {
-      'Content-Security-Policy': `default-src 'self';img-src 'self' data: localhost:5000 https://app-fit.ru;script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';connect-src 'self' localhost:5000 https://app-fit.ru;frame-src 'self';`,
+      'Content-Security-Policy': `default-src 'self';img-src 'self' data: localhost:5000 https://app-fit.ru;script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';connect-src 'self' localhost:5000 https://app-fit.ru https://registry.npmjs.org;frame-src 'self';`,
     },
   },
 

@@ -16,7 +16,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "test:cov": "turbo run test:cov",
-    "pub": "changeset version && changeset publish"
+    "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "2.27.12"

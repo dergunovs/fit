@@ -5,7 +5,10 @@
 
       <div>Текущая версия: {{ currentVersion }}.</div>
 
-      <div>Обновить приложение до версии {{ latestVersion }}?</div>
+      <div>
+        Обновить приложение до версии <span data-test="pwa-update-latest-version">{{ latestVersion }}</span
+        >?
+      </div>
 
       <UiFlex>
         <UiButton @click="updateServiceWorker" data-test="pwa-update-submit">Обновить</UiButton>

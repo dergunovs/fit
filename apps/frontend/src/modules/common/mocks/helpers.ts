@@ -61,7 +61,7 @@ const spyUseRouteId = vi.spyOn(helpers, 'useRouteId').mockImplementation(() => {
   return { id: mockRouteId };
 });
 
-function mockQueryReply<T>(reply: object, refetch?: () => void) {
+function mockQueryReply<T>(reply: object | string, refetch?: () => void) {
   return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
 }
 

@@ -1,12 +1,16 @@
 {
   "name": "fitness-tracker-frontend",
   "description": "Fitness tracker frontend",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
   "main": "index.js",
   "private": false,
+  "sideEffects": false,
+  "files": [
+    "dist/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dergunovs/fit",

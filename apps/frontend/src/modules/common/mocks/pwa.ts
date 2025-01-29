@@ -3,6 +3,13 @@ import { vi } from 'vitest';
 
 import * as pwaComposables from 'virtual:pwa-register/vue';
 import * as commonComposables from '@/common/composables';
+import { commonService } from '@/common/services';
+import { mockQueryReply } from '@/common/mocks';
+import { LATEST_VERSION_FIXTURE } from '@/common/fixtures';
+
+const spyGetLatestVersion = vi
+  .spyOn(commonService, 'getLatestVersion')
+  .mockReturnValue(mockQueryReply(LATEST_VERSION_FIXTURE['dist-tags'].latest));
 
 const spyInstallPWA = vi.fn();
 const mockIsShowInstallPWA = ref(true);
@@ -20,6 +27,7 @@ const spyUseRegisterSW = vi.spyOn(pwaComposables, 'useRegisterSW').mockImplement
 });
 
 export {
+  spyGetLatestVersion,
   spyUsePWA,
   spyInstallPWA,
   spyUseRegisterSW,
