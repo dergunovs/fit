@@ -18,12 +18,13 @@ jobs:
         run: npm i -g npm@11.0.0
       - name: Install
         run: npm i
-      - name: Create App .env
+      - name: Create frontend .env
         uses: SpicyPizza/create-envfile@v2.0.2
         with:
           envkey_VITE_API: ${{ secrets.VITE_API }}
+          envkey_VITE_VERSION: ${npm_package_version}
           directory: apps/frontend/
-      - name: Create Backend .env
+      - name: Create backend .env
         uses: SpicyPizza/create-envfile@v2.0.2
         with:
           envkey_DATABASE: ${{ secrets.DATABASE }}
