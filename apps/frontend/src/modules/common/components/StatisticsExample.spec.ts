@@ -1,20 +1,20 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 
-import ExerciseScience from './ExerciseScience.vue';
+import StatisticsExample from './StatisticsExample.vue';
 
 import { wrapperFactory } from '@/common/test';
 
-let wrapper: VueWrapper<InstanceType<typeof ExerciseScience>>;
+let wrapper: VueWrapper<InstanceType<typeof StatisticsExample>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseScience);
+  wrapper = wrapperFactory(StatisticsExample);
 });
 
 enableAutoUnmount(afterEach);
 
-describe('ExerciseScience', async () => {
+describe('StatisticsExample', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(ExerciseScience)).toBeTruthy();
+    expect(wrapper.findComponent(StatisticsExample)).toBeTruthy();
   });
 });
