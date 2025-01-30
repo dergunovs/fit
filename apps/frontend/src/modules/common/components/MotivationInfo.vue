@@ -1,5 +1,5 @@
 <template>
-  <UiFlex column gap="32">
+  <UiFlex column gap="48">
     <UiFlex column gap="16">
       <div :class="$style.header">Лучшая тренировка - та, на которую ты пришел!</div>
 
@@ -24,14 +24,14 @@
       </UiFlex>
     </UiFlex>
 
-    <ImageMotivation />
+    <ImageMotivation :class="$style.image" />
   </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { UiFlex } from 'mhz-ui';
 
-import ImageMotivation from '@/common/icons/motivation.svg';
+import ImageMotivation from '@/common/images/motivation.svg';
 </script>
 
 <style module lang="scss">
@@ -39,5 +39,16 @@ import ImageMotivation from '@/common/icons/motivation.svg';
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.image {
+  align-self: center;
+  max-width: 80%;
+}
+
+@media (max-width: 960px) {
+  .image {
+    max-width: 100%;
+  }
 }
 </style>

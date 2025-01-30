@@ -3,7 +3,7 @@
     <div :class="$style.background">
       <h1 :class="$style.h1">FiT - фитнес трекер домашних тренировок</h1>
 
-      <UiFlex column>
+      <UiFlex column gap="12">
         <div v-for="benefit in HERO_BENEFITS" :key="benefit" :class="$style.benefit" data-test="hero-benefit">
           {{ benefit }}
         </div>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { UiFlex } from 'mhz-ui';
 
-import HeroBackground from '@/common/icons/hero.svg';
+import HeroBackground from '@/common/images/hero.svg';
 
 import { HERO_BENEFITS } from '@/common/constants';
 </script>

@@ -1,27 +1,45 @@
 <template>
   <UiFlex column gap="64">
-    <template v-if="!isAuth">
-      <TheHero data-test="hero" />
-      <AppFeatures data-test="features" />
-      <MotivationInfo data-test="motivation" />
-    </template>
+    <PromoBlocks v-if="!isAuth" data-test="promo" />
 
-    <div :class="$style.main">
-      <div :class="$style.calendar">
-        <ActivityCalendar
-          :events="convertActivityCalendarEvents(calendar)"
-          @ready="updateDates"
-          @update="updateDates"
-          data-test="activity-calendar"
-        />
-        <ActivityStatistics v-if="statistics" :statistics="statistics.activity" data-test="activity-statistics" />
-        <ActivityChart />
-      </div>
+    <UiFlex column gap="16">
+      <UiFlex v-if="!isAuth" column>
+        <div>
+          Ниже пример пользовательских данных. В календаре можно открыть тренировку и посмотреть визуализацию, состав,
+          время подходов. Можно скопировать информацию о тренировке в буфер обмена, например, для отчёта своему тренеру.
+        </div>
 
-      <div :class="$style.statistics">
-        <ExerciseStatistics v-if="statistics" :statistics="statistics.exercise" data-test="exercise-statistics" />
+        <div>
+          Ниже общие и средние данные за месяц по длительности тренировок, количеству занятий, подходов, повторов,
+          среднему времени отдыха. На графиках динамика по занятиям, подходам, повторам и группам мышц.
+        </div>
+
+        <div>
+          В таблице статистика по упраженениям: количество выполненных подходов и повторов за последний месяц, динамика
+          по сравнению с прошлым месяцем, среднее время выполнения. Кликнув по упражнению можно почитать о
+          задействованных группах мышц, требуемом оборудовании и о технике выполнения.
+        </div>
+      </UiFlex>
+
+      <div :class="$style.main">
+        <div :class="$style.calendar">
+          <ActivityCalendar
+            :events="convertActivityCalendarEvents(calendar)"
+            @ready="updateDates"
+            @update="updateDates"
+            data-test="activity-calendar"
+          />
+
+          <ActivityStatistics v-if="statistics" :statistics="statistics.activity" data-test="activity-statistics" />
+
+          <ActivityChart />
+        </div>
+
+        <div :class="$style.statistics">
+          <ExerciseStatistics v-if="statistics" :statistics="statistics.exercise" data-test="exercise-statistics" />
+        </div>
       </div>
-    </div>
+    </UiFlex>
   </UiFlex>
 </template>
 
@@ -29,9 +47,7 @@
 import { UiFlex } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
-import TheHero from '@/common/components/TheHero.vue';
-import AppFeatures from '@/common/components/AppFeatures.vue';
-import MotivationInfo from '@/common/components/MotivationInfo.vue';
+import PromoBlocks from '@/common/components/PromoBlocks.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
