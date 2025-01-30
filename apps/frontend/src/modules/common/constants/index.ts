@@ -2,6 +2,8 @@ import IconExercise from '@/common/icons/nav-exercise.svg?component';
 import IconActivity from '@/common/icons/nav-activity.svg?component';
 import IconEquipment from '@/common/icons/weight.svg?component';
 import IconUser from '@/common/icons/nav-user.svg?component';
+import IconShare from '@/common/icons/share.svg?component';
+import IconProgress from '@/common/icons/to-failure.svg?component';
 
 import { URL_USER } from '@/user/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
@@ -13,9 +15,26 @@ import { URL_SETUP } from '@/auth/constants';
 export const HERO_BENEFITS = [
   'Простой способ улучшить здоровье и настроение',
   'Календарь с визуализацией каждого занятия',
-  'Отслеживание прогресса: статистика, графики, динамика',
   'Эффективные упражнения с оборудованием и без него',
-  'Бесплатное универсальное приложение для Android и iOS',
+  'Бесплатное приложение для Android и iOS',
+];
+
+export const APP_FEATURES = [
+  {
+    icon: IconProgress,
+    title: 'Отслеживайте прогресс',
+    text: 'Таблица со статистикой по каждому упражению. Графики с динамикой по занятиям, подходам, повторам и группам мышц.',
+  },
+  {
+    icon: IconShare,
+    title: 'Делитесь результатами',
+    text: 'В один клик скопируйте полные данные по каждой выполненной тренировке в календаре, включая время каждого подхода.',
+  },
+  {
+    icon: IconActivity,
+    title: 'Планируйте тренировки',
+    text: 'Повторите последнюю или любую другую тренировку. Расчет примерной длительности тренировки на основе вашей статистики.',
+  },
 ];
 
 export const NAV_ITEMS: INavItem[] = [

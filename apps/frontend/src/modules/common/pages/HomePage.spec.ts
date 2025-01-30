@@ -23,6 +23,7 @@ import {
 import { convertActivityCalendarEvents } from '@/activity/helpers';
 
 const hero = dataTest('hero');
+const features = dataTest('features');
 const activityCalendar = dataTest('activity-calendar');
 const activityStatistics = dataTest('activity-statistics');
 const exerciseStatistics = dataTest('exercise-statistics');
@@ -80,13 +81,15 @@ describe('HomePage', async () => {
     );
   });
 
-  it('hides hero section to auth users', async () => {
+  it('hides hero and features to auth users', async () => {
     expect(wrapper.find(hero).exists()).toBe(true);
+    expect(wrapper.find(features).exists()).toBe(true);
 
     setAuth(true);
 
     await nextTick();
 
     expect(wrapper.find(hero).exists()).toBe(false);
+    expect(wrapper.find(features).exists()).toBe(false);
   });
 });

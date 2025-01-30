@@ -1,6 +1,9 @@
 <template>
   <UiFlex column gap="64">
-    <TheHero v-if="!isAuth" data-test="hero" />
+    <template v-if="!isAuth">
+      <TheHero data-test="hero" />
+      <AppFeatures data-test="features" />
+    </template>
 
     <div :class="$style.main">
       <div :class="$style.calendar">
@@ -26,6 +29,7 @@ import { UiFlex } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
 import TheHero from '@/common/components/TheHero.vue';
+import AppFeatures from '@/common/components/AppFeatures.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';

@@ -1,15 +1,18 @@
 <template>
   <UiModal v-model="needRefresh" width="360" data-test="pwa-update-modal">
     <UiFlex column gap="16">
-      <div><b>Обновление</b></div>
+      <div><b>Обновление приложения</b></div>
 
-      <div>Текущая версия: {{ currentVersion }}.</div>
+      <div v-if="isSameVersion">Обновите для получения нового контента.</div>
 
-      <div>
-        Обновить приложение<span v-if="!isSameVersion">
-          до версии <span data-test="pwa-update-latest-version">{{ latestVersion }}</span></span
-        >?
-      </div>
+      <template v-else>
+        <div>Текущая версия: {{ currentVersion }}.</div>
+
+        <div>
+          Обновить приложение до версии <span data-test="pwa-update-latest-version">{{ latestVersion }}</span
+          >?
+        </div>
+      </template>
 
       <UiFlex>
         <UiButton @click="updateServiceWorker" data-test="pwa-update-submit">Обновить</UiButton>
