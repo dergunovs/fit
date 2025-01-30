@@ -24,6 +24,7 @@ import { convertActivityCalendarEvents } from '@/activity/helpers';
 
 const hero = dataTest('hero');
 const features = dataTest('features');
+const motivation = dataTest('motivation');
 const activityCalendar = dataTest('activity-calendar');
 const activityStatistics = dataTest('activity-statistics');
 const exerciseStatistics = dataTest('exercise-statistics');
@@ -81,9 +82,10 @@ describe('HomePage', async () => {
     );
   });
 
-  it('hides hero and features to auth users', async () => {
+  it('hides promo blocks to auth users', async () => {
     expect(wrapper.find(hero).exists()).toBe(true);
     expect(wrapper.find(features).exists()).toBe(true);
+    expect(wrapper.find(motivation).exists()).toBe(true);
 
     setAuth(true);
 
@@ -91,5 +93,6 @@ describe('HomePage', async () => {
 
     expect(wrapper.find(hero).exists()).toBe(false);
     expect(wrapper.find(features).exists()).toBe(false);
+    expect(wrapper.find(motivation).exists()).toBe(false);
   });
 });

@@ -3,6 +3,7 @@
     <template v-if="!isAuth">
       <TheHero data-test="hero" />
       <AppFeatures data-test="features" />
+      <MotivationInfo data-test="motivation" />
     </template>
 
     <div :class="$style.main">
@@ -30,6 +31,7 @@ import { isAuth } from 'mhz-helpers';
 
 import TheHero from '@/common/components/TheHero.vue';
 import AppFeatures from '@/common/components/AppFeatures.vue';
+import MotivationInfo from '@/common/components/MotivationInfo.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';

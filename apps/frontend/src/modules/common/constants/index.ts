@@ -1,7 +1,7 @@
-import IconExercise from '@/common/icons/nav-exercise.svg?component';
-import IconActivity from '@/common/icons/nav-activity.svg?component';
+import IconExercise from '@/common/icons/exercise.svg?component';
+import IconActivity from '@/common/icons/activity.svg?component';
 import IconEquipment from '@/common/icons/weight.svg?component';
-import IconUser from '@/common/icons/nav-user.svg?component';
+import IconUser from '@/common/icons/user.svg?component';
 import IconShare from '@/common/icons/share.svg?component';
 import IconProgress from '@/common/icons/to-failure.svg?component';
 
