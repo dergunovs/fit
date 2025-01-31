@@ -1,32 +1,50 @@
 <template>
-  <UiFlex column>
-    <div>
-      Научный подход к тренировкам основан на принципах физиологии, биомеханики и спортивной медицины. Например,
-      доказано, что прогрессивная нагрузка стимулирует рост мышц и силы.
-    </div>
+  <UiFlex column gap="64">
+    <UiFlex column>
+      <div :class="$style.header">Лучшая тренировка - та, на которую ты пришел!</div>
 
-    <div><b>Для достижения результата важны:</b></div>
+      <div>
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5977566/" target="_blank" rel="noopener noreferrer nofollow"
+          >Исследования</a
+        >
+        доказывают, что трекинг результатов помогает достичь ваших спортивных целей. Научный подход к тренировкам
+        основан на принципах физиологии, биомеханики и спортивной медицины. Например, доказано, что прогрессивная
+        нагрузка стимулирует рост мышц и силы.
+      </div>
 
-    <ul>
-      <li>Полная амплитуда движений</li>
-      <li>Периодические подходы до отказа</li>
-      <li>Упражнения, в которых мышцы получают нагрузку в момент растяжения</li>
-      <li>Подбор веса и повторов по своим возможностям (если легко выполнить 3×20 — увеличивайте вес)</li>
-    </ul>
+      <div>
+        <b>
+          Эффективные упражнения, рекомендованные экспертами, сгруппированы по группам мышц и подобраны для баланса
+          простоты и разнообразия тренировок.
+        </b>
+      </div>
+    </UiFlex>
 
-    <div>
-      <b>
-        Эффективные упражнения, рекомендованные экспертами, сгруппированы по группам мышц и подобраны для баланса
-        простоты и разнообразия тренировок.</b
-      >
-    </div>
-
-    <ImageScience />
+    <ImageMotivation :class="$style.image" />
   </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { UiFlex } from 'mhz-ui';
 
-import ImageScience from '@/common/images/science.svg';
+import ImageMotivation from '@/common/images/motivation.svg';
 </script>
+
+<style module lang="scss">
+.header {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.image {
+  align-self: center;
+  max-width: 80%;
+}
+
+@media (max-width: 960px) {
+  .image {
+    max-width: 100%;
+  }
+}
+</style>

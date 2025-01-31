@@ -5,11 +5,15 @@
 
       <div :class="$style.title" data-test="app-feature-title">{{ feature.title }}</div>
       <div data-test="app-feature-text">{{ feature.text }}</div>
+
+      <FeatureBackground :class="$style.background" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import FeatureBackground from '@/common/images/feature-background.svg';
+
 import { APP_FEATURES } from '@/common/constants';
 </script>
 
@@ -20,11 +24,13 @@ import { APP_FEATURES } from '@/common/constants';
 }
 
 .feature {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
   padding: 32px;
+  overflow: hidden;
   border: 1px solid var(--color-gray);
   border-radius: 12px;
 }
@@ -38,6 +44,15 @@ import { APP_FEATURES } from '@/common/constants';
   font-weight: 700;
   color: var(--color-primary);
   border-bottom: 4px solid;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0.1;
 }
 
 @media (max-width: 960px) {
