@@ -1,11 +1,13 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="16" align="flex-start" data-test="user-form">
+      <h2>Профиль пользователя</h2>
+
       <div v-if="props.user?.role === 'admin'" :class="$style.admin" data-test="user-form-admin">
         Пользователь с правами администратора
       </div>
 
-      <div :class="$style.title">Ваше оборудование</div>
+      <h3>Ваше оборудование</h3>
 
       <UserEquipmentForm
         v-if="equipments"
@@ -14,7 +16,7 @@
         data-test="user-form-equipments"
       />
 
-      <div :class="$style.title">Выбор веса по-умолчанию</div>
+      <h3>Выбор веса по-умолчанию</h3>
 
       <UserDefaultWeightsForm
         v-if="formData.equipments && exercises"
@@ -24,7 +26,7 @@
         data-test="user-form-default-weights"
       />
 
-      <div :class="$style.title">Общие данные</div>
+      <h3>Общие данные</h3>
 
       <UiField label="Электронная почта" isRequired :error="error('email')">
         <UiInput v-model="formData.email" data-test="user-form-email" />
@@ -142,10 +144,5 @@ onMounted(() => {
 .admin {
   font-weight: 700;
   color: var(--color-success);
-}
-
-.title {
-  font-size: 1.25rem;
-  font-weight: 700;
 }
 </style>

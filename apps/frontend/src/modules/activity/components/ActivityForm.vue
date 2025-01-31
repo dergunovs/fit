@@ -26,7 +26,7 @@
         />
       </UiModal>
 
-      <div v-if="formData.exercises?.length" data-test="activity-form-exercises-choosen-container">
+      <UiFlex v-if="formData.exercises?.length" column data-test="activity-form-exercises-choosen-container">
         <h3>Упражнения</h3>
 
         <ExerciseChoosenList
@@ -34,7 +34,7 @@
           @delete="deleteExercise"
           data-test="activity-form-exercises-choosen"
         />
-      </div>
+      </UiFlex>
 
       <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit" data-test="activity-form-submit">
         Начать

@@ -1,7 +1,7 @@
 <template>
   <UiFlex column gap="16">
     <UiFlex column>
-      <div :class="$style.title" data-test="exercise-info-title">{{ props.exercise.exercise.title }}</div>
+      <h3 data-test="exercise-info-title">{{ props.exercise.exercise.title }}</h3>
 
       <div
         v-if="isAuth"
@@ -75,11 +75,6 @@ const props = defineProps<IProps>();
 </script>
 
 <style module lang="scss">
-.title {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
 .isMatches {
   color: var(--color-error);
 
