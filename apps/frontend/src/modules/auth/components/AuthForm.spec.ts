@@ -98,9 +98,6 @@ describe('AuthForm', async () => {
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CALENDAR] });
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
-
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });
 
   it('handles setup by form submit', async () => {

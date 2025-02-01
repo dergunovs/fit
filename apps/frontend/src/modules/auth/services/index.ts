@@ -1,10 +1,13 @@
 import {
   API_AUTH_GET,
   API_AUTH_LOGIN,
+  API_AUTH_REGISTER,
   API_AUTH_SETUP,
   TGetAuthDTO,
   TPostAuthLoginDTO,
   TPostAuthLoginDataDTO,
+  TPostAuthRegisterDTO,
+  TPostAuthRegisterDataDTO,
   TPostAuthSetupDTO,
   TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
@@ -40,6 +43,18 @@ export const authService = {
       mutationKey: [API_AUTH_SETUP],
       mutationFn: async (formData: TPostAuthSetupDataDTO) => {
         const { data } = await api.post<TPostAuthSetupDTO>(API_AUTH_SETUP, formData);
+
+        return data;
+      },
+      ...options,
+    });
+  },
+
+  register: (options: object) => {
+    return useMutation({
+      mutationKey: [API_AUTH_REGISTER],
+      mutationFn: async (formData: TPostAuthRegisterDataDTO) => {
+        const { data } = await api.post<TPostAuthRegisterDTO>(API_AUTH_REGISTER, formData);
 
         return data;
       },

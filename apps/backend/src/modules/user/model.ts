@@ -19,6 +19,8 @@ const userSchema = new Schema<IUser>(
     dateLoggedIn: { type: Date, default: Date.now },
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },
+    isEmailConfirmed: { type: Boolean, default: false },
+    confirmationToken: { type: String },
   },
   { versionKey: false }
 );

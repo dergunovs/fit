@@ -62,3 +62,11 @@ export const authSetupSchema: ISchema = {
     response: { 200: baseReply },
   },
 };
+
+export const authRegisterSchema: ISchema = {
+  schema: {
+    tags,
+    body: authDataModel,
+    response: { 200: baseReply },
+  },
+};

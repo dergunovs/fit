@@ -28,13 +28,17 @@ export const authService: IAuthService = {
       .exec();
 
     if (!user?.password) {
-      return { user: undefined, isUserNotFound: true, isWrongPassword: false };
+      return { user: undefined, isUserNotFound: true, isWrongPassword: false, isEmailNotConfirmed: false };
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return { user: undefined, isUserNotFound: false, isWrongPassword: true };
+      return { user: undefined, isUserNotFound: false, isWrongPassword: true, isEmailNotConfirmed: false };
+    }
+
+    if (user.isEmailConfirmed === false && user.role !== 'admin') {
+      return { user: undefined, isUserNotFound: false, isWrongPassword: false, isEmailNotConfirmed: true };
     }
 
     const token = sign(filterUserData(user, true), { expiresIn: '12h' });
@@ -43,19 +47,36 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    return { user: filterUserData(user), token, isUserNotFound: false, isWrongPassword: false };
+    return {
+      user: filterUserData(user),
+      token,
+      isUserNotFound: false,
+      isWrongPassword: false,
+      isEmailNotConfirmed: false,
+    };
   },
 
-  setup: async (userToCreate: IAuthData) => {
-    const users = await User.find().lean().exec();
+  setup: async (adminToCreate: IAuthData) => {
+    const existingUsers = await User.find().lean().exec();
 
-    if (users.length) return true;
+    if (existingUsers.length) return true;
 
-    const user = new User({ ...userToCreate, role: 'admin' });
+    const password = await bcrypt.hash(adminToCreate.password, 10);
+    const user = new User({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
 
-    if (!user.password) return true;
+    await user.save();
 
-    user.password = await bcrypt.hash(user.password, 10);
+    return false;
+  },
+
+  register: async (userToCreate: IAuthData, sign: (payload: IUser, options: object) => string) => {
+    const existingUser = await User.findOne({ email: userToCreate.email }).lean().exec();
+
+    if (existingUser) return true;
+
+    const password = await bcrypt.hash(userToCreate.password, 10);
+    const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
+    const user = new User({ email: userToCreate.email, password, confirmationToken, role: 'user' });
 
     await user.save();
 

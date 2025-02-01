@@ -1,6 +1,7 @@
 export const API_AUTH_GET = "/auth/check";
 export const API_AUTH_LOGIN = "/auth/login";
 export const API_AUTH_SETUP = "/auth/setup";
+export const API_AUTH_REGISTER = "/auth/register";
 
 export const API_ACTIVITY = "/activity";
 export const API_ACTIVITY_CALENDAR = "/activity_calendar";

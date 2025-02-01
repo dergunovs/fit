@@ -26,7 +26,13 @@
         </UiButton>
       </template>
 
-      <UiButton v-else @click="emit('showLogin')" layout="plain" data-test="header-login">Войти</UiButton>
+      <template v-else>
+        <UiButton @click="emit('showRegistration')" layout="plain" data-test="header-registration">
+          Регистрация
+        </UiButton>
+
+        <UiButton @click="emit('showLogin')" layout="plain" data-test="header-login">Вход</UiButton>
+      </template>
     </UiFlex>
   </header>
 </template>
@@ -49,7 +55,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ showLogin: [] }>();
+const emit = defineEmits<{ showLogin: []; showRegistration: [] }>();
 
 const router = useRouter();
 

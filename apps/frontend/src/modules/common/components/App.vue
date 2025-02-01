@@ -8,8 +8,10 @@
       :data-layout="layoutComponent.name"
     />
 
-    <PWAUpdateModal />
-    <PWAInstallModal :isAuth="isAuth" />
+    <template v-if="!isDev">
+      <PWAUpdateModal />
+      <PWAInstallModal :isAuth="isAuth" />
+    </template>
   </div>
 </template>
 
@@ -25,4 +27,6 @@ import { useAuthCheck } from '@/auth/composables';
 const { isLoaded, layoutComponent } = useLayout();
 
 const { isAdmin } = useAuthCheck();
+
+const isDev = import.meta.env.VITE_IS_DEV;
 </script>

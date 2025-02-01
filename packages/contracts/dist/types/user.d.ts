@@ -22,6 +22,8 @@ export interface IUser extends IEntity {
   equipments?: IUserEquipment[];
   defaultWeights?: IUserDefaultWeights;
   dateLoggedIn?: Date | string;
+  isEmailConfirmed?: boolean;
+  confirmationToken?: string;
 }
 
 export type TGetUsersDTO = IPaginatedReply<IUser>;
