@@ -33,6 +33,9 @@ jobs:
           envkey_PORT: ${{ secrets.PORT }}
           envkey_APP_URL: ${{ secrets.APP_URL }}
           envkey_IS_DEV: ${{ secrets.IS_DEV }}
+          envkey_EMAIL_SMTP: ${{ secrets.EMAIL_SMTP }}
+          envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          envkey_EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           directory: apps/backend/
       - name: Build
         run: npm run build

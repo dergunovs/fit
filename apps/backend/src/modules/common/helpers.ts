@@ -1,5 +1,6 @@
 import { IPaginatedReply } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
+import nodemailer from 'nodemailer';
 
 import { IWeekDays } from './types.js';
 
@@ -72,4 +73,20 @@ export async function paginate<T>(
 
 export function getDynamics(cur: number, prev: number) {
   return Math.round(((cur - prev) / cur) * 100) || 0;
+}
+
+export async function sendMail(text: string) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_SMTP,
+    port: 465,
+    secure: true,
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
+  });
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
+    subject: 'Сообщение от app-fit.ru',
+    text,
+  });
 }
