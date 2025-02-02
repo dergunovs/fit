@@ -3,12 +3,12 @@
     <h2>Регистрация</h2>
 
     <form @submit.prevent="submit" :class="$style.form" data-test="registration-form">
-      <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" data-test="registration-form-email" />
-      </UiField>
-
       <UiField label="Имя" isRequired :error="error('name')">
         <UiInput v-model="formData.name" data-test="registration-form-name" />
+      </UiField>
+
+      <UiField label="Электронная почта" isRequired :error="error('email')">
+        <UiInput v-model="formData.email" data-test="registration-form-email" />
       </UiField>
 
       <UiField label="Пароль" isRequired :error="error('password')">

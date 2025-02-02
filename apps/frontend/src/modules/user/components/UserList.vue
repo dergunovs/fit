@@ -6,6 +6,9 @@
           {{ user.email }}
         </RouterLink>
       </td>
+      <td :class="$style.confirmed" :data-confirmed="user.isEmailConfirmed">
+        {{ user.isEmailConfirmed ? 'Да' : 'Нет' }}
+      </td>
     </tr>
   </UiTable>
 </template>
@@ -22,3 +25,14 @@ interface IProps {
 
 const props = defineProps<IProps>();
 </script>
+
+<style module lang="scss">
+.confirmed {
+  color: var(--color-success);
+
+  &[data-confirmed='false'] {
+    font-weight: 700;
+    color: var(--color-error);
+  }
+}
+</style>

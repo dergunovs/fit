@@ -28,7 +28,7 @@ export const equipmentService: IEquipmentService = {
     await Equipment.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
-  delete: async (_id?: string) => {
+  delete: async (_id: string) => {
     const equipment = await Equipment.findOne({ _id });
 
     await equipment?.deleteOne();

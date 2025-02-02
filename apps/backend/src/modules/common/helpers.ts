@@ -75,7 +75,7 @@ export function getDynamics(cur: number, prev: number) {
   return Math.round(((cur - prev) / cur) * 100) || 0;
 }
 
-export async function sendMail(text: string) {
+export async function sendMail(text: string, to: string) {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SMTP,
     port: 465,
@@ -83,10 +83,5 @@ export async function sendMail(text: string) {
     auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
   });
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    subject: 'Сообщение от app-fit.ru',
-    text,
-  });
+  await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'Сообщение от app-fit.ru', text });
 }

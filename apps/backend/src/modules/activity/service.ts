@@ -169,7 +169,7 @@ export const activityService: IActivityService = {
     await activity.save();
   },
 
-  delete: async (_id?: string) => {
+  delete: async (_id: string) => {
     const activity = await Activity.findOne({ _id });
 
     await activity?.deleteOne();

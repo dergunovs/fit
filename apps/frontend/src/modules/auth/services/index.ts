@@ -3,7 +3,10 @@ import {
   API_AUTH_LOGIN,
   API_AUTH_REGISTER,
   API_AUTH_SETUP,
+  API_AUTH_CONFIRM,
   TGetAuthDTO,
+  TPostAuthConfirmTokenDTO,
+  TPostAuthConfirmTokenDataDTO,
   TPostAuthLoginDTO,
   TPostAuthLoginDataDTO,
   TPostAuthRegisterDTO,
@@ -55,6 +58,18 @@ export const authService = {
       mutationKey: [API_AUTH_REGISTER],
       mutationFn: async (formData: TPostAuthRegisterDataDTO) => {
         const { data } = await api.post<TPostAuthRegisterDTO>(API_AUTH_REGISTER, formData);
+
+        return data;
+      },
+      ...options,
+    });
+  },
+
+  confirmToken: (options: object) => {
+    return useMutation({
+      mutationKey: [API_AUTH_CONFIRM],
+      mutationFn: async (token: TPostAuthConfirmTokenDataDTO) => {
+        const { data } = await api.post<TPostAuthConfirmTokenDTO>(API_AUTH_CONFIRM, token);
 
         return data;
       },

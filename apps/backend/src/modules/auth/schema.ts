@@ -1,5 +1,11 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IAuthData, IRegisterData, TGetAuthDTO, TPostAuthLoginDTO } from 'fitness-tracker-contracts';
+import type {
+  IAuthData,
+  IRegisterData,
+  TGetAuthDTO,
+  TPostAuthConfirmTokenDataDTO,
+  TPostAuthLoginDTO,
+} from 'fitness-tracker-contracts';
 
 import { ISchema } from '../common/types.js';
 import { baseReply } from '../common/schema.js';
@@ -27,6 +33,17 @@ export const registerDataModel: JSONSchemaType<IRegisterData> = {
     name: { type: 'string' },
   },
   required: ['email', 'password', 'name'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const confirmTokenDataModel: JSONSchemaType<TPostAuthConfirmTokenDataDTO> = {
+  $id: 'ConfirmTokenData',
+  type: 'object',
+  properties: {
+    token: { type: 'string' },
+  },
+  required: ['token'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -80,6 +97,14 @@ export const authRegisterSchema: ISchema = {
   schema: {
     tags,
     body: registerDataModel,
+    response: { 200: baseReply },
+  },
+};
+
+export const authConfirmSchema: ISchema = {
+  schema: {
+    tags,
+    body: confirmTokenDataModel,
     response: { 200: baseReply },
   },
 };

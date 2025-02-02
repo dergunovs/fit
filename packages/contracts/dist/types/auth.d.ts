@@ -6,6 +6,7 @@ export {
   API_AUTH_LOGIN,
   API_AUTH_SETUP,
   API_AUTH_REGISTER,
+  API_AUTH_CONFIRM,
 } from "../index";
 
 export interface IAuthData {
@@ -38,9 +39,11 @@ export interface IAuthService {
   setup: (admin: IAuthData) => Promise<boolean>;
 
   register: (
-    admin: IRegisterData,
+    user: IRegisterData,
     sign: (payload: IUser, options: object) => string,
   ) => Promise<boolean>;
+
+  confirm: (token: string, decode?: TDecode) => Promise<boolean>;
 }
 
 export type TGetAuthDTO = IUser;
@@ -51,3 +54,5 @@ export type TPostAuthSetupDTO = IBaseReply;
 export type TPostAuthSetupDataDTO = IAuthData;
 export type TPostAuthRegisterDTO = IBaseReply;
 export type TPostAuthRegisterDataDTO = IRegisterData;
+export type TPostAuthConfirmTokenDTO = IBaseReply;
+export type TPostAuthConfirmTokenDataDTO = { token: string };

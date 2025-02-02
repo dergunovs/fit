@@ -162,9 +162,6 @@ describe('UserForm', async () => {
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
-
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_USER);
   });
 
   it('sets form buttons id', async () => {

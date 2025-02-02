@@ -1,7 +1,15 @@
-import { API_AUTH_GET, API_AUTH_LOGIN, API_AUTH_REGISTER, API_AUTH_SETUP } from 'fitness-tracker-contracts';
+import {
+  API_AUTH_CONFIRM,
+  API_AUTH_GET,
+  API_AUTH_LOGIN,
+  API_AUTH_REGISTER,
+  API_AUTH_SETUP,
+} from 'fitness-tracker-contracts';
 import type {
   IBaseReply,
   TGetAuthDTO,
+  TPostAuthConfirmTokenDTO,
+  TPostAuthConfirmTokenDataDTO,
   TPostAuthLoginDTO,
   TPostAuthLoginDataDTO,
   TPostAuthRegisterDTO,
@@ -12,7 +20,7 @@ import type {
 
 import { IFastifyInstance } from '../common/types.js';
 import { authService } from './service.js';
-import { authGetSchema, authLoginSchema, authSetupSchema, authRegisterSchema } from './schema.js';
+import { authGetSchema, authLoginSchema, authSetupSchema, authRegisterSchema, authConfirmSchema } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO; '4xx': IBaseReply } }>(
@@ -74,6 +82,20 @@ export default async function (fastify: IFastifyInstance) {
         reply.code(500).send({ message: 'Пользователь уже существует' });
       } else {
         reply.code(201).send({ message: 'Пользователь создан' });
+      }
+    }
+  );
+
+  fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 201: TPostAuthConfirmTokenDTO; '5xx': IBaseReply } }>(
+    API_AUTH_CONFIRM,
+    { ...authConfirmSchema },
+    async function (request, reply) {
+      const isEmailNotConfirmed = await authService.confirm(request.body.token, fastify.jwt.decode);
+
+      if (isEmailNotConfirmed) {
+        reply.code(500).send({ message: 'Ошибка подтверждения почты' });
+      } else {
+        reply.code(201).send({ message: 'Почта подтверждена' });
       }
     }
   );

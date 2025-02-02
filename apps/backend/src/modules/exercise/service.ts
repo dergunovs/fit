@@ -43,7 +43,7 @@ export const exerciseService: IExerciseService = {
     await Exercise.findOneAndReplace({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
-  delete: async (_id?: string) => {
+  delete: async (_id: string) => {
     const exercise = await Exercise.findOne({ _id });
 
     await exercise?.deleteOne();

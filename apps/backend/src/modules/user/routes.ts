@@ -66,9 +66,9 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
     `${API_USER}/:id`,
-    { preValidation: [fastify.onlyAdmin], ...userDeleteSchema },
+    { preValidation: [fastify.onlyUser], ...userDeleteSchema },
     async function (request, reply) {
-      await userService.delete(request.params.id);
+      await userService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send({ message: 'Пользователь удален' });
     }

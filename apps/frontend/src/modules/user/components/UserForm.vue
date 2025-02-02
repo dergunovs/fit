@@ -54,7 +54,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiFlex, UiInput, toast } from 'mhz-ui';
-import { useQueryClient, useValidator, required, email, clone } from 'mhz-helpers';
+import { useQueryClient, useValidator, required, email, clone, logout, deleteAuthHeader } from 'mhz-helpers';
 import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
@@ -65,6 +65,8 @@ import { URL_USER } from '@/user/constants';
 import { userService } from '@/user/services';
 import { equipmentService } from '@/equipment/services';
 import { exerciseService } from '@/exercise/services';
+import { URL_HOME } from '@/common/constants';
+import { TOKEN_NAME } from '@/auth/constants';
 
 interface IProps {
   user?: IUser | null;
@@ -111,7 +113,12 @@ const { mutate: mutateDelete } = userService.delete({
     queryClient.removeQueries({ queryKey: [API_USER] });
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     toast.success('Пользователь удален');
-    router.push(URL_USER);
+
+    if (props.user?.role === 'admin') {
+      router.push(URL_USER);
+    } else {
+      logout(URL_HOME, deleteAuthHeader, TOKEN_NAME);
+    }
   },
 });
 

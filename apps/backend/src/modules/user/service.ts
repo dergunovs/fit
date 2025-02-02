@@ -38,7 +38,9 @@ export const userService: IBaseService = {
     await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
-  delete: async (_id?: string) => {
+  delete: async (_id: string, decode?: TDecode, token?: string) => {
+    allowAccessToAdminAndCurrentUser(_id, decode, token);
+
     const user = await User.findOne({ _id });
 
     await user?.deleteOne();

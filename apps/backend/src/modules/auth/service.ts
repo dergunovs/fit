@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
-import type { IAuthData, IRegisterData, IAuthService, IUser } from 'fitness-tracker-contracts';
+import type { IAuthData, IRegisterData, IAuthService, IUser, TDecode } from 'fitness-tracker-contracts';
 
 import User from '../user/model.js';
-import { filterUserData } from './helpers.js';
+import { sendMail } from '../common/helpers.js';
+import { decodeToken, filterUserData } from './helpers.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<IUser> }) => {
@@ -84,6 +85,26 @@ export const authService: IAuthService = {
       confirmationToken,
       role: 'user',
     });
+
+    await user.save();
+
+    const template = `${userToCreate.name}, для подтверждения регистрации перейдите по ссылке ${process.env.APP_URL}?token=${confirmationToken}`;
+
+    await sendMail(template, userToCreate.email);
+
+    return false;
+  },
+
+  confirm: async (token: string, decode?: TDecode) => {
+    const decodedUser = decodeToken(decode, `Bearer ${token}`);
+
+    if (!decodedUser) return true;
+
+    const user = await User.findOne({ email: decodedUser.email });
+
+    if (!user || user.isEmailConfirmed || token !== user.confirmationToken) return true;
+
+    await user.updateOne({ isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() });
 
     await user.save();
 
