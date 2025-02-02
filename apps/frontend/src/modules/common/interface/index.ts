@@ -14,6 +14,7 @@ export interface IOnSuccess {
   delete?: () => Promise<void>;
   login?: (user: TPostAuthLoginDTO) => Promise<void>;
   setup?: () => Promise<void>;
+  register?: () => Promise<void>;
 }
 
 export interface IPromptEvent extends Event {

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 
 import { userModel, userEquipmentModel } from '../user/schema.js';
-import { authDataModel } from '../auth/schema.js';
+import { authDataModel, registerDataModel } from '../auth/schema.js';
 import { exerciseModel, exerciseDoneModel, muscleGroupModel } from '../exercise/schema.js';
 import { activityModel, activityStatisticsValuesModel } from '../activity/schema.js';
 import { equipmentModel } from '../equipment/schema.js';
@@ -11,6 +11,7 @@ export function addSchemas(fastify: FastifyInstance) {
   fastify.addSchema(userModel);
 
   fastify.addSchema(authDataModel);
+  fastify.addSchema(registerDataModel);
 
   fastify.addSchema(exerciseModel);
   fastify.addSchema(exerciseDoneModel);

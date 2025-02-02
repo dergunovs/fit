@@ -13,6 +13,10 @@ export interface IAuthData {
   password: string;
 }
 
+export interface IRegisterData extends IAuthData {
+  name: string;
+}
+
 export type TDecode = (token: string) => IUser | null;
 
 export interface IAuthService {
@@ -34,7 +38,7 @@ export interface IAuthService {
   setup: (admin: IAuthData) => Promise<boolean>;
 
   register: (
-    admin: IAuthData,
+    admin: IRegisterData,
     sign: (payload: IUser, options: object) => string,
   ) => Promise<boolean>;
 }
@@ -46,4 +50,4 @@ export type TPostAuthLoginDataDTO = IAuthData;
 export type TPostAuthSetupDTO = IBaseReply;
 export type TPostAuthSetupDataDTO = IAuthData;
 export type TPostAuthRegisterDTO = IBaseReply;
-export type TPostAuthRegisterDataDTO = IAuthData;
+export type TPostAuthRegisterDataDTO = IRegisterData;

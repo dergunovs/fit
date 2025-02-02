@@ -3,6 +3,8 @@ import { vi } from 'vitest';
 import {
   TPostAuthLoginDataDTO,
   TPostAuthLoginDTO,
+  TPostAuthRegisterDataDTO,
+  TPostAuthRegisterDTO,
   TPostAuthSetupDataDTO,
   TPostAuthSetupDTO,
 } from 'fitness-tracker-contracts';
@@ -21,10 +23,12 @@ const spyUseAuthCheck = vi
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();
+const spyRegister = vi.fn();
 
 const mockOnSuccess: IOnSuccess = {
   login: undefined,
   setup: undefined,
+  register: undefined,
 };
 
 vi.spyOn(authService, 'login').mockImplementation(
@@ -41,4 +45,10 @@ vi.spyOn(authService, 'setup').mockImplementation((options: { onSuccess?: () => 
   return mockMutationReply<TPostAuthSetupDTO, TPostAuthSetupDataDTO>(spySetup);
 });
 
-export { spyUseAuthCheck, spyLogin, spySetup, mockOnSuccess, mockIsAdmin };
+vi.spyOn(authService, 'register').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
+  if (options.onSuccess) mockOnSuccess.register = options.onSuccess;
+
+  return mockMutationReply<TPostAuthRegisterDTO, TPostAuthRegisterDataDTO>(spyRegister);
+});
+
+export { spyUseAuthCheck, spyLogin, spySetup, spyRegister, mockOnSuccess, mockIsAdmin };

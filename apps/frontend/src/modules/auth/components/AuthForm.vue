@@ -64,7 +64,7 @@ const { mutate: mutateLogin } = authService.login({
   onSuccess: async (response: TPostAuthLoginDTO) => {
     if (!response.token) return;
 
-    toast.success(response.user?.name ? `Добро пожаловать, ${response.user.name}!` : 'Заполните информацию в профиле');
+    toast.success(`Добро пожаловать, ${response.user?.name}!`);
     auth(response.token, setAuthHeader, TOKEN_NAME);
     if (response.user?.role === 'admin') setAdmin(true);
     emit('login');

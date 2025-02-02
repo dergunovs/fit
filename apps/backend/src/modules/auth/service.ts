@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import type { IAuthData, IAuthService, IUser } from 'fitness-tracker-contracts';
+import type { IAuthData, IRegisterData, IAuthService, IUser } from 'fitness-tracker-contracts';
 
 import User from '../user/model.js';
 import { filterUserData } from './helpers.js';
@@ -69,14 +69,21 @@ export const authService: IAuthService = {
     return false;
   },
 
-  register: async (userToCreate: IAuthData, sign: (payload: IUser, options: object) => string) => {
+  register: async (userToCreate: IRegisterData, sign: (payload: IUser, options: object) => string) => {
     const existingUser = await User.findOne({ email: userToCreate.email }).lean().exec();
 
     if (existingUser) return true;
 
     const password = await bcrypt.hash(userToCreate.password, 10);
     const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
-    const user = new User({ email: userToCreate.email, password, confirmationToken, role: 'user' });
+
+    const user = new User({
+      email: userToCreate.email,
+      name: userToCreate.name,
+      password,
+      confirmationToken,
+      role: 'user',
+    });
 
     await user.save();
 

@@ -1,11 +1,18 @@
 <template>
-  <RouterLink :to="props.navItem.url" :class="$style.item" data-test="nav-item">
+  <RouterLink
+    :to="props.navItem.url"
+    :class="$style.item"
+    :data-active="route.path.includes(props.navItem.url)"
+    data-test="nav-item"
+  >
     <component :is="props.navItem.icon" width="20" height="20" :class="$style.icon" data-test="nav-item-icon" />
     <span :class="$style.title" data-test="nav-item-title">{{ props.navItem.title }}</span>
   </RouterLink>
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+
 import { INavItem } from '@/common/interface';
 
 interface IProps {
@@ -13,6 +20,8 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const route = useRoute();
 </script>
 
 <style module lang="scss">
@@ -27,7 +36,7 @@ const props = defineProps<IProps>();
   border-radius: 16px;
 
   &:hover,
-  &:global(.router-link-active) {
+  &[data-active='true'] {
     color: var(--color-white);
     background-color: var(--color-primary);
   }
