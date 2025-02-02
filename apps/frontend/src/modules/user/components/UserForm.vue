@@ -67,6 +67,7 @@ import { equipmentService } from '@/equipment/services';
 import { exerciseService } from '@/exercise/services';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
+import { isAdmin } from '@/auth/composables';
 
 interface IProps {
   user?: IUser | null;
@@ -114,7 +115,7 @@ const { mutate: mutateDelete } = userService.delete({
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     toast.success('Пользователь удален');
 
-    if (props.user?.role === 'admin') {
+    if (isAdmin.value) {
       router.push(URL_USER);
     } else {
       logout(URL_HOME, deleteAuthHeader, TOKEN_NAME);
