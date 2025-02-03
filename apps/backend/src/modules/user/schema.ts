@@ -1,5 +1,11 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IUser, IUserEquipment, TGetUserDTO, TGetUsersDTO } from 'fitness-tracker-contracts';
+import type {
+  IUser,
+  IUserEquipment,
+  TGetUserDTO,
+  TGetUsersDTO,
+  TUpdateUserPasswordDataDTO,
+} from 'fitness-tracker-contracts';
 
 import { ISchema } from '../common/types.js';
 import { paginatedQuery, baseParams, baseReply } from '../common/schema.js';
@@ -13,6 +19,17 @@ export const userEquipmentModel: JSONSchemaType<IUserEquipment> = {
     equipment: { type: 'object', $ref: 'Equipment', nullable: true },
     weights: { type: 'array', items: { type: 'number' }, nullable: true },
   },
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const userPasswordModel: JSONSchemaType<TUpdateUserPasswordDataDTO> = {
+  $id: 'UserPassword',
+  type: 'object',
+  properties: {
+    password: { type: 'string' },
+  },
+  required: ['password'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -94,6 +111,16 @@ export const userUpdateSchema: ISchema = {
     tags,
     response: { 200: baseReply },
     body: userModel,
+    params: baseParams,
+    security: [{ token: [] }],
+  },
+};
+
+export const userUpdatePasswordSchema: ISchema = {
+  schema: {
+    tags,
+    response: { 200: baseReply },
+    body: userPasswordModel,
     params: baseParams,
     security: [{ token: [] }],
   },

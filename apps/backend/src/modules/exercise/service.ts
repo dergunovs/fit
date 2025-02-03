@@ -44,8 +44,6 @@ export const exerciseService: IExerciseService = {
   },
 
   delete: async (_id: string) => {
-    const exercise = await Exercise.findOne({ _id });
-
-    await exercise?.deleteOne();
+    await Exercise.findOneAndDelete({ _id });
   },
 };

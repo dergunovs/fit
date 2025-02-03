@@ -170,8 +170,6 @@ export const activityService: IActivityService = {
   },
 
   delete: async (_id: string) => {
-    const activity = await Activity.findOne({ _id });
-
-    await activity?.deleteOne();
+    await Activity.findOneAndDelete({ _id });
   },
 };

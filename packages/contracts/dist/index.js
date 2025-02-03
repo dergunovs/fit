@@ -24,3 +24,4 @@ export const EXERCISE_MUSCLE_GROUPS = [
 ];
 
 export const API_USER = "/user";
+export const API_USER_PASSWORD = "/user_password";

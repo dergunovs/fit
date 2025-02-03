@@ -1,4 +1,4 @@
-import { API_USER } from 'fitness-tracker-contracts';
+import { API_USER, API_USER_PASSWORD } from 'fitness-tracker-contracts';
 import type {
   IUser,
   IBaseParams,
@@ -10,11 +10,20 @@ import type {
   TUpdateUserDTO,
   TUpdateUserDataDTO,
   TDeleteUserDTO,
+  TUpdateUserPasswordDTO,
+  TUpdateUserPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
 import { userService } from './service.js';
-import { userPostSchema, userDeleteSchema, userGetManySchema, userGetOneSchema, userUpdateSchema } from './schema.js';
+import {
+  userPostSchema,
+  userDeleteSchema,
+  userGetManySchema,
+  userGetOneSchema,
+  userUpdateSchema,
+  userUpdatePasswordSchema,
+} from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   if (!fastify.onlyUser || !fastify.onlyAdmin) return;
@@ -61,6 +70,21 @@ export default async function (fastify: IFastifyInstance) {
       );
 
       reply.code(200).send({ message: 'Пользователь обновлен' });
+    }
+  );
+
+  fastify.patch<{ Body: TUpdateUserPasswordDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserPasswordDTO } }>(
+    `${API_USER_PASSWORD}/:id`,
+    { preValidation: [fastify.onlyUser], ...userUpdatePasswordSchema },
+    async function (request, reply) {
+      await userService.updatePassword(
+        request.params.id,
+        request.body.password,
+        fastify.jwt.decode,
+        request.headers.authorization
+      );
+
+      reply.code(200).send({ message: 'Пароль пользователя обновлен' });
     }
   );
 

@@ -1,6 +1,7 @@
 import { ComputedRef, Ref } from 'vue';
 import {
   API_USER,
+  API_USER_PASSWORD,
   TGetUsersDTO,
   TGetUsersQueryDTO,
   TGetUserDTO,
@@ -9,6 +10,8 @@ import {
   TUpdateUserDTO,
   TUpdateUserDataDTO,
   TDeleteUserDTO,
+  TUpdateUserPasswordDTO,
+  TUpdateUserPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
@@ -57,6 +60,20 @@ export const userService = {
       mutationKey: [API_USER],
       mutationFn: async (formData: TUpdateUserDataDTO) => {
         const { data } = await api.patch<TUpdateUserDTO>(`${API_USER}/${formData._id}`, formData);
+
+        return data;
+      },
+      ...options,
+    });
+  },
+
+  updatePassword: (options: object, id?: string) => {
+    return useMutation({
+      mutationKey: [API_USER_PASSWORD, id],
+      mutationFn: async (password: TUpdateUserPasswordDataDTO) => {
+        if (!id) return null;
+
+        const { data } = await api.patch<TUpdateUserPasswordDTO>(`${API_USER_PASSWORD}/${id}`, password);
 
         return data;
       },

@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
-import type { IUser, IBaseService, TDecode } from 'fitness-tracker-contracts';
+import type { IUser, IUserService, TDecode } from 'fitness-tracker-contracts';
 
 import { paginate } from '../common/helpers.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 
-export const userService: IBaseService = {
+export const userService: IUserService = {
   getMany: async <T>(page?: number) => {
     const { data, total } = await paginate(User, page, '-dateCreated', [{ path: 'equipments.equipment' }]);
 
@@ -38,11 +38,17 @@ export const userService: IBaseService = {
     await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
+  updatePassword: async (_id: string, password: string, decode?: TDecode, token?: string) => {
+    allowAccessToAdminAndCurrentUser(_id, decode, token);
+
+    const newPassword = await bcrypt.hash(password, 10);
+
+    await User.findOneAndUpdate({ _id }, { password: newPassword, dateUpdated: new Date() });
+  },
+
   delete: async (_id: string, decode?: TDecode, token?: string) => {
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
-    const user = await User.findOne({ _id });
-
-    await user?.deleteOne();
+    await User.findOneAndDelete({ _id });
   },
 };

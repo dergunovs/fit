@@ -29,8 +29,6 @@ export const equipmentService: IEquipmentService = {
   },
 
   delete: async (_id: string) => {
-    const equipment = await Equipment.findOne({ _id });
-
-    await equipment?.deleteOne();
+    await Equipment.findOneAndDelete({ _id });
   },
 };

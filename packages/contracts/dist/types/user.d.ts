@@ -1,7 +1,13 @@
-import { IBaseReply, IEntity, IPaginatedQuery, IPaginatedReply } from "./base";
+import {
+  IBaseReply,
+  IEntity,
+  IPaginatedQuery,
+  IPaginatedReply,
+  IBaseService,
+} from "./base";
 import { IEquipment } from "./equipment";
 
-export { API_USER } from "../index";
+export { API_USER, API_USER_PASSWORD } from "../index";
 
 export type TUserRole = "admin" | "user";
 
@@ -26,6 +32,15 @@ export interface IUser extends IEntity {
   confirmationToken?: string;
 }
 
+export interface IUserService extends IBaseService {
+  updatePassword: (
+    _id: string,
+    password: string,
+    decode?: TDecode,
+    token?: string,
+  ) => Promise<void>;
+}
+
 export type TGetUsersDTO = IPaginatedReply<IUser>;
 export type TGetUsersQueryDTO = IPaginatedQuery;
 export type TGetUserDTO = { data: IUser | null };
@@ -35,5 +50,8 @@ export type TPostUserDataDTO = IUser;
 
 export type TUpdateUserDTO = IBaseReply;
 export type TUpdateUserDataDTO = IUser;
+
+export type TUpdateUserPasswordDTO = IBaseReply;
+export type TUpdateUserPasswordDataDTO = { password: string };
 
 export type TDeleteUserDTO = IBaseReply;

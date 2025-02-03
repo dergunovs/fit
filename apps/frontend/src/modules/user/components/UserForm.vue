@@ -40,6 +40,21 @@
         <UiInput v-model="formData.password" data-test="user-form-password" />
       </UiField>
 
+      <UiSpoiler v-if="props.user?._id" title="Обновить пароль" v-model="isShowUpdatePassword">
+        <UiFlex>
+          <UiInput v-model="newPassword" placeholder="Новый пароль от 6 символов" data-test="user-form-new-password" />
+
+          <UiButton
+            :isDisabled="newPassword.length < 6"
+            isNarrow
+            @click="mutateUpdatePassword({ password: newPassword })"
+            data-test="user-form-set-new-password"
+          >
+            Установить
+          </UiButton>
+        </UiFlex>
+      </UiSpoiler>
+
       <FormButtons
         :id="props.user?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
@@ -53,7 +68,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { UiField, UiFlex, UiInput, toast } from 'mhz-ui';
+import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
 import { useQueryClient, useValidator, required, email, clone, logout, deleteAuthHeader } from 'mhz-helpers';
 import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-tracker-contracts';
 
@@ -91,6 +106,21 @@ const formData = ref<IUser>({
   defaultWeights: {},
   role: 'user',
 });
+
+const isShowUpdatePassword = ref(false);
+
+const newPassword = ref('');
+
+const { mutate: mutateUpdatePassword } = userService.updatePassword(
+  {
+    onSuccess: async () => {
+      toast.success('Пароль обновлен');
+      newPassword.value = '';
+      isShowUpdatePassword.value = false;
+    },
+  },
+  props.user?._id
+);
 
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {
