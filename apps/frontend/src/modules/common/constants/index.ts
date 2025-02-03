@@ -5,9 +5,9 @@ import IconUser from '@/common/icons/user.svg?component';
 import IconShare from '@/common/icons/share.svg?component';
 import IconProgress from '@/common/icons/to-failure.svg?component';
 
-import { URL_USER } from '@/user/constants';
+import { URL_USER, URL_USER_PROFILE } from '@/user/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
-import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
+import { URL_ACTIVITY_ADMIN, URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EQUIPMENT } from '@/equipment/constants';
 import { INavItem } from '@/common/interface';
 import { URL_SETUP } from '@/auth/constants';
@@ -37,13 +37,6 @@ export const APP_FEATURES = [
   },
 ];
 
-export const NAV_ITEMS: INavItem[] = [
-  { _id: '1', url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
-  { _id: '2', url: URL_ACTIVITY_ADMIN, title: 'Занятия', icon: IconActivity },
-  { _id: '3', url: URL_EQUIPMENT, title: 'Оборудование', icon: IconEquipment },
-  { _id: '4', url: URL_USER, title: 'Пользователи', icon: IconUser },
-];
-
 export const UPDATE_BUTTON_TEXT = 'Обновить';
 export const CREATE_BUTTON_TEXT = 'Создать';
 
@@ -51,5 +44,18 @@ export const URL_HOME = '/';
 export const URL_ERROR = '/404';
 
 export const GUEST_PAGES = [URL_HOME, URL_SETUP];
+
+export const NAV_ITEMS: INavItem[] = [
+  { url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
+  { url: URL_ACTIVITY_ADMIN, title: 'Занятия', icon: IconActivity },
+  { url: URL_EQUIPMENT, title: 'Оборудование', icon: IconEquipment },
+  { url: URL_USER, title: 'Пользователи', icon: IconUser },
+];
+
+export const BOTTOM_NAV_ITEMS: INavItem[] = [
+  { url: URL_HOME, title: 'Статистика', icon: IconActivity },
+  { url: URL_ACTIVITY_CREATE, title: 'Занятие', icon: IconExercise },
+  { url: URL_USER_PROFILE, title: 'Профиль', icon: IconUser },
+];
 
 export const API_NPMJS = 'https://registry.npmjs.org/fitness-tracker-frontend';

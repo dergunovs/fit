@@ -7,14 +7,12 @@ import TheHeader from './TheHeader.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { URL_HOME } from '@/common/constants';
-import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
 
 const logo = dataTest('header-logo');
 const admin = dataTest('header-admin');
-const activity = dataTest('header-activity');
 const login = dataTest('header-login');
 const logout = dataTest('header-logout');
 
@@ -39,7 +37,6 @@ describe('TheHeader', async () => {
     expect(wrapper.find(login).exists()).toBe(true);
 
     expect(wrapper.find(admin).exists()).toBe(false);
-    expect(wrapper.find(activity).exists()).toBe(false);
     expect(wrapper.find(logout).exists()).toBe(false);
 
     setAuth(true);
@@ -49,7 +46,6 @@ describe('TheHeader', async () => {
     expect(wrapper.find(login).exists()).toBe(false);
 
     expect(wrapper.find(admin).exists()).toBe(true);
-    expect(wrapper.find(activity).exists()).toBe(true);
     expect(wrapper.find(logout).exists()).toBe(true);
   });
 
@@ -65,18 +61,13 @@ describe('TheHeader', async () => {
     expect(wrapper.find(admin).exists()).toBe(false);
   });
 
-  it('navigates to admin and activity', async () => {
+  it('navigates to admin', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wrapper.find(admin).trigger('click');
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
-
-    await wrapper.find(activity).trigger('click');
-
-    expect(spyRouterPush).toBeCalledTimes(2);
-    expect(spyRouterPush).toBeCalledWith(URL_ACTIVITY_CREATE);
   });
 
   it('logouts', async () => {

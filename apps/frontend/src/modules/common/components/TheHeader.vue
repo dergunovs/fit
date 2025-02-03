@@ -15,12 +15,6 @@
           Админка
         </UiButton>
 
-        <UiButton @click="router.push(URL_ACTIVITY_CREATE)" layout="plain" data-test="header-activity">
-          Занятие
-        </UiButton>
-
-        <UiButton @click="router.push(URL_USER_PROFILE)" layout="plain" data-test="header-profile">Профиль</UiButton>
-
         <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain" data-test="header-logout">
           Выйти
         </UiButton>
@@ -46,9 +40,7 @@ import IconLogo from '@/common/icons/logo.svg';
 
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME } from '@/common/constants';
-import { URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
-import { URL_USER_PROFILE } from '@/user/constants';
 
 interface IProps {
   isAdmin: boolean;
@@ -70,8 +62,8 @@ const version = import.meta.env.VITE_VERSION;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 64px;
-  padding: 16px 32px;
+  height: 56px;
+  padding: 8px 32px;
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-gray);
 }

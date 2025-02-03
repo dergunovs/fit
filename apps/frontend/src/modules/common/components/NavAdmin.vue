@@ -1,6 +1,6 @@
 <template>
   <nav :class="$style.nav">
-    <NavItem v-for="item in NAV_ITEMS" :key="item._id" :navItem="item" data-test="nav-list-item" />
+    <NavItem v-for="item in NAV_ITEMS" :key="item.title" :navItem="item" data-test="nav-list-item" />
   </nav>
 </template>
 
@@ -16,7 +16,7 @@ import { NAV_ITEMS } from '@/common/constants';
   flex-direction: column;
   gap: 8px;
   width: 192px;
-  height: calc(100dvh - 64px);
+  height: calc(100dvh - 120px);
   padding: 24px 12px;
   overflow-y: auto;
 }
