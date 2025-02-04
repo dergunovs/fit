@@ -10,14 +10,12 @@ export interface INavItem {
 export interface IOnSuccess {
   create?: (id?: string) => Promise<void>;
   update?: () => Promise<void>;
+  updatePassword?: () => Promise<void>;
   delete?: () => Promise<void>;
   login?: (user: TPostAuthLoginDTO) => Promise<void>;
   setup?: () => Promise<void>;
   register?: () => Promise<void>;
-}
-
-export interface IPromptEvent extends Event {
-  prompt: () => Promise<void>;
+  confirmToken?: () => Promise<void>;
 }
 
 export interface IGetLatestVersionDTO {

@@ -62,7 +62,7 @@ const version = import.meta.env.VITE_VERSION;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 56px;
+  height: var(--panel-height);
   padding: 8px 32px;
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-gray);
@@ -90,7 +90,7 @@ const version = import.meta.env.VITE_VERSION;
 
 @media (max-width: 960px) {
   .header {
-    padding: 16px;
+    padding: 8px 16px;
   }
 }
 </style>

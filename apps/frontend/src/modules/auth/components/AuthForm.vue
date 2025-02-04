@@ -4,11 +4,11 @@
 
     <form @submit.prevent="submit" :class="$style.form" data-test="auth-form">
       <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" data-test="auth-form-email" />
+        <UiInput v-model="formData.email" type="email" data-test="auth-form-email" />
       </UiField>
 
       <UiField label="Пароль" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" type="password" data-test="auth-form-password" />
+        <UiInput v-model="formData.password" isPassword data-test="auth-form-password" />
       </UiField>
 
       <UiButton type="submit" data-test="auth-form-submit-button">{{ submitButton }}</UiButton>
@@ -20,7 +20,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
-import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email } from 'mhz-helpers';
+import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email, min } from 'mhz-helpers';
 import {
   API_ACTIVITY_CALENDAR,
   API_ACTIVITY_CHART,
@@ -85,7 +85,7 @@ const { mutate: mutateSetup } = authService.setup({
 const rules = computed(() => {
   return {
     email: [required('ru'), email('ru')],
-    password: required('ru'),
+    password: [required('ru'), min(6, 'ru')],
   };
 });
 

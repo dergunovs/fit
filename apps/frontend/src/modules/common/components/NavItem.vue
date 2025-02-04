@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { isLinkActive } from 'mhz-helpers';
 
-import { isLinkActive } from '@/common/helpers';
 import { INavItem } from '@/common/interface';
 
 interface IProps {
@@ -50,6 +50,8 @@ const route = useRoute();
   &[data-bottom='true'] {
     justify-content: center;
     padding: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
     color: var(--color-gray-dark);
 
     &:hover,

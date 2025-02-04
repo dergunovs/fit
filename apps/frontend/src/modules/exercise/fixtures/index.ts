@@ -64,7 +64,7 @@ export const EXERCISE_DONE_FIXTURE: IExerciseDone = {
   _id: '1',
   exercise: EXERCISE_FIXTURE,
   repeats: EXERCISE_REPEATS_DEFAULT,
-  weight: 0,
+  weight: 8,
   duration: 43,
   isToFailure: true,
   isDone: true,

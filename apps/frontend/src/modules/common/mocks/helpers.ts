@@ -7,6 +7,13 @@ function returnComputed<T>(value: T) {
   return computed(() => value);
 }
 
+const spyInstallPWA = vi.fn();
+const mockIsShowInstallPWA = ref(true);
+
+const spyUsePWA = vi.spyOn(helpers, 'usePWA').mockImplementation(() => {
+  return { installPWA: spyInstallPWA, isShowInstallPWA: mockIsShowInstallPWA };
+});
+
 const mockIsValid = ref(true);
 
 vi.spyOn(helpers, 'useValidator').mockImplementation(() => {
@@ -70,6 +77,8 @@ function mockMutationReply<T, T2>(mutate: () => void) {
 }
 
 export {
+  spyUsePWA,
+  spyInstallPWA,
   spyAuth,
   spySetAuthHeaders,
   spyLogout,
@@ -79,6 +88,7 @@ export {
   spyRefetchQueries,
   spyRemoveQueries,
   spyUseRouteId,
+  mockIsShowInstallPWA,
   mockIsValid,
   mockQueryReply,
   mockMutationReply,

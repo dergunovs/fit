@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
-import NavAdmin from './NavAdmin.vue';
+import NavList from './NavList.vue';
 import NavItem from './NavItem.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -10,17 +10,17 @@ import { NAV_ITEMS } from '@/common/constants';
 
 const item = dataTest('nav-list-item');
 
-let wrapper: VueWrapper<InstanceType<typeof NavAdmin>>;
+let wrapper: VueWrapper<InstanceType<typeof NavList>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(NavAdmin);
+  wrapper = wrapperFactory(NavList, { navItems: NAV_ITEMS });
 });
 
 enableAutoUnmount(afterEach);
 
-describe('NavAdmin', async () => {
+describe('NavList', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(NavAdmin)).toBeTruthy();
+    expect(wrapper.findComponent(NavList)).toBeTruthy();
   });
 
   it('shows and set data to nav items', async () => {

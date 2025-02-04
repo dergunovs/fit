@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { dataTest, setAuth } from 'mhz-helpers';
+import { dataTest, setAuth, wait } from 'mhz-helpers';
 
 import HomePage from './HomePage.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
@@ -21,6 +21,9 @@ import {
   spyGetActivitiesStatistics,
 } from '@/activity/mocks';
 import { convertActivityCalendarEvents } from '@/activity/helpers';
+import { spyUseRouteId, mockRouteId, spyToastSuccess, spyRouterPush } from '@/common/mocks';
+import { mockOnSuccess, spyConfirmToken } from '@/auth/mocks';
+import { URL_HOME } from '@/common/constants';
 
 const promo = dataTest('promo');
 const activityCalendar = dataTest('activity-calendar');
@@ -38,6 +41,25 @@ enableAutoUnmount(afterEach);
 describe('HomePage', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(HomePage)).toBeTruthy();
+  });
+
+  it('confirms registration', async () => {
+    expect(spyConfirmToken).toBeCalledTimes(0);
+
+    expect(spyUseRouteId).toBeCalledTimes(1);
+    expect(spyUseRouteId).toBeCalledWith('token', true);
+
+    await wait(2000);
+
+    expect(spyConfirmToken).toBeCalledTimes(2);
+    expect(spyConfirmToken).toBeCalledWith({ token: mockRouteId.value });
+
+    await mockOnSuccess.confirmToken?.();
+
+    expect(spyToastSuccess).toBeCalledTimes(1);
+
+    expect(spyRouterPush).toBeCalledTimes(1);
+    expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });
 
   it('gets and formats activity calendar data', async () => {

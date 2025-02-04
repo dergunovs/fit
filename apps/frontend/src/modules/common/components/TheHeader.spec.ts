@@ -14,6 +14,7 @@ import { TOKEN_NAME } from '@/auth/constants';
 const logo = dataTest('header-logo');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
+const registration = dataTest('header-registration');
 const logout = dataTest('header-logout');
 
 let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
@@ -35,6 +36,7 @@ describe('TheHeader', async () => {
 
   it('shows different button to auth users', async () => {
     expect(wrapper.find(login).exists()).toBe(true);
+    expect(wrapper.find(registration).exists()).toBe(true);
 
     expect(wrapper.find(admin).exists()).toBe(false);
     expect(wrapper.find(logout).exists()).toBe(false);
@@ -44,6 +46,7 @@ describe('TheHeader', async () => {
     await nextTick();
 
     expect(wrapper.find(login).exists()).toBe(false);
+    expect(wrapper.find(registration).exists()).toBe(false);
 
     expect(wrapper.find(admin).exists()).toBe(true);
     expect(wrapper.find(logout).exists()).toBe(true);
@@ -89,5 +92,17 @@ describe('TheHeader', async () => {
     await wrapper.find(login).trigger('click');
 
     expect(wrapper.emitted('showLogin')).toHaveLength(1);
+  });
+
+  it('emits show registration', async () => {
+    setAuth(false);
+
+    await nextTick();
+
+    expect(wrapper.emitted()).not.toHaveProperty('showRegistration');
+
+    await wrapper.find(registration).trigger('click');
+
+    expect(wrapper.emitted('showRegistration')).toHaveLength(1);
   });
 });

@@ -13,8 +13,7 @@
 
 <script setup lang="ts">
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
-
-import { usePWA } from '@/common/composables';
+import { usePWA } from 'mhz-helpers';
 
 interface IProps {
   isAuth: boolean;

@@ -6,6 +6,8 @@ import {
   TPostUserDTO,
   TUpdateUserDataDTO,
   TUpdateUserDTO,
+  TUpdateUserPasswordDataDTO,
+  TUpdateUserPasswordDTO,
 } from 'fitness-tracker-contracts';
 
 import { userService } from '@/user/services';
@@ -21,11 +23,13 @@ const spyGetUsers = vi.spyOn(userService, 'getMany').mockImplementation(() => mo
 
 const spyCreateUser = vi.fn();
 const spyUpdateUser = vi.fn();
+const spyUpdateUserPassword = vi.fn();
 const spyDeleteUser = vi.fn();
 
 const mockOnSuccess: IOnSuccess = {
   create: undefined,
   update: undefined,
+  updatePassword: undefined,
   delete: undefined,
 };
 
@@ -41,10 +45,25 @@ vi.spyOn(userService, 'update').mockImplementation((options: { onSuccess?: () =>
   return mockMutationReply<TUpdateUserDTO, TUpdateUserDataDTO>(spyUpdateUser);
 });
 
+vi.spyOn(userService, 'updatePassword').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
+  if (options.onSuccess) mockOnSuccess.updatePassword = options.onSuccess;
+
+  return mockMutationReply<TUpdateUserPasswordDTO, TUpdateUserPasswordDataDTO>(spyUpdateUserPassword);
+});
+
 vi.spyOn(userService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) mockOnSuccess.delete = options.onSuccess;
 
   return mockMutationReply<TDeleteUserDTO, string>(spyDeleteUser);
 });
 
-export { spyGetUser, spyGetUsers, spyCreateUser, spyUpdateUser, spyDeleteUser, mockOnSuccess, mockGetUsersData };
+export {
+  spyGetUser,
+  spyGetUsers,
+  spyCreateUser,
+  spyUpdateUser,
+  spyUpdateUserPassword,
+  spyDeleteUser,
+  mockOnSuccess,
+  mockGetUsersData,
+};

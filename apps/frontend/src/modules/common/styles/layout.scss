@@ -6,23 +6,23 @@
 
 .container {
   display: flex;
-  height: calc(100dvh - 56px);
-  margin-top: 56px;
+  height: calc(100dvh - var(--panel-height));
+  margin-top: var(--panel-height);
   overflow-y: auto;
 
   &[data-auth='true'] {
-    height: calc(100dvh - 56px - 64px);
+    height: calc(100dvh - var(--panel-height) * 2);
   }
 }
 
 .main {
   flex: 1;
-  height: calc(100dvh - 56px);
+  height: calc(100dvh - var(--panel-height));
   overflow-y: auto;
   background-color: var(--color-gray-light);
 
   &[data-auth='true'] {
-    height: calc(100dvh - 56px - 64px);
+    height: calc(100dvh - var(--panel-height) * 2);
   }
 }
 
@@ -36,20 +36,20 @@
   border-radius: 16px;
 
   &[data-auth='true'] {
-    min-height: calc(100dvh - 128px - 64px);
+    min-height: calc(100dvh - 128px - var(--panel-height));
   }
 }
 
 @media (max-width: 960px) {
   .content {
-    min-height: calc(100dvh - 56px);
+    min-height: calc(100dvh - var(--panel-height));
     padding: 16px;
     margin: 0;
     border: none;
     border-radius: 0;
 
     &[data-auth='true'] {
-      min-height: calc(100dvh - 56px - 64px);
+      min-height: calc(100dvh - var(--panel-height) * 2);
     }
   }
 }

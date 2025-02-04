@@ -1,6 +1,8 @@
 import { ref } from 'vue';
 import { vi } from 'vitest';
 import {
+  TPostAuthConfirmTokenDataDTO,
+  TPostAuthConfirmTokenDTO,
   TPostAuthLoginDataDTO,
   TPostAuthLoginDTO,
   TPostAuthRegisterDataDTO,
@@ -24,11 +26,13 @@ const spyUseAuthCheck = vi
 const spyLogin = vi.fn();
 const spySetup = vi.fn();
 const spyRegister = vi.fn();
+const spyConfirmToken = vi.fn();
 
 const mockOnSuccess: IOnSuccess = {
   login: undefined,
   setup: undefined,
   register: undefined,
+  confirmToken: undefined,
 };
 
 vi.spyOn(authService, 'login').mockImplementation(
@@ -51,4 +55,10 @@ vi.spyOn(authService, 'register').mockImplementation((options: { onSuccess?: () 
   return mockMutationReply<TPostAuthRegisterDTO, TPostAuthRegisterDataDTO>(spyRegister);
 });
 
-export { spyUseAuthCheck, spyLogin, spySetup, spyRegister, mockOnSuccess, mockIsAdmin };
+vi.spyOn(authService, 'confirmToken').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
+  if (options.onSuccess) mockOnSuccess.confirmToken = options.onSuccess;
+
+  return mockMutationReply<TPostAuthConfirmTokenDTO, TPostAuthConfirmTokenDataDTO>(spyConfirmToken);
+});
+
+export { spyUseAuthCheck, spyLogin, spySetup, spyRegister, spyConfirmToken, mockOnSuccess, mockIsAdmin };

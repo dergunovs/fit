@@ -21,7 +21,12 @@
       </UiModal>
     </div>
 
-    <NavBottom v-if="isAuth && !route.path.includes(URL_ACTIVITY_EDIT)" data-test="layout-default-bottom-nav" />
+    <NavList
+      v-if="isAuth && !route.path.includes(URL_ACTIVITY_EDIT)"
+      :navItems="BOTTOM_NAV_ITEMS"
+      isBottom
+      data-test="layout-default-bottom-nav"
+    />
   </div>
 </template>
 
@@ -32,10 +37,12 @@ import { UiModal } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
 import TheHeader from '@/common/components/TheHeader.vue';
-import NavBottom from '@/common/components/NavBottom.vue';
+import NavList from '@/common/components/NavList.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
+
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { BOTTOM_NAV_ITEMS } from '@/common/constants';
 
 interface IProps {
   isAdmin: boolean;

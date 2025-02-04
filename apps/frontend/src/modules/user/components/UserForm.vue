@@ -28,21 +28,31 @@
 
       <h3>Общие данные</h3>
 
-      <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" data-test="user-form-email" />
-      </UiField>
-
       <UiField label="Имя" isRequired :error="error('name')">
         <UiInput v-model="formData.name" data-test="user-form-name" />
       </UiField>
 
-      <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" data-test="user-form-password" />
+      <UiField label="Электронная почта" isRequired :error="error('email')">
+        <UiInput v-model="formData.email" type="email" data-test="user-form-email" />
       </UiField>
 
-      <UiSpoiler v-if="props.user?._id" title="Обновить пароль" v-model="isShowUpdatePassword">
+      <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
+        <UiInput v-model="formData.password" isPassword data-test="user-form-password" />
+      </UiField>
+
+      <UiSpoiler
+        v-if="props.user?._id"
+        title="Обновить пароль"
+        v-model="isShowUpdatePassword"
+        data-test="user-form-new-password-spoiler"
+      >
         <UiFlex>
-          <UiInput v-model="newPassword" placeholder="Новый пароль от 6 символов" data-test="user-form-new-password" />
+          <UiInput
+            v-model="newPassword"
+            placeholder="Новый пароль от 6 символов"
+            isPassword
+            data-test="user-form-new-password"
+          />
 
           <UiButton
             :isDisabled="newPassword.length < 6"
@@ -69,7 +79,17 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
-import { useQueryClient, useValidator, required, email, clone, logout, deleteAuthHeader } from 'mhz-helpers';
+import {
+  useQueryClient,
+  useValidator,
+  required,
+  email,
+  clone,
+  logout,
+  deleteAuthHeader,
+  letters,
+  min,
+} from 'mhz-helpers';
 import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
@@ -111,17 +131,6 @@ const isShowUpdatePassword = ref(false);
 
 const newPassword = ref('');
 
-const { mutate: mutateUpdatePassword } = userService.updatePassword(
-  {
-    onSuccess: async () => {
-      toast.success('Пароль обновлен');
-      newPassword.value = '';
-      isShowUpdatePassword.value = false;
-    },
-  },
-  props.user?._id
-);
-
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_USER] });
@@ -138,6 +147,17 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update(
     toast.success('Пользователь обновлен');
   },
 });
+
+const { mutate: mutateUpdatePassword } = userService.updatePassword(
+  {
+    onSuccess: async () => {
+      toast.success('Пароль обновлен');
+      newPassword.value = '';
+      isShowUpdatePassword.value = false;
+    },
+  },
+  props.user?._id
+);
 
 const { mutate: mutateDelete } = userService.delete({
   onSuccess: async () => {
@@ -156,8 +176,8 @@ const { mutate: mutateDelete } = userService.delete({
 const rules = computed(() => {
   return {
     email: [required('ru'), email('ru')],
-    name: required('ru'),
-    password: !props.user?._id && required('ru'),
+    name: [required('ru'), letters('ru')],
+    password: !props.user?._id && [required('ru'), min(6, 'ru')],
   };
 });
 

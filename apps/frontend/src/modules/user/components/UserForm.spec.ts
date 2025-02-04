@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
-import { dataTest } from 'mhz-helpers';
+import { dataTest, deleteAuthHeader } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
 import UserEquipmentForm from './UserEquipmentForm.vue';
@@ -10,13 +10,22 @@ import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { USER_FIXTURE } from '@/user/fixtures';
-import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
-import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
+import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser, spyUpdateUserPassword } from '@/user/mocks';
+import {
+  spyRefetchQueries,
+  spyRemoveQueries,
+  spyRouterPush,
+  spyToastSuccess,
+  mockIsValid,
+  spyLogout,
+} from '@/common/mocks';
 import { URL_USER } from '@/user/constants';
 import { spyGetEquipments } from '@/equipment/mocks';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 import { spyGetExercises } from '@/exercise/mocks';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
+import { URL_HOME } from '@/common/constants';
+import { TOKEN_NAME } from '@/auth/constants';
 
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
@@ -28,6 +37,9 @@ const formAdmin = dataTest('user-form-admin');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
+const formNewPassword = dataTest('user-form-new-password');
+const formNewPasswordSpoiler = dataTest('user-form-new-password-spoiler');
+const formSetNewPassword = dataTest('user-form-set-new-password');
 const formEquipments = dataTest('user-form-equipments');
 const formDefaultWeights = dataTest('user-form-default-weights');
 const formButtons = dataTest('user-form-buttons');
@@ -63,6 +75,16 @@ describe('UserForm', async () => {
     await wrapper.setProps({ user: USER_FIXTURE });
 
     expect(wrapper.find(formPassword).exists()).toBe(false);
+
+    await wrapper.setProps({ user: undefined });
+  });
+
+  it('shows set new password spoiler only when user exists', async () => {
+    expect(wrapper.find(formNewPasswordSpoiler).exists()).toBe(false);
+
+    await wrapper.setProps({ user: USER_FIXTURE });
+
+    expect(wrapper.find(formNewPasswordSpoiler).exists()).toBe(true);
 
     await wrapper.setProps({ user: undefined });
   });
@@ -141,12 +163,31 @@ describe('UserForm', async () => {
     expect(spyToastSuccess).toBeCalledTimes(1);
   });
 
+  it('updates password', async () => {
+    expect(spyUpdateUserPassword).toBeCalledTimes(0);
+    expect(spyToastSuccess).toBeCalledTimes(0);
+
+    const NEW_PASSWORD = '123456';
+
+    await wrapperWithUser.findComponent(formNewPassword).setValue(NEW_PASSWORD);
+
+    await wrapperWithUser.find(formSetNewPassword).trigger('click');
+
+    expect(spyUpdateUserPassword).toBeCalledTimes(1);
+    expect(spyUpdateUserPassword).toBeCalledWith({ password: NEW_PASSWORD });
+
+    await mockOnSuccess.updatePassword?.();
+
+    expect(spyToastSuccess).toBeCalledTimes(1);
+  });
+
   it('deletes user', async () => {
     expect(spyDeleteUser).toBeCalledTimes(0);
     expect(spyRemoveQueries).toBeCalledTimes(0);
     expect(spyRefetchQueries).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyLogout).toBeCalledTimes(0);
 
     wrapperWithUser.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', USER_FIXTURE._id);
 
@@ -162,6 +203,9 @@ describe('UserForm', async () => {
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
+
+    expect(spyLogout).toBeCalledTimes(1);
+    expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
   });
 
   it('sets form buttons id', async () => {
