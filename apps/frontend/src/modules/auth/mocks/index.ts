@@ -7,6 +7,8 @@ import {
   TPostAuthLoginDTO,
   TPostAuthRegisterDataDTO,
   TPostAuthRegisterDTO,
+  TPostAuthResetPasswordDataDTO,
+  TPostAuthResetPasswordDTO,
   TPostAuthSetupDataDTO,
   TPostAuthSetupDTO,
 } from 'fitness-tracker-contracts';
@@ -27,12 +29,14 @@ const spyLogin = vi.fn();
 const spySetup = vi.fn();
 const spyRegister = vi.fn();
 const spyConfirmToken = vi.fn();
+const spyResetPassword = vi.fn();
 
 const mockOnSuccess: IOnSuccess = {
   login: undefined,
   setup: undefined,
   register: undefined,
   confirmToken: undefined,
+  resetPassword: undefined,
 };
 
 vi.spyOn(authService, 'login').mockImplementation(
@@ -61,4 +65,19 @@ vi.spyOn(authService, 'confirmToken').mockImplementation((options: { onSuccess?:
   return mockMutationReply<TPostAuthConfirmTokenDTO, TPostAuthConfirmTokenDataDTO>(spyConfirmToken);
 });
 
-export { spyUseAuthCheck, spyLogin, spySetup, spyRegister, spyConfirmToken, mockOnSuccess, mockIsAdmin };
+vi.spyOn(authService, 'resetPassword').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
+  if (options.onSuccess) mockOnSuccess.resetPassword = options.onSuccess;
+
+  return mockMutationReply<TPostAuthResetPasswordDTO, TPostAuthResetPasswordDataDTO>(spyResetPassword);
+});
+
+export {
+  spyUseAuthCheck,
+  spyLogin,
+  spySetup,
+  spyRegister,
+  spyConfirmToken,
+  spyResetPassword,
+  mockOnSuccess,
+  mockIsAdmin,
+};

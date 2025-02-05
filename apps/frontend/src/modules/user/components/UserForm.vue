@@ -7,6 +7,10 @@
         Пользователь с правами администратора
       </div>
 
+      <div v-if="props.user?.isResetPassword" :class="$style.reset" data-test="user-form-reset-password">
+        Установите новый пароль
+      </div>
+
       <h3>Ваше оборудование</h3>
 
       <UserEquipmentForm
@@ -202,5 +206,10 @@ onMounted(() => {
 .admin {
   font-weight: 700;
   color: var(--color-success);
+}
+
+.reset {
+  font-weight: 700;
+  color: var(--color-error);
 }
 </style>

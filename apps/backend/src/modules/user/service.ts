@@ -14,7 +14,7 @@ export const userService: IUserService = {
 
   getOne: async <T>(_id: string) => {
     const user: IUser | null = await User.findOne({ _id })
-      .select('_id name role email equipments defaultWeights')
+      .select('_id name role email equipments defaultWeights isResetPassword')
       .populate({ path: 'equipments.equipment' })
       .lean()
       .exec();
@@ -43,7 +43,10 @@ export const userService: IUserService = {
 
     const newPassword = await bcrypt.hash(password, 10);
 
-    await User.findOneAndUpdate({ _id }, { password: newPassword, dateUpdated: new Date() });
+    await User.findOneAndUpdate(
+      { _id },
+      { password: newPassword, passwordTemporary: '', isResetPassword: false, dateUpdated: new Date() }
+    );
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {

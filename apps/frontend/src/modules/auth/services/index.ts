@@ -4,6 +4,7 @@ import {
   API_AUTH_REGISTER,
   API_AUTH_SETUP,
   API_AUTH_CONFIRM,
+  API_AUTH_RESET,
   TGetAuthDTO,
   TPostAuthConfirmTokenDTO,
   TPostAuthConfirmTokenDataDTO,
@@ -13,6 +14,8 @@ import {
   TPostAuthRegisterDataDTO,
   TPostAuthSetupDTO,
   TPostAuthSetupDataDTO,
+  TPostAuthResetPasswordDataDTO,
+  TPostAuthResetPasswordDTO,
 } from 'fitness-tracker-contracts';
 import { useQuery, useMutation, api } from 'mhz-helpers';
 
@@ -70,6 +73,18 @@ export const authService = {
       mutationKey: [API_AUTH_CONFIRM],
       mutationFn: async (token: TPostAuthConfirmTokenDataDTO) => {
         const { data } = await api.post<TPostAuthConfirmTokenDTO>(API_AUTH_CONFIRM, token);
+
+        return data;
+      },
+      ...options,
+    });
+  },
+
+  resetPassword: (options: object) => {
+    return useMutation({
+      mutationKey: [API_AUTH_RESET],
+      mutationFn: async (email: TPostAuthResetPasswordDataDTO) => {
+        const { data } = await api.post<TPostAuthResetPasswordDTO>(API_AUTH_RESET, email);
 
         return data;
       },

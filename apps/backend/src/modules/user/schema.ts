@@ -42,6 +42,8 @@ export const userModel: JSONSchemaType<IUser> = {
     dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
     password: { type: 'string', nullable: true },
+    passwordTemporary: { type: 'string', nullable: true },
+    isResetPassword: { type: 'boolean', nullable: true },
     email: { type: 'string' },
     role: { type: 'string', enum: ['user', 'admin'], nullable: true },
     name: { type: 'string', nullable: true },

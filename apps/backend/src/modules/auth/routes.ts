@@ -3,6 +3,7 @@ import {
   API_AUTH_GET,
   API_AUTH_LOGIN,
   API_AUTH_REGISTER,
+  API_AUTH_RESET,
   API_AUTH_SETUP,
 } from 'fitness-tracker-contracts';
 import type {
@@ -14,13 +15,22 @@ import type {
   TPostAuthLoginDataDTO,
   TPostAuthRegisterDTO,
   TPostAuthRegisterDataDTO,
+  TPostAuthResetPasswordDTO,
+  TPostAuthResetPasswordDataDTO,
   TPostAuthSetupDTO,
   TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
 import { authService } from './service.js';
-import { authGetSchema, authLoginSchema, authSetupSchema, authRegisterSchema, authConfirmSchema } from './schema.js';
+import {
+  authGetSchema,
+  authLoginSchema,
+  authSetupSchema,
+  authRegisterSchema,
+  authConfirmSchema,
+  authResetSchema,
+} from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO; '4xx': IBaseReply } }>(
@@ -86,7 +96,7 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 201: TPostAuthConfirmTokenDTO; '5xx': IBaseReply } }>(
+  fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 200: TPostAuthConfirmTokenDTO; '5xx': IBaseReply } }>(
     API_AUTH_CONFIRM,
     { ...authConfirmSchema },
     async function (request, reply) {
@@ -95,7 +105,21 @@ export default async function (fastify: IFastifyInstance) {
       if (isEmailNotConfirmed) {
         reply.code(500).send({ message: 'Ошибка подтверждения почты' });
       } else {
-        reply.code(201).send({ message: 'Почта подтверждена' });
+        reply.code(200).send({ message: 'Почта подтверждена' });
+      }
+    }
+  );
+
+  fastify.post<{ Body: TPostAuthResetPasswordDataDTO; Reply: { 200: TPostAuthResetPasswordDTO; '5xx': IBaseReply } }>(
+    API_AUTH_RESET,
+    { ...authResetSchema },
+    async function (request, reply) {
+      const isUserNotExists = await authService.reset(request.body.email);
+
+      if (isUserNotExists) {
+        reply.code(500).send({ message: 'Пользователя с таким email не существует' });
+      } else {
+        reply.code(200).send({ message: 'Новый пароль установлен. Проверьте почту.' });
       }
     }
   );

@@ -5,6 +5,7 @@ import type {
   TGetAuthDTO,
   TPostAuthConfirmTokenDataDTO,
   TPostAuthLoginDTO,
+  TPostAuthResetPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { ISchema } from '../common/types.js';
@@ -44,6 +45,17 @@ export const confirmTokenDataModel: JSONSchemaType<TPostAuthConfirmTokenDataDTO>
     token: { type: 'string' },
   },
   required: ['token'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const resetPasswordDataModel: JSONSchemaType<TPostAuthResetPasswordDataDTO> = {
+  $id: 'ResetPasswordData',
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+  },
+  required: ['email'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -105,6 +117,14 @@ export const authConfirmSchema: ISchema = {
   schema: {
     tags,
     body: confirmTokenDataModel,
+    response: { 200: baseReply },
+  },
+};
+
+export const authResetSchema: ISchema = {
+  schema: {
+    tags,
+    body: resetPasswordDataModel,
     response: { 200: baseReply },
   },
 };

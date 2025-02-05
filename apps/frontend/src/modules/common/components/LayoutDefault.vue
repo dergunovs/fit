@@ -13,7 +13,7 @@
       </main>
 
       <UiModal v-model="isShowLogin" width="360" data-test="layout-default-login-form-modal">
-        <AuthForm @login="isShowLogin = false" data-test="layout-default-login-form" />
+        <AuthForm @login="isShowLogin = false" @reset="isShowLogin = false" data-test="layout-default-login-form" />
       </UiModal>
 
       <UiModal v-model="isShowRegistration" width="360" data-test="layout-default-registration-form-modal">

@@ -45,6 +45,22 @@ describe('LayoutDefault', async () => {
     expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
   });
 
+  it('hides login modal when user is reseting password', async () => {
+    expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
+
+    wrapper.findComponent<typeof TheHeader>(header).vm.$emit('showLogin');
+
+    await nextTick();
+
+    expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('true');
+
+    wrapper.findComponent<typeof AuthForm>(loginForm).vm.$emit('reset');
+
+    await nextTick();
+
+    expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
+  });
+
   it('shows registration modal', async () => {
     expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
 

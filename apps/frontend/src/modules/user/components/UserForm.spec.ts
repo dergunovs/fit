@@ -34,6 +34,7 @@ const EQUIPMENTS: IUserEquipment[] = [];
 
 const form = dataTest('user-form');
 const formAdmin = dataTest('user-form-admin');
+const formResetPassword = dataTest('user-form-reset-password');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
@@ -59,7 +60,7 @@ describe('UserForm', async () => {
     expect(wrapper.findComponent(UserForm)).toBeTruthy();
   });
 
-  it('shows admin role header', async () => {
+  it('shows admin role in header', async () => {
     const adminUser: IUser = { _id: '1', role: 'admin', email: 'a@b.ru' };
 
     expect(wrapper.find(formAdmin).exists()).toBe(false);
@@ -67,6 +68,16 @@ describe('UserForm', async () => {
     await wrapper.setProps({ user: adminUser });
 
     expect(wrapper.find(formAdmin).exists()).toBe(true);
+  });
+
+  it('shows reset password message in header', async () => {
+    const resetPasswordUser: IUser = { _id: '1', email: 'a@b.ru', isResetPassword: true };
+
+    expect(wrapper.find(formResetPassword).exists()).toBe(false);
+
+    await wrapper.setProps({ user: resetPasswordUser });
+
+    expect(wrapper.find(formResetPassword).exists()).toBe(true);
   });
 
   it('shows password field only when creating users', async () => {

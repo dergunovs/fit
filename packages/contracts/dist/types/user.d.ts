@@ -25,6 +25,8 @@ export interface IUser extends IEntity {
   role?: TUserRole;
   email: string;
   password?: string;
+  passwordTemporary?: string;
+  isResetPassword?: boolean;
   equipments?: IUserEquipment[];
   defaultWeights?: IUserDefaultWeights;
   dateLoggedIn?: Date | string;

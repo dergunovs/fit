@@ -6,7 +6,7 @@ import { API_ACTIVITY_CALENDAR, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } fr
 import AuthForm from './AuthForm.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { mockOnSuccess, spyLogin, spySetup } from '@/auth/mocks';
+import { mockOnSuccess, spyLogin, spyResetPassword, spySetup } from '@/auth/mocks';
 import {
   spyAuth,
   spySetAuthHeaders,
@@ -35,6 +35,8 @@ const form = dataTest('auth-form');
 const formHeader = dataTest('auth-form-header');
 const formEmail = dataTest('auth-form-email');
 const formPassword = dataTest('auth-form-password');
+const formPasswordResetButton = dataTest('auth-form-password-reset-button');
+const formPasswordResetInfo = dataTest('auth-form-password-reset-info');
 const formSubmitButton = dataTest('auth-form-submit-button');
 
 let wrapper: VueWrapper<InstanceType<typeof AuthForm>>;
@@ -121,5 +123,36 @@ describe('AuthForm', async () => {
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_HOME);
+  });
+
+  it('shows reset password info and hides password input', async () => {
+    expect(wrapper.find(formPasswordResetInfo).exists()).toBe(false);
+    expect(wrapper.find(formPassword).exists()).toBe(true);
+
+    await wrapper.find(formPasswordResetButton).trigger('click');
+
+    expect(wrapper.find(formPasswordResetInfo).exists()).toBe(true);
+    expect(wrapper.find(formPassword).exists()).toBe(false);
+  });
+
+  it('resets password', async () => {
+    await wrapper.find(formPasswordResetButton).trigger('click');
+
+    expect(spyResetPassword).toBeCalledTimes(0);
+    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(wrapper.emitted()).not.toHaveProperty('reset');
+
+    await wrapper.findComponent(formEmail).setValue(EMAIL);
+
+    await wrapper.find(form).trigger('submit');
+
+    expect(spyResetPassword).toBeCalledTimes(1);
+    expect(spyResetPassword).toBeCalledWith({ email: EMAIL });
+
+    await mockOnSuccess.resetPassword?.();
+
+    expect(spyToastSuccess).toBeCalledTimes(1);
+
+    expect(wrapper.emitted('reset')).toHaveLength(1);
   });
 });

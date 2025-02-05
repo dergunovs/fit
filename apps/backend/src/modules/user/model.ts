@@ -7,6 +7,8 @@ const userSchema = new Schema<IUser>(
     name: { type: String },
     role: { type: String, enum: ['admin', 'user'] },
     password: { type: String, required: true },
+    passwordTemporary: { type: String },
+    isResetPassword: { type: Boolean, default: false },
     equipments: {
       type: [
         {

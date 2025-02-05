@@ -7,9 +7,25 @@
         <UiInput v-model="formData.email" type="email" data-test="auth-form-email" />
       </UiField>
 
-      <UiField label="Пароль" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" isPassword data-test="auth-form-password" />
-      </UiField>
+      <div>
+        <UiField v-if="!isPasswordReset" label="Пароль" isRequired :error="error('password')">
+          <UiInput v-model="formData.password" isPassword data-test="auth-form-password" />
+        </UiField>
+
+        <UiButton
+          v-if="!props.isSetup"
+          @click="isPasswordReset = !isPasswordReset"
+          type="button"
+          layout="plain"
+          data-test="auth-form-password-reset-button"
+        >
+          Забыли пароль?
+        </UiButton>
+
+        <div v-if="isPasswordReset" data-test="auth-form-password-reset-info">
+          Вышлем на почту новый пароль, который вы потом сможете поменять в профиле.
+        </div>
+      </div>
 
       <UiButton type="submit" data-test="auth-form-submit-button">{{ submitButton }}</UiButton>
     </form>
@@ -35,8 +51,10 @@ import {
   TOKEN_NAME,
   AUTH_FORM_HEADER_SETUP,
   AUTH_FORM_HEADER_LOGIN,
+  AUTH_FORM_HEADER_RESET,
   AUTH_FORM_SUBMIT_BUTTON_SETUP,
   AUTH_FORM_SUBMIT_BUTTON_LOGIN,
+  AUTH_FORM_SUBMIT_BUTTON_RESET,
 } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
 
@@ -45,7 +63,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ login: [] }>();
+const emit = defineEmits<{ login: []; reset: [] }>();
 
 const router = useRouter();
 const queryClient = useQueryClient();
@@ -57,14 +75,29 @@ const formData = ref<IAuthData>({
   password: '',
 });
 
-const header = computed(() => (props.isSetup ? AUTH_FORM_HEADER_SETUP : AUTH_FORM_HEADER_LOGIN));
-const submitButton = computed(() => (props.isSetup ? AUTH_FORM_SUBMIT_BUTTON_SETUP : AUTH_FORM_SUBMIT_BUTTON_LOGIN));
+const isPasswordReset = ref(false);
+
+const header = computed(() => {
+  if (props.isSetup) return AUTH_FORM_HEADER_SETUP;
+  if (isPasswordReset.value) return AUTH_FORM_HEADER_RESET;
+
+  return AUTH_FORM_HEADER_LOGIN;
+});
+const submitButton = computed(() => {
+  if (props.isSetup) return AUTH_FORM_SUBMIT_BUTTON_SETUP;
+  if (isPasswordReset.value) return AUTH_FORM_SUBMIT_BUTTON_RESET;
+
+  return AUTH_FORM_SUBMIT_BUTTON_LOGIN;
+});
 
 const { mutate: mutateLogin } = authService.login({
   onSuccess: async (response: TPostAuthLoginDTO) => {
     if (!response.token) return;
 
-    toast.success(`Добро пожаловать, ${response.user?.name}!`);
+    toast.success(
+      response.user?.isResetPassword ? 'Установите новый пароль в профиле' : `Добро пожаловать, ${response.user?.name}!`
+    );
+
     auth(response.token, setAuthHeader, TOKEN_NAME);
     if (response.user?.role === 'admin') setAdmin(true);
     emit('login');
@@ -82,10 +115,17 @@ const { mutate: mutateSetup } = authService.setup({
   },
 });
 
+const { mutate: mutateReset } = authService.resetPassword({
+  onSuccess: () => {
+    toast.success('Временный пароль выслан на почту!');
+    emit('reset');
+  },
+});
+
 const rules = computed(() => {
   return {
     email: [required('ru'), email('ru')],
-    password: [required('ru'), min(6, 'ru')],
+    password: isPasswordReset.value && [required('ru'), min(6, 'ru')],
   };
 });
 
@@ -96,6 +136,8 @@ function submit() {
 
   if (props.isSetup) {
     mutateSetup(formData.value);
+  } else if (isPasswordReset.value) {
+    mutateReset({ email: formData.value.email });
   } else {
     mutateLogin(formData.value);
   }

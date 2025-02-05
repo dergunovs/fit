@@ -3,7 +3,7 @@ import type { IAuthData, IRegisterData, IAuthService, IUser, TDecode } from 'fit
 
 import User from '../user/model.js';
 import { sendMail } from '../common/helpers.js';
-import { decodeToken, filterUserData } from './helpers.js';
+import { decodeToken, filterUserData, generatePassword } from './helpers.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<IUser> }) => {
@@ -32,9 +32,23 @@ export const authService: IAuthService = {
       return { user: undefined, isUserNotFound: true, isWrongPassword: false, isEmailNotConfirmed: false };
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    let isValid = false;
 
-    if (!isValidPassword) {
+    if (user.isResetPassword && user.passwordTemporary) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        isValid = true;
+      } else {
+        const isPasswordTemporaryValid = await bcrypt.compare(password, user.passwordTemporary);
+
+        isValid = isPasswordTemporaryValid;
+      }
+    } else {
+      isValid = await bcrypt.compare(password, user.password);
+    }
+
+    if (!isValid) {
       return { user: undefined, isUserNotFound: false, isWrongPassword: true, isEmailNotConfirmed: false };
     }
 
@@ -107,6 +121,26 @@ export const authService: IAuthService = {
     await user.updateOne({ isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() });
 
     await user.save();
+
+    return false;
+  },
+
+  reset: async (email: string) => {
+    const user = await User.findOne({ email });
+
+    if (!user || !user.isEmailConfirmed) return true;
+
+    const newPassword = generatePassword();
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await user.updateOne({ passwordTemporary: hashedPassword, isResetPassword: true, dateUpdated: new Date() });
+
+    await user.save();
+
+    const template = `${user.name}, войдите в приложение с новым паролем. Его можно поменять в профиле. Пароль: ${newPassword}`;
+
+    await sendMail(template, email);
 
     return false;
   },

@@ -16,6 +16,7 @@ export function filterUserData(user: IUser, isToken?: boolean) {
     name: user.name,
     role: user.role,
     email: user.email,
+    isResetPassword: user.isResetPassword,
     equipments: isToken ? undefined : user.equipments,
     defaultWeights: isToken ? {} : user.defaultWeights,
     dateLoggedIn: user.dateLoggedIn,
@@ -30,4 +31,15 @@ export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, t
   if (user?.role !== 'admin' && id.toString() !== user?._id) {
     throw new Error('Ошибка доступа', { cause: { code: 403 } });
   }
+}
+
+export function generatePassword() {
+  const symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let password = '';
+
+  for (let i = 0; i < 9; i++) {
+    password += symbols.charAt(Math.floor(Math.random() * symbols.length));
+  }
+
+  return password;
 }

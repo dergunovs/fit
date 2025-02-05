@@ -16,6 +16,7 @@ export interface IOnSuccess {
   setup?: () => Promise<void>;
   register?: () => Promise<void>;
   confirmToken?: () => Promise<void>;
+  resetPassword?: () => Promise<void>;
 }
 
 export interface IGetLatestVersionDTO {
