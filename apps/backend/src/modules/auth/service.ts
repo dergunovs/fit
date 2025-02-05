@@ -39,6 +39,9 @@ export const authService: IAuthService = {
 
       if (isPasswordValid) {
         isValid = true;
+
+        user.isResetPassword = false;
+        user.passwordTemporary = '';
       } else {
         const isPasswordTemporaryValid = await bcrypt.compare(password, user.passwordTemporary);
 
@@ -138,7 +141,7 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    const template = `${user.name}, войдите в приложение с новым паролем. Его можно поменять в профиле. Пароль: ${newPassword}`;
+    const template = `${user.name}, войдите в приложение с новым паролем. Если вы не отправляли заявку на смену пароля, то используйте свой текущий пароль. Новый пароль: ${newPassword}`;
 
     await sendMail(template, email);
 
