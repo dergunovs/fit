@@ -19,7 +19,7 @@ const registrationFormModal = dataTest('layout-default-registration-form-modal')
 let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true });
+  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true, isShowInstallPWA: true });
 });
 
 enableAutoUnmount(afterEach);

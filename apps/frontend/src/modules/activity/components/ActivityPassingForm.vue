@@ -29,7 +29,7 @@
         :isDisabled="props.activity.isDone"
         data-test="activity-finish"
       >
-        Завершить досрочно
+        Завершить занятие досрочно
       </UiButton>
     </UiFlex>
   </div>

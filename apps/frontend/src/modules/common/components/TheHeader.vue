@@ -1,7 +1,7 @@
 <template>
   <header :class="$style.header">
     <RouterLink :to="URL_HOME" :class="$style.link" aria-label="Logo" data-test="header-logo">
-      <IconLogo width="32" height="32" />
+      <IconLogo width="30" height="30" />
 
       <UiFlex column gap="0">
         <div :class="$style.logo">FiT</div>
@@ -9,13 +9,8 @@
       </UiFlex>
     </RouterLink>
 
-    <UiFlex gap="12" justify="flex-end">
-      <UiButton
-        v-if="props.isShowInstallPWA && isAuth"
-        @click="emit('install')"
-        layout="plain"
-        data-test="header-pwa-install"
-      >
+    <UiFlex justify="flex-end">
+      <UiButton v-if="props.isShowInstallPWA" @click="emit('install')" layout="plain" data-test="header-pwa-install">
         Установка
       </UiButton>
 
@@ -102,7 +97,7 @@ const version = import.meta.env.VITE_VERSION;
 
 @media (max-width: 960px) {
   .header {
-    padding: 8px 16px;
+    padding: 8px 12px;
   }
 }
 </style>

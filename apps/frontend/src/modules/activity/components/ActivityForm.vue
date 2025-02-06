@@ -37,7 +37,7 @@
       </UiFlex>
 
       <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit" data-test="activity-form-submit">
-        Начать
+        Начать занятие
       </UiButton>
     </UiFlex>
   </div>

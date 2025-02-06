@@ -63,6 +63,8 @@ const { mutate: mutateConfirm } = authService.confirmToken({
 });
 
 onMounted(() => {
+  document.querySelector('main')?.scrollTo(0, 0);
+
   setTimeout(() => {
     if (!isAuth.value && token.value) mutateConfirm({ token: token.value });
   }, 2000);

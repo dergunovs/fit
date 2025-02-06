@@ -37,7 +37,7 @@ export const APP_FEATURES = [
   },
 ];
 
-export const UPDATE_BUTTON_TEXT = 'Обновить';
+export const UPDATE_BUTTON_TEXT = 'Сохранить';
 export const CREATE_BUTTON_TEXT = 'Создать';
 
 export const URL_HOME = '/';
