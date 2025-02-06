@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useValidator, required, email, min, letters } from 'mhz-helpers';
 import { IRegisterData } from 'fitness-tracker-contracts';
@@ -43,15 +43,11 @@ const { mutate: mutateRegister } = authService.register({
   },
 });
 
-const rules = computed(() => {
-  return {
-    email: [required('ru'), email('ru')],
-    name: [required('ru'), min(2, 'ru'), letters('ru')],
-    password: [required('ru'), min(6, 'ru')],
-  };
+const { error, isValid } = useValidator(formData, {
+  email: [required(), email()],
+  name: [required(), min(2), letters()],
+  password: [required(), min(6)],
 });
-
-const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
   if (!isValid()) return;

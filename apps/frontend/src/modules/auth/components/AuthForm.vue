@@ -122,14 +122,10 @@ const { mutate: mutateReset } = authService.resetPassword({
   },
 });
 
-const rules = computed(() => {
-  return {
-    email: [required('ru'), email('ru')],
-    password: isPasswordReset.value && [required('ru'), min(6, 'ru')],
-  };
+const { error, isValid } = useValidator(formData, {
+  email: [required(), email()],
+  password: isPasswordReset.value && [required(), min(6)],
 });
-
-const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
   if (!isValid()) return;

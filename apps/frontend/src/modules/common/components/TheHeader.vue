@@ -10,6 +10,8 @@
     </RouterLink>
 
     <UiFlex gap="12" justify="flex-end">
+      <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">Помощь</UiButton>
+
       <template v-if="isAuth">
         <UiButton v-if="props.isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
           Админка
@@ -39,7 +41,7 @@ import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
 import IconLogo from '@/common/icons/logo.svg';
 
 import { TOKEN_NAME } from '@/auth/constants';
-import { URL_HOME } from '@/common/constants';
+import { URL_HOME, URL_HELP } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 
 interface IProps {

@@ -12,6 +12,7 @@ import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
 
 const logo = dataTest('header-logo');
+const help = dataTest('header-help');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
 const registration = dataTest('header-registration');
@@ -32,6 +33,18 @@ describe('TheHeader', async () => {
 
   it('sets logo link', async () => {
     expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
+  });
+
+  it('always shows help link', async () => {
+    expect(wrapper.find(help).exists()).toBe(true);
+
+    setAuth(true);
+
+    await nextTick();
+
+    expect(wrapper.find(help).exists()).toBe(true);
+
+    setAuth(false);
   });
 
   it('shows different button to auth users', async () => {

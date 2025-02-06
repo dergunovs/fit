@@ -27,7 +27,7 @@
 }
 
 .content {
-  min-height: calc(100dvh - 128px);
+  min-height: calc(100dvh - var(--panel-height) * 2);
   padding: 24px;
   margin: 24px;
   overflow: hidden;
@@ -36,7 +36,7 @@
   border-radius: 16px;
 
   &[data-auth='true'] {
-    min-height: calc(100dvh - 128px - var(--panel-height));
+    min-height: calc(100dvh - var(--panel-height) * 3);
   }
 }
 

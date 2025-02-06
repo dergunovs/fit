@@ -14,7 +14,7 @@ const cancel = dataTest('pwa-install-cancel');
 let wrapper: VueWrapper<InstanceType<typeof PWAInstallModal>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(PWAInstallModal, { isAuth: true });
+  wrapper = wrapperFactory(PWAInstallModal);
 });
 
 enableAutoUnmount(afterEach);
@@ -39,13 +39,5 @@ describe('PWAInstallModal', async () => {
     await wrapper.find(cancel).trigger('click');
 
     expect(wrapper.find(modal).attributes('modelvalue')).toBe('false');
-  });
-
-  it('hides pwa modal if user is not auth', async () => {
-    expect(wrapper.find(modal).exists()).toBe(true);
-
-    await wrapper.setProps({ isAuth: false });
-
-    expect(wrapper.find(modal).exists()).toBe(false);
   });
 });

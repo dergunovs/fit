@@ -11,6 +11,8 @@
         Установите новый пароль
       </div>
 
+      <UiButton v-if="isShowInstallPWA" @click="isShowInstallPWAModal = true">Установить приложение</UiButton>
+
       <h3>Ваше оборудование</h3>
 
       <UserEquipmentForm
@@ -76,16 +78,19 @@
         data-test="user-form-buttons"
       />
     </UiFlex>
+
+    <PWAInstallModal v-if="isShowInstallPWAModal" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
 import {
   useQueryClient,
   useValidator,
+  usePWA,
   required,
   email,
   clone,
@@ -99,6 +104,7 @@ import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
 import UserDefaultWeightsForm from '@/user/components/UserDefaultWeightsForm.vue';
+import PWAInstallModal from '@/common/components/PWAInstallModal.vue';
 
 import { URL_USER } from '@/user/constants';
 import { userService } from '@/user/services';
@@ -118,6 +124,8 @@ const router = useRouter();
 
 const queryClient = useQueryClient();
 
+const { isShowInstallPWA } = usePWA();
+
 const { data: equipments } = equipmentService.getAll();
 
 const { data: exercises } = exerciseService.getAll();
@@ -132,6 +140,7 @@ const formData = ref<IUser>({
 });
 
 const isShowUpdatePassword = ref(false);
+const isShowInstallPWAModal = ref(false);
 
 const newPassword = ref('');
 
@@ -177,15 +186,11 @@ const { mutate: mutateDelete } = userService.delete({
   },
 });
 
-const rules = computed(() => {
-  return {
-    email: [required('ru'), email('ru')],
-    name: [required('ru'), letters('ru')],
-    password: !props.user?._id && [required('ru'), min(6, 'ru')],
-  };
+const { error, isValid } = useValidator(formData, {
+  email: [required(), email()],
+  name: [required(), letters()],
+  password: !props.user?._id && [required(), min(6)],
 });
-
-const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
   if (!isValid()) return;

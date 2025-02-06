@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
@@ -145,13 +145,9 @@ const { mutate: mutateDelete } = exerciseService.delete({
   },
 });
 
-const rules = computed(() => {
-  return {
-    title: required('ru'),
-  };
+const { error, isValid } = useValidator(formData, {
+  title: [required()],
 });
-
-const { error, isValid } = useValidator(formData, rules);
 
 function submit() {
   if (!isValid()) return;

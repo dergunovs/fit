@@ -41,9 +41,10 @@ export const UPDATE_BUTTON_TEXT = 'Обновить';
 export const CREATE_BUTTON_TEXT = 'Создать';
 
 export const URL_HOME = '/';
+export const URL_HELP = '/help';
 export const URL_ERROR = '/404';
 
-export const GUEST_PAGES = [URL_HOME, URL_SETUP];
+export const GUEST_PAGES = [URL_HOME, URL_HELP, URL_SETUP];
 
 export const NAV_ITEMS: INavItem[] = [
   { url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },

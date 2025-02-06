@@ -1,5 +1,5 @@
 <template>
-  <UiModal v-if="props.isAuth" v-model="isShowInstallPWA" width="360" data-test="pwa-install-modal">
+  <UiModal v-model="isShowInstallPWA" width="360" data-test="pwa-install-modal">
     <UiFlex column>
       <div>Установить приложение FiT на устройство?</div>
 
@@ -14,12 +14,6 @@
 <script setup lang="ts">
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { usePWA } from 'mhz-helpers';
-
-interface IProps {
-  isAuth: boolean;
-}
-
-const props = defineProps<IProps>();
 
 const { installPWA, isShowInstallPWA } = usePWA();
 </script>
