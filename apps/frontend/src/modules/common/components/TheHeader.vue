@@ -10,6 +10,15 @@
     </RouterLink>
 
     <UiFlex gap="12" justify="flex-end">
+      <UiButton
+        v-if="props.isShowInstallPWA && isAuth"
+        @click="emit('install')"
+        layout="plain"
+        data-test="header-pwa-install"
+      >
+        Установка
+      </UiButton>
+
       <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">Помощь</UiButton>
 
       <template v-if="isAuth">
@@ -46,10 +55,11 @@ import { URL_EXERCISE } from '@/exercise/constants';
 
 interface IProps {
   isAdmin: boolean;
+  isShowInstallPWA?: boolean;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ showLogin: []; showRegistration: [] }>();
+const emit = defineEmits<{ showLogin: []; showRegistration: []; install: [] }>();
 
 const router = useRouter();
 

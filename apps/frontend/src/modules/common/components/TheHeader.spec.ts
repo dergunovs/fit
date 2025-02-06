@@ -12,6 +12,7 @@ import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
 
 const logo = dataTest('header-logo');
+const pwaInstall = dataTest('header-pwa-install');
 const help = dataTest('header-help');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
@@ -21,7 +22,7 @@ const logout = dataTest('header-logout');
 let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader, { isAdmin: true });
+  wrapper = wrapperFactory(TheHeader, { isAdmin: true, isShowInstallPWA: true });
 });
 
 enableAutoUnmount(afterEach);
@@ -93,6 +94,14 @@ describe('TheHeader', async () => {
 
     expect(spyLogout).toBeCalledTimes(1);
     expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
+  });
+
+  it('emits install pwa', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('install');
+
+    await wrapper.find(pwaInstall).trigger('click');
+
+    expect(wrapper.emitted('install')).toHaveLength(1);
   });
 
   it('emits show login', async () => {

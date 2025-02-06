@@ -11,8 +11,6 @@
         Установите новый пароль
       </div>
 
-      <UiButton v-if="isShowInstallPWA" @click="isShowInstallPWAModal = true">Установить приложение</UiButton>
-
       <h3>Ваше оборудование</h3>
 
       <UserEquipmentForm
@@ -78,8 +76,6 @@
         data-test="user-form-buttons"
       />
     </UiFlex>
-
-    <PWAInstallModal v-if="isShowInstallPWAModal" />
   </div>
 </template>
 
@@ -90,7 +86,6 @@ import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
 import {
   useQueryClient,
   useValidator,
-  usePWA,
   required,
   email,
   clone,
@@ -104,7 +99,6 @@ import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
 import UserDefaultWeightsForm from '@/user/components/UserDefaultWeightsForm.vue';
-import PWAInstallModal from '@/common/components/PWAInstallModal.vue';
 
 import { URL_USER } from '@/user/constants';
 import { userService } from '@/user/services';
@@ -124,8 +118,6 @@ const router = useRouter();
 
 const queryClient = useQueryClient();
 
-const { isShowInstallPWA } = usePWA();
-
 const { data: equipments } = equipmentService.getAll();
 
 const { data: exercises } = exerciseService.getAll();
@@ -140,7 +132,6 @@ const formData = ref<IUser>({
 });
 
 const isShowUpdatePassword = ref(false);
-const isShowInstallPWAModal = ref(false);
 
 const newPassword = ref('');
 

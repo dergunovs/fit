@@ -5,16 +5,14 @@ import { dataTest } from 'mhz-helpers';
 import PWAInstallModal from './PWAInstallModal.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyUsePWA, spyInstallPWA, mockIsShowInstallPWA } from '@/common/mocks';
+import { spyInstallPWA, mockIsShowInstallPWA } from '@/common/mocks';
 
-const modal = dataTest('pwa-install-modal');
 const submit = dataTest('pwa-install-submit');
 const cancel = dataTest('pwa-install-cancel');
-
 let wrapper: VueWrapper<InstanceType<typeof PWAInstallModal>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(PWAInstallModal);
+  wrapper = wrapperFactory(PWAInstallModal, { modelValue: mockIsShowInstallPWA.value, installPWA: spyInstallPWA });
 });
 
 enableAutoUnmount(afterEach);
@@ -26,7 +24,6 @@ describe('PWAInstallModal', async () => {
 
   it('installs pwa', async () => {
     expect(spyInstallPWA).toBeCalledTimes(0);
-    expect(spyUsePWA).toBeCalledTimes(1);
 
     await wrapper.find(submit).trigger('click');
 
@@ -34,10 +31,8 @@ describe('PWAInstallModal', async () => {
   });
 
   it('hides pwa modal by cancel button click', async () => {
-    expect(wrapper.find(modal).attributes('modelvalue')).toBe(mockIsShowInstallPWA.value.toString());
-
     await wrapper.find(cancel).trigger('click');
 
-    expect(wrapper.find(modal).attributes('modelvalue')).toBe('false');
+    expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
   });
 });

@@ -76,4 +76,12 @@ describe('LayoutDefault', async () => {
 
     expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
   });
+
+  it('emits pwa install by header emit', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('install');
+
+    wrapper.findComponent<typeof TheHeader>(header).vm.$emit('install');
+
+    expect(wrapper.emitted('install')).toHaveLength(1);
+  });
 });

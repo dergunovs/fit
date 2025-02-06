@@ -4,12 +4,14 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
 import App from './App.vue';
+import LayoutDefault from '@/common/components/LayoutDefault.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName } from '@/common/mocks';
+import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName, spyUsePWA } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
 const layout = dataTest('app-layout');
+const pwaModal = dataTest('app-pwa-install-modal');
 
 let wrapper: VueWrapper<InstanceType<typeof App>>;
 
@@ -38,5 +40,19 @@ describe('App', async () => {
 
   it('checks auth', async () => {
     expect(spyUseAuthCheck).toBeCalledTimes(1);
+  });
+
+  it('checks pwa install', async () => {
+    expect(spyUsePWA).toBeCalledTimes(1);
+  });
+
+  it('shows pwa modal', async () => {
+    expect(wrapper.find(pwaModal).exists()).toBe(false);
+
+    wrapper.findComponent<typeof LayoutDefault>(layout).vm.$emit('install');
+
+    await nextTick();
+
+    expect(wrapper.find(pwaModal).exists()).toBe(true);
   });
 });
