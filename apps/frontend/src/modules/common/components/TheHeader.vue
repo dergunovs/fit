@@ -10,7 +10,7 @@
     </RouterLink>
 
     <UiFlex justify="flex-end">
-      <UiButton v-if="props.isShowInstallPWA" @click="emit('install')" layout="plain" data-test="header-pwa-install">
+      <UiButton v-if="props.isShowInstallPWA" @click="props.installPWA" layout="plain" data-test="header-pwa-install">
         Установка
       </UiButton>
 
@@ -50,6 +50,7 @@ import { URL_EXERCISE } from '@/exercise/constants';
 
 interface IProps {
   isAdmin: boolean;
+  installPWA: () => void;
   isShowInstallPWA?: boolean;
 }
 

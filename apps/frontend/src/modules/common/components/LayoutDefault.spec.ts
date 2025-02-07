@@ -9,6 +9,7 @@ import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
 import { wrapperFactory } from '@/common/test';
+import { spyInstallPWA } from '@/common/mocks';
 
 const header = dataTest('layout-default-header');
 const loginForm = dataTest('layout-default-login-form');
@@ -19,7 +20,7 @@ const registrationFormModal = dataTest('layout-default-registration-form-modal')
 let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true, isShowInstallPWA: true });
+  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true, isShowInstallPWA: true, installPWA: spyInstallPWA });
 });
 
 enableAutoUnmount(afterEach);
@@ -75,13 +76,5 @@ describe('LayoutDefault', async () => {
     await nextTick();
 
     expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
-  });
-
-  it('emits pwa install by header emit', async () => {
-    expect(wrapper.emitted()).not.toHaveProperty('install');
-
-    wrapper.findComponent<typeof TheHeader>(header).vm.$emit('install');
-
-    expect(wrapper.emitted('install')).toHaveLength(1);
   });
 });

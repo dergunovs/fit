@@ -2,10 +2,10 @@
   <div :class="$style.layout">
     <TheHeader
       :isAdmin="props.isAdmin"
+      :installPWA="props.installPWA"
       :isShowInstallPWA="props.isShowInstallPWA"
       @showLogin="isShowLogin = true"
       @showRegistration="isShowRegistration = true"
-      @install="emit('install')"
       data-test="layout-default-header"
     />
 
@@ -48,11 +48,11 @@ import { BOTTOM_NAV_ITEMS } from '@/common/constants';
 
 interface IProps {
   isAdmin: boolean;
+  installPWA: () => void;
   isShowInstallPWA: boolean;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ install: [] }>();
 
 defineOptions({ name: 'LayoutDefault' });
 
