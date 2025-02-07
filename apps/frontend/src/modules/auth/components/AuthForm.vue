@@ -4,12 +4,17 @@
 
     <form @submit.prevent="submit" :class="$style.form" data-test="auth-form">
       <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" type="email" data-test="auth-form-email" />
+        <UiInput v-model="formData.email" autocomplete="username" type="email" data-test="auth-form-email" />
       </UiField>
 
       <div>
         <UiField v-if="!isPasswordReset" label="Пароль" isRequired :error="error('password')">
-          <UiInput v-model="formData.password" isPassword data-test="auth-form-password" />
+          <UiInput
+            v-model="formData.password"
+            isPassword
+            autocomplete="current-password"
+            data-test="auth-form-password"
+          />
         </UiField>
 
         <UiButton

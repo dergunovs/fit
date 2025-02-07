@@ -1,6 +1,6 @@
 <template>
   <UiFlex gap="16" column>
-    <UiFlex>
+    <UiFlex gap="4">
       <UiFlex column>
         <div>Оборудование</div>
 
@@ -8,7 +8,7 @@
           <UiSelect
             v-model="choosenEquipment"
             :options="excludeChoosenUserEquipment(props.equipments, props.modelValue)"
-            :isDisabled="isEditEquipment"
+            :isDisabled="isEditEquipment || !!choosenEquipmentWeights.length"
             lang="ru"
             data-test="user-equipment-options"
           />
@@ -16,9 +16,9 @@
       </UiFlex>
 
       <UiFlex v-if="choosenEquipment?.isWeights" column>
-        <div>Возможный вес</div>
+        <div>Вес</div>
 
-        <UiFlex>
+        <UiFlex gap="4">
           <UiInput v-model="choosenEquipmentWeight" type="number" step="1" min="1" max="500" data-test="user-weight" />
 
           <UiButton
@@ -28,7 +28,7 @@
             @click="addWeight"
             data-test="user-add-weight"
           >
-            Добавить
+            Выбрать
           </UiButton>
         </UiFlex>
       </UiFlex>
@@ -37,7 +37,7 @@
     <UiFlex v-if="choosenEquipmentWeights.length" column>
       <div>Добавленные веса</div>
 
-      <UiFlex>
+      <UiFlex wrap>
         <UiChip v-for="weight in choosenEquipmentWeights" :key="weight" data-test="user-added-weights">
           <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> кг.
           <UiClose @click="deleteWeight(weight)" isSmall isDelete data-test="user-delete-weight" />
@@ -50,8 +50,14 @@
         Сохранить оборудование
       </UiButton>
 
-      <UiButton v-if="isEditEquipment" @click="resetEquipment" layout="secondary" data-test="user-reset-equipment">
-        Отменить редактирование
+      <UiButton
+        v-if="isEditEquipment"
+        @click="resetEquipment"
+        layout="secondary"
+        isNarrow
+        data-test="user-reset-equipment"
+      >
+        Отменить
       </UiButton>
 
       <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment" data-test="user-add-equipment">

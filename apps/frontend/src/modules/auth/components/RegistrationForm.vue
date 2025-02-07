@@ -8,11 +8,16 @@
       </UiField>
 
       <UiField label="Электронная почта" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" type="email" data-test="registration-form-email" />
+        <UiInput v-model="formData.email" type="email" autocomplete="username" data-test="registration-form-email" />
       </UiField>
 
       <UiField label="Пароль" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" isPassword data-test="registration-form-password" />
+        <UiInput
+          v-model="formData.password"
+          isPassword
+          autocomplete="new-password"
+          data-test="registration-form-password"
+        />
       </UiField>
 
       <UiButton type="submit">Зарегистрироваться</UiButton>
