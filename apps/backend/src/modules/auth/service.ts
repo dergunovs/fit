@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import type { IAuthData, IRegisterData, IAuthService, IUser, TDecode } from 'fitness-tracker-contracts';
+import { generatePassword } from 'mhz-helpers';
 
 import User from '../user/model.js';
 import { sendMail } from '../common/helpers.js';
-import { decodeToken, filterUserData, generatePassword } from './helpers.js';
+import { decodeToken, filterUserData } from './helpers.js';
 
 export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<IUser> }) => {

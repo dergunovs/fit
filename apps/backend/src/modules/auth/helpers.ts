@@ -32,14 +32,3 @@ export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, t
     throw new Error('Ошибка доступа', { cause: { code: 403 } });
   }
 }
-
-export function generatePassword() {
-  const symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let password = '';
-
-  for (let i = 0; i < 9; i++) {
-    password += symbols.charAt(Math.floor(Math.random() * symbols.length));
-  }
-
-  return password;
-}
