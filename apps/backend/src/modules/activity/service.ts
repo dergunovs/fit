@@ -1,7 +1,8 @@
 import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
+import { getDatesByDayGap, getFirstAndLastWeekDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
-import { paginate, getDatesByDayGap, getFirstAndLastWeekDays } from '../common/helpers.js';
+import { paginate } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
 import User from '../user/model.js';
 import Activity from './model.js';

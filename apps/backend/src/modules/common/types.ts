@@ -8,9 +8,3 @@ export interface IFastifyInstance extends FastifyInstance {
 export interface ISchema {
   schema: FastifySchema;
 }
-
-export interface IWeekDays {
-  dateFrom: Date;
-  dateTo: Date;
-  label: string;
-}

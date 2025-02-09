@@ -10,9 +10,7 @@ import {
   IUser,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
-
-import { IWeekDays } from '../common/types.js';
-import { getDynamics } from '../common/helpers.js';
+import { getPercentDiff, IWeekDays } from 'mhz-helpers';
 
 function activitiesGetCount(activities: IActivity[]) {
   const activitiesCount = activities.length;
@@ -84,29 +82,29 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
     setsCount: setsCountPrev,
     repeatsCount: repeatsCountPrev,
   } = activitiesGetCount(activitiesPrev);
-  const activitiesCountDynamics = getDynamics(activitiesCount, activitiesCountPrev);
-  const setsCountDynamics = getDynamics(setsCount, setsCountPrev);
-  const repeatsCountDynamics = getDynamics(repeatsCount, repeatsCountPrev);
+  const activitiesCountDynamics = getPercentDiff(activitiesCount, activitiesCountPrev);
+  const setsCountDynamics = getPercentDiff(setsCount, setsCountPrev);
+  const repeatsCountDynamics = getPercentDiff(repeatsCount, repeatsCountPrev);
 
   const duration = activitiesGetAverageDuration(activities);
   const durationPrev = activitiesGetAverageDuration(activitiesPrev);
-  const durationDynamics = getDynamics(duration, durationPrev);
+  const durationDynamics = getPercentDiff(duration, durationPrev);
 
   const averageSetsPerActivity = activitiesCount ? Math.round(setsCount / activitiesCount) : 0;
   const averageSetsPerActivityPrev = activitiesCountPrev ? Math.round(setsCountPrev / activitiesCountPrev) : 0;
-  const averageSetsPerActivityDynamics = getDynamics(averageSetsPerActivity, averageSetsPerActivityPrev);
+  const averageSetsPerActivityDynamics = getPercentDiff(averageSetsPerActivity, averageSetsPerActivityPrev);
 
   const averageRepeatsPerSet = setsCount ? Math.round(repeatsCount / setsCount) : 0;
   const averageRepeatsPerSetPrev = setsCountPrev ? Math.round(repeatsCountPrev / setsCountPrev) : 0;
-  const averageRepeatsPerSetDynamics = getDynamics(averageRepeatsPerSet, averageRepeatsPerSetPrev);
+  const averageRepeatsPerSetDynamics = getPercentDiff(averageRepeatsPerSet, averageRepeatsPerSetPrev);
 
   const averageDuration = activitiesCount ? Math.round(duration / activitiesCount) : 0;
   const averageDurationPrev = activitiesCountPrev ? Math.round(durationPrev / activitiesCountPrev) : 0;
-  const averageDurationDynamics = getDynamics(averageDuration, averageDurationPrev);
+  const averageDurationDynamics = getPercentDiff(averageDuration, averageDurationPrev);
 
   const averageRestPercent = duration ? activitiesGetAverageRest(activities, duration) : 0;
   const averageRestPercentPrev = durationPrev ? activitiesGetAverageRest(activitiesPrev, durationPrev) : 0;
-  const averageRestPercentDynamics = getDynamics(averageRestPercent, averageRestPercentPrev);
+  const averageRestPercentDynamics = getPercentDiff(averageRestPercent, averageRestPercentPrev);
 
   const activityStatistics: IActivityStatistics = {
     activitiesCount: { cur: activitiesCount, dynamics: activitiesCountDynamics },
@@ -173,12 +171,12 @@ export function exerciseGetStatistics(
       );
     });
 
-    exerciseStatisticsElement.setsDynamics = getDynamics(
+    exerciseStatisticsElement.setsDynamics = getPercentDiff(
       exerciseStatisticsElement.sets,
       exerciseStatisticsElement.setsDynamics
     );
 
-    exerciseStatisticsElement.repeatsDynamics = getDynamics(
+    exerciseStatisticsElement.repeatsDynamics = getPercentDiff(
       exerciseStatisticsElement.repeats,
       exerciseStatisticsElement.repeatsDynamics
     );
