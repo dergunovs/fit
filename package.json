@@ -22,9 +22,9 @@
     "@changesets/cli": "2.27.12"
   },
   "devDependencies": {
-    "@turbo/gen": "2.4.0",
+    "@turbo/gen": "2.4.1",
     "prettier": "3.5.0",
-    "turbo": "2.4.0"
+    "turbo": "2.4.1"
   },
   "packageManager": "npm@11.0.0",
   "workspaces": [

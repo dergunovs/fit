@@ -52,7 +52,7 @@
     "nodemon": "3.1.9",
     "prettier": "3.5.0",
     "typescript": "5.7.3",
-    "typescript-eslint": "8.23.0"
+    "typescript-eslint": "8.24.0"
   },
   "engines": {
     "npm": ">=11.0.0",

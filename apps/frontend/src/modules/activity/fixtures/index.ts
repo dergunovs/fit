@@ -8,6 +8,7 @@ import {
 import { EXERCISE_FIXTURE, EXERCISE_FIXTURE_2 } from '@/exercise/fixtures';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { IActivityCalendarEvent } from '@/activity/interface';
+import { mockTempId } from '@/common/mocks';
 
 export const ACTIVITY_FIXTURE: IActivity = {
   exercises: [
@@ -216,77 +217,233 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
 export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] = [
   {
     _id: '1',
-    start: new Date('2024-12-30T12:07:40.135Z'),
-    end: null,
-    title: '+',
     content: [
       {
         _id: '1',
-        repeats: 12,
+        duration: 50,
         exercise: {
           _id: '1',
-          title: 'Название',
-          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
-          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+          createdBy: {
+            _id: '15546435',
+            email: 'a@b.ru',
+            equipments: [
+              {
+                equipment: {
+                  _id: '147456456',
+                  dateCreated: '2025-01-09T15:01:04.310Z',
+                  dateUpdated: '2025-01-10T10:42:06.333Z',
+                  isWeights: true,
+                  title: 'Гантели',
+                },
+                weights: [1, 2, 3],
+              },
+              {
+                equipment: {
+                  _id: '245645645645',
+                  dateCreated: '2025-01-10T12:35:59.559Z',
+                  isWeights: false,
+                  title: 'Скамья',
+                },
+                weights: [],
+              },
+            ],
+            name: 'Александр',
+            role: 'admin',
+          },
+          description: 'Описание 1',
+          equipment: {
+            _id: '245645645645',
+            dateCreated: '2025-01-10T12:35:59.559Z',
+            isWeights: false,
+            title: 'Скамья',
+          },
+          equipmentForWeight: [
+            {
+              _id: '147456456',
+              dateCreated: '2025-01-09T15:01:04.310Z',
+              dateUpdated: '2025-01-10T10:42:06.333Z',
+              isWeights: true,
+              title: 'Гантели',
+            },
+          ],
           isWeights: true,
-          isWeightsRequired: false,
+          isWeightsRequired: true,
+          muscleGroups: [
+            { _id: '1', title: 'Плечи' },
+            { _id: '2', title: 'Руки' },
+          ],
+          title: 'Отжимание от скамьи',
         },
-        weight: 9,
+        isDone: true,
+        isToFailure: true,
+        repeats: 15,
+        weight: 0,
       },
       {
         _id: '2',
-        repeats: 12,
+        duration: 40,
         exercise: {
-          _id: '1',
-          title: 'Название',
-          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
-          muscleGroups: [{ _id: '1', title: 'Плечи' }],
-          isWeights: true,
+          _id: '2',
+          createdBy: {
+            _id: '15546435',
+            email: 'a@b.ru',
+            equipments: [
+              {
+                equipment: {
+                  _id: '147456456',
+                  dateCreated: '2025-01-09T15:01:04.310Z',
+                  dateUpdated: '2025-01-10T10:42:06.333Z',
+                  isWeights: true,
+                  title: 'Гантели',
+                },
+                weights: [1, 2, 3],
+              },
+              {
+                equipment: {
+                  _id: '245645645645',
+                  dateCreated: '2025-01-10T12:35:59.559Z',
+                  isWeights: false,
+                  title: 'Скамья',
+                },
+                weights: [],
+              },
+            ],
+            name: 'Александр',
+            role: 'admin',
+          },
+          description: 'Описание 2',
+          isWeights: false,
           isWeightsRequired: false,
+          muscleGroups: [
+            { _id: '3', title: 'Грудь' },
+            { _id: '4', title: 'Пресс' },
+          ],
+          title: 'Подтягивание',
         },
+        isDone: true,
+        isToFailure: false,
+        repeats: 12,
         weight: 9,
       },
     ],
+    end: new Date('2024-11-30T07:32:19.932Z'),
+    start: new Date('2024-11-30T07:30:57.304Z'),
+    title: '+',
   },
   {
     _id: '2',
-    start: new Date('2024-12-30T12:07:54.432Z'),
-    end: new Date('2024-12-30T12:08:03.794Z'),
-    title: '+',
     content: [
       {
-        _id: '3',
-        repeats: 13,
+        _id: '1',
+        duration: 31,
         exercise: {
-          title: 'Новое!',
-          _id: '2',
-          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
-          muscleGroups: [{ _id: '1', title: 'Плечи' }],
+          _id: '1',
+          createdBy: {
+            _id: '15546435',
+            email: 'a@b.ru',
+            equipments: [
+              {
+                equipment: {
+                  _id: '147456456',
+                  dateCreated: '2025-01-09T15:01:04.310Z',
+                  dateUpdated: '2025-01-10T10:42:06.333Z',
+                  isWeights: true,
+                  title: 'Гантели',
+                },
+                weights: [1, 2, 3],
+              },
+              {
+                equipment: {
+                  _id: '245645645645',
+                  dateCreated: '2025-01-10T12:35:59.559Z',
+                  isWeights: false,
+                  title: 'Скамья',
+                },
+                weights: [],
+              },
+            ],
+            name: 'Александр',
+            role: 'admin',
+          },
+          description: 'Описание 1',
+          equipment: {
+            _id: '245645645645',
+            dateCreated: '2025-01-10T12:35:59.559Z',
+            isWeights: false,
+            title: 'Скамья',
+          },
+          equipmentForWeight: [
+            {
+              _id: '147456456',
+              dateCreated: '2025-01-09T15:01:04.310Z',
+              dateUpdated: '2025-01-10T10:42:06.333Z',
+              isWeights: true,
+              title: 'Гантели',
+            },
+          ],
           isWeights: true,
-          isWeightsRequired: false,
+          isWeightsRequired: true,
+          muscleGroups: [
+            { _id: '1', title: 'Плечи' },
+            { _id: '2', title: 'Руки' },
+          ],
+          title: 'Отжимание от скамьи',
         },
-        weight: 9,
-        isToFailure: false,
-        duration: 2,
         isDone: true,
+        isToFailure: false,
+        repeats: 3,
+        weight: 0,
       },
       {
-        _id: '4',
-        repeats: 11,
+        _id: '2',
+        duration: 44,
         exercise: {
-          title: 'Новое!',
           _id: '2',
-          createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
-          muscleGroups: [{ _id: '1', title: 'Плечи' }],
-          isWeights: true,
+          createdBy: {
+            _id: '15546435',
+            email: 'a@b.ru',
+            equipments: [
+              {
+                equipment: {
+                  _id: '147456456',
+                  dateCreated: '2025-01-09T15:01:04.310Z',
+                  dateUpdated: '2025-01-10T10:42:06.333Z',
+                  isWeights: true,
+                  title: 'Гантели',
+                },
+                weights: [1, 2, 3],
+              },
+              {
+                equipment: {
+                  _id: '245645645645',
+                  dateCreated: '2025-01-10T12:35:59.559Z',
+                  isWeights: false,
+                  title: 'Скамья',
+                },
+                weights: [],
+              },
+            ],
+            name: 'Александр',
+            role: 'admin',
+          },
+          description: 'Описание 2',
+          isWeights: false,
           isWeightsRequired: false,
+          muscleGroups: [
+            { _id: '3', title: 'Грудь' },
+            { _id: '4', title: 'Пресс' },
+          ],
+          title: 'Подтягивание',
         },
-        weight: 9,
-        isToFailure: true,
-        duration: 1,
         isDone: true,
+        isToFailure: false,
+        repeats: 12,
+        weight: 0,
       },
     ],
+    end: new Date('2024-11-30T07:36:19.932Z'),
+    start: new Date('2024-11-30T07:33:57.304Z'),
+    title: '+',
   },
 ];
 
@@ -307,3 +464,36 @@ export const ACTIVITIES_CHART_FIXTURE: TGetActivitiesChartDTO = {
     },
   ],
 };
+
+export const EXERCISES_GENERATED = [
+  {
+    _id: mockTempId,
+    exercise: {
+      _id: '1',
+      title: 'Отжимание от скамьи',
+      muscleGroups: [
+        { _id: '1', title: 'Плечи' },
+        { _id: '2', title: 'Руки' },
+      ],
+      isWeights: true,
+      isWeightsRequired: true,
+    },
+    repeats: 12,
+    weight: 8,
+  },
+  {
+    _id: mockTempId,
+    exercise: {
+      _id: '2',
+      title: 'Подтягивание',
+      muscleGroups: [
+        { _id: '3', title: 'Грудь' },
+        { _id: '4', title: 'Пресс' },
+      ],
+      isWeights: false,
+      isWeightsRequired: false,
+    },
+    repeats: 12,
+    weight: 0,
+  },
+];

@@ -2,11 +2,13 @@ import { IActivity, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-c
 import { createTempId, formatDate, formatDuration, subtractDates } from 'mhz-helpers';
 import { toast } from 'mhz-ui';
 
+import { IActivityCalendarEvent } from '@/activity/interface';
+
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
   exerciseStatistics: IExerciseStatistics[],
   averageRestPercent?: number
-) {
+): string {
   if (!averageRestPercent) return '-';
 
   const totalDuration = exercises.reduce((acc, exercise) => {
@@ -22,7 +24,9 @@ export function getPotentialActivityDuration(
   return formatDuration(durationWithRest);
 }
 
-export function convertActivityCalendarEvents(activities?: IActivity[]) {
+export function convertActivityCalendarEvents(
+  activities?: IActivity[]
+): IActivityCalendarEvent<IExerciseDone>[] | undefined {
   return activities?.map((activity: IActivity) => {
     return {
       _id: activity._id,

@@ -61,7 +61,12 @@ export default defineConfig({
     clearMocks: true,
     environment: 'happy-dom',
     include: ['**/*.spec.ts'],
-    coverage: { provider: 'istanbul', reporter: ['text'], include: ['**/*.vue'], all: true },
+    coverage: {
+      provider: 'istanbul',
+      reporter: ['text'],
+      include: ['src/modules/**/*.vue', 'src/modules/**/helpers/*.ts'],
+      all: true,
+    },
     css: false,
     deps: { inline: true },
   },
