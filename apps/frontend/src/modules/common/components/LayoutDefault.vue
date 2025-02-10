@@ -23,18 +23,12 @@
       </UiModal>
     </div>
 
-    <NavList
-      v-if="isAuth && !route.path.includes(URL_ACTIVITY_EDIT)"
-      :navItems="BOTTOM_NAV_ITEMS"
-      isBottom
-      data-test="layout-default-bottom-nav"
-    />
+    <NavList v-if="isAuth" :navItems="BOTTOM_NAV_ITEMS" isBottom data-test="layout-default-bottom-nav" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { UiModal } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
@@ -43,7 +37,6 @@ import NavList from '@/common/components/NavList.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
-import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { BOTTOM_NAV_ITEMS } from '@/common/constants';
 
 interface IProps {
@@ -55,8 +48,6 @@ interface IProps {
 const props = defineProps<IProps>();
 
 defineOptions({ name: 'LayoutDefault' });
-
-const route = useRoute();
 
 const isShowLogin = ref(false);
 const isShowRegistration = ref(false);

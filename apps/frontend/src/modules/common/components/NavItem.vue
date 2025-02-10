@@ -3,6 +3,7 @@
     :to="props.navItem.url"
     :class="$style.item"
     :data-active="isLinkActive(route.path, props.navItem.url)"
+    :data-disabled="route.path.includes(URL_ACTIVITY_EDIT)"
     :data-bottom="props.isBottom"
     data-test="nav-item"
   >
@@ -19,6 +20,7 @@ import { useRoute } from 'vue-router';
 import { isLinkActive } from 'mhz-helpers';
 
 import { INavItem } from '@/common/interface';
+import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 interface IProps {
   navItem: INavItem;
@@ -57,6 +59,10 @@ const route = useRoute();
     &:hover,
     &[data-active='true'] {
       color: var(--color-white);
+    }
+
+    &[data-disabled='true'] {
+      pointer-events: none;
     }
   }
 }
