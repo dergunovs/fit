@@ -5,8 +5,8 @@ exports[`ActivityPassingForm > matches snapshot 1`] = `
   <div column="">
     <exercise-passing-list-stub exercises="[object Object],[object Object]" data-test="exercise-passing-list"></exercise-passing-list-stub>
     <div>
-      <div> Занятие началось <span data-test="activity-start">23 дек. 2024 г., 11:29</span>. </div>
-      <div> Занятие обновлено <span data-test="activity-updated">23 дек. 2024 г., 12:21</span>. </div>
+      <div> Занятие началось <span data-test="activity-start">23 дек. 2024 г., 08:29</span>. </div>
+      <div> Занятие обновлено <span data-test="activity-updated">23 дек. 2024 г., 09:21</span>. </div>
     </div><button layout="secondary" isdisabled="false" data-test="activity-finish"> Завершить занятие досрочно </button>
   </div>
 </div>"

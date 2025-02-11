@@ -69,5 +69,6 @@ export default defineConfig({
     },
     css: false,
     deps: { inline: true },
+    env: { TZ: 'UTC' },
   },
 });
