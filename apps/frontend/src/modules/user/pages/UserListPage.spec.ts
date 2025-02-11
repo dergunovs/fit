@@ -30,6 +30,10 @@ describe('UserListPage', async () => {
     expect(wrapper.findComponent(UserListPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets create user link', async () => {
     expect(wrapper.find(addUser).attributes('to')).toBe(URL_USER_CREATE);
   });

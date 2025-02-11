@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseTitle > matches snapshot 1`] = `
+"<div>
+  <div column="">
+    <div class="_title_8b412f" data-test="exercise-title">Отжимание от скамьи</div>
+    <div wrap="">
+      <!--v-if-->
+      <div data-test="exercise-repeats">x12</div>
+      <div data-test="exercise-weight">
+        <anonymous-stub width="16" height="16"></anonymous-stub>8 кг.
+      </div>
+      <div data-test="exercise-duration">
+        <anonymous-stub width="16" height="16"></anonymous-stub> 43 сек.
+      </div>
+      <div type="success" data-test="exercise-to-failure">
+        <anonymous-stub width="16" height="16"></anonymous-stub> До отказа
+      </div>
+    </div>
+  </div>
+</div>"
+`;

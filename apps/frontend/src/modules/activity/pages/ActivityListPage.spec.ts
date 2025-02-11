@@ -28,6 +28,10 @@ describe('ActivityListPage', async () => {
     expect(wrapper.findComponent(ActivityListPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets activity and sets props to list', async () => {
     expect(spyUsePageNumber).toBeCalledTimes(1);
 

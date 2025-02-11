@@ -35,6 +35,10 @@ describe('ExerciseInfo', async () => {
     expect(wrapper.findComponent(ExerciseInfo)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows statistics title', async () => {
     expect(wrapper.find(title).text()).toBe(exercise.exercise.title);
   });

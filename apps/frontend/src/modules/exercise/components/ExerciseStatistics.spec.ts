@@ -31,6 +31,10 @@ describe('ExerciseStatistics', async () => {
     expect(wrapper.findComponent(ExerciseStatistics)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows statistics rows', async () => {
     expect(wrapper.findAll(tableRow).length).toBe(EXERCISES_STATISTICS_FIXTURE.length);
   });

@@ -46,6 +46,10 @@ describe('ExerciseForm', async () => {
     expect(wrapper.findComponent(ExerciseForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets equipment', async () => {
     expect(spyGetEquipments).toBeCalledTimes(1);
   });

@@ -52,6 +52,10 @@ describe('AuthForm', async () => {
     expect(wrapper.findComponent(AuthForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows form header and submit button text', async () => {
     expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_LOGIN);
     expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_LOGIN);

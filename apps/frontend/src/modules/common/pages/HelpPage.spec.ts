@@ -17,4 +17,8 @@ describe('HelpPage', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(HelpPage)).toBeTruthy();
   });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });

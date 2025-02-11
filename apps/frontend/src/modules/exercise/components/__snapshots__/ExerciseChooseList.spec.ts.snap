@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseChooseList > matches snapshot 1`] = `
+"<div class="_list_afb5c6">
+  <div gap="4"><button type="button" class="_button_afb5c6" data-current="true" data-test="exercise-muscle-group">Все</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Плечи</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Руки</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Грудь</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Пресс</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Спина</button><button type="button" class="_button_afb5c6" data-current="false" data-test="exercise-muscle-group">Ноги</button></div>
+  <div>
+    <fieldset label="Фильтр по названию упражнения"><input type="text" modelvalue="" data-test="exercise-muscle-group-title"></fieldset>
+  </div>
+  <div column="">
+    <div title="Отжимание от скамьи" data-test="exercise-muscle-group-spoiler">
+      <exercise-choose-element-stub exercise="[object Object]" weights="1,2,3" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>
+    </div>
+    <div title="Подтягивание" data-test="exercise-muscle-group-spoiler">
+      <exercise-choose-element-stub exercise="[object Object]" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>
+    </div>
+    <div title="Жим лёжа" data-test="exercise-muscle-group-spoiler">
+      <exercise-choose-element-stub exercise="[object Object]" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>
+    </div>
+  </div>
+</div>"
+`;

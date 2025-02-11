@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavList > matches snapshot 1`] = `
+"<nav class="_nav_00885a" data-bottom="false">
+  <nav-item-stub navitem="[object Object]" isbottom="false" data-test="nav-list-item"></nav-item-stub>
+  <nav-item-stub navitem="[object Object]" isbottom="false" data-test="nav-list-item"></nav-item-stub>
+  <nav-item-stub navitem="[object Object]" isbottom="false" data-test="nav-list-item"></nav-item-stub>
+  <nav-item-stub navitem="[object Object]" isbottom="false" data-test="nav-list-item"></nav-item-stub>
+</nav>"
+`;

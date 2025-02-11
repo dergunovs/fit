@@ -23,6 +23,10 @@ describe('ExerciseChoosenList', async () => {
     expect(wrapper.findComponent(ExerciseChoosenList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows choosen exercises', async () => {
     expect(wrapper.findAll(exerciseChoosen).length).toBe(EXERCISES_CHOOSEN_FIXTURE.length);
     expect(wrapper.findComponent<typeof ExerciseChoosenElement>(exerciseChoosen).vm.$props.exercise).toStrictEqual(

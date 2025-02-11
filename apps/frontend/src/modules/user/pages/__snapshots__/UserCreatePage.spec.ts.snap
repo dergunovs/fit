@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserCreatePage > matches snapshot 1`] = `
+"<div>
+  <user-form-stub data-test="user-form"></user-form-stub>
+</div>"
+`;

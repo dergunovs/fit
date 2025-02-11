@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseEditPage > matches snapshot 1`] = `
+"<div>
+  <exercise-form-stub exercise="[object Object]" data-test="exercise-form"></exercise-form-stub>
+</div>"
+`;

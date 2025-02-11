@@ -17,4 +17,8 @@ describe('StatisticsExample', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(StatisticsExample)).toBeTruthy();
   });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });

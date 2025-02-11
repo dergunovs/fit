@@ -26,6 +26,10 @@ describe('ExerciseListPage', async () => {
     expect(wrapper.findComponent(ExerciseListPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets create exercise link', async () => {
     expect(wrapper.find(addExercise).attributes('to')).toBe(URL_EXERCISE_CREATE);
   });

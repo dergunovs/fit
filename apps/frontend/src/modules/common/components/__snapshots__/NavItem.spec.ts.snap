@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavItem > matches snapshot 1`] = `
+"<a to="/exercises" class="_item_9eeb73" data-active="false" data-disabled="false" data-bottom="false" data-test="nav-item">
+  <anonymous-stub width="20" height="20" class="_icon_9eeb73" data-test="nav-item-icon"></anonymous-stub><span class="_title_9eeb73" data-bottom="false" data-test="nav-item-title">Упражнения</span>
+</a>"
+`;

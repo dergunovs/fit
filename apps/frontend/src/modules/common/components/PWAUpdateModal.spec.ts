@@ -26,6 +26,10 @@ describe('PWAUpdateModal', async () => {
     expect(wrapper.findComponent(PWAUpdateModal)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets and shows latest version', async () => {
     expect(spyGetLatestVersion).toBeCalledTimes(1);
     expect(wrapper.find(latestVersion).text()).toBe(LATEST_VERSION_FIXTURE['dist-tags'].latest);

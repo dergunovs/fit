@@ -26,6 +26,10 @@ describe('ActivityTimeline', async () => {
     expect(wrapper.findComponent(ActivityTimeline)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows steps', async () => {
     expect(wrapper.findAll(step).length).toBe(generateTimeline(exercises, start, 10).length);
   });

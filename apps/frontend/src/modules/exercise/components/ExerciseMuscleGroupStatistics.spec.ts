@@ -28,6 +28,10 @@ describe('ExerciseMuscleGroupStatistics', async () => {
     expect(wrapper.findComponent(ExerciseMuscleGroupStatistics)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercises in table', async () => {
     expect(wrapper.findAll(exerciseTableRow).length).toBe(generateMuscleGroupStatistics(exercises).length);
 

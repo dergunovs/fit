@@ -17,4 +17,8 @@ describe('ErrorPage', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(ErrorPage)).toBeTruthy();
   });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });

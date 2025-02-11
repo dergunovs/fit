@@ -46,6 +46,10 @@ describe('ActivityForm', async () => {
     expect(wrapper.findComponent(ActivityForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets exercises, last activity and activity to copy', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('copy', true);

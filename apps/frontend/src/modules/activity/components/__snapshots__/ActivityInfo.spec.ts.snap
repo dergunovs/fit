@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityInfo > matches snapshot 1`] = `
+"<div class="_info_20dc23" data-scrollable="false" data-test="activity-info">
+  <div gap="4" align="center" wrap="">
+    <!--v-if--><span data-test="activity-info-start"><anonymous-stub width="16" height="16"></anonymous-stub> 1 янв. 2025 г.</span><span data-test="activity-info-duration"><anonymous-stub width="16" height="16"></anonymous-stub> 1440 мин. 00 сек.</span><span> Подходы: <span data-test="activity-info-sets">2</span>, отказы: <span data-test="activity-info-to-failure-percent">50%</span>, отдых: <span data-test="activity-info-rest-percent">99%</span></span><button layout="plain" data-test="activity-info-copy"> Копировать </button>
+  </div>
+  <exercise-muscle-group-statistics-stub exercises="[object Object],[object Object]" data-test="activity-info-muscle-groups"></exercise-muscle-group-statistics-stub>
+  <div column="">
+    <exercise-title-stub exercise="[object Object]" ishidetitle="false" data-test="activity-info-exercise"></exercise-title-stub>
+    <exercise-title-stub exercise="[object Object]" ishidetitle="false" data-test="activity-info-exercise"></exercise-title-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;

@@ -39,6 +39,10 @@ describe('ActivityEditPage', async () => {
     expect(wrapper.findComponent(ActivityEditPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets activity and sets props to info', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('activity');

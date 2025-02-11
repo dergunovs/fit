@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseList > matches snapshot 1`] = `
+"<table headers="[object Object]" isloading="false" lang="ru">
+  <tbody>
+    <tr data-test="exercise-table-row">
+      <td data-grow=""><a to="/exercises/edit/1" data-test="exercise-table-title-link">Отжимание от скамьи</a></td>
+    </tr>
+    <tr data-test="exercise-table-row">
+      <td data-grow=""><a to="/exercises/edit/2" data-test="exercise-table-title-link">Подтягивание</a></td>
+    </tr>
+    <tr data-test="exercise-table-row">
+      <td data-grow=""><a to="/exercises/edit/3" data-test="exercise-table-title-link">Жим лёжа</a></td>
+    </tr>
+  </tbody>
+</table>"
+`;

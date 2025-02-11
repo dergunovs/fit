@@ -26,6 +26,10 @@ describe('NavItem', async () => {
     expect(wrapper.findComponent(NavItem)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets link', async () => {
     expect(wrapper.find(item).attributes('to')).toBe(navItem.url);
   });

@@ -60,6 +60,10 @@ describe('UserForm', async () => {
     expect(wrapper.findComponent(UserForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows admin role in header', async () => {
     const adminUser: IUser = { _id: '1', role: 'admin', email: 'a@b.ru' };
 

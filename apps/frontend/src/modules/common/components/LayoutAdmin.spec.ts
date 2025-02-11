@@ -22,6 +22,10 @@ describe('LayoutAdmin', async () => {
     expect(wrapper.findComponent(LayoutAdmin)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows layout only to admin', async () => {
     expect(wrapper.find(layout).exists()).toBe(true);
 

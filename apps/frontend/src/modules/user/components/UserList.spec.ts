@@ -24,6 +24,10 @@ describe('UserList', async () => {
     expect(wrapper.findComponent(UserList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows users in table', async () => {
     expect(wrapper.findAll(userTableRow).length).toBe(USERS_FIXTURE.length);
     expect(wrapper.find(userTableEmailLink).text()).toBe(USERS_FIXTURE[0].email);

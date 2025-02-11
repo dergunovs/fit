@@ -33,6 +33,10 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.findComponent(ActivityPassingForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercises', async () => {
     expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.exercises).toStrictEqual(
       activity.exercises

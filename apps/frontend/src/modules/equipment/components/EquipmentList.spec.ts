@@ -24,6 +24,10 @@ describe('EquipmentList', async () => {
     expect(wrapper.findComponent(EquipmentList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows equipments in table', async () => {
     expect(wrapper.findAll(equipmentTableRow).length).toBe(EQUIPMENTS_FIXTURE.length);
     expect(wrapper.find(equipmentTableTitleLink).text()).toBe(EQUIPMENTS_FIXTURE[0].title);

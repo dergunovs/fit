@@ -24,6 +24,10 @@ describe('App', async () => {
     expect(wrapper.findComponent(App)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows layout component', async () => {
     expect(wrapper.find(layout).exists()).toBe(false);
 

@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseInfo > matches snapshot 1`] = `
+"<div column="" gap="16">
+  <div column="">
+    <h3 data-test="exercise-info-title">Отжимание от скамьи</h3>
+    <!--v-if-->
+    <div>
+      <div>Задействованные группы мышц</div>
+      <div>
+        <div data-test="exercise-info-muscle-group">Плечи</div>
+        <div data-test="exercise-info-muscle-group">Руки</div>
+      </div>
+    </div>
+    <div data-test="exercise-info-equipment">
+      <div>Необходимое оборудование</div>
+      <div>
+        <div data-test="exercise-info-equipment-title">Скамья</div>
+      </div>
+    </div>
+    <div data-test="exercise-info-is-weights">
+      <div>Возможное оборудование для веса</div>
+      <div>
+        <div data-test="exercise-info-equipment-for-weight">Гантели</div>
+      </div>
+    </div>
+    <div data-test="exercise-info-is-weights-required"><b>Оборудование для веса обязательно.</b></div>
+  </div>
+  <div data-test="exercise-info-description">Описание 1</div>
+</div>"
+`;

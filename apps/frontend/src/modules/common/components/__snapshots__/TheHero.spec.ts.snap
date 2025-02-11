@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TheHero > matches snapshot 1`] = `
+"<div>
+  <div class="_background_3824b6">
+    <h1 class="_h1_3824b6">FiT - фитнес трекер домашних тренировок</h1>
+    <div column="" gap="12">
+      <div class="_benefit_3824b6" data-test="hero-benefit">Простой способ улучшить здоровье и настроение</div>
+      <div class="_benefit_3824b6" data-test="hero-benefit">Календарь с визуализацией занятий</div>
+      <div class="_benefit_3824b6" data-test="hero-benefit">Эффективные упражнения с оборудованием и без него</div>
+      <div class="_benefit_3824b6" data-test="hero-benefit">Бесплатное приложение для Android и iOS</div>
+    </div>
+    <anonymous-stub class="_lines_3824b6"></anonymous-stub>
+  </div>
+</div>"
+`;

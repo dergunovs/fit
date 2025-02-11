@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserDefaultWeightsForm > matches snapshot 1`] = `
+"<div>
+  <div column="">
+    <div column="" data-test="user-default-weight">
+      <div data-test="user-default-weight-title">Отжимание от скамьи</div><input type="text" options="1,2,3" lang="ru" data-test="user-default-weight-select">
+    </div>
+  </div>
+</div>"
+`;

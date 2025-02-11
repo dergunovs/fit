@@ -21,6 +21,10 @@ describe('ExerciseDuration', async () => {
     expect(wrapper.findComponent(ExerciseDuration)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows zero duration', async () => {
     expect(wrapper.find(duration).text()).toBe('00:00');
   });

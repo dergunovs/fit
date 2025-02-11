@@ -25,6 +25,10 @@ describe('ActivityPassingPage', async () => {
     expect(wrapper.findComponent(ActivityPassingPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets activity and sets props to form', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('activity');

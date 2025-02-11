@@ -22,6 +22,10 @@ describe('TheHero', async () => {
     expect(wrapper.findComponent(TheHero)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows benefits', async () => {
     expect(wrapper.findAll(benefit).length).toBe(HERO_BENEFITS.length);
     expect(wrapper.find(benefit).text()).toBe(HERO_BENEFITS[0]);

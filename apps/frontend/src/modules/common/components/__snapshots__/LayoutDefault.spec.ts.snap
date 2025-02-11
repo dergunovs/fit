@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LayoutDefault > matches snapshot 1`] = `
+"<div class="_layout_08e97a">
+  <the-header-stub installpwa="[Function]" isadmin="true" isshowinstallpwa="true" data-test="layout-default-header"></the-header-stub>
+  <div class="_container_08e97a" data-auth="false">
+    <main class="_main_08e97a" data-auth="false">
+      <router-view-stub name="default" class="_content_08e97a" data-auth="false"></router-view-stub>
+    </main>
+    <div modelvalue="false" width="360" data-test="layout-default-login-form-modal">
+      <auth-form-stub issetup="false" data-test="layout-default-login-form"></auth-form-stub>
+    </div>
+    <div modelvalue="false" width="360" data-test="layout-default-registration-form-modal">
+      <registration-form-stub data-test="layout-default-registration-form"></registration-form-stub>
+    </div>
+  </div>
+  <!--v-if-->
+</div>"
+`;

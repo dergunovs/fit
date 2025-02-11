@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PromoBlocks > matches snapshot 1`] = `
+"<div column="" gap="64">
+  <the-hero-stub></the-hero-stub>
+  <app-features-stub></app-features-stub>
+  <science-info-stub></science-info-stub>
+</div>"
+`;

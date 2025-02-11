@@ -26,6 +26,10 @@ describe('ExercisePassingList', async () => {
     expect(wrapper.findComponent(ExercisePassingList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercise elements and sets props', async () => {
     expect(wrapper.findAll(exercise).length).toBe(exercises.length);
 

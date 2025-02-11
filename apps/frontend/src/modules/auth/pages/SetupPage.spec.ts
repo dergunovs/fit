@@ -21,6 +21,10 @@ describe('SetupPage', async () => {
     expect(wrapper.findComponent(SetupPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows auth setup form', async () => {
     expect(wrapper.find(authForm).attributes('isSetup'.toLocaleLowerCase())).toBe('true');
   });

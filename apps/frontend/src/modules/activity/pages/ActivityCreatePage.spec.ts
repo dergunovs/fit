@@ -25,6 +25,10 @@ describe('ActivityCreatePage', async () => {
     expect(wrapper.findComponent(ActivityCreatePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows activity form', async () => {
     expect(wrapper.find(activityForm).exists()).toBe(true);
   });

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LayoutAdmin > matches snapshot 1`] = `
+"<div class="_layout_eb45eb">
+  <the-header-stub installpwa="[Function]" isadmin="true" isshowinstallpwa="true"></the-header-stub>
+  <div class="_container_eb45eb" data-auth="false" data-test="layout-admin">
+    <nav-list-stub navitems="[object Object],[object Object],[object Object],[object Object]" isbottom="false" data-test="layout-admin-nav"></nav-list-stub>
+    <main class="_main_eb45eb" data-auth="false">
+      <router-view-stub name="default" class="_content_eb45eb" data-auth="false"></router-view-stub>
+    </main>
+  </div>
+  <nav-list-stub navitems="[object Object],[object Object],[object Object]" isbottom="true" data-test="layout-admin-bottom-nav"></nav-list-stub>&gt;
+</div>"
+`;

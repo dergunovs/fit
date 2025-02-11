@@ -25,6 +25,10 @@ describe('EquipmentEditPage', async () => {
     expect(wrapper.findComponent(EquipmentEditPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets and sets equipment to form', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('equipment');

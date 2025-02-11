@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserListPage > matches snapshot 1`] = `
+"<div>
+  <div column="" gap="32"><a to="/users/create" data-test="add-user">Добавить пользователя</a>
+    <user-list-stub users="[object Object],[object Object]" data-test="user-list"></user-list-stub>
+    <ui-pagination-stub page="1" total="2" lang="ru" data-test="user-list-pagination"></ui-pagination-stub>
+  </div>
+</div>"
+`;

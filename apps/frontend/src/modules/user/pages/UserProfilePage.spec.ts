@@ -24,6 +24,10 @@ describe('UserProfilePage', async () => {
     expect(wrapper.findComponent(UserProfilePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets and sets user to form', async () => {
     expect(spyUseAuthCheck).toBeCalledTimes(1);
     expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toStrictEqual(USER_FIXTURE);

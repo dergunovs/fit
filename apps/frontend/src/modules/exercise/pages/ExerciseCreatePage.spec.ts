@@ -21,6 +21,10 @@ describe('ExerciseCreatePage', async () => {
     expect(wrapper.findComponent(ExerciseCreatePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercise form', async () => {
     expect(wrapper.find(exerciseForm).exists()).toBe(true);
   });

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EquipmentListPage > matches snapshot 1`] = `
+"<div>
+  <div column="" gap="32"><a to="/equipment/create" data-test="add-equipment">Добавить оборудование</a>
+    <equipment-list-stub equipments="[object Object],[object Object]" data-test="equipment-list"></equipment-list-stub>
+  </div>
+</div>"
+`;

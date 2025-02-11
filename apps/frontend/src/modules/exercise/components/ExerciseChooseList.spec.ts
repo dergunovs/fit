@@ -30,6 +30,10 @@ describe('ExerciseChooseList', async () => {
     expect(wrapper.findComponent(ExerciseChooseList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows muscle group buttons', async () => {
     expect(wrapper.findAll(exerciseMuscleGroup).length).toBe(EXERCISE_MUSCLE_GROUPS.length + 1);
   });

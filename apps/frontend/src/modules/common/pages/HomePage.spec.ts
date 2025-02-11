@@ -43,6 +43,10 @@ describe('HomePage', async () => {
     expect(wrapper.findComponent(HomePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('confirms registration', async () => {
     expect(spyConfirmToken).toBeCalledTimes(0);
 
@@ -51,7 +55,7 @@ describe('HomePage', async () => {
 
     await wait(2000);
 
-    expect(spyConfirmToken).toBeCalledTimes(2);
+    expect(spyConfirmToken).toBeCalledTimes(3);
     expect(spyConfirmToken).toBeCalledWith({ token: mockRouteId.value });
 
     await mockOnSuccess.confirmToken?.();

@@ -21,6 +21,10 @@ describe('EquipmentCreatePage', async () => {
     expect(wrapper.findComponent(EquipmentCreatePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows equipment form', async () => {
     expect(wrapper.find(equipmentForm).exists()).toBe(true);
   });

@@ -26,6 +26,10 @@ describe('ActivityAdminList', async () => {
     expect(wrapper.findComponent(ActivityAdminList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows activities in table', async () => {
     expect(wrapper.findAll(activityTableRow).length).toBe(ACTIVITIES_FIXTURE.length);
 

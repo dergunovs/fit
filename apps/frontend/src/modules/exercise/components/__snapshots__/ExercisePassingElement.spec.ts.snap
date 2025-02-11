@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExercisePassingElement > matches snapshot 1`] = `
+"<div class="_element_5ea98b" data-current="false" data-active="false" data-test="exercise-element">
+  <div class="_title_5ea98b" data-current="false" data-test="exercise-title">1. Подтягивание.</div>
+  <!--v-if-->
+</div>"
+`;

@@ -26,6 +26,10 @@ describe('ActivityChart', async () => {
     expect(wrapper.findComponent(ActivityChart)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows chart type buttons', async () => {
     expect(wrapper.findAll(chartType).length).toBe(CHART_TYPES.length);
 

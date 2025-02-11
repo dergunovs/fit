@@ -31,6 +31,10 @@ describe('UserDefaultWeightsForm', async () => {
     expect(wrapper.findComponent(UserDefaultWeightsForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercises to choose default weight', async () => {
     expect(wrapper.findAll(weight).length).toBe(availableEquipment.length);
     expect(wrapper.find(title).text()).toBe(availableEquipment[0].title);

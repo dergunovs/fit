@@ -22,6 +22,10 @@ describe('DynamicPercent', async () => {
     expect(wrapper.findComponent(DynamicPercent)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows formatted percent', async () => {
     expect(wrapper.find(dynamicPercent).text()).toBe(formatPercent(percent));
   });

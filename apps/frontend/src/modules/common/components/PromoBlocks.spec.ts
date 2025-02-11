@@ -17,4 +17,8 @@ describe('PromoBlocks', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(PromoBlocks)).toBeTruthy();
   });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });

@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserForm > matches snapshot 1`] = `
+"<div>
+  <div tag="form" column="" gap="16" align="flex-start" data-test="user-form">
+    <h2>Профиль пользователя</h2>
+    <!--v-if-->
+    <!--v-if-->
+    <h3>Ваше оборудование</h3>
+    <user-equipment-form-stub equipments="[object Object],[object Object]" modelvalue="" data-test="user-form-equipments"></user-equipment-form-stub>
+    <h3>Выбор веса по-умолчанию</h3>
+    <user-default-weights-form-stub userequipments="" exercises="[object Object],[object Object],[object Object]" modelvalue="[object Object]" data-test="user-form-default-weights"></user-default-weights-form-stub>
+    <h3>Общие данные</h3>
+    <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="user-form-name"></fieldset>
+    <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="user-form-email"></fieldset>
+    <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" data-test="user-form-password"></fieldset>
+    <!--v-if-->
+    <form-buttons-stub data-test="user-form-buttons"></form-buttons-stub>
+  </div>
+</div>"
+`;

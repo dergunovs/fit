@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExercisePassingList > matches snapshot 1`] = `
+"<div>
+  <div column="">
+    <exercise-passing-element-stub exercise="[object Object]" activeexerciseid="9999" index="1" exercisescount="2" iscurrentexercise="false" data-test="exercise-element"></exercise-passing-element-stub>
+    <exercise-passing-element-stub exercise="[object Object]" activeexerciseid="9999" index="2" exercisescount="2" iscurrentexercise="true" data-test="exercise-element"></exercise-passing-element-stub>
+  </div>
+</div>"
+`;

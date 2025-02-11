@@ -26,6 +26,10 @@ describe('EquipmentListPage', async () => {
     expect(wrapper.findComponent(EquipmentListPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets create equipment link', async () => {
     expect(wrapper.find(addEquipment).attributes('to')).toBe(URL_EQUIPMENT_CREATE);
   });

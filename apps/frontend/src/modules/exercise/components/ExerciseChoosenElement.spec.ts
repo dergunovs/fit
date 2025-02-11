@@ -25,6 +25,10 @@ describe('ExerciseChoosenElement', async () => {
     expect(wrapper.findComponent(ExerciseChoosenElement)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows title', async () => {
     expect(wrapper.find(exerciseTitle).text()).toBe(
       `${index}. ${EXERCISE_CHOOSEN_FIXTURE.exercise?.title} x${EXERCISE_CHOOSEN_FIXTURE.repeats}`

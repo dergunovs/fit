@@ -21,6 +21,10 @@ describe('UserCreatePage', async () => {
     expect(wrapper.findComponent(UserCreatePage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows user form', async () => {
     expect(wrapper.find(userForm).exists()).toBe(true);
   });

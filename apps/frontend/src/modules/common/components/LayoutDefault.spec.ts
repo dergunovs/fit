@@ -30,6 +30,10 @@ describe('LayoutDefault', async () => {
     expect(wrapper.findComponent(LayoutDefault)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows login modal', async () => {
     expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
 

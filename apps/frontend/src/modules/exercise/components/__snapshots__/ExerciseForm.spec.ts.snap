@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseForm > matches snapshot 1`] = `
+"<div>
+  <div tag="form" column="" gap="24" align="flex-start" data-test="exercise-form">
+    <fieldset label="Название" isrequired=""><input type="text" modelvalue="" data-test="exercise-form-title"></fieldset>
+    <fieldset label="Описание">
+      <ui-editor-stub modelvalue="" data-test="exercise-form-description"></ui-editor-stub>
+    </fieldset><input type="checkbox" modelvalue="false" label="Наличие веса" data-test="exercise-form-is-weights">
+    <!--v-if-->
+    <fieldset label="Используемое оборудование"><input type="text" options="[object Object]" isclearable="" lang="ru"></fieldset>
+    <!--v-if-->
+    <div column="">
+      <div>Задействованные мышцы</div><input type="checkbox" modelvalue="false" label="Плечи" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Руки" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Грудь" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Пресс" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Спина" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Ноги" data-test="exercise-form-muscle-groups">
+    </div>
+    <form-buttons-stub data-test="exercise-form-buttons"></form-buttons-stub>
+  </div>
+</div>"
+`;

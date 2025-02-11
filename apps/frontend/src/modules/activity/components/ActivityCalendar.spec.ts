@@ -27,6 +27,10 @@ describe('ActivityCalendar', async () => {
     expect(wrapper.findComponent(ActivityCalendar)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('passes events to calendar', async () => {
     expect(wrapper.findComponent<typeof UiCalendar>(calendar).vm.$props.events).toStrictEqual(ACTIVITY_CALENDAR_EVENTS);
   });

@@ -32,6 +32,10 @@ describe('TheHeader', async () => {
     expect(wrapper.findComponent(TheHeader)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets logo link', async () => {
     expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
   });

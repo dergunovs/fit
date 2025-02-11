@@ -28,6 +28,10 @@ describe('ExerciseTitle', async () => {
     expect(wrapper.findComponent(ExerciseTitle)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows title', async () => {
     expect(wrapper.find(title).text()).toBe(EXERCISE_DONE_FIXTURE.exercise?.title);
 

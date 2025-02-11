@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityCreatePage > matches snapshot 1`] = `
+"<div>
+  <activity-form-stub exercisestatistics="[object Object],[object Object]" averagerestpercent="49" data-test="activity-form"></activity-form-stub>
+</div>"
+`;

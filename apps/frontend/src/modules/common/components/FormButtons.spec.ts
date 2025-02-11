@@ -29,6 +29,10 @@ describe('FormButtons', async () => {
     expect(wrapper.findComponent(FormButtons)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows delete button if id props exists', async () => {
     expect(wrapper.findComponent(buttonsDelete).exists()).toBe(true);
 

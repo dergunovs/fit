@@ -24,6 +24,10 @@ describe('ExerciseList', async () => {
     expect(wrapper.findComponent(ExerciseList)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows exercises in table', async () => {
     expect(wrapper.findAll(exerciseTableRow).length).toBe(EXERCISES_FIXTURE.length);
     expect(wrapper.find(exerciseTableTitleLink).text()).toBe(EXERCISES_FIXTURE[0].title);

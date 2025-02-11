@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityForm > matches snapshot 1`] = `
+"<div data-test="activity-form-container">
+  <h2>Сформировать занятие</h2>
+  <div tag="form" column="" gap="24" data-test="activity-form">
+    <p><span>Примерная длительность: </span><span data-test="activity-form-potential-duration">-</span></p><button layout="secondary" data-test="activity-form-repeat-last"> Повторить прошлое </button><button data-test="activity-form-add-exercise">Добавить упражнение</button>
+    <div modelvalue="false" width="360" data-test="activity-form-add-exercise-modal">
+      <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="activity-form-exercise-choose-list"></exercise-choose-list-stub>
+    </div>
+    <!--v-if--><button layout="accent" isdisabled="true" type="submit" data-test="activity-form-submit"> Начать занятие </button>
+  </div>
+</div>"
+`;

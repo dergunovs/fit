@@ -24,6 +24,10 @@ describe('AppFeatures', async () => {
     expect(wrapper.findComponent(AppFeatures)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows features', async () => {
     expect(wrapper.findAll(feature).length).toBe(APP_FEATURES.length);
     expect(wrapper.find(title).text()).toBe(APP_FEATURES[0].title);

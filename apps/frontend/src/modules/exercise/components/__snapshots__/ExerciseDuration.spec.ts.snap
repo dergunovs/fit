@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseDuration > matches snapshot 1`] = `"<div class="_timer_28035f" data-active="false" data-test="exercise-duration"><span>00</span>:<span>00</span></div>"`;

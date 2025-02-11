@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EquipmentForm > matches snapshot 1`] = `
+"<div>
+  <div tag="form" column="" gap="24" align="flex-start" data-test="equipment-form">
+    <fieldset label="Название" isrequired=""><input type="text" modelvalue="" data-test="equipment-form-title"></fieldset><input type="checkbox" modelvalue="false" label="Наличие веса у оборудования" data-test="equipment-form-is-weights">
+    <form-buttons-stub data-test="equipment-form-buttons"></form-buttons-stub>
+  </div>
+</div>"
+`;

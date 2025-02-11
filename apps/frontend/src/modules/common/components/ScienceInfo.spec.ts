@@ -17,4 +17,8 @@ describe('ScienceInfo', async () => {
   it('exists', async () => {
     expect(wrapper.findComponent(ScienceInfo)).toBeTruthy();
   });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });

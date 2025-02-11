@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseRepeatsChoice > matches snapshot 1`] = `
+"<div class="_container_27a27a">
+  <div data-test="exercise-repeats-choice-title">Заголовок</div>
+  <div class="_repeats_27a27a" data-tall="true" data-test="exercise-repeats-choice-buttons"><button type="button" class="_button_27a27a" data-current="false" data-test="exercise-repeats-choice-button">1</button><button type="button" class="_button_27a27a" data-current="false" data-test="exercise-repeats-choice-button">2</button><button type="button" class="_button_27a27a" data-current="true" data-test="exercise-repeats-choice-button">3</button><button type="button" class="_button_27a27a" data-current="false" data-test="exercise-repeats-choice-button">4</button><button type="button" class="_button_27a27a" data-current="false" data-test="exercise-repeats-choice-button">5</button><input type="number" class="_input_27a27a" step="1" min="2" max="30" data-test="exercise-repeats-choice-input" value="3"></div>
+</div>"
+`;

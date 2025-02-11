@@ -45,6 +45,10 @@ describe('ActivityInfo', async () => {
     expect(wrapper.findComponent(ActivityInfo)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('info is scrollable in popup', async () => {
     expect(wrapper.find(activityInfo).attributes('data-scrollable')).toBe(isPopup.toString());
 

@@ -31,6 +31,10 @@ describe('ActivityStatistics', async () => {
     expect(wrapper.findComponent(ActivityStatistics)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows total statistics data', async () => {
     expect(wrapper.find(totalDuration).text()).toBe(formatDuration(statistics.duration.cur));
     expect(wrapper.find(totalCount).text()).toBe(statistics.activitiesCount.cur.toString());

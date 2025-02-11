@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityListPage > matches snapshot 1`] = `
+"<div>
+  <div column="" gap="32">
+    <activity-admin-list-stub activities="[object Object],[object Object]" data-test="activities-list"></activity-admin-list-stub>
+    <ui-pagination-stub page="1" total="2" lang="ru" data-test="activities-pagination"></ui-pagination-stub>
+  </div>
+</div>"
+`;

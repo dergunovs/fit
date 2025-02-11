@@ -41,6 +41,10 @@ describe('ExercisePassingElement', async () => {
     expect(wrapper.findComponent(ExercisePassingElement)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('shows element only if its not done', async () => {
     expect(wrapper.find(exercise).exists()).toBe(true);
 

@@ -25,6 +25,10 @@ describe('UserEditPage', async () => {
     expect(wrapper.findComponent(UserEditPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets and sets user to form', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('user');

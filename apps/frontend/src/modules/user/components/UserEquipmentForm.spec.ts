@@ -41,6 +41,10 @@ describe('UserEquipmentForm', async () => {
     expect(wrapper.findComponent(UserEquipmentForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('sets filtered equipment options', async () => {
     expect(wrapper.find(options).attributes('options')).toStrictEqual(
       excludeChoosenUserEquipment(EQUIPMENTS_FIXTURE, USER_FIXTURE.equipments).join()

@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityPassingPage > matches snapshot 1`] = `
+"<div>
+  <activity-passing-form-stub activity="[object Object]" data-test="activity-exercise-form"></activity-passing-form-stub>
+</div>"
+`;

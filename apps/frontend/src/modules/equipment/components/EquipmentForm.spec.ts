@@ -37,6 +37,10 @@ describe('EquipmentForm', async () => {
     expect(wrapper.findComponent(EquipmentForm)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('uses validation', async () => {
     mockIsValid.value = false;
 

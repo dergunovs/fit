@@ -25,6 +25,10 @@ describe('ExerciseEditPage', async () => {
     expect(wrapper.findComponent(ExerciseEditPage)).toBeTruthy();
   });
 
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it('gets and sets exercise to form', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('exercise');
