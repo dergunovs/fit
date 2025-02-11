@@ -85,8 +85,7 @@ export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id
 }
 
 export function getExercisePassingTitle(index: number, isCurrent: boolean, count: number, exercise: IExerciseDone) {
-  return `${index}${isCurrent ? ` из ${count}.` : `.`}
-${exercise.exercise?.title || 'Упражнение удалено'}${exercise.weight ? ` ${exercise.weight} кг.` : `.`}`;
+  return `${index}${isCurrent ? ` из ${count}.` : `.`} ${exercise.exercise?.title || 'Упражнение удалено'}${exercise.weight ? ` ${exercise.weight} кг.` : `.`}`;
 }
 
 export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {
