@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.table">
-    <UiTable :headers="MUSCLE_GROUP_STATISTICS_HEADERS" lang="ru">
+    <UiTable :headers="MUSCLE_GROUP_STATISTICS_HEADERS">
       <tr
         v-for="muscleGroup in generateMuscleGroupStatistics(props.exercises)"
         :key="muscleGroup.title"

@@ -33,7 +33,6 @@
       isConfirm
       @confirm="emit('delete', props.id)"
       width="360"
-      lang="ru"
       data-test="form-buttons-confirm-modal"
     >
       Подтверждаете удаление?

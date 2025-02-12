@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="EQUIPMENT_LIST_HEADERS" :isLoading="!props.equipments?.length" lang="ru">
+  <UiTable :headers="EQUIPMENT_LIST_HEADERS" :isLoading="!props.equipments?.length">
     <tr v-for="equipment in props.equipments" :key="equipment._id" data-test="equipment-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_EQUIPMENT_EDIT}/${equipment._id}`" data-test="equipment-table-title-link">

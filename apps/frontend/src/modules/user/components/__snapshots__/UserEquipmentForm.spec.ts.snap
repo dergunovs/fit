@@ -5,7 +5,7 @@ exports[`UserEquipmentForm > matches snapshot 1`] = `
   <div gap="4">
     <div column="">
       <div>Оборудование</div>
-      <div><input type="text" options="" isdisabled="false" lang="ru" data-test="user-equipment-options"></div>
+      <div><input type="text" options="" isdisabled="false" data-test="user-equipment-options"></div>
     </div>
     <!--v-if-->
   </div>

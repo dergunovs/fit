@@ -16,7 +16,6 @@
         isConfirm
         @confirm="mutateDelete(activity._id)"
         width="360"
-        lang="ru"
         data-test="activity-modal"
       >
         Подтверждаете удаление?

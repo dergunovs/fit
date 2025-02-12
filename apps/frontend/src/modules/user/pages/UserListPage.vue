@@ -10,7 +10,6 @@
         :page="page"
         :total="total"
         @update="(value: number) => setPage(setPaginationPage(value, page))"
-        lang="ru"
         data-test="user-list-pagination"
       />
     </UiFlex>

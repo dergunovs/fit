@@ -2,7 +2,7 @@
   <div>
     <UiFlex column gap="16">
       <UiField v-if="props.exercise.isWeights && props.weights?.length" label="Вес, кг.">
-        <UiSelect v-model="choosenExercise.weight" :options="props.weights" lang="ru" data-test="exercise-weight" />
+        <UiSelect v-model="choosenExercise.weight" :options="props.weights" data-test="exercise-weight" />
       </UiField>
 
       <ExerciseRepeatsChoice

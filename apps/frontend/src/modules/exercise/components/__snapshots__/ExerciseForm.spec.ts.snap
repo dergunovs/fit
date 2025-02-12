@@ -8,7 +8,7 @@ exports[`ExerciseForm > matches snapshot 1`] = `
       <ui-editor-stub modelvalue="" data-test="exercise-form-description"></ui-editor-stub>
     </fieldset><input type="checkbox" modelvalue="false" label="Наличие веса" data-test="exercise-form-is-weights">
     <!--v-if-->
-    <fieldset label="Используемое оборудование"><input type="text" options="[object Object]" isclearable="" lang="ru"></fieldset>
+    <fieldset label="Используемое оборудование"><input type="text" options="[object Object]" isclearable=""></fieldset>
     <!--v-if-->
     <div column="">
       <div>Задействованные мышцы</div><input type="checkbox" modelvalue="false" label="Плечи" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Руки" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Грудь" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Пресс" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Спина" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Ноги" data-test="exercise-form-muscle-groups">

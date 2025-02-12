@@ -19,7 +19,7 @@
       />
 
       <UiField label="Используемое оборудование">
-        <UiSelect v-model="formData.equipment" :options="filterEquipmentByWeights(equipments)" isClearable lang="ru" />
+        <UiSelect v-model="formData.equipment" :options="filterEquipmentByWeights(equipments)" isClearable />
       </UiField>
 
       <UiFlex v-if="formData.isWeights" column>

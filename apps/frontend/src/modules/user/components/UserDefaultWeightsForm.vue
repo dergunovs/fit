@@ -9,7 +9,6 @@
           :modelValue="props.modelValue?.[exercise._id]"
           :options="exercise.options"
           @update:modelValue="(value) => updateWeights(Number(value), exercise._id)"
-          lang="ru"
           data-test="user-default-weight-select"
         />
       </UiFlex>

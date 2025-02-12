@@ -2,7 +2,7 @@
 
 exports[`ExerciseMuscleGroupStatistics > matches snapshot 1`] = `
 "<div class="_table_5eadab">
-  <table headers="[object Object],[object Object],[object Object]" lang="ru">
+  <table headers="[object Object],[object Object],[object Object]">
     <tbody>
       <tr data-test="exercise-muscle-group-row">
         <td data-test="exercise-muscle-group-title">Плечи</td>

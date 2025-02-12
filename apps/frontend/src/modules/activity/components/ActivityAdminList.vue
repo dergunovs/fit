@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="ACTIVITY_LIST_HEADERS" :isLoading="!props.activities?.length" lang="ru">
+  <UiTable :headers="ACTIVITY_LIST_HEADERS" :isLoading="!props.activities?.length">
     <tr v-for="activity in props.activities" :key="activity._id" data-test="activity-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_ACTIVITY_ADMIN_EDIT}/${activity._id}`" data-test="activity-table-date-link">

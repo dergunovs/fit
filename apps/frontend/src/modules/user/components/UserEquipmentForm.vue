@@ -9,7 +9,6 @@
             v-model="choosenEquipment"
             :options="excludeChoosenUserEquipment(props.equipments, props.modelValue)"
             :isDisabled="isEditEquipment || !!choosenEquipmentWeights.length"
-            lang="ru"
             data-test="user-equipment-options"
           />
         </UiFlex>
