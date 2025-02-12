@@ -7,7 +7,11 @@
         Пользователь с правами администратора
       </div>
 
-      <div v-if="props.user?.isResetPassword" :class="$style.reset" data-test="user-form-reset-password">
+      <div
+        v-if="props.user?.isResetPassword && !isPasswordUpdated"
+        :class="$style.reset"
+        data-test="user-form-reset-password"
+      >
         Установите новый пароль
       </div>
 
@@ -132,6 +136,7 @@ const formData = ref<IUser>({
 });
 
 const isShowUpdatePassword = ref(false);
+const isPasswordUpdated = ref(false);
 
 const newPassword = ref('');
 
@@ -158,6 +163,7 @@ const { mutate: mutateUpdatePassword } = userService.updatePassword(
       toast.success('Пароль обновлен');
       newPassword.value = '';
       isShowUpdatePassword.value = false;
+      isPasswordUpdated.value = true;
     },
   },
   props.user?._id
