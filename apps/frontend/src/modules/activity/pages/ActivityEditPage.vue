@@ -21,7 +21,7 @@
         Подтверждаете удаление?
       </UiModal>
 
-      <UiFlex justify="space-between">
+      <UiFlex justify="space-between" :class="$style.buttons" :data-loaded="!!activity?._id">
         <UiButton @click="router.go(-1)" data-test="activity-go-back-button">Назад</UiButton>
         <UiButton @click="isShowConfirm = true" layout="secondary" data-test="activity-delete-button">Удалить</UiButton>
       </UiFlex>
@@ -60,3 +60,13 @@ const { mutate: mutateDelete } = activityService.delete({
   },
 });
 </script>
+
+<style module lang="scss">
+.buttons {
+  opacity: 0;
+
+  &[data-loaded='true'] {
+    opacity: 1;
+  }
+}
+</style>

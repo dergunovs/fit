@@ -65,7 +65,7 @@ const submitButtonText = computed(() => (props.id ? UPDATE_BUTTON_TEXT : CREATE_
 onMounted(() => {
   setTimeout(() => {
     isLoaded.value = true;
-  }, 200);
+  }, 300);
 });
 </script>
 
