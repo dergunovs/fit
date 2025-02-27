@@ -6,7 +6,9 @@
         :key="exercise._id"
         :exercise="exercise"
         :index="index + 1"
+        :isSetCreatable="isSetCreatable(props.choosenExercises, index, exercise.exercise?._id)"
         @delete="(id) => emit('delete', id)"
+        @createSet="emit('createSet')"
         data-test="exercise-choosen"
       />
     </UiFlex>
@@ -19,10 +21,12 @@ import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
 import ExerciseChoosenElement from '@/exercise/components/ExerciseChoosenElement.vue';
 
+import { isSetCreatable } from '@/exercise/helpers';
+
 interface IProps {
   choosenExercises: IExerciseChoosen[];
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string] }>();
+const emit = defineEmits<{ delete: [id: string]; createSet: [] }>();
 </script>

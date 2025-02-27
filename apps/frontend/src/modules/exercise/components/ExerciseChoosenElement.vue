@@ -2,27 +2,34 @@
   <div :class="$style.exercise">
     <span data-test="exercise-title">{{ exerciseTitle }}</span>
 
-    <UiClose
-      v-if="props.exercise._id"
-      @click="emit('delete', props.exercise._id)"
-      isSmall
-      data-test="exercise-delete"
-    />
+    <UiFlex>
+      <UiButton v-if="props.isSetCreatable" @click="emit('createSet')" layout="plain" data-test="exercise-create-set">
+        +Сет
+      </UiButton>
+
+      <UiClose
+        v-if="props.exercise._id"
+        @click="emit('delete', props.exercise._id)"
+        isSmall
+        data-test="exercise-delete"
+      />
+    </UiFlex>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
-import { UiClose } from 'mhz-ui';
+import { UiButton, UiClose, UiFlex } from 'mhz-ui';
 
 interface IProps {
   exercise: IExerciseChoosen;
   index: number;
+  isSetCreatable: boolean;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string] }>();
+const emit = defineEmits<{ delete: [id: string]; createSet: [] }>();
 
 const exerciseTitle = computed(() => `${props.index}. ${props.exercise.exercise?.title} x${props.exercise.repeats}`);
 </script>

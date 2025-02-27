@@ -32,6 +32,7 @@
         <ExerciseChoosenList
           :choosenExercises="formData.exercises"
           @delete="deleteExercise"
+          @createSet="createSet"
           data-test="activity-form-exercises-choosen"
         />
       </UiFlex>
@@ -47,7 +48,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { deleteTempId, useQueryClient, useRouteId } from 'mhz-helpers';
+import { createTempId, deleteTempId, useQueryClient, useRouteId } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   IActivity,
@@ -104,6 +105,14 @@ function addExercise(exercise: IExerciseChoosen) {
 
 function deleteExercise(idToDelete: string) {
   formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToDelete);
+}
+
+function createSet() {
+  const set = formData.value.exercises.slice(-2).map((exercise) => {
+    return { ...exercise, _id: createTempId() };
+  });
+
+  formData.value.exercises = [...formData.value.exercises, ...set];
 }
 
 function repeatLastActivity() {

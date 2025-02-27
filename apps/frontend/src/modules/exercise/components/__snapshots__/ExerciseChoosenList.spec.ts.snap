@@ -3,8 +3,8 @@
 exports[`ExerciseChoosenList > matches snapshot 1`] = `
 "<div>
   <div column="">
-    <exercise-choosen-element-stub exercise="[object Object]" index="1" data-test="exercise-choosen"></exercise-choosen-element-stub>
-    <exercise-choosen-element-stub exercise="[object Object]" index="2" data-test="exercise-choosen"></exercise-choosen-element-stub>
+    <exercise-choosen-element-stub exercise="[object Object]" index="1" issetcreatable="false" data-test="exercise-choosen"></exercise-choosen-element-stub>
+    <exercise-choosen-element-stub exercise="[object Object]" index="2" issetcreatable="true" data-test="exercise-choosen"></exercise-choosen-element-stub>
   </div>
 </div>"
 `;

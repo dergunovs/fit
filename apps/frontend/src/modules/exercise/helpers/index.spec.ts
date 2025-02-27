@@ -4,6 +4,7 @@ import {
   getAverageDuration,
   generateMuscleGroupStatistics,
   isPrevExerciseSame,
+  isSetCreatable,
   getExercisePassingTitle,
   generateTimeline,
   filterExercisesByTitleAndMuscleGroup,
@@ -41,6 +42,13 @@ describe('exercise helpers', () => {
   test('checks is prev exercise same', async () => {
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
+  });
+
+  test('checks is set creatable', async () => {
+    expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
+    expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
+    expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
+    expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(true);
   });
 
   test('gets exercise passing title', async () => {

@@ -44,4 +44,12 @@ describe('ExerciseChoosenList', async () => {
     expect(wrapper.emitted('delete')).toHaveLength(1);
     expect(wrapper.emitted()['delete'][0]).toStrictEqual([EXERCISES_CHOOSEN_FIXTURE[0]._id]);
   });
+
+  it('emits create set', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('createSet');
+
+    wrapper.findComponent<typeof ExerciseChoosenElement>(exerciseChoosen).vm.$emit('createSet');
+
+    expect(wrapper.emitted('createSet')).toHaveLength(1);
+  });
 });

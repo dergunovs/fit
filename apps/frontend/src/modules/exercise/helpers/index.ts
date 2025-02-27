@@ -1,6 +1,7 @@
 import {
   EXERCISE_MUSCLE_GROUPS,
   IExercise,
+  IExerciseChoosen,
   IExerciseDone,
   IExerciseStatistics,
   IMuscleGroup,
@@ -82,6 +83,10 @@ export function generateMuscleGroupStatistics(exercises: IExerciseDone[]) {
 
 export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id?: string) {
   return id && exercises[index - 1] ? id === exercises[index - 1].exercise?._id : false;
+}
+
+export function isSetCreatable(choosenExercises: IExerciseChoosen[], index: number, id?: string) {
+  return !isPrevExerciseSame(choosenExercises, index, id) && index > 0 && index + 1 === choosenExercises.length;
 }
 
 export function getExercisePassingTitle(index: number, isCurrent: boolean, count: number, exercise: IExerciseDone) {
