@@ -8,6 +8,7 @@ export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
 export interface IMuscleGroup {
   _id: string;
   title: string;
+  color?: string;
 }
 
 export interface IExercise extends IEntity {

@@ -6,7 +6,9 @@
         :key="muscleGroup.title"
         data-test="exercise-muscle-group-row"
       >
-        <td data-test="exercise-muscle-group-title">{{ muscleGroup.title }}</td>
+        <td :style="`color: ${muscleGroup.color}`" data-test="exercise-muscle-group-title">
+          {{ muscleGroup.title }}
+        </td>
         <td data-test="exercise-muscle-group-sets">{{ muscleGroup.sets }}</td>
         <td data-test="exercise-muscle-group-repeats">{{ muscleGroup.repeats }}</td>
       </tr>

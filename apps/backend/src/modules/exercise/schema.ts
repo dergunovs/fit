@@ -18,6 +18,7 @@ export const muscleGroupModel: JSONSchemaType<IMuscleGroup> = {
   properties: {
     _id: { type: 'string' },
     title: { type: 'string' },
+    color: { type: 'string', nullable: true },
   },
   required: ['_id', 'title'],
   $schema: 'http://json-schema.org/draft-07/schema#',

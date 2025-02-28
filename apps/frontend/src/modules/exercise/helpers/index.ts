@@ -52,15 +52,30 @@ export function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 
     : `${exercise.averageDuration.toFixed(1)}с`;
 }
 
+export function setExercisesMuscleGroupColor(exercises: IExerciseDone[]) {
+  return exercises.map((exercise) => {
+    const muscleGroups = exercise.exercise?.muscleGroups?.map((group) => {
+      return {
+        ...group,
+        color: group.color || EXERCISE_MUSCLE_GROUPS.find((gr: IMuscleGroup) => gr._id === group._id).color,
+      };
+    });
+
+    return { ...exercise, ...{ exercise: { ...exercise.exercise, muscleGroups } } } as IExerciseDone;
+  });
+}
+
 export function generateMuscleGroupStatistics(exercises: IExerciseDone[]) {
   const groups: {
     title: string;
+    color: string;
     sets: number;
     repeats: number;
   }[] = [];
 
   EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
     const title = group.title;
+    const color = group.color || '#000';
     let sets = 0;
     let repeats = 0;
 
@@ -75,7 +90,7 @@ export function generateMuscleGroupStatistics(exercises: IExerciseDone[]) {
       }
     });
 
-    if (sets) groups.push({ title, sets, repeats });
+    if (sets) groups.push({ title, color, sets, repeats });
   });
 
   return groups.sort((a, b) => b.repeats - a.repeats);

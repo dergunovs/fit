@@ -4,6 +4,7 @@ export interface IActivityCalendarEvent<T> {
   end: Date | null;
   title: string;
   content: T[];
+  color?: string;
 }
 
 export interface ICalendarEvent {

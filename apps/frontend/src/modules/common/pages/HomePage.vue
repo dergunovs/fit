@@ -1,6 +1,6 @@
 <template>
   <UiFlex column gap="64">
-    <PromoBlocks v-if="!isAuth" data-test="promo" />
+    <PromoBlocks v-if="!isAuth && calendar && statistics" data-test="promo" />
 
     <UiFlex column gap="16">
       <StatisticsExample v-if="!isAuth" />

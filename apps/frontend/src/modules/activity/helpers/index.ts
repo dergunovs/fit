@@ -1,8 +1,15 @@
-import { IActivity, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-contracts';
+import {
+  EXERCISE_MUSCLE_GROUPS,
+  IActivity,
+  IExerciseDone,
+  IExerciseStatistics,
+  IMuscleGroup,
+} from 'fitness-tracker-contracts';
 import { createTempId, formatDate, formatDuration, subtractDates } from 'mhz-helpers';
 import { toast } from 'mhz-ui';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
+import { setExercisesMuscleGroupColor } from '@/exercise/helpers';
 
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
@@ -24,16 +31,51 @@ export function getPotentialActivityDuration(
   return formatDuration(durationWithRest);
 }
 
+export function getActivityColor(exercises: IExerciseDone[]) {
+  const groups: { sets: number; color?: string }[] = [];
+
+  EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
+    const color = group.color;
+    let sets = 0;
+
+    exercises.forEach((exercise: IExerciseDone) => {
+      const setsCount =
+        exercise.exercise?.muscleGroups?.filter((muscleGroup) => muscleGroup._id === group._id).length || 0;
+
+      sets += setsCount;
+    });
+
+    if (sets) groups.push({ sets, color });
+  });
+
+  const primaryGroups = groups.slice(0, 2);
+
+  const totalSets = primaryGroups.reduce((acc, current) => acc + current.sets, 0);
+
+  const colors = primaryGroups.map((group) => {
+    const percent = `${((group.sets / totalSets) * 100).toFixed(0)}%`;
+
+    return { percent, color: group.color };
+  });
+
+  if (colors.length === 1) return colors[0].color;
+
+  return `linear-gradient(90deg, ${colors[0].color} ${colors[0].percent}, ${colors[1]?.color} ${colors[1]?.percent})`;
+}
+
 export function convertActivityCalendarEvents(
   activities?: IActivity[]
 ): IActivityCalendarEvent<IExerciseDone>[] | undefined {
   return activities?.map((activity: IActivity) => {
+    const content = setExercisesMuscleGroupColor(activity.exercises);
+
     return {
       _id: activity._id,
       start: new Date(`${activity.dateCreated}`),
       end: new Date(`${activity.dateUpdated}`),
       title: '+',
-      content: activity.exercises,
+      content,
+      color: getActivityColor(content),
     };
   });
 }

@@ -5,22 +5,22 @@ exports[`ExerciseMuscleGroupStatistics > matches snapshot 1`] = `
   <table headers="[object Object],[object Object],[object Object]">
     <tbody>
       <tr data-test="exercise-muscle-group-row">
-        <td data-test="exercise-muscle-group-title">Плечи</td>
+        <td style="color: #ff0086;" data-test="exercise-muscle-group-title">Плечи</td>
         <td data-test="exercise-muscle-group-sets">1</td>
         <td data-test="exercise-muscle-group-repeats">12</td>
       </tr>
       <tr data-test="exercise-muscle-group-row">
-        <td data-test="exercise-muscle-group-title">Руки</td>
+        <td style="color: #8d00ff;" data-test="exercise-muscle-group-title">Руки</td>
         <td data-test="exercise-muscle-group-sets">1</td>
         <td data-test="exercise-muscle-group-repeats">12</td>
       </tr>
       <tr data-test="exercise-muscle-group-row">
-        <td data-test="exercise-muscle-group-title">Грудь</td>
+        <td style="color: #0086ff;" data-test="exercise-muscle-group-title">Грудь</td>
         <td data-test="exercise-muscle-group-sets">1</td>
         <td data-test="exercise-muscle-group-repeats">12</td>
       </tr>
       <tr data-test="exercise-muscle-group-row">
-        <td data-test="exercise-muscle-group-title">Пресс</td>
+        <td style="color: #00ee49;" data-test="exercise-muscle-group-title">Пресс</td>
         <td data-test="exercise-muscle-group-sets">1</td>
         <td data-test="exercise-muscle-group-repeats">12</td>
       </tr>
