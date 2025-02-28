@@ -11,6 +11,32 @@ import { toast } from 'mhz-ui';
 import { IActivityCalendarEvent } from '@/activity/interface';
 import { setExercisesMuscleGroupColor } from '@/exercise/helpers';
 
+function generateActivityCSSGradients(colors: { percent: number; color: string | undefined }[]) {
+  if (!colors.length) return '#000';
+
+  const firstColor = colors[0].color;
+
+  if (colors.length === 1) return firstColor;
+
+  const firstPercent = `${colors[0].percent}%`;
+
+  const secondColor = colors[1]?.color;
+
+  const secondPercent = `${colors[0].percent + colors[1]?.percent}%`;
+
+  if (colors.length === 2)
+    return `linear-gradient(90deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent})`;
+
+  const thirdColor = colors[2]?.color;
+
+  const thirdPercent =
+    colors[0].percent + colors[1]?.percent + colors[2]?.percent > 100
+      ? '100%'
+      : `${colors[0].percent + colors[1]?.percent + colors[2]?.percent}%`;
+
+  return `linear-gradient(90deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent}, ${thirdColor} ${thirdPercent})`;
+}
+
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
   exerciseStatistics: IExerciseStatistics[],
@@ -32,35 +58,32 @@ export function getPotentialActivityDuration(
 }
 
 export function getActivityColor(exercises: IExerciseDone[]) {
-  const groups: { sets: number; color?: string }[] = [];
+  const groups: { repeats: number; color?: string }[] = [];
 
   EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
     const color = group.color;
-    let sets = 0;
+    let repeats = 0;
 
     exercises.forEach((exercise: IExerciseDone) => {
-      const setsCount =
-        exercise.exercise?.muscleGroups?.filter((muscleGroup) => muscleGroup._id === group._id).length || 0;
-
-      sets += setsCount;
+      if (exercise.exercise?.muscleGroups?.some((groupToFilter) => groupToFilter._id === group._id)) {
+        repeats += exercise.repeats;
+      }
     });
 
-    if (sets) groups.push({ sets, color });
+    if (repeats) groups.push({ repeats, color });
   });
 
-  const primaryGroups = groups.sort((a, b) => b.sets - a.sets).slice(0, 2);
+  const primaryGroups = groups.sort((a, b) => b.repeats - a.repeats).slice(0, 3);
 
-  const totalSets = primaryGroups.reduce((acc, current) => acc + current.sets, 0);
+  const totalRepeats = primaryGroups.reduce((acc, current) => acc + current.repeats, 0);
 
   const colors = primaryGroups.map((group) => {
-    const percent = `${((group.sets / totalSets) * 100).toFixed(0)}%`;
+    const percent = Number(((group.repeats / totalRepeats) * 100).toFixed(0));
 
     return { percent, color: group.color };
   });
 
-  if (colors.length === 1) return colors[0].color;
-
-  return `linear-gradient(90deg, ${colors[0].color} ${colors[0].percent}, ${colors[1]?.color} ${colors[1]?.percent})`;
+  return generateActivityCSSGradients(colors);
 }
 
 export function convertActivityCalendarEvents(

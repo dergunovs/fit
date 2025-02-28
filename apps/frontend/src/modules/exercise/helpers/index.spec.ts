@@ -30,10 +30,10 @@ describe('exercise helpers', () => {
 
   test('generates muscle group statistics', async () => {
     const muscleGroupStatistics = [
-      { repeats: 12, sets: 1, title: 'Плечи', color: '#ff0086' },
-      { repeats: 12, sets: 1, title: 'Руки', color: '#8d00ff' },
+      { repeats: 12, sets: 1, title: 'Плечи', color: '#eb007b' },
+      { repeats: 12, sets: 1, title: 'Руки', color: '#a83cff' },
       { repeats: 12, sets: 1, title: 'Грудь', color: '#0086ff' },
-      { repeats: 12, sets: 1, title: 'Пресс', color: '#00ee49' },
+      { repeats: 12, sets: 1, title: 'Пресс', color: '#00a934' },
     ];
 
     expect(generateMuscleGroupStatistics(EXERCISES_DONE_FIXTURE)).toStrictEqual(muscleGroupStatistics);

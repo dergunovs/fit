@@ -90,6 +90,8 @@ export const activitiesChartReply: JSONSchemaType<TGetActivitiesChartDTO> = {
         properties: {
           data: { type: 'array', items: { type: 'number' } },
           label: { type: 'string', nullable: true },
+          borderColor: { type: 'string', nullable: true },
+          backgroundColor: { type: 'string', nullable: true },
         },
         required: ['data'],
         additionalProperties: false,

@@ -267,6 +267,8 @@ export async function activitiesGetChartData(
         return {
           label: group.title,
           count: 0,
+          borderColor: group.color,
+          backgroundColor: group.color,
         };
       });
 
@@ -302,7 +304,12 @@ export async function activitiesGetChartData(
         });
       } else {
         groupCount.forEach((group) => {
-          datasets.push({ data: [group.count], label: group.label });
+          datasets.push({
+            data: [group.count],
+            label: group.label,
+            borderColor: group.borderColor,
+            backgroundColor: group.backgroundColor,
+          });
         });
       }
     }

@@ -42,6 +42,8 @@ export interface IActivityStatistics {
 export interface IActivityChartDataset {
   data: number[];
   label?: string;
+  borderColor?: string;
+  backgroundColor?: string;
 }
 
 export interface IActivityChart {

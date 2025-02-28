@@ -217,7 +217,7 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
 export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] = [
   {
     _id: '1',
-    color: 'linear-gradient(90deg, #ff0086 50%, #8d00ff 50%)',
+    color: 'linear-gradient(90deg, #eb007b 36%, #a83cff 72%, #0086ff 100%)',
     content: [
       {
         _id: '1',
@@ -270,8 +270,8 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
           isWeights: true,
           isWeightsRequired: true,
           muscleGroups: [
-            { _id: '1', title: 'Плечи', color: '#ff0086' },
-            { _id: '2', title: 'Руки', color: '#8d00ff' },
+            { _id: '1', title: 'Плечи', color: '#eb007b' },
+            { _id: '2', title: 'Руки', color: '#a83cff' },
           ],
           title: 'Отжимание от скамьи',
         },
@@ -317,7 +317,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
           isWeightsRequired: false,
           muscleGroups: [
             { _id: '3', title: 'Грудь', color: '#0086ff' },
-            { _id: '4', title: 'Пресс', color: '#00ee49' },
+            { _id: '4', title: 'Пресс', color: '#00a934' },
           ],
           title: 'Подтягивание',
         },
@@ -333,7 +333,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
   },
   {
     _id: '2',
-    color: 'linear-gradient(90deg, #ff0086 50%, #8d00ff 50%)',
+    color: 'linear-gradient(90deg, #0086ff 44%, #00a934 88%, #eb007b 99%)',
     content: [
       {
         _id: '1',
@@ -386,8 +386,8 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
           isWeights: true,
           isWeightsRequired: true,
           muscleGroups: [
-            { _id: '1', title: 'Плечи', color: '#ff0086' },
-            { _id: '2', title: 'Руки', color: '#8d00ff' },
+            { _id: '1', title: 'Плечи', color: '#eb007b' },
+            { _id: '2', title: 'Руки', color: '#a83cff' },
           ],
           title: 'Отжимание от скамьи',
         },
@@ -433,7 +433,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
           isWeightsRequired: false,
           muscleGroups: [
             { _id: '3', title: 'Грудь', color: '#0086ff' },
-            { _id: '4', title: 'Пресс', color: '#00ee49' },
+            { _id: '4', title: 'Пресс', color: '#00a934' },
           ],
           title: 'Подтягивание',
         },
@@ -474,8 +474,8 @@ export const EXERCISES_GENERATED = [
       _id: '1',
       title: 'Отжимание от скамьи',
       muscleGroups: [
-        { _id: '1', title: 'Плечи', color: '#ff0086' },
-        { _id: '2', title: 'Руки', color: '#8d00ff' },
+        { _id: '1', title: 'Плечи', color: '#eb007b' },
+        { _id: '2', title: 'Руки', color: '#a83cff' },
       ],
       isWeights: true,
       isWeightsRequired: true,
@@ -490,7 +490,7 @@ export const EXERCISES_GENERATED = [
       title: 'Подтягивание',
       muscleGroups: [
         { _id: '3', title: 'Грудь', color: '#0086ff' },
-        { _id: '4', title: 'Пресс', color: '#00ee49' },
+        { _id: '4', title: 'Пресс', color: '#00a934' },
       ],
       isWeights: false,
       isWeightsRequired: false,
