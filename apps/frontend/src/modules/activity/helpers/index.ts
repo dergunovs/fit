@@ -48,7 +48,7 @@ export function getActivityColor(exercises: IExerciseDone[]) {
     if (sets) groups.push({ sets, color });
   });
 
-  const primaryGroups = groups.slice(0, 2);
+  const primaryGroups = groups.sort((a, b) => b.sets - a.sets).slice(0, 2);
 
   const totalSets = primaryGroups.reduce((acc, current) => acc + current.sets, 0);
 
