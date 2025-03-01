@@ -16,12 +16,12 @@ export const API_EQUIPMENT = "/equipment";
 export const API_EXERCISE = "/exercise";
 
 export const EXERCISE_MUSCLE_GROUPS = [
-  { _id: "1", title: "Плечи", color: "#eb007b" },
+  { _id: "1", title: "Плечи", color: "#ff1818" },
   { _id: "2", title: "Руки", color: "#a83cff" },
-  { _id: "3", title: "Грудь", color: "#0086ff" },
+  { _id: "3", title: "Грудь", color: "#00f7e3" },
   { _id: "4", title: "Пресс", color: "#00a934" },
-  { _id: "5", title: "Спина", color: "#fbb900" },
-  { _id: "6", title: "Ноги", color: "#ff4600" },
+  { _id: "5", title: "Спина", color: "#f38f00" },
+  { _id: "6", title: "Ноги", color: "#ffff10" },
 ];
 
 export const API_USER = "/user";

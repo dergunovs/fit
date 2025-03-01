@@ -30,9 +30,9 @@ describe('exercise helpers', () => {
 
   test('generates muscle group statistics', async () => {
     const muscleGroupStatistics = [
-      { repeats: 12, sets: 1, title: 'Плечи', color: '#eb007b' },
+      { repeats: 12, sets: 1, title: 'Плечи', color: '#ff1818' },
       { repeats: 12, sets: 1, title: 'Руки', color: '#a83cff' },
-      { repeats: 12, sets: 1, title: 'Грудь', color: '#0086ff' },
+      { repeats: 12, sets: 1, title: 'Грудь', color: '#00f7e3' },
       { repeats: 12, sets: 1, title: 'Пресс', color: '#00a934' },
     ];
 

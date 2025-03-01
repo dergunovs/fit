@@ -25,7 +25,7 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
   const secondPercent = `${colors[0].percent + colors[1]?.percent}%`;
 
   if (colors.length === 2)
-    return `linear-gradient(90deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent})`;
+    return `linear-gradient(135deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent})`;
 
   const thirdColor = colors[2]?.color;
 
@@ -34,7 +34,7 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
       ? '100%'
       : `${colors[0].percent + colors[1]?.percent + colors[2]?.percent}%`;
 
-  return `linear-gradient(90deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent}, ${thirdColor} ${thirdPercent})`;
+  return `linear-gradient(135deg, ${firstColor} ${firstPercent}, ${secondColor} ${secondPercent}, ${thirdColor} ${thirdPercent})`;
 }
 
 export function getPotentialActivityDuration(
