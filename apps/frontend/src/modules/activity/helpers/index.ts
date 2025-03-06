@@ -94,11 +94,11 @@ export function convertActivityCalendarEvents(
 
     return {
       _id: activity._id,
-      start: new Date(`${activity.dateCreated}`),
-      end: new Date(`${activity.dateUpdated}`),
-      title: '+',
+      start: new Date(`${activity.dateScheduled || activity.dateCreated}`),
+      end: new Date(`${activity.dateScheduled || activity.dateUpdated}`),
+      title: activity.dateScheduled ? '=' : '+',
       content,
-      color: getActivityColor(content),
+      color: activity.dateScheduled ? 'gray' : getActivityColor(content),
     };
   });
 }

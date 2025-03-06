@@ -6,7 +6,7 @@
       </div>
 
       <UiFlex wrap>
-        <UiChip v-if="!props.exercise.isDone" type="error" data-test="exercise-is-not-done">
+        <UiChip v-if="!props.exercise.isDone && !props.isHideDuration" type="error" data-test="exercise-is-not-done">
           <IconFail width="16" height="16" /> Не выполнено
         </UiChip>
 
@@ -43,6 +43,7 @@ import { EXERCISE_DELETED_TITLE } from '@/exercise/constants';
 interface IProps {
   exercise: IExerciseDone;
   isHideTitle?: boolean;
+  isHideDuration?: boolean;
 }
 
 const props = defineProps<IProps>();

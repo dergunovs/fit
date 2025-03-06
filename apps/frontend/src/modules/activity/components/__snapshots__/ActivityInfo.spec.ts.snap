@@ -7,9 +7,10 @@ exports[`ActivityInfo > matches snapshot 1`] = `
   </div>
   <exercise-muscle-group-statistics-stub exercises="[object Object],[object Object]" data-test="activity-info-muscle-groups"></exercise-muscle-group-statistics-stub>
   <div column="">
-    <exercise-title-stub exercise="[object Object]" ishidetitle="false" data-test="activity-info-exercise"></exercise-title-stub>
-    <exercise-title-stub exercise="[object Object]" ishidetitle="false" data-test="activity-info-exercise"></exercise-title-stub>
+    <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
+    <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
   </div>
+  <!--v-if-->
   <!--v-if-->
 </div>"
 `;

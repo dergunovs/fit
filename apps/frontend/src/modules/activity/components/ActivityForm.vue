@@ -11,9 +11,31 @@
         </span>
       </p>
 
-      <UiButton @click="repeatLastActivity" layout="secondary" data-test="activity-form-repeat-last">
-        Повторить прошлое
-      </UiButton>
+      <UiFlex justify="space-between">
+        <UiButton @click="repeatLastActivity" isNarrow layout="secondary" data-test="activity-form-repeat-last">
+          Повторить прошлое
+        </UiButton>
+
+        <UiButton
+          @click="isShowCalendar = !isShowCalendar"
+          isNarrow
+          layout="secondary"
+          data-test="activity-form-add-to-calendar"
+        >
+          {{ isShowCalendar ? 'Скрыть календарь' : 'Добавить в календарь' }}
+        </UiButton>
+      </UiFlex>
+
+      <UiFlex v-if="isShowCalendar" column>
+        <UiButton @click="submit(true)" :isDisabled="!isValid">Сохранить занятие в календаре</UiButton>
+
+        <div>
+          <span>{{ formData.dateScheduled ? 'Дата занятия - ' : 'Выберите дату занятия' }}</span>
+          <span v-if="formData.dateScheduled">{{ formatDate(formData.dateScheduled, 'ru') }}</span>
+        </div>
+
+        <UiCalendar :minDate="new Date()" @chooseDate="setScheduledDate" data-test="activity-form-calendar" />
+      </UiFlex>
 
       <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">Добавить упражнение</UiButton>
 
@@ -47,8 +69,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { createTempId, deleteTempId, useQueryClient, useRouteId } from 'mhz-helpers';
+import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
+import { createTempId, deleteTempId, formatDate, useQueryClient, useRouteId } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   IActivity,
@@ -64,6 +86,7 @@ import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
 import { getPotentialActivityDuration, generateActivityExercises } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { URL_HOME } from '@/common/constants';
 
 interface IProps {
   exerciseStatistics: IExerciseStatistics[];
@@ -81,10 +104,12 @@ const queryClient = useQueryClient();
 const formData = ref<IActivity>({
   exercises: [],
   isDone: false,
+  dateScheduled: undefined,
 });
 
 const isShowModal = ref(false);
 const isShowForm = ref(true);
+const isShowCalendar = ref(false);
 
 const { data: exercises } = exerciseService.getAll();
 const { data: lastActivity } = activityService.getLast();
@@ -121,20 +146,26 @@ function repeatLastActivity() {
   formData.value.exercises = generateActivityExercises(lastActivity.value.exercises);
 }
 
+function setScheduledDate(date: Date) {
+  date.setHours(23, 59, 59);
+  formData.value.dateScheduled = date;
+}
+
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
   onSuccess: async (activityId: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
-    toast.success('Занятие начато');
-    router.push(`${URL_ACTIVITY_EDIT}/${activityId}`);
+    toast.success(formData.value.dateScheduled ? 'Занятие сохранено в календарь' : 'Занятие начато');
+    router.push(formData.value.dateScheduled ? URL_HOME : `${URL_ACTIVITY_EDIT}/${activityId}`);
   },
 });
 
 const isValid = computed(() => !!formData.value.exercises?.length);
 
-function submit() {
+function submit(isAddToCalendar?: boolean) {
   if (!isValid.value) return;
 
   isShowForm.value = false;
+  if (!isAddToCalendar) formData.value.dateScheduled = undefined;
   formData.value.exercises = deleteTempId(formData.value.exercises);
   mutatePost(formData.value);
 }

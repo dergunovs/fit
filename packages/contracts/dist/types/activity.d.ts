@@ -21,6 +21,7 @@ export interface IActivity extends IEntity {
   exercises: IExerciseDone[];
   isDone: boolean;
   createdBy?: IUser;
+  dateScheduled?: Date | string;
 }
 
 export interface IActivityStatisticsValues {

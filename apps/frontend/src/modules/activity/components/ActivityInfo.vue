@@ -12,21 +12,24 @@
         <IconDate width="16" height="16" /> {{ formatDate(props.start, 'ru') }}
       </span>
 
-      <span data-test="activity-info-duration">
+      <span v-if="isExercisesDone" data-test="activity-info-duration">
         <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start) }}
       </span>
 
       <span>
         Подходы:
         <span data-test="activity-info-sets">{{ props.exercises.length }}</span
-        >, отказы: <span data-test="activity-info-to-failure-percent">{{ getToFailurePercent(props.exercises) }}</span
-        >, отдых:
-        <span data-test="activity-info-rest-percent">
-          {{ getRestPercent(props.exercises, props.start, props.end) }}
-        </span>
+        ><template v-if="isExercisesDone"
+          >, отказы: <span data-test="activity-info-to-failure-percent">{{ getToFailurePercent(props.exercises) }}</span
+          >, отдых:
+          <span data-test="activity-info-rest-percent">
+            {{ getRestPercent(props.exercises, props.start, props.end) }}
+          </span>
+        </template>
       </span>
 
       <UiButton
+        v-if="isExercisesDone"
         @click="copyActivityToClipboard(props.exercises, props.start, props.end)"
         layout="plain"
         data-test="activity-info-copy"
@@ -43,21 +46,31 @@
         :key="exercise._id"
         :exercise="exercise"
         :isHideTitle="isPrevExerciseSame(props.exercises, index, exercise.exercise?._id)"
+        :isHideDuration="isFutureActivity"
         data-test="activity-info-exercise"
       />
     </UiFlex>
 
     <UiButton
-      v-if="isAuth && isPopup"
+      v-if="isAuth && isPopup && !isFutureActivity"
       @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
       data-test="activity-info-generate-copy"
     >
       Сформировать такое же занятие
     </UiButton>
+
+    <UiButton
+      v-if="isAuth && isPopup && isFutureActivity"
+      @click="router.push(`${URL_ACTIVITY_EDIT}/${props.id}`)"
+      data-test="activity-info-start"
+    >
+      Начать занятие
+    </UiButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex } from 'mhz-ui';
@@ -69,7 +82,7 @@ import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleG
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
-import { URL_ACTIVITY_CREATE } from '@/activity/constants';
+import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { copyActivityToClipboard, getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
 
@@ -84,6 +97,9 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
+
+const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
+const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));
 </script>
 
 <style module lang="scss">

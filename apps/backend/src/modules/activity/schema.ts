@@ -26,6 +26,7 @@ export const activityModel: JSONSchemaType<IActivity> = {
     _id: { type: 'string', nullable: true },
     dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
+    dateScheduled: { type: 'string', format: 'date-time', nullable: true },
     exercises: { type: 'array', items: exerciseDoneModel },
     isDone: { type: 'boolean' },
     createdBy: { type: 'object', $ref: 'User', nullable: true },

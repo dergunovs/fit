@@ -165,7 +165,7 @@ export const activityService: IActivityService = {
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await activity.updateOne({ ...itemToUpdate, dateUpdated: new Date() });
+    await activity.updateOne({ ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
 
     await activity.save();
   },

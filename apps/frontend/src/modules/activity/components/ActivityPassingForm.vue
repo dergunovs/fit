@@ -12,7 +12,7 @@
 
       <div>
         <div>
-          Занятие началось <span data-test="activity-start">{{ formatDateTime(props.activity.dateCreated, 'ru') }}</span
+          Занятие создано <span data-test="activity-start">{{ formatDateTime(props.activity.dateCreated, 'ru') }}</span
           >.
         </div>
 
@@ -61,6 +61,9 @@ const props = defineProps<IProps>();
 
 const formData = ref<IActivity>({
   exercises: [],
+  dateCreated: undefined,
+  dateUpdated: undefined,
+  dateScheduled: undefined,
   isDone: false,
 });
 
@@ -99,6 +102,12 @@ function stopExercise(exerciseDone: IExerciseDone) {
   });
 
   formData.value.isDone = !formData.value.exercises?.some((exercise) => !exercise.isDone);
+
+  if (!formData.value.dateUpdated) {
+    formData.value.dateCreated = new Date(new Date().getTime() - (exerciseDone.duration || 0) * 1000);
+  }
+
+  formData.value.dateUpdated = new Date();
 
   mutateUpdate(formData.value);
 
