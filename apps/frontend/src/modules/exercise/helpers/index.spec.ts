@@ -61,14 +61,11 @@ describe('exercise helpers', () => {
   });
 
   test('generates timeline', async () => {
-    const timeline = [
-      { left: 0, right: 267840, type: 'exercise' },
-      { left: 0, right: 267835.7, type: 'rest' },
-      { left: 267835.7, right: 267840, type: 'exercise' },
-      { left: 267840, right: 0, type: 'rest' },
-    ];
+    const timeline = [{ left: 0, right: 6, type: 'exercise' }];
 
-    expect(generateTimeline(EXERCISES_DONE_FIXTURE, new Date('01-01-2025'), 10000)).toStrictEqual(timeline);
+    expect(generateTimeline(EXERCISES_DONE_FIXTURE, new Date('2024-11-30T07:33:57.304Z'), 10000)).toStrictEqual(
+      timeline
+    );
   });
 
   test('filter exercises by title and muscle group', async () => {

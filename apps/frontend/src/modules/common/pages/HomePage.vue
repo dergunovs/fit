@@ -11,6 +11,7 @@
             :events="convertActivityCalendarEvents(calendar)"
             @ready="updateDates"
             @update="updateDates"
+            @deleteEvent="refetch"
             data-test="activity-calendar"
           />
 
@@ -49,7 +50,7 @@ import { URL_HOME } from '@/common/constants';
 
 const { dateFrom, dateTo, isDatesReady, updateDates } = useActivityCalendar();
 
-const { data: calendar } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
+const { data: calendar, refetch } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
 const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 
 const router = useRouter();

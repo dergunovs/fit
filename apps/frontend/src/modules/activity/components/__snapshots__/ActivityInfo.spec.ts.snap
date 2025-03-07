@@ -10,7 +10,6 @@ exports[`ActivityInfo > matches snapshot 1`] = `
     <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
     <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
   </div>
-  <!--v-if-->
-  <!--v-if-->
+  <div></div>
 </div>"
 `;

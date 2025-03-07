@@ -68,7 +68,7 @@ export const EXERCISE_DONE_FIXTURE: IExerciseDone = {
   duration: 43,
   isToFailure: true,
   isDone: true,
-  dateUpdated: new Date('02-01-2025'),
+  dateUpdated: new Date('2024-11-30T07:34:57.304Z'),
 };
 
 export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
@@ -79,7 +79,7 @@ export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
   duration: undefined,
   isToFailure: undefined,
   isDone: false,
-  dateUpdated: new Date('02-01-2025'),
+  dateUpdated: new Date('2024-11-30T07:37:57.304Z'),
 };
 
 export const EXERCISES_DONE_FIXTURE: IExerciseDone[] = [EXERCISE_DONE_FIXTURE, EXERCISE_NOT_DONE_FIXTURE];

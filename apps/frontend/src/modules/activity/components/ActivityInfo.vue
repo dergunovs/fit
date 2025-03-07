@@ -51,30 +51,36 @@
       />
     </UiFlex>
 
-    <UiButton
-      v-if="isAuth && isPopup && !isFutureActivity"
-      @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
-      data-test="activity-info-generate-copy"
-    >
-      Сформировать такое же занятие
-    </UiButton>
+    <UiFlex>
+      <UiButton
+        v-if="isAuth && isPopup && !isFutureActivity"
+        @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
+        data-test="activity-info-repeat"
+      >
+        Повторить
+      </UiButton>
 
-    <UiButton
-      v-if="isAuth && isPopup && isFutureActivity"
-      @click="router.push(`${URL_ACTIVITY_EDIT}/${props.id}`)"
-      data-test="activity-info-start"
-    >
-      Начать занятие
-    </UiButton>
+      <UiButton
+        v-if="isAuth && isPopup && isFutureActivity"
+        @click="router.push(`${URL_ACTIVITY_EDIT}/${props.id}`)"
+        data-test="activity-info-start"
+      >
+        Начать
+      </UiButton>
+
+      <UiButton v-if="isAuth && isPopup" @click="mutateDelete(id)" layout="secondary" data-test="activity-info-start">
+        Удалить
+      </UiButton>
+    </UiFlex>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { IExerciseDone } from 'fitness-tracker-contracts';
-import { UiButton, UiFlex } from 'mhz-ui';
-import { formatDate, subtractDates, isAuth } from 'mhz-helpers';
+import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone } from 'fitness-tracker-contracts';
+import { toast, UiButton, UiFlex } from 'mhz-ui';
+import { formatDate, subtractDates, isAuth, useQueryClient } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
@@ -85,6 +91,7 @@ import IconDuration from '@/common/icons/duration.svg';
 import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { copyActivityToClipboard, getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
+import { activityService } from '@/activity/services';
 
 interface IProps {
   id: string;
@@ -95,11 +102,22 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+const emit = defineEmits<{ delete: [] }>();
 
 const router = useRouter();
+const queryClient = useQueryClient();
 
 const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
 const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));
+
+const { mutate: mutateDelete } = activityService.delete({
+  onSuccess: async () => {
+    queryClient.removeQueries({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
+    toast.success('Занятие удалено');
+    emit('delete');
+  },
+});
 </script>
 
 <style module lang="scss">

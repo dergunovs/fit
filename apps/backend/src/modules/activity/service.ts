@@ -170,7 +170,13 @@ export const activityService: IActivityService = {
     await activity.save();
   },
 
-  delete: async (_id: string) => {
+  delete: async (_id: string, decode?: TDecode, token?: string) => {
+    const activity = await Activity.findOne({ _id });
+
+    if (!activity?.createdBy?._id) return;
+
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+
     await Activity.findOneAndDelete({ _id });
   },
 };

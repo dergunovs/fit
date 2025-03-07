@@ -20,10 +20,10 @@ import type {
   TGetActivityDTO,
   TGetActivityLastDTO,
   TUpdateActivityDTO,
+  TUpdateActivityDataDTO,
   TPostActivityDTO,
   TPostActivityDataDTO,
   TDeleteActivityDTO,
-  TUpdateActivityDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
@@ -158,9 +158,9 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteActivityDTO } }>(
     `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyAdmin], ...activityDeleteSchema },
+    { preValidation: [fastify.onlyUser], ...activityDeleteSchema },
     async function (request, reply) {
-      await activityService.delete(request.params.id);
+      await activityService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send({ message: 'Занятие удалено' });
     }

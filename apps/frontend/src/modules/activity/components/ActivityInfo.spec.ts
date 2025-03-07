@@ -24,7 +24,7 @@ const restPercent = dataTest('activity-info-rest-percent');
 const copy = dataTest('activity-info-copy');
 const muscleGroups = dataTest('activity-info-muscle-groups');
 const exercise = dataTest('activity-info-exercise');
-const generateCopy = dataTest('activity-info-generate-copy');
+const repeat = dataTest('activity-info-repeat');
 
 const id = '123';
 const start = '01-01-2025';
@@ -98,15 +98,15 @@ describe('ActivityInfo', async () => {
   });
 
   it('generates same activity in popup mode', async () => {
-    expect(wrapper.find(generateCopy).exists()).toBe(isPopup);
+    expect(wrapper.find(repeat).exists()).toBe(isPopup);
     expect(spyRouterPush).toBeCalledTimes(0);
 
     setAuth(true);
     await wrapper.setProps({ isPopup: true });
 
-    expect(wrapper.find(generateCopy).exists()).toBe(true);
+    expect(wrapper.find(repeat).exists()).toBe(true);
 
-    await wrapper.find(generateCopy).trigger('click');
+    await wrapper.find(repeat).trigger('click');
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(`${URL_ACTIVITY_CREATE}?copy=${id}`);

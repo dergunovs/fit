@@ -129,7 +129,7 @@ export const activityService = {
 
   delete: (options: object) => {
     return useMutation({
-      mutationKey: [API_ACTIVITY],
+      mutationKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR],
       mutationFn: async (id: string) => {
         const { data } = await api.delete<TDeleteActivityDTO>(`${API_ACTIVITY}/${id}`);
 

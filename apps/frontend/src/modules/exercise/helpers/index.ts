@@ -111,23 +111,27 @@ export function getExercisePassingTitle(index: number, isCurrent: boolean, count
 export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {
   const allSteps: ITimelineStep[] = [];
 
-  exercises.forEach((exercise) => {
+  exercises.forEach((exercise, index) => {
+    if (!exercise.dateUpdated || !exercise.duration || !start) return;
+
     allSteps.push({
       left:
-        exercise.dateUpdated && exercise.duration && start
-          ? (new Date(exercise.dateUpdated).getTime() - exercise.duration * 1000 - new Date(start).getTime()) / ratio
-          : 0,
+        index === 0
+          ? 0
+          : (new Date(exercise.dateUpdated).getTime() - exercise.duration * 1000 - new Date(start).getTime()) / ratio,
       right:
-        exercise.dateUpdated && start
-          ? (new Date(exercise.dateUpdated).getTime() - new Date(start).getTime()) / ratio
-          : 0,
+        index === exercises.length - 1
+          ? 0
+          : (new Date(exercise.dateUpdated).getTime() - new Date(start).getTime()) / ratio,
       type: 'exercise',
     });
   });
 
   allSteps.forEach((step, index) => {
+    if (!allSteps[index - 1]?.right) return;
+
     allSteps.push({
-      left: index === 0 ? 0 : allSteps[index - 1].right,
+      left: allSteps[index - 1].right,
       right: step.left,
       type: 'rest',
     });

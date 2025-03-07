@@ -15,6 +15,7 @@
         :exercises="exercises"
         :id="id"
         isPopup
+        @delete="deleteEvent"
         data-test="activity-calendar-info"
       />
     </UiModal>
@@ -35,7 +36,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ ready: [dates: ICalendarEvent]; update: [dates: ICalendarEvent] }>();
+const emit = defineEmits<{ ready: [dates: ICalendarEvent]; update: [dates: ICalendarEvent]; deleteEvent: [] }>();
 
 const isShowModal = ref(false);
 
@@ -51,5 +52,10 @@ function showEvent(event: IActivityCalendarEvent<IExerciseDone>) {
   id.value = event._id || '';
 
   isShowModal.value = true;
+}
+
+function deleteEvent() {
+  emit('deleteEvent');
+  isShowModal.value = false;
 }
 </script>

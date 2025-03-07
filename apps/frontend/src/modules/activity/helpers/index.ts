@@ -57,7 +57,10 @@ export function getPotentialActivityDuration(
   return formatDuration(durationWithRest);
 }
 
-export function getActivityColor(exercises: IExerciseDone[]) {
+export function getActivityColor(exercises: IExerciseDone[], dateScheduled?: Date | string) {
+  if (dateScheduled && new Date(dateScheduled) > new Date()) return 'gray';
+  if (dateScheduled && new Date(dateScheduled) < new Date()) return 'darkred';
+
   const groups: { repeats: number; color?: string }[] = [];
 
   EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
@@ -98,7 +101,7 @@ export function convertActivityCalendarEvents(
       end: new Date(`${activity.dateScheduled || activity.dateUpdated}`),
       title: activity.dateScheduled ? '=' : '+',
       content,
-      color: activity.dateScheduled ? 'gray' : getActivityColor(content),
+      color: getActivityColor(content, activity.dateScheduled),
     };
   });
 }
