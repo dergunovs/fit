@@ -10,7 +10,10 @@ exports[`ActivityForm > matches snapshot 1`] = `
     <div modelvalue="false" width="360" data-test="activity-form-add-exercise-modal">
       <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="activity-form-exercise-choose-list"></exercise-choose-list-stub>
     </div>
-    <!--v-if--><button layout="accent" isdisabled="true" type="submit" data-test="activity-form-submit"> Начать занятие </button>
+    <div column="" data-test="activity-form-exercises-choosen-container">
+      <h3>Упражнения</h3>
+      <exercise-choosen-list-stub choosenexercises="[object Object],[object Object],[object Object]" data-test="activity-form-exercises-choosen"></exercise-choosen-list-stub>
+    </div><button layout="accent" type="submit" data-test="activity-form-submit"> Начать занятие </button>
   </div>
 </div>"
 `;

@@ -10,6 +10,7 @@ exports[`ActivityInfo > matches snapshot 1`] = `
     <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
     <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
   </div>
-  <div></div>
+  <div justify="space-between"></div>
+  <div modelvalue="false" isconfirm="" width="360" data-test="activity-info-modal"> Подтверждаете удаление? </div>
 </div>"
 `;

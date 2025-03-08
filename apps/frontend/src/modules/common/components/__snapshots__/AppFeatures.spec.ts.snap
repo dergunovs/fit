@@ -17,7 +17,7 @@ exports[`AppFeatures > matches snapshot 1`] = `
   <div class="_feature_50a0ee" data-test="app-feature">
     <anonymous-stub width="48" height="48" class="_icon_50a0ee"></anonymous-stub>
     <div class="_title_50a0ee" data-test="app-feature-title">Планируйте тренировки</div>
-    <div data-test="app-feature-text">Повторите последнюю или любую другую тренировку. Расчет длительности тренировки на основе вашей статистики.</div>
+    <div data-test="app-feature-text">Повторите одну из прошлых тренировок. Расчет длительности тренировки на основе вашей статистики.</div>
     <anonymous-stub class="_background_50a0ee"></anonymous-stub>
   </div>
 </div>"

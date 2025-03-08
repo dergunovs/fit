@@ -51,13 +51,13 @@
       />
     </UiFlex>
 
-    <UiFlex>
+    <UiFlex justify="space-between">
       <UiButton
         v-if="isAuth && isPopup && !isFutureActivity"
         @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
         data-test="activity-info-repeat"
       >
-        Повторить
+        Скопировать
       </UiButton>
 
       <UiButton
@@ -68,18 +68,27 @@
         Начать
       </UiButton>
 
-      <UiButton v-if="isAuth && isPopup" @click="mutateDelete(id)" layout="secondary" data-test="activity-info-start">
+      <UiButton
+        v-if="isAuth && isPopup"
+        @click="isShowConfirm = true"
+        layout="secondary"
+        data-test="activity-info-start"
+      >
         Удалить
       </UiButton>
     </UiFlex>
+
+    <UiModal v-model="isShowConfirm" isConfirm @confirm="mutateDelete(id)" width="360" data-test="activity-info-modal">
+      Подтверждаете удаление?
+    </UiModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone } from 'fitness-tracker-contracts';
-import { toast, UiButton, UiFlex } from 'mhz-ui';
+import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth, useQueryClient } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
@@ -106,6 +115,8 @@ const emit = defineEmits<{ delete: [] }>();
 
 const router = useRouter();
 const queryClient = useQueryClient();
+
+const isShowConfirm = ref(false);
 
 const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
 const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));

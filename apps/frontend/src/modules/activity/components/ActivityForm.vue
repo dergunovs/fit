@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
 import { createTempId, deleteTempId, formatDate, useQueryClient, useRouteId } from 'mhz-helpers';
@@ -169,4 +169,8 @@ function submit(isAddToCalendar?: boolean) {
   formData.value.exercises = deleteTempId(formData.value.exercises);
   mutatePost(formData.value);
 }
+
+onMounted(() => {
+  if (activity.value) formData.value.exercises = generateActivityExercises(activity.value.exercises);
+});
 </script>

@@ -9,7 +9,7 @@ import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
+import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { mockOnSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from '@/activity/mocks';
 import { spyGetExercises } from '@/exercise/mocks';
 import { mockRouteId, spyRefetchQueries, spyRouterPush, spyToastSuccess, spyUseRouteId } from '@/common/mocks';
@@ -18,6 +18,8 @@ import { generateActivityExercises, getPotentialActivityDuration } from '@/activ
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 const averageRestPercent = 50;
+
+const existingExercises = generateActivityExercises(ACTIVITY_FIXTURE.exercises);
 
 const form = dataTest('activity-form');
 const formContainer = dataTest('activity-form-container');
@@ -63,8 +65,11 @@ describe('ActivityForm', async () => {
   });
 
   it('adds and deletes exercises', async () => {
+    expect(
+      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
+    ).toStrictEqual([...existingExercises]);
+
     expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('false');
-    expect(wrapper.find(exercisesChoosenContainer).exists()).toBe(false);
 
     await wrapper.find(addExercise).trigger('click');
 
@@ -79,11 +84,15 @@ describe('ActivityForm', async () => {
 
     expect(
       wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual([EXERCISE_CHOOSEN_FIXTURE]);
+    ).toStrictEqual([...existingExercises, EXERCISE_CHOOSEN_FIXTURE]);
 
     wrapper
       .findComponent<typeof ExerciseChoosenList>(exercisesChoosen)
       .vm.$emit('delete', EXERCISE_CHOOSEN_FIXTURE._id);
+
+    existingExercises.forEach((exercise) => {
+      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$emit('delete', exercise._id);
+    });
 
     await nextTick();
 
@@ -91,6 +100,12 @@ describe('ActivityForm', async () => {
   });
 
   it('disables submit button if no exercises added', async () => {
+    existingExercises.forEach((exercise) => {
+      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$emit('delete', exercise._id);
+    });
+
+    await nextTick();
+
     expect(wrapper.find(submit).attributes('isdisabled')).toBe('true');
 
     await wrapper.find(addExercise).trigger('click');
@@ -148,7 +163,7 @@ describe('ActivityForm', async () => {
 
     expect(spyCreateActivity).toBeCalledTimes(1);
     expect(spyCreateActivity).toBeCalledWith({
-      exercises: deleteTempId([EXERCISE_CHOOSEN_FIXTURE]),
+      exercises: deleteTempId([...existingExercises, EXERCISE_CHOOSEN_FIXTURE]),
       isDone: false,
     });
 
