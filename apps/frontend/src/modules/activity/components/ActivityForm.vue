@@ -22,16 +22,20 @@
           layout="secondary"
           data-test="activity-form-add-to-calendar"
         >
-          {{ isShowCalendar ? 'Скрыть календарь' : 'Добавить в календарь' }}
+          {{ addToCalendarText }}
         </UiButton>
       </UiFlex>
 
-      <UiFlex v-if="isShowCalendar" column>
-        <UiButton @click="submit(true)" :isDisabled="!isValid">Сохранить занятие в календаре</UiButton>
+      <UiFlex v-if="isShowCalendar" column data-test="activity-form-calendar-block">
+        <UiButton @click="submit(true)" :isDisabled="!isValid" data-test="activity-form-save-to-calendar">
+          Сохранить занятие в календаре
+        </UiButton>
 
         <div>
-          <span>{{ formData.dateScheduled ? 'Дата занятия - ' : 'Выберите дату занятия' }}</span>
-          <span v-if="formData.dateScheduled">{{ formatDate(formData.dateScheduled, 'ru') }}</span>
+          <span>{{ dateScheduledText }}</span>
+          <span v-if="formData.dateScheduled" data-test="activity-form-date-scheduled">
+            {{ formatDate(formData.dateScheduled, 'ru') }}
+          </span>
         </div>
 
         <UiCalendar :minDate="new Date()" @chooseDate="setScheduledDate" data-test="activity-form-calendar" />
@@ -110,6 +114,9 @@ const formData = ref<IActivity>({
 const isShowModal = ref(false);
 const isShowForm = ref(true);
 const isShowCalendar = ref(false);
+
+const addToCalendarText = computed(() => (isShowCalendar.value ? 'Скрыть календарь' : 'Добавить в календарь'));
+const dateScheduledText = computed(() => (formData.value.dateScheduled ? 'Дата занятия - ' : 'Выберите дату занятия'));
 
 const { data: exercises } = exerciseService.getAll();
 const { data: lastActivity } = activityService.getLast();

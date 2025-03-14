@@ -4,7 +4,7 @@ exports[`PWAUpdateModal > matches snapshot 1`] = `
 "<div modelvalue="true" width="360" data-test="pwa-update-modal">
   <div column="" gap="16">
     <div><b>Обновление приложения</b></div>
-    <div>Текущая версия: 0.0.28.</div>
+    <div>Текущая версия: 0.0.29.</div>
     <div> Обновить приложение до версии <span data-test="pwa-update-latest-version">9.9.9</span>? </div>
     <div><button data-test="pwa-update-submit">Обновить</button><button layout="secondary" data-test="pwa-update-cancel">Отмена</button></div>
   </div>

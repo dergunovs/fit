@@ -8,7 +8,7 @@
         data-test="activity-timeline"
       />
 
-      <span data-test="activity-info-start">
+      <span data-test="activity-info-start-date">
         <IconDate width="16" height="16" /> {{ formatDate(props.start, 'ru') }}
       </span>
 
@@ -32,7 +32,7 @@
         v-if="isExercisesDone"
         @click="copyActivityToClipboard(props.exercises, props.start, props.end)"
         layout="plain"
-        data-test="activity-info-copy"
+        data-test="activity-info-copy-to-clipboard"
       >
         Копировать
       </UiButton>
@@ -55,7 +55,7 @@
       <UiButton
         v-if="isAuth && isPopup && !isFutureActivity"
         @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
-        data-test="activity-info-repeat"
+        data-test="activity-info-copy"
       >
         Скопировать
       </UiButton>
@@ -72,7 +72,7 @@
         v-if="isAuth && isPopup"
         @click="isShowConfirm = true"
         layout="secondary"
-        data-test="activity-info-start"
+        data-test="activity-info-delete"
       >
         Удалить
       </UiButton>

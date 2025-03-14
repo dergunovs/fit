@@ -52,6 +52,26 @@ describe('ActivityCalendar', async () => {
     expect(wrapper.emitted()['update'][0]).toStrictEqual([dates]);
   });
 
+  it('emits delete event', async () => {
+    expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
+    expect(wrapper.emitted()).not.toHaveProperty('deleteEvent');
+
+    const event = ACTIVITY_CALENDAR_EVENTS[1];
+
+    wrapper.findComponent<typeof UiCalendar>(calendar).vm.$emit('eventClick', event);
+
+    await nextTick();
+
+    expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('true');
+
+    wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$emit('delete');
+
+    await nextTick();
+
+    expect(wrapper.emitted('deleteEvent')).toHaveLength(1);
+    expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
+  });
+
   it('shows event in modal', async () => {
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
 
