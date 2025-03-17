@@ -18,7 +18,3 @@ export interface IOnSuccess {
   confirmToken?: () => Promise<void>;
   resetPassword?: () => Promise<void>;
 }
-
-export interface IGetLatestVersionDTO {
-  'dist-tags': { latest: string };
-}

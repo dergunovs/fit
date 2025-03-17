@@ -5,11 +5,9 @@ import { dataTest } from 'mhz-helpers';
 import PWAUpdateModal from './PWAUpdateModal.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyUseRegisterSW, spyUpdateServiceWorker, mockNeedRefresh, spyGetLatestVersion } from '@/common/mocks';
-import { LATEST_VERSION_FIXTURE } from '@/common/fixtures';
+import { spyUseRegisterSW, spyUpdateServiceWorker, mockNeedRefresh } from '@/common/mocks';
 
 const modal = dataTest('pwa-update-modal');
-const latestVersion = dataTest('pwa-update-latest-version');
 const submit = dataTest('pwa-update-submit');
 const cancel = dataTest('pwa-update-cancel');
 
@@ -28,11 +26,6 @@ describe('PWAUpdateModal', async () => {
 
   it('matches snapshot', async () => {
     expect(wrapper.html()).toMatchSnapshot();
-  });
-
-  it('gets and shows latest version', async () => {
-    expect(spyGetLatestVersion).toBeCalledTimes(1);
-    expect(wrapper.find(latestVersion).text()).toBe(LATEST_VERSION_FIXTURE['dist-tags'].latest);
   });
 
   it('updates pwa', async () => {
