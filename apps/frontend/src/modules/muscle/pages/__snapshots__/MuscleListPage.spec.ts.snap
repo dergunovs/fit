@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MuscleListPage > matches snapshot 1`] = `
+"<div>
+  <div column="" gap="32"><a to="/muscles/create" data-test="add-muscle">Добавить группу мышц</a>
+    <muscle-list-stub muscles="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]" data-test="muscle-list"></muscle-list-stub>
+  </div>
+</div>"
+`;

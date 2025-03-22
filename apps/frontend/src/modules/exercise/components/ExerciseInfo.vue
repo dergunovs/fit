@@ -17,11 +17,7 @@
         <div>Задействованные группы мышц</div>
 
         <UiFlex>
-          <UiChip
-            v-for="group in props.exercise.exercise.muscleGroups"
-            :key="group._id"
-            data-test="exercise-info-muscle-group"
-          >
+          <UiChip v-for="group in props.exercise.exercise.muscles" :key="group._id" data-test="exercise-info-muscles">
             {{ group.title }}
           </UiChip>
         </UiFlex>

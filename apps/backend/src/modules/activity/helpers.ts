@@ -4,9 +4,8 @@ import {
   IExercise,
   IExerciseStatistics,
   TActivityChartType,
-  IMuscleGroup,
-  EXERCISE_MUSCLE_GROUPS,
   IActivityChartDataset,
+  IMuscle,
   IUser,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
@@ -194,7 +193,8 @@ export async function activitiesGetChartData(
   Entity: Model<IActivity>,
   weeks: IWeekDays[],
   type: TActivityChartType,
-  user: IUser | null
+  user: IUser | null,
+  muscles: IMuscle[]
 ) {
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
@@ -262,24 +262,24 @@ export async function activitiesGetChartData(
       }
     }
 
-    if (type === 'group') {
-      const groupCount = (EXERCISE_MUSCLE_GROUPS as IMuscleGroup[]).map((group) => {
+    if (type === 'muscle') {
+      const muscleCount = muscles.map((muscle) => {
         return {
-          label: group.title,
+          label: muscle.title,
           count: 0,
-          borderColor: group.color,
-          backgroundColor: group.color,
+          borderColor: muscle.color,
+          backgroundColor: muscle.color,
         };
       });
 
-      for (const [index, muscleGroup] of groupCount.entries()) {
+      for (const [index, muscle] of muscleCount.entries()) {
         const activities = await Entity.find({
           dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
           isDone: true,
           createdBy: user?._id,
         })
           .select('_id exercises dateCreated')
-          .populate({ path: 'exercises.exercise' })
+          .populate({ path: 'exercises.exercise', populate: 'muscles' })
           .lean()
           .exec();
 
@@ -287,28 +287,28 @@ export async function activitiesGetChartData(
           let sets = 0;
 
           current.exercises.forEach((e) => {
-            if (e.exercise?.muscleGroups?.some((group) => group.title === muscleGroup.label)) ++sets;
+            if (e.exercise?.muscles?.some((muscleToFind) => muscleToFind.title === muscle.label)) ++sets;
           });
 
           return acc + (sets || 0);
         }, 0);
 
-        groupCount[index].count = count;
+        muscleCount[index].count = count;
       }
 
       if (datasets.length) {
-        groupCount.forEach((group) => {
+        muscleCount.forEach((muscle) => {
           datasets.forEach((set) => {
-            if (set.label === group.label) set.data.push(group.count);
+            if (set.label === muscle.label) set.data.push(muscle.count);
           });
         });
       } else {
-        groupCount.forEach((group) => {
+        muscleCount.forEach((muscle) => {
           datasets.push({
-            data: [group.count],
-            label: group.label,
-            borderColor: group.borderColor,
-            backgroundColor: group.backgroundColor,
+            data: [muscle.count],
+            label: muscle.label,
+            borderColor: muscle.borderColor,
+            backgroundColor: muscle.backgroundColor,
           });
         });
       }

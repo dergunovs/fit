@@ -15,14 +15,7 @@ export const API_EQUIPMENT = "/equipment";
 
 export const API_EXERCISE = "/exercise";
 
-export const EXERCISE_MUSCLE_GROUPS = [
-  { _id: "1", title: "Плечи", color: "#C41E3A" },
-  { _id: "2", title: "Руки", color: "#DA70D6" },
-  { _id: "3", title: "Грудь", color: "#00CED1" },
-  { _id: "4", title: "Пресс", color: "#32CD32" },
-  { _id: "5", title: "Спина", color: "#FF8C00" },
-  { _id: "6", title: "Ноги", color: "#000080" },
-];
+export const API_MUSCLE = "/muscle";
 
 export const API_USER = "/user";
 export const API_USER_PASSWORD = "/user_password";

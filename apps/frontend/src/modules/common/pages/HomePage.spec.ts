@@ -24,6 +24,8 @@ import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { spyUseRouteId, mockRouteId, spyToastSuccess, spyRouterPush } from '@/common/mocks';
 import { mockOnSuccess, spyConfirmToken } from '@/auth/mocks';
 import { URL_HOME } from '@/common/constants';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { spyGetMuscles } from '@/muscle/mocks';
 
 const promo = dataTest('promo');
 const activityCalendar = dataTest('activity-calendar');
@@ -66,6 +68,10 @@ describe('HomePage', async () => {
     expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });
 
+  it('gets muscle data', async () => {
+    expect(spyGetMuscles).toBeCalledTimes(1);
+  });
+
   it('gets and formats activity calendar data', async () => {
     expect(spyUseActivityCalendar).toBeCalledTimes(1);
 
@@ -73,7 +79,7 @@ describe('HomePage', async () => {
     expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
 
     expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toStrictEqual(
-      convertActivityCalendarEvents(ACTIVITIES_CALENDAR_FIXTURE)
+      convertActivityCalendarEvents(MUSCLES_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE)
     );
   });
 

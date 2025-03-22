@@ -5,6 +5,7 @@ import { userRoutes } from '@/user/routes';
 import { exerciseRoutes } from '@/exercise/routes';
 import { activityRoutes } from '@/activity/routes';
 import { equipmentRoutes } from '@/equipment/routes';
+import { muscleRoutes } from '@/muscle/routes';
 import { URL_HOME, URL_HELP, URL_ERROR } from '@/common/constants';
 
 export const routes: RouteRecordRaw[] = [
@@ -13,6 +14,7 @@ export const routes: RouteRecordRaw[] = [
   ...exerciseRoutes,
   ...activityRoutes,
   ...equipmentRoutes,
+  ...muscleRoutes,
 
   { path: URL_HOME, name: 'Home', component: () => import('@/common/pages/HomePage.vue') },
   { path: URL_HELP, name: 'Help', component: () => import('@/common/pages/HelpPage.vue') },

@@ -52,7 +52,7 @@ export interface IActivityChart {
   datasets: IActivityChartDataset[];
 }
 
-export type TActivityChartType = "activity" | "set" | "repeat" | "group";
+export type TActivityChartType = "activity" | "set" | "repeat" | "muscle";
 
 export interface IActivityService extends IBaseService {
   getCalendar: (

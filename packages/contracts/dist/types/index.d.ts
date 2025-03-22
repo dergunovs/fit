@@ -4,3 +4,4 @@ export * from "./auth";
 export * from "./exercise";
 export * from "./user";
 export * from "./equipment";
+export * from "./muscle";

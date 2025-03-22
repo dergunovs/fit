@@ -1,10 +1,8 @@
 import {
-  EXERCISE_MUSCLE_GROUPS,
   IExercise,
   IExerciseChoosen,
   IExerciseDone,
   IExerciseStatistics,
-  IMuscleGroup,
   IUser,
   IUserEquipment,
 } from 'fitness-tracker-contracts';
@@ -52,50 +50,6 @@ export function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 
     : `${exercise.averageDuration.toFixed(1)}с`;
 }
 
-export function setExercisesMuscleGroupColor(exercises: IExerciseDone[]) {
-  return exercises.map((exercise) => {
-    const muscleGroups = exercise.exercise?.muscleGroups?.map((group) => {
-      return {
-        ...group,
-        color: group.color || EXERCISE_MUSCLE_GROUPS.find((gr: IMuscleGroup) => gr._id === group._id).color,
-      };
-    });
-
-    return { ...exercise, ...{ exercise: { ...exercise.exercise, muscleGroups } } } as IExerciseDone;
-  });
-}
-
-export function generateMuscleGroupStatistics(exercises: IExerciseDone[]) {
-  const groups: {
-    title: string;
-    color: string;
-    sets: number;
-    repeats: number;
-  }[] = [];
-
-  EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
-    const title = group.title;
-    const color = group.color || '#000';
-    let sets = 0;
-    let repeats = 0;
-
-    exercises.forEach((exercise: IExerciseDone) => {
-      const setsCount =
-        exercise.exercise?.muscleGroups?.filter((muscleGroup) => muscleGroup._id === group._id).length || 0;
-
-      sets += setsCount;
-
-      if (exercise.exercise?.muscleGroups?.some((groupToFilter) => groupToFilter._id === group._id)) {
-        repeats += exercise.repeats;
-      }
-    });
-
-    if (sets) groups.push({ title, color, sets, repeats });
-  });
-
-  return groups.sort((a, b) => b.repeats - a.repeats);
-}
-
 export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id?: string) {
   return id && exercises[index - 1] ? id === exercises[index - 1].exercise?._id : false;
 }
@@ -140,19 +94,14 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
   return allSteps.sort((a, b) => a.left - b.left);
 }
 
-export function filterExercisesByTitleAndMuscleGroup(
-  exercises: IExercise[],
-  title: string,
-  muscleGroup: string,
-  user?: IUser
-) {
+export function filterExercisesByTitleAndMuscle(exercises: IExercise[], title: string, muscle?: string, user?: IUser) {
   return exercises.filter((exercise) => {
     const isEquipmentMatches = checkIsUserEquipmentMatches(exercise, user);
 
     const titleFilter = exercise.title.toLowerCase().includes(title.toLocaleLowerCase()) && isEquipmentMatches;
-    const muscleGroupFilter = exercise.muscleGroups?.some((group) => group._id === muscleGroup) && isEquipmentMatches;
+    const muscleFilter = exercise.muscles?.some((group) => group._id === muscle) && isEquipmentMatches;
 
-    return muscleGroup ? muscleGroupFilter && titleFilter : titleFilter;
+    return muscle ? muscleFilter && titleFilter : titleFilter;
   });
 }
 

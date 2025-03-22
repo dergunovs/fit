@@ -38,7 +38,11 @@
       </UiButton>
     </UiFlex>
 
-    <ExerciseMuscleGroupStatistics :exercises="props.exercises" data-test="activity-info-muscle-groups" />
+    <MuscleStatistics
+      v-if="muscles"
+      :statistics="generateMuscleStatistics(props.exercises, muscles)"
+      data-test="activity-info-muscle-statistics"
+    />
 
     <UiFlex column>
       <ExerciseTitle
@@ -93,7 +97,7 @@ import { formatDate, subtractDates, isAuth, useQueryClient } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
-import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleGroupStatistics.vue';
+import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
@@ -101,6 +105,8 @@ import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { copyActivityToClipboard, getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
+import { muscleService } from '@/muscle/services';
+import { generateMuscleStatistics } from '@/muscle/helpers';
 
 interface IProps {
   id: string;
@@ -117,6 +123,8 @@ const router = useRouter();
 const queryClient = useQueryClient();
 
 const isShowConfirm = ref(false);
+
+const { data: muscles } = muscleService.getAll();
 
 const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
 const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));

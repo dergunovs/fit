@@ -6,7 +6,7 @@ import { API_ACTIVITY, API_ACTIVITY_CALENDAR } from 'fitness-tracker-contracts';
 
 import ActivityInfo from './ActivityInfo.vue';
 import ActivityTimeline from './ActivityTimeline.vue';
-import ExerciseMuscleGroupStatistics from '@/exercise/components/ExerciseMuscleGroupStatistics.vue';
+import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -15,6 +15,9 @@ import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { mockOnSuccess, spyCopyActivityToClipboard, spyDeleteActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { generateMuscleStatistics } from '@/muscle/helpers';
+import { spyGetMuscles } from '@/muscle/mocks';
 
 const activityInfo = dataTest('activity-info');
 const timeline = dataTest('activity-timeline');
@@ -24,7 +27,7 @@ const sets = dataTest('activity-info-sets');
 const toFailurePercent = dataTest('activity-info-to-failure-percent');
 const restPercent = dataTest('activity-info-rest-percent');
 const copyToClipboard = dataTest('activity-info-copy-to-clipboard');
-const muscleGroups = dataTest('activity-info-muscle-groups');
+const muscleStatistics = dataTest('activity-info-muscle-statistics');
 const exercise = dataTest('activity-info-exercise');
 const copyActivity = dataTest('activity-info-copy');
 const startActivity = dataTest('activity-info-start');
@@ -91,9 +94,13 @@ describe('ActivityInfo', async () => {
     expect(spyCopyActivityToClipboard).toBeCalledWith(exercises, start, end);
   });
 
-  it('sets data to muscle group statistics table', async () => {
-    expect(wrapper.findComponent<typeof ExerciseMuscleGroupStatistics>(muscleGroups).vm.$props.exercises).toStrictEqual(
-      exercises
+  it('gets and sets data to muscle statistics table', async () => {
+    expect(spyGetMuscles).toBeCalledTimes(1);
+
+    const statistics = generateMuscleStatistics(exercises, MUSCLES_FIXTURE);
+
+    expect(wrapper.findComponent<typeof MuscleStatistics>(muscleStatistics).vm.$props.statistics).toStrictEqual(
+      statistics
     );
   });
 

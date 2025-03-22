@@ -1,21 +1,16 @@
-import {
-  EXERCISE_MUSCLE_GROUPS,
-  IExercise,
-  IExerciseChoosen,
-  IExerciseDone,
-  IExerciseStatistics,
-} from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-contracts';
 
 import { USER_FIXTURE } from '@/user/fixtures';
 import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
 import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 
 export const EXERCISE_FIXTURE: IExercise = {
   _id: '1',
   title: 'Отжимание от скамьи',
   description: 'Описание 1',
   createdBy: USER_FIXTURE,
-  muscleGroups: [EXERCISE_MUSCLE_GROUPS[0], EXERCISE_MUSCLE_GROUPS[1]],
+  muscles: [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]],
   isWeights: true,
   isWeightsRequired: true,
   equipment: EQUIPMENT_FIXTURE_2,
@@ -27,7 +22,7 @@ export const EXERCISE_FIXTURE_2: IExercise = {
   title: 'Подтягивание',
   description: 'Описание 2',
   createdBy: USER_FIXTURE,
-  muscleGroups: [EXERCISE_MUSCLE_GROUPS[2], EXERCISE_MUSCLE_GROUPS[3]],
+  muscles: [MUSCLES_FIXTURE[2], MUSCLES_FIXTURE[3]],
   isWeights: false,
   isWeightsRequired: false,
 };
@@ -37,7 +32,7 @@ export const EXERCISE_FIXTURE_3: IExercise = {
   title: 'Жим лёжа',
   description: 'Описание 3',
   createdBy: USER_FIXTURE,
-  muscleGroups: [EXERCISE_MUSCLE_GROUPS[4], EXERCISE_MUSCLE_GROUPS[5]],
+  muscles: [MUSCLES_FIXTURE[4], MUSCLES_FIXTURE[5]],
   isWeights: true,
   isWeightsRequired: true,
 };

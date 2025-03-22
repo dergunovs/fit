@@ -17,6 +17,7 @@ import {
   EXERCISES_GENERATED,
 } from '@/activity/fixtures';
 import { spyCopyToClipboard, spyToastSuccess } from '@/common/mocks';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 
 describe('activity helpers', () => {
   test('gets potential activity duration', async () => {
@@ -28,7 +29,9 @@ describe('activity helpers', () => {
   });
 
   test('converts activity calendar events', async () => {
-    expect(convertActivityCalendarEvents(ACTIVITIES_CALENDAR_FIXTURE)).toStrictEqual(ACTIVITY_CALENDAR_EVENTS);
+    expect(convertActivityCalendarEvents(MUSCLES_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE)).toStrictEqual(
+      ACTIVITY_CALENDAR_EVENTS
+    );
   });
 
   test('generates activity exercises', async () => {

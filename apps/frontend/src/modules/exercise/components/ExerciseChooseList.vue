@@ -2,21 +2,21 @@
   <div :class="$style.list">
     <UiFlex gap="4">
       <button
-        v-for="group in muscleGroups"
-        :key="group._id"
-        @click="setCurrentGroup(group._id)"
+        v-for="muscle in muscleFilters"
+        :key="muscle._id"
+        @click="setCurrentMuscle(muscle._id)"
         type="button"
         :class="$style.button"
-        :data-current="group._id === muscleGroup"
-        data-test="exercise-muscle-group"
+        :data-current="muscle._id === currentMuscle"
+        data-test="muscle"
       >
-        {{ group.title }}
+        {{ muscle.title }}
       </button>
     </UiFlex>
 
     <div>
       <UiField label="Фильтр по названию упражнения">
-        <UiInput v-model="title" data-test="exercise-muscle-group-title" />
+        <UiInput v-model="title" data-test="muscle-title" />
       </UiField>
     </div>
 
@@ -24,9 +24,9 @@
       <UiSpoiler
         v-model="exerciseSpoilers[index]"
         :title="exercise.title"
-        v-for="(exercise, index) in filterExercisesByTitleAndMuscleGroup(props.exercises, title, muscleGroup, user)"
+        v-for="(exercise, index) in filterExercisesByTitleAndMuscle(props.exercises, title, currentMuscle, user)"
         :key="exercise._id"
-        data-test="exercise-muscle-group-spoiler"
+        data-test="muscle-spoiler"
       >
         <ExerciseChooseElement
           v-if="user"
@@ -43,13 +43,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { IExercise, EXERCISE_MUSCLE_GROUPS, IExerciseChoosen } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 
 import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.vue';
 
 import { useAuthCheck } from '@/auth/composables';
-import { filterExercisesByTitleAndMuscleGroup, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { muscleService } from '@/muscle/services';
+import { filterExercisesByTitleAndMuscle, getAvailableExerciseWeights } from '@/exercise/helpers';
 
 interface IProps {
   exercises: IExercise[];
@@ -62,13 +63,15 @@ const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);
 
-const muscleGroup = ref('');
+const currentMuscle = ref<string>('');
 const title = ref('');
 
-const muscleGroups = computed(() => [{ _id: '', title: 'Все' }, ...EXERCISE_MUSCLE_GROUPS]);
+const { data: muscles } = muscleService.getAll();
 
-function setCurrentGroup(id: string) {
-  muscleGroup.value = id;
+const muscleFilters = computed(() => [{ _id: '', title: 'Все' }, ...(muscles.value || [])]);
+
+function setCurrentMuscle(id?: string) {
+  currentMuscle.value = id || '';
   exerciseSpoilers.value = [];
 }
 </script>

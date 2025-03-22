@@ -11,6 +11,7 @@ export const exerciseService: IExerciseService = {
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
         { path: 'equipment' },
         { path: 'equipmentForWeight' },
+        { path: 'muscles' },
       ])
       .lean()
       .exec();
@@ -24,6 +25,7 @@ export const exerciseService: IExerciseService = {
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
         { path: 'equipment' },
         { path: 'equipmentForWeight' },
+        { path: 'muscles' },
       ])
       .lean()
       .exec();

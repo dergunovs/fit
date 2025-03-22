@@ -13,7 +13,7 @@ export const CHART_TYPES: { title: string; value: TActivityChartType }[] = [
   { title: 'Занятия', value: 'activity' },
   { title: 'Подходы', value: 'set' },
   { title: 'Повторы', value: 'repeat' },
-  { title: 'Мышцы', value: 'group' },
+  { title: 'Мышцы', value: 'muscle' },
 ];
 
 export const ACTIVITY_STATISTICS_GAP = 30;

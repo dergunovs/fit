@@ -1,0 +1,44 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MuscleList > matches snapshot 1`] = `
+"<table headers="[object Object],[object Object]" isloading="false">
+  <tbody>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debc85e7b58ba56888a185" data-test="muscle-table-title-link">Грудь</a></td>
+      <td>
+        <div style="color: #00CED1;">#00CED1</div>
+      </td>
+    </tr>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debcc6e7b58ba56888a196" data-test="muscle-table-title-link">Ноги</a></td>
+      <td>
+        <div style="color: #000080;">#000080</div>
+      </td>
+    </tr>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debb25e7b58ba56888a169" data-test="muscle-table-title-link">Плечи</a></td>
+      <td>
+        <div style="color: #C41E3A;">#C41E3A</div>
+      </td>
+    </tr>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debcabe7b58ba56888a189" data-test="muscle-table-title-link">Пресс</a></td>
+      <td>
+        <div style="color: #32CD32;">#32CD32</div>
+      </td>
+    </tr>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debc7ce7b58ba56888a182" data-test="muscle-table-title-link">Руки</a></td>
+      <td>
+        <div style="color: #DA70D6;">#DA70D6</div>
+      </td>
+    </tr>
+    <tr data-test="muscle-table-row">
+      <td data-grow=""><a to="/muscles/edit/67debcb8e7b58ba56888a190" data-test="muscle-table-title-link">Спина</a></td>
+      <td>
+        <div style="color: #FF8C00;">#FF8C00</div>
+      </td>
+    </tr>
+  </tbody>
+</table>"
+`;

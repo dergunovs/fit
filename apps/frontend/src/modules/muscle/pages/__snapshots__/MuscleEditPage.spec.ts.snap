@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MuscleEditPage > matches snapshot 1`] = `
+"<div>
+  <muscle-form-stub muscle="[object Object]" data-test="muscle-form"></muscle-form-stub>
+</div>"
+`;

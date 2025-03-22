@@ -1,29 +1,11 @@
 import type { JSONSchemaType } from 'ajv';
-import type {
-  IExercise,
-  IExerciseDone,
-  IMuscleGroup,
-  TGetExerciseDTO,
-  TGetExercisesDTO,
-} from 'fitness-tracker-contracts';
+import type { IExercise, IExerciseDone, TGetExerciseDTO, TGetExercisesDTO } from 'fitness-tracker-contracts';
 
+import { muscleModel } from '../muscle/schema.js';
 import { ISchema } from '../common/types.js';
 import { baseParams, baseReply } from '../common/schema.js';
 
 const tags = ['Exercise'];
-
-export const muscleGroupModel: JSONSchemaType<IMuscleGroup> = {
-  $id: 'MuscleGroup',
-  type: 'object',
-  properties: {
-    _id: { type: 'string' },
-    title: { type: 'string' },
-    color: { type: 'string', nullable: true },
-  },
-  required: ['_id', 'title'],
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  additionalProperties: false,
-};
 
 export const exerciseModel: JSONSchemaType<IExercise> = {
   $id: 'Exercise',
@@ -35,11 +17,7 @@ export const exerciseModel: JSONSchemaType<IExercise> = {
     title: { type: 'string' },
     description: { type: 'string', nullable: true },
     createdBy: { type: 'object', $ref: 'User', nullable: true },
-    muscleGroups: {
-      type: 'array',
-      items: { type: 'object', $ref: 'MuscleGroup', required: ['_id', 'title'] },
-      nullable: true,
-    },
+    muscles: { type: 'array', items: muscleModel, nullable: true },
     isWeights: { type: 'boolean' },
     isWeightsRequired: { type: 'boolean' },
     equipment: { type: 'object', $ref: 'Equipment', required: ['title', 'isWeights'], nullable: true },

@@ -1,15 +1,8 @@
-import {
-  EXERCISE_MUSCLE_GROUPS,
-  IActivity,
-  IExerciseDone,
-  IExerciseStatistics,
-  IMuscleGroup,
-} from 'fitness-tracker-contracts';
+import { IActivity, IExerciseDone, IExerciseStatistics, IMuscle } from 'fitness-tracker-contracts';
 import { createTempId, formatDate, formatDuration, subtractDates } from 'mhz-helpers';
 import { toast } from 'mhz-ui';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
-import { setExercisesMuscleGroupColor } from '@/exercise/helpers';
 
 function generateActivityCSSGradients(colors: { percent: number; color: string | undefined }[]) {
   if (!colors.length) return '#000';
@@ -46,7 +39,7 @@ export function getPotentialActivityDuration(
 
   const totalDuration = exercises.reduce((acc, exercise) => {
     const averageDuration =
-      exerciseStatistics.find((choosenExericse) => choosenExericse.exercise._id === exercise.exercise?._id)
+      exerciseStatistics.find((choosenExercise) => choosenExercise.exercise._id === exercise.exercise?._id)
         ?.averageDuration || 0;
 
     return acc + averageDuration * exercise.repeats;
@@ -57,18 +50,18 @@ export function getPotentialActivityDuration(
   return formatDuration(durationWithRest);
 }
 
-export function getActivityColor(exercises: IExerciseDone[], dateScheduled?: Date | string) {
+export function getActivityColor(exercises: IExerciseDone[], muscles: IMuscle[], dateScheduled?: Date | string) {
   if (dateScheduled && new Date(dateScheduled) > new Date()) return 'gray';
   if (dateScheduled && new Date(dateScheduled) < new Date()) return 'darkred';
 
   const groups: { repeats: number; color?: string }[] = [];
 
-  EXERCISE_MUSCLE_GROUPS.forEach((group: IMuscleGroup) => {
-    const color = group.color;
+  muscles.forEach((muscle: IMuscle) => {
+    const color = muscle.color;
     let repeats = 0;
 
     exercises.forEach((exercise: IExerciseDone) => {
-      if (exercise.exercise?.muscleGroups?.some((groupToFilter) => groupToFilter._id === group._id)) {
+      if (exercise.exercise?.muscles?.some((groupToFilter) => groupToFilter._id === muscle._id)) {
         repeats += exercise.repeats;
       }
     });
@@ -90,18 +83,17 @@ export function getActivityColor(exercises: IExerciseDone[], dateScheduled?: Dat
 }
 
 export function convertActivityCalendarEvents(
+  muscles: IMuscle[],
   activities?: IActivity[]
 ): IActivityCalendarEvent<IExerciseDone>[] | undefined {
   return activities?.map((activity: IActivity) => {
-    const content = setExercisesMuscleGroupColor(activity.exercises);
-
     return {
       _id: activity._id,
       start: new Date(`${activity.dateScheduled || activity.dateCreated}`),
       end: new Date(`${activity.dateScheduled || activity.dateUpdated}`),
       title: activity.dateScheduled ? '=' : '+',
-      content,
-      color: getActivityColor(content, activity.dateScheduled),
+      content: activity.exercises,
+      color: getActivityColor(activity.exercises, muscles, activity.dateScheduled),
     };
   });
 }
@@ -113,7 +105,7 @@ export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExer
       exercise: {
         _id: exercise.exercise?._id || '',
         title: exercise.exercise?.title || '',
-        muscleGroups: exercise.exercise?.muscleGroups || [],
+        muscles: exercise.exercise?.muscles || [],
         isWeights: exercise.exercise?.isWeights || false,
         isWeightsRequired: exercise.exercise?.isWeightsRequired || false,
       },

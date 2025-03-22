@@ -13,6 +13,7 @@ import authRoutes from './modules/auth/routes.js';
 import exerciseRoutes from './modules/exercise/routes.js';
 import userRoutes from './modules/user/routes.js';
 import equipmentRoutes from './modules/equipment/routes.js';
+import muscleRoutes from './modules/muscle/routes.js';
 
 import { addSchemas } from './modules/common/addSchemas.js';
 
@@ -37,6 +38,7 @@ async function buildApp() {
   fastify.register(exerciseRoutes, { prefix: '/api' });
   fastify.register(userRoutes, { prefix: '/api' });
   fastify.register(equipmentRoutes, { prefix: '/api' });
+  fastify.register(muscleRoutes, { prefix: '/api' });
 
   addSchemas(fastify);
 

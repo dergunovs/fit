@@ -1,21 +1,16 @@
 import { IBaseReply, IBaseService, IEntity } from "./base";
 import { IUser } from "./user";
+import { IMuscle } from "./muscle";
 import { TDecode } from "./auth";
 import { IEquipment } from "./equipment";
 
-export { EXERCISE_MUSCLE_GROUPS, API_EXERCISE } from "../index";
-
-export interface IMuscleGroup {
-  _id: string;
-  title: string;
-  color?: string;
-}
+export { API_EXERCISE } from "../index";
 
 export interface IExercise extends IEntity {
   title: string;
   description?: string;
   createdBy?: IUser;
-  muscleGroups?: IMuscleGroup[];
+  muscles?: IMuscle[];
   isWeights: boolean;
   isWeightsRequired: boolean;
   equipment?: IEquipment;

@@ -18,7 +18,7 @@
           v-if="chart"
           :labels="chart.labels"
           :datasets="chart.datasets"
-          :isShowLegend="type === 'group'"
+          :isShowLegend="type === 'muscle'"
           type="Line"
           :key="`${type}-${chart?.datasets[0].data.join()}`"
           :class="$style.chart"

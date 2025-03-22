@@ -2,12 +2,11 @@ import { describe, expect, test } from 'vitest';
 
 import {
   getAverageDuration,
-  generateMuscleGroupStatistics,
   isPrevExerciseSame,
   isSetCreatable,
   getExercisePassingTitle,
   generateTimeline,
-  filterExercisesByTitleAndMuscleGroup,
+  filterExercisesByTitleAndMuscle,
   getAvailableExerciseWeights,
   getExercisesToChooseDefaultWeight,
   getDefaultExerciseWeight,
@@ -26,17 +25,6 @@ describe('exercise helpers', () => {
   test('gets average duration', async () => {
     expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'set')).toStrictEqual('51.1с');
     expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'repeat')).toStrictEqual('3.1с');
-  });
-
-  test('generates muscle group statistics', async () => {
-    const muscleGroupStatistics = [
-      { repeats: 12, sets: 1, title: 'Плечи', color: '#C41E3A' },
-      { repeats: 12, sets: 1, title: 'Руки', color: '#DA70D6' },
-      { repeats: 12, sets: 1, title: 'Грудь', color: '#00CED1' },
-      { repeats: 12, sets: 1, title: 'Пресс', color: '#32CD32' },
-    ];
-
-    expect(generateMuscleGroupStatistics(EXERCISES_DONE_FIXTURE)).toStrictEqual(muscleGroupStatistics);
   });
 
   test('checks is prev exercise same', async () => {
@@ -69,24 +57,22 @@ describe('exercise helpers', () => {
   });
 
   test('filter exercises by title and muscle group', async () => {
-    expect(filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '')).toStrictEqual([
+    expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', '')).toStrictEqual([
       EXERCISE_FIXTURE_2,
       EXERCISE_FIXTURE_3,
     ]);
 
-    expect(filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '', USER_FIXTURE)).toStrictEqual(
-      EXERCISES_FIXTURE
-    );
+    expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', '', USER_FIXTURE)).toStrictEqual(EXERCISES_FIXTURE);
 
     const title = EXERCISE_FIXTURE_2.title;
 
-    expect(filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, title, '', USER_FIXTURE)).toStrictEqual([
+    expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, title, '', USER_FIXTURE)).toStrictEqual([
       EXERCISE_FIXTURE_2,
     ]);
 
-    const muscleGroup = EXERCISE_FIXTURE_2.muscleGroups?.[1]._id || '';
+    const muscleGroup = EXERCISE_FIXTURE_2.muscles?.[1]._id || '';
 
-    expect(filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', muscleGroup, USER_FIXTURE)).toStrictEqual([
+    expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', muscleGroup, USER_FIXTURE)).toStrictEqual([
       EXERCISE_FIXTURE_2,
     ]);
   });

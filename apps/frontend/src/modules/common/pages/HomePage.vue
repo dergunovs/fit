@@ -8,7 +8,8 @@
       <div :class="$style.main">
         <div :class="$style.calendar">
           <ActivityCalendar
-            :events="convertActivityCalendarEvents(calendar)"
+            v-if="muscles"
+            :events="convertActivityCalendarEvents(muscles, calendar)"
             @ready="updateDates"
             @update="updateDates"
             @deleteEvent="refetch"
@@ -42,6 +43,7 @@ import ActivityChart from '@/activity/components/ActivityChart.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 
 import { activityService } from '@/activity/services';
+import { muscleService } from '@/muscle/services';
 import { authService } from '@/auth/services';
 import { useActivityCalendar } from '@/activity/composables';
 import { convertActivityCalendarEvents } from '@/activity/helpers';
@@ -52,6 +54,7 @@ const { dateFrom, dateTo, isDatesReady, updateDates } = useActivityCalendar();
 
 const { data: calendar, refetch } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
 const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
+const { data: muscles } = muscleService.getAll();
 
 const router = useRouter();
 const { id: token } = useRouteId('token', true);

@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_ACTIVITY_STATISTICS, API_EXERCISE, EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_EXERCISE } from 'fitness-tracker-contracts';
 import { UiCheckbox } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
@@ -16,6 +16,8 @@ import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 import { spyGetEquipments } from '@/equipment/mocks';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { spyGetMuscles } from '@/muscle/mocks';
 
 const TITLE = 'Название';
 const DESCRIPTION = 'Описание';
@@ -54,6 +56,10 @@ describe('ExerciseForm', async () => {
     expect(spyGetEquipments).toBeCalledTimes(1);
   });
 
+  it('gets muscles', async () => {
+    expect(spyGetMuscles).toBeCalledTimes(1);
+  });
+
   it('shows equipment for weights', async () => {
     await wrapper.findComponent(formIsWeights).setValue(true);
 
@@ -76,7 +82,7 @@ describe('ExerciseForm', async () => {
     mockIsValid.value = true;
   });
 
-  it('creates exericse', async () => {
+  it('creates exercise', async () => {
     const CHECKBOX_INDEX = 1;
 
     expect(spyCreateExercise).toBeCalledTimes(0);
@@ -99,7 +105,7 @@ describe('ExerciseForm', async () => {
 
     wrapper
       .findAllComponents<typeof UiCheckbox>(formMuscleGroups)
-      [CHECKBOX_INDEX].vm.$emit('update:modelValue', EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX], true);
+      [CHECKBOX_INDEX].vm.$emit('update:modelValue', MUSCLES_FIXTURE[CHECKBOX_INDEX], true);
 
     await nextTick();
 
@@ -109,7 +115,7 @@ describe('ExerciseForm', async () => {
     expect(spyCreateExercise).toBeCalledWith({
       title: TITLE,
       description: DESCRIPTION,
-      muscleGroups: [EXERCISE_MUSCLE_GROUPS[CHECKBOX_INDEX]],
+      muscles: [MUSCLES_FIXTURE[CHECKBOX_INDEX]],
       equipment: undefined,
       equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],
       isWeights: true,
@@ -127,7 +133,7 @@ describe('ExerciseForm', async () => {
     expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
   });
 
-  it('updates exericse', async () => {
+  it('updates exercise', async () => {
     expect(spyUpdateExercise).toBeCalledTimes(0);
     expect(spyRefetchQueries).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
@@ -143,7 +149,7 @@ describe('ExerciseForm', async () => {
       _id: EXERCISE_FIXTURE._id,
       title: NEW_TITLE,
       description: EXERCISE_FIXTURE.description,
-      muscleGroups: EXERCISE_FIXTURE.muscleGroups,
+      muscles: EXERCISE_FIXTURE.muscles,
       createdBy: EXERCISE_FIXTURE.createdBy,
       isWeights: EXERCISE_FIXTURE.isWeights,
       isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
@@ -160,7 +166,7 @@ describe('ExerciseForm', async () => {
     expect(spyToastSuccess).toBeCalledTimes(1);
   });
 
-  it('deletes exericse', async () => {
+  it('deletes exercise', async () => {
     expect(spyDeleteExercise).toBeCalledTimes(0);
     expect(spyRemoveQueries).toBeCalledTimes(0);
     expect(spyRefetchQueries).toBeCalledTimes(0);

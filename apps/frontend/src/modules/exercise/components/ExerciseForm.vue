@@ -39,11 +39,11 @@
         <div>Задействованные мышцы</div>
 
         <UiCheckbox
-          v-for="muscleGroup in EXERCISE_MUSCLE_GROUPS"
-          :key="muscleGroup._id"
-          :modelValue="choosenMuscleGroups.some((group) => group._id === muscleGroup._id)"
-          @update:modelValue="updateMuscleGroups(muscleGroup, !!$event)"
-          :label="muscleGroup.title"
+          v-for="muscle in muscles"
+          :key="muscle._id"
+          :modelValue="choosenMuscles.some((group) => group._id === muscle._id)"
+          @update:modelValue="updateMuscles(muscle, !!$event)"
+          :label="muscle.title"
           data-test="exercise-form-muscle-groups"
         />
       </UiFlex>
@@ -63,20 +63,14 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import {
-  API_EXERCISE,
-  IExercise,
-  IMuscleGroup,
-  EXERCISE_MUSCLE_GROUPS,
-  IEquipment,
-  API_ACTIVITY_STATISTICS,
-} from 'fitness-tracker-contracts';
+import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
-import { URL_EXERCISE } from '@/exercise/constants';
 import { exerciseService } from '@/exercise/services';
 import { equipmentService } from '@/equipment/services';
+import { muscleService } from '@/muscle/services';
+import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
 
 interface IProps {
@@ -92,24 +86,25 @@ const router = useRouter();
 const formData = ref<IExercise>({
   title: '',
   description: '',
-  muscleGroups: [],
+  muscles: [],
   isWeights: false,
   isWeightsRequired: false,
   equipment: undefined,
   equipmentForWeight: [],
 });
 
-const choosenMuscleGroups = ref<IMuscleGroup[]>([]);
+const choosenMuscles = ref<IMuscle[]>([]);
 const choosenEquipmentForWeight = ref<IEquipment[]>([]);
 
 const { data: equipments } = equipmentService.getAll();
+const { data: muscles } = muscleService.getAll();
 
-function updateMuscleGroups(muscleGroup: IMuscleGroup, isChecked: boolean) {
-  choosenMuscleGroups.value = isChecked
-    ? [...choosenMuscleGroups.value, muscleGroup]
-    : choosenMuscleGroups.value.filter((current) => current._id !== muscleGroup._id);
+function updateMuscles(muscle: IMuscle, isChecked: boolean) {
+  choosenMuscles.value = isChecked
+    ? [...choosenMuscles.value, muscle]
+    : choosenMuscles.value.filter((current) => current._id !== muscle._id);
 
-  formData.value.muscleGroups = [...choosenMuscleGroups.value];
+  formData.value.muscles = [...choosenMuscles.value];
 }
 
 function updateEquipment(equipment: IEquipment, isChecked: boolean) {
@@ -163,7 +158,7 @@ onMounted(() => {
   if (props.exercise) {
     formData.value = clone(props.exercise);
 
-    if (formData.value.muscleGroups?.length) choosenMuscleGroups.value = [...formData.value.muscleGroups];
+    if (formData.value.muscles?.length) choosenMuscles.value = [...formData.value.muscles];
     if (formData.value.equipmentForWeight?.length)
       choosenEquipmentForWeight.value = [...formData.value.equipmentForWeight];
   }

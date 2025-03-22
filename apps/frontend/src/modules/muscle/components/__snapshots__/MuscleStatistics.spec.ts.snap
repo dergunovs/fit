@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MuscleStatistics > matches snapshot 1`] = `
+"<div class="_table_b22558">
+  <table headers="[object Object],[object Object],[object Object]">
+    <tbody>
+      <tr data-test="muscle-row">
+        <td style="color: #00CED1;" data-test="muscle-title">Грудь</td>
+        <td data-test="muscle-sets">1</td>
+        <td data-test="muscle-repeats">12</td>
+      </tr>
+      <tr data-test="muscle-row">
+        <td style="color: #000080;" data-test="muscle-title">Ноги</td>
+        <td data-test="muscle-sets">1</td>
+        <td data-test="muscle-repeats">12</td>
+      </tr>
+      <tr data-test="muscle-row">
+        <td style="color: #C41E3A;" data-test="muscle-title">Плечи</td>
+        <td data-test="muscle-sets">1</td>
+        <td data-test="muscle-repeats">12</td>
+      </tr>
+      <tr data-test="muscle-row">
+        <td style="color: #32CD32;" data-test="muscle-title">Пресс</td>
+        <td data-test="muscle-sets">1</td>
+        <td data-test="muscle-repeats">12</td>
+      </tr>
+    </tbody>
+  </table>
+</div>"
+`;

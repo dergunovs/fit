@@ -5,6 +5,7 @@ import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.j
 import { paginate } from '../common/helpers.js';
 import Exercise from '../exercise/model.js';
 import User from '../user/model.js';
+import Muscle from '../muscle/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
 
@@ -13,8 +14,11 @@ export const activityService: IActivityService = {
     const { data, total } = await paginate(Activity, page, '-dateCreated', [
       {
         path: 'exercises.exercise',
-        select: ['_id', 'title', 'muscleGroups', 'createdBy'],
-        populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+        select: ['_id', 'title', 'muscles', 'createdBy'],
+        populate: [
+          { path: 'createdBy', select: ['_id', 'name', 'email'] },
+          { path: 'muscles', select: ['_id', 'title', 'color'] },
+        ],
       },
       { path: 'createdBy', select: ['_id', 'name', 'email'] },
     ]);
@@ -56,8 +60,8 @@ export const activityService: IActivityService = {
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
     const exercises = await Exercise.find()
-      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscleGroups')
-      .populate([{ path: 'equipment' }, { path: 'equipmentForWeight' }])
+      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscles')
+      .populate([{ path: 'equipment' }, { path: 'equipmentForWeight' }, { path: 'muscles' }])
       .lean()
       .exec();
 
@@ -81,8 +85,8 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
-          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+          select: ['_id', 'title', 'muscles', 'createdBy'],
+          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
       ])
@@ -102,7 +106,9 @@ export const activityService: IActivityService = {
 
     const weeks = getFirstAndLastWeekDays(7);
 
-    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, user);
+    const muscles = await Muscle.find().lean().exec();
+
+    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, user, muscles);
 
     return { labels, datasets };
   },
@@ -112,8 +118,8 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
-          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+          select: ['_id', 'title', 'muscles', 'createdBy'],
+          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
       ])
@@ -135,8 +141,8 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscleGroups', 'createdBy'],
-          populate: { path: 'createdBy', select: ['_id', 'name', 'email'] },
+          select: ['_id', 'title', 'muscles', 'createdBy'],
+          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
       ])

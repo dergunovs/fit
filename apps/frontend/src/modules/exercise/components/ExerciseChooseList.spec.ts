@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { EXERCISE_MUSCLE_GROUPS } from 'fitness-tracker-contracts';
 import { dataTest } from 'mhz-helpers';
 
 import ExerciseChooseList from './ExerciseChooseList.vue';
@@ -8,13 +7,15 @@ import ExerciseChooseElement from './ExerciseChooseElement.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
-import { filterExercisesByTitleAndMuscleGroup, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { filterExercisesByTitleAndMuscle, getAvailableExerciseWeights } from '@/exercise/helpers';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { spyUseAuthCheck } from '@/auth/mocks';
+import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { spyGetMuscles } from '@/muscle/mocks';
 
-const exerciseMuscleGroup = dataTest('exercise-muscle-group');
-const exerciseMuscleGroupTitle = dataTest('exercise-muscle-group-title');
-const exerciseMuscleGroupSpoiler = dataTest('exercise-muscle-group-spoiler');
+const muscle = dataTest('muscle');
+const muscleTitle = dataTest('muscle-title');
+const muscleSpoiler = dataTest('muscle-spoiler');
 const exerciseChooseElement = dataTest('exercise-choose-element');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseChooseList>>;
@@ -34,19 +35,23 @@ describe('ExerciseChooseList', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('shows muscle group buttons', async () => {
-    expect(wrapper.findAll(exerciseMuscleGroup).length).toBe(EXERCISE_MUSCLE_GROUPS.length + 1);
+  it('gets muscles data', async () => {
+    expect(spyGetMuscles).toBeCalledTimes(1);
+  });
+
+  it('shows muscles buttons', async () => {
+    expect(wrapper.findAll(muscle).length).toBe(MUSCLES_FIXTURE.length + 1);
   });
 
   it('shows exercise spoilers', async () => {
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
+    const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
 
-    expect(wrapper.findAll(exerciseMuscleGroupSpoiler).length).toBe(filteredExercises.length);
-    expect(wrapper.find(exerciseMuscleGroupSpoiler).attributes('title')).toBe(filteredExercises[0].title);
+    expect(wrapper.findAll(muscleSpoiler).length).toBe(filteredExercises.length);
+    expect(wrapper.find(muscleSpoiler).attributes('title')).toBe(filteredExercises[0].title);
   });
 
   it('shows exercises to choose', async () => {
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
+    const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
 
@@ -69,24 +74,19 @@ describe('ExerciseChooseList', async () => {
   it('filters exercises to choose by title', async () => {
     const titleToFilter = EXERCISES_FIXTURE[0].title;
 
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(EXERCISES_FIXTURE, titleToFilter, '', USER_FIXTURE);
+    const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, titleToFilter, '', USER_FIXTURE);
 
-    await wrapper.findComponent(exerciseMuscleGroupTitle).setValue(titleToFilter);
+    await wrapper.findComponent(muscleTitle).setValue(titleToFilter);
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });
 
   it('filters exercises to choose by muscle group', async () => {
-    const muscleGroupToFilter = EXERCISE_MUSCLE_GROUPS[0]._id;
+    const muscleToFilter = MUSCLES_FIXTURE[0]._id;
 
-    const filteredExercises = filterExercisesByTitleAndMuscleGroup(
-      EXERCISES_FIXTURE,
-      '',
-      muscleGroupToFilter,
-      USER_FIXTURE
-    );
+    const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', muscleToFilter, USER_FIXTURE);
 
-    await wrapper.findAll(exerciseMuscleGroup)[1].trigger('click');
+    await wrapper.findAll(muscle)[1].trigger('click');
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });

@@ -1,6 +1,7 @@
 import IconExercise from '@/common/icons/exercise.svg?component';
 import IconActivity from '@/common/icons/activity.svg?component';
 import IconEquipment from '@/common/icons/weight.svg?component';
+import IconMuscle from '@/common/icons/muscle.svg?component';
 import IconUser from '@/common/icons/user.svg?component';
 import IconShare from '@/common/icons/share.svg?component';
 import IconProgress from '@/common/icons/to-failure.svg?component';
@@ -9,6 +10,7 @@ import { URL_USER, URL_USER_PROFILE } from '@/user/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { URL_ACTIVITY_ADMIN, URL_ACTIVITY_CREATE } from '@/activity/constants';
 import { URL_EQUIPMENT } from '@/equipment/constants';
+import { URL_MUSCLE } from '@/muscle/constants';
 import { INavItem } from '@/common/interface';
 import { URL_SETUP } from '@/auth/constants';
 
@@ -50,6 +52,7 @@ export const NAV_ITEMS: INavItem[] = [
   { url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
   { url: URL_ACTIVITY_ADMIN, title: 'Занятия', icon: IconActivity },
   { url: URL_EQUIPMENT, title: 'Оборудование', icon: IconEquipment },
+  { url: URL_MUSCLE, title: 'Мышцы', icon: IconMuscle },
   { url: URL_USER, title: 'Пользователи', icon: IconUser },
 ];
 
