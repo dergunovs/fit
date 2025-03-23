@@ -19,7 +19,7 @@ export const ACTIVITY_FIXTURE: IActivity = {
       exercise: {
         title: 'Подтягивание прямым хватом',
         _id: '6717def846b2ab2ee5d4e8ab',
-        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        createdBy: USER_FIXTURE,
         muscles: [
           { _id: '2', title: 'Руки', color: '#ccc' },
           { _id: '5', title: 'Спина', color: '#ccc' },
@@ -39,7 +39,7 @@ export const ACTIVITY_FIXTURE: IActivity = {
       exercise: {
         title: 'Подтягивание прямым хватом',
         _id: '6717def846b2ab2ee5d4e8ab',
-        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        createdBy: USER_FIXTURE,
         muscles: [
           { _id: '2', title: 'Руки', color: '#ccc' },
           { _id: '5', title: 'Спина', color: '#ccc' },
@@ -59,7 +59,7 @@ export const ACTIVITY_FIXTURE: IActivity = {
       exercise: {
         title: 'Отжимание от пола',
         _id: '671e14aa66531a0a9c8a4435',
-        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        createdBy: USER_FIXTURE,
         muscles: [
           { _id: '1', title: 'Плечи', color: '#ccc' },
           { _id: '2', title: 'Руки', color: '#ccc' },
@@ -78,7 +78,7 @@ export const ACTIVITY_FIXTURE: IActivity = {
   _id: '123123',
   dateCreated: '2024-12-29T12:38:01.406Z',
   dateUpdated: '2024-12-29T13:40:01.456Z',
-  createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+  createdBy: USER_FIXTURE,
 };
 
 export const ACTIVITY_FIXTURE_2: IActivity = {
@@ -89,7 +89,7 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
       exercise: {
         title: 'Разведение рук лёжа на спине',
         _id: '671e22e0954dbe8ca19617f0',
-        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        createdBy: USER_FIXTURE,
         muscles: [{ _id: '3', title: 'Грудь', color: '#ccc' }],
         isWeights: true,
         isWeightsRequired: true,
@@ -105,7 +105,7 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
       exercise: {
         title: 'Разведение рук стоя',
         _id: '671e1849954dbe8ca196175f',
-        createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+        createdBy: USER_FIXTURE,
         muscles: [{ _id: '1', title: 'Плечи', color: '#ccc' }],
         isWeights: true,
         isWeightsRequired: true,
@@ -120,7 +120,7 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
   _id: '321321',
   dateCreated: '2024-12-23T08:29:01.628Z',
   dateUpdated: '2024-12-23T09:21:48.779Z',
-  createdBy: { email: 'a@b.ru', _id: '1', name: 'Александр' },
+  createdBy: USER_FIXTURE,
 };
 
 export const ACTIVITIES_FIXTURE: IActivity[] = [ACTIVITY_FIXTURE, ACTIVITY_FIXTURE_2];
@@ -225,33 +225,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
         duration: 50,
         exercise: {
           _id: '1',
-          createdBy: {
-            _id: '15546435',
-            email: 'a@b.ru',
-            equipments: [
-              {
-                equipment: {
-                  _id: '147456456',
-                  dateCreated: '2025-01-09T15:01:04.310Z',
-                  dateUpdated: '2025-01-10T10:42:06.333Z',
-                  isWeights: true,
-                  title: 'Гантели',
-                },
-                weights: [1, 2, 3],
-              },
-              {
-                equipment: {
-                  _id: '245645645645',
-                  dateCreated: '2025-01-10T12:35:59.559Z',
-                  isWeights: false,
-                  title: 'Скамья',
-                },
-                weights: [],
-              },
-            ],
-            name: 'Александр',
-            role: 'admin',
-          },
+          createdBy: USER_FIXTURE,
           description: 'Описание 1',
           equipment: {
             _id: '245645645645',
@@ -283,33 +257,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
         duration: 40,
         exercise: {
           _id: '2',
-          createdBy: {
-            _id: '15546435',
-            email: 'a@b.ru',
-            equipments: [
-              {
-                equipment: {
-                  _id: '147456456',
-                  dateCreated: '2025-01-09T15:01:04.310Z',
-                  dateUpdated: '2025-01-10T10:42:06.333Z',
-                  isWeights: true,
-                  title: 'Гантели',
-                },
-                weights: [1, 2, 3],
-              },
-              {
-                equipment: {
-                  _id: '245645645645',
-                  dateCreated: '2025-01-10T12:35:59.559Z',
-                  isWeights: false,
-                  title: 'Скамья',
-                },
-                weights: [],
-              },
-            ],
-            name: 'Александр',
-            role: 'admin',
-          },
+          createdBy: USER_FIXTURE,
           description: 'Описание 2',
           isWeights: false,
           isWeightsRequired: false,
@@ -335,33 +283,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
         duration: 31,
         exercise: {
           _id: '1',
-          createdBy: {
-            _id: '15546435',
-            email: 'a@b.ru',
-            equipments: [
-              {
-                equipment: {
-                  _id: '147456456',
-                  dateCreated: '2025-01-09T15:01:04.310Z',
-                  dateUpdated: '2025-01-10T10:42:06.333Z',
-                  isWeights: true,
-                  title: 'Гантели',
-                },
-                weights: [1, 2, 3],
-              },
-              {
-                equipment: {
-                  _id: '245645645645',
-                  dateCreated: '2025-01-10T12:35:59.559Z',
-                  isWeights: false,
-                  title: 'Скамья',
-                },
-                weights: [],
-              },
-            ],
-            name: 'Александр',
-            role: 'admin',
-          },
+          createdBy: USER_FIXTURE,
           description: 'Описание 1',
           equipment: {
             _id: '245645645645',
@@ -393,33 +315,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
         duration: 44,
         exercise: {
           _id: '2',
-          createdBy: {
-            _id: '15546435',
-            email: 'a@b.ru',
-            equipments: [
-              {
-                equipment: {
-                  _id: '147456456',
-                  dateCreated: '2025-01-09T15:01:04.310Z',
-                  dateUpdated: '2025-01-10T10:42:06.333Z',
-                  isWeights: true,
-                  title: 'Гантели',
-                },
-                weights: [1, 2, 3],
-              },
-              {
-                equipment: {
-                  _id: '245645645645',
-                  dateCreated: '2025-01-10T12:35:59.559Z',
-                  isWeights: false,
-                  title: 'Скамья',
-                },
-                weights: [],
-              },
-            ],
-            name: 'Александр',
-            role: 'admin',
-          },
+          createdBy: USER_FIXTURE,
           description: 'Описание 2',
           isWeights: false,
           isWeightsRequired: false,

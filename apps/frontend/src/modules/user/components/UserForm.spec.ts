@@ -26,6 +26,7 @@ import { spyGetExercises } from '@/exercise/mocks';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
+import { setAdmin } from '@/auth/composables';
 
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
@@ -165,6 +166,7 @@ describe('UserForm', async () => {
       name: NEW_NAME,
       password: USER_FIXTURE.password,
       equipments: USER_FIXTURE.equipments,
+      defaultWeights: USER_FIXTURE.defaultWeights,
       role: USER_FIXTURE.role,
     });
 
@@ -201,7 +203,6 @@ describe('UserForm', async () => {
     expect(spyRemoveQueries).toBeCalledTimes(0);
     expect(spyRefetchQueries).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
     expect(spyLogout).toBeCalledTimes(0);
 
     wrapperWithUser.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', USER_FIXTURE._id);
@@ -221,6 +222,24 @@ describe('UserForm', async () => {
 
     expect(spyLogout).toBeCalledTimes(1);
     expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
+  });
+
+  it('deletes user with no logout when admin', async () => {
+    setAdmin(true);
+
+    expect(spyLogout).toBeCalledTimes(0);
+    expect(spyRouterPush).toBeCalledTimes(0);
+
+    wrapperWithUser.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', USER_FIXTURE._id);
+
+    expect(spyDeleteUser).toBeCalledTimes(1);
+
+    await mockOnSuccess.delete?.();
+
+    expect(spyLogout).toBeCalledTimes(0);
+
+    expect(spyRouterPush).toBeCalledTimes(1);
+    expect(spyRouterPush).toBeCalledWith(URL_USER);
   });
 
   it('sets form buttons id', async () => {

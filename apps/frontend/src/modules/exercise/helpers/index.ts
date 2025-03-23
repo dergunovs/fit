@@ -10,17 +10,19 @@ import {
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
 
-function isUserHasEquipment(exercise: IExercise, user?: IUser | null) {
+export function isUserHasEquipment(exercise: IExercise, user?: IUser | null) {
   return user?.equipments?.some((equipment) => equipment.equipment?.title === exercise.equipment?.title);
 }
 
-function isUserHasEquipmentForWeight(exercise: IExercise, user?: IUser | null) {
-  return user?.equipments?.some((equipment) =>
-    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+export function isUserHasEquipmentForWeight(exercise: IExercise, user?: IUser | null) {
+  return (
+    user?.equipments?.some((equipment) =>
+      exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+    ) || false
   );
 }
 
-function checkIsUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   let result = false;
 
   const isExerciseHasEquipment = exercise.equipment;
@@ -96,7 +98,7 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
 
 export function filterExercisesByTitleAndMuscle(exercises: IExercise[], title: string, muscle?: string, user?: IUser) {
   return exercises.filter((exercise) => {
-    const isEquipmentMatches = checkIsUserEquipmentMatches(exercise, user);
+    const isEquipmentMatches = isUserEquipmentMatches(exercise, user);
 
     const titleFilter = exercise.title.toLowerCase().includes(title.toLocaleLowerCase()) && isEquipmentMatches;
     const muscleFilter = exercise.muscles?.some((group) => group._id === muscle) && isEquipmentMatches;

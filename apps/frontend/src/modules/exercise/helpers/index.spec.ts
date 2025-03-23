@@ -10,6 +10,8 @@ import {
   getAvailableExerciseWeights,
   getExercisesToChooseDefaultWeight,
   getDefaultExerciseWeight,
+  isUserHasEquipmentForWeight,
+  isUserEquipmentMatches,
 } from '.';
 import {
   EXERCISES_DONE_FIXTURE,
@@ -88,8 +90,22 @@ describe('exercise helpers', () => {
   });
 
   test('gets default exercise weight', async () => {
-    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(0);
-    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [])).toStrictEqual(0);
+    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(1);
+    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [])).toStrictEqual(1);
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [1, 2, 3])).toStrictEqual(1);
+  });
+
+  test('checks is user has equipment for weight', async () => {
+    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(true);
+    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(false);
+    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual(false);
+    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE, null)).toStrictEqual(false);
+  });
+
+  test('checks is user equipment matches for exercise', async () => {
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(true);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(true);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual(true);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE, null)).toStrictEqual(false);
   });
 });

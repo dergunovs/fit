@@ -11,6 +11,11 @@ export const USER_FIXTURE: IUser = {
     { equipment: EQUIPMENT_FIXTURE, weights: [1, 2, 3] },
     { equipment: EQUIPMENT_FIXTURE_2, weights: [] },
   ],
+  defaultWeights: {
+    '1': 1,
+    '2': 0,
+    '3': 1,
+  },
 };
 
 export const USER_FIXTURE_2: IUser = {

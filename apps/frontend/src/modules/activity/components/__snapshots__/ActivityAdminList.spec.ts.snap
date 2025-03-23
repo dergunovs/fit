@@ -5,11 +5,11 @@ exports[`ActivityAdminList > matches snapshot 1`] = `
   <tbody>
     <tr data-test="activity-table-row">
       <td data-grow=""><a to="/activities_admin/edit/123123" data-test="activity-table-date-link">29 дек. 2024 г.</a></td>
-      <td><a to="/users/edit/1" data-test="activity-table-user-link">a@b.ru</a></td>
+      <td><a to="/users/edit/15546435" data-test="activity-table-user-link">a@b.ru</a></td>
     </tr>
     <tr data-test="activity-table-row">
       <td data-grow=""><a to="/activities_admin/edit/321321" data-test="activity-table-date-link">23 дек. 2024 г.</a></td>
-      <td><a to="/users/edit/1" data-test="activity-table-user-link">a@b.ru</a></td>
+      <td><a to="/users/edit/15546435" data-test="activity-table-user-link">a@b.ru</a></td>
     </tr>
   </tbody>
 </table>"
