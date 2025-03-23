@@ -272,7 +272,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
     ],
     end: new Date('2024-11-30T07:32:19.932Z'),
     start: new Date('2024-11-30T07:30:57.304Z'),
-    title: '+',
+    title: '2',
   },
   {
     _id: '2',
@@ -330,7 +330,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
     ],
     end: new Date('2024-11-30T07:36:19.932Z'),
     start: new Date('2024-11-30T07:33:57.304Z'),
-    title: '+',
+    title: '2',
   },
 ];
 

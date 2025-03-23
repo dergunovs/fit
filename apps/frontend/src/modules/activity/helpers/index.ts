@@ -91,7 +91,7 @@ export function convertActivityCalendarEvents(
       _id: activity._id,
       start: new Date(`${activity.dateScheduled || activity.dateCreated}`),
       end: new Date(`${activity.dateScheduled || activity.dateUpdated}`),
-      title: activity.dateScheduled ? '=' : '+',
+      title: activity.exercises.length.toString(),
       content: activity.exercises,
       color: getActivityColor(activity.exercises, muscles, activity.dateScheduled),
     };
