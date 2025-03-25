@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UserForm v-if="user" :user="user" data-test="user-form" />
+    <UserForm v-if="user" :user="user" isEdit data-test="user-form" />
   </div>
 </template>
 

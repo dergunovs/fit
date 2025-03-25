@@ -76,6 +76,7 @@
       <FormButtons
         :id="props.user?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
+        :isEdit="props.isEdit"
         @delete="(id) => mutateDelete(id)"
         data-test="user-form-buttons"
       />
@@ -114,6 +115,7 @@ import { isAdmin } from '@/auth/composables';
 
 interface IProps {
   user?: IUser | null;
+  isEdit?: boolean;
 }
 
 const props = defineProps<IProps>();

@@ -14,6 +14,7 @@
       <FormButtons
         :id="props.equipment?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
+        :isEdit="props.isEdit"
         @delete="(id) => mutateDelete(id)"
         data-test="equipment-form-buttons"
       />
@@ -34,7 +35,8 @@ import { URL_EQUIPMENT } from '@/equipment/constants';
 import { equipmentService } from '@/equipment/services';
 
 interface IProps {
-  equipment?: IEquipment;
+  equipment?: IEquipment | null;
+  isEdit?: boolean;
 }
 
 const props = defineProps<IProps>();

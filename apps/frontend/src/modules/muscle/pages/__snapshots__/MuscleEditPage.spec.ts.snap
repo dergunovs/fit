@@ -2,6 +2,6 @@
 
 exports[`MuscleEditPage > matches snapshot 1`] = `
 "<div>
-  <muscle-form-stub muscle="[object Object]" data-test="muscle-form"></muscle-form-stub>
+  <muscle-form-stub muscle="[object Object]" isedit="true" data-test="muscle-form"></muscle-form-stub>
 </div>"
 `;

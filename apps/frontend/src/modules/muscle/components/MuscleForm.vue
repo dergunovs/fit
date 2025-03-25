@@ -19,6 +19,7 @@
       <FormButtons
         :id="props.muscle?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
+        :isEdit="props.isEdit"
         @delete="(id) => mutateDelete(id)"
         data-test="muscle-form-buttons"
       />
@@ -39,7 +40,8 @@ import { URL_MUSCLE } from '@/muscle/constants';
 import { muscleService } from '@/muscle/services';
 
 interface IProps {
-  muscle?: IMuscle;
+  muscle?: IMuscle | null;
+  isEdit?: boolean;
 }
 
 const props = defineProps<IProps>();

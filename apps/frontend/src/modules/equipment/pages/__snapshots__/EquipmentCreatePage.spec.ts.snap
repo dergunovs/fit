@@ -2,6 +2,6 @@
 
 exports[`EquipmentCreatePage > matches snapshot 1`] = `
 "<div>
-  <equipment-form-stub data-test="equipment-form"></equipment-form-stub>
+  <equipment-form-stub isedit="false" data-test="equipment-form"></equipment-form-stub>
 </div>"
 `;

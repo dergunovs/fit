@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EquipmentForm v-if="equipment" :equipment="equipment" data-test="equipment-form" />
+    <EquipmentForm v-if="equipment" :equipment="equipment" isEdit data-test="equipment-form" />
   </div>
 </template>
 

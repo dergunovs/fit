@@ -51,6 +51,7 @@
       <FormButtons
         :id="props.exercise?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
+        :isEdit="props.isEdit"
         @delete="(id) => mutateDelete(id)"
         data-test="exercise-form-buttons"
       />
@@ -74,7 +75,8 @@ import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
 
 interface IProps {
-  exercise?: IExercise;
+  exercise?: IExercise | null;
+  isEdit?: boolean;
 }
 
 const props = defineProps<IProps>();

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MuscleForm v-if="muscle" :muscle="muscle" data-test="muscle-form" />
+    <MuscleForm v-if="muscle" :muscle="muscle" isEdit data-test="muscle-form" />
   </div>
 </template>
 

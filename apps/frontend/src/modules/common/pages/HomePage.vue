@@ -33,7 +33,7 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiFlex } from 'mhz-ui';
-import { isAuth, useRouteId } from 'mhz-helpers';
+import { isAuth, scrollToTop, useRouteId } from 'mhz-helpers';
 
 import PromoBlocks from '@/common/components/PromoBlocks.vue';
 import StatisticsExample from '@/common/components/StatisticsExample.vue';
@@ -67,7 +67,7 @@ const { mutate: mutateConfirm } = authService.confirmToken({
 });
 
 onMounted(() => {
-  document.querySelector('main')?.scrollTo(0, 0);
+  scrollToTop('main');
 
   setTimeout(() => {
     if (!isAuth.value && token.value) mutateConfirm({ token: token.value });

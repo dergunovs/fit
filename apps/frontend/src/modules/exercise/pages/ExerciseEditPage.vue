@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ExerciseForm v-if="exercise" :exercise="exercise" data-test="exercise-form" />
+    <ExerciseForm v-if="exercise" :exercise="exercise" isEdit data-test="exercise-form" />
   </div>
 </template>
 

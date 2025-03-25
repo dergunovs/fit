@@ -13,7 +13,7 @@ exports[`ExerciseForm > matches snapshot 1`] = `
     <div column="">
       <div>Задействованные мышцы</div><input type="checkbox" modelvalue="false" label="Грудь" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Ноги" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Плечи" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Пресс" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Руки" data-test="exercise-form-muscle-groups"><input type="checkbox" modelvalue="false" label="Спина" data-test="exercise-form-muscle-groups">
     </div>
-    <form-buttons-stub data-test="exercise-form-buttons"></form-buttons-stub>
+    <form-buttons-stub isedit="false" data-test="exercise-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

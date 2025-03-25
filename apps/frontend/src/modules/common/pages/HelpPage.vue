@@ -130,8 +130,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { UiFlex } from 'mhz-ui';
+import { scrollToTop } from 'mhz-helpers';
 
 onMounted(() => {
-  document.querySelector('main')?.scrollTo(0, 0);
+  scrollToTop('main');
 });
 </script>
