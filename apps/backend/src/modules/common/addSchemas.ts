@@ -8,10 +8,6 @@ import { equipmentModel } from '../equipment/schema.js';
 import { muscleModel } from '../muscle/schema.js';
 
 export function addSchemas(fastify: FastifyInstance) {
-  fastify.addSchema(userEquipmentModel);
-  fastify.addSchema(userPasswordModel);
-  fastify.addSchema(userModel);
-
   fastify.addSchema(authDataModel);
   fastify.addSchema(registerDataModel);
   fastify.addSchema(confirmTokenDataModel);
@@ -19,11 +15,15 @@ export function addSchemas(fastify: FastifyInstance) {
 
   fastify.addSchema(muscleModel);
 
+  fastify.addSchema(equipmentModel);
+
   fastify.addSchema(exerciseModel);
   fastify.addSchema(exerciseDoneModel);
 
   fastify.addSchema(activityModel);
   fastify.addSchema(activityStatisticsValuesModel);
 
-  fastify.addSchema(equipmentModel);
+  fastify.addSchema(userEquipmentModel);
+  fastify.addSchema(userPasswordModel);
+  fastify.addSchema(userModel);
 }

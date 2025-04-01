@@ -1,0 +1,47 @@
+<template>
+  <UiFlex column gap="16">
+    <h3>Ваши упражнения</h3>
+
+    <UiFlex wrap>
+      <UiChip v-for="exercise in props.exercises" :key="exercise._id" align="center" data-test="user-exercises">
+        <span data-test="user-exercise-title">{{ exercise.title }}</span>
+
+        <button
+          v-if="exercise._id"
+          @click="emit('edit', exercise)"
+          type="button"
+          :class="$style.edit"
+          data-test="user-exercise-edit"
+        >
+          <IconEdit width="20" height="20" />
+        </button>
+      </UiChip>
+    </UiFlex>
+  </UiFlex>
+</template>
+
+<script setup lang="ts">
+import { UiFlex, UiChip } from 'mhz-ui';
+import { IExercise } from 'fitness-tracker-contracts';
+
+import IconEdit from '@/common/icons/edit.svg';
+
+interface IProps {
+  exercises?: IExercise[];
+}
+
+const props = defineProps<IProps>();
+const emit = defineEmits<{ edit: [exercise: IExercise] }>();
+</script>
+
+<style module lang="scss">
+.edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+</style>

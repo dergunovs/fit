@@ -1,16 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseList > matches snapshot 1`] = `
-"<table headers="[object Object]" isloading="false">
+"<table headers="[object Object],[object Object]" isloading="false">
   <tbody>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/1" data-test="exercise-table-title-link">Отжимание от скамьи</a></td>
+      <td data-grow=""><a to="/exercises/edit/1" class="_title_84d261" data-test="exercise-table-title-link">Отжимание от скамьи</a></td>
+      <td>Александр</td>
     </tr>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/2" data-test="exercise-table-title-link">Подтягивание</a></td>
+      <td data-grow=""><a to="/exercises/edit/2" class="_title_84d261" data-test="exercise-table-title-link">Подтягивание</a></td>
+      <td>Александр</td>
     </tr>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/3" data-test="exercise-table-title-link">Жим лёжа</a></td>
+      <td data-grow=""><a to="/exercises/edit/3" class="_title_84d261" data-test="exercise-table-title-link">Жим лёжа</a></td>
+      <td>Александр</td>
     </tr>
   </tbody>
 </table>"

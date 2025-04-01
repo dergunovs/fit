@@ -14,6 +14,8 @@ export const API_ACTIVITY_LAST = "/activity_last";
 export const API_EQUIPMENT = "/equipment";
 
 export const API_EXERCISE = "/exercise";
+export const API_EXERCISE_ALL = "/exercise_all";
+export const API_EXERCISE_CUSTOM = "/exercise_custom";
 
 export const API_MUSCLE = "/muscle";
 

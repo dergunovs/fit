@@ -12,7 +12,7 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { mockOnSuccess, spyCreateActivity, spyGetActivity, spyGetActivityLast } from '@/activity/mocks';
-import { spyGetExercises } from '@/exercise/mocks';
+import { spyGetExercisesAll } from '@/exercise/mocks';
 import {
   mockRouteId,
   mockTempId,
@@ -70,7 +70,7 @@ describe('ActivityForm', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('copy', true);
 
-    expect(spyGetExercises).toBeCalledTimes(1);
+    expect(spyGetExercisesAll).toBeCalledTimes(1);
 
     expect(spyGetActivityLast).toBeCalledTimes(1);
 

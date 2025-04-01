@@ -6,7 +6,7 @@ exports[`MuscleForm > matches snapshot 1`] = `
     <fieldset label="Название" isrequired=""><input type="text" modelvalue="" data-test="muscle-form-title"></fieldset>
     <fieldset label="Цвет" isrequired=""><input type="text" modelvalue="" data-test="muscle-form-color"></fieldset>
     <!--v-if-->
-    <form-buttons-stub isedit="false" data-test="muscle-form-buttons"></form-buttons-stub>
+    <form-buttons-stub isedit="false" isemitcancel="false" data-test="muscle-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

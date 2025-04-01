@@ -1,9 +1,17 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IExercise, IExerciseDone, TGetExerciseDTO, TGetExercisesDTO } from 'fitness-tracker-contracts';
+import type {
+  IExercise,
+  IExerciseDone,
+  TGetExerciseDTO,
+  TGetExercisesAllDTO,
+  TGetExercisesCustomDTO,
+  TGetExercisesDTO,
+} from 'fitness-tracker-contracts';
 
 import { muscleModel } from '../muscle/schema.js';
+import { equipmentModel } from '../equipment/schema.js';
 import { ISchema } from '../common/types.js';
-import { baseParams, baseReply } from '../common/schema.js';
+import { baseParams, baseReply, paginatedQuery } from '../common/schema.js';
 
 const tags = ['Exercise'];
 
@@ -21,11 +29,8 @@ export const exerciseModel: JSONSchemaType<IExercise> = {
     isWeights: { type: 'boolean' },
     isWeightsRequired: { type: 'boolean' },
     equipment: { type: 'object', $ref: 'Equipment', required: ['title', 'isWeights'], nullable: true },
-    equipmentForWeight: {
-      type: 'array',
-      items: { type: 'object', $ref: 'Equipment', required: ['title', 'isWeights'] },
-      nullable: true,
-    },
+    equipmentForWeight: { type: 'array', items: equipmentModel, nullable: true },
+    isCustom: { type: 'boolean', nullable: true },
   },
   required: ['title'],
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -56,6 +61,18 @@ export const exercisesReply: JSONSchemaType<TGetExercisesDTO> = {
   type: 'object',
   properties: {
     data: { type: 'array', items: exerciseModel },
+    total: { type: 'number' },
+  },
+  required: ['data'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const exercisesAllReply: JSONSchemaType<TGetExercisesAllDTO & TGetExercisesCustomDTO> = {
+  $id: 'ExercisesAllReply',
+  type: 'object',
+  properties: {
+    data: { type: 'array', items: exerciseModel },
   },
   required: ['data'],
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -73,10 +90,26 @@ export const exerciseReply: JSONSchemaType<TGetExerciseDTO> = {
   additionalProperties: false,
 };
 
-export const exerciseGetAllSchema: ISchema = {
+export const exerciseGetManySchema: ISchema = {
   schema: {
     tags,
     response: { 200: exercisesReply },
+    querystring: paginatedQuery,
+    security: [{ token: [] }],
+  },
+};
+
+export const exerciseGetAllSchema: ISchema = {
+  schema: {
+    tags,
+    response: { 200: exercisesAllReply },
+  },
+};
+
+export const exerciseGetCustomSchema: ISchema = {
+  schema: {
+    tags,
+    response: { 200: exercisesAllReply },
   },
 };
 

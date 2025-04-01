@@ -22,7 +22,7 @@ import {
 import { URL_USER } from '@/user/constants';
 import { spyGetEquipments } from '@/equipment/mocks';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
-import { spyGetExercises } from '@/exercise/mocks';
+import { spyGetExercisesAll } from '@/exercise/mocks';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
@@ -255,7 +255,7 @@ describe('UserForm', async () => {
   });
 
   it('gets and sets default weights and exercises', async () => {
-    expect(spyGetExercises).toBeCalledTimes(1);
+    expect(spyGetExercisesAll).toBeCalledTimes(1);
 
     expect(
       wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.exercises

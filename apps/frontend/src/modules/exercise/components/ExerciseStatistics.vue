@@ -10,6 +10,7 @@
             data-test="exercise-statistics-title"
             :class="$style.title"
             :data-equipment="isAuth ? exercise.isUserEquipmentMatches : true"
+            :data-custom="exercise.exercise.isCustom"
           >
             {{ exercise.exercise.title }}
           </UiButton>
@@ -81,6 +82,10 @@ function showExercise(exercise: IExerciseStatistics) {
 .title {
   &[data-equipment='false'] {
     color: var(--color-gray-dark);
+  }
+
+  &[data-custom='true'] {
+    font-weight: 700;
   }
 }
 

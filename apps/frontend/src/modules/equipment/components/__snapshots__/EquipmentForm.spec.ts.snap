@@ -4,7 +4,7 @@ exports[`EquipmentForm > matches snapshot 1`] = `
 "<div>
   <div tag="form" column="" gap="24" align="flex-start" data-test="equipment-form">
     <fieldset label="Название" isrequired=""><input type="text" modelvalue="" data-test="equipment-form-title"></fieldset><input type="checkbox" modelvalue="false" label="Наличие веса у оборудования" data-test="equipment-form-is-weights">
-    <form-buttons-stub isedit="false" data-test="equipment-form-buttons"></form-buttons-stub>
+    <form-buttons-stub isedit="false" isemitcancel="false" data-test="equipment-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

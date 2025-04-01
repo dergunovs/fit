@@ -24,6 +24,8 @@
         data-test="user-form-equipments"
       />
 
+      <slot></slot>
+
       <h3>Выбор веса по-умолчанию</h3>
 
       <UserDefaultWeightsForm

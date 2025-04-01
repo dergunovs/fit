@@ -4,6 +4,7 @@ exports[`ExerciseListPage > matches snapshot 1`] = `
 "<div>
   <div column="" gap="32"><a to="/exercises/create" data-test="add-exercise">Добавить упражнение</a>
     <exercise-list-stub exercises="[object Object],[object Object],[object Object]" data-test="exercise-list"></exercise-list-stub>
+    <ui-pagination-stub page="1" total="3" data-test="exercise-list-pagination"></ui-pagination-stub>
   </div>
 </div>"
 `;

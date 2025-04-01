@@ -8,13 +8,21 @@ import { routes } from '@/common/router/routes';
 
 export const router = createRouter({ history: createWebHistory('/'), routes });
 
-export function wrapperFactory<T>(component: Component<T>, props?: Partial<ComponentPublicInstance<T>['$props']>) {
+export function wrapperFactory<T>(
+  component: Component<T>,
+  props?: Partial<ComponentPublicInstance<T>['$props']>,
+  stubs?: { [title: string]: { template?: string | object; props?: string[] } }
+) {
   document.body.innerHTML = '<div id="app"></div>';
 
   return shallowMount(component, {
     global: {
       plugins: [router, VueQueryPlugin],
-      stubs: { RouterLink: { template: '<a><slot></slot></a>' }, ...uiStubs },
+      stubs: {
+        RouterLink: { template: '<a><slot></slot></a>' },
+        ...stubs,
+        ...uiStubs,
+      },
     },
     props: props as ComponentPublicInstance<T>['$props'],
     attachTo: document.getElementById('app') as HTMLElement,

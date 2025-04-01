@@ -15,7 +15,7 @@ exports[`UserForm > matches snapshot 1`] = `
     <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="user-form-email"></fieldset>
     <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" data-test="user-form-password"></fieldset>
     <!--v-if-->
-    <form-buttons-stub isedit="false" data-test="user-form-buttons"></form-buttons-stub>
+    <form-buttons-stub isedit="false" isemitcancel="false" data-test="user-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

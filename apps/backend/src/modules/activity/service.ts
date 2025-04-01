@@ -2,8 +2,8 @@ import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'f
 import { getDatesByDayGap, getFirstAndLastWeekDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
+import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { paginate } from '../common/helpers.js';
-import Exercise from '../exercise/model.js';
 import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
@@ -59,11 +59,7 @@ export const activityService: IActivityService = {
 
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
-    const exercises = await Exercise.find()
-      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscles')
-      .populate([{ path: 'equipment' }, { path: 'equipmentForWeight' }, { path: 'muscles' }])
-      .lean()
-      .exec();
+    const exercises = await getAdminAndUserExercises(decode, token);
 
     const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises, user);
 
@@ -134,9 +130,9 @@ export const activityService: IActivityService = {
   },
 
   getLast: async <T>(decode?: TDecode, token?: string) => {
-    const decodedUser = decodeToken(decode, token);
+    const user = decodeToken(decode, token);
 
-    const activity: IActivity | null = await Activity.findOne({ createdBy: decodedUser })
+    const activity: IActivity | null = await Activity.findOne({ createdBy: user?._id })
       .sort('-dateCreated')
       .populate([
         {
@@ -183,6 +179,6 @@ export const activityService: IActivityService = {
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await Activity.findOneAndDelete({ _id });
+    await activity.deleteOne();
   },
 };

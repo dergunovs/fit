@@ -52,7 +52,9 @@
         :id="props.exercise?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
         :isEdit="props.isEdit"
+        :isEmitCancel="props.isDisableRedirect"
         @delete="(id) => mutateDelete(id)"
+        @cancel="emit('hide')"
         data-test="exercise-form-buttons"
       />
     </UiFlex>
@@ -77,9 +79,11 @@ import { filterEquipmentByWeights } from '@/equipment/helpers';
 interface IProps {
   exercise?: IExercise | null;
   isEdit?: boolean;
+  isDisableRedirect?: boolean;
 }
 
 const props = defineProps<IProps>();
+const emit = defineEmits<{ hide: [] }>();
 
 const queryClient = useQueryClient();
 
@@ -120,8 +124,10 @@ function updateEquipment(equipment: IEquipment, isChecked: boolean) {
 const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success('Упражнение добавлено');
-    router.push(URL_EXERCISE);
+    if (!props.isDisableRedirect) router.push(URL_EXERCISE);
+    emit('hide');
   },
 });
 
@@ -130,15 +136,17 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.upd
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success('Упражнение обновлено');
+    emit('hide');
   },
 });
 
 const { mutate: mutateDelete } = exerciseService.delete({
   onSuccess: async () => {
-    queryClient.removeQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success('Упражнение удалено');
-    router.push(URL_EXERCISE);
+    if (!props.isDisableRedirect) router.push(URL_EXERCISE);
+    emit('hide');
   },
 });
 

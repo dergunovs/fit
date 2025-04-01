@@ -1,6 +1,6 @@
 import { IExercise, IExerciseChoosen, IExerciseDone, IExerciseStatistics } from 'fitness-tracker-contracts';
 
-import { USER_FIXTURE } from '@/user/fixtures';
+import { USER_FIXTURE, USER_FIXTURE_2 } from '@/user/fixtures';
 import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
 import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
@@ -35,6 +35,16 @@ export const EXERCISE_FIXTURE_3: IExercise = {
   muscles: [MUSCLES_FIXTURE[4], MUSCLES_FIXTURE[5]],
   isWeights: true,
   isWeightsRequired: true,
+};
+
+export const EXERCISE_FIXTURE_CUSTOM: IExercise = {
+  _id: '4',
+  title: 'Индивидуальное',
+  description: 'Описание 4',
+  createdBy: USER_FIXTURE_2,
+  muscles: [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]],
+  isWeights: false,
+  isWeightsRequired: false,
 };
 
 export const EXERCISES_FIXTURE: IExercise[] = [EXERCISE_FIXTURE, EXERCISE_FIXTURE_2, EXERCISE_FIXTURE_3];

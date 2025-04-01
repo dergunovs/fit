@@ -1,16 +1,20 @@
+import { ref } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { UiPagination } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
 import ExerciseListPage from './ExerciseListPage.vue';
 import ExerciseList from '@/exercise/components/ExerciseList.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyGetExercises } from '@/exercise/mocks';
+import { mockGetExercisesData, spyGetExercises } from '@/exercise/mocks';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_EXERCISE_CREATE } from '@/exercise/constants';
+import { mockPageNumber, spySetPage, spyUsePageNumber, spyUsePagination } from '@/common/mocks';
 
 const exerciseList = dataTest('exercise-list');
+const exerciseListPagination = dataTest('exercise-list-pagination');
 const addExercise = dataTest('add-exercise');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseListPage>>;
@@ -35,9 +39,27 @@ describe('ExerciseListPage', async () => {
   });
 
   it('gets and sets exercises to list', async () => {
+    expect(spyUsePageNumber).toBeCalledTimes(1);
+
     expect(spyGetExercises).toBeCalledTimes(1);
+    expect(spyGetExercises).toBeCalledWith(mockPageNumber);
+
+    expect(spyUsePagination).toBeCalledTimes(1);
+    expect(spyUsePagination).toBeCalledWith(ref(mockGetExercisesData));
+
     expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).vm.$props.exercises).toStrictEqual(
       EXERCISES_FIXTURE
     );
+  });
+
+  it('sets data to pagination', async () => {
+    expect(wrapper.find(exerciseListPagination).attributes('page')).toBe(mockPageNumber.value.toString());
+    expect(wrapper.find(exerciseListPagination).attributes('total')).toBe(EXERCISES_FIXTURE.length.toString());
+  });
+
+  it('updates pagination', async () => {
+    wrapper.findComponent<typeof UiPagination>(exerciseListPagination).vm.$emit('update', 2);
+
+    expect(spySetPage).toBeCalledTimes(1);
   });
 });

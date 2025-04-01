@@ -68,6 +68,18 @@ describe('FormButtons', async () => {
 
     expect(spyRouterGo).toBeCalledTimes(1);
     expect(spyRouterGo).toBeCalledWith(-1);
+
+    expect(wrapper.emitted()).not.toHaveProperty('cancel');
+  });
+
+  it('emits cancel by isEmitCancel props', async () => {
+    await wrapper.setProps({ isEmitCancel: true });
+
+    await wrapper.find(buttonsBack).trigger('click');
+
+    expect(spyRouterGo).toBeCalledTimes(0);
+
+    expect(wrapper.emitted('cancel')).toHaveLength(1);
   });
 
   it('emits delete by delete button click with confirm', async () => {

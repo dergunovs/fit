@@ -1,7 +1,11 @@
-import { ComputedRef } from 'vue';
+import { ComputedRef, Ref } from 'vue';
 import {
   API_EXERCISE,
+  API_EXERCISE_ALL,
+  API_EXERCISE_CUSTOM,
   TGetExercisesDTO,
+  TGetExercisesCustomDTO,
+  TGetExercisesQueryDTO,
   TGetExerciseDTO,
   TPostExerciseDTO,
   TPostExerciseDataDTO,
@@ -12,11 +16,35 @@ import {
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
 export const exerciseService = {
+  getMany: (page: Ref<number>) => {
+    return useQuery({
+      queryKey: [API_EXERCISE, page],
+      queryFn: async () => {
+        const params: TGetExercisesQueryDTO = { page: page.value };
+
+        const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE, { params });
+
+        return data;
+      },
+    });
+  },
+
   getAll: () => {
     return useQuery({
-      queryKey: [API_EXERCISE],
+      queryKey: [API_EXERCISE, API_EXERCISE_ALL],
       queryFn: async () => {
-        const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE);
+        const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE_ALL);
+
+        return data.data;
+      },
+    });
+  },
+
+  getCustom: () => {
+    return useQuery({
+      queryKey: [API_EXERCISE, API_EXERCISE_CUSTOM],
+      queryFn: async () => {
+        const { data } = await api.get<TGetExercisesCustomDTO>(API_EXERCISE_CUSTOM);
 
         return data.data;
       },

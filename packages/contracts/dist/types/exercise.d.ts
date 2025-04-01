@@ -1,10 +1,16 @@
-import { IBaseReply, IBaseService, IEntity } from "./base";
+import {
+  IBaseReply,
+  IBaseService,
+  IEntity,
+  IPaginatedReply,
+  IPaginatedQuery,
+} from "./base";
 import { IUser } from "./user";
 import { IMuscle } from "./muscle";
 import { TDecode } from "./auth";
 import { IEquipment } from "./equipment";
 
-export { API_EXERCISE } from "../index";
+export { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from "../index";
 
 export interface IExercise extends IEntity {
   title: string;
@@ -15,6 +21,7 @@ export interface IExercise extends IEntity {
   isWeightsRequired: boolean;
   equipment?: IEquipment;
   equipmentForWeight?: IEquipment[];
+  isCustom?: boolean;
 }
 
 export interface IExerciseChoosen extends IEntity {
@@ -39,12 +46,21 @@ export interface IExerciseStatistics {
   isUserEquipmentMatches: boolean;
 }
 
-export interface IExerciseService
-  extends Pick<IBaseService, "getOne" | "update" | "create" | "delete"> {
+export interface IExerciseService extends IBaseService {
   getAll: (decode?: TDecode, token?: string) => Promise<{ data: IExercise[] }>;
+  getCustom: (
+    decode?: TDecode,
+    token?: string,
+  ) => Promise<{ data: IExercise[] }>;
 }
 
-export type TGetExercisesDTO = { data: IExercise[] };
+export type TGetExercisesDTO = IPaginatedReply<IExercise>;
+export type TGetExercisesQueryDTO = IPaginatedQuery;
+
+export type TGetExercisesAllDTO = { data: IExercise[] };
+
+export type TGetExercisesCustomDTO = { data: IExercise[] };
+
 export type TGetExerciseDTO = { data: IExercise | null };
 
 export type TPostExerciseDTO = IBaseReply;

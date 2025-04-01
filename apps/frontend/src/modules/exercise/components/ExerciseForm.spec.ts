@@ -10,7 +10,7 @@ import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
-import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
+import { spyRefetchQueries, spyRouterPush, spyToastSuccess, mockIsValid } from '@/common/mocks';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 import { spyGetEquipments } from '@/equipment/mocks';
@@ -124,13 +124,16 @@ describe('ExerciseForm', async () => {
 
     await mockOnSuccess.create?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledTimes(2);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+
+    expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 
   it('updates exercise', async () => {
@@ -164,11 +167,12 @@ describe('ExerciseForm', async () => {
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
+
+    expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 
   it('deletes exercise', async () => {
     expect(spyDeleteExercise).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
     expect(spyRefetchQueries).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(spyRouterPush).toBeCalledTimes(0);
@@ -180,20 +184,26 @@ describe('ExerciseForm', async () => {
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
-
-    expect(spyRefetchQueries).toBeCalledTimes(1);
+    expect(spyRefetchQueries).toBeCalledTimes(2);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+
+    expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 
   it('sets form buttons id', async () => {
     expect(wrapper.find(formButtons).attributes('id')).toBe(undefined);
     expect(wrapperWithExercise.find(formButtons).attributes('id')).toBe(EXERCISE_FIXTURE._id);
+  });
+
+  it('emits hide by form buttons cancel emit', async () => {
+    wrapper.findComponent<typeof FormButtons>(formButtons).vm.$emit('cancel');
+
+    expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 });

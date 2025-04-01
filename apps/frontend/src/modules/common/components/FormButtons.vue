@@ -6,7 +6,7 @@
       </UiButton>
 
       <UiButton
-        @click="router.go(-1)"
+        @click="props.isEmitCancel ? emit('cancel') : router.go(-1)"
         layout="secondary"
         :isDisabled="props.isLoading"
         isNarrow
@@ -51,10 +51,11 @@ interface IProps {
   id?: string;
   isLoading?: boolean;
   isEdit?: boolean;
+  isEmitCancel?: boolean;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string] }>();
+const emit = defineEmits<{ delete: [id: string]; cancel: [] }>();
 
 const isShowConfirm = ref(false);
 

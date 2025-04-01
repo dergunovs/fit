@@ -20,7 +20,7 @@
     "ts": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@fastify/cors": "11.0.0",
+    "@fastify/cors": "11.0.1",
     "@fastify/helmet": "13.0.1",
     "@fastify/jwt": "9.1.0",
     "@fastify/rate-limit": "10.2.2",
@@ -29,30 +29,30 @@
     "ajv": "8.17.1",
     "bcryptjs": "3.0.2",
     "dotenv": "16.4.7",
-    "fastify": "5.2.1",
+    "fastify": "5.2.2",
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
-    "mongoose": "8.13.0",
-    "mhz-helpers": "1.1.16",
+    "mongoose": "8.13.1",
+    "mhz-helpers": "1.1.17",
     "nodemailer": "6.10.0"
   },
   "devDependencies": {
     "@eslint/js": "9.23.0",
     "@types/bcryptjs": "2.4.6",
-    "@types/node": "22.13.13",
+    "@types/node": "22.13.15",
     "@types/nodemailer": "6.4.17",
-    "esbuild": "0.25.1",
+    "esbuild": "0.25.2",
     "eslint": "9.23.0",
     "eslint-config-prettier": "10.1.1",
-    "eslint-import-resolver-typescript": "4.2.3",
-    "eslint-plugin-import-x": "4.9.2",
+    "eslint-import-resolver-typescript": "4.3.1",
+    "eslint-plugin-import-x": "4.10.0",
     "eslint-plugin-prettier": "5.2.5",
     "globals": "16.0.0",
     "fastify-linters-config": "0.1.0",
     "nodemon": "3.1.9",
     "prettier": "3.5.3",
     "typescript": "5.8.2",
-    "typescript-eslint": "8.28.0"
+    "typescript-eslint": "8.29.0"
   },
   "engines": {
     "npm": ">=11.0.0",
