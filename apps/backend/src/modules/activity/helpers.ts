@@ -49,25 +49,32 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
 function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   let result = false;
 
-  const isExerciseHasEquipment = exercise.equipment;
-  const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
-  const isWeightsRequired = exercise.isWeightsRequired;
+  const isExerciseHasEquipment = !!exercise.equipment;
+  const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
+  const isWeightsRequired = !!exercise.isWeightsRequired;
 
-  const isUserHasEquipment = user?.equipments?.some(
+  const isUserHasEquipment = !!user?.equipments?.some(
     (equipment) => equipment.equipment?.title === exercise.equipment?.title
   );
 
-  const isUserHasEquipmentForWeight = user?.equipments?.some((equipment) =>
+  const isUserHasEquipmentForWeight = !!user?.equipments?.some((equipment) =>
     exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
   );
 
   if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
     result = true;
-  } else if (isUserHasEquipment) {
+  } else if (isUserHasEquipment && !isWeightsRequired) {
     result = true;
   } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
     result = true;
   } else if (!isExerciseHasEquipment && !isWeightsRequired) {
+    result = true;
+  } else if (
+    isExerciseHasEquipment &&
+    isExerciseHasEquipmentForWeight &&
+    isUserHasEquipment &&
+    isUserHasEquipmentForWeight
+  ) {
     result = true;
   }
 

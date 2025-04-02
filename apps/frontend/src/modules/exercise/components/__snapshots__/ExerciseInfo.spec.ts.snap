@@ -19,12 +19,11 @@ exports[`ExerciseInfo > matches snapshot 1`] = `
       </div>
     </div>
     <div data-test="exercise-info-is-weights">
-      <div>Оборудование для веса</div>
+      <div><span>Подходящее оборудование для веса</span><span data-test="exercise-info-is-weights-required"><b> (обязательно)</b></span></div>
       <div>
         <div data-test="exercise-info-equipment-for-weight">Гантели</div>
       </div>
     </div>
-    <div data-test="exercise-info-is-weights-required"><b>Оборудование для веса обязательно.</b></div>
   </div>
   <div data-test="exercise-info-description">Описание 1</div>
 </div>"

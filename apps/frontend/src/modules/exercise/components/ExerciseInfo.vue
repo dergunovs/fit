@@ -32,7 +32,12 @@
       </div>
 
       <div v-if="props.exercise.exercise.isWeights" data-test="exercise-info-is-weights">
-        <div>Оборудование для веса</div>
+        <div>
+          <span>Подходящее оборудование для веса</span>
+          <span v-if="props.exercise.exercise.isWeightsRequired" data-test="exercise-info-is-weights-required">
+            <b> (обязательно)</b>
+          </span>
+        </div>
 
         <UiFlex>
           <UiChip
@@ -43,10 +48,6 @@
             {{ equipmentForWeight.title }}
           </UiChip>
         </UiFlex>
-      </div>
-
-      <div v-if="props.exercise.exercise.isWeightsRequired" data-test="exercise-info-is-weights-required">
-        <b>Оборудование для веса обязательно.</b>
       </div>
     </UiFlex>
 
