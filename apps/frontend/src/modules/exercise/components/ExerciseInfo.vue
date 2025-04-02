@@ -32,7 +32,7 @@
       </div>
 
       <div v-if="props.exercise.exercise.isWeights" data-test="exercise-info-is-weights">
-        <div>Возможное оборудование для веса</div>
+        <div>Оборудование для веса</div>
 
         <UiFlex>
           <UiChip

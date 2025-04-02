@@ -23,7 +23,7 @@
       </UiField>
 
       <UiFlex v-if="formData.isWeights" column>
-        <div>Возможное оборудование для веса</div>
+        <div>Оборудование для веса</div>
 
         <UiCheckbox
           v-for="equipment in filterEquipmentByWeights(equipments, true)"
