@@ -81,7 +81,7 @@ export const exerciseService: IExerciseService = {
 
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 
-    await exercise.updateOne({ ...itemToUpdate, dateUpdated: new Date() });
+    await exercise.replaceOne({ ...itemToUpdate, dateUpdated: new Date() });
 
     await exercise.save();
   },
