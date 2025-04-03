@@ -116,7 +116,7 @@ function updateMuscles(muscle: IMuscle, isChecked: boolean) {
 function updateEquipment(equipment: IEquipment, isChecked: boolean) {
   choosenEquipmentForWeight.value = isChecked
     ? [...choosenEquipmentForWeight.value, equipment]
-    : choosenEquipmentForWeight.value.filter((current) => current.title !== equipment.title);
+    : choosenEquipmentForWeight.value.filter((current) => current._id !== equipment._id);
 
   formData.value.equipmentForWeight = [...choosenEquipmentForWeight.value];
 }

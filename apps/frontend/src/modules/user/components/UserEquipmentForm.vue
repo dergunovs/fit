@@ -90,8 +90,8 @@
           </button>
 
           <UiClose
-            v-if="equipment.equipment?.title"
-            @click="deleteEquipment(equipment.equipment.title)"
+            v-if="equipment.equipment?._id"
+            @click="deleteEquipment(equipment.equipment._id)"
             isSmall
             isDelete
             data-test="user-delete-equipment"
@@ -182,8 +182,8 @@ function saveEquipment() {
   resetEquipment();
 }
 
-function deleteEquipment(title: string) {
-  const updatedEquipments = props.modelValue?.filter((equipment) => equipment.equipment?.title !== title);
+function deleteEquipment(_id: string) {
+  const updatedEquipments = props.modelValue?.filter((equipment) => equipment.equipment?._id !== _id);
 
   emit('update:modelValue', updatedEquipments);
 }
