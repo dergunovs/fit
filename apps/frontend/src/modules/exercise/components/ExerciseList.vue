@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="EXERCISE_LIST_HEADERS" :isLoading="!props.exercises?.length">
+  <UiTable :headers="EXERCISE_LIST_HEADERS" :isLoading="!props.exercises?.length" :lang="locale">
     <tr v-for="exercise in props.exercises" :key="exercise._id" data-test="exercise-table-row">
       <td data-grow>
         <RouterLink
@@ -30,7 +30,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const EXERCISE_LIST_HEADERS = computed(() => [{ title: t('title') }, { title: t('user.one') }]);
 </script>

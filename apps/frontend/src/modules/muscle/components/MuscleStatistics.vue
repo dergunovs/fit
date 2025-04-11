@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.table">
-    <UiTable :headers="MUSCLE_STATISTICS_HEADERS">
+    <UiTable :headers="MUSCLE_STATISTICS_HEADERS" :lang="locale">
       <tr v-for="muscle in props.statistics" :key="muscle.title" data-test="muscle-row">
         <td :style="{ color: muscle.color }" data-test="muscle-title">{{ muscle.title }}</td>
         <td data-test="muscle-sets">{{ muscle.sets }}</td>
@@ -22,7 +22,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const MUSCLE_STATISTICS_HEADERS = computed(() => [
   { title: t('muscle.many') },

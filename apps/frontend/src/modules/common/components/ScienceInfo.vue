@@ -15,11 +15,7 @@
         </template>
       </div>
 
-      <div>
-        <template v-for="content in tm('science.exercisesText')">
-          {{ rt(content) }}
-        </template>
-      </div>
+      <div>{{ t('science.exercises') }}</div>
 
       <div>
         <b>{{ t('science.motivation') }}</b>

@@ -2,7 +2,7 @@
 
 exports[`MuscleStatistics > matches snapshot 1`] = `
 "<div class="_table_b22558">
-  <table headers="[object Object],[object Object],[object Object]">
+  <table headers="[object Object],[object Object],[object Object]" lang="ru">
     <tbody>
       <tr data-test="muscle-row">
         <td style="color: #00CED1;" data-test="muscle-title">Грудь</td>

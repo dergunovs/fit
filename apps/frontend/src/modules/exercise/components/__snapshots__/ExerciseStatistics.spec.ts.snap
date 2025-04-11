@@ -2,7 +2,7 @@
 
 exports[`ExerciseStatistics > matches snapshot 1`] = `
 "<div>
-  <table headers="[object Object],[object Object],[object Object]">
+  <table headers="[object Object],[object Object],[object Object]" lang="ru">
     <tbody>
       <tr data-test="exercise-statistics-table-row">
         <td><button layout="plain" iswrap="" data-test="exercise-statistics-title" class="_title_005ffb" data-equipment="true">Отжимание от скамьи</button></td>

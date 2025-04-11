@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="MUSCLE_LIST_HEADERS" :isLoading="!props.muscles?.length">
+  <UiTable :headers="MUSCLE_LIST_HEADERS" :isLoading="!props.muscles?.length" :lang="locale">
     <tr v-for="muscle in props.muscles" :key="muscle._id" data-test="muscle-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_MUSCLE_EDIT}/${muscle._id}`" data-test="muscle-table-title-link">
@@ -27,7 +27,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const MUSCLE_LIST_HEADERS = computed(() => [{ title: t('muscle.many') }, { title: t('color') }]);
 </script>

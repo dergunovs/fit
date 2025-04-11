@@ -1,18 +1,18 @@
-Приложение фитнес трекера для силовых тренировок
+Home workout calendar app
 
-**Фронт:** Typescript, Vite, Vue, Tanstack Query, Vitest
+**Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n
 
-**Бэк:** Typescript, Fastify, Mongoose, MongoDB, Swagger
+**Backend:** Typescript, Fastify, Mongoose, MongoDB, Swagger
 
-**Сайт:** https://app-fit.ru
+**App:** https://app-fit.ru
 
-**Видео:** https://vkvideo.ru/playlist/15313879_11
+**Video:** https://vkvideo.ru/playlist/15313879_11
 
-## Установка
+## Installation
 
-1. Установить Node.js 23 и MongoDB 7
-2. `npm install` - установить зависимости
-3. Создать .env файлы в папках внутри `/apps`
-4. `npm run dev` - запустить фронтенд и бэкенд
-5. Создать администратора по пути `/setup`
-6. Swagger доступен на бэкенде по пути `/api-docs`
+1. Install Node.js 23 and MongoDB 7
+2. `npm install` - install deps
+3. Create .env files inside app folders in `/apps`
+4. `npm run dev` - start app in dev mode
+5. Create administrator by url `/setup`
+6. Swagger available at backend url `/api-docs`

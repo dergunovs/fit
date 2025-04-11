@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiTable :headers="EXERCISE_STATISTICS_HEADERS">
+    <UiTable :headers="EXERCISE_STATISTICS_HEADERS" :lang="locale">
       <tr v-for="exercise in props.statistics" :key="exercise.exercise._id" data-test="exercise-statistics-table-row">
         <td>
           <UiButton

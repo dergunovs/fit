@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`EquipmentList > matches snapshot 1`] = `
-"<table headers="[object Object]" isloading="false">
+"<table headers="[object Object]" isloading="false" lang="ru">
   <tbody>
     <tr data-test="equipment-table-row">
       <td data-grow=""><a to="/equipment/edit/147456456" data-test="equipment-table-title-link">Гантели

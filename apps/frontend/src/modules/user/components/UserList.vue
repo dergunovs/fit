@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="USER_LIST_HEADERS" :isLoading="!props.users?.length">
+  <UiTable :headers="USER_LIST_HEADERS" :isLoading="!props.users?.length" :lang="locale">
     <tr v-for="user in props.users" :key="user._id" data-test="user-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_USER_EDIT}/${user._id}`" data-test="user-table-email-link">
@@ -27,7 +27,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const USER_LIST_HEADERS = computed(() => [{ title: t('email') }, { title: t('confirmed') }]);
 </script>

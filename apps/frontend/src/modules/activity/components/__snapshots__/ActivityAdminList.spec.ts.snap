@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ActivityAdminList > matches snapshot 1`] = `
-"<table headers="[object Object],[object Object]" isloading="false">
+"<table headers="[object Object],[object Object]" isloading="false" lang="ru">
   <tbody>
     <tr data-test="activity-table-row">
       <td data-grow=""><a to="/activities_admin/edit/123123" data-test="activity-table-date-link">29 дек. 2024 г.</a></td>
