@@ -1,13 +1,17 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="equipment-form">
-      <UiField label="Название" isRequired :error="error('title')">
+      <UiField :label="t('title')" isRequired :error="error('title')">
         <UiInput v-model="formData.title" data-test="equipment-form-title" />
+      </UiField>
+
+      <UiField :label="`${t('title')} EN`" :error="error('title_en')">
+        <UiInput v-model="formData.title_en" data-test="equipment-form-title-en" />
       </UiField>
 
       <UiCheckbox
         v-model="formData.isWeights"
-        label="Наличие веса у оборудования"
+        :label="t('equipment.isWeights')"
         data-test="equipment-form-is-weights"
       />
 
@@ -24,6 +28,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiCheckbox, UiField, UiFlex, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
@@ -41,19 +46,20 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const queryClient = useQueryClient();
-
 const router = useRouter();
+const { t, locale } = useI18n();
+const queryClient = useQueryClient();
 
 const formData = ref<IEquipment>({
   title: '',
+  title_en: '',
   isWeights: false,
 });
 
 const { mutate: mutatePost, isPending: isLoadingPost } = equipmentService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EQUIPMENT] });
-    toast.success('Оборудование добавлено');
+    toast.success(t('equipment.added'));
     router.push(URL_EQUIPMENT);
   },
 });
@@ -61,7 +67,7 @@ const { mutate: mutatePost, isPending: isLoadingPost } = equipmentService.create
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = equipmentService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EQUIPMENT] });
-    toast.success('Оборудование обновлено');
+    toast.success(t('equipment.updated'));
   },
 });
 
@@ -69,13 +75,13 @@ const { mutate: mutateDelete } = equipmentService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_EQUIPMENT] });
     await queryClient.refetchQueries({ queryKey: [API_EQUIPMENT] });
-    toast.success('Оборудование удалено');
+    toast.success(t('equipment.deleted'));
     router.push(URL_EQUIPMENT);
   },
 });
 
 const { error, isValid } = useValidator(formData, {
-  title: [required()],
+  title: [required(locale.value)],
 });
 
 function submit() {

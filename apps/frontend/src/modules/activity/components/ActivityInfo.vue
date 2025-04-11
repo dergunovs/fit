@@ -9,38 +9,38 @@
       />
 
       <span data-test="activity-info-start-date">
-        <IconDate width="16" height="16" /> {{ formatDate(props.start, 'ru') }}
+        <IconDate width="16" height="16" /> {{ formatDate(props.start, locale) }}
       </span>
 
       <span v-if="isExercisesDone" data-test="activity-info-duration">
-        <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start) }}
+        <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start, locale) }}
       </span>
 
       <span>
-        Подходы:
-        <span data-test="activity-info-sets">{{ props.exercises.length }}</span
+        {{ t('set.many') }}: <span data-test="activity-info-sets">{{ props.exercises.length }}</span
         ><template v-if="isExercisesDone"
-          >, отказы: <span data-test="activity-info-to-failure-percent">{{ getToFailurePercent(props.exercises) }}</span
-          >, отдых:
+          >, {{ t('failures') }}:
+          <span data-test="activity-info-to-failure-percent">{{ getToFailurePercent(props.exercises) }}</span
+          >, {{ t('rest') }}:
           <span data-test="activity-info-rest-percent">
-            {{ getRestPercent(props.exercises, props.start, props.end) }}
+            {{ getRestPercent(props.exercises, locale, props.start, props.end) }}
           </span>
         </template>
       </span>
 
       <UiButton
         v-if="isExercisesDone"
-        @click="copyActivityToClipboard(props.exercises, props.start, props.end)"
+        @click="copyActivityToClipboard"
         layout="plain"
         data-test="activity-info-copy-to-clipboard"
       >
-        Копировать
+        {{ t('copyToClipboard') }}
       </UiButton>
     </UiFlex>
 
     <MuscleStatistics
       v-if="muscles"
-      :statistics="generateMuscleStatistics(props.exercises, muscles)"
+      :statistics="generateMuscleStatistics(props.exercises, muscles, locale)"
       data-test="activity-info-muscle-statistics"
     />
 
@@ -61,7 +61,7 @@
         @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
         data-test="activity-info-copy"
       >
-        Скопировать
+        {{ t('copy') }}
       </UiButton>
 
       <UiButton
@@ -69,7 +69,7 @@
         @click="router.push(`${URL_ACTIVITY_EDIT}/${props.id}`)"
         data-test="activity-info-start"
       >
-        Начать
+        {{ t('start') }}
       </UiButton>
 
       <UiButton
@@ -78,12 +78,19 @@
         layout="secondary"
         data-test="activity-info-delete"
       >
-        Удалить
+        {{ t('delete') }}
       </UiButton>
     </UiFlex>
 
-    <UiModal v-model="isShowConfirm" isConfirm @confirm="mutateDelete(id)" width="360" data-test="activity-info-modal">
-      Подтверждаете удаление?
+    <UiModal
+      v-model="isShowConfirm"
+      isConfirm
+      @confirm="mutateDelete(id)"
+      width="360"
+      :lang="locale"
+      data-test="activity-info-modal"
+    >
+      {{ t('confirmDelete') }}?
     </UiModal>
   </div>
 </template>
@@ -91,9 +98,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone } from 'fitness-tracker-contracts';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { formatDate, subtractDates, isAuth, useQueryClient } from 'mhz-helpers';
+import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
@@ -102,7 +110,7 @@ import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
 import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
-import { copyActivityToClipboard, getRestPercent, getToFailurePercent } from '@/activity/helpers';
+import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
@@ -120,6 +128,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ delete: [] }>();
 
 const router = useRouter();
+const { t, locale } = useI18n();
 const queryClient = useQueryClient();
 
 const isShowConfirm = ref(false);
@@ -133,10 +142,25 @@ const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
-    toast.success('Занятие удалено');
+    toast.success(t('activity.deleted'));
     emit('delete');
   },
 });
+
+async function copyActivityToClipboard() {
+  const textHeader = `${formatDate(props.start, locale.value)}, ${t('duration')}: ${subtractDates(props.end, props.start, locale.value)}
+${t('set.many')}: ${props.exercises.length}, ${t('failures')}: ${getToFailurePercent(props.exercises)}, ${t('rest')}: ${getRestPercent(props.exercises, locale.value, props.start, props.end)}.
+
+${props.exercises
+  .map((exercise, index) => {
+    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}${t('kg')}` : ''} ${formatDuration(exercise.duration, locale.value)} ${exercise.isToFailure ? t('toFailure') : ''}\n`;
+  })
+  .join('')}`;
+
+  await navigator.clipboard.writeText(textHeader);
+
+  toast.success(t('copiedToClipboard'));
+}
 </script>
 
 <style module lang="scss">

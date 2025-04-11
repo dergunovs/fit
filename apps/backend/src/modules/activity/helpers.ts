@@ -46,20 +46,40 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
   return Math.floor(100 - (exercisesDurationSumm / duration) * 100);
 }
 
-function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
-  let result = false;
-
+function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
   const isExerciseHasEquipment = !!exercise.equipment;
   const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
   const isWeightsRequired = !!exercise.isWeightsRequired;
 
   const isUserHasEquipment = !!user?.equipments?.some(
-    (equipment) => equipment.equipment?.title === exercise.equipment?.title
+    (equipment) => equipment.equipment?._id?.toString() === exercise.equipment?._id?.toString()
   );
 
   const isUserHasEquipmentForWeight = !!user?.equipments?.some((equipment) =>
-    exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
+    exercise.equipmentForWeight?.some(
+      (equipmentForWeight) => equipmentForWeight._id?.toString() === equipment.equipment?._id?.toString()
+    )
   );
+
+  return {
+    isExerciseHasEquipment,
+    isExerciseHasEquipmentForWeight,
+    isWeightsRequired,
+    isUserHasEquipment,
+    isUserHasEquipmentForWeight,
+  };
+}
+
+function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+  let result = false;
+
+  const {
+    isExerciseHasEquipment,
+    isExerciseHasEquipmentForWeight,
+    isWeightsRequired,
+    isUserHasEquipment,
+    isUserHasEquipmentForWeight,
+  } = getUserEquipmentParams(exercise, user);
 
   if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
     result = true;
@@ -200,6 +220,7 @@ export async function activitiesGetChartData(
   Entity: Model<IActivity>,
   weeks: IWeekDays[],
   type: TActivityChartType,
+  locale: string,
   user: IUser | null,
   muscles: IMuscle[]
 ) {
@@ -221,7 +242,7 @@ export async function activitiesGetChartData(
       if (datasets.length) {
         datasets[0].data.push(count);
       } else {
-        datasets.push({ data: [count], label: 'Занятия' });
+        datasets.push({ data: [count], label: locale === 'ru' ? 'Занятия' : 'Activities' });
       }
     }
 
@@ -241,7 +262,7 @@ export async function activitiesGetChartData(
       if (datasets.length) {
         datasets[0].data.push(count);
       } else {
-        datasets.push({ data: [count], label: 'Подходы' });
+        datasets.push({ data: [count], label: locale === 'ru' ? 'Подходы' : 'Sets' });
       }
     }
 
@@ -265,7 +286,7 @@ export async function activitiesGetChartData(
       if (datasets.length) {
         datasets[0].data.push(count);
       } else {
-        datasets.push({ data: [count], label: 'Повторы' });
+        datasets.push({ data: [count], label: locale === 'ru' ? 'Повторы' : 'Repeats' });
       }
     }
 
@@ -273,6 +294,7 @@ export async function activitiesGetChartData(
       const muscleCount = muscles.map((muscle) => {
         return {
           label: muscle.title,
+          label_en: muscle.title_en,
           count: 0,
           borderColor: muscle.color,
           backgroundColor: muscle.color,
@@ -306,7 +328,10 @@ export async function activitiesGetChartData(
       if (datasets.length) {
         muscleCount.forEach((muscle) => {
           datasets.forEach((set) => {
-            if (set.label === muscle.label) set.data.push(muscle.count);
+            if (set.label === muscle.label) {
+              set.data.push(muscle.count);
+              if (locale !== 'ru' && datasets[0].data.length === datasets.length + 1) set.label = muscle.label_en;
+            }
           });
         });
       } else {

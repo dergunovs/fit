@@ -16,14 +16,20 @@
         isConfirm
         @confirm="mutateDelete(activity._id)"
         width="360"
+        :lang="locale"
         data-test="activity-modal"
       >
-        Подтверждаете удаление?
+        {{ t('confirmDelete') }}?
       </UiModal>
 
       <UiFlex justify="space-between" :class="$style.buttons" :data-loaded="!!activity?._id">
-        <UiButton @click="router.go(-1)" data-test="activity-go-back-button">Назад</UiButton>
-        <UiButton @click="isShowConfirm = true" layout="secondary" data-test="activity-delete-button">Удалить</UiButton>
+        <UiButton @click="router.go(-1)" data-test="activity-go-back-button">
+          {{ t('back') }}
+        </UiButton>
+
+        <UiButton @click="isShowConfirm = true" layout="secondary" data-test="activity-delete-button">
+          {{ t('delete') }}
+        </UiButton>
       </UiFlex>
     </UiFlex>
   </div>
@@ -31,6 +37,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { useQueryClient, useRouteId } from 'mhz-helpers';
@@ -45,6 +52,8 @@ const isShowConfirm = ref(false);
 
 const router = useRouter();
 
+const { t, locale } = useI18n();
+
 const queryClient = useQueryClient();
 
 const { id } = useRouteId('activity');
@@ -55,7 +64,7 @@ const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_ACTIVITY] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
-    toast.success('Занятие удалено');
+    toast.success(t('activity.deleted'));
     router.push(URL_ACTIVITY_ADMIN);
   },
 });

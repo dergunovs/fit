@@ -6,40 +6,60 @@ import {
   IUser,
   IUserEquipment,
 } from 'fitness-tracker-contracts';
+import { localeField } from 'mhz-helpers';
 
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
 
-export function isUserHasEquipment(exercise: IExercise, user?: IUser | null) {
-  return user?.equipments?.some((equipment) => equipment.equipment?.title === exercise.equipment?.title);
-}
+export function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
+  const isExerciseHasEquipment = !!exercise.equipment;
+  const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
+  const isWeightsRequired = !!exercise.isWeightsRequired;
 
-export function isUserHasEquipmentForWeight(exercise: IExercise, user?: IUser | null) {
-  return (
-    user?.equipments?.some((equipment) =>
-      exercise.equipmentForWeight?.some((equipmentForWeight) => equipmentForWeight.title === equipment.equipment?.title)
-    ) || false
+  const isUserHasEquipment = !!user?.equipments?.some(
+    (equipment) => equipment.equipment?._id?.toString() === exercise.equipment?._id?.toString()
   );
+
+  const isUserHasEquipmentForWeight = !!user?.equipments?.some((equipment) =>
+    exercise.equipmentForWeight?.some(
+      (equipmentForWeight) => equipmentForWeight._id?.toString() === equipment.equipment?._id?.toString()
+    )
+  );
+
+  return {
+    isExerciseHasEquipment,
+    isExerciseHasEquipmentForWeight,
+    isWeightsRequired,
+    isUserHasEquipment,
+    isUserHasEquipmentForWeight,
+  };
 }
 
 export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
   let result = false;
 
-  const isExerciseHasEquipment = exercise.equipment;
-  const isExerciseHasEquipmentForWeight = exercise.equipmentForWeight?.length;
-  const isWeightsRequired = exercise.isWeightsRequired;
+  const {
+    isExerciseHasEquipment,
+    isExerciseHasEquipmentForWeight,
+    isWeightsRequired,
+    isUserHasEquipment,
+    isUserHasEquipmentForWeight,
+  } = getUserEquipmentParams(exercise, user);
 
   if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
     result = true;
-  } else if (isUserHasEquipment(exercise, user)) {
+  } else if (isUserHasEquipment && !isWeightsRequired) {
     result = true;
-  } else if (
-    !isExerciseHasEquipment &&
-    isExerciseHasEquipmentForWeight &&
-    isUserHasEquipmentForWeight(exercise, user)
-  ) {
+  } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
     result = true;
   } else if (!isExerciseHasEquipment && !isWeightsRequired) {
+    result = true;
+  } else if (
+    isExerciseHasEquipment &&
+    isExerciseHasEquipmentForWeight &&
+    isUserHasEquipment &&
+    isUserHasEquipmentForWeight
+  ) {
     result = true;
   }
 
@@ -48,8 +68,8 @@ export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null)
 
 export function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 'repeat') {
   return type === 'set'
-    ? `${((exercise.averageDuration * exercise.repeats) / exercise.sets || 0).toFixed(1)}с`
-    : `${exercise.averageDuration.toFixed(1)}с`;
+    ? `${((exercise.averageDuration * exercise.repeats) / exercise.sets || 0).toFixed(1)}`
+    : `${exercise.averageDuration.toFixed(1)}`;
 }
 
 export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id?: string) {
@@ -60,8 +80,15 @@ export function isSetCreatable(choosenExercises: IExerciseChoosen[], index: numb
   return !isPrevExerciseSame(choosenExercises, index, id) && index > 0 && index + 1 === choosenExercises.length;
 }
 
-export function getExercisePassingTitle(index: number, isCurrent: boolean, count: number, exercise: IExerciseDone) {
-  return `${index}${isCurrent ? ` из ${count}.` : `.`} ${exercise.exercise?.title || 'Упражнение удалено'}${exercise.weight ? ` ${exercise.weight} кг.` : `.`}`;
+export function getExercisePassingTitle(
+  index: number,
+  isCurrent: boolean,
+  count: number,
+  exercise: IExerciseDone,
+  weightTitle: string,
+  locale: string
+) {
+  return `${index}${isCurrent ? ` - ${count}.` : `.`} ${exercise.exercise?.[localeField('title', locale)] || '-'}${exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`}`;
 }
 
 export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {
@@ -100,7 +127,10 @@ export function filterExercisesByTitleAndMuscle(exercises: IExercise[], title: s
   return exercises.filter((exercise) => {
     const isEquipmentMatches = isUserEquipmentMatches(exercise, user);
 
-    const titleFilter = exercise.title.toLowerCase().includes(title.toLocaleLowerCase()) && isEquipmentMatches;
+    const titleFilter =
+      (exercise.title.toLowerCase().includes(title.toLocaleLowerCase()) ||
+        exercise.title_en?.toLowerCase().includes(title.toLocaleLowerCase())) &&
+      isEquipmentMatches;
     const muscleFilter = exercise.muscles?.some((group) => group._id === muscle) && isEquipmentMatches;
 
     return muscle ? muscleFilter && titleFilter : titleFilter;
@@ -109,7 +139,7 @@ export function filterExercisesByTitleAndMuscle(exercises: IExercise[], title: s
 
 export function getAvailableExerciseWeights(exercise: IExercise, user: IUser) {
   const equipments = user.equipments?.filter((equipment) =>
-    exercise.equipmentForWeight?.some((eq) => eq.title === equipment.equipment?.title)
+    exercise.equipmentForWeight?.some((eq) => eq._id === equipment.equipment?._id)
   );
 
   if (!equipments?.length) return undefined;
@@ -125,16 +155,21 @@ export function getExercisesToChooseDefaultWeight(exercises: IExercise[], userEq
 
   const tableData = exercisesWithWeight.map((ex) => {
     const exerciseEquipment = ex.equipmentForWeight
-      ?.filter((eq) => equipmentsForWeight?.some((equipment) => equipment.equipment?.title === eq.title))
-      .map((exToMap) => exToMap.title);
+      ?.filter((eq) => equipmentsForWeight?.some((equipment) => equipment.equipment?._id === eq._id))
+      .map((exToMap) => exToMap._id);
 
     const availableEqupment = equipmentsForWeight?.filter((eq) =>
-      exerciseEquipment?.some((equipmentTitle) => equipmentTitle === eq.equipment?.title)
+      exerciseEquipment?.some((equipmentId) => equipmentId === eq.equipment?._id)
     );
 
     const options = getWeightsForUserEquipment(availableEqupment);
 
-    return { _id: ex._id, title: ex.title, options: ex.isWeightsRequired ? options : [0, ...options] };
+    return {
+      _id: ex._id,
+      title: ex.title,
+      title_en: ex.title_en,
+      options: ex.isWeightsRequired ? options : [0, ...options],
+    };
   });
 
   return tableData.filter((ex) => ex.options.length > 1);

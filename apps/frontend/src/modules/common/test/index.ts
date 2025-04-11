@@ -5,6 +5,7 @@ import { VueQueryPlugin } from 'mhz-helpers';
 import { uiStubs } from 'mhz-ui';
 
 import { routes } from '@/common/router/routes';
+import { i18n } from '@/common/plugins';
 
 export const router = createRouter({ history: createWebHistory('/'), routes });
 
@@ -17,7 +18,7 @@ export function wrapperFactory<T>(
 
   return shallowMount(component, {
     global: {
-      plugins: [router, VueQueryPlugin],
+      plugins: [router, VueQueryPlugin, i18n],
       stubs: {
         RouterLink: { template: '<a><slot></slot></a>' },
         ...stubs,

@@ -6,7 +6,6 @@ import { dataTest } from 'mhz-helpers';
 import ActivityChart from './ActivityChart.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { CHART_TYPES } from '@/activity/constants';
 import { spyGetActivitiesChart } from '@/activity/mocks';
 import { ACTIVITIES_CHART_FIXTURE } from '@/activity/fixtures';
 
@@ -31,12 +30,12 @@ describe('ActivityChart', async () => {
   });
 
   it('shows chart type buttons', async () => {
-    expect(wrapper.findAll(chartType).length).toBe(CHART_TYPES.length);
+    expect(wrapper.findAll(chartType).length).toBe(4);
 
     expect(wrapper.findAll(chartType)[0].attributes('layout')).toBe('accent');
     expect(wrapper.findAll(chartType)[1].attributes('layout')).toBe('primary');
 
-    expect(wrapper.find(chartType).text()).toBe(CHART_TYPES[0].title);
+    expect(wrapper.find(chartType).text()).toBe('Занятия');
   });
 
   it('gets chart data and sets props', async () => {

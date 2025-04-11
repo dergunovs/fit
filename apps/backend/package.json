@@ -28,12 +28,12 @@
     "@fastify/swagger-ui": "5.2.2",
     "ajv": "8.17.1",
     "bcryptjs": "3.0.2",
-    "dotenv": "16.4.7",
+    "dotenv": "16.5.0",
     "fastify": "5.2.2",
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
     "mongoose": "8.13.2",
-    "mhz-helpers": "1.1.19",
+    "mhz-helpers": "1.1.24",
     "nodemailer": "6.10.0"
   },
   "devDependencies": {
@@ -43,16 +43,16 @@
     "@types/nodemailer": "6.4.17",
     "esbuild": "0.25.2",
     "eslint": "9.24.0",
-    "eslint-config-prettier": "10.1.1",
-    "eslint-import-resolver-typescript": "4.3.1",
-    "eslint-plugin-import-x": "4.10.0",
+    "eslint-config-prettier": "10.1.2",
+    "eslint-import-resolver-typescript": "4.3.2",
+    "eslint-plugin-import-x": "4.10.2",
     "eslint-plugin-prettier": "5.2.6",
     "globals": "16.0.0",
-    "fastify-linters-config": "0.1.0",
+    "fastify-linters-config": "0.1.1",
     "nodemon": "3.1.9",
     "prettier": "3.5.3",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.29.0"
+    "typescript-eslint": "8.29.1"
   },
   "engines": {
     "npm": ">=11.2.0",

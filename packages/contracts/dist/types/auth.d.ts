@@ -41,12 +41,13 @@ export interface IAuthService {
 
   register: (
     user: IRegisterData,
+    lang: string,
     sign: (payload: IUser, options: object) => string,
   ) => Promise<boolean>;
 
   confirm: (token: string, decode?: TDecode) => Promise<boolean>;
 
-  reset: (email: string) => Promise<boolean>;
+  reset: (email: string, lang: string) => Promise<boolean>;
 }
 
 export type TGetAuthDTO = IUser;
@@ -59,9 +60,11 @@ export type TPostAuthSetupDataDTO = IAuthData;
 
 export type TPostAuthRegisterDTO = IBaseReply;
 export type TPostAuthRegisterDataDTO = IRegisterData;
+export type TPostAuthRegisterQueryDTO = { lang: string };
 
 export type TPostAuthConfirmTokenDTO = IBaseReply;
 export type TPostAuthConfirmTokenDataDTO = { token: string };
 
 export type TPostAuthResetPasswordDTO = IBaseReply;
 export type TPostAuthResetPasswordDataDTO = { email: string };
+export type TPostAuthResetPasswordQueryDTO = { lang: string };

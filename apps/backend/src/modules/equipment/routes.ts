@@ -50,7 +50,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await equipmentService.create<IEquipment>(request.body, fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(201).send({ message: 'Оборудование создано' });
+      reply.code(201).send({ message: 'Equipment added' });
     }
   );
 
@@ -60,7 +60,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await equipmentService.update<IEquipment>(request.params.id, request.body);
 
-      reply.code(200).send({ message: 'Оборудование обновлено' });
+      reply.code(200).send({ message: 'Equipment updated' });
     }
   );
 
@@ -70,7 +70,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await equipmentService.delete(request.params.id);
 
-      reply.code(200).send({ message: 'Оборудование удалено' });
+      reply.code(200).send({ message: 'Equipment deleted' });
     }
   );
 }

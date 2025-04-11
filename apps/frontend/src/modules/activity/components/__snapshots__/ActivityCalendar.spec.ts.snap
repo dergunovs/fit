@@ -2,7 +2,7 @@
 
 exports[`ActivityCalendar > matches snapshot 1`] = `
 "<div>
-  <ui-calendar-stub events="[object Object],[object Object]" data-test="activity-calendar"></ui-calendar-stub>
+  <ui-calendar-stub events="[object Object],[object Object]" lang="ru" data-test="activity-calendar"></ui-calendar-stub>
   <div modelvalue="false" width="360" data-test="activity-calendar-modal">
     <activity-info-stub exercises="" id="" ispopup="true" data-test="activity-calendar-info"></activity-info-stub>
   </div>

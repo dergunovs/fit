@@ -1,11 +1,15 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="muscle-form">
-      <UiField label="Название" isRequired :error="error('title')">
+      <UiField :label="t('title')" isRequired :error="error('title')">
         <UiInput v-model="formData.title" data-test="muscle-form-title" />
       </UiField>
 
-      <UiField label="Цвет" isRequired :error="error('color')">
+      <UiField :label="`${t('title')} EN`" :error="error('title_en')">
+        <UiInput v-model="formData.title_en" data-test="muscle-form-title-en" />
+      </UiField>
+
+      <UiField :label="t('color')" isRequired :error="error('color')">
         <UiInput v-model="formData.color" data-test="muscle-form-color" />
       </UiField>
 
@@ -29,6 +33,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, toast, UiFlex } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
@@ -46,19 +51,20 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const queryClient = useQueryClient();
-
 const router = useRouter();
+const { t, locale } = useI18n();
+const queryClient = useQueryClient();
 
 const formData = ref<IMuscle>({
   title: '',
+  title_en: '',
   color: '',
 });
 
 const { mutate: mutatePost, isPending: isLoadingPost } = muscleService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_MUSCLE] });
-    toast.success('Группа мышц добавлена');
+    toast.success(t('muscle.added'));
     router.push(URL_MUSCLE);
   },
 });
@@ -66,7 +72,7 @@ const { mutate: mutatePost, isPending: isLoadingPost } = muscleService.create({
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = muscleService.update({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_MUSCLE] });
-    toast.success('Группа мышц обновлена');
+    toast.success(t('muscle.updated'));
   },
 });
 
@@ -74,14 +80,14 @@ const { mutate: mutateDelete } = muscleService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_MUSCLE] });
     await queryClient.refetchQueries({ queryKey: [API_MUSCLE] });
-    toast.success('Группа мышц удалена');
+    toast.success(t('muscle.deleted'));
     router.push(URL_MUSCLE);
   },
 });
 
 const { error, isValid } = useValidator(formData, {
-  title: [required()],
-  color: [required()],
+  title: [required(locale.value)],
+  color: [required(locale.value)],
 });
 
 function submit() {

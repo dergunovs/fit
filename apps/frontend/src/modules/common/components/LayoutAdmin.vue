@@ -20,7 +20,7 @@ import { isAuth } from 'mhz-helpers';
 import TheHeader from '@/common/components/TheHeader.vue';
 import NavList from '@/common/components/NavList.vue';
 
-import { NAV_ITEMS, BOTTOM_NAV_ITEMS } from '@/common/constants';
+import { useNavItems } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
@@ -31,6 +31,8 @@ interface IProps {
 const props = defineProps<IProps>();
 
 defineOptions({ name: 'LayoutAdmin' });
+
+const { NAV_ITEMS, BOTTOM_NAV_ITEMS } = useNavItems();
 </script>
 
 <style module lang="scss">

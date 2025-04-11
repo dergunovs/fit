@@ -5,7 +5,7 @@ import { UiModal } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
 import ActivityEditPage from './ActivityEditPage.vue';
-import ActivityInfo from './ActivityInfo.vue';
+import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE } from '@/activity/fixtures';

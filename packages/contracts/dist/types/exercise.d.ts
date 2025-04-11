@@ -14,7 +14,9 @@ export { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from "../index";
 
 export interface IExercise extends IEntity {
   title: string;
+  title_en?: string;
   description?: string;
+  description_en?: string;
   createdBy?: IUser;
   muscles?: IMuscle[];
   isWeights: boolean;

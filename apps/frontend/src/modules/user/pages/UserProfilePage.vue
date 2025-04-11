@@ -9,11 +9,13 @@
       />
 
       <UiFlex v-if="!isAdmin" column gap="16">
-        <UiButton @click="isShowCreateExercise = true" data-test="user-add-exercise">Добавить своё упражение</UiButton>
+        <UiButton @click="isShowCreateExercise = true" data-test="user-add-exercise">
+          {{ t('exercise.addCustom') }}
+        </UiButton>
 
         <UiModal v-model="isShowCreateExercise" width="360" data-test="user-exercise-form-modal">
           <div :class="$style.form">
-            <h3>Добавить своё упражнение</h3>
+            <h3>{{ t('exercise.addCustom') }}</h3>
 
             <ExerciseForm
               :exercise="currentExercise"
@@ -30,6 +32,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IExercise } from 'fitness-tracker-contracts';
 import { UiButton, UiModal, UiFlex } from 'mhz-ui';
 
@@ -40,6 +43,7 @@ import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 import { isAdmin, useAuthCheck } from '@/auth/composables';
 import { exerciseService } from '@/exercise/services';
 
+const { t } = useI18n();
 const { user } = useAuthCheck();
 
 const { data: exercises } = exerciseService.getCustom();

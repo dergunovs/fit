@@ -1,19 +1,24 @@
 <template>
   <div>
     <UiFlex column gap="16">
-      <UiField v-if="props.exercise.isWeights && props.weights?.length" label="Вес, кг.">
-        <UiSelect v-model="choosenExercise.weight" :options="props.weights" data-test="exercise-weight" />
+      <UiField v-if="props.exercise.isWeights && props.weights?.length" :label="`${t('weight')}, ${t('kg')}`">
+        <UiSelect
+          v-model="choosenExercise.weight"
+          :options="props.weights"
+          :lang="locale"
+          data-test="exercise-weight"
+        />
       </UiField>
 
       <ExerciseRepeatsChoice
         v-model="choosenExercise.repeats"
         :options="EXERCISE_REPEATS_OPTIONS"
-        title="Повторы"
+        :title="t('repeat.many')"
         data-test="exercise-repeats"
       />
 
       <UiFlex justify="space-between">
-        <UiButton @click="addExercise(1)" data-test="exercise-add-1">Добавить</UiButton>
+        <UiButton @click="addExercise(1)" data-test="exercise-add-1">{{ t('add') }}</UiButton>
 
         <UiFlex>
           <UiButton @click="addExercise(2)" layout="secondary" isNarrow data-test="exercise-add-2">+2</UiButton>
@@ -26,6 +31,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
 import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
@@ -44,6 +50,8 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ add: [choosenExercise: IExerciseChoosen] }>();
 
+const { t, locale } = useI18n();
+
 const choosenExercise = ref({
   repeats: EXERCISE_REPEATS_DEFAULT,
   weight: getDefaultExerciseWeight(props.exercise, props.user, props.weights),
@@ -54,6 +62,7 @@ function addExercise(count: number) {
     const exercise = {
       _id: props.exercise?._id,
       title: props.exercise?.title,
+      title_en: props.exercise?.title_en,
       isWeights: props.exercise?.isWeights,
       isWeightsRequired: props.exercise?.isWeightsRequired,
     };

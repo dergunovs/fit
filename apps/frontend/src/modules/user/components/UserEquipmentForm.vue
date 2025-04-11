@@ -2,20 +2,22 @@
   <UiFlex gap="16" column>
     <UiFlex gap="4">
       <UiFlex column>
-        <div>Оборудование</div>
+        <div>{{ t('equipment.one') }}</div>
 
         <UiFlex>
           <UiSelect
             v-model="choosenEquipment"
             :options="excludeChoosenUserEquipment(props.equipments, props.modelValue)"
             :isDisabled="isEditEquipment || !!choosenEquipmentWeights.length"
+            :lang="locale"
+            :isLocaleField="locale === 'en'"
             data-test="user-equipment-options"
           />
         </UiFlex>
       </UiFlex>
 
       <UiFlex v-if="choosenEquipment?.isWeights" column>
-        <div>Вес</div>
+        <div>{{ t('weight') }}</div>
 
         <UiFlex gap="4">
           <UiInput v-model="choosenEquipmentWeight" type="number" step="1" min="1" max="500" data-test="user-weight" />
@@ -27,18 +29,18 @@
             @click="addWeight"
             data-test="user-add-weight"
           >
-            Выбрать
+            {{ t('choose') }}
           </UiButton>
         </UiFlex>
       </UiFlex>
     </UiFlex>
 
     <UiFlex v-if="choosenEquipmentWeights.length" column>
-      <div>Добавленные веса</div>
+      <div>{{ t('addedWeights') }}</div>
 
       <UiFlex wrap>
         <UiChip v-for="weight in choosenEquipmentWeights" :key="weight" data-test="user-added-weights">
-          <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> кг.
+          <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> {{ t('kg') }}
           <UiClose @click="deleteWeight(weight)" isSmall isDelete data-test="user-delete-weight" />
         </UiChip>
       </UiFlex>
@@ -46,7 +48,7 @@
 
     <UiFlex>
       <UiButton v-if="isEditEquipment" @click="saveEquipment" data-test="user-save-equipment">
-        Сохранить оборудование
+        {{ t('equipment.save') }}
       </UiButton>
 
       <UiButton
@@ -56,16 +58,16 @@
         isNarrow
         data-test="user-reset-equipment"
       >
-        Отменить
+        {{ t('cancel') }}
       </UiButton>
 
       <UiButton v-else :isDisabled="isAddEquipmentDisabled" @click="addEquipment" data-test="user-add-equipment">
-        Добавить оборудование
+        {{ t('equipment.add') }}
       </UiButton>
     </UiFlex>
 
     <UiFlex v-if="props.modelValue?.length" column>
-      <div>Добавленное оборудование</div>
+      <div>{{ t('equipment.added') }}</div>
 
       <UiFlex wrap>
         <UiChip
@@ -73,10 +75,10 @@
           :key="`${equipment.equipment?._id}-${equipment.weights?.join()}`"
           data-test="user-equipment"
         >
-          <span data-test="user-equipment-title">{{ equipment.equipment?.title }}</span>
+          <span data-test="user-equipment-title">{{ equipment.equipment?.[localeField('title', locale)] }}</span>
 
           <span v-for="weight in equipment.weights" :key="weight" data-test="user-equipment-weights">
-            <span data-test="user-equipment-weight">{{ weight }}</span> кг.
+            <span data-test="user-equipment-weight">{{ weight }}</span> {{ t('kg') }}
           </span>
 
           <button
@@ -104,8 +106,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IEquipment, IUserEquipment } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex, UiInput, UiSelect, UiChip, UiClose } from 'mhz-ui';
+import { localeField } from 'mhz-helpers';
 
 import IconWeight from '@/common/icons/weight.svg';
 import IconEdit from '@/common/icons/edit.svg';
@@ -119,6 +123,8 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<{ 'update:modelValue': [value?: IUserEquipment[]] }>();
+
+const { t, locale } = useI18n();
 
 const choosenEquipment = ref<IEquipment>();
 const choosenEquipmentWeight = ref<number>(0);
@@ -135,7 +141,7 @@ const isAddEquipmentDisabled = computed(
   () =>
     !choosenEquipment.value ||
     (choosenEquipment.value.isWeights && !choosenEquipmentWeights.value.length) ||
-    props.modelValue?.some((equipment) => equipment.equipment?.title === choosenEquipment.value?.title)
+    props.modelValue?.some((equipment) => equipment.equipment?._id === choosenEquipment.value?._id)
 );
 
 function addWeight() {
@@ -172,7 +178,7 @@ function editEquipment(equipment: IUserEquipment) {
 
 function saveEquipment() {
   const updatedEquipments = props.modelValue?.map((equipment) => {
-    if (equipment.equipment?.title === choosenEquipment.value?.title) {
+    if (equipment.equipment?._id === choosenEquipment.value?._id) {
       return { equipment: choosenEquipment.value, weights: choosenEquipmentWeights.value };
     } else return equipment;
   });

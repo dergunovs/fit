@@ -88,7 +88,7 @@ export const authService: IAuthService = {
     return false;
   },
 
-  register: async (userToCreate: IRegisterData, sign: (payload: IUser, options: object) => string) => {
+  register: async (userToCreate: IRegisterData, lang: string, sign: (payload: IUser, options: object) => string) => {
     const existingUser = await User.findOne({ email: userToCreate.email }).lean().exec();
 
     if (existingUser) return true;
@@ -106,7 +106,10 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    const template = `${userToCreate.name}, для подтверждения регистрации перейдите по ссылке ${process.env.APP_URL}?token=${confirmationToken}`;
+    const text =
+      lang === 'ru' ? 'для подтверждения регистрации перейдите по ссылке' : 'to confirm registration, follow the link';
+
+    const template = `${userToCreate.name}, ${text} ${process.env.APP_URL}?token=${confirmationToken}`;
 
     await sendMail(template, userToCreate.email);
 
@@ -129,7 +132,7 @@ export const authService: IAuthService = {
     return false;
   },
 
-  reset: async (email: string) => {
+  reset: async (email: string, lang: string) => {
     const user = await User.findOne({ email });
 
     if (!user || !user.isEmailConfirmed) return true;
@@ -142,7 +145,12 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    const template = `${user.name}, войдите в приложение с новым паролем. Если вы не отправляли заявку на смену пароля, то используйте свой текущий пароль. Новый пароль: ${newPassword}`;
+    const text =
+      lang === 'ru'
+        ? 'войдите в приложение с новым паролем. Если вы не отправляли заявку на смену пароля, то используйте свой текущий пароль. Новый пароль'
+        : 'login to the app with a new password. If you have not submitted a request to change your password, then use your current password. New password';
+
+    const template = `${user.name}, ${text}: ${newPassword}`;
 
     await sendMail(template, email);
 

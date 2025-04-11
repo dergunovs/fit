@@ -40,5 +40,5 @@ export async function sendMail(text: string, to: string) {
     auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
   });
 
-  await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'Сообщение от app-fit.ru', text });
+  await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'App-fit.ru', text });
 }

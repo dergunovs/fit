@@ -10,28 +10,36 @@
     </RouterLink>
 
     <UiFlex justify="flex-end">
-      <UiButton v-if="props.isShowInstallPWA" @click="props.installPWA" layout="plain" data-test="header-pwa-install">
-        Установка
+      <UiButton v-if="availableLocales.length > 1" @click="toggleLocale" layout="plain" data-test="header-locale">
+        {{ locale.toUpperCase() }}
       </UiButton>
 
-      <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">Помощь</UiButton>
+      <UiButton v-if="props.isShowInstallPWA" @click="props.installPWA" layout="plain" data-test="header-pwa-install">
+        {{ t('install') }}
+      </UiButton>
+
+      <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">
+        {{ t('help') }}
+      </UiButton>
 
       <template v-if="isAuth">
         <UiButton v-if="props.isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
-          Админка
+          {{ t('adminPanel') }}
         </UiButton>
 
         <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain" data-test="header-logout">
-          Выйти
+          {{ t('exit') }}
         </UiButton>
       </template>
 
       <template v-else>
         <UiButton @click="emit('showRegistration')" layout="plain" data-test="header-registration">
-          Регистрация
+          {{ t('registration') }}
         </UiButton>
 
-        <UiButton @click="emit('showLogin')" layout="plain" data-test="header-login">Вход</UiButton>
+        <UiButton @click="emit('showLogin')" layout="plain" data-test="header-login">
+          {{ t('login') }}
+        </UiButton>
       </template>
     </UiFlex>
   </header>
@@ -39,6 +47,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
 
@@ -47,6 +56,7 @@ import IconLogo from '@/common/icons/logo.svg';
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME, URL_HELP } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
+import { useLocale } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
@@ -58,6 +68,9 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ showLogin: []; showRegistration: []; install: [] }>();
 
 const router = useRouter();
+
+const { t, locale, availableLocales } = useI18n();
+const { toggleLocale } = useLocale();
 
 const version = import.meta.env.VITE_VERSION;
 </script>

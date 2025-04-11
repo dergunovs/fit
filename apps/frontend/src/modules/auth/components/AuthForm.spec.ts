@@ -17,13 +17,7 @@ import {
 } from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_FIXTURE } from '@/auth/fixtures';
-import {
-  TOKEN_NAME,
-  AUTH_FORM_HEADER_SETUP,
-  AUTH_FORM_HEADER_LOGIN,
-  AUTH_FORM_SUBMIT_BUTTON_SETUP,
-  AUTH_FORM_SUBMIT_BUTTON_LOGIN,
-} from '@/auth/constants';
+import { TOKEN_NAME } from '@/auth/constants';
 
 const EMAIL = 'a@b.ru';
 const PASSWORD = 'qwerty';
@@ -57,13 +51,13 @@ describe('AuthForm', async () => {
   });
 
   it('shows form header and submit button text', async () => {
-    expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_LOGIN);
-    expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_LOGIN);
+    expect(wrapper.find(formHeader).text()).toBe('Вход');
+    expect(wrapper.find(formSubmitButton).text()).toBe('Войти');
 
     await wrapper.setProps({ isSetup: true });
 
-    expect(wrapper.find(formHeader).text()).toBe(AUTH_FORM_HEADER_SETUP);
-    expect(wrapper.find(formSubmitButton).text()).toBe(AUTH_FORM_SUBMIT_BUTTON_SETUP);
+    expect(wrapper.find(formHeader).text()).toBe('Создать администратора');
+    expect(wrapper.find(formSubmitButton).text()).toBe('Создать');
   });
 
   it('uses validation', async () => {

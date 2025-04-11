@@ -65,7 +65,7 @@ describe('ExercisePassingElement', async () => {
     expect(wrapper.find(title).attributes('data-current')).toBe(isCurrentExercise.toString());
 
     expect(wrapper.find(title).text()).toBe(
-      getExercisePassingTitle(index, isCurrentExercise, exercisesCount, exerciseNotDone)
+      getExercisePassingTitle(index, isCurrentExercise, exercisesCount, exerciseNotDone, 'кг', 'ru')
     );
   });
 

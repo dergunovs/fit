@@ -10,23 +10,23 @@
         :data-current="muscle._id === currentMuscle"
         data-test="muscle"
       >
-        {{ muscle.title }}
+        {{ muscle[localeField('title', locale)] }}
       </button>
     </UiFlex>
 
     <div>
-      <UiField label="Фильтр по названию упражнения">
-        <UiInput v-model="title" data-test="muscle-title" />
+      <UiField :label="t('exercise.filterByTitle')">
+        <UiInput v-model="title" data-test="exercise-title" />
       </UiField>
     </div>
 
     <UiFlex column>
       <UiSpoiler
         v-model="exerciseSpoilers[index]"
-        :title="exercise.title"
+        :title="exercise[localeField('title', locale)]"
         v-for="(exercise, index) in filterExercisesByTitleAndMuscle(props.exercises, title, currentMuscle, user)"
         :key="exercise._id"
-        data-test="muscle-spoiler"
+        data-test="exercise-spoiler"
       >
         <ExerciseChooseElement
           v-if="user"
@@ -43,8 +43,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
+import { localeField } from 'mhz-helpers';
 
 import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.vue';
 
@@ -59,6 +61,7 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ choose: [choosenExercise: IExerciseChoosen] }>();
 
+const { t, locale } = useI18n();
 const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);
@@ -68,7 +71,7 @@ const title = ref('');
 
 const { data: muscles } = muscleService.getAll();
 
-const muscleFilters = computed(() => [{ _id: '', title: 'Все' }, ...(muscles.value || [])]);
+const muscleFilters = computed(() => [{ _id: '', title: t('all'), title_en: t('all') }, ...(muscles.value || [])]);
 
 function setCurrentMuscle(id?: string) {
   currentMuscle.value = id || '';

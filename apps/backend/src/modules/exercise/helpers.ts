@@ -8,7 +8,9 @@ export async function getAdminAndUserExercises(decode?: TDecode, token?: string)
   const admin = await User.findOne({ role: 'admin' }).lean().exec();
 
   const adminExercises = await Exercise.find({ createdBy: admin?._id })
-    .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom')
+    .select(
+      '_id title title_en description description_en equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom'
+    )
     .sort('title')
     .populate([
       { path: 'createdBy', select: ['_id', 'name', 'email'] },
@@ -24,7 +26,9 @@ export async function getAdminAndUserExercises(decode?: TDecode, token?: string)
   if (!user || user?.role === 'admin') return adminExercises as IExercise[];
 
   const userExercises = await Exercise.find({ createdBy: user._id })
-    .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom')
+    .select(
+      '_id title title_en description description_en equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom'
+    )
     .sort('title')
     .populate([
       { path: 'createdBy', select: ['_id', 'name', 'email'] },

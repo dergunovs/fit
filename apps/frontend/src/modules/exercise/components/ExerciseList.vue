@@ -8,7 +8,7 @@
           :data-custom="exercise.isCustom"
           data-test="exercise-table-title-link"
         >
-          {{ exercise.title }}
+          {{ exercise.title }}<span v-if="exercise.title_en"> ({{ exercise.title_en }})</span>
         </RouterLink>
       </td>
       <td>{{ exercise.createdBy?.name }}</td>
@@ -17,16 +17,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
 import { IExercise } from 'fitness-tracker-contracts';
 
-import { URL_EXERCISE_EDIT, EXERCISE_LIST_HEADERS } from '@/exercise/constants';
+import { URL_EXERCISE_EDIT } from '@/exercise/constants';
 
 interface IProps {
   exercises?: IExercise[];
 }
 
 const props = defineProps<IProps>();
+
+const { t } = useI18n();
+
+const EXERCISE_LIST_HEADERS = computed(() => [{ title: t('title') }, { title: t('user.one') }]);
 </script>
 
 <style module lang="scss">

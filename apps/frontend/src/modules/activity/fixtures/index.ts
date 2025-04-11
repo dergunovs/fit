@@ -358,6 +358,7 @@ export const EXERCISES_GENERATED = [
     exercise: {
       _id: '1',
       title: 'Отжимание от скамьи',
+      title_en: '',
       muscles: [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]],
       isWeights: true,
       isWeightsRequired: true,
@@ -370,6 +371,7 @@ export const EXERCISES_GENERATED = [
     exercise: {
       _id: '2',
       title: 'Подтягивание',
+      title_en: '',
       muscles: [MUSCLES_FIXTURE[2], MUSCLES_FIXTURE[3]],
       isWeights: false,
       isWeightsRequired: false,

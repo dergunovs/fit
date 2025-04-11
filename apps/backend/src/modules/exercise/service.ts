@@ -28,7 +28,9 @@ export const exerciseService: IExerciseService = {
     const user = decodeToken(decode, token);
 
     const exercises = await Exercise.find({ createdBy: user?._id })
-      .select('_id title description equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom')
+      .select(
+        '_id title title_en description description_en equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom'
+      )
       .sort('title')
       .populate([
         { path: 'createdBy', select: ['_id', 'name', 'email'] },

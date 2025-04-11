@@ -5,7 +5,7 @@ import { UiPagination } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
 import ActivityListPage from './ActivityListPage.vue';
-import ActivityAdminList from './ActivityAdminList.vue';
+import ActivityAdminList from '@/activity/components/ActivityAdminList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_FIXTURE } from '@/activity/fixtures';

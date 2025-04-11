@@ -29,6 +29,6 @@ export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, t
   const user = decodeToken(decode, token);
 
   if (user?.role !== 'admin' && id.toString() !== user?._id) {
-    throw new Error('Ошибка доступа', { cause: { code: 403 } });
+    throw new Error('Auth error', { cause: { code: 403 } });
   }
 }

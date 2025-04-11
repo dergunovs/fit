@@ -12,7 +12,7 @@ import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
-import { mockOnSuccess, spyCopyActivityToClipboard, spyDeleteActivity } from '@/activity/mocks';
+import { mockOnSuccess, spyDeleteActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
@@ -26,7 +26,6 @@ const durationTime = dataTest('activity-info-duration');
 const sets = dataTest('activity-info-sets');
 const toFailurePercent = dataTest('activity-info-to-failure-percent');
 const restPercent = dataTest('activity-info-rest-percent');
-const copyToClipboard = dataTest('activity-info-copy-to-clipboard');
 const muscleStatistics = dataTest('activity-info-muscle-statistics');
 const exercise = dataTest('activity-info-exercise');
 const copyActivity = dataTest('activity-info-copy');
@@ -76,28 +75,19 @@ describe('ActivityInfo', async () => {
 
   it('shows start and duration time', async () => {
     expect(wrapper.find(startDate).text()).toBe(formatDate(start, 'ru'));
-    expect(wrapper.find(durationTime).text()).toBe(subtractDates(end, start));
+    expect(wrapper.find(durationTime).text()).toBe(subtractDates(end, start, 'ru'));
   });
 
   it('shows sets, to failure and rest percents', async () => {
     expect(wrapper.find(sets).text()).toBe(exercises.length.toString());
     expect(wrapper.find(toFailurePercent).text()).toBe(getToFailurePercent(exercises));
-    expect(wrapper.find(restPercent).text()).toBe(getRestPercent(exercises, start, end));
-  });
-
-  it('copies activity info to clipboard', async () => {
-    expect(spyCopyActivityToClipboard).toBeCalledTimes(0);
-
-    await wrapper.find(copyToClipboard).trigger('click');
-
-    expect(spyCopyActivityToClipboard).toBeCalledTimes(1);
-    expect(spyCopyActivityToClipboard).toBeCalledWith(exercises, start, end);
+    expect(wrapper.find(restPercent).text()).toBe(getRestPercent(exercises, 'ru', start, end));
   });
 
   it('gets and sets data to muscle statistics table', async () => {
     expect(spyGetMuscles).toBeCalledTimes(1);
 
-    const statistics = generateMuscleStatistics(exercises, MUSCLES_FIXTURE);
+    const statistics = generateMuscleStatistics(exercises, MUSCLES_FIXTURE, 'ru');
 
     expect(wrapper.findComponent<typeof MuscleStatistics>(muscleStatistics).vm.$props.statistics).toStrictEqual(
       statistics

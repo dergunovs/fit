@@ -12,7 +12,7 @@
             :data-equipment="isAuth ? exercise.isUserEquipmentMatches : true"
             :data-custom="exercise.exercise.isCustom"
           >
-            {{ exercise.exercise.title }}
+            {{ exercise.exercise[localeField('title', locale)] }}
           </UiButton>
         </td>
         <td>
@@ -21,7 +21,7 @@
               {{ exercise.sets }}<DynamicPercent :percent="exercise.setsDynamics" />
             </div>
             <div :class="$style.duration" data-test="exercise-statistics-sets-duration">
-              {{ getAverageDuration(exercise, 'set') }}
+              {{ getAverageDuration(exercise, 'set') }}{{ t('sec') }}
             </div>
           </div>
         </td>
@@ -31,7 +31,7 @@
               {{ exercise.repeats }}<DynamicPercent :percent="exercise.repeatsDynamics" />
             </div>
             <div :class="$style.duration" data-test="exercise-statistics-repeats-duration">
-              {{ getAverageDuration(exercise, 'repeat') }}
+              {{ getAverageDuration(exercise, 'repeat') }}{{ t('sec') }}
             </div>
           </div>
         </td>
@@ -45,15 +45,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
-import { isAuth } from 'mhz-helpers';
+import { isAuth, localeField } from 'mhz-helpers';
 
 import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
-import { EXERCISE_STATISTICS_HEADERS } from '@/exercise/constants';
 import { getAverageDuration } from '@/exercise/helpers';
 
 interface IProps {
@@ -62,9 +62,17 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+const { t, locale } = useI18n();
+
 const isShowModal = ref(false);
 
 const currentExercise = ref<IExerciseStatistics>();
+
+const EXERCISE_STATISTICS_HEADERS = computed(() => [
+  { title: t('exercise.one') },
+  { title: t('set.many') },
+  { title: t('repeat.many') },
+]);
 
 function showExercise(exercise: IExerciseStatistics) {
   currentExercise.value = exercise;

@@ -7,7 +7,16 @@
     data-test="exercise-element"
   >
     <div :class="$style.title" :data-current="props.isCurrentExercise" data-test="exercise-title">
-      {{ getExercisePassingTitle(props.index, props.isCurrentExercise, props.exercisesCount, props.exercise) }}
+      {{
+        getExercisePassingTitle(
+          props.index,
+          props.isCurrentExercise,
+          props.exercisesCount,
+          props.exercise,
+          t('kg'),
+          locale
+        )
+      }}
     </div>
 
     <template v-if="props.isCurrentExercise">
@@ -17,7 +26,7 @@
 
       <UiCheckbox
         v-model="isToFailure"
-        label="Упражнение выполнено до отказа"
+        :label="t('exercise.doneToFailure')"
         :isDisabled="!isCurrentExerciseActive"
         data-test="exercise-to-failure"
       />
@@ -25,7 +34,7 @@
       <ExerciseRepeatsChoice
         v-model="repeats"
         :options="repeatsOptions"
-        title="Количество повторов"
+        :title="t('repeat.many')"
         isTall
         data-test="exercise-repeats"
       />
@@ -37,6 +46,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
@@ -56,6 +66,8 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ start: [id: string]; stop: [exerciseDone: IExerciseDone] }>();
 
+const { t, locale } = useI18n();
+
 const start = ref(false);
 const stop = ref(false);
 
@@ -74,7 +86,7 @@ const repeatsOptions = [
   props.exercise.repeats + 2,
 ];
 
-const buttonTitle = computed(() => (isCurrentExerciseActive.value ? 'Завершить' : 'Начать'));
+const buttonTitle = computed(() => (isCurrentExerciseActive.value ? t('finish') : t('start')));
 
 watch(
   () => props.isCurrentExercise,

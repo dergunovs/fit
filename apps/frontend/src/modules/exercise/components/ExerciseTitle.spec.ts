@@ -6,7 +6,6 @@ import ExerciseTitle from './ExerciseTitle.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISE_DONE_FIXTURE } from '@/exercise/fixtures';
-import { EXERCISE_DELETED_TITLE } from '@/exercise/constants';
 
 const title = dataTest('exercise-title');
 const isNotDone = dataTest('exercise-is-not-done');
@@ -37,7 +36,7 @@ describe('ExerciseTitle', async () => {
 
     await wrapper.setProps({ exercise: { ...EXERCISE_DONE_FIXTURE, exercise: undefined } });
 
-    expect(wrapper.find(title).text()).toBe(EXERCISE_DELETED_TITLE);
+    expect(wrapper.find(title).text()).toBe('Упражнение удалено');
 
     await wrapper.setProps({ exercise: EXERCISE_DONE_FIXTURE, isHideTitle: true });
 
@@ -57,11 +56,11 @@ describe('ExerciseTitle', async () => {
   });
 
   it('shows exercise weight', async () => {
-    expect(wrapper.find(weight).text()).toBe(`${EXERCISE_DONE_FIXTURE.weight} кг.`);
+    expect(wrapper.find(weight).text()).toBe(`${EXERCISE_DONE_FIXTURE.weight} кг`);
   });
 
   it('shows exercise duration', async () => {
-    expect(wrapper.find(duration).text()).toBe(formatDuration(EXERCISE_DONE_FIXTURE.duration));
+    expect(wrapper.find(duration).text()).toBe(formatDuration(EXERCISE_DONE_FIXTURE.duration, 'ru'));
 
     await wrapper.setProps({ exercise: { ...EXERCISE_DONE_FIXTURE, duration: 0 } });
 

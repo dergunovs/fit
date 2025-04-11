@@ -5,7 +5,6 @@ import { dataTest } from 'mhz-helpers';
 import TheHero from './TheHero.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { HERO_BENEFITS } from '@/common/constants';
 
 const benefit = dataTest('hero-benefit');
 
@@ -27,7 +26,7 @@ describe('TheHero', async () => {
   });
 
   it('shows benefits', async () => {
-    expect(wrapper.findAll(benefit).length).toBe(HERO_BENEFITS.length);
-    expect(wrapper.find(benefit).text()).toBe(HERO_BENEFITS[0]);
+    expect(wrapper.findAll(benefit).length).toBe(4);
+    expect(wrapper.find(benefit).text()).toBe('Простой способ улучшить здоровье и настроение');
   });
 });

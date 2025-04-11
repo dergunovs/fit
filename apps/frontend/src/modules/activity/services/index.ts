@@ -65,11 +65,11 @@ export const activityService = {
     });
   },
 
-  getChart: (type: Ref<TActivityChartType>) => {
+  getChart: (type: Ref<TActivityChartType>, locale: Ref<string>) => {
     return useQuery({
-      queryKey: [API_ACTIVITY_CHART, type],
+      queryKey: [API_ACTIVITY_CHART, type, locale],
       queryFn: async () => {
-        const params: TGetActivitiesChartQueryDTO = { type: type.value };
+        const params: TGetActivitiesChartQueryDTO = { type: type.value, locale: locale.value };
 
         const { data } = await api.get<TGetActivitiesChartDTO>(API_ACTIVITY_CHART, { params });
 

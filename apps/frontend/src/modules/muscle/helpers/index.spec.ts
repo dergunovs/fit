@@ -13,6 +13,8 @@ describe('exercise helpers', () => {
       { repeats: 12, sets: 1, title: 'Пресс', color: '#32CD32' },
     ];
 
-    expect(generateMuscleStatistics(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE)).toStrictEqual(muscleGroupStatistics);
+    expect(generateMuscleStatistics(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE, 'ru')).toStrictEqual(
+      muscleGroupStatistics
+    );
   });
 });

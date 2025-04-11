@@ -1,49 +1,63 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" align="flex-start" data-test="exercise-form">
-      <UiField label="Название" isRequired :error="error('title')">
+      <UiField :label="t('title')" isRequired :error="error('title')">
         <UiInput v-model="formData.title" data-test="exercise-form-title" />
       </UiField>
 
-      <UiField label="Описание">
+      <UiField :label="`${t('title')} EN`" :error="error('title_en')">
+        <UiInput v-model="formData.title_en" data-test="exercise-form-title" />
+      </UiField>
+
+      <UiField :label="t('description')">
         <UiEditor v-model="formData.description" data-test="exercise-form-description" />
       </UiField>
 
-      <UiCheckbox v-model="formData.isWeights" label="Наличие веса" data-test="exercise-form-is-weights" />
+      <UiField :label="`${t('description')} EN`">
+        <UiEditor v-model="formData.description_en" data-test="exercise-form-description" />
+      </UiField>
+
+      <UiCheckbox v-model="formData.isWeights" :label="t('exercise.isWeights')" data-test="exercise-form-is-weights" />
 
       <UiCheckbox
         v-if="formData.isWeights"
         v-model="formData.isWeightsRequired"
-        label="Обязательность веса"
+        :label="t('exercise.isWeightsRequired')"
         data-test="exercise-form-is-weights-required"
       />
 
-      <UiField label="Используемое оборудование">
-        <UiSelect v-model="formData.equipment" :options="filterEquipmentByWeights(equipments)" isClearable />
+      <UiField :label="t('equipment.used')">
+        <UiSelect
+          v-model="formData.equipment"
+          :options="filterEquipmentByWeights(equipments)"
+          isClearable
+          :isLocaleField="locale === 'en'"
+          :lang="locale"
+        />
       </UiField>
 
       <UiFlex v-if="formData.isWeights" column>
-        <div>Подходящее оборудование для веса</div>
+        <div>{{ t('equipment.suitable') }}</div>
 
         <UiCheckbox
           v-for="equipment in filterEquipmentByWeights(equipments, true)"
           :key="equipment.title"
-          :modelValue="choosenEquipmentForWeight.some((eq) => equipment.title === eq.title)"
+          :modelValue="choosenEquipmentForWeight.some((eq) => equipment._id === eq._id)"
           @update:modelValue="updateEquipment(equipment, !!$event)"
-          :label="equipment.title"
+          :label="equipment[localeField('title', locale)]"
           data-test="exercise-form-equipment-for-weight"
         />
       </UiFlex>
 
       <UiFlex column>
-        <div>Задействованные мышцы</div>
+        <div>{{ t('muscle.involved') }}</div>
 
         <UiCheckbox
           v-for="muscle in muscles"
           :key="muscle._id"
           :modelValue="choosenMuscles.some((group) => group._id === muscle._id)"
           @update:modelValue="updateMuscles(muscle, !!$event)"
-          :label="muscle.title"
+          :label="muscle[localeField('title', locale)]"
           data-test="exercise-form-muscle-groups"
         />
       </UiFlex>
@@ -64,8 +78,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
-import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
+import { useQueryClient, useValidator, required, clone, localeField } from 'mhz-helpers';
 import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
@@ -85,13 +100,15 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ hide: [] }>();
 
-const queryClient = useQueryClient();
-
 const router = useRouter();
+const { t, locale } = useI18n();
+const queryClient = useQueryClient();
 
 const formData = ref<IExercise>({
   title: '',
+  title_en: '',
   description: '',
+  description_en: '',
   muscles: [],
   isWeights: false,
   isWeightsRequired: false,
@@ -125,7 +142,7 @@ const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create(
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    toast.success('Упражнение добавлено');
+    toast.success(t('exercise.added'));
     if (!props.isDisableRedirect) router.push(URL_EXERCISE);
     emit('hide');
   },
@@ -135,7 +152,7 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.upd
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    toast.success('Упражнение обновлено');
+    toast.success(t('exercise.updated'));
     emit('hide');
   },
 });
@@ -144,14 +161,14 @@ const { mutate: mutateDelete } = exerciseService.delete({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    toast.success('Упражнение удалено');
+    toast.success(t('exercise.deleted'));
     if (!props.isDisableRedirect) router.push(URL_EXERCISE);
     emit('hide');
   },
 });
 
 const { error, isValid } = useValidator(formData, {
-  title: [required()],
+  title: [required(locale.value)],
 });
 
 function submit() {

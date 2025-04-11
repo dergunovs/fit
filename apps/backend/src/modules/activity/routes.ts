@@ -88,6 +88,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       const data: TGetActivitiesChartDTO = await activityService.getChart(
         request.query.type,
+        request.query.locale,
         fastify.jwt.decode,
         request.headers.authorization
       );
@@ -136,7 +137,7 @@ export default async function (fastify: IFastifyInstance) {
       if (id) {
         reply.code(201).send(id.toString());
       } else {
-        reply.code(500).send({ message: 'Ошибка создания занятия' });
+        reply.code(500).send({ message: 'Activity is not created' });
       }
     }
   );
@@ -152,7 +153,7 @@ export default async function (fastify: IFastifyInstance) {
         request.headers.authorization
       );
 
-      reply.code(200).send({ message: 'Занятие обновлено' });
+      reply.code(200).send({ message: 'Activity updated' });
     }
   );
 
@@ -162,7 +163,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await activityService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(200).send({ message: 'Занятие удалено' });
+      reply.code(200).send({ message: 'Activity deleted' });
     }
   );
 }

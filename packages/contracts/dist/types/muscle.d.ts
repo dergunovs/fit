@@ -3,11 +3,13 @@ export { API_MUSCLE } from "../index";
 
 export interface IMuscle extends IEntity {
   title: string;
+  title_en?: string;
   color: string;
 }
 
 export interface IMuscleStatistics {
   title: string;
+  title_en?: string;
   color: string;
   sets: number;
   repeats: number;

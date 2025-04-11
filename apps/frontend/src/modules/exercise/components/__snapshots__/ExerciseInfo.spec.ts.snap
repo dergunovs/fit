@@ -6,7 +6,7 @@ exports[`ExerciseInfo > matches snapshot 1`] = `
     <h3 data-test="exercise-info-title">Отжимание от скамьи</h3>
     <!--v-if-->
     <div>
-      <div>Задействованные группы мышц</div>
+      <div>Задействованные мышцы</div>
       <div>
         <div data-test="exercise-info-muscles">Грудь</div>
         <div data-test="exercise-info-muscles">Ноги</div>

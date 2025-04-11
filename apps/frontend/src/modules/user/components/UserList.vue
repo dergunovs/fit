@@ -7,23 +7,29 @@
         </RouterLink>
       </td>
       <td :class="$style.confirmed" :data-confirmed="user.isEmailConfirmed">
-        {{ user.isEmailConfirmed ? 'Да' : 'Нет' }}
+        {{ user.isEmailConfirmed ? t('yes') : t('no') }}
       </td>
     </tr>
   </UiTable>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
 import { IUser } from 'fitness-tracker-contracts';
 
-import { URL_USER_EDIT, USER_LIST_HEADERS } from '@/user/constants';
+import { URL_USER_EDIT } from '@/user/constants';
 
 interface IProps {
   users?: IUser[];
 }
 
 const props = defineProps<IProps>();
+
+const { t } = useI18n();
+
+const USER_LIST_HEADERS = computed(() => [{ title: t('email') }, { title: t('confirmed') }]);
 </script>
 
 <style module lang="scss">

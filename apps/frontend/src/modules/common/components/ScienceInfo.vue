@@ -1,23 +1,29 @@
 <template>
   <UiFlex column gap="64">
     <UiFlex column>
-      <div :class="$style.header">Лучшая тренировка - та, на которую ты пришел!</div>
+      <div :class="$style.header">{{ t('science.title') }}</div>
 
       <div>
-        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5977566/" target="_blank" rel="noopener noreferrer nofollow"
-          >Исследования</a
+        <a
+          href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5977566/"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          >{{ t('science.researches') }}</a
         >
-        доказывают, что трекинг результатов помогает достичь ваших спортивных целей. Научный подход к тренировкам
-        основан на принципах физиологии, биомеханики и спортивной медицины. Например, доказано, что прогрессивная
-        нагрузка стимулирует рост мышц и силы.
+        <template v-for="content in tm('science.researchesText')">
+          {{ rt(content) }}
+        </template>
       </div>
 
       <div>
-        Эффективные упражнения, рекомендованные экспертами, сгруппированы по группам мышц и подобраны для баланса
-        простоты и разнообразия тренировок.
+        <template v-for="content in tm('science.exercisesText')">
+          {{ rt(content) }}
+        </template>
       </div>
 
-      <div><b>Фиксация результатов тренировок — одна из лучших мотиваций продолжать заниматься фитнесом.</b></div>
+      <div>
+        <b>{{ t('science.motivation') }}</b>
+      </div>
     </UiFlex>
 
     <ImageMotivation :class="$style.image" />
@@ -25,9 +31,12 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 
 import ImageMotivation from '@/common/images/motivation.svg';
+
+const { t, tm, rt } = useI18n();
 </script>
 
 <style module lang="scss">

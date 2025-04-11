@@ -3,7 +3,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
 import ActivityPassingPage from './ActivityPassingPage.vue';
-import ActivityPassingForm from './ActivityPassingForm.vue';
+import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE } from '@/activity/fixtures';

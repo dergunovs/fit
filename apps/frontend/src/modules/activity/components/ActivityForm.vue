@@ -1,19 +1,21 @@
 <template>
   <div v-if="isShowForm" data-test="activity-form-container">
-    <h2>Сформировать занятие</h2>
+    <h2>{{ t('activity.form') }}</h2>
 
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" data-test="activity-form">
       <p>
-        <span>Примерная длительность: </span>
+        <span>{{ t('activity.approximateDuration') }}: </span>
 
         <span v-if="formData.exercises" data-test="activity-form-potential-duration">
-          {{ getPotentialActivityDuration(formData.exercises, props.exerciseStatistics, props.averageRestPercent) }}
+          {{
+            getPotentialActivityDuration(formData.exercises, props.exerciseStatistics, locale, props.averageRestPercent)
+          }}
         </span>
       </p>
 
       <UiFlex justify="space-between">
         <UiButton @click="repeatLastActivity" isNarrow layout="secondary" data-test="activity-form-repeat-last">
-          Повторить прошлое
+          {{ t('activity.repeatLast') }}
         </UiButton>
 
         <UiButton
@@ -26,22 +28,30 @@
         </UiButton>
       </UiFlex>
 
-      <UiFlex v-if="isShowCalendar" column data-test="activity-form-calendar-block">
+      <UiFlex v-if="isShowCalendar" column gap="16" data-test="activity-form-calendar-block">
         <UiButton @click="submit(true)" :isDisabled="!isValid" data-test="activity-form-save-to-calendar">
-          Сохранить занятие в календаре
+          {{ t('activity.saveToCalendar') }}
         </UiButton>
 
-        <div>
-          <span>{{ dateScheduledText }}</span>
-          <span v-if="formData.dateScheduled" data-test="activity-form-date-scheduled">
-            {{ formatDate(formData.dateScheduled, 'ru') }}
-          </span>
-        </div>
+        <UiFlex gap="4">
+          <div>{{ dateScheduledText }}</div>
 
-        <UiCalendar :minDate="new Date()" @chooseDate="setScheduledDate" data-test="activity-form-calendar" />
+          <b v-if="formData.dateScheduled" data-test="activity-form-date-scheduled">
+            {{ formatDate(formData.dateScheduled, locale) }}
+          </b>
+        </UiFlex>
+
+        <UiCalendar
+          :minDate="new Date()"
+          :lang="locale"
+          @chooseDate="setScheduledDate"
+          data-test="activity-form-calendar"
+        />
       </UiFlex>
 
-      <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">Добавить упражнение</UiButton>
+      <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">
+        {{ t('exercise.add') }}
+      </UiButton>
 
       <UiModal v-model="isShowModal" width="360" data-test="activity-form-add-exercise-modal">
         <ExerciseChooseList
@@ -53,7 +63,7 @@
       </UiModal>
 
       <UiFlex v-if="formData.exercises?.length" column data-test="activity-form-exercises-choosen-container">
-        <h3>Упражнения</h3>
+        <h3>{{ t('exercise.many') }}</h3>
 
         <ExerciseChoosenList
           :choosenExercises="formData.exercises"
@@ -64,7 +74,7 @@
       </UiFlex>
 
       <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit" data-test="activity-form-submit">
-        Начать занятие
+        {{ t('activity.start') }}
       </UiButton>
     </UiFlex>
   </div>
@@ -73,6 +83,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
 import { createTempId, deleteTempId, formatDate, useQueryClient, useRouteId } from 'mhz-helpers';
 import {
@@ -101,6 +112,8 @@ const props = defineProps<IProps>();
 
 const router = useRouter();
 
+const { t, locale } = useI18n();
+
 const { id } = useRouteId('copy', true);
 
 const queryClient = useQueryClient();
@@ -115,8 +128,13 @@ const isShowModal = ref(false);
 const isShowForm = ref(true);
 const isShowCalendar = ref(false);
 
-const addToCalendarText = computed(() => (isShowCalendar.value ? 'Скрыть календарь' : 'Добавить в календарь'));
-const dateScheduledText = computed(() => (formData.value.dateScheduled ? 'Дата занятия - ' : 'Выберите дату занятия'));
+const addToCalendarText = computed(() =>
+  isShowCalendar.value ? t('activity.hideCalendar') : t('activity.addToCalendar')
+);
+
+const dateScheduledText = computed(() =>
+  formData.value.dateScheduled ? t('activity.date') : t('activity.chooseDate')
+);
 
 const { data: exercises } = exerciseService.getAll();
 const { data: lastActivity } = activityService.getLast();
@@ -161,7 +179,7 @@ function setScheduledDate(date: Date) {
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
   onSuccess: async (activityId: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
-    toast.success(formData.value.dateScheduled ? 'Занятие сохранено в календарь' : 'Занятие начато');
+    toast.success(formData.value.dateScheduled ? t('activity.savedToCalendar') : t('activity.started'));
     router.push(formData.value.dateScheduled ? URL_HOME : `${URL_ACTIVITY_EDIT}/${activityId}`);
   },
 });

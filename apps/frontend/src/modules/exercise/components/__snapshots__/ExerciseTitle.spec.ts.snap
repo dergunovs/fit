@@ -8,7 +8,7 @@ exports[`ExerciseTitle > matches snapshot 1`] = `
       <!--v-if-->
       <div data-test="exercise-repeats">x12</div>
       <div data-test="exercise-weight">
-        <anonymous-stub width="16" height="16"></anonymous-stub>8 кг.
+        <anonymous-stub width="16" height="16"></anonymous-stub>8 кг
       </div>
       <div data-test="exercise-duration">
         <anonymous-stub width="16" height="16"></anonymous-stub> 43 сек.

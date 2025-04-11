@@ -12,13 +12,14 @@
 
       <div>
         <div>
-          Занятие создано <span data-test="activity-start">{{ formatDateTime(props.activity.dateCreated, 'ru') }}</span
+          {{ t('activity.created') }}
+          <span data-test="activity-start"> {{ formatDateTime(props.activity.dateCreated, locale) }}</span
           >.
         </div>
 
         <div v-if="props.activity.dateUpdated">
-          Занятие {{ formData.isDone ? 'закончено' : 'обновлено' }}
-          <span data-test="activity-updated">{{ formatDateTime(props.activity.dateUpdated, 'ru') }}</span
+          {{ formData.isDone ? t('activity.finished') : t('activity.updated') }}
+          <span data-test="activity-updated">{{ formatDateTime(props.activity.dateUpdated, locale) }}</span
           >.
         </div>
       </div>
@@ -29,7 +30,7 @@
         :isDisabled="props.activity.isDone"
         data-test="activity-finish"
       >
-        Завершить занятие досрочно
+        {{ t('activity.finishEarly') }}
       </UiButton>
     </UiFlex>
   </div>
@@ -38,6 +39,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { toast, UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
 import {
@@ -59,6 +61,10 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+const router = useRouter();
+const { t, locale } = useI18n();
+const queryClient = useQueryClient();
+
 const formData = ref<IActivity>({
   exercises: [],
   dateCreated: undefined,
@@ -68,10 +74,6 @@ const formData = ref<IActivity>({
 });
 
 const activeExerciseId = ref<string>();
-
-const router = useRouter();
-
-const queryClient = useQueryClient();
 
 const { mutate: mutateUpdate } = activityService.update({
   onSuccess: async () => {
@@ -123,7 +125,7 @@ function finishActivity() {
 }
 
 function exitActivity() {
-  toast.success('Занятие закончено');
+  toast.success(t('activity.finished'));
 
   setTimeout(async () => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });

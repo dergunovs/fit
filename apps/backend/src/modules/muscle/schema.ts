@@ -14,6 +14,7 @@ export const muscleModel: JSONSchemaType<IMuscle> = {
     dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
     title: { type: 'string' },
+    title_en: { type: 'string', nullable: true },
     color: { type: 'string' },
   },
   required: ['title', 'color'],

@@ -4,10 +4,14 @@ exports[`EquipmentList > matches snapshot 1`] = `
 "<table headers="[object Object]" isloading="false">
   <tbody>
     <tr data-test="equipment-table-row">
-      <td data-grow=""><a to="/equipment/edit/147456456" data-test="equipment-table-title-link">Гантели</a></td>
+      <td data-grow=""><a to="/equipment/edit/147456456" data-test="equipment-table-title-link">Гантели
+          <!--v-if-->
+        </a></td>
     </tr>
     <tr data-test="equipment-table-row">
-      <td data-grow=""><a to="/equipment/edit/245645645645" data-test="equipment-table-title-link">Скамья</a></td>
+      <td data-grow=""><a to="/equipment/edit/245645645645" data-test="equipment-table-title-link">Скамья
+          <!--v-if-->
+        </a></td>
     </tr>
   </tbody>
 </table>"

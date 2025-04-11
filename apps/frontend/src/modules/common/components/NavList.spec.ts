@@ -5,10 +5,19 @@ import { dataTest } from 'mhz-helpers';
 import NavList from './NavList.vue';
 import NavItem from './NavItem.vue';
 
+import IconExercise from '@/common/icons/exercise.svg?component';
+import IconActivity from '@/common/icons/activity.svg?component';
+
 import { wrapperFactory } from '@/common/test';
-import { NAV_ITEMS } from '@/common/constants';
+import { URL_EXERCISE } from '@/exercise/constants';
+import { URL_ACTIVITY_ADMIN } from '@/activity/constants';
 
 const item = dataTest('nav-list-item');
+
+const NAV_ITEMS = [
+  { url: URL_EXERCISE, title: 'Упражнения', icon: IconExercise },
+  { url: URL_ACTIVITY_ADMIN, title: 'Занятия', icon: IconActivity },
+];
 
 let wrapper: VueWrapper<InstanceType<typeof NavList>>;
 

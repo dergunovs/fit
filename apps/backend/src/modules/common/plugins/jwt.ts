@@ -14,7 +14,7 @@ export default fp(async function (fastify) {
     try {
       await request.jwtVerify();
     } catch (error: unknown) {
-      reply.code(403).send({ message: error || 'Ошибка аутентификации' });
+      reply.code(403).send({ message: error || 'Auth error' });
     }
   });
 
@@ -24,7 +24,7 @@ export default fp(async function (fastify) {
 
       if (user.role !== 'admin') throw new Error();
     } catch (error: unknown) {
-      reply.code(403).send({ message: error || 'Ошибка аутентификации' });
+      reply.code(403).send({ message: error || 'Auth error' });
     }
   });
 });

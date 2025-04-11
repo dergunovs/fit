@@ -1,9 +1,11 @@
 /// <reference types="vitest/config" />
 
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 function removeDataTest(node) {
@@ -33,6 +35,9 @@ export default defineConfig({
       },
     }),
     svgLoader(),
+    VueI18nPlugin({
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './src/modules/common/locales/**'),
+    }),
     VitePWA({
       registerType: 'prompt',
       workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'] },
@@ -41,7 +46,7 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         short_name: 'FiT',
-        description: 'Фитнес трекер домашних тренировок FiT',
+        description: 'FiT',
         display: 'standalone',
         theme_color: '#ffffff',
         background_color: '#ffffff',

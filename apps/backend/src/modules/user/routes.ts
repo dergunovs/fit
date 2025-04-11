@@ -54,7 +54,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await userService.create<IUser>(request.body);
 
-      reply.code(201).send({ message: 'Пользователь создан' });
+      reply.code(201).send({ message: 'User added' });
     }
   );
 
@@ -69,7 +69,7 @@ export default async function (fastify: IFastifyInstance) {
         request.headers.authorization
       );
 
-      reply.code(200).send({ message: 'Пользователь обновлен' });
+      reply.code(200).send({ message: 'User updated' });
     }
   );
 
@@ -84,7 +84,7 @@ export default async function (fastify: IFastifyInstance) {
         request.headers.authorization
       );
 
-      reply.code(200).send({ message: 'Пароль пользователя обновлен' });
+      reply.code(200).send({ message: 'Users password updated' });
     }
   );
 
@@ -94,7 +94,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await userService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(200).send({ message: 'Пользователь удален' });
+      reply.code(200).send({ message: 'User deleted' });
     }
   );
 }

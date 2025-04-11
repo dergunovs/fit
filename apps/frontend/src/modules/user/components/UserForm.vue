@@ -1,10 +1,10 @@
 <template>
   <div>
     <UiFlex @submit.prevent="submit" tag="form" column gap="16" align="flex-start" data-test="user-form">
-      <h2>Профиль пользователя</h2>
+      <h2>{{ t('user.profile') }}</h2>
 
       <div v-if="props.user?.role === 'admin'" :class="$style.admin" data-test="user-form-admin">
-        Пользователь с правами администратора
+        {{ t('user.admin') }}
       </div>
 
       <div
@@ -12,10 +12,10 @@
         :class="$style.reset"
         data-test="user-form-reset-password"
       >
-        Установите новый пароль
+        {{ t('setNewPassword') }}
       </div>
 
-      <h3>Ваше оборудование</h3>
+      <h3>{{ t('user.equipment') }}</h3>
 
       <UserEquipmentForm
         v-if="equipments"
@@ -26,7 +26,7 @@
 
       <slot></slot>
 
-      <h3>Выбор веса по-умолчанию</h3>
+      <h3>{{ t('user.defaultWeights') }}</h3>
 
       <UserDefaultWeightsForm
         v-if="formData.equipments && exercises"
@@ -36,30 +36,30 @@
         data-test="user-form-default-weights"
       />
 
-      <h3>Общие данные</h3>
+      <h3>{{ t('user.generalInfo') }}</h3>
 
-      <UiField label="Имя" isRequired :error="error('name')">
+      <UiField :label="t('name')" isRequired :error="error('name')">
         <UiInput v-model="formData.name" data-test="user-form-name" />
       </UiField>
 
-      <UiField label="Электронная почта" isRequired :error="error('email')">
+      <UiField :label="t('email')" isRequired :error="error('email')">
         <UiInput v-model="formData.email" type="email" data-test="user-form-email" />
       </UiField>
 
-      <UiField v-if="!props.user?._id" label="Пароль" isRequired :error="error('password')">
+      <UiField v-if="!props.user?._id" :label="t('password')" isRequired :error="error('password')">
         <UiInput v-model="formData.password" isPassword data-test="user-form-password" />
       </UiField>
 
       <UiSpoiler
         v-if="props.user?._id"
-        title="Обновить пароль"
+        :title="t('updatePassword')"
         v-model="isShowUpdatePassword"
         data-test="user-form-new-password-spoiler"
       >
         <UiFlex>
           <UiInput
             v-model="newPassword"
-            placeholder="Новый пароль от 6 символов"
+            :placeholder="t('password6Symbols')"
             isPassword
             data-test="user-form-new-password"
           />
@@ -70,7 +70,7 @@
             @click="mutateUpdatePassword({ password: newPassword })"
             data-test="user-form-set-new-password"
           >
-            Установить
+            {{ t('update') }}
           </UiButton>
         </UiFlex>
       </UiSpoiler>
@@ -88,6 +88,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
 import {
@@ -123,7 +124,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
-
+const { t, locale } = useI18n();
 const queryClient = useQueryClient();
 
 const { data: equipments } = equipmentService.getAll();
@@ -147,7 +148,7 @@ const newPassword = ref('');
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {
     await queryClient.refetchQueries({ queryKey: [API_USER] });
-    toast.success('Пользователь добавлен');
+    toast.success(t('user.added'));
     router.push(URL_USER);
   },
 });
@@ -157,14 +158,14 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update(
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    toast.success('Пользователь обновлен');
+    toast.success(t('user.updated'));
   },
 });
 
 const { mutate: mutateUpdatePassword } = userService.updatePassword(
   {
     onSuccess: async () => {
-      toast.success('Пароль обновлен');
+      toast.success(t('passwordUpdated'));
       newPassword.value = '';
       isShowUpdatePassword.value = false;
       isPasswordUpdated.value = true;
@@ -177,7 +178,7 @@ const { mutate: mutateDelete } = userService.delete({
   onSuccess: async () => {
     queryClient.removeQueries({ queryKey: [API_USER] });
     await queryClient.refetchQueries({ queryKey: [API_USER] });
-    toast.success('Пользователь удален');
+    toast.success(t('user.deleted'));
 
     if (isAdmin.value) {
       router.push(URL_USER);
@@ -188,9 +189,9 @@ const { mutate: mutateDelete } = userService.delete({
 });
 
 const { error, isValid } = useValidator(formData, {
-  email: [required(), email()],
-  name: [required(), letters()],
-  password: !props.user?._id && [required(), min(6)],
+  email: [required(locale.value), email(locale.value)],
+  name: [required(locale.value), letters(locale.value)],
+  password: !props.user?._id && [required(locale.value), min(6, locale.value)],
 });
 
 function submit() {

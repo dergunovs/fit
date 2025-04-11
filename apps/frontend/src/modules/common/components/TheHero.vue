@@ -1,11 +1,16 @@
 <template>
   <div>
     <div :class="$style.background">
-      <h1 :class="$style.h1">FiT - фитнес трекер домашних тренировок</h1>
+      <h1 :class="$style.h1">{{ t('hero.title') }}</h1>
 
       <UiFlex column gap="12">
-        <div v-for="benefit in HERO_BENEFITS" :key="benefit" :class="$style.benefit" data-test="hero-benefit">
-          {{ benefit }}
+        <div
+          v-for="(benefit, index) in tm('hero.benefits')"
+          :key="index"
+          :class="$style.benefit"
+          data-test="hero-benefit"
+        >
+          {{ rt(benefit) }}
         </div>
       </UiFlex>
 
@@ -15,11 +20,12 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 
 import HeroBackground from '@/common/images/hero.svg';
 
-import { HERO_BENEFITS } from '@/common/constants';
+const { t, tm, rt } = useI18n();
 </script>
 
 <style module lang="scss">

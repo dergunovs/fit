@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast, UiFlex } from 'mhz-ui';
 import { isAuth, scrollToTop, useRouteId } from 'mhz-helpers';
@@ -57,11 +58,12 @@ const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_G
 const { data: muscles } = muscleService.getAll();
 
 const router = useRouter();
+const { t } = useI18n();
 const { id: token } = useRouteId('token', true);
 
 const { mutate: mutateConfirm } = authService.confirmToken({
   onSuccess: () => {
-    toast.success('Почта подтверждена. Войдите в приложение.');
+    toast.success(t('emailConfirmed'));
     router.push(URL_HOME);
   },
 });

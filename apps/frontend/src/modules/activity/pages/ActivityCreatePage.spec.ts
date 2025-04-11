@@ -3,7 +3,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
 import ActivityCreatePage from './ActivityCreatePage.vue';
-import ActivityForm from './ActivityForm.vue';
+import ActivityForm from '@/activity/components/ActivityForm.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { spyGetActivitiesStatistics } from '@/activity/mocks';

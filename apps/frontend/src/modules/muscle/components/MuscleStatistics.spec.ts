@@ -16,7 +16,7 @@ const repeats = dataTest('muscle-repeats');
 
 let wrapper: VueWrapper<InstanceType<typeof MuscleStatistics>>;
 
-const statistics = generateMuscleStatistics(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE);
+const statistics = generateMuscleStatistics(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE, 'ru');
 
 beforeEach(() => {
   wrapper = wrapperFactory(MuscleStatistics, { statistics });

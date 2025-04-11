@@ -7,7 +7,6 @@ import FormButtons from './FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { spyRouterGo } from '@/common/mocks';
-import { CREATE_BUTTON_TEXT, UPDATE_BUTTON_TEXT } from '@/common/constants';
 
 const id = '123';
 
@@ -54,11 +53,11 @@ describe('FormButtons', async () => {
   });
 
   it('changes submit button text by id props', async () => {
-    expect(wrapper.findComponent(buttonsSubmit).text()).toBe(UPDATE_BUTTON_TEXT);
+    expect(wrapper.findComponent(buttonsSubmit).text()).toBe('Сохранить');
 
     await wrapper.setProps({ id: undefined });
 
-    expect(wrapper.findComponent(buttonsSubmit).text()).toBe(CREATE_BUTTON_TEXT);
+    expect(wrapper.findComponent(buttonsSubmit).text()).toBe('Создать');
   });
 
   it('pushed to previous page by back button click', async () => {

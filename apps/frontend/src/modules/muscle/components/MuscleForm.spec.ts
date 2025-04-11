@@ -68,7 +68,7 @@ describe('MuscleForm', async () => {
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateMuscle).toBeCalledTimes(1);
-    expect(spyCreateMuscle).toBeCalledWith({ title: TITLE, color: COLOR });
+    expect(spyCreateMuscle).toBeCalledWith({ title: TITLE, title_en: '', color: COLOR });
 
     await mockOnSuccess.create?.();
 

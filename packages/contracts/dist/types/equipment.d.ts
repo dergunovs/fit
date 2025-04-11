@@ -5,6 +5,7 @@ export { API_EQUIPMENT } from "../index";
 
 export interface IEquipment extends IEntity {
   title: string;
+  title_en?: string;
   isWeights: boolean;
 }
 

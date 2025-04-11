@@ -36,14 +36,14 @@ describe('ActivityStatistics', async () => {
   });
 
   it('shows total statistics data', async () => {
-    expect(wrapper.find(totalDuration).text()).toBe(formatDuration(statistics.duration.cur));
+    expect(wrapper.find(totalDuration).text()).toBe(formatDuration(statistics.duration.cur, 'ru'));
     expect(wrapper.find(totalCount).text()).toBe(statistics.activitiesCount.cur.toString());
     expect(wrapper.find(totalSets).text()).toBe(statistics.setsCount.cur.toString());
     expect(wrapper.find(totalRepeats).text()).toBe(statistics.repeatsCount.cur.toString());
   });
 
   it('shows average statistics data', async () => {
-    expect(wrapper.find(averageDuration).text()).toBe(formatDuration(statistics.averageDuration.cur));
+    expect(wrapper.find(averageDuration).text()).toBe(formatDuration(statistics.averageDuration.cur, 'ru'));
     expect(wrapper.find(averageSets).text()).toBe(statistics.averageSetsPerActivity.cur.toString());
     expect(wrapper.find(averageRepeats).text()).toBe(statistics.averageRepeatsPerSet.cur.toString());
     expect(wrapper.find(averageRest).text()).toBe(`${statistics.averageRestPercent.cur.toString()}%`);

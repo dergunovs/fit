@@ -184,6 +184,7 @@ describe('ActivityForm', async () => {
       getPotentialActivityDuration(
         [EXERCISE_CHOOSEN_FIXTURE],
         ACTIVITIES_STATISTICS_FIXTURE.exercise,
+        'ru',
         averageRestPercent
       )
     );

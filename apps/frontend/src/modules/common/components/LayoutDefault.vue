@@ -37,7 +37,7 @@ import NavList from '@/common/components/NavList.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
-import { BOTTOM_NAV_ITEMS } from '@/common/constants';
+import { useNavItems } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
@@ -48,6 +48,8 @@ interface IProps {
 const props = defineProps<IProps>();
 
 defineOptions({ name: 'LayoutDefault' });
+
+const { BOTTOM_NAV_ITEMS } = useNavItems();
 
 const isShowLogin = ref(false);
 const isShowRegistration = ref(false);

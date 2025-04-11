@@ -4,7 +4,7 @@
 
     <UiFlex>
       <UiButton v-if="props.isSetCreatable" @click="emit('createSet')" layout="plain" data-test="exercise-create-set">
-        +Сет
+        +{{ t('set.super') }}
       </UiButton>
 
       <UiClose
@@ -19,8 +19,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiButton, UiClose, UiFlex } from 'mhz-ui';
+import { localeField } from 'mhz-helpers';
 
 interface IProps {
   exercise: IExerciseChoosen;
@@ -31,7 +33,11 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ delete: [id: string]; createSet: [] }>();
 
-const exerciseTitle = computed(() => `${props.index}. ${props.exercise.exercise?.title} x${props.exercise.repeats}`);
+const { t, locale } = useI18n();
+
+const exerciseTitle = computed(
+  () => `${props.index}. ${props.exercise.exercise?.[localeField('title', locale.value)]} x${props.exercise.repeats}`
+);
 </script>
 
 <style module lang="scss">

@@ -15,8 +15,10 @@ import type {
   TPostAuthLoginDataDTO,
   TPostAuthRegisterDTO,
   TPostAuthRegisterDataDTO,
+  TPostAuthRegisterQueryDTO,
   TPostAuthResetPasswordDTO,
   TPostAuthResetPasswordDataDTO,
+  TPostAuthResetPasswordQueryDTO,
   TPostAuthSetupDTO,
   TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
@@ -40,7 +42,7 @@ export default async function (fastify: IFastifyInstance) {
       const { user, isUserNotFound } = await authService.check(request);
 
       if (isUserNotFound) {
-        reply.code(404).send({ message: 'Пользователь не найден' });
+        reply.code(404).send({ message: 'User not found' });
       } else {
         reply.code(200).send(user);
       }
@@ -57,11 +59,11 @@ export default async function (fastify: IFastifyInstance) {
       );
 
       if (isUserNotFound) {
-        reply.code(404).send({ message: 'Пользователь не найден' });
+        reply.code(404).send({ message: 'User not found' });
       } else if (isWrongPassword) {
-        reply.code(401).send({ message: 'Неправильный пароль' });
+        reply.code(401).send({ message: 'Wrong password' });
       } else if (isEmailNotConfirmed) {
-        reply.code(401).send({ message: 'Подтвердите email' });
+        reply.code(401).send({ message: 'Email is not confirmed' });
       } else {
         reply.code(200).send({ user, token });
       }
@@ -75,26 +77,26 @@ export default async function (fastify: IFastifyInstance) {
       const isUsersExists = await authService.setup(request.body);
 
       if (isUsersExists) {
-        reply.code(500).send({ message: 'Пользователи уже существуют' });
+        reply.code(500).send({ message: 'User does not exist' });
       } else {
-        reply.code(201).send({ message: 'Пользователь создан' });
+        reply.code(201).send({ message: 'User created' });
       }
     }
   );
 
-  fastify.post<{ Body: TPostAuthRegisterDataDTO; Reply: { 201: TPostAuthRegisterDTO; '5xx': IBaseReply } }>(
-    API_AUTH_REGISTER,
-    { ...authRegisterSchema },
-    async function (request, reply) {
-      const isUserExists = await authService.register(request.body, fastify.jwt.sign);
+  fastify.post<{
+    Body: TPostAuthRegisterDataDTO;
+    Querystring: TPostAuthRegisterQueryDTO;
+    Reply: { 201: TPostAuthRegisterDTO; '5xx': IBaseReply };
+  }>(API_AUTH_REGISTER, { ...authRegisterSchema }, async function (request, reply) {
+    const isUserExists = await authService.register(request.body, request.query.lang, fastify.jwt.sign);
 
-      if (isUserExists) {
-        reply.code(500).send({ message: 'Пользователь уже существует' });
-      } else {
-        reply.code(201).send({ message: 'Пользователь создан' });
-      }
+    if (isUserExists) {
+      reply.code(500).send({ message: 'User exists' });
+    } else {
+      reply.code(201).send({ message: 'User added' });
     }
-  );
+  });
 
   fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 200: TPostAuthConfirmTokenDTO; '5xx': IBaseReply } }>(
     API_AUTH_CONFIRM,
@@ -103,24 +105,24 @@ export default async function (fastify: IFastifyInstance) {
       const isEmailNotConfirmed = await authService.confirm(request.body.token, fastify.jwt.decode);
 
       if (isEmailNotConfirmed) {
-        reply.code(500).send({ message: 'Ошибка подтверждения почты' });
+        reply.code(500).send({ message: 'Email is not confirmed' });
       } else {
-        reply.code(200).send({ message: 'Почта подтверждена' });
+        reply.code(200).send({ message: 'Email confirmed' });
       }
     }
   );
 
-  fastify.post<{ Body: TPostAuthResetPasswordDataDTO; Reply: { 200: TPostAuthResetPasswordDTO; '5xx': IBaseReply } }>(
-    API_AUTH_RESET,
-    { ...authResetSchema },
-    async function (request, reply) {
-      const isUserNotExists = await authService.reset(request.body.email);
+  fastify.post<{
+    Body: TPostAuthResetPasswordDataDTO;
+    Querystring: TPostAuthResetPasswordQueryDTO;
+    Reply: { 200: TPostAuthResetPasswordDTO; '5xx': IBaseReply };
+  }>(API_AUTH_RESET, { ...authResetSchema }, async function (request, reply) {
+    const isUserNotExists = await authService.reset(request.body.email, request.query.lang);
 
-      if (isUserNotExists) {
-        reply.code(500).send({ message: 'Пользователя с таким email не существует' });
-      } else {
-        reply.code(200).send({ message: 'Новый пароль установлен. Проверьте почту.' });
-      }
+    if (isUserNotExists) {
+      reply.code(500).send({ message: 'User does not exist' });
+    } else {
+      reply.code(200).send({ message: 'Check email' });
     }
-  );
+  });
 }

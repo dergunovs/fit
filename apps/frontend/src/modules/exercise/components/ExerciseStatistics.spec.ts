@@ -49,8 +49,11 @@ describe('ExerciseStatistics', async () => {
   });
 
   it('shows sets and repeats average duration', async () => {
-    expect(wrapper.find(setsDuration).text()).toBe(getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'set'));
-    expect(wrapper.find(repeatsDuration).text()).toBe(getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'repeat'));
+    expect(wrapper.find(setsDuration).text()).toBe(`${getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'set')}с`);
+
+    expect(wrapper.find(repeatsDuration).text()).toBe(
+      `${getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'repeat')}с`
+    );
   });
 
   it('shows info modal by button click', async () => {

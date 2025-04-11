@@ -81,9 +81,9 @@ export default async function (fastify: IFastifyInstance) {
       );
 
       if (isAllowToCreateExercise) {
-        reply.code(201).send({ message: 'Упражнение создано' });
+        reply.code(201).send({ message: 'Exercise added' });
       } else {
-        reply.code(500).send({ message: 'Вы достигли лимита пользовательских упражнений' });
+        reply.code(500).send({ message: 'Custom exercises limit error' });
       }
     }
   );
@@ -99,7 +99,7 @@ export default async function (fastify: IFastifyInstance) {
         request.headers.authorization
       );
 
-      reply.code(200).send({ message: 'Упражнение обновлено' });
+      reply.code(200).send({ message: 'Exercise updated' });
     }
   );
 
@@ -109,7 +109,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await exerciseService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(200).send({ message: 'Упражнение удалено' });
+      reply.code(200).send({ message: 'Exercises deleted' });
     }
   );
 }

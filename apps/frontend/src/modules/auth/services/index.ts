@@ -16,6 +16,8 @@ import {
   TPostAuthSetupDataDTO,
   TPostAuthResetPasswordDataDTO,
   TPostAuthResetPasswordDTO,
+  TPostAuthRegisterQueryDTO,
+  TPostAuthResetPasswordQueryDTO,
 } from 'fitness-tracker-contracts';
 import { useQuery, useMutation, api } from 'mhz-helpers';
 
@@ -56,11 +58,13 @@ export const authService = {
     });
   },
 
-  register: (options: object) => {
+  register: (lang: string, options: object) => {
     return useMutation({
       mutationKey: [API_AUTH_REGISTER],
       mutationFn: async (formData: TPostAuthRegisterDataDTO) => {
-        const { data } = await api.post<TPostAuthRegisterDTO>(API_AUTH_REGISTER, formData);
+        const params: TPostAuthRegisterQueryDTO = { lang };
+
+        const { data } = await api.post<TPostAuthRegisterDTO>(API_AUTH_REGISTER, formData, { params });
 
         return data;
       },
@@ -80,11 +84,13 @@ export const authService = {
     });
   },
 
-  resetPassword: (options: object) => {
+  resetPassword: (lang: string, options: object) => {
     return useMutation({
       mutationKey: [API_AUTH_RESET],
       mutationFn: async (email: TPostAuthResetPasswordDataDTO) => {
-        const { data } = await api.post<TPostAuthResetPasswordDTO>(API_AUTH_RESET, email);
+        const params: TPostAuthResetPasswordQueryDTO = { lang };
+
+        const { data } = await api.post<TPostAuthResetPasswordDTO>(API_AUTH_RESET, email, { params });
 
         return data;
       },

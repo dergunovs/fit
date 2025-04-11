@@ -63,7 +63,7 @@ describe('EquipmentForm', async () => {
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateEquipment).toBeCalledTimes(1);
-    expect(spyCreateEquipment).toBeCalledWith({ title: TITLE, isWeights: IS_WEIGHTS });
+    expect(spyCreateEquipment).toBeCalledWith({ title: TITLE, title_en: '', isWeights: IS_WEIGHTS });
 
     await mockOnSuccess.create?.();
 

@@ -19,12 +19,16 @@ import { usePWA } from 'mhz-helpers';
 
 import PWAUpdateModal from '@/common/components/PWAUpdateModal.vue';
 
-import { useLayout } from '@/common/composables';
+import { useLayout, useLocale } from '@/common/composables';
 import { useAuthCheck } from '@/auth/composables';
+
+const { initLocale } = useLocale();
 
 const { isLoaded, layoutComponent } = useLayout();
 
 const { isAdmin } = useAuthCheck();
 
 const { installPWA, isShowInstallPWA } = usePWA();
+
+initLocale();
 </script>

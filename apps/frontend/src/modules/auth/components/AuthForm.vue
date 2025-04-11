@@ -3,12 +3,12 @@
     <h2 data-test="auth-form-header">{{ header }}</h2>
 
     <form @submit.prevent="submit" :class="$style.form" data-test="auth-form">
-      <UiField label="Электронная почта" isRequired :error="error('email')">
+      <UiField :label="t('email')" isRequired :error="error('email')">
         <UiInput v-model="formData.email" autocomplete="username" type="email" data-test="auth-form-email" />
       </UiField>
 
       <div>
-        <UiField v-if="!isPasswordReset" label="Пароль" isRequired :error="error('password')">
+        <UiField v-if="!isPasswordReset" :label="t('password')" isRequired :error="error('password')">
           <UiInput
             v-model="formData.password"
             isPassword
@@ -24,11 +24,11 @@
           layout="plain"
           data-test="auth-form-password-reset-button"
         >
-          Забыли пароль?
+          {{ t('forgotPassword') }}?
         </UiButton>
 
         <div v-if="isPasswordReset" data-test="auth-form-password-reset-info">
-          Вышлем на почту новый пароль, который вы потом сможете поменять в профиле.
+          {{ t('sendNewPasswordToEmail') }}
         </div>
       </div>
 
@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email, min } from 'mhz-helpers';
 import {
@@ -52,15 +53,7 @@ import {
 
 import { authService } from '@/auth/services';
 import { URL_HOME } from '@/common/constants';
-import {
-  TOKEN_NAME,
-  AUTH_FORM_HEADER_SETUP,
-  AUTH_FORM_HEADER_LOGIN,
-  AUTH_FORM_HEADER_RESET,
-  AUTH_FORM_SUBMIT_BUTTON_SETUP,
-  AUTH_FORM_SUBMIT_BUTTON_LOGIN,
-  AUTH_FORM_SUBMIT_BUTTON_RESET,
-} from '@/auth/constants';
+import { TOKEN_NAME } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
 
 interface IProps {
@@ -71,6 +64,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<{ login: []; reset: [] }>();
 
 const router = useRouter();
+const { t, locale } = useI18n();
 const queryClient = useQueryClient();
 
 const { auth } = useAuth();
@@ -83,25 +77,24 @@ const formData = ref<IAuthData>({
 const isPasswordReset = ref(false);
 
 const header = computed(() => {
-  if (props.isSetup) return AUTH_FORM_HEADER_SETUP;
-  if (isPasswordReset.value) return AUTH_FORM_HEADER_RESET;
+  if (props.isSetup) return t('createAdmin');
+  if (isPasswordReset.value) return t('resetPassword');
 
-  return AUTH_FORM_HEADER_LOGIN;
+  return t('login');
 });
-const submitButton = computed(() => {
-  if (props.isSetup) return AUTH_FORM_SUBMIT_BUTTON_SETUP;
-  if (isPasswordReset.value) return AUTH_FORM_SUBMIT_BUTTON_RESET;
 
-  return AUTH_FORM_SUBMIT_BUTTON_LOGIN;
+const submitButton = computed(() => {
+  if (props.isSetup) return t('create');
+  if (isPasswordReset.value) return t('sendNewPassword');
+
+  return t('enter');
 });
 
 const { mutate: mutateLogin } = authService.login({
   onSuccess: async (response: TPostAuthLoginDTO) => {
     if (!response.token) return;
 
-    toast.success(
-      response.user?.isResetPassword ? 'Установите новый пароль в профиле' : `Добро пожаловать, ${response.user?.name}!`
-    );
+    toast.success(response.user?.isResetPassword ? t('setNewPassword') : `${t('welcome')}, ${response.user?.name}!`);
 
     auth(response.token, setAuthHeader, TOKEN_NAME);
     if (response.user?.role === 'admin') setAdmin(true);
@@ -115,21 +108,21 @@ const { mutate: mutateLogin } = authService.login({
 
 const { mutate: mutateSetup } = authService.setup({
   onSuccess: () => {
-    toast.success('Администратор создан!');
+    toast.success(t('adminCreated'));
     router.push(URL_HOME);
   },
 });
 
-const { mutate: mutateReset } = authService.resetPassword({
+const { mutate: mutateReset } = authService.resetPassword(locale.value, {
   onSuccess: () => {
-    toast.success('Временный пароль выслан на почту!');
+    toast.success(t('tempPasswordSent'));
     emit('reset');
   },
 });
 
 const { error, isValid } = useValidator(formData, {
-  email: [required(), email()],
-  password: isPasswordReset.value && [required(), min(6)],
+  email: [required(locale.value), email(locale.value)],
+  password: isPasswordReset.value && [required(locale.value), min(6, locale.value)],
 });
 
 function submit() {

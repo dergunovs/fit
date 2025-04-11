@@ -54,6 +54,7 @@ describe('ExerciseChooseElement', async () => {
       exercise: {
         _id: EXERCISE_FIXTURE._id,
         title: EXERCISE_FIXTURE.title,
+        title_en: undefined,
         isWeights: EXERCISE_FIXTURE.isWeights,
         isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
       },

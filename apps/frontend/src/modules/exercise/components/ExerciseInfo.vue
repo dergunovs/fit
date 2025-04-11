@@ -1,7 +1,7 @@
 <template>
   <UiFlex column gap="16">
     <UiFlex column>
-      <h3 data-test="exercise-info-title">{{ props.exercise.exercise.title }}</h3>
+      <h3 data-test="exercise-info-title">{{ props.exercise.exercise[localeField('title', locale)] }}</h3>
 
       <div
         v-if="isAuth"
@@ -9,33 +9,35 @@
         :data-matches="props.exercise.isUserEquipmentMatches"
         data-test="exercise-info-matches"
       >
-        Вы <span v-if="!props.exercise.isUserEquipmentMatches" data-test="exercise-info-not-matches">не</span> можете
-        выполнять это упражнение.
+        {{ t('exercise.equipmentMatches') }}
       </div>
 
       <div>
-        <div>Задействованные группы мышц</div>
+        <div>{{ t('muscle.involved') }}</div>
 
         <UiFlex>
           <UiChip v-for="group in props.exercise.exercise.muscles" :key="group._id" data-test="exercise-info-muscles">
-            {{ group.title }}
+            {{ group[localeField('title', locale)] }}
           </UiChip>
         </UiFlex>
       </div>
 
       <div v-if="props.exercise.exercise.equipment" data-test="exercise-info-equipment">
-        <div>Необходимое оборудование</div>
+        <div>{{ t('equipment.required') }}</div>
 
         <UiFlex>
-          <UiChip data-test="exercise-info-equipment-title">{{ props.exercise.exercise.equipment?.title }}</UiChip>
+          <UiChip data-test="exercise-info-equipment-title">
+            {{ props.exercise.exercise.equipment?.[localeField('title', locale)] }}
+          </UiChip>
         </UiFlex>
       </div>
 
       <div v-if="props.exercise.exercise.isWeights" data-test="exercise-info-is-weights">
         <div>
-          <span>Подходящее оборудование для веса</span>
+          <span>{{ t('equipment.suitable') }}</span>
+
           <span v-if="props.exercise.exercise.isWeightsRequired" data-test="exercise-info-is-weights-required">
-            <b> (обязательно)</b>
+            <b> ({{ t('required').toLowerCase() }})</b>
           </span>
         </div>
 
@@ -45,7 +47,7 @@
             :key="equipmentForWeight._id"
             data-test="exercise-info-equipment-for-weight"
           >
-            {{ equipmentForWeight.title }}
+            {{ equipmentForWeight[localeField('title', locale)] }}
           </UiChip>
         </UiFlex>
       </div>
@@ -53,22 +55,25 @@
 
     <div
       v-if="props.exercise.exercise.description"
-      v-html="props.exercise.exercise.description"
+      v-html="props.exercise.exercise[localeField('description', locale)]"
       data-test="exercise-info-description"
     ></div>
   </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiFlex, UiChip } from 'mhz-ui';
-import { isAuth } from 'mhz-helpers';
+import { isAuth, localeField } from 'mhz-helpers';
 
 interface IProps {
   exercise: IExerciseStatistics;
 }
 
 const props = defineProps<IProps>();
+
+const { t, locale } = useI18n();
 </script>
 
 <style module lang="scss">

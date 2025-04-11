@@ -14,8 +14,8 @@ import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { spyGetMuscles } from '@/muscle/mocks';
 
 const muscle = dataTest('muscle');
-const muscleTitle = dataTest('muscle-title');
-const muscleSpoiler = dataTest('muscle-spoiler');
+const title = dataTest('exercise-title');
+const spoiler = dataTest('exercise-spoiler');
 const exerciseChooseElement = dataTest('exercise-choose-element');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseChooseList>>;
@@ -46,8 +46,8 @@ describe('ExerciseChooseList', async () => {
   it('shows exercise spoilers', async () => {
     const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', '', USER_FIXTURE);
 
-    expect(wrapper.findAll(muscleSpoiler).length).toBe(filteredExercises.length);
-    expect(wrapper.find(muscleSpoiler).attributes('title')).toBe(filteredExercises[0].title);
+    expect(wrapper.findAll(spoiler).length).toBe(filteredExercises.length);
+    expect(wrapper.find(spoiler).attributes('title')).toBe(filteredExercises[0].title);
   });
 
   it('shows exercises to choose', async () => {
@@ -76,7 +76,7 @@ describe('ExerciseChooseList', async () => {
 
     const filteredExercises = filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, titleToFilter, '', USER_FIXTURE);
 
-    await wrapper.findComponent(muscleTitle).setValue(titleToFilter);
+    await wrapper.findComponent(title).setValue(titleToFilter);
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
   });

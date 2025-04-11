@@ -5,6 +5,7 @@
       @eventClick="(event) => showEvent(event as IActivityCalendarEvent<IExerciseDone>)"
       @ready="(dates) => emit('ready', dates)"
       @update="(dates) => emit('update', dates)"
+      :lang="locale"
       data-test="activity-calendar"
     />
 
@@ -26,6 +27,7 @@
 import { ref } from 'vue';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiCalendar, UiModal } from 'mhz-ui';
+import { useI18n } from 'vue-i18n';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
@@ -37,6 +39,8 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<{ ready: [dates: ICalendarEvent]; update: [dates: ICalendarEvent]; deleteEvent: [] }>();
+
+const { locale } = useI18n();
 
 const isShowModal = ref(false);
 

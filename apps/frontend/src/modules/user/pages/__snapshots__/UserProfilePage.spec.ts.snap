@@ -4,7 +4,7 @@ exports[`UserProfilePage > matches snapshot 1`] = `
 "<div>
   <div isedit="" data-test="user-form">
     <user-exercises-stub exercises="[object Object]" data-test="user-exercises"></user-exercises-stub>
-    <div column="" gap="16"><button data-test="user-add-exercise">Добавить своё упражение</button>
+    <div column="" gap="16"><button data-test="user-add-exercise">Добавить своё упражнение</button>
       <div modelvalue="false" width="360" data-test="user-exercise-form-modal">
         <div class="_form_4494af">
           <h3>Добавить своё упражнение</h3>

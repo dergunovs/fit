@@ -2,7 +2,7 @@
 
 exports[`ExerciseChoosenElement > matches snapshot 1`] = `
 "<div class="_exercise_133bad"><span data-test="exercise-title">1. Отжимание от скамьи x12</span>
-  <div><button layout="plain" data-test="exercise-create-set"> +Сет </button>
+  <div><button layout="plain" data-test="exercise-create-set"> +Сет</button>
     <ui-close-stub issmall="true" isdelete="false" data-test="exercise-delete"></ui-close-stub>
   </div>
 </div>"

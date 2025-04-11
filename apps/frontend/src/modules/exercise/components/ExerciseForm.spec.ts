@@ -114,7 +114,9 @@ describe('ExerciseForm', async () => {
     expect(spyCreateExercise).toBeCalledTimes(1);
     expect(spyCreateExercise).toBeCalledWith({
       title: TITLE,
+      title_en: '',
       description: DESCRIPTION,
+      description_en: '',
       muscles: [MUSCLES_FIXTURE[CHECKBOX_INDEX]],
       equipment: undefined,
       equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],

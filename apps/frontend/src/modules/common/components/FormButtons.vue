@@ -2,7 +2,7 @@
   <UiFlex v-if="(props.isEdit && props.id) || !props.isEdit" justify="space-between" grow>
     <UiFlex>
       <UiButton type="submit" :isDisabled="props.isLoading" data-test="form-buttons-submit">
-        {{ submitButtonText }}
+        {{ props.id ? t('save') : t('create') }}
       </UiButton>
 
       <UiButton
@@ -12,7 +12,7 @@
         isNarrow
         data-test="form-buttons-back"
       >
-        Назад
+        {{ t('back') }}
       </UiButton>
     </UiFlex>
 
@@ -24,7 +24,7 @@
       isNarrow
       data-test="form-buttons-delete"
     >
-      Удалить
+      {{ t('delete') }}
     </UiButton>
 
     <UiModal
@@ -33,19 +33,19 @@
       isConfirm
       @confirm="emit('delete', props.id)"
       width="360"
+      :lang="locale"
       data-test="form-buttons-confirm-modal"
     >
-      Подтверждаете удаление?
+      {{ t('confirmDelete') }}?
     </UiModal>
   </UiFlex>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
-
-import { CREATE_BUTTON_TEXT, UPDATE_BUTTON_TEXT } from '@/common/constants';
 
 interface IProps {
   id?: string;
@@ -60,6 +60,5 @@ const emit = defineEmits<{ delete: [id: string]; cancel: [] }>();
 const isShowConfirm = ref(false);
 
 const router = useRouter();
-
-const submitButtonText = computed(() => (props.id ? UPDATE_BUTTON_TEXT : CREATE_BUTTON_TEXT));
+const { t, locale } = useI18n();
 </script>

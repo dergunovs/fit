@@ -5,18 +5,18 @@ exports[`UserEquipmentForm > matches snapshot 1`] = `
   <div gap="4">
     <div column="">
       <div>Оборудование</div>
-      <div><input type="text" options="" isdisabled="false" data-test="user-equipment-options"></div>
+      <div><input type="text" options="" isdisabled="false" lang="ru" islocalefield="false" data-test="user-equipment-options"></div>
     </div>
     <!--v-if-->
   </div>
   <!--v-if-->
   <div>
-    <!--v-if--><button isdisabled="true" data-test="user-add-equipment"> Добавить оборудование </button>
+    <!--v-if--><button isdisabled="true" data-test="user-add-equipment">Добавить оборудование</button>
   </div>
   <div column="">
-    <div>Добавленное оборудование</div>
+    <div>Оборудование добавлено</div>
     <div wrap="">
-      <div data-test="user-equipment"><span data-test="user-equipment-title">Гантели</span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">1</span> кг. </span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">2</span> кг. </span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">3</span> кг. </span><button type="button" class="_edit_24df0e" data-test="user-equipment-edit">
+      <div data-test="user-equipment"><span data-test="user-equipment-title">Гантели</span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">1</span> кг</span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">2</span> кг</span><span data-test="user-equipment-weights"><span data-test="user-equipment-weight">3</span> кг</span><button type="button" class="_edit_24df0e" data-test="user-equipment-edit">
           <anonymous-stub width="20" height="20"></anonymous-stub>
         </button>
         <ui-close-stub issmall="true" isdelete="true" data-test="user-delete-equipment"></ui-close-stub>

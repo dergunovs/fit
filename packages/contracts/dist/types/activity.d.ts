@@ -73,6 +73,7 @@ export interface IActivityService extends IBaseService {
 
   getChart: (
     type: TActivityChartType,
+    locale: string,
     decode?: TDecode,
     token?: string,
   ) => Promise<IActivityChart>;
@@ -93,7 +94,10 @@ export type TGetActivitiesStatisticsDTO = {
 };
 export type TGetActivitiesStatisticsQueryDTO = { gap: number };
 export type TGetActivitiesChartDTO = IActivityChart;
-export type TGetActivitiesChartQueryDTO = { type: TActivityChartType };
+export type TGetActivitiesChartQueryDTO = {
+  type: TActivityChartType;
+  locale: string;
+};
 export type TGetActivityDTO = { data: IActivity | null };
 export type TGetActivityLastDTO = { data: IActivity | null };
 

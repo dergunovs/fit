@@ -10,7 +10,6 @@ import {
   getAvailableExerciseWeights,
   getExercisesToChooseDefaultWeight,
   getDefaultExerciseWeight,
-  isUserHasEquipmentForWeight,
   isUserEquipmentMatches,
 } from '.';
 import {
@@ -25,8 +24,8 @@ import { USER_FIXTURE } from '@/user/fixtures';
 
 describe('exercise helpers', () => {
   test('gets average duration', async () => {
-    expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'set')).toStrictEqual('51.1с');
-    expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'repeat')).toStrictEqual('3.1с');
+    expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'set')).toStrictEqual('51.1');
+    expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'repeat')).toStrictEqual('3.1');
   });
 
   test('checks is prev exercise same', async () => {
@@ -42,12 +41,16 @@ describe('exercise helpers', () => {
   });
 
   test('gets exercise passing title', async () => {
-    expect(getExercisePassingTitle(1, true, 2, EXERCISES_DONE_FIXTURE[0])).toStrictEqual(
-      '1 из 2. Отжимание от скамьи 8 кг.'
+    expect(getExercisePassingTitle(1, true, 2, EXERCISES_DONE_FIXTURE[0], 'кг', 'ru')).toStrictEqual(
+      '1 - 2. Отжимание от скамьи 8 кг.'
     );
 
-    expect(getExercisePassingTitle(2, true, 2, EXERCISES_DONE_FIXTURE[1])).toStrictEqual('2 из 2. Подтягивание.');
-    expect(getExercisePassingTitle(2, false, 2, EXERCISES_DONE_FIXTURE[1])).toStrictEqual('2. Подтягивание.');
+    expect(getExercisePassingTitle(2, true, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
+      '2 - 2. Подтягивание.'
+    );
+    expect(getExercisePassingTitle(2, false, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
+      '2. Подтягивание.'
+    );
   });
 
   test('generates timeline', async () => {
@@ -85,7 +88,7 @@ describe('exercise helpers', () => {
 
   test('gets exercises to choose default weight', async () => {
     expect(getExercisesToChooseDefaultWeight(EXERCISES_FIXTURE, USER_FIXTURE.equipments)).toStrictEqual([
-      { _id: '1', options: [1, 2, 3], title: 'Отжимание от скамьи' },
+      { _id: '1', options: [1, 2, 3], title: 'Отжимание от скамьи', title_en: undefined },
     ]);
   });
 
@@ -93,13 +96,6 @@ describe('exercise helpers', () => {
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(1);
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [])).toStrictEqual(1);
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [1, 2, 3])).toStrictEqual(1);
-  });
-
-  test('checks is user has equipment for weight', async () => {
-    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(true);
-    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(false);
-    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual(false);
-    expect(isUserHasEquipmentForWeight(EXERCISE_FIXTURE, null)).toStrictEqual(false);
   });
 
   test('checks is user equipment matches for exercise', async () => {

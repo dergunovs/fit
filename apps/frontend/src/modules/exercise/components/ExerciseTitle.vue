@@ -2,26 +2,26 @@
   <div>
     <UiFlex column>
       <div v-if="!props.isHideTitle" :class="$style.title" data-test="exercise-title">
-        {{ props.exercise.exercise?.title || EXERCISE_DELETED_TITLE }}
+        {{ props.exercise.exercise?.[localeField('title', locale)] || t('exercise.deleted') }}
       </div>
 
       <UiFlex wrap>
         <UiChip v-if="!props.exercise.isDone && !props.isHideDuration" type="error" data-test="exercise-is-not-done">
-          <IconFail width="16" height="16" /> Не выполнено
+          <IconFail width="16" height="16" /> {{ t('notDone') }}
         </UiChip>
 
         <UiChip data-test="exercise-repeats">x{{ props.exercise.repeats }}</UiChip>
 
         <UiChip v-if="props.exercise.weight" data-test="exercise-weight">
-          <IconWeight width="16" height="16" />{{ props.exercise.weight }} кг.
+          <IconWeight width="16" height="16" />{{ props.exercise.weight }} {{ t('kg') }}
         </UiChip>
 
         <UiChip v-if="props.exercise.duration" data-test="exercise-duration">
-          <IconDuration width="16" height="16" /> {{ formatDuration(props.exercise.duration) }}
+          <IconDuration width="16" height="16" /> {{ formatDuration(props.exercise.duration, locale) }}
         </UiChip>
 
         <UiChip v-if="props.exercise.isToFailure" type="success" data-test="exercise-to-failure">
-          <IconToFailure width="16" height="16" /> До отказа
+          <IconToFailure width="16" height="16" /> {{ t('toFailure') }}
         </UiChip>
       </UiFlex>
     </UiFlex>
@@ -30,15 +30,14 @@
 
 <script setup lang="ts">
 import { IExerciseDone } from 'fitness-tracker-contracts';
+import { useI18n } from 'vue-i18n';
 import { UiChip, UiFlex } from 'mhz-ui';
-import { formatDuration } from 'mhz-helpers';
+import { formatDuration, localeField } from 'mhz-helpers';
 
 import IconDuration from '@/common/icons/duration.svg';
 import IconToFailure from '@/common/icons/to-failure.svg';
 import IconFail from '@/common/icons/fail.svg';
 import IconWeight from '@/common/icons/weight.svg';
-
-import { EXERCISE_DELETED_TITLE } from '@/exercise/constants';
 
 interface IProps {
   exercise: IExerciseDone;
@@ -47,6 +46,8 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const { t, locale } = useI18n();
 </script>
 
 <style module lang="scss">

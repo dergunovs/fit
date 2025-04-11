@@ -14,7 +14,7 @@ export const activityService: IActivityService = {
     const { data, total } = await paginate(Activity, page, '-dateCreated', [
       {
         path: 'exercises.exercise',
-        select: ['_id', 'title', 'muscles', 'createdBy'],
+        select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
         populate: [
           { path: 'createdBy', select: ['_id', 'name', 'email'] },
           { path: 'muscles', select: ['_id', 'title', 'color'] },
@@ -81,7 +81,7 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscles', 'createdBy'],
+          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
           populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
@@ -92,7 +92,7 @@ export const activityService: IActivityService = {
     return calendarData as T[];
   },
 
-  getChart: async (type: TActivityChartType, decode?: TDecode, token?: string) => {
+  getChart: async (type: TActivityChartType, locale: string, decode?: TDecode, token?: string) => {
     const decodedUser = decodeToken(decode, token);
 
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
@@ -104,7 +104,7 @@ export const activityService: IActivityService = {
 
     const muscles = await Muscle.find().lean().exec();
 
-    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, user, muscles);
+    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, locale, user, muscles);
 
     return { labels, datasets };
   },
@@ -114,7 +114,7 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscles', 'createdBy'],
+          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
           populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
@@ -137,7 +137,7 @@ export const activityService: IActivityService = {
       .populate([
         {
           path: 'exercises.exercise',
-          select: ['_id', 'title', 'muscles', 'createdBy'],
+          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
           populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
         },
         { path: 'createdBy', select: ['_id', 'name', 'email'] },

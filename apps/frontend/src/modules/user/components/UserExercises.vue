@@ -1,10 +1,10 @@
 <template>
   <UiFlex column gap="16">
-    <h3>Ваши упражнения</h3>
+    <h3>{{ t('user.exercises') }}</h3>
 
     <UiFlex wrap>
       <UiChip v-for="exercise in props.exercises" :key="exercise._id" align="center" data-test="user-exercises">
-        <span data-test="user-exercise-title">{{ exercise.title }}</span>
+        <span data-test="user-exercise-title">{{ exercise[localeField('title', locale)] }}</span>
 
         <button
           v-if="exercise._id"
@@ -21,7 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { UiFlex, UiChip } from 'mhz-ui';
+import { localeField } from 'mhz-helpers';
 import { IExercise } from 'fitness-tracker-contracts';
 
 import IconEdit from '@/common/icons/edit.svg';
@@ -32,6 +34,8 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<{ edit: [exercise: IExercise] }>();
+
+const { t, locale } = useI18n();
 </script>
 
 <style module lang="scss">

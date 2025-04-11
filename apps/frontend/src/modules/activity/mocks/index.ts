@@ -10,7 +10,6 @@ import {
 } from 'fitness-tracker-contracts';
 
 import * as activityComposables from '@/activity/composables';
-import * as activityHelpers from '@/activity/helpers';
 import { activityService } from '@/activity/services';
 import {
   ACTIVITIES_CALENDAR_FIXTURE,
@@ -75,8 +74,6 @@ const spyUseActivityCalendar = vi.spyOn(activityComposables, 'useActivityCalenda
   updateDates: spyUpdateDates,
 });
 
-const spyCopyActivityToClipboard = vi.spyOn(activityHelpers, 'copyActivityToClipboard');
-
 const spyGetActivitiesCalendar = vi
   .spyOn(activityService, 'getCalendar')
   .mockImplementation(() => mockQueryReply(ACTIVITIES_CALENDAR_FIXTURE));
@@ -101,7 +98,6 @@ export {
   spyUseActivityCalendar,
   spyGetActivitiesCalendar,
   spyUpdateDates,
-  spyCopyActivityToClipboard,
   mockDateFrom,
   mockDateTo,
   mockIsDatesReady,

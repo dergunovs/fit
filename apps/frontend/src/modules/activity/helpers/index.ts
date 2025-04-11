@@ -1,6 +1,5 @@
 import { IActivity, IExerciseDone, IExerciseStatistics, IMuscle } from 'fitness-tracker-contracts';
-import { createTempId, formatDate, formatDuration, subtractDates } from 'mhz-helpers';
-import { toast } from 'mhz-ui';
+import { createTempId, formatDuration, subtractDates } from 'mhz-helpers';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
 
@@ -33,6 +32,7 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
   exerciseStatistics: IExerciseStatistics[],
+  locale: string,
   averageRestPercent?: number
 ): string {
   if (!averageRestPercent) return '-';
@@ -47,7 +47,7 @@ export function getPotentialActivityDuration(
 
   const durationWithRest = Math.round(totalDuration / (1 - averageRestPercent / 100));
 
-  return formatDuration(durationWithRest);
+  return formatDuration(durationWithRest, locale);
 }
 
 export function getActivityColor(exercises: IExerciseDone[], muscles: IMuscle[], dateScheduled?: Date | string) {
@@ -105,6 +105,7 @@ export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExer
       exercise: {
         _id: exercise.exercise?._id || '',
         title: exercise.exercise?.title || '',
+        title_en: exercise.exercise?.title_en || '',
         muscles: exercise.exercise?.muscles || [],
         isWeights: exercise.exercise?.isWeights || false,
         isWeightsRequired: exercise.exercise?.isWeightsRequired || false,
@@ -124,28 +125,14 @@ export function getToFailurePercent(exercises: IExerciseDone[]) {
   return `${Math.floor((toFailureExercises / allExercises) * 100)}%`;
 }
 
-export function getRestPercent(exercises: IExerciseDone[], start?: Date | null | string, end?: Date | null | string) {
-  const activityDuration = Number(subtractDates(end, start, true));
-  const exercisesDuration = exercises.reduce((acc, current) => acc + (current.duration || 0), 0);
-
-  return `${Math.floor(100 - (exercisesDuration / activityDuration) * 100)}%`;
-}
-
-export async function copyActivityToClipboard(
+export function getRestPercent(
   exercises: IExerciseDone[],
+  lang: string,
   start?: Date | null | string,
   end?: Date | null | string
 ) {
-  const textHeader = `${formatDate(start, 'ru')}, длительность: ${subtractDates(end, start)}
-Подходы: ${exercises.length}, отказы: ${getToFailurePercent(exercises)}, отдых: ${getRestPercent(exercises, start, end)}.
+  const activityDuration = Number(subtractDates(end, start, lang, true));
+  const exercisesDuration = exercises.reduce((acc, current) => acc + (current.duration || 0), 0);
 
-${exercises
-  .map((exercise, index) => {
-    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}кг` : ''} ${formatDuration(exercise.duration)} ${exercise.isToFailure ? 'ДО ОТКАЗА' : ''}\n`;
-  })
-  .join('')}`;
-
-  await navigator.clipboard.writeText(textHeader);
-
-  toast.success('Скопировано в буфер');
+  return `${Math.floor(100 - (exercisesDuration / activityDuration) * 100)}%`;
 }

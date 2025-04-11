@@ -5,7 +5,6 @@ import { dataTest } from 'mhz-helpers';
 import AppFeatures from './AppFeatures.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { APP_FEATURES } from '@/common/constants';
 
 const feature = dataTest('app-feature');
 const title = dataTest('app-feature-title');
@@ -29,8 +28,10 @@ describe('AppFeatures', async () => {
   });
 
   it('shows features', async () => {
-    expect(wrapper.findAll(feature).length).toBe(APP_FEATURES.length);
-    expect(wrapper.find(title).text()).toBe(APP_FEATURES[0].title);
-    expect(wrapper.find(text).text()).toBe(APP_FEATURES[0].text);
+    expect(wrapper.findAll(feature).length).toBe(3);
+    expect(wrapper.find(title).text()).toBe('Отслеживайте прогресс');
+    expect(wrapper.find(text).text()).toBe(
+      'Таблица со статистикой по упражнениям. Графики с динамикой по занятиям, подходам, повторам и группам мышц.'
+    );
   });
 });
