@@ -101,7 +101,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone } from 'fitness-tracker-contracts';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration } from 'mhz-helpers';
+import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration, localeField } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
@@ -153,7 +153,7 @@ ${t('set.many')}: ${props.exercises.length}, ${t('failures')}: ${getToFailurePer
 
 ${props.exercises
   .map((exercise, index) => {
-    return `${index + 1}. ${exercise.exercise?.title} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}${t('kg')}` : ''} ${formatDuration(exercise.duration, locale.value)} ${exercise.isToFailure ? t('toFailure') : ''}\n`;
+    return `${index + 1}. ${exercise.exercise?.[localeField('title', locale.value)]} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}${t('kg')}` : ''} ${formatDuration(exercise.duration, locale.value)} ${exercise.isToFailure ? t('toFailure') : ''}\n`;
   })
   .join('')}`;
 
