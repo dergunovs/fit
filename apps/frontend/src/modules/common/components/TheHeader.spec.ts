@@ -1,5 +1,5 @@
 import { nextTick } from 'vue';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { deleteAuthHeader, setAuth, dataTest } from 'mhz-helpers';
 
@@ -20,6 +20,8 @@ const registration = dataTest('header-registration');
 const logout = dataTest('header-logout');
 
 let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
+
+beforeAll(() => localStorage.setItem('locale', 'ru'));
 
 beforeEach(() => {
   wrapper = wrapperFactory(TheHeader, { isAdmin: true, isShowInstallPWA: true, installPWA: spyInstallPWA });
