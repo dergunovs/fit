@@ -9,7 +9,10 @@
         :data-matches="props.exercise.isUserEquipmentMatches"
         data-test="exercise-info-matches"
       >
-        {{ t('exercise.equipmentMatches') }}
+        {{ t('exercise.equipmentMatches') }} -
+        <span data-test="exercise-info-matches-text">
+          {{ props.exercise.isUserEquipmentMatches ? t('yes').toLowerCase() : t('no').toLowerCase() }}
+        </span>
       </div>
 
       <div>

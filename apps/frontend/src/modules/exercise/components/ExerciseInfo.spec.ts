@@ -13,6 +13,7 @@ const exerciseWithoutEquipment = EXERCISES_STATISTICS_FIXTURE[1];
 
 const title = dataTest('exercise-info-title');
 const matches = dataTest('exercise-info-matches');
+const matchesText = dataTest('exercise-info-matches-text');
 const muscles = dataTest('exercise-info-muscles');
 const equipment = dataTest('exercise-info-equipment');
 const equipmentTitle = dataTest('exercise-info-equipment-title');
@@ -51,6 +52,10 @@ describe('ExerciseInfo', async () => {
 
     expect(wrapper.find(matches).exists()).toBe(true);
     expect(wrapper.find(matches).attributes('data-matches')).toBe(exercise.isUserEquipmentMatches.toString());
+  });
+
+  it('shows equipment matches text', async () => {
+    expect(wrapper.find(matchesText).text()).toBe('нет');
   });
 
   it('shows muscle groups', async () => {

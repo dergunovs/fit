@@ -7,21 +7,21 @@
 
       <UiFlex wrap>
         <UiChip v-if="!props.exercise.isDone && !props.isHideDuration" type="error" data-test="exercise-is-not-done">
-          <IconFail width="16" height="16" /> {{ t('notDone') }}
+          <IconFail width="14" height="14" /> {{ t('notDone') }}
         </UiChip>
 
         <UiChip data-test="exercise-repeats">x{{ props.exercise.repeats }}</UiChip>
 
         <UiChip v-if="props.exercise.weight" data-test="exercise-weight">
-          <IconWeight width="16" height="16" />{{ props.exercise.weight }} {{ t('kg') }}
+          <IconWeight width="14" height="14" />{{ props.exercise.weight }} {{ t('kg') }}
         </UiChip>
 
         <UiChip v-if="props.exercise.duration" data-test="exercise-duration">
-          <IconDuration width="16" height="16" /> {{ formatDuration(props.exercise.duration, locale) }}
+          <IconDuration width="14" height="14" /> {{ formatDuration(props.exercise.duration, locale) }}
         </UiChip>
 
         <UiChip v-if="props.exercise.isToFailure" type="success" data-test="exercise-to-failure">
-          <IconToFailure width="16" height="16" /> {{ t('toFailure') }}
+          <IconToFailure width="14" height="14" /> {{ t('toFailure') }}
         </UiChip>
       </UiFlex>
     </UiFlex>

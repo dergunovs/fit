@@ -8,25 +8,27 @@
         data-test="activity-timeline"
       />
 
-      <span data-test="activity-info-start-date">
-        <IconDate width="16" height="16" /> {{ formatDate(props.start, locale) }}
-      </span>
+      <UiFlex>
+        <UiFlex gap="2" align="center" data-test="activity-info-start-date">
+          <IconDate width="16" height="16" /> {{ formatDate(props.start, locale) }}
+        </UiFlex>
 
-      <span v-if="isExercisesDone" data-test="activity-info-duration">
-        <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start, locale) }}
-      </span>
+        <UiFlex v-if="isExercisesDone" gap="2" align="center" data-test="activity-info-duration">
+          <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start, locale) }}
+        </UiFlex>
+      </UiFlex>
 
-      <span>
+      <div>
         {{ t('set.many') }}: <span data-test="activity-info-sets">{{ props.exercises.length }}</span
         ><template v-if="isExercisesDone"
-          >, {{ t('failures') }}:
+          >, {{ t('failures').toLowerCase() }}:
           <span data-test="activity-info-to-failure-percent">{{ getToFailurePercent(props.exercises) }}</span
-          >, {{ t('rest') }}:
+          >, {{ t('rest').toLowerCase() }}:
           <span data-test="activity-info-rest-percent">
             {{ getRestPercent(props.exercises, locale, props.start, props.end) }}
           </span>
         </template>
-      </span>
+      </div>
 
       <UiButton
         v-if="isExercisesDone"

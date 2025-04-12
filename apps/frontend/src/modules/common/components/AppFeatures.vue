@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.features">
     <div v-for="feature in APP_FEATURES" :key="feature.title" :class="$style.feature" data-test="app-feature">
-      <component :is="feature.icon" width="48" height="48" :class="$style.icon" />
+      <component :is="feature.icon" width="40" height="40" :class="$style.icon" />
 
       <div :class="$style.title" data-test="app-feature-title">{{ feature.title }}</div>
       <div data-test="app-feature-text">{{ feature.text }}</div>
