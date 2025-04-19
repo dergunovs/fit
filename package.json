@@ -19,7 +19,7 @@
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish"
   },
   "dependencies": {
-    "@changesets/cli": "2.28.1"
+    "@changesets/cli": "2.29.2"
   },
   "devDependencies": {
     "@turbo/gen": "2.5.0",

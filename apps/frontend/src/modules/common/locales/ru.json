@@ -104,7 +104,7 @@
     "isWeights": "Наличие веса у @.lower:exercise.many",
     "isWeightsRequired": "Обязательность веса",
     "filterByTitle": "Фильтр по названию @.lower:exercise.many",
-    "equipmentMatches": "Соответствие упражнений вашему оборудованию",
+    "equipmentMatches": "Соответствие упражнения вашему оборудованию",
     "doneToFailure": "@:exercise.one выполнено до отказа",
     "noAvailable": "Нет доступных упражнений для выбора"
   },
