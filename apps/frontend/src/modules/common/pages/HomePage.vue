@@ -6,6 +6,7 @@
       <div :class="$style.main">
         <div v-if="statistics" :class="$style.calendar">
           <ActivityCalendar
+            v-if="muscles"
             :events="convertActivityCalendarEvents(muscles, calendar)"
             @ready="updateDates"
             @update="updateDates"
