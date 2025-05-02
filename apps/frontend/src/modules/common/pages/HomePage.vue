@@ -1,10 +1,10 @@
 <template>
-  <UiFlex v-if="statistics" column gap="64">
-    <PromoBlocks v-if="!isAuth" data-test="promo" />
+  <UiFlex column gap="64">
+    <PromoBlocks v-if="!isAuth && statistics" data-test="promo" />
 
     <UiFlex column gap="16">
       <div :class="$style.main">
-        <div :class="$style.calendar">
+        <div v-if="statistics" :class="$style.calendar">
           <ActivityCalendar
             v-if="muscles && calendar"
             :events="convertActivityCalendarEvents(muscles, calendar)"
@@ -19,7 +19,7 @@
           <ActivityChart />
         </div>
 
-        <div :class="$style.statistics">
+        <div v-if="statistics" :class="$style.statistics">
           <ExerciseStatistics :statistics="statistics.exercise" data-test="exercise-statistics" />
         </div>
       </div>

@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import {
   getAverageDuration,
+  getAverageRepeatsInSet,
   isPrevExerciseSame,
   isSetCreatable,
   getExercisePassingTitle,
@@ -26,6 +27,12 @@ describe('exercise helpers', () => {
   test('gets average duration', async () => {
     expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'set')).toStrictEqual('51.1');
     expect(getAverageDuration(EXERCISE_STATISTICS_FIXTURE, 'repeat')).toStrictEqual('3.1');
+  });
+
+  test('gets average repeats in set', async () => {
+    expect(getAverageRepeatsInSet(12, 2)).toStrictEqual(12 / 2);
+    expect(getAverageRepeatsInSet(13, 2)).toStrictEqual(7);
+    expect(getAverageRepeatsInSet()).toStrictEqual(0);
   });
 
   test('checks is prev exercise same', async () => {

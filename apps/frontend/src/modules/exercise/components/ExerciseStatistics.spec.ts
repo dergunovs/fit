@@ -7,14 +7,14 @@ import ExerciseStatistics from './ExerciseStatistics.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_STATISTICS_FIXTURE } from '@/exercise/fixtures';
-import { getAverageDuration } from '@/exercise/helpers';
+import { getAverageDuration, getAverageRepeatsInSet } from '@/exercise/helpers';
 
 const tableRow = dataTest('exercise-statistics-table-row');
 const title = dataTest('exercise-statistics-title');
 const setsCount = dataTest('exercise-statistics-sets-count');
-const repeatsCount = dataTest('exercise-statistics-repeats-count');
 const setsDuration = dataTest('exercise-statistics-sets-duration');
-const repeatsDuration = dataTest('exercise-statistics-repeats-duration');
+const repeatsCount = dataTest('exercise-statistics-repeats-count');
+const repeatsInSet = dataTest('exercise-statistics-repeats-in-set');
 const modal = dataTest('exercise-statistics-modal');
 const info = dataTest('exercise-statistics-info');
 
@@ -48,11 +48,13 @@ describe('ExerciseStatistics', async () => {
     expect(wrapper.find(repeatsCount).text()).toBe(EXERCISES_STATISTICS_FIXTURE[0].repeats.toString());
   });
 
-  it('shows sets and repeats average duration', async () => {
+  it('shows sets average duration', async () => {
     expect(wrapper.find(setsDuration).text()).toBe(`${getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'set')}с`);
+  });
 
-    expect(wrapper.find(repeatsDuration).text()).toBe(
-      `${getAverageDuration(EXERCISES_STATISTICS_FIXTURE[0], 'repeat')}с`
+  it('shows average repeats in sets', async () => {
+    expect(wrapper.find(repeatsInSet).text()).toBe(
+      `${getAverageRepeatsInSet(EXERCISES_STATISTICS_FIXTURE[0].repeats, EXERCISES_STATISTICS_FIXTURE[0].sets)}`
     );
   });
 

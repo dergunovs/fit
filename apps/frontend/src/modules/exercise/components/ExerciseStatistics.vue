@@ -30,8 +30,8 @@
             <div :class="$style.count" data-test="exercise-statistics-repeats-count">
               {{ exercise.repeats }}<DynamicPercent :percent="exercise.repeatsDynamics" />
             </div>
-            <div :class="$style.duration" data-test="exercise-statistics-repeats-duration">
-              {{ getAverageDuration(exercise, 'repeat') }}{{ t('sec') }}
+            <div :class="$style.duration" data-test="exercise-statistics-repeats-in-set">
+              {{ getAverageRepeatsInSet(exercise.repeats, exercise.sets) }}
             </div>
           </div>
         </td>
@@ -54,7 +54,7 @@ import { isAuth, localeField } from 'mhz-helpers';
 import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
-import { getAverageDuration } from '@/exercise/helpers';
+import { getAverageDuration, getAverageRepeatsInSet } from '@/exercise/helpers';
 
 interface IProps {
   statistics: IExerciseStatistics[];

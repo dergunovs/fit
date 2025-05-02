@@ -17,7 +17,7 @@ exports[`ExerciseStatistics > matches snapshot 1`] = `
           <div class="_cell_005ffb">
             <div class="_count_005ffb" data-test="exercise-statistics-repeats-count">578<dynamic-percent-stub percent="81"></dynamic-percent-stub>
             </div>
-            <div class="_duration_005ffb" data-test="exercise-statistics-repeats-duration">3.1с</div>
+            <div class="_duration_005ffb" data-test="exercise-statistics-repeats-in-set">17</div>
           </div>
         </td>
       </tr>
@@ -34,7 +34,7 @@ exports[`ExerciseStatistics > matches snapshot 1`] = `
           <div class="_cell_005ffb">
             <div class="_count_005ffb" data-test="exercise-statistics-repeats-count">374<dynamic-percent-stub percent="-33"></dynamic-percent-stub>
             </div>
-            <div class="_duration_005ffb" data-test="exercise-statistics-repeats-duration">3.3с</div>
+            <div class="_duration_005ffb" data-test="exercise-statistics-repeats-in-set">12</div>
           </div>
         </td>
       </tr>

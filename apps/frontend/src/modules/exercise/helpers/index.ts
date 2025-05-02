@@ -72,6 +72,10 @@ export function getAverageDuration(exercise: IExerciseStatistics, type: 'set' | 
     : `${exercise.averageDuration.toFixed(1)}`;
 }
 
+export function getAverageRepeatsInSet(repeats?: number, sets?: number) {
+  return repeats && sets ? Math.round(repeats / sets) : 0;
+}
+
 export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id?: string) {
   return id && exercises[index - 1] ? id === exercises[index - 1].exercise?._id : false;
 }

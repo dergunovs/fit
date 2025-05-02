@@ -165,7 +165,7 @@
   "statistics": "Statistics",
   "statisticsText": [
     "In the calendar with an example of user data, you can view the visualization of the workout, its composition, the time of the approaches. Below are the general and average monthly data on the duration of workouts, the number of workouts, approaches, repetitions, rest time, and graphs with dynamics for these parameters.",
-    "The table shows exercise statistics: monthly sets and repetitions, comparison with the previous period, and average execution time. By clicking on an exercise, you can read about the muscles involved, the equipment, and the technique of execution."
+    "The table shows exercise statistics: monthly sets and repetitions, comparison with the previous period, and average execution time and repeats in set. By clicking on an exercise, you can read about the muscles involved, the equipment, and the technique of execution."
   ],
   "hero": {
     "title": "FiT - home workout calendar",
