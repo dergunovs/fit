@@ -4,7 +4,6 @@ exports[`HomePage > matches snapshot 1`] = `
 "<div column="" gap="64">
   <promo-blocks-stub data-test="promo"></promo-blocks-stub>
   <div column="" gap="16">
-    <statistics-example-stub></statistics-example-stub>
     <div class="_main_6ae1e0">
       <div class="_calendar_6ae1e0">
         <activity-calendar-stub events="[object Object],[object Object]" data-test="activity-calendar"></activity-calendar-stub>

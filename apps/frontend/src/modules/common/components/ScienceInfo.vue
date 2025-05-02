@@ -15,22 +15,16 @@
         </template>
       </div>
 
-      <div>{{ t('science.exercises') }}</div>
-
-      <div>
-        <b>{{ t('science.motivation') }}</b>
+      <div v-for="(content, index) in tm('statisticsText')" :key="index">
+        {{ rt(content) }}
       </div>
     </UiFlex>
-
-    <ImageMotivation :class="$style.image" />
   </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
-
-import ImageMotivation from '@/common/images/motivation.svg';
 
 const { t, tm, rt } = useI18n();
 </script>

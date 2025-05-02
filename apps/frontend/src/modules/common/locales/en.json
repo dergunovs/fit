@@ -159,16 +159,12 @@
     "researches": "Researches",
     "researchesText": [
       " proves that tracking results helps you achieve your athletic goals. ",
-      "The scientific approach to training is based on the principles of physiology, biomechanics and sports medicine. ",
-      "For example, progressive exercise has been shown to stimulate muscle growth and strength."
-    ],
-    "exercises": "Effective exercises recommended by experts are grouped by muscles and selected to balance simplicity and variety of training.",
-    "motivation": "Fixing your workout results is one of the best motivations to keep doing fitness."
+      "Exercises are grouped by muscles and selected to balance simplicity and variety of training."
+    ]
   },
   "statistics": "Statistics",
   "statisticsText": [
-    "In the calendar with an example of real user data, you can view the visualization of the workout, its composition, the time of the approaches, copy the information to the clipboard, for example, to report to the coach.",
-    "Below are the general and average monthly data on the duration of workouts, the number of workouts, approaches, repetitions, rest time, and graphs with dynamics for these parameters.",
+    "In the calendar with an example of user data, you can view the visualization of the workout, its composition, the time of the approaches. Below are the general and average monthly data on the duration of workouts, the number of workouts, approaches, repetitions, rest time, and graphs with dynamics for these parameters.",
     "The table shows exercise statistics: monthly sets and repetitions, comparison with the previous period, and average execution time. By clicking on an exercise, you can read about the muscles involved, the equipment, and the technique of execution."
   ],
   "hero": {

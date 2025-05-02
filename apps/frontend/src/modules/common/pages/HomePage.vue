@@ -3,8 +3,6 @@
     <PromoBlocks v-if="!isAuth && calendar && statistics" data-test="promo" />
 
     <UiFlex column gap="16">
-      <StatisticsExample v-if="!isAuth" />
-
       <div :class="$style.main">
         <div :class="$style.calendar">
           <ActivityCalendar
@@ -37,7 +35,6 @@ import { toast, UiFlex } from 'mhz-ui';
 import { isAuth, scrollToTop, useRouteId } from 'mhz-helpers';
 
 import PromoBlocks from '@/common/components/PromoBlocks.vue';
-import StatisticsExample from '@/common/components/StatisticsExample.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
