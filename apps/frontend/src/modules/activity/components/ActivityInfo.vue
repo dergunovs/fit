@@ -13,8 +13,18 @@
           <IconDate width="16" height="16" /> {{ formatDate(props.start, locale) }}
         </UiFlex>
 
-        <UiFlex v-if="isExercisesDone" gap="2" align="center" data-test="activity-info-duration">
-          <IconDuration width="16" height="16" /> {{ subtractDates(props.end, props.start, locale) }}
+        <UiFlex gap="2" align="center" data-test="activity-info-duration">
+          <IconDuration width="16" height="16" />
+          {{
+            isExercisesDone
+              ? subtractDates(props.end, props.start, locale)
+              : getPotentialActivityDuration(
+                  props.exercises,
+                  locale,
+                  statistics?.exercise,
+                  statistics?.activity.averageRestPercent.cur
+                )
+          }}
         </UiFlex>
       </UiFlex>
 
@@ -111,8 +121,8 @@ import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
-import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
-import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
+import { ACTIVITY_STATISTICS_GAP, URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { getRestPercent, getToFailurePercent, getPotentialActivityDuration } from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
@@ -136,6 +146,8 @@ const queryClient = useQueryClient();
 const isShowConfirm = ref(false);
 
 const { data: muscles } = muscleService.getAll();
+
+const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 
 const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
 const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));

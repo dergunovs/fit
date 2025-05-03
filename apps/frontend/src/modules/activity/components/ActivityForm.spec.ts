@@ -183,8 +183,8 @@ describe('ActivityForm', async () => {
     expect(wrapper.find(potentialDuration).text()).toBe(
       getPotentialActivityDuration(
         [EXERCISE_CHOOSEN_FIXTURE],
-        ACTIVITIES_STATISTICS_FIXTURE.exercise,
         'ru',
+        ACTIVITIES_STATISTICS_FIXTURE.exercise,
         averageRestPercent
       )
     );

@@ -8,7 +8,7 @@
 
         <span v-if="formData.exercises" data-test="activity-form-potential-duration">
           {{
-            getPotentialActivityDuration(formData.exercises, props.exerciseStatistics, locale, props.averageRestPercent)
+            getPotentialActivityDuration(formData.exercises, locale, props.exerciseStatistics, props.averageRestPercent)
           }}
         </span>
       </p>

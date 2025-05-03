@@ -31,15 +31,15 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
 
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
-  exerciseStatistics: IExerciseStatistics[],
   locale: string,
+  exerciseStatistics?: IExerciseStatistics[],
   averageRestPercent?: number
 ): string {
-  if (!averageRestPercent) return '-';
+  if (!averageRestPercent || !exerciseStatistics) return '-';
 
   const totalDuration = exercises.reduce((acc, exercise) => {
     const averageDuration =
-      exerciseStatistics.find((choosenExercise) => choosenExercise.exercise._id === exercise.exercise?._id)
+      exerciseStatistics?.find((choosenExercise) => choosenExercise.exercise._id === exercise.exercise?._id)
         ?.averageDuration || 0;
 
     return acc + averageDuration * exercise.repeats;

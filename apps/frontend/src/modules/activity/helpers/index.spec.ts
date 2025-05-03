@@ -19,9 +19,9 @@ import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 
 describe('activity helpers', () => {
   test('gets potential activity duration', async () => {
-    expect(getPotentialActivityDuration(EXERCISES_DONE_FIXTURE, EXERCISES_STATISTICS_FIXTURE, 'ru')).toStrictEqual('-');
+    expect(getPotentialActivityDuration(EXERCISES_DONE_FIXTURE, 'ru', EXERCISES_STATISTICS_FIXTURE)).toStrictEqual('-');
 
-    expect(getPotentialActivityDuration(EXERCISES_DONE_FIXTURE, EXERCISES_STATISTICS_FIXTURE, 'ru', 50)).toStrictEqual(
+    expect(getPotentialActivityDuration(EXERCISES_DONE_FIXTURE, 'ru', EXERCISES_STATISTICS_FIXTURE, 50)).toStrictEqual(
       '2 мин. 33 сек.'
     );
   });
