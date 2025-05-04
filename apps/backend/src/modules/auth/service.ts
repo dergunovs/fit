@@ -60,7 +60,7 @@ export const authService: IAuthService = {
       return { user: undefined, isUserNotFound: false, isWrongPassword: false, isEmailNotConfirmed: true };
     }
 
-    const token = sign(filterUserData(user, true), { expiresIn: '12h' });
+    const token = sign(filterUserData(user, true), { expiresIn: '72h' });
 
     user.dateLoggedIn = new Date();
 

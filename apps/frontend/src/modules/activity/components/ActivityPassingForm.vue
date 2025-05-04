@@ -18,7 +18,7 @@
         </div>
 
         <div v-if="props.activity.dateUpdated">
-          {{ formData.isDone ? t('activity.finished') : t('activity.updated') }}
+          {{ props.activity.isDone ? t('activity.finished') : t('activity.updated') }}
           <span data-test="activity-updated">{{ formatDateTime(props.activity.dateUpdated, locale) }}</span
           >.
         </div>
@@ -38,22 +38,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { toast, UiButton, UiFlex } from 'mhz-ui';
-import { formatDateTime, useQueryClient, clone } from 'mhz-helpers';
-import {
-  API_ACTIVITY,
-  API_ACTIVITY_CHART,
-  API_ACTIVITY_STATISTICS,
-  IActivity,
-  IExerciseDone,
-} from 'fitness-tracker-contracts';
+import { UiButton, UiFlex } from 'mhz-ui';
+import { formatDateTime } from 'mhz-helpers';
+import { IActivity, IExerciseDone } from 'fitness-tracker-contracts';
 
 import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
-
-import { activityService } from '@/activity/services';
-import { URL_HOME } from '@/common/constants';
 
 interface IProps {
   activity: IActivity;
@@ -61,25 +51,17 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const router = useRouter();
-const { t, locale } = useI18n();
-const queryClient = useQueryClient();
+const emit = defineEmits<{
+  exit: [];
+  done: [isDone: boolean];
+  updateExercises: [exercises: IExerciseDone[]];
+  setDateCreated: [dateCreated: Date];
+  setDateUpdated: [dateUpdated: Date];
+}>();
 
-const formData = ref<IActivity>({
-  exercises: [],
-  dateCreated: undefined,
-  dateUpdated: undefined,
-  dateScheduled: undefined,
-  isDone: false,
-});
+const { t, locale } = useI18n();
 
 const activeExerciseId = ref<string>();
-
-const { mutate: mutateUpdate } = activityService.update({
-  onSuccess: async () => {
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
-  },
-});
 
 function startExercise(id: string) {
   activeExerciseId.value = id;
@@ -88,7 +70,7 @@ function startExercise(id: string) {
 function stopExercise(exerciseDone: IExerciseDone) {
   activeExerciseId.value = undefined;
 
-  formData.value.exercises = formData.value.exercises?.map((exercise) => {
+  const updatedExercises = props.activity.exercises?.map((exercise) => {
     if (exercise._id === exerciseDone._id) {
       return {
         ...exercise,
@@ -103,43 +85,27 @@ function stopExercise(exerciseDone: IExerciseDone) {
     return exercise;
   });
 
-  formData.value.isDone = !formData.value.exercises?.some((exercise) => !exercise.isDone);
+  emit('updateExercises', updatedExercises);
 
-  if (!formData.value.dateUpdated) {
-    formData.value.dateCreated = new Date(new Date().getTime() - (exerciseDone.duration || 0) * 1000);
+  emit('done', !props.activity.exercises?.some((exercise) => !exercise.isDone));
+
+  if (!props.activity.dateUpdated) {
+    emit('setDateCreated', new Date(new Date().getTime() - (exerciseDone.duration || 0) * 1000));
   }
 
-  formData.value.dateUpdated = new Date();
+  emit('setDateUpdated', new Date());
 
-  mutateUpdate(formData.value);
-
-  if (formData.value.isDone) exitActivity();
+  if (props.activity.isDone) emit('exit');
 }
 
 function finishActivity() {
-  formData.value.isDone = true;
-
-  mutateUpdate(formData.value);
-
-  exitActivity();
-}
-
-function exitActivity() {
-  toast.success(t('activity.finished'));
-
-  setTimeout(async () => {
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
-
-    router.push(URL_HOME);
-  }, 1000);
+  emit('done', true);
+  emit('exit');
 }
 
 const screenLock = ref<WakeLockSentinel>();
 
 onMounted(async () => {
-  if (props.activity) formData.value = clone(props.activity);
-
   screenLock.value = await navigator.wakeLock?.request();
 });
 

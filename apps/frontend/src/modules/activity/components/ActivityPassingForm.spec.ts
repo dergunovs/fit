@@ -1,17 +1,13 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
-import { formatDateTime, dataTest, wait } from 'mhz-helpers';
+import { formatDateTime, dataTest } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
 import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
-import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
-import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
-import { URL_HOME } from '@/common/constants';
 
 const exerciseList = dataTest('exercise-passing-list');
 const activityStart = dataTest('activity-start');
@@ -61,34 +57,17 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('finishes activity early', async () => {
-    expect(spyUpdateActivity).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(wrapper.emitted()).not.toHaveProperty('done');
+    expect(wrapper.emitted()).not.toHaveProperty('exit');
 
     expect(wrapper.find(activityFinish).attributes('isdisabled')).toBe(activity.isDone.toString());
 
     await wrapper.find(activityFinish).trigger('click');
 
-    expect(spyUpdateActivity).toBeCalledTimes(1);
-    expect(spyUpdateActivity).toBeCalledWith({ ...activity, isDone: true });
+    expect(wrapper.emitted('done')).toHaveLength(1);
+    expect(wrapper.emitted()['done'][0]).toStrictEqual([true]);
 
-    await mockOnSuccess.update?.();
-
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });
-
-    expect(spyToastSuccess).toBeCalledTimes(1);
-
-    expect(spyRouterPush).toBeCalledTimes(0);
-
-    await wait(1001);
-
-    expect(spyRefetchQueries).toBeCalledTimes(3);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
-
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
+    expect(wrapper.emitted('exit')).toHaveLength(1);
   });
 
   it('starts and stops exercise', async () => {
