@@ -19,20 +19,20 @@
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish"
   },
   "dependencies": {
-    "@changesets/cli": "2.29.2"
+    "@changesets/cli": "2.29.3"
   },
   "devDependencies": {
-    "@turbo/gen": "2.5.2",
+    "@turbo/gen": "2.5.3",
     "prettier": "3.5.3",
-    "turbo": "2.5.2"
+    "turbo": "2.5.3"
   },
-  "packageManager": "npm@11.2.0",
+  "packageManager": "npm@11.3.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "engines": {
-    "npm": ">=11.2.0",
-    "node": ">=23.11.0"
+    "npm": ">=11.3.0",
+    "node": ">=24.0.1"
   }
 }

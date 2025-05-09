@@ -10,7 +10,7 @@ Home workout calendar app
 
 ## Installation
 
-1. Install Node.js 23 and MongoDB 7
+1. Install Node.js 24 and MongoDB 7
 2. `npm install` - install deps
 3. Create .env files inside app folders in `/apps`
 4. `npm run dev` - start app in dev mode

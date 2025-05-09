@@ -13,9 +13,9 @@ jobs:
       - name: Node
         uses: actions/setup-node@v3
         with:
-          node-version: "23.11.0"
+          node-version: "24.0.1"
       - name: Install npm
-        run: npm i -g npm@11.2.0
+        run: npm i -g npm@11.3.0
       - name: Install
         run: npm i
       - name: Create frontend .env
