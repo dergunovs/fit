@@ -17,8 +17,7 @@
     "test": "turbo run test",
     "test:cov": "turbo run test:cov",
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish",
-    "app:build": "rm -rf ./android && npx cap add android && npx @capacitor/assets generate --android",
-    "app:run": "npx cap run android"
+    "tauri": "tauri"
   },
   "dependencies": {
     "@changesets/cli": "2.29.3"
