@@ -5,14 +5,13 @@ import { dataTest } from 'mhz-helpers';
 import LayoutAdmin from './LayoutAdmin.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyInstallPWA } from '@/common/mocks';
 
 const layout = dataTest('layout-admin');
 
 let wrapper: VueWrapper<InstanceType<typeof LayoutAdmin>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutAdmin, { isAdmin: true, isShowInstallPWA: true, installPWA: spyInstallPWA });
+  wrapper = wrapperFactory(LayoutAdmin, { isAdmin: true });
 });
 
 enableAutoUnmount(afterEach);

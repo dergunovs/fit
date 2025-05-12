@@ -14,10 +14,6 @@
         {{ locale.toUpperCase() }}
       </UiButton>
 
-      <UiButton v-if="props.isShowInstallPWA" @click="props.installPWA" layout="plain" data-test="header-pwa-install">
-        {{ t('install') }}
-      </UiButton>
-
       <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">
         {{ t('help') }}
       </UiButton>
@@ -60,8 +56,6 @@ import { useLocale } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
-  installPWA: () => void;
-  isShowInstallPWA?: boolean;
 }
 
 const props = defineProps<IProps>();

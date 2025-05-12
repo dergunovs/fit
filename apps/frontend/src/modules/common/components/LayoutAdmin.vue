@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.layout">
-    <TheHeader :isAdmin="props.isAdmin" :installPWA="props.installPWA" :isShowInstallPWA="props.isShowInstallPWA" />
+    <TheHeader :isAdmin="props.isAdmin" />
 
     <div v-if="props.isAdmin" :class="$style.container" :data-auth="isAuth" data-test="layout-admin">
       <NavList :navItems="NAV_ITEMS" data-test="layout-admin-nav" />
@@ -24,8 +24,6 @@ import { useNavItems } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
-  installPWA: () => void;
-  isShowInstallPWA: boolean;
 }
 
 const props = defineProps<IProps>();

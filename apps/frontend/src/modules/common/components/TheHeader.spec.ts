@@ -8,11 +8,10 @@ import TheHeader from './TheHeader.vue';
 import { wrapperFactory } from '@/common/test';
 import { URL_HOME } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
-import { spyRouterPush, spyLogout, spyInstallPWA } from '@/common/mocks';
+import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
 
 const logo = dataTest('header-logo');
-const pwaInstall = dataTest('header-pwa-install');
 const help = dataTest('header-help');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
@@ -24,7 +23,7 @@ let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 beforeAll(() => localStorage.setItem('locale', 'ru'));
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader, { isAdmin: true, isShowInstallPWA: true, installPWA: spyInstallPWA });
+  wrapper = wrapperFactory(TheHeader, { isAdmin: true });
 });
 
 enableAutoUnmount(afterEach);
@@ -100,14 +99,6 @@ describe('TheHeader', async () => {
 
     expect(spyLogout).toBeCalledTimes(1);
     expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
-  });
-
-  it('installs pwa', async () => {
-    expect(spyInstallPWA).toBeCalledTimes(0);
-
-    await wrapper.find(pwaInstall).trigger('click');
-
-    expect(spyInstallPWA).toBeCalledTimes(1);
   });
 
   it('emits show login', async () => {

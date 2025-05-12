@@ -4,8 +4,6 @@
       v-if="isLoaded"
       :is="layoutComponent"
       :isAdmin="isAdmin"
-      :installPWA="installPWA"
-      :isShowInstallPWA="isShowInstallPWA"
       data-test="app-layout"
       :data-layout="layoutComponent.name"
     />
@@ -15,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { usePWA } from 'mhz-helpers';
-
 import PWAUpdateModal from '@/common/components/PWAUpdateModal.vue';
 
 import { useLayout, useLocale } from '@/common/composables';
@@ -27,8 +23,6 @@ const { initLocale } = useLocale();
 const { isLoaded, layoutComponent } = useLayout();
 
 const { isAdmin } = useAuthCheck();
-
-const { installPWA, isShowInstallPWA } = usePWA();
 
 initLocale();
 </script>

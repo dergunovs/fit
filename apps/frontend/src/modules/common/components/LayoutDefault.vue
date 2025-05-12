@@ -2,8 +2,6 @@
   <div :class="$style.layout">
     <TheHeader
       :isAdmin="props.isAdmin"
-      :installPWA="props.installPWA"
-      :isShowInstallPWA="props.isShowInstallPWA"
       @showLogin="isShowLogin = true"
       @showRegistration="isShowRegistration = true"
       data-test="layout-default-header"
@@ -41,8 +39,6 @@ import { useNavItems } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
-  installPWA: () => void;
-  isShowInstallPWA: boolean;
 }
 
 const props = defineProps<IProps>();

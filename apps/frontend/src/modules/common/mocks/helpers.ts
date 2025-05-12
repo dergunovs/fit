@@ -17,11 +17,7 @@ const spyUsePWA = vi.spyOn(helpers, 'usePWA').mockImplementation(() => {
 const mockIsValid = ref(true);
 
 vi.spyOn(helpers, 'useValidator').mockImplementation(() => {
-  return {
-    error: () => undefined,
-    isValid: () => mockIsValid.value,
-    errors: returnComputed(undefined),
-  };
+  return { error: () => undefined, isValid: () => mockIsValid.value, errors: returnComputed(undefined) };
 });
 
 const mockTempId = 'fd98bye9rbrube';

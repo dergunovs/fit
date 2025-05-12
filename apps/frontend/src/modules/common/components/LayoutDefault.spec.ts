@@ -9,7 +9,6 @@ import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyInstallPWA } from '@/common/mocks';
 
 const header = dataTest('layout-default-header');
 const loginForm = dataTest('layout-default-login-form');
@@ -20,7 +19,7 @@ const registrationFormModal = dataTest('layout-default-registration-form-modal')
 let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true, isShowInstallPWA: true, installPWA: spyInstallPWA });
+  wrapper = wrapperFactory(LayoutDefault, { isAdmin: true });
 });
 
 enableAutoUnmount(afterEach);

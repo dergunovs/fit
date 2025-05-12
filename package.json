@@ -14,14 +14,14 @@
     "ts": "turbo run ts",
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "build:apk": "npx tauri android build --apk --target aarch64",
+    "build:apk": "npx tauri android build --apk --target aarch64 && npm run tauri icon src-tauri/icons/icon.png",
     "test": "turbo run test",
     "test:cov": "turbo run test:cov",
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish",
     "tauri": "tauri"
   },
   "dependencies": {
-    "@changesets/cli": "2.29.3"
+    "@changesets/cli": "2.29.4"
   },
   "devDependencies": {
     "@turbo/gen": "2.5.3",

@@ -6,11 +6,12 @@ exports[`HelpPage > matches snapshot 1`] = `
   <div>
     <p>Исходный код: <a href="https://github.com/dergunovs/fit" target="_blank" rel="nofollow noreferrer noopener">Github</a></p>
     <p>Видео про разработку приложения: <a href="https://vkvideo.ru/playlist/15313879_11" target="_blank" rel="nofollow noreferrer noopener">VK</a>, <a href="https://youtube.com/@dergunovalexandr" target="_blank" rel="nofollow noreferrer noopener">Youtube</a></p>
-    <p>Электронная почта для связи: <a href="mailto:mail@app-fit.ru">mail@app-fit.ru</a></p>
+    <p>Электронная почта для связи: mail@app-fit.ru</p>
   </div>
   <h3>Установить</h3>
+  <div><b>RuStore(Android): </b><a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">Установить</a></div>
   <div>
-    <p>На Android и ПК установка через ссылку в верхнем меню. Также приложение можно установить через браузер (Google Chrome, в iOS - Safari):</p>
+    <p>Приложение также можно установить через браузер (Google Chrome, в iOS - Safari):</p>
     <p>Android: зайдите на сайт app-fit.ru, войдите в меню браузера ⋮ и выберите 'Добавить на главный экран'.</p>
     <p>iOS: зайдите на сайт app-fit.ru, нажмите иконку 'Поделиться' и выберите 'Добавить на главный экран'.</p>
     <p>PC: зайдите на сайт app-fit.ru, в адресной строке браузера нажмите кнопку 'Установить'.</p>

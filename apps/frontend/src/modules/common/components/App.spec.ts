@@ -6,7 +6,7 @@ import { dataTest } from 'mhz-helpers';
 import App from './App.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName, spyUsePWA } from '@/common/mocks';
+import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName } from '@/common/mocks';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
 const layout = dataTest('app-layout');
@@ -42,9 +42,5 @@ describe('App', async () => {
 
   it('checks auth', async () => {
     expect(spyUseAuthCheck).toBeCalledTimes(1);
-  });
-
-  it('checks pwa install', async () => {
-    expect(spyUsePWA).toBeCalledTimes(1);
   });
 });

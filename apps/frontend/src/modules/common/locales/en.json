@@ -180,7 +180,7 @@
   "videoLinks": "Video links about app development",
   "emailLink": "Feedback email",
   "installText": [
-    "On Android and PC, install via the link in the top menu. The app can also be installed through your browser (Google Chrome on Android, Safari on iOS):",
+    "The app can also be installed through your browser (Google Chrome on Android, Safari on iOS):",
     "Android: Go to app-fit.ru, open the browser menu ⋮, and select 'Add to Home screen'.",
     "iOS: Go to app-fit.ru, tap the 'Share' icon, then select 'Add to Home screen'.",
     "PC: Go to app-fit.ru, click the 'Install' button in the browser’s address bar."

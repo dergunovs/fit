@@ -1,13 +1,13 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "FiT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "identifier": "com.appfit.dev",
   "build": {
     "frontendDist": "../apps/frontend/dist",
     "devUrl": "http://localhost:8080",
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build"
+    "beforeBuildCommand": "VITE_API=https://app-fit.ru/api && npm run build"
   },
   "app": {
     "windows": [

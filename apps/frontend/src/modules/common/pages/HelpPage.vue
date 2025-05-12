@@ -14,10 +14,17 @@
         <a href="https://youtube.com/@dergunovalexandr" target="_blank" rel="nofollow noreferrer noopener">Youtube</a>
       </p>
 
-      <p>{{ t('emailLink') }}: <a href="mailto:mail@app-fit.ru">mail@app-fit.ru</a></p>
+      <p>{{ t('emailLink') }}: mail@app-fit.ru</p>
     </div>
 
     <h3>{{ t('install') }}</h3>
+
+    <div>
+      <b>RuStore(Android): </b>
+      <a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">
+        {{ t('install') }}
+      </a>
+    </div>
 
     <div>
       <p v-for="(content, index) in tm('installText')" :key="index">
