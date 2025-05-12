@@ -15,8 +15,10 @@ function removeDataTest(node) {
 }
 
 export default defineConfig({
+  clearScreen: false,
   server: {
     port: 8080,
+    strictPort: true,
     headers: {
       'Content-Security-Policy': `default-src 'self';img-src 'self' data: localhost:5000 https://app-fit.ru;script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';connect-src 'self' localhost:5000 https://app-fit.ru 'self';`,
     },

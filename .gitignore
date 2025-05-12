@@ -1,5 +1,5 @@
 node_modules
 build
-src-tauri
+src-tauri/gen
 .env
 .turbo
