@@ -13,11 +13,17 @@ import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { mockOnSuccess, spyDeleteActivity } from '@/activity/mocks';
-import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { generateMuscleStatistics } from '@/muscle/helpers';
 import { spyGetMuscles } from '@/muscle/mocks';
+import {
+  spyRefetchQueries,
+  spyRemoveQueries,
+  spyRouterPush,
+  spyToastSuccess,
+  spyCopyToClipboard,
+} from '@/common/mocks';
 
 const activityInfo = dataTest('activity-info');
 const timeline = dataTest('activity-timeline');
@@ -31,6 +37,7 @@ const exercise = dataTest('activity-info-exercise');
 const copyActivity = dataTest('activity-info-copy');
 const startActivity = dataTest('activity-info-start');
 const deleteActivity = dataTest('activity-info-delete');
+const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
 const modal = dataTest('activity-info-modal');
 
 const id = '123';
@@ -165,5 +172,13 @@ describe('ActivityInfo', async () => {
     expect(spyToastSuccess).toBeCalledTimes(1);
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
+  });
+
+  it('copies activity to clipboard', async () => {
+    expect(spyCopyToClipboard).toBeCalledTimes(0);
+
+    await wrapper.find(copyActivityToClipboard).trigger('click');
+
+    expect(spyCopyToClipboard).toBeCalledTimes(1);
   });
 });

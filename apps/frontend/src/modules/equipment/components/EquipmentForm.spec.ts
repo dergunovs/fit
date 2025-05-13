@@ -13,10 +13,12 @@ import { spyRefetchQueries, spyRemoveQueries, spyRouterPush, spyToastSuccess, mo
 import { URL_EQUIPMENT } from '@/equipment/constants';
 
 const TITLE = 'Гантели';
+const TITLE_EN = 'Dumbbells';
 const IS_WEIGHTS = true;
 
 const form = dataTest('equipment-form');
 const formTitle = dataTest('equipment-form-title');
+const formTitleEn = dataTest('equipment-form-title-en');
 const formIsWeights = dataTest('equipment-form-is-weights');
 const formButtons = dataTest('equipment-form-buttons');
 
@@ -58,12 +60,13 @@ describe('EquipmentForm', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
+    await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
     await wrapper.findComponent(formIsWeights).setValue(IS_WEIGHTS);
 
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateEquipment).toBeCalledTimes(1);
-    expect(spyCreateEquipment).toBeCalledWith({ title: TITLE, title_en: '', isWeights: IS_WEIGHTS });
+    expect(spyCreateEquipment).toBeCalledWith({ title: TITLE, title_en: TITLE_EN, isWeights: IS_WEIGHTS });
 
     await mockOnSuccess.create?.();
 

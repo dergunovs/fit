@@ -3,16 +3,13 @@ import { vi } from 'vitest';
 import type { UseQueryReturnType, UseMutationReturnType } from 'mhz-helpers';
 import * as helpers from 'mhz-helpers';
 
+import * as commonHelpers from '@/common/helpers';
+
+const spyCopyToClipboard = vi.spyOn(commonHelpers, 'copyToClipboard');
+
 function returnComputed<T>(value: T) {
   return computed(() => value);
 }
-
-const spyInstallPWA = vi.fn();
-const mockIsShowInstallPWA = ref(true);
-
-const spyUsePWA = vi.spyOn(helpers, 'usePWA').mockImplementation(() => {
-  return { installPWA: spyInstallPWA, isShowInstallPWA: mockIsShowInstallPWA };
-});
 
 const mockIsValid = ref(true);
 
@@ -73,8 +70,7 @@ function mockMutationReply<T, T2>(mutate: () => void) {
 }
 
 export {
-  spyUsePWA,
-  spyInstallPWA,
+  spyCopyToClipboard,
   spyAuth,
   spySetAuthHeaders,
   spyLogout,
@@ -84,7 +80,6 @@ export {
   spyRefetchQueries,
   spyRemoveQueries,
   spyUseRouteId,
-  mockIsShowInstallPWA,
   mockIsValid,
   mockQueryReply,
   mockMutationReply,

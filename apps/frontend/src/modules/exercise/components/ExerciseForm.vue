@@ -6,7 +6,7 @@
       </UiField>
 
       <UiField :label="`${t('title')} EN`" :error="error('title_en')">
-        <UiInput v-model="formData.title_en" data-test="exercise-form-title" />
+        <UiInput v-model="formData.title_en" data-test="exercise-form-title-en" />
       </UiField>
 
       <UiField :label="t('description')">
@@ -14,7 +14,7 @@
       </UiField>
 
       <UiField :label="`${t('description')} EN`">
-        <UiEditor v-model="formData.description_en" data-test="exercise-form-description" />
+        <UiEditor v-model="formData.description_en" data-test="exercise-form-description-en" />
       </UiField>
 
       <UiCheckbox v-model="formData.isWeights" :label="t('exercise.isWeights')" data-test="exercise-form-is-weights" />

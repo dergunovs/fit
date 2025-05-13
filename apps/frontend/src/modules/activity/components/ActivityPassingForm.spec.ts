@@ -83,6 +83,9 @@ describe('ActivityPassingForm', async () => {
       activity.exercises[0]._id
     );
 
+    expect(wrapper.emitted()).not.toHaveProperty('updateExercises');
+    expect(wrapper.emitted()).not.toHaveProperty('setDateUpdated');
+
     wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('stop', activity.exercises[0]);
 
     await nextTick();
@@ -90,5 +93,8 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.activeExerciseId).toStrictEqual(
       undefined
     );
+
+    expect(wrapper.emitted('updateExercises')).toHaveLength(1);
+    expect(wrapper.emitted('setDateUpdated')).toHaveLength(1);
   });
 });

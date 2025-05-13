@@ -8,7 +8,7 @@
       @updateExercises="(exercises) => (formData.exercises = exercises)"
       @done="(isDone) => (formData.isDone = isDone)"
       @exit="exitActivity"
-      data-test="activity-exercise-form"
+      data-test="activity-passing-form"
     />
   </div>
 </template>
@@ -24,6 +24,7 @@ import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS, IActivity } 
 import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { activityService } from '@/activity/services';
+import { usePageLock } from '@/common/composables';
 import { URL_HOME } from '@/common/constants';
 
 const router = useRouter();
@@ -32,6 +33,8 @@ const { id } = useRouteId('activity');
 const { t } = useI18n();
 
 const queryClient = useQueryClient();
+
+usePageLock();
 
 const { data: activity } = activityService.getOne({}, id);
 

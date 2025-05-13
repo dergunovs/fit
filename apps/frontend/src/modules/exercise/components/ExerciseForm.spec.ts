@@ -19,12 +19,16 @@ import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { spyGetMuscles } from '@/muscle/mocks';
 
-const TITLE = 'Название';
-const DESCRIPTION = 'Описание';
+const TITLE = 'Упражнение';
+const TITLE_EN = 'Exercise';
+const DESCRIPTION = 'Описание упражнения';
+const DESCRIPTION_EN = 'Exercise descriptions';
 
 const form = dataTest('exercise-form');
 const formTitle = dataTest('exercise-form-title');
+const formTitleEn = dataTest('exercise-form-title-en');
 const formDescription = dataTest('exercise-form-description');
+const formDescriptionEn = dataTest('exercise-form-description-en');
 const formIsWeights = dataTest('exercise-form-is-weights');
 const formIsWeightsRequired = dataTest('exercise-form-is-weights-required');
 const formEquipmentForWeight = dataTest('exercise-form-equipment-for-weight');
@@ -91,7 +95,9 @@ describe('ExerciseForm', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
+    await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
     await wrapper.findComponent(formDescription).setValue(DESCRIPTION);
+    await wrapper.findComponent(formDescriptionEn).setValue(DESCRIPTION_EN);
 
     expect(wrapper.find(formIsWeightsRequired).exists()).toBe(false);
 
@@ -114,9 +120,9 @@ describe('ExerciseForm', async () => {
     expect(spyCreateExercise).toBeCalledTimes(1);
     expect(spyCreateExercise).toBeCalledWith({
       title: TITLE,
-      title_en: '',
+      title_en: TITLE_EN,
       description: DESCRIPTION,
-      description_en: '',
+      description_en: DESCRIPTION_EN,
       muscles: [MUSCLES_FIXTURE[CHECKBOX_INDEX]],
       equipment: undefined,
       equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],

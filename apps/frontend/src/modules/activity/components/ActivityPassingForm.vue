@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime } from 'mhz-helpers';
@@ -102,15 +102,4 @@ function finishActivity() {
   emit('done', true);
   emit('exit');
 }
-
-const screenLock = ref<WakeLockSentinel>();
-
-onMounted(async () => {
-  screenLock.value = await navigator.wakeLock?.request();
-});
-
-onBeforeUnmount(() => {
-  screenLock.value?.release();
-  screenLock.value = undefined;
-});
 </script>

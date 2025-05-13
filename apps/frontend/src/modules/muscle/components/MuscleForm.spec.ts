@@ -13,11 +13,13 @@ import { URL_MUSCLE } from '@/muscle/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 
 const TITLE = 'Название';
+const TITLE_EN = 'Title';
 const COLOR = '#eee';
 const muscle = MUSCLES_FIXTURE[0];
 
 const form = dataTest('muscle-form');
 const formTitle = dataTest('muscle-form-title');
+const formTitleEn = dataTest('muscle-form-title-en');
 const formColor = dataTest('muscle-form-color');
 const formColorExample = dataTest('muscle-form-color-example');
 const formButtons = dataTest('muscle-form-buttons');
@@ -58,6 +60,7 @@ describe('MuscleForm', async () => {
     expect(spyRouterPush).toBeCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
+    await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
 
     expect(wrapper.find(formColorExample).exists()).toBe(false);
 
@@ -68,7 +71,7 @@ describe('MuscleForm', async () => {
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateMuscle).toBeCalledTimes(1);
-    expect(spyCreateMuscle).toBeCalledWith({ title: TITLE, title_en: '', color: COLOR });
+    expect(spyCreateMuscle).toBeCalledWith({ title: TITLE, title_en: TITLE_EN, color: COLOR });
 
     await mockOnSuccess.create?.();
 

@@ -2,6 +2,6 @@
 
 exports[`ActivityPassingPage > matches snapshot 1`] = `
 "<div>
-  <activity-passing-form-stub activity="[object Object]" data-test="activity-exercise-form"></activity-passing-form-stub>
+  <activity-passing-form-stub activity="[object Object]" data-test="activity-passing-form"></activity-passing-form-stub>
 </div>"
 `;

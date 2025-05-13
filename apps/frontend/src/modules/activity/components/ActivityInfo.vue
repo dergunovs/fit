@@ -42,7 +42,7 @@
 
       <UiButton
         v-if="isExercisesDone"
-        @click="copyActivityToClipboard"
+        @click="copyToClipboard(createActivityClipboardText(), t('copiedToClipboard'))"
         layout="plain"
         data-test="activity-info-copy-to-clipboard"
       >
@@ -127,6 +127,7 @@ import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
 import { generateMuscleStatistics } from '@/muscle/helpers';
+import { copyToClipboard } from '@/common/helpers';
 
 interface IProps {
   id: string;
@@ -161,8 +162,8 @@ const { mutate: mutateDelete } = activityService.delete({
   },
 });
 
-async function copyActivityToClipboard() {
-  const textHeader = `${formatDate(props.start, locale.value)}, ${t('duration')}: ${subtractDates(props.end, props.start, locale.value)}
+function createActivityClipboardText() {
+  const text = `${formatDate(props.start, locale.value)}, ${t('duration')}: ${subtractDates(props.end, props.start, locale.value)}
 ${t('set.many')}: ${props.exercises.length}, ${t('failures')}: ${getToFailurePercent(props.exercises)}, ${t('rest')}: ${getRestPercent(props.exercises, locale.value, props.start, props.end)}.
 
 ${props.exercises
@@ -171,9 +172,7 @@ ${props.exercises
   })
   .join('')}`;
 
-  await navigator.clipboard.writeText(textHeader);
-
-  toast.success(t('copiedToClipboard'));
+  return text;
 }
 </script>
 

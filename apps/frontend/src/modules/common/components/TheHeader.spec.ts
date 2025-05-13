@@ -6,7 +6,7 @@ import { deleteAuthHeader, setAuth, dataTest } from 'mhz-helpers';
 import TheHeader from './TheHeader.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { URL_HOME } from '@/common/constants';
+import { URL_HELP, URL_HOME } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
@@ -90,6 +90,15 @@ describe('TheHeader', async () => {
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+  });
+
+  it('navigates to help page', async () => {
+    expect(spyRouterPush).toBeCalledTimes(0);
+
+    await wrapper.find(help).trigger('click');
+
+    expect(spyRouterPush).toBeCalledTimes(1);
+    expect(spyRouterPush).toBeCalledWith(URL_HELP);
   });
 
   it('logouts', async () => {
