@@ -7,9 +7,9 @@ export interface IActivityCalendarEvent<T> {
   color?: string;
 }
 
-export interface ICalendarEvent {
-  firstCellDate: string;
-  lastCellDate: string;
+export interface ICalendarDates {
+  dateFrom: string;
+  dateTo: string;
 }
 
 export interface ITimelineStep {

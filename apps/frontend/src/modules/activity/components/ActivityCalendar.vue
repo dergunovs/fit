@@ -31,14 +31,14 @@ import { useI18n } from 'vue-i18n';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
-import { IActivityCalendarEvent, ICalendarEvent } from '@/activity/interface';
+import { IActivityCalendarEvent, ICalendarDates } from '@/activity/interface';
 
 interface IProps {
   events?: IActivityCalendarEvent<IExerciseDone>[];
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits<{ ready: [dates: ICalendarEvent]; update: [dates: ICalendarEvent]; deleteEvent: [] }>();
+const emit = defineEmits<{ ready: [dates: ICalendarDates]; update: [dates: ICalendarDates]; deleteEvent: [] }>();
 
 const { locale } = useI18n();
 

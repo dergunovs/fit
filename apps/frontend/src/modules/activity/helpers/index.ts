@@ -87,10 +87,17 @@ export function convertActivityCalendarEvents(
   activities?: IActivity[]
 ): IActivityCalendarEvent<IExerciseDone>[] | undefined {
   return activities?.map((activity: IActivity) => {
+    const isScheduled = !!activity.dateScheduled;
+
+    const start = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateCreated}`);
+    const end = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateUpdated}`);
+
+    if (isScheduled) end.setMinutes(1);
+
     return {
       _id: activity._id,
-      start: new Date(`${activity.dateScheduled || activity.dateCreated}`),
-      end: new Date(`${activity.dateScheduled || activity.dateUpdated}`),
+      start,
+      end,
       title: activity.exercises.length.toString(),
       content: activity.exercises,
       color: getActivityColor(activity.exercises, muscles, activity.dateScheduled),
@@ -131,6 +138,8 @@ export function getRestPercent(
   start?: Date | null | string,
   end?: Date | null | string
 ) {
+  if (exercises.length === 1) return '0%';
+
   const activityDuration = Number(subtractDates(end, start, lang, true));
   const exercisesDuration = exercises.reduce((acc, current) => acc + (current.duration || 0), 0);
 

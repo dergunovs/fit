@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-import { ICalendarEvent } from '@/activity/interface';
+import { ICalendarDates } from '@/activity/interface';
 
 export function useActivityCalendar() {
   const dateFrom = ref('');
@@ -8,11 +8,11 @@ export function useActivityCalendar() {
 
   const isDatesReady = ref(false);
 
-  function updateDates(dates: ICalendarEvent) {
+  function updateDates(dates: ICalendarDates) {
     isDatesReady.value = true;
 
-    dateFrom.value = dates.firstCellDate;
-    dateTo.value = dates.lastCellDate;
+    dateFrom.value = dates.dateFrom;
+    dateTo.value = dates.dateTo;
   }
 
   return { dateFrom, dateTo, isDatesReady, updateDates };
