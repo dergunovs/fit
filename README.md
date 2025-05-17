@@ -1,6 +1,6 @@
 Home workout calendar app
 
-**Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n
+**Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n, Tauri
 
 **Backend:** Typescript, Fastify, Mongoose, MongoDB, Swagger
 
