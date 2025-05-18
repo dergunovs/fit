@@ -95,7 +95,7 @@ export function getExercisePassingTitle(
   return `${index}${isCurrent ? ` - ${count}.` : `.`} ${exercise.exercise?.[localeField('title', locale)] || '-'}${exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`}`;
 }
 
-export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {
+export function generateTimeline(exercises: IExerciseDone[], start: Date | null, ratio: number) {
   const allSteps: ITimelineStep[] = [];
 
   exercises.forEach((exercise, index) => {
@@ -107,7 +107,7 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
           ? 0
           : (new Date(exercise.dateUpdated).getTime() - exercise.duration * 1000 - new Date(start).getTime()) / ratio,
       right:
-        index === exercises.length - 1
+        index === exercises.length - 1 && exercises.length !== 1
           ? 0
           : (new Date(exercise.dateUpdated).getTime() - new Date(start).getTime()) / ratio,
       type: 'exercise',
@@ -117,11 +117,7 @@ export function generateTimeline(exercises: IExerciseDone[], start: Date | strin
   allSteps.forEach((step, index) => {
     if (!allSteps[index - 1]?.right) return;
 
-    allSteps.push({
-      left: allSteps[index - 1].right,
-      right: step.left,
-      type: 'rest',
-    });
+    allSteps.push({ left: allSteps[index - 1].right, right: step.left, type: 'rest' });
   });
 
   return allSteps.sort((a, b) => a.left - b.left);

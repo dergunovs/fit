@@ -97,7 +97,9 @@ export function convertActivityCalendarEvents(
     return {
       _id: activity._id,
       start,
+      startSeconds: start.getUTCSeconds(),
       end,
+      endSeconds: end.getUTCSeconds(),
       title: activity.exercises.length.toString(),
       content: activity.exercises,
       color: getActivityColor(activity.exercises, muscles, activity.dateScheduled),

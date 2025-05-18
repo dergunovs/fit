@@ -51,7 +51,9 @@ const id = ref('');
 
 function showEvent(event: IActivityCalendarEvent<IExerciseDone>) {
   start.value = event.start;
+  start.value?.setUTCSeconds(event.startSeconds);
   end.value = event.end;
+  end.value?.setUTCSeconds(event.endSeconds);
   exercises.value = event.content;
   id.value = event._id || '';
 

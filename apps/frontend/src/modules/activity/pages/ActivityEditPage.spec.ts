@@ -53,9 +53,11 @@ describe('ActivityEditPage', async () => {
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.id).toStrictEqual(ACTIVITY_FIXTURE._id);
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.start).toStrictEqual(
-      ACTIVITY_FIXTURE.dateCreated
+      new Date(`${ACTIVITY_FIXTURE.dateCreated}`)
     );
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.end).toStrictEqual(ACTIVITY_FIXTURE.dateUpdated);
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.end).toStrictEqual(
+      new Date(`${ACTIVITY_FIXTURE.dateUpdated}`)
+    );
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.exercises).toStrictEqual(
       ACTIVITY_FIXTURE.exercises

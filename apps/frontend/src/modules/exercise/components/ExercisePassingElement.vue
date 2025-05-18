@@ -123,6 +123,7 @@ function sendDurationData(duration: number) {
 
 <style module lang="scss">
 .element {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -134,7 +135,45 @@ function sendDurationData(duration: number) {
   }
 
   &[data-active='true'] {
-    border-color: var(--color-accent);
+    border-color: var(--color-transparent);
+
+    &::before,
+    &::after {
+      position: absolute;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      height: 16px;
+      pointer-events: none;
+      content: '';
+      background-image: repeating-linear-gradient(
+        -45deg,
+        var(--color-success),
+        var(--color-success) 16px,
+        var(--color-success-dark) 0,
+        var(--color-success-dark) 24px
+      );
+      background-size: 24px 24px;
+      animation: stripeMove 1000ms linear infinite;
+    }
+
+    &::before {
+      top: -16px;
+    }
+
+    &::after {
+      bottom: -16px;
+    }
+  }
+}
+
+@keyframes stripeMove {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 24px 0;
   }
 }
 

@@ -41,8 +41,8 @@ const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
 const modal = dataTest('activity-info-modal');
 
 const id = '123';
-const start = '01-01-2025';
-const end = '01-02-2025';
+const start = new Date('01-01-2025');
+const end = new Date('01-02-2025');
 const exercises = EXERCISES_DONE_FIXTURE;
 const isPopup = false;
 
