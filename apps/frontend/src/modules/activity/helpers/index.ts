@@ -92,7 +92,7 @@ export function convertActivityCalendarEvents(
     const start = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateCreated}`);
     const end = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateUpdated}`);
 
-    if (isScheduled) end.setMinutes(1);
+    if (isScheduled) end.setHours(23, 59, 59);
 
     return {
       _id: activity._id,

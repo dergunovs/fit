@@ -173,7 +173,7 @@ function repeatLastActivity() {
 
 function setScheduledDate(date: Date) {
   date.setHours(23, 59, 59);
-  formData.value.dateScheduled = date;
+  formData.value.dateScheduled = new Date(date);
 }
 
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
