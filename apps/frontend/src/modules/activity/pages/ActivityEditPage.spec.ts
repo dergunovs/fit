@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
 import { UiModal } from 'mhz-ui';
@@ -27,6 +27,8 @@ const goBackButton = dataTest('activity-go-back-button');
 const deleteButton = dataTest('activity-delete-button');
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityEditPage>>;
+
+beforeAll(() => localStorage.setItem('locale', 'ru'));
 
 beforeEach(() => {
   wrapper = wrapperFactory(ActivityEditPage);
