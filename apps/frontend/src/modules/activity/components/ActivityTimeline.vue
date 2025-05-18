@@ -19,7 +19,7 @@ import { generateTimeline } from '@/exercise/helpers';
 
 interface IProps {
   exercises: IExerciseDone[];
-  start: Date | null;
+  start: Date | string | null;
 }
 
 const props = defineProps<IProps>();

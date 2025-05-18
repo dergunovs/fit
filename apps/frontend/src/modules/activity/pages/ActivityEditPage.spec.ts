@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY } from 'fitness-tracker-contracts';
 import { UiModal } from 'mhz-ui';
@@ -28,8 +28,6 @@ const deleteButton = dataTest('activity-delete-button');
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityEditPage>>;
 
-beforeAll(() => localStorage.setItem('locale', 'ru'));
-
 beforeEach(() => {
   wrapper = wrapperFactory(ActivityEditPage);
 });
@@ -55,11 +53,9 @@ describe('ActivityEditPage', async () => {
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.id).toStrictEqual(ACTIVITY_FIXTURE._id);
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.start).toStrictEqual(
-      new Date(`${ACTIVITY_FIXTURE.dateCreated}`)
+      ACTIVITY_FIXTURE.dateCreated
     );
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.end).toStrictEqual(
-      new Date(`${ACTIVITY_FIXTURE.dateUpdated}`)
-    );
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.end).toStrictEqual(ACTIVITY_FIXTURE.dateUpdated);
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.exercises).toStrictEqual(
       ACTIVITY_FIXTURE.exercises

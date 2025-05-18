@@ -76,8 +76,8 @@ export const ACTIVITY_FIXTURE: IActivity = {
   ],
   isDone: true,
   _id: '123123',
-  dateCreated: '2024-12-29T12:38:01.406Z',
-  dateUpdated: '2024-12-29T13:40:01.456Z',
+  dateCreated: '2024-12-29T12:38:01.000Z',
+  dateUpdated: '2024-12-29T13:40:01.000Z',
   createdBy: USER_FIXTURE,
 };
 
@@ -118,8 +118,8 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
   ],
   isDone: false,
   _id: '321321',
-  dateCreated: '2024-12-23T08:29:01.628Z',
-  dateUpdated: '2024-12-23T09:21:48.779Z',
+  dateCreated: '2024-12-23T08:29:01.000Z',
+  dateUpdated: '2024-12-23T09:21:48.000Z',
   createdBy: USER_FIXTURE,
 };
 

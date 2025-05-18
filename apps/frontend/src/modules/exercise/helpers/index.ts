@@ -95,7 +95,7 @@ export function getExercisePassingTitle(
   return `${index}${isCurrent ? ` - ${count}.` : `.`} ${exercise.exercise?.[localeField('title', locale)] || '-'}${exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`}`;
 }
 
-export function generateTimeline(exercises: IExerciseDone[], start: Date | null, ratio: number) {
+export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {
   const allSteps: ITimelineStep[] = [];
 
   exercises.forEach((exercise, index) => {

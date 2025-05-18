@@ -132,8 +132,8 @@ import { copyToClipboard } from '@/common/helpers';
 interface IProps {
   id: string;
   exercises: IExerciseDone[];
-  start: Date | null;
-  end?: Date | null;
+  start: Date | string | null;
+  end?: Date | string | null;
   isPopup?: boolean;
 }
 

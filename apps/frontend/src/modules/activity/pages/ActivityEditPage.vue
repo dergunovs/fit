@@ -4,8 +4,8 @@
       <ActivityInfo
         v-if="activity?.exercises && activity._id && activity.dateCreated"
         :id="activity._id"
-        :start="new Date(activity.dateCreated)"
-        :end="new Date(`${activity.dateUpdated}`)"
+        :start="activity.dateCreated"
+        :end="activity.dateUpdated"
         :exercises="activity.exercises"
         data-test="activity-info"
       />
