@@ -27,11 +27,12 @@
 import { ref } from 'vue';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiCalendar, UiModal } from 'mhz-ui';
+import { ICalendarDates } from 'mhz-helpers';
 import { useI18n } from 'vue-i18n';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
-import { IActivityCalendarEvent, ICalendarDates } from '@/activity/interface';
+import { IActivityCalendarEvent } from '@/activity/interface';
 
 interface IProps {
   events?: IActivityCalendarEvent<IExerciseDone>[];

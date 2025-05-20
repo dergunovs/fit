@@ -32,7 +32,7 @@ import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast, UiFlex } from 'mhz-ui';
-import { isAuth, scrollToTop, useRouteId } from 'mhz-helpers';
+import { isAuth, scrollToTop, useRouteId, useCalendar } from 'mhz-helpers';
 
 import PromoBlocks from '@/common/components/PromoBlocks.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
@@ -43,12 +43,11 @@ import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
 import { authService } from '@/auth/services';
-import { useActivityCalendar } from '@/activity/composables';
 import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
 
-const { dateFrom, dateTo, isDatesReady, updateDates } = useActivityCalendar();
+const { dateFrom, dateTo, isDatesReady, updateDates } = useCalendar();
 
 const { data: calendar, refetch } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
 const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);

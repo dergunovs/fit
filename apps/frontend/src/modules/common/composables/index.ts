@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -91,36 +91,4 @@ export function useNavItems() {
   );
 
   return { NAV_ITEMS, BOTTOM_NAV_ITEMS };
-}
-
-export function usePageLock() {
-  const pageLock = ref<WakeLockSentinel>();
-
-  async function lockPage() {
-    pageLock.value = await navigator.wakeLock?.request();
-  }
-
-  function releasePage() {
-    pageLock.value?.release();
-    pageLock.value = undefined;
-  }
-
-  async function updatePageVisibility() {
-    if (document.visibilityState === 'visible') {
-      await lockPage();
-    } else {
-      releasePage();
-    }
-  }
-
-  onMounted(async () => {
-    await lockPage();
-    document.addEventListener('visibilitychange', updatePageVisibility);
-  });
-
-  onBeforeUnmount(() => {
-    releasePage();
-
-    document.removeEventListener('visibilitychange', updatePageVisibility);
-  });
 }

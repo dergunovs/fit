@@ -11,17 +11,19 @@ import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE } from '@/activity/fixtures';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
+import { spyGetActivitiesCalendar, spyGetActivitiesStatistics } from '@/activity/mocks';
+import { convertActivityCalendarEvents } from '@/activity/helpers';
 import {
-  spyUseActivityCalendar,
-  spyGetActivitiesCalendar,
+  spyUseRouteId,
+  mockRouteId,
+  spyToastSuccess,
+  spyRouterPush,
+  spyUseCalendar,
   mockDateFrom,
   mockDateTo,
   mockIsDatesReady,
   spyUpdateDates,
-  spyGetActivitiesStatistics,
-} from '@/activity/mocks';
-import { convertActivityCalendarEvents } from '@/activity/helpers';
-import { spyUseRouteId, mockRouteId, spyToastSuccess, spyRouterPush } from '@/common/mocks';
+} from '@/common/mocks';
 import { mockOnSuccess, spyConfirmToken } from '@/auth/mocks';
 import { URL_HOME } from '@/common/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
@@ -73,7 +75,7 @@ describe('HomePage', async () => {
   });
 
   it('gets and formats activity calendar data', async () => {
-    expect(spyUseActivityCalendar).toBeCalledTimes(1);
+    expect(spyUseCalendar).toBeCalledTimes(1);
 
     expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
     expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);

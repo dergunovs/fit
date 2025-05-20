@@ -17,14 +17,13 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useRouteId, useQueryClient, clone } from 'mhz-helpers';
+import { useRouteId, useQueryClient, usePageLock, clone } from 'mhz-helpers';
 import { toast } from 'mhz-ui';
 import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS, IActivity } from 'fitness-tracker-contracts';
 
 import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { activityService } from '@/activity/services';
-import { usePageLock } from '@/common/composables';
 import { URL_HOME } from '@/common/constants';
 
 const router = useRouter();

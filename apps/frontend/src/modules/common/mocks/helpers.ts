@@ -5,6 +5,11 @@ import * as helpers from 'mhz-helpers';
 
 import * as commonHelpers from '@/common/helpers';
 
+const mockDateFrom = ref('2024-11-24T21:00:00.000Z');
+const mockDateTo = ref('2025-01-05T20:59:59.000Z');
+const mockIsDatesReady = ref(true);
+const spyUpdateDates = vi.fn();
+
 const spyCopyToClipboard = vi.spyOn(commonHelpers, 'copyToClipboard');
 
 function returnComputed<T>(value: T) {
@@ -16,6 +21,15 @@ const mockIsValid = ref(true);
 vi.spyOn(helpers, 'useValidator').mockImplementation(() => {
   return { error: () => undefined, isValid: () => mockIsValid.value, errors: returnComputed(undefined) };
 });
+
+const spyUseCalendar = vi.spyOn(helpers, 'useCalendar').mockReturnValue({
+  dateFrom: mockDateFrom,
+  dateTo: mockDateTo,
+  isDatesReady: mockIsDatesReady,
+  updateDates: spyUpdateDates,
+});
+
+const spyUsePageLock = vi.spyOn(helpers, 'usePageLock');
 
 const mockTempId = 'fd98bye9rbrube';
 
@@ -79,7 +93,13 @@ export {
   spySetPage,
   spyRefetchQueries,
   spyRemoveQueries,
+  spyUpdateDates,
+  spyUseCalendar,
+  spyUsePageLock,
   spyUseRouteId,
+  mockDateFrom,
+  mockDateTo,
+  mockIsDatesReady,
   mockIsValid,
   mockQueryReply,
   mockMutationReply,

@@ -6,6 +6,8 @@ Home workout calendar app
 
 **App:** https://app-fit.ru
 
+**RuStore:** https://www.rustore.ru/catalog/app/com.appfit.dev
+
 **Video:** https://vkvideo.ru/playlist/15313879_11
 
 ## Installation

@@ -9,11 +9,6 @@ export interface IActivityCalendarEvent<T> {
   color?: string;
 }
 
-export interface ICalendarDates {
-  dateFrom: string;
-  dateTo: string;
-}
-
 export interface ITimelineStep {
   left: number;
   right: number;

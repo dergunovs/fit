@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 import { vi } from 'vitest';
 import {
   TDeleteActivityDTO,
@@ -9,7 +8,6 @@ import {
   TUpdateActivityDTO,
 } from 'fitness-tracker-contracts';
 
-import * as activityComposables from '@/activity/composables';
 import { activityService } from '@/activity/services';
 import {
   ACTIVITIES_CALENDAR_FIXTURE,
@@ -21,11 +19,6 @@ import {
 } from '@/activity/fixtures';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { IOnSuccess } from '@/common/interface';
-
-const mockDateFrom = ref('2024-11-24T21:00:00.000Z');
-const mockDateTo = ref('2025-01-05T20:59:59.000Z');
-const mockIsDatesReady = ref(true);
-const spyUpdateDates = vi.fn();
 
 const spyGetActivity = vi.spyOn(activityService, 'getOne').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE));
 
@@ -67,13 +60,6 @@ vi.spyOn(activityService, 'delete').mockImplementation((options: { onSuccess?: (
   return mockMutationReply<TDeleteActivityDTO, string>(spyDeleteActivity);
 });
 
-const spyUseActivityCalendar = vi.spyOn(activityComposables, 'useActivityCalendar').mockReturnValue({
-  dateFrom: mockDateFrom,
-  dateTo: mockDateTo,
-  isDatesReady: mockIsDatesReady,
-  updateDates: spyUpdateDates,
-});
-
 const spyGetActivitiesCalendar = vi
   .spyOn(activityService, 'getCalendar')
   .mockImplementation(() => mockQueryReply(ACTIVITIES_CALENDAR_FIXTURE));
@@ -95,12 +81,7 @@ export {
   spyCreateActivity,
   spyUpdateActivity,
   spyDeleteActivity,
-  spyUseActivityCalendar,
   spyGetActivitiesCalendar,
-  spyUpdateDates,
-  mockDateFrom,
-  mockDateTo,
-  mockIsDatesReady,
   mockGetActivitiesData,
   mockOnSuccess,
 };

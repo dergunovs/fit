@@ -8,7 +8,14 @@ import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyGetActivity, spyUpdateActivity } from '@/activity/mocks';
-import { mockRouteId, spyRefetchQueries, spyRouterPush, spyToastSuccess, spyUseRouteId } from '@/common/mocks';
+import {
+  mockRouteId,
+  spyRefetchQueries,
+  spyRouterPush,
+  spyToastSuccess,
+  spyUseRouteId,
+  spyUsePageLock,
+} from '@/common/mocks';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
 
@@ -125,5 +132,9 @@ describe('ActivityPassingPage', async () => {
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_HOME);
+  });
+
+  it('locks page from blocking', async () => {
+    expect(spyUsePageLock).toBeCalledTimes(1);
   });
 });
