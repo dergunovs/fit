@@ -156,9 +156,8 @@
   },
   "science": {
     "title": "The best workout is the one you came to!",
-    "researches": "Researches",
-    "researchesText": [
-      " proves that tracking results helps you achieve your athletic goals. ",
+    "researches": [
+      "Researches proves that tracking results helps you achieve your athletic goals. ",
       "Exercises are grouped by muscles and selected to balance simplicity and variety of training."
     ]
   },

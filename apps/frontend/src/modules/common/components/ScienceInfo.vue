@@ -4,13 +4,7 @@
       <div :class="$style.header">{{ t('science.title') }}</div>
 
       <div>
-        <a
-          href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5977566/"
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-          >{{ t('science.researches') }}</a
-        >
-        <template v-for="content in tm('science.researchesText')">
+        <template v-for="content in tm('science.researches')">
           {{ rt(content) }}
         </template>
       </div>
