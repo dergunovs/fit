@@ -4,9 +4,7 @@
       <div :class="$style.header">{{ t('science.title') }}</div>
 
       <div>
-        <template v-for="content in tm('science.researches')">
-          {{ rt(content) }}
-        </template>
+        {{ t('science.researches') }}
       </div>
 
       <div v-for="(content, index) in tm('statisticsText')" :key="index">
