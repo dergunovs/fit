@@ -17,4 +17,5 @@ export interface IOnSuccess {
   register?: () => Promise<void>;
   confirmToken?: () => Promise<void>;
   resetPassword?: () => Promise<void>;
+  feedback?: () => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { API_USER, API_USER_PASSWORD } from 'fitness-tracker-contracts';
+import { API_USER, API_USER_FEEDBACK, API_USER_PASSWORD } from 'fitness-tracker-contracts';
 import type {
   IUser,
   IBaseParams,
@@ -12,6 +12,8 @@ import type {
   TDeleteUserDTO,
   TUpdateUserPasswordDTO,
   TUpdateUserPasswordDataDTO,
+  TPostUserFeedbackDataDTO,
+  TPostUserFeedbackDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
@@ -23,6 +25,7 @@ import {
   userGetOneSchema,
   userUpdateSchema,
   userUpdatePasswordSchema,
+  userPostFeedbackSchema,
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
@@ -55,6 +58,16 @@ export default async function (fastify: IFastifyInstance) {
       await userService.create<IUser>(request.body);
 
       reply.code(201).send({ message: 'User added' });
+    }
+  );
+
+  fastify.post<{ Body: TPostUserFeedbackDataDTO; Reply: { 200: TPostUserFeedbackDTO } }>(
+    API_USER_FEEDBACK,
+    { ...userPostFeedbackSchema },
+    async function (request, reply) {
+      await userService.feedback(request.body);
+
+      reply.code(200).send({ message: 'Feedback sended' });
     }
   );
 

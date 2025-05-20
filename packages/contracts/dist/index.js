@@ -21,3 +21,4 @@ export const API_MUSCLE = "/muscle";
 
 export const API_USER = "/user";
 export const API_USER_PASSWORD = "/user_password";
+export const API_USER_FEEDBACK = "/user_feedback";

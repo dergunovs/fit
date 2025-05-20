@@ -2,11 +2,14 @@ import { ComputedRef, Ref } from 'vue';
 import {
   API_USER,
   API_USER_PASSWORD,
+  API_USER_FEEDBACK,
   TGetUsersDTO,
   TGetUsersQueryDTO,
   TGetUserDTO,
   TPostUserDTO,
   TPostUserDataDTO,
+  TPostUserFeedbackDataDTO,
+  TPostUserFeedbackDTO,
   TUpdateUserDTO,
   TUpdateUserDataDTO,
   TDeleteUserDTO,
@@ -48,6 +51,18 @@ export const userService = {
       mutationKey: [API_USER],
       mutationFn: async (formData: TPostUserDataDTO) => {
         const { data } = await api.post<TPostUserDTO>(API_USER, formData);
+
+        return data;
+      },
+      ...options,
+    });
+  },
+
+  feedback: (options: object) => {
+    return useMutation({
+      mutationKey: [API_USER_FEEDBACK],
+      mutationFn: async (formData: TPostUserFeedbackDataDTO) => {
+        const { data } = await api.post<TPostUserFeedbackDTO>(API_USER_FEEDBACK, formData);
 
         return data;
       },

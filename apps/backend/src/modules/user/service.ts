@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import type { IUser, IUserService, TDecode } from 'fitness-tracker-contracts';
+import type { IUser, IUserFeedback, IUserService, TDecode } from 'fitness-tracker-contracts';
 
-import { paginate } from '../common/helpers.js';
+import { paginate, sendMail } from '../common/helpers.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 
@@ -53,5 +53,11 @@ export const userService: IUserService = {
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
     await User.findOneAndDelete({ _id });
+  },
+
+  feedback: async (feedback: IUserFeedback) => {
+    const template = `Обратная связь от пользователя ${feedback.name} (${feedback.email}): ${feedback.message}`;
+
+    await sendMail(template, `${process.env.EMAIL_USER}`);
   },
 };

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserFeedbackForm > matches snapshot 1`] = `
+"<div>
+  <form class="_form_19031f" data-test="feedback-form">
+    <h3>Обратная связь</h3>
+    <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="feedback-form-name"></fieldset>
+    <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="feedback-form-email"></fieldset>
+    <fieldset label="Сообщение" isrequired="">
+      <ui-textarea-stub modelvalue="" isdisabled="false" data-test="feedback-form-message"></ui-textarea-stub>
+    </fieldset><button type="submit">Отправить</button>
+  </form>
+</div>"
+`;

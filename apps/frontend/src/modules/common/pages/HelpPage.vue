@@ -17,12 +17,14 @@
       <p>{{ t('emailLink') }}: mail@app-fit.ru</p>
     </div>
 
-    <h3>{{ t('install') }}</h3>
+    <UserFeedbackForm />
+
+    <h3>{{ t('installation') }}</h3>
 
     <div>
       <b>RuStore(Android): </b>
       <a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">
-        {{ t('install') }}
+        {{ t('installation') }}
       </a>
     </div>
 
@@ -71,6 +73,8 @@ import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 import { scrollToTop } from 'mhz-helpers';
+
+import UserFeedbackForm from '@/user/components/UserFeedbackForm.vue';
 
 const { t, tm, rt } = useI18n();
 

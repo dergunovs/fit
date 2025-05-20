@@ -8,8 +8,9 @@ exports[`HelpPage > matches snapshot 1`] = `
     <p>Видео про разработку приложения: <a href="https://vkvideo.ru/playlist/15313879_11" target="_blank" rel="nofollow noreferrer noopener">VK</a>, <a href="https://youtube.com/@dergunovalexandr" target="_blank" rel="nofollow noreferrer noopener">Youtube</a></p>
     <p>Электронная почта для связи: mail@app-fit.ru</p>
   </div>
-  <h3>Установить</h3>
-  <div><b>RuStore(Android): </b><a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">Установить</a></div>
+  <user-feedback-form-stub></user-feedback-form-stub>
+  <h3>Установка</h3>
+  <div><b>RuStore(Android): </b><a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">Установка</a></div>
   <div>
     <p>Приложение также можно установить через браузер (Google Chrome, в iOS - Safari):</p>
     <p>Android: зайдите на сайт app-fit.ru, войдите в меню браузера ⋮ и выберите 'Добавить на главный экран'.</p>

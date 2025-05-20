@@ -3,9 +3,7 @@
     <UiFlex column>
       <div :class="$style.header">{{ t('science.title') }}</div>
 
-      <div>
-        {{ t('science.researches') }}
-      </div>
+      <div>{{ t('science.researches') }}</div>
 
       <div v-for="(content, index) in tm('statisticsText')" :key="index">
         {{ rt(content) }}
@@ -26,16 +24,5 @@ const { t, tm, rt } = useI18n();
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
-}
-
-.image {
-  align-self: center;
-  max-width: 80%;
-}
-
-@media (max-width: 960px) {
-  .image {
-    max-width: 100%;
-  }
 }
 </style>
