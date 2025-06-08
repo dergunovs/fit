@@ -4,19 +4,19 @@ exports[`ExerciseList > matches snapshot 1`] = `
 "<table headers="[object Object],[object Object]" isloading="false" lang="ru">
   <tbody>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/1" class="_title_84d261" data-test="exercise-table-title-link">Отжимание от скамьи
+      <td data-grow=""><a to="/exercises/edit/1" class="_title_ee0021" data-test="exercise-table-title-link">Отжимание от скамьи
           <!--v-if-->
         </a></td>
       <td>Александр</td>
     </tr>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/2" class="_title_84d261" data-test="exercise-table-title-link">Подтягивание
+      <td data-grow=""><a to="/exercises/edit/2" class="_title_ee0021" data-test="exercise-table-title-link">Подтягивание
           <!--v-if-->
         </a></td>
       <td>Александр</td>
     </tr>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/3" class="_title_84d261" data-test="exercise-table-title-link">Жим лёжа
+      <td data-grow=""><a to="/exercises/edit/3" class="_title_ee0021" data-test="exercise-table-title-link">Жим лёжа
           <!--v-if-->
         </a></td>
       <td>Александр</td>

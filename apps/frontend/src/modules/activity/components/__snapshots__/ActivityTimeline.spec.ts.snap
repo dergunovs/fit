@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ActivityTimeline > matches snapshot 1`] = `
-"<div class="_timeline_0ae6c1">
-  <div class="_step_0ae6c1" data-type="exercise" style="left: 0px; right: 308.020253px; width: 308.020253px;" data-test="activity-timeline-step"></div>
+"<div class="_timeline_24c030">
+  <div class="_step_24c030" data-type="exercise" style="left: 0px; right: 308.020253px; width: 308.020253px;" data-test="activity-timeline-step"></div>
 </div>"
 `;

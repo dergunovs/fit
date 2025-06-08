@@ -3,7 +3,7 @@
 exports[`RegistrationForm > matches snapshot 1`] = `
 "<div column="">
   <h2>Регистрация</h2>
-  <form class="_form_3ee32b" data-test="registration-form">
+  <form class="_form_e4c420" data-test="registration-form">
     <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="registration-form-name"></fieldset>
     <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" autocomplete="username" data-test="registration-form-email"></fieldset>
     <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" autocomplete="new-password" data-test="registration-form-password"></fieldset><button type="submit">Зарегистрироваться</button>

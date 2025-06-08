@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`MuscleStatistics > matches snapshot 1`] = `
-"<div class="_table_b22558">
+"<div class="_table_b81ac8">
   <table headers="[object Object],[object Object],[object Object]" lang="ru">
     <tbody>
       <tr data-test="muscle-row">

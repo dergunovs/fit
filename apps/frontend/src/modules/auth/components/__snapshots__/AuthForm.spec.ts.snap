@@ -3,7 +3,7 @@
 exports[`AuthForm > matches snapshot 1`] = `
 "<div column="">
   <h2 data-test="auth-form-header">Вход</h2>
-  <form class="_form_39c91b" data-test="auth-form">
+  <form class="_form_2b941a" data-test="auth-form">
     <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" autocomplete="username" data-test="auth-form-email"></fieldset>
     <div>
       <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" autocomplete="current-password" data-test="auth-form-password"></fieldset><button type="button" layout="plain" data-test="auth-form-password-reset-button">Забыли пароль? </button>

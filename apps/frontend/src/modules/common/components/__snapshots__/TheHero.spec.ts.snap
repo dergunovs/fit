@@ -2,15 +2,15 @@
 
 exports[`TheHero > matches snapshot 1`] = `
 "<div>
-  <div class="_background_3824b6">
-    <h1 class="_h1_3824b6">FiT - календарь домашних силовых тренировок</h1>
+  <div class="_background_96c2a8">
+    <h1 class="_h1_96c2a8">FiT - календарь домашних силовых тренировок</h1>
     <div column="" gap="12">
-      <div class="_benefit_3824b6" data-test="hero-benefit">Простой способ улучшить здоровье и настроение</div>
-      <div class="_benefit_3824b6" data-test="hero-benefit">Календарь с планированием и визуализацией занятий</div>
-      <div class="_benefit_3824b6" data-test="hero-benefit">Общие и индивидуальные упражнения с оборудованием и без</div>
-      <div class="_benefit_3824b6" data-test="hero-benefit">Бесплатное приложение для ПК, Android и iOS</div>
+      <div class="_benefit_96c2a8" data-test="hero-benefit">Простой способ улучшить здоровье и настроение</div>
+      <div class="_benefit_96c2a8" data-test="hero-benefit">Календарь с планированием и визуализацией занятий</div>
+      <div class="_benefit_96c2a8" data-test="hero-benefit">Общие и индивидуальные упражнения с оборудованием и без</div>
+      <div class="_benefit_96c2a8" data-test="hero-benefit">Бесплатное приложение для ПК, Android и iOS</div>
     </div>
-    <anonymous-stub class="_lines_3824b6"></anonymous-stub>
+    <anonymous-stub class="_lines_96c2a8"></anonymous-stub>
   </div>
 </div>"
 `;

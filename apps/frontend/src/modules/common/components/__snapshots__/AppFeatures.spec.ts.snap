@@ -1,24 +1,24 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AppFeatures > matches snapshot 1`] = `
-"<div class="_features_50a0ee">
-  <div class="_feature_50a0ee" data-test="app-feature">
-    <anonymous-stub width="40" height="40" class="_icon_50a0ee"></anonymous-stub>
-    <div class="_title_50a0ee" data-test="app-feature-title">Отслеживайте прогресс</div>
+"<div class="_features_5ff3fc">
+  <div class="_feature_5ff3fc" data-test="app-feature">
+    <anonymous-stub width="40" height="40" class="_icon_5ff3fc"></anonymous-stub>
+    <div class="_title_5ff3fc" data-test="app-feature-title">Отслеживайте прогресс</div>
     <div data-test="app-feature-text">Таблица со статистикой по упражнениям. Графики с динамикой по занятиям, подходам, повторам и группам мышц.</div>
-    <anonymous-stub class="_background_50a0ee"></anonymous-stub>
+    <anonymous-stub class="_background_5ff3fc"></anonymous-stub>
   </div>
-  <div class="_feature_50a0ee" data-test="app-feature">
-    <anonymous-stub width="40" height="40" class="_icon_50a0ee"></anonymous-stub>
-    <div class="_title_50a0ee" data-test="app-feature-title">Делитесь результатами</div>
+  <div class="_feature_5ff3fc" data-test="app-feature">
+    <anonymous-stub width="40" height="40" class="_icon_5ff3fc"></anonymous-stub>
+    <div class="_title_5ff3fc" data-test="app-feature-title">Делитесь результатами</div>
     <div data-test="app-feature-text">В один клик скопируйте данные по выполненной тренировке в календаре, включая время каждого подхода.</div>
-    <anonymous-stub class="_background_50a0ee"></anonymous-stub>
+    <anonymous-stub class="_background_5ff3fc"></anonymous-stub>
   </div>
-  <div class="_feature_50a0ee" data-test="app-feature">
-    <anonymous-stub width="40" height="40" class="_icon_50a0ee"></anonymous-stub>
-    <div class="_title_50a0ee" data-test="app-feature-title">Планируйте тренировки</div>
+  <div class="_feature_5ff3fc" data-test="app-feature">
+    <anonymous-stub width="40" height="40" class="_icon_5ff3fc"></anonymous-stub>
+    <div class="_title_5ff3fc" data-test="app-feature-title">Планируйте тренировки</div>
     <div data-test="app-feature-text">Повторите одну из прошлых тренировок. Расчет длительности тренировки на основе вашей статистики.</div>
-    <anonymous-stub class="_background_50a0ee"></anonymous-stub>
+    <anonymous-stub class="_background_5ff3fc"></anonymous-stub>
   </div>
 </div>"
 `;

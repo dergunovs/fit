@@ -5,7 +5,7 @@ exports[`ActivityEditPage > matches snapshot 1`] = `
   <div column="" gap="32">
     <activity-info-stub id="123123" start="2024-12-29T12:38:01.000Z" end="2024-12-29T13:40:01.000Z" exercises="[object Object],[object Object],[object Object]" ispopup="false" data-test="activity-info"></activity-info-stub>
     <div modelvalue="false" isconfirm="" width="360" lang="ru" data-test="activity-modal">Подтверждаете удаление? </div>
-    <div justify="space-between" class="_buttons_936c94" data-loaded="true"><button data-test="activity-go-back-button">Назад</button><button layout="secondary" data-test="activity-delete-button">Удалить</button></div>
+    <div justify="space-between" class="_buttons_73fdd1" data-loaded="true"><button data-test="activity-go-back-button">Назад</button><button layout="secondary" data-test="activity-delete-button">Удалить</button></div>
   </div>
 </div>"
 `;

@@ -4,8 +4,8 @@ exports[`ActivityChart > matches snapshot 1`] = `
 "<div>
   <div column="" gap="16">
     <div gap="6"><button layout="accent" isnarrow="" data-test="activity-chart-type">Занятия</button><button layout="primary" isnarrow="" data-test="activity-chart-type">Подходы</button><button layout="primary" isnarrow="" data-test="activity-chart-type">Повторы</button><button layout="primary" isnarrow="" data-test="activity-chart-type">Мышцы</button></div>
-    <div class="_chart_75b994">
-      <ui-chart-stub labels="18.11 - 24.11,25.11 - 01.12,02.12 - 08.12,09.12 - 15.12,16.12 - 22.12,23.12 - 29.12,30.12 - 05.01" datasets="[object Object]" title="" type="Line" isshowlegend="false" class="_chart_75b994" data-test="activity-chart"></ui-chart-stub>
+    <div class="_chart_b881e1">
+      <ui-chart-stub labels="18.11 - 24.11,25.11 - 01.12,02.12 - 08.12,09.12 - 15.12,16.12 - 22.12,23.12 - 29.12,30.12 - 05.01" datasets="[object Object]" title="" type="Line" isshowlegend="false" class="_chart_b881e1" data-test="activity-chart"></ui-chart-stub>
     </div>
   </div>
 </div>"

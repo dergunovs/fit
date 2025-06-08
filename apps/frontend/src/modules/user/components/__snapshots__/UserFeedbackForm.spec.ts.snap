@@ -2,7 +2,7 @@
 
 exports[`UserFeedbackForm > matches snapshot 1`] = `
 "<div>
-  <form class="_form_19031f" data-test="feedback-form">
+  <form class="_form_e00d33" data-test="feedback-form">
     <h3>Обратная связь</h3>
     <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="feedback-form-name"></fieldset>
     <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="feedback-form-email"></fieldset>

@@ -1,3 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DynamicPercent > matches snapshot 1`] = `"<sup class="_dynamics_186d7f" data-positive="false" data-negative="false" data-test="dynamic-percent">0%</sup>"`;
+exports[`DynamicPercent > matches snapshot 1`] = `"<sup class="_dynamics_3e7318" data-positive="false" data-negative="false" data-test="dynamic-percent">0%</sup>"`;

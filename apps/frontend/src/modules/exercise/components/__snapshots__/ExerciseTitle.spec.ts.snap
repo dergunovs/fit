@@ -3,7 +3,7 @@
 exports[`ExerciseTitle > matches snapshot 1`] = `
 "<div>
   <div column="">
-    <div class="_title_8b412f" data-test="exercise-title">Отжимание от скамьи</div>
+    <div class="_title_0f9ccd" data-test="exercise-title">Отжимание от скамьи</div>
     <div wrap="">
       <!--v-if-->
       <div data-test="exercise-repeats">x12</div>

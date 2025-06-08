@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ActivityInfo > matches snapshot 1`] = `
-"<div class="_info_20dc23" data-scrollable="false" data-test="activity-info">
+"<div class="_info_d22753" data-scrollable="false" data-test="activity-info">
   <div gap="4" align="center" wrap="">
     <!--v-if-->
     <div>
