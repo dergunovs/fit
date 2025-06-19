@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,

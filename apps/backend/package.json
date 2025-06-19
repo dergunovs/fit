@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-backend",
   "description": "Fitness tracker backend",
-  "version": "0.0.1",
+  "version": "0.1.7",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
@@ -32,27 +32,27 @@
     "fastify": "5.4.0",
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
-    "mongoose": "8.15.2",
-    "mhz-helpers": "1.1.36",
+    "mongoose": "8.16.0",
+    "mhz-helpers": "1.1.37",
     "nodemailer": "7.0.3"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",
     "@types/bcryptjs": "2.4.6",
-    "@types/node": "24.0.1",
+    "@types/node": "24.0.3",
     "@types/nodemailer": "6.4.17",
     "esbuild": "0.25.5",
     "eslint": "9.29.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-import-resolver-typescript": "4.4.3",
     "eslint-plugin-import-x": "4.15.2",
-    "eslint-plugin-prettier": "5.4.1",
+    "eslint-plugin-prettier": "5.5.0",
     "globals": "16.2.0",
     "fastify-linters-config": "0.1.1",
     "nodemon": "3.1.10",
     "prettier": "3.5.3",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.34.0"
+    "typescript-eslint": "8.34.1"
   },
   "engines": {
     "npm": ">=11.3.0",
