@@ -73,6 +73,7 @@ export interface IActivityService extends IBaseService {
 
   getChart: (
     type: TActivityChartType,
+    month: string,
     locale: string,
     decode?: TDecode,
     token?: string,
@@ -96,6 +97,7 @@ export type TGetActivitiesStatisticsQueryDTO = { gap: number };
 export type TGetActivitiesChartDTO = IActivityChart;
 export type TGetActivitiesChartQueryDTO = {
   type: TActivityChartType;
+  month: string;
   locale: string;
 };
 export type TGetActivityDTO = { data: IActivity | null };

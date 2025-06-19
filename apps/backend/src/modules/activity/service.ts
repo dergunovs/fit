@@ -1,5 +1,5 @@
 import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
-import { getDatesByDayGap, getFirstAndLastWeekDays } from 'mhz-helpers';
+import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
@@ -92,7 +92,7 @@ export const activityService: IActivityService = {
     return calendarData as T[];
   },
 
-  getChart: async (type: TActivityChartType, locale: string, decode?: TDecode, token?: string) => {
+  getChart: async (type: TActivityChartType, month: string, locale: string, decode?: TDecode, token?: string) => {
     const decodedUser = decodeToken(decode, token);
 
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
@@ -100,7 +100,7 @@ export const activityService: IActivityService = {
       .lean()
       .exec();
 
-    const weeks = getFirstAndLastWeekDays(7);
+    const weeks = getFirstAndLastDays(7, month === 'true');
 
     const muscles = await Muscle.find().lean().exec();
 

@@ -109,6 +109,7 @@ export const activitiesChartQuery: JSONSchemaType<TGetActivitiesChartQueryDTO> =
   type: 'object',
   properties: {
     type: { type: 'string', enum: ['activity', 'set', 'repeat', 'muscle'] },
+    month: { type: 'string' },
     locale: { type: 'string' },
   },
   required: ['type'],

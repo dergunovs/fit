@@ -172,7 +172,7 @@ describe('ActivityForm', async () => {
   });
 
   it('shows potential activity duration', async () => {
-    expect(wrapper.find(potentialDuration).text()).toBe('-');
+    expect(wrapper.find(potentialDuration).text()).toBe('0');
 
     await wrapper.find(addExercise).trigger('click');
 

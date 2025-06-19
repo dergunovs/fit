@@ -88,6 +88,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       const data: TGetActivitiesChartDTO = await activityService.getChart(
         request.query.type,
+        request.query.month,
         request.query.locale,
         fastify.jwt.decode,
         request.headers.authorization

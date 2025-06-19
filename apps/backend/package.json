@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-backend",
   "description": "Fitness tracker backend",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
@@ -33,7 +33,7 @@
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
     "mongoose": "8.16.0",
-    "mhz-helpers": "1.1.37",
+    "mhz-helpers": "1.1.39",
     "nodemailer": "7.0.3"
   },
   "devDependencies": {
