@@ -17,8 +17,6 @@
       <p>{{ t('emailLink') }}: mail@app-fit.ru</p>
     </div>
 
-    <UserFeedbackForm />
-
     <h3>{{ t('installation') }}</h3>
 
     <div>
@@ -50,21 +48,7 @@
       </p>
     </div>
 
-    <h3>{{ t('plannedFeatures') }}</h3>
-
-    <div>
-      <p>{{ t('betaWarning') }}</p>
-
-      <ul>
-        <li v-for="(content, index) in tm('plannedFeaturesText')" :key="index">
-          {{ rt(content) }}
-        </li>
-      </ul>
-    </div>
-
-    <h3>{{ t('knownProblems') }}</h3>
-
-    <p>{{ t('screenBlockProblem') }}</p>
+    <UserFeedbackForm />
   </UiFlex>
 </template>
 

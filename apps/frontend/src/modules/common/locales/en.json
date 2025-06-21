@@ -202,16 +202,5 @@
     "After finalizing building your workout, click 'Start activity'. The activity passing screen will appear. Tap 'Start' to activate the timer for the current exercise. If you feel the set was performed to failure, mark this option. You can adjust the number of completed repetitions. Then click 'Complete'.",
     "After finishing the exercises, you’ll be redirected to the statistics page. Completed workouts in the calendar are color-coded based on the most engaged muscle groups. The more a muscle group is used, the larger its visual space. Activities can also be deleted from the calendar.",
     "If you need to stop a workout early, click the 'Finish activity early' button. The timer helps predict future workout durations, track average rest times, and visualize workouts in your statistics."
-  ],
-  "plannedFeatures": "Planned features",
-  "betaWarning": "The FiT app is in the early stages of development. Its functionality will be significantly expanded in the future. However, you can already use it to save your workout data. Planned features include:",
-  "plannedFeaturesText": [
-    "Adjust the weight used in a set;",
-    "Edit a workout while it’s in progress;",
-    "A 'Coach' user type with the ability to plan workouts for clients;",
-    "Offline mode;",
-    "Rest timer;"
-  ],
-  "knownProblems": "Known problems",
-  "screenBlockProblem": "On iOS, the screen lock prevention feature doesn't work during workouts. You'll need to either unlock your screen manually or set your device's auto-lock time to be longer than your set duration."
+  ]
 }
