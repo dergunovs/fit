@@ -9,6 +9,7 @@ import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 
 const exercise = dataTest('exercise-element');
+const exerciseRestTimer = dataTest('exercise-rest-timer');
 
 let wrapper: VueWrapper<InstanceType<typeof ExercisePassingList>>;
 
@@ -28,6 +29,26 @@ describe('ExercisePassingList', async () => {
 
   it('matches snapshot', async () => {
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it('hides timer by default', async () => {
+    expect(wrapper.find(exerciseRestTimer).exists()).toBe(false);
+  });
+
+  it('shows rest timer between exercises', async () => {
+    const id = EXERCISES_DONE_FIXTURE[0]._id?.toString();
+
+    expect(wrapper.find(exerciseRestTimer).exists()).toBe(false);
+
+    wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$emit('start', id);
+    await wrapper.setProps({ activeExerciseId: id });
+
+    expect(wrapper.find(exerciseRestTimer).exists()).toBe(false);
+
+    wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$emit('stop', EXERCISES_DONE_FIXTURE[0]);
+    await wrapper.setProps({ activeExerciseId: undefined });
+
+    expect(wrapper.find(exerciseRestTimer).exists()).toBe(true);
   });
 
   it('shows exercise elements and sets props', async () => {

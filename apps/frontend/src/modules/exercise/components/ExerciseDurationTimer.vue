@@ -1,13 +1,12 @@
 <template>
   <div :class="$style.timer" :data-active="props.start" data-test="exercise-duration">
-    <span>{{ addZero(minutes) }}</span
-    >:<span>{{ addZero(seconds) }}</span>
+    {{ timer }}
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
-import { addZero } from 'mhz-helpers';
+import { watch, onMounted } from 'vue';
+import { useTimer } from 'mhz-helpers';
 
 interface IProps {
   start: boolean;
@@ -17,37 +16,18 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits<{ stop: [duration: number] }>();
 
+const { timer, duration, startTimer, stopTimer } = useTimer();
+
 watch(
   () => [props.start, props.stop],
   () => {
     if (props.start) startTimer();
-    if (props.stop) stopTimer();
+    if (props.stop) {
+      emit('stop', duration.value);
+      stopTimer();
+    }
   }
 );
-
-const seconds = ref(0);
-const minutes = ref(0);
-
-// eslint-disable-next-line no-undef
-let interval: NodeJS.Timeout;
-
-function updateTime() {
-  seconds.value++;
-
-  if (seconds.value === 60) {
-    minutes.value++;
-    seconds.value = 0;
-  }
-}
-
-function startTimer() {
-  interval = setInterval(updateTime, 1000);
-}
-
-function stopTimer() {
-  emit('stop', minutes.value * 60 + seconds.value);
-  clearInterval(interval);
-}
 
 onMounted(() => {
   if (props.start) startTimer();

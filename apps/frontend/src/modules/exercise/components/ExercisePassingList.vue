@@ -1,5 +1,10 @@
 <template>
   <div>
+    <ExerciseRestTimer
+      v-if="!props.activeExerciseId && currentExerciseIndex && currentExerciseIndex !== props.exercises.length"
+      data-test="exercise-rest-timer"
+    />
+
     <UiFlex column>
       <ExercisePassingElement
         v-for="(exercise, index) in props.exercises"
@@ -22,6 +27,7 @@ import { computed } from 'vue';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
 
+import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
 import ExercisePassingElement from '@/exercise/components/ExercisePassingElement.vue';
 
 interface IProps {

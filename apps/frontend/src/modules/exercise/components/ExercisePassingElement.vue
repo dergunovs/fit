@@ -39,7 +39,7 @@
         data-test="exercise-repeats"
       />
 
-      <ExerciseDuration :start="start" :stop="stop" @stop="sendDurationData" data-test="exercise-duration" />
+      <ExerciseDurationTimer :start="start" :stop="stop" @stop="sendDurationData" data-test="exercise-duration" />
     </template>
   </div>
 </template>
@@ -50,7 +50,7 @@ import { useI18n } from 'vue-i18n';
 import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
-import ExerciseDuration from '@/exercise/components/ExerciseDuration.vue';
+import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';
 import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 import { getExercisePassingTitle } from '@/exercise/helpers';

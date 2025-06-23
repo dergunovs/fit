@@ -2,23 +2,23 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest, wait } from 'mhz-helpers';
 
-import ExerciseDuration from './ExerciseDuration.vue';
+import ExerciseDurationTimer from './ExerciseDurationTimer.vue';
 
 import { wrapperFactory } from '@/common/test';
 
 const duration = dataTest('exercise-duration');
 
-let wrapper: VueWrapper<InstanceType<typeof ExerciseDuration>>;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseDurationTimer>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseDuration, { start: false, stop: false });
+  wrapper = wrapperFactory(ExerciseDurationTimer, { start: false, stop: false });
 });
 
 enableAutoUnmount(afterEach);
 
-describe('ExerciseDuration', async () => {
+describe('ExerciseDurationTimer', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(ExerciseDuration)).toBeTruthy();
+    expect(wrapper.findComponent(ExerciseDurationTimer)).toBeTruthy();
   });
 
   it('matches snapshot', async () => {
