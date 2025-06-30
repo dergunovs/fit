@@ -2,17 +2,7 @@
   <div>
     <UiFlex column gap="16">
       <UiFlex gap="16" align="center" wrap>
-        <UiFlex gap="6">
-          <UiButton
-            v-for="chartType in CHART_TYPES"
-            :key="chartType.value"
-            :layout="chartType.value === type ? 'accent' : 'primary'"
-            isNarrow
-            @click="type = chartType.value"
-            data-test="activity-chart-type"
-            >{{ chartType.title }}
-          </UiButton>
-        </UiFlex>
+        <UiTabs :tabs="CHART_TYPES" v-model="type" data-test="activity-chart-types" />
 
         <UiCheckbox
           v-model="isMonth"
@@ -42,7 +32,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { UiButton, UiChart, UiCheckbox, UiFlex } from 'mhz-ui';
+import { UiChart, UiCheckbox, UiFlex, UiTabs } from 'mhz-ui';
 import { TActivityChartType } from 'fitness-tracker-contracts';
 
 import { activityService } from '@/activity/services';
@@ -56,6 +46,7 @@ const CHART_TYPES = computed(
       { title: t('set.many'), value: 'set' },
       { title: t('repeat.many'), value: 'repeat' },
       { title: t('muscle.many'), value: 'muscle' },
+      { title: t('duration'), value: 'duration' },
     ] as { title: string; value: TActivityChartType }[]
 );
 

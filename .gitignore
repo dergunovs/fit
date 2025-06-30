@@ -1,5 +1,6 @@
 node_modules
 build
 src-tauri/gen
+src-tauri/icons
 .env
 .turbo

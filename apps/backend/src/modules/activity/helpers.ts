@@ -22,7 +22,7 @@ function activitiesGetCount(activities: IActivity[]) {
   return { activitiesCount, setsCount, repeatsCount };
 }
 
-function activitiesGetAverageDuration(activities: IActivity[]) {
+function activitiesGetTotalDuration(activities: IActivity[]) {
   return activities.reduce((acc, current) => {
     const dateFrom = new Date(current.dateUpdated || 0);
     const dateTo = new Date(current.dateCreated || 0);
@@ -112,8 +112,8 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   const setsCountDynamics = getPercentDiff(setsCount, setsCountPrev);
   const repeatsCountDynamics = getPercentDiff(repeatsCount, repeatsCountPrev);
 
-  const duration = activitiesGetAverageDuration(activities);
-  const durationPrev = activitiesGetAverageDuration(activitiesPrev);
+  const duration = activitiesGetTotalDuration(activities);
+  const durationPrev = activitiesGetTotalDuration(activitiesPrev);
   const durationDynamics = getPercentDiff(duration, durationPrev);
 
   const averageSetsPerActivity = activitiesCount ? Math.round(setsCount / activitiesCount) : 0;
@@ -228,16 +228,12 @@ export async function activitiesGetChartData(
   const datasets: IActivityChartDataset[] = [];
 
   for (const week of weeks) {
+    const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
+
     labels.push(week.label);
 
     if (type === 'activity') {
-      const count = await Entity.find({
-        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
-        isDone: true,
-        createdBy: user?._id,
-      })
-        .countDocuments()
-        .exec();
+      const count = await Entity.find(filter).countDocuments().exec();
 
       if (datasets.length) {
         datasets[0].data.push(count);
@@ -247,11 +243,7 @@ export async function activitiesGetChartData(
     }
 
     if (type === 'set') {
-      const activities = await Entity.find({
-        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
-        isDone: true,
-        createdBy: user?._id,
-      })
+      const activities = await Entity.find(filter)
         .select('_id exercises dateCreated')
         .populate({ path: 'exercises' })
         .lean()
@@ -267,11 +259,7 @@ export async function activitiesGetChartData(
     }
 
     if (type === 'repeat') {
-      const activities = await Entity.find({
-        dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
-        isDone: true,
-        createdBy: user?._id,
-      })
+      const activities = await Entity.find(filter)
         .select('_id exercises dateCreated')
         .populate({ path: 'exercises.exercise', select: ['title'] })
         .lean()
@@ -302,11 +290,7 @@ export async function activitiesGetChartData(
       });
 
       for (const [index, muscle] of muscleCount.entries()) {
-        const activities = await Entity.find({
-          dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
-          isDone: true,
-          createdBy: user?._id,
-        })
+        const activities = await Entity.find(filter)
           .select('_id exercises dateCreated')
           .populate({ path: 'exercises.exercise', populate: 'muscles' })
           .lean()
@@ -343,6 +327,18 @@ export async function activitiesGetChartData(
             backgroundColor: muscle.backgroundColor,
           });
         });
+      }
+    }
+
+    if (type === 'duration') {
+      const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean().exec();
+
+      const duration = Math.floor(activitiesGetTotalDuration(activities) / 60);
+
+      if (datasets.length) {
+        datasets[0].data.push(duration);
+      } else {
+        datasets.push({ data: [duration], label: locale === 'ru' ? 'Длительность' : 'Duration' });
       }
     }
   }

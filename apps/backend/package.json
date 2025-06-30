@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-backend",
   "description": "Fitness tracker backend",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
@@ -34,7 +34,7 @@
     "fitness-tracker-contracts": "*",
     "mongoose": "8.16.1",
     "mhz-helpers": "1.1.41",
-    "nodemailer": "7.0.3"
+    "nodemailer": "7.0.4"
   },
   "devDependencies": {
     "@eslint/js": "9.30.0",

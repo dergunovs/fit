@@ -1,6 +1,6 @@
 [package]
 name = "FiT"
-version = "0.1.9"
+version = "0.1.10"
 description = "FiT - календарь домашних силовых тренировок"
 authors = ["dergunovs@mail.ru"]
 license = "MIT"
