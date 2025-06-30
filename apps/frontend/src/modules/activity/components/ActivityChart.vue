@@ -1,16 +1,27 @@
 <template>
   <div>
     <UiFlex column gap="16">
-      <UiFlex gap="16" align="center" wrap>
+      <UiFlex gap="16" align="center" justify="space-between" wrap>
         <UiTabs :tabs="CHART_TYPES" v-model="type" data-test="activity-chart-types" />
 
-        <UiCheckbox
-          v-model="isMonth"
-          isSwitcher
-          :label="t('month')"
-          :labelSwitcher="t('week')"
-          data-test="activity-chart-month"
-        />
+        <UiFlex gap="16" justify="space-between">
+          <UiCheckbox
+            v-model="isMonth"
+            isSwitcher
+            :label="t('month')"
+            :labelSwitcher="t('week')"
+            data-test="activity-chart-month"
+          />
+
+          <UiCheckbox
+            v-model="isAverage"
+            isSwitcher
+            :label="t('average')"
+            :labelSwitcher="t('total')"
+            :isDisabled="type === 'activity'"
+            data-test="activity-chart-average"
+          />
+        </UiFlex>
       </UiFlex>
 
       <div :class="$style.chart">
@@ -51,9 +62,11 @@ const CHART_TYPES = computed(
 );
 
 const type = ref<TActivityChartType>(CHART_TYPES.value[0].value);
-const isMonth = ref(false);
 
-const { data: chart } = activityService.getChart(type, isMonth, locale);
+const isMonth = ref(false);
+const isAverage = ref(false);
+
+const { data: chart } = activityService.getChart(type, isMonth, isAverage, locale);
 </script>
 
 <style module lang="scss">

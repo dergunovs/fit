@@ -65,13 +65,14 @@ export const activityService = {
     });
   },
 
-  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, locale: Ref<string>) => {
+  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, isAverage: Ref<boolean>, locale: Ref<string>) => {
     return useQuery({
-      queryKey: [API_ACTIVITY_CHART, type, isMonth, locale],
+      queryKey: [API_ACTIVITY_CHART, type, isMonth, isAverage, locale],
       queryFn: async () => {
         const params: TGetActivitiesChartQueryDTO = {
           type: type.value,
           month: isMonth.value.toString(),
+          average: isAverage.value.toString(),
           locale: locale.value,
         };
 

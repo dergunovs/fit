@@ -11,7 +11,7 @@ exports[`ActivityStatistics > matches snapshot 1`] = `
         <dynamic-percent-stub percent="24"></dynamic-percent-stub></span>
       </div>
     </div>
-    <div column="" gap="2"><b>Средние значения</b>
+    <div column="" gap="2"><b>В среднем</b>
       <div><span>Длительность: <span data-test="activity-statistics-average-duration">38 мин. 42 сек.</span>
         <dynamic-percent-stub percent="-13"></dynamic-percent-stub>, </span><span>подходов в занятии: <span data-test="activity-statistics-average-sets">25</span>
         <dynamic-percent-stub percent="-4"></dynamic-percent-stub>, </span><span>повторов в подходе: <span data-test="activity-statistics-average-repeats">13</span>

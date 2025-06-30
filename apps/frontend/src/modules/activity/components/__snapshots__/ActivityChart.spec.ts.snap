@@ -3,8 +3,9 @@
 exports[`ActivityChart > matches snapshot 1`] = `
 "<div>
   <div column="" gap="16">
-    <div gap="16" align="center" wrap="">
-      <ui-tabs-stub tabs="[object Object],[object Object],[object Object],[object Object],[object Object]" modelvalue="activity" data-test="activity-chart-types"></ui-tabs-stub><input type="checkbox" modelvalue="false" isswitcher="" label="Месяц" labelswitcher="Неделя" data-test="activity-chart-month">
+    <div gap="16" align="center" justify="space-between" wrap="">
+      <ui-tabs-stub tabs="[object Object],[object Object],[object Object],[object Object],[object Object]" modelvalue="activity" data-test="activity-chart-types"></ui-tabs-stub>
+      <div gap="16" justify="space-between"><input type="checkbox" modelvalue="false" isswitcher="" label="Месяц" labelswitcher="Неделя" data-test="activity-chart-month"><input type="checkbox" modelvalue="false" isswitcher="" label="В среднем" labelswitcher="Всего" isdisabled="true" data-test="activity-chart-average"></div>
     </div>
     <div class="_chart_b881e1">
       <ui-chart-stub labels="18.11 - 24.11,25.11 - 01.12,02.12 - 08.12,09.12 - 15.12,16.12 - 22.12,23.12 - 29.12,30.12 - 05.01" datasets="[object Object]" title="" type="Line" isshowlegend="false" class="_chart_b881e1" data-test="activity-chart"></ui-chart-stub>

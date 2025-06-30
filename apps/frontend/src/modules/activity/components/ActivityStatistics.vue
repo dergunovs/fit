@@ -30,7 +30,7 @@
       </UiFlex>
 
       <UiFlex column gap="2">
-        <b>{{ t('activity.average') }}</b>
+        <b>{{ t('average') }}</b>
 
         <div>
           <span>

@@ -17,6 +17,8 @@
   "welcome": "Welcome",
   "week": "Week",
   "month": "Month",
+  "total": "Total",
+  "average": "Average",
   "weight": "Weight",
   "addedWeights": "Added weights",
   "kg": "kg",
@@ -97,8 +99,7 @@
     "finishEarly": "Finish @.lower:activity.one early",
     "updated": "@:activity.one updated",
     "passing": "@:activity.one passing",
-    "monthData": "Last month",
-    "average": "Average"
+    "monthData": "Last month"
   },
   "exercise": {
     "one": "Exercise",

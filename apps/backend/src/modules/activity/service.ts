@@ -92,7 +92,14 @@ export const activityService: IActivityService = {
     return calendarData as T[];
   },
 
-  getChart: async (type: TActivityChartType, month: string, locale: string, decode?: TDecode, token?: string) => {
+  getChart: async (
+    type: TActivityChartType,
+    month: string,
+    average: string,
+    locale: string,
+    decode?: TDecode,
+    token?: string
+  ) => {
     const decodedUser = decodeToken(decode, token);
 
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
@@ -104,7 +111,15 @@ export const activityService: IActivityService = {
 
     const muscles = await Muscle.find().lean().exec();
 
-    const { labels, datasets } = await activitiesGetChartData(Activity, weeks, type, locale, user, muscles);
+    const { labels, datasets } = await activitiesGetChartData(
+      Activity,
+      weeks,
+      type,
+      locale,
+      user,
+      muscles,
+      average === 'true'
+    );
 
     return { labels, datasets };
   },

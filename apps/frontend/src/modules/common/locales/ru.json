@@ -17,6 +17,8 @@
   "welcome": "Добро пожаловать",
   "week": "Неделя",
   "month": "Месяц",
+  "total": "Всего",
+  "average": "В среднем",
   "weight": "Вес",
   "addedWeights": "Добавленные веса",
   "kg": "кг",
@@ -97,8 +99,7 @@
     "finishEarly": "Завершить @.lower:activity.one досрочно",
     "updated": "@:activity.one обновлено",
     "passing": "Прохождение @.lower:activity.many",
-    "monthData": "Данные за месяц",
-    "average": "Средние значения"
+    "monthData": "Данные за месяц"
   },
   "exercise": {
     "one": "Упражнение",

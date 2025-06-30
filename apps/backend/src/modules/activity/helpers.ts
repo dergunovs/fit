@@ -222,18 +222,24 @@ export async function activitiesGetChartData(
   type: TActivityChartType,
   locale: string,
   user: IUser | null,
-  muscles: IMuscle[]
+  muscles: IMuscle[],
+  isAverage: boolean
 ) {
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
+    const activitiesCount = await Entity.find(filter).countDocuments().exec();
+
+    function getAverage(count: number) {
+      return Math.floor(count / activitiesCount) || 0;
+    }
 
     labels.push(week.label);
 
     if (type === 'activity') {
-      const count = await Entity.find(filter).countDocuments().exec();
+      const count = activitiesCount;
 
       if (datasets.length) {
         datasets[0].data.push(count);
@@ -249,7 +255,9 @@ export async function activitiesGetChartData(
         .lean()
         .exec();
 
-      const count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
+      let count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
+
+      if (isAverage) count = getAverage(count);
 
       if (datasets.length) {
         datasets[0].data.push(count);
@@ -265,11 +273,13 @@ export async function activitiesGetChartData(
         .lean()
         .exec();
 
-      const count = activities.reduce((acc, activity) => {
+      let count = activities.reduce((acc, activity) => {
         const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
 
         return acc + repeats;
       }, 0);
+
+      if (isAverage) count = getAverage(count);
 
       if (datasets.length) {
         datasets[0].data.push(count);
@@ -296,7 +306,7 @@ export async function activitiesGetChartData(
           .lean()
           .exec();
 
-        const count = activities.reduce((acc, current) => {
+        let count = activities.reduce((acc, current) => {
           let sets = 0;
 
           current.exercises.forEach((e) => {
@@ -305,6 +315,8 @@ export async function activitiesGetChartData(
 
           return acc + (sets || 0);
         }, 0);
+
+        if (isAverage) count = getAverage(count);
 
         muscleCount[index].count = count;
       }
@@ -333,12 +345,14 @@ export async function activitiesGetChartData(
     if (type === 'duration') {
       const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean().exec();
 
-      const duration = Math.floor(activitiesGetTotalDuration(activities) / 60);
+      let count = Math.floor(activitiesGetTotalDuration(activities) / 60);
+
+      if (isAverage) count = getAverage(count);
 
       if (datasets.length) {
-        datasets[0].data.push(duration);
+        datasets[0].data.push(count);
       } else {
-        datasets.push({ data: [duration], label: locale === 'ru' ? 'Длительность' : 'Duration' });
+        datasets.push({ data: [count], label: locale === 'ru' ? 'Длительность' : 'Duration' });
       }
     }
   }
