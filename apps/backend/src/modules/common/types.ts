@@ -8,3 +8,9 @@ export interface IFastifyInstance extends FastifyInstance {
 export interface ISchema {
   schema: FastifySchema;
 }
+
+export interface IChartFilter {
+  dateCreated: { $gte: Date; $lt: Date };
+  isDone: boolean;
+  createdBy: string | undefined;
+}
