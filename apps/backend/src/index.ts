@@ -17,7 +17,7 @@ import muscleRoutes from './modules/muscle/routes.js';
 
 import { addSchemas } from './modules/common/addSchemas.js';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 function connectToDatabase() {
   Schema.Types.Boolean.convertToFalse.add('');

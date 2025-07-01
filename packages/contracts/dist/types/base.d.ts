@@ -1,4 +1,12 @@
 import { TDecode } from "./auth";
+export { GOALS } from "../index";
+
+export interface IGoals {
+  activities: number;
+  sets: number;
+  repeats: number;
+  duration: number;
+}
 
 export interface IEntity {
   _id?: string;

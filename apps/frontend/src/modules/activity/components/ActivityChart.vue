@@ -31,7 +31,7 @@
           :datasets="chart.datasets"
           :isShowLegend="type === 'muscle'"
           type="Line"
-          :key="`${locale}-${type}-${isMonth}-${chart?.datasets[0].data.join()}`"
+          :key="`${locale}-${type}-${isMonth}-${chart?.datasets[0].data.join()}-${chart?.datasets[1].data.join()}`"
           :class="$style.chart"
           data-test="activity-chart"
         />
@@ -56,8 +56,8 @@ const CHART_TYPES = computed(
       { title: t('activity.many'), value: 'activity' },
       { title: t('set.many'), value: 'set' },
       { title: t('repeat.many'), value: 'repeat' },
-      { title: t('muscle.many'), value: 'muscle' },
       { title: t('duration'), value: 'duration' },
+      { title: t('muscle.many'), value: 'muscle' },
     ] as { title: string; value: TActivityChartType }[]
 );
 

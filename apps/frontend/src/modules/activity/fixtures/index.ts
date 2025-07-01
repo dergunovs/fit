@@ -353,6 +353,10 @@ export const ACTIVITIES_CHART_FIXTURE: TGetActivitiesChartDTO = {
       data: [2, 3, 4, 3, 2, 3, 1],
       label: 'Занятия',
     },
+    {
+      data: [2, 2, 2, 2, 2, 2, 2],
+      label: 'Цель',
+    },
   ],
 };
 

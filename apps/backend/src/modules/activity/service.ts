@@ -118,6 +118,7 @@ export const activityService: IActivityService = {
       locale,
       user,
       muscles,
+      month === 'true',
       average === 'true'
     );
 

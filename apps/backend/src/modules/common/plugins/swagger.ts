@@ -4,7 +4,7 @@ import swaggerUi from '@fastify/swagger-ui';
 
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 export default fp(async function (fastify) {
   fastify.register(swagger, {

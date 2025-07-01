@@ -7,9 +7,11 @@ import {
   IActivityChartDataset,
   IMuscle,
   IUser,
+  GOALS,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
+import { defaultColor, goalColor, getGoals } from '../common/helpers.js';
 
 function activitiesGetCount(activities: IActivity[]) {
   const activitiesCount = activities.length;
@@ -216,6 +218,227 @@ export function exerciseGetStatistics(
   return exerciseStatistics.sort((a, b) => b.sets - a.sets);
 }
 
+export function generateActivitiesChart(
+  activitiesCount: number,
+  activitiesGoal: number,
+  datasets: IActivityChartDataset[],
+  locale: string
+) {
+  const count = activitiesCount;
+
+  if (datasets.length) {
+    datasets[0].data.push(count);
+    datasets[1].data.push(activitiesGoal);
+  } else {
+    datasets.push(
+      {
+        data: [count],
+        label: locale === 'ru' ? 'Занятия' : 'Activities',
+        borderColor: defaultColor,
+        backgroundColor: defaultColor,
+      },
+      {
+        data: [activitiesGoal],
+        label: locale === 'ru' ? 'Цель' : 'Goal',
+        borderColor: goalColor,
+        backgroundColor: goalColor,
+      }
+    );
+  }
+}
+
+export function getAverage(count: number, activitiesCount: number) {
+  return Math.floor(count / activitiesCount) || 0;
+}
+
+export interface IChartFilter {
+  dateCreated: { $gte: Date; $lt: Date };
+  isDone: boolean;
+  createdBy: string | undefined;
+}
+
+export async function generateSetsChart(
+  Entity: Model<IActivity>,
+  filter: IChartFilter,
+  activitiesCount: number,
+  setsGoal: number,
+  isAverage: boolean,
+  datasets: IActivityChartDataset[],
+  locale: string
+) {
+  const activities = await Entity.find(filter)
+    .select('_id exercises dateCreated')
+    .populate({ path: 'exercises' })
+    .lean()
+    .exec();
+
+  let count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
+
+  if (isAverage) count = getAverage(count, activitiesCount);
+
+  if (datasets.length) {
+    datasets[0].data.push(count);
+    datasets[1].data.push(setsGoal);
+  } else {
+    datasets.push(
+      {
+        data: [count],
+        label: locale === 'ru' ? 'Подходы' : 'Sets',
+        borderColor: defaultColor,
+        backgroundColor: defaultColor,
+      },
+      {
+        data: [setsGoal],
+        label: locale === 'ru' ? 'Цель' : 'Goal',
+        borderColor: goalColor,
+        backgroundColor: goalColor,
+      }
+    );
+  }
+}
+
+export async function generateRepeatsChart(
+  Entity: Model<IActivity>,
+  filter: IChartFilter,
+  activitiesCount: number,
+  repeatsGoal: number,
+  isAverage: boolean,
+  datasets: IActivityChartDataset[],
+  locale: string
+) {
+  const activities = await Entity.find(filter)
+    .select('_id exercises dateCreated')
+    .populate({ path: 'exercises.exercise', select: ['title'] })
+    .lean()
+    .exec();
+
+  let count = activities.reduce((acc, activity) => {
+    const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
+
+    return acc + repeats;
+  }, 0);
+
+  if (isAverage) count = getAverage(count, activitiesCount);
+
+  if (datasets.length) {
+    datasets[0].data.push(count);
+    datasets[1].data.push(repeatsGoal);
+  } else {
+    datasets.push(
+      {
+        data: [count],
+        label: locale === 'ru' ? 'Повторы' : 'Repeats',
+        borderColor: defaultColor,
+        backgroundColor: defaultColor,
+      },
+      {
+        data: [repeatsGoal],
+        label: locale === 'ru' ? 'Цель' : 'Goal',
+        borderColor: goalColor,
+        backgroundColor: goalColor,
+      }
+    );
+  }
+}
+
+export async function generateDurationChart(
+  Entity: Model<IActivity>,
+  filter: IChartFilter,
+  activitiesCount: number,
+  durationGoal: number,
+  isAverage: boolean,
+  datasets: IActivityChartDataset[],
+  locale: string
+) {
+  const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean().exec();
+
+  let count = Math.floor(activitiesGetTotalDuration(activities) / 60);
+
+  if (isAverage) count = getAverage(count, activitiesCount);
+
+  if (datasets.length) {
+    datasets[0].data.push(count);
+    datasets[1].data.push(durationGoal);
+  } else {
+    datasets.push(
+      {
+        data: [count],
+        label: locale === 'ru' ? 'Длительность' : 'Duration',
+        borderColor: defaultColor,
+        backgroundColor: defaultColor,
+      },
+      {
+        data: [durationGoal],
+        label: locale === 'ru' ? 'Цель' : 'Goal',
+        borderColor: goalColor,
+        backgroundColor: goalColor,
+      }
+    );
+  }
+}
+
+export async function generateMusclesChart(
+  Entity: Model<IActivity>,
+  filter: IChartFilter,
+  activitiesCount: number,
+  muscles: IMuscle[],
+  isAverage: boolean,
+  datasets: IActivityChartDataset[],
+  locale: string
+) {
+  const muscleCount = muscles.map((muscle) => {
+    return {
+      label: muscle.title,
+      label_en: muscle.title_en,
+      count: 0,
+      borderColor: muscle.color,
+      backgroundColor: muscle.color,
+    };
+  });
+
+  for (const [index, muscle] of muscleCount.entries()) {
+    const activities = await Entity.find(filter)
+      .select('_id exercises dateCreated')
+      .populate({ path: 'exercises.exercise', populate: 'muscles' })
+      .lean()
+      .exec();
+
+    let count = activities.reduce((acc, current) => {
+      let sets = 0;
+
+      current.exercises.forEach((e) => {
+        if (e.exercise?.muscles?.some((muscleToFind) => muscleToFind.title === muscle.label)) ++sets;
+      });
+
+      return acc + (sets || 0);
+    }, 0);
+
+    if (isAverage) count = getAverage(count, activitiesCount);
+
+    muscleCount[index].count = count;
+  }
+
+  if (datasets.length) {
+    muscleCount.forEach((muscle) => {
+      datasets.forEach((set) => {
+        if (set.label === muscle.label) {
+          set.data.push(muscle.count);
+          if (locale !== 'ru' && datasets[0].data.length === datasets.length + 1) set.label = muscle.label_en;
+        }
+      });
+    });
+  } else {
+    muscleCount.forEach((muscle) => {
+      datasets.push({
+        data: [muscle.count],
+        label: muscle.label,
+        borderColor: muscle.borderColor,
+        backgroundColor: muscle.backgroundColor,
+      });
+    });
+  }
+}
+
 export async function activitiesGetChartData(
   Entity: Model<IActivity>,
   weeks: IWeekDays[],
@@ -223,138 +446,32 @@ export async function activitiesGetChartData(
   locale: string,
   user: IUser | null,
   muscles: IMuscle[],
+  isMonth: boolean,
   isAverage: boolean
 ) {
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
 
+  const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getGoals(isMonth, isAverage, GOALS);
+
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
     const activitiesCount = await Entity.find(filter).countDocuments().exec();
 
-    function getAverage(count: number) {
-      return Math.floor(count / activitiesCount) || 0;
-    }
-
     labels.push(week.label);
 
-    if (type === 'activity') {
-      const count = activitiesCount;
+    if (type === 'activity') generateActivitiesChart(activitiesCount, activitiesGoal, datasets, locale);
 
-      if (datasets.length) {
-        datasets[0].data.push(count);
-      } else {
-        datasets.push({ data: [count], label: locale === 'ru' ? 'Занятия' : 'Activities' });
-      }
-    }
+    if (type === 'set') await generateSetsChart(Entity, filter, activitiesCount, setsGoal, isAverage, datasets, locale);
 
-    if (type === 'set') {
-      const activities = await Entity.find(filter)
-        .select('_id exercises dateCreated')
-        .populate({ path: 'exercises' })
-        .lean()
-        .exec();
+    if (type === 'repeat')
+      await generateRepeatsChart(Entity, filter, activitiesCount, repeatsGoal, isAverage, datasets, locale);
 
-      let count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
+    if (type === 'muscle')
+      await generateMusclesChart(Entity, filter, activitiesCount, muscles, isAverage, datasets, locale);
 
-      if (isAverage) count = getAverage(count);
-
-      if (datasets.length) {
-        datasets[0].data.push(count);
-      } else {
-        datasets.push({ data: [count], label: locale === 'ru' ? 'Подходы' : 'Sets' });
-      }
-    }
-
-    if (type === 'repeat') {
-      const activities = await Entity.find(filter)
-        .select('_id exercises dateCreated')
-        .populate({ path: 'exercises.exercise', select: ['title'] })
-        .lean()
-        .exec();
-
-      let count = activities.reduce((acc, activity) => {
-        const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
-
-        return acc + repeats;
-      }, 0);
-
-      if (isAverage) count = getAverage(count);
-
-      if (datasets.length) {
-        datasets[0].data.push(count);
-      } else {
-        datasets.push({ data: [count], label: locale === 'ru' ? 'Повторы' : 'Repeats' });
-      }
-    }
-
-    if (type === 'muscle') {
-      const muscleCount = muscles.map((muscle) => {
-        return {
-          label: muscle.title,
-          label_en: muscle.title_en,
-          count: 0,
-          borderColor: muscle.color,
-          backgroundColor: muscle.color,
-        };
-      });
-
-      for (const [index, muscle] of muscleCount.entries()) {
-        const activities = await Entity.find(filter)
-          .select('_id exercises dateCreated')
-          .populate({ path: 'exercises.exercise', populate: 'muscles' })
-          .lean()
-          .exec();
-
-        let count = activities.reduce((acc, current) => {
-          let sets = 0;
-
-          current.exercises.forEach((e) => {
-            if (e.exercise?.muscles?.some((muscleToFind) => muscleToFind.title === muscle.label)) ++sets;
-          });
-
-          return acc + (sets || 0);
-        }, 0);
-
-        if (isAverage) count = getAverage(count);
-
-        muscleCount[index].count = count;
-      }
-
-      if (datasets.length) {
-        muscleCount.forEach((muscle) => {
-          datasets.forEach((set) => {
-            if (set.label === muscle.label) {
-              set.data.push(muscle.count);
-              if (locale !== 'ru' && datasets[0].data.length === datasets.length + 1) set.label = muscle.label_en;
-            }
-          });
-        });
-      } else {
-        muscleCount.forEach((muscle) => {
-          datasets.push({
-            data: [muscle.count],
-            label: muscle.label,
-            borderColor: muscle.borderColor,
-            backgroundColor: muscle.backgroundColor,
-          });
-        });
-      }
-    }
-
-    if (type === 'duration') {
-      const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean().exec();
-
-      let count = Math.floor(activitiesGetTotalDuration(activities) / 60);
-
-      if (isAverage) count = getAverage(count);
-
-      if (datasets.length) {
-        datasets[0].data.push(count);
-      } else {
-        datasets.push({ data: [count], label: locale === 'ru' ? 'Длительность' : 'Duration' });
-      }
-    }
+    if (type === 'duration')
+      await generateDurationChart(Entity, filter, activitiesCount, durationGoal, isAverage, datasets, locale);
   }
 
   return { labels, datasets };
