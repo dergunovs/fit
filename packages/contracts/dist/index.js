@@ -26,6 +26,6 @@ export const API_USER_FEEDBACK = "/user_feedback";
 export const GOALS = {
   activities: 2,
   sets: 24,
-  repeats: 10,
+  repeats: 12,
   duration: 40,
 };
