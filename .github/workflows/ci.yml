@@ -68,6 +68,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd ${{ secrets.SSH_PATH_BACKEND }}
+            rm -rf node_modules
             rm package-lock.json
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
