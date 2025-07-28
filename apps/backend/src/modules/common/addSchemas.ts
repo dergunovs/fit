@@ -7,24 +7,23 @@ import { activityModel, activityStatisticsValuesModel } from '../activity/schema
 import { equipmentModel } from '../equipment/schema.js';
 import { muscleModel } from '../muscle/schema.js';
 
+const schemas = [
+  authDataModel,
+  registerDataModel,
+  confirmTokenDataModel,
+  resetPasswordDataModel,
+  muscleModel,
+  equipmentModel,
+  exerciseModel,
+  exerciseDoneModel,
+  activityModel,
+  activityStatisticsValuesModel,
+  userEquipmentModel,
+  userPasswordModel,
+  userFeedbackModel,
+  userModel,
+];
+
 export function addSchemas(fastify: FastifyInstance) {
-  fastify.addSchema(authDataModel);
-  fastify.addSchema(registerDataModel);
-  fastify.addSchema(confirmTokenDataModel);
-  fastify.addSchema(resetPasswordDataModel);
-
-  fastify.addSchema(muscleModel);
-
-  fastify.addSchema(equipmentModel);
-
-  fastify.addSchema(exerciseModel);
-  fastify.addSchema(exerciseDoneModel);
-
-  fastify.addSchema(activityModel);
-  fastify.addSchema(activityStatisticsValuesModel);
-
-  fastify.addSchema(userEquipmentModel);
-  fastify.addSchema(userPasswordModel);
-  fastify.addSchema(userFeedbackModel);
-  fastify.addSchema(userModel);
+  schemas.forEach((schema) => fastify.addSchema(schema));
 }

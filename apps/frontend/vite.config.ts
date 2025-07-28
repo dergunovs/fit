@@ -7,12 +7,7 @@ import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import { VitePWA } from 'vite-plugin-pwa';
-
-function removeDataTest(node) {
-  if (node.type === 1 /* NodeTypes.ELEMENT */) {
-    node.props = node.props.filter((prop) => (prop.type === 6 ? prop.name !== 'data-test' : true));
-  }
-}
+import { removeDataTest } from 'mhz-helpers';
 
 export default defineConfig({
   clearScreen: false,
@@ -27,8 +22,6 @@ export default defineConfig({
   build: { target: 'es2022' },
 
   resolve: { alias: { '@': resolve(__dirname, './src/modules') } },
-
-  css: { preprocessorOptions: { scss: { api: 'modern-compiler' } } },
 
   plugins: [
     vue({

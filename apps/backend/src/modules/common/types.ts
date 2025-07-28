@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifySchema } from 'fastify';
+import type { FastifyInstance, FastifySchema, FastifyError, FastifyReply } from 'fastify';
 
 export interface IFastifyInstance extends FastifyInstance {
   onlyUser?: () => void;
@@ -13,4 +13,12 @@ export interface IChartFilter {
   dateCreated: { $gte: Date; $lt: Date };
   isDone: boolean;
   createdBy: string | undefined;
+}
+
+export interface IErrorCause {
+  code: number;
+}
+
+export interface IStatusHandler {
+  [key: number]: (reply: FastifyReply, error: FastifyError) => void;
 }
