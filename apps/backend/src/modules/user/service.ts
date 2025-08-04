@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import type { IUser, IUserFeedback, IUserService, TDecode } from 'fitness-tracker-contracts';
 
-import { paginate, sendMail } from '../common/helpers.js';
+import { checkInvalidId, paginate, sendMail } from '../common/helpers.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 
@@ -13,6 +13,8 @@ export const userService: IUserService = {
   },
 
   getOne: async <T>(_id: string) => {
+    checkInvalidId(_id);
+
     const user: IUser | null = await User.findOne({ _id })
       .select('_id name role email equipments defaultWeights isResetPassword')
       .populate({ path: 'equipments.equipment' })
@@ -33,12 +35,16 @@ export const userService: IUserService = {
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
     await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   updatePassword: async (_id: string, password: string, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
     const newPassword = await bcrypt.hash(password, 10);

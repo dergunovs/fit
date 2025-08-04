@@ -2,7 +2,7 @@ import type { IExercise, IExerciseService, TDecode } from 'fitness-tracker-contr
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
-import { paginate } from '../common/helpers.js';
+import { checkInvalidId, paginate } from '../common/helpers.js';
 import { getAdminAndUserExercises } from './helpers.js';
 import Exercise from './model.js';
 
@@ -45,6 +45,8 @@ export const exerciseService: IExerciseService = {
   },
 
   getOne: async <T>(_id: string) => {
+    checkInvalidId(_id);
+
     const exercise: IExercise | null = await Exercise.findOne({ _id })
       .populate([
         { path: 'createdBy', select: ['_id', 'name', 'email'] },
@@ -77,6 +79,8 @@ export const exerciseService: IExerciseService = {
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     const exercise = await Exercise.findOne({ _id });
 
     if (!exercise?.createdBy?._id) return;
@@ -89,6 +93,8 @@ export const exerciseService: IExerciseService = {
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     const exercise = await Exercise.findOne({ _id });
 
     if (!exercise?.createdBy?._id) return;

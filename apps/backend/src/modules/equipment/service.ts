@@ -1,6 +1,7 @@
 import type { IEquipment, IEquipmentService, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
+import { checkInvalidId } from '../common/helpers.js';
 import Equipment from './model.js';
 
 export const equipmentService: IEquipmentService = {
@@ -11,6 +12,8 @@ export const equipmentService: IEquipmentService = {
   },
 
   getOne: async <T>(_id: string) => {
+    checkInvalidId(_id);
+
     const equipment: IEquipment | null = await Equipment.findOne({ _id }).lean().exec();
 
     return { data: equipment as T };
@@ -25,10 +28,14 @@ export const equipmentService: IEquipmentService = {
   },
 
   update: async <T>(_id: string, itemToUpdate: T) => {
+    checkInvalidId(_id);
+
     await Equipment.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
   },
 
   delete: async (_id: string) => {
+    checkInvalidId(_id);
+
     await Equipment.findOneAndDelete({ _id });
   },
 };

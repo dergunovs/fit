@@ -34,8 +34,8 @@ async function startApp() {
 
   try {
     await app.listen({ port, host });
-  } catch (err) {
-    app.log.error(err);
+  } catch (error) {
+    app.log.error(error);
     process.exit(1);
   }
 }

@@ -3,7 +3,7 @@ import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
-import { paginate } from '../common/helpers.js';
+import { paginate, checkInvalidId } from '../common/helpers.js';
 import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
@@ -126,6 +126,8 @@ export const activityService: IActivityService = {
   },
 
   getOne: async <T>(_id: string, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     const activity: IActivity | null = await Activity.findOne({ _id })
       .populate([
         {
@@ -177,6 +179,8 @@ export const activityService: IActivityService = {
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     const activity = await Activity.findOne({ _id });
 
     if (!activity?.createdBy?._id) return;
@@ -189,6 +193,8 @@ export const activityService: IActivityService = {
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
+    checkInvalidId(_id);
+
     const activity = await Activity.findOne({ _id });
 
     if (!activity?.createdBy?._id) return;

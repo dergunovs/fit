@@ -8,6 +8,7 @@ const statusHandlers: IStatusHandler = {
   404: (reply, error) => reply.code(404).send({ message: error.message || 'Не найдено' }),
   422: (reply, error) => reply.code(422).send({ message: error.message || 'Ошибка валидации' }),
   500: (reply, error) => reply.code(500).send({ message: error.message || 'Ошибка сервера' }),
+  503: (reply, error) => reply.code(503).send({ message: error.message || 'Сервис  недоступен' }),
 };
 
 export function errorHandler(error: FastifyError, reply: FastifyReply) {

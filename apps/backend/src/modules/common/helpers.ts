@@ -1,9 +1,15 @@
 import { IPaginatedReply, IGoals } from 'fitness-tracker-contracts';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 
 function getMonthGoal(goal: number) {
   return Math.floor(goal * 4.5);
+}
+
+export function checkInvalidId(id: string) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new Error('Invalid ID');
+  }
 }
 
 export async function paginate<T>(
@@ -16,7 +22,7 @@ export async function paginate<T>(
 
   const limit = 24;
 
-  const count = await Entity.find().countDocuments().exec();
+  const count = await Entity.countDocuments().exec();
 
   const total = Math.ceil(count / limit);
 
