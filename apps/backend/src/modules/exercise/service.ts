@@ -1,4 +1,4 @@
-import type { IExercise, IExerciseService, TDecode } from 'fitness-tracker-contracts';
+import type { IExerciseService, TDecode } from 'fitness-tracker-contracts';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
@@ -33,7 +33,7 @@ export const exerciseService: IExerciseService = {
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const exercise: IExercise | null = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
+    const exercise = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
 
     return { data: exercise as T };
   },
@@ -41,14 +41,14 @@ export const exerciseService: IExerciseService = {
   create: async <T>(exerciseToCreate: T, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    const userExercisesCount = await Exercise.countDocuments({ createdBy: user?._id });
+    if (!user?._id) return false;
 
-    const isAllowToCreateExercise = user?.role === 'admin' || userExercisesCount < 21;
+    const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user._id });
+
+    const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < 21;
 
     if (isAllowToCreateExercise) {
-      const exercise = new Exercise({ ...exerciseToCreate, createdBy: user?._id, isCustom: user?.role !== 'admin' });
-
-      await exercise.save();
+      await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
 
       return true;
     } else {

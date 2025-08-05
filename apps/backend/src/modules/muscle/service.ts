@@ -1,4 +1,4 @@
-import type { IMuscle, IMuscleService } from 'fitness-tracker-contracts';
+import type { IMuscleService } from 'fitness-tracker-contracts';
 
 import { checkInvalidId } from '../common/helpers.js';
 import Muscle from './model.js';
@@ -7,21 +7,19 @@ export const muscleService: IMuscleService = {
   getAll: async () => {
     const muscles = await Muscle.find().sort('title').lean();
 
-    return { data: muscles as IMuscle[] };
+    return { data: muscles };
   },
 
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const muscle: IMuscle | null = await Muscle.findOne({ _id }).lean();
+    const muscle = await Muscle.findOne({ _id }).lean();
 
     return { data: muscle as T };
   },
 
   create: async <T>(muscleToCreate: T) => {
-    const muscle = new Muscle(muscleToCreate);
-
-    await muscle.save();
+    await Muscle.create(muscleToCreate);
   },
 
   update: async <T>(_id: string, itemToUpdate: T) => {

@@ -10,7 +10,7 @@ function getMonthGoal(goal: number) {
 
 export function checkInvalidId(id: string) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error('Invalid ID');
+    throw new Error('Invalid ID', { cause: { code: 500 } });
   }
 }
 

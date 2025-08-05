@@ -8,11 +8,13 @@ import {
   IMuscle,
   IUser,
   GOALS,
+  TDecode,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
 import { defaultColor, goalColor, getGoals } from '../common/helpers.js';
 import { IChartFilter } from '../common/types.js';
+import { decodeToken } from '../auth/helpers.js';
 import { ACTIVITY_POPULATE } from './constants.js';
 
 function activitiesGetCount(activities: IActivity[]) {
@@ -31,14 +33,16 @@ function activitiesGetTotalDuration(activities: IActivity[]) {
     const dateFrom = new Date(current.dateUpdated || 0);
     const dateTo = new Date(current.dateCreated || 0);
 
-    const diff = Math.floor(((dateFrom as unknown as number) - (dateTo as unknown as number)) / 1000);
+    const diff = Math.floor((dateFrom.getTime() - dateTo.getTime()) / 1000);
 
-    return acc + diff || 0;
+    return acc + (diff > 0 ? diff : 0);
   }, 0);
 }
 
 function activitiesGetAverageRest(activities: IActivity[], duration: number) {
-  const exercisesDurationSumm = activities.reduce((acc, currentActivity) => {
+  if (duration <= 0) return 0;
+
+  const exercisesDurationSum = activities.reduce((acc, currentActivity) => {
     const exercisesDuration = currentActivity.exercises.reduce(
       (accEx, currentEx) => accEx + (currentEx.duration || 0),
       0
@@ -47,7 +51,7 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
     return acc + exercisesDuration || 0;
   }, 0);
 
-  return Math.floor(100 - (exercisesDurationSumm / duration) * 100);
+  return Math.max(0, Math.floor(100 - (exercisesDurationSum / duration) * 100));
 }
 
 function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
@@ -55,11 +59,21 @@ function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
   const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
   const isWeightsRequired = !!exercise.isWeightsRequired;
 
-  const isUserHasEquipment = !!user?.equipments?.some(
+  if (!user?.equipments?.length) {
+    return {
+      isExerciseHasEquipment,
+      isExerciseHasEquipmentForWeight,
+      isWeightsRequired,
+      isUserHasEquipment: false,
+      isUserHasEquipmentForWeight: false,
+    };
+  }
+
+  const isUserHasEquipment = user.equipments.some(
     (equipment) => equipment.equipment?._id?.toString() === exercise.equipment?._id?.toString()
   );
 
-  const isUserHasEquipmentForWeight = !!user?.equipments?.some((equipment) =>
+  const isUserHasEquipmentForWeight = user.equipments.some((equipment) =>
     exercise.equipmentForWeight?.some(
       (equipmentForWeight) => equipmentForWeight._id?.toString() === equipment.equipment?._id?.toString()
     )
@@ -75,8 +89,6 @@ function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
 }
 
 function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
-  let result = false;
-
   const {
     isExerciseHasEquipment,
     isExerciseHasEquipmentForWeight,
@@ -85,28 +97,18 @@ function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
     isUserHasEquipmentForWeight,
   } = getUserEquipmentParams(exercise, user);
 
-  if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) {
-    result = true;
-  } else if (isUserHasEquipment && !isWeightsRequired) {
-    result = true;
-  } else if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) {
-    result = true;
-  } else if (!isExerciseHasEquipment && !isWeightsRequired) {
-    result = true;
-  } else if (
-    isExerciseHasEquipment &&
-    isExerciseHasEquipmentForWeight &&
-    isUserHasEquipment &&
-    isUserHasEquipmentForWeight
-  ) {
-    result = true;
-  }
+  if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) return true;
+  if (isUserHasEquipment && !isWeightsRequired) return true;
+  if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) return true;
+  if (!isExerciseHasEquipment && !isWeightsRequired) return true;
+  if (isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipment && isUserHasEquipmentForWeight)
+    return true;
 
-  return result;
+  return false;
 }
 
 function getAverage(count: number, activitiesCount: number) {
-  return Math.floor(count / activitiesCount) || 0;
+  return activitiesCount > 0 ? Math.floor(count / activitiesCount) : 0;
 }
 
 function generateActivitiesChart(
@@ -153,7 +155,7 @@ async function generateSetsChart(
 
   if (isAverage) count = getAverage(count, activitiesCount);
 
-  if (datasets.length) {
+  if (datasets.length >= 2) {
     datasets[0].data.push(count);
     datasets[1].data.push(setsGoal);
   } else {
@@ -193,7 +195,7 @@ async function generateRepeatsChart(
 
   if (isAverage) count = getAverage(count, activitiesCount);
 
-  if (datasets.length) {
+  if (datasets.length >= 2) {
     datasets[0].data.push(count);
     datasets[1].data.push(repeatsGoal);
   } else {
@@ -229,7 +231,7 @@ async function generateDurationChart(
 
   if (isAverage) count = getAverage(count, activitiesCount);
 
-  if (datasets.length) {
+  if (datasets.length >= 2) {
     datasets[0].data.push(count);
     datasets[1].data.push(durationGoal);
   } else {
@@ -259,19 +261,17 @@ async function generateMusclesChart(
   datasets: IActivityChartDataset[],
   locale: string
 ) {
-  const muscleCount = muscles.map((muscle) => {
-    return {
-      label: muscle.title,
-      label_en: muscle.title_en,
-      count: 0,
-      borderColor: muscle.color,
-      backgroundColor: muscle.color,
-    };
-  });
+  const muscleData = muscles.map((muscle) => ({
+    id: muscle._id?.toString(),
+    label: muscle.title,
+    label_en: muscle.title_en,
+    color: muscle.color,
+    count: 0,
+  }));
 
-  for (const [index, muscle] of muscleCount.entries()) {
-    const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
+  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
+  for (const [index, muscle] of muscleData.entries()) {
     let count = activities.reduce((acc, current) => {
       let sets = 0;
 
@@ -284,11 +284,11 @@ async function generateMusclesChart(
 
     if (isAverage) count = getAverage(count, activitiesCount);
 
-    muscleCount[index].count = count;
+    muscleData[index].count = count;
   }
 
   if (datasets.length) {
-    muscleCount.forEach((muscle) => {
+    muscleData.forEach((muscle) => {
       datasets.forEach((set) => {
         if (set.label === muscle.label) {
           set.data.push(muscle.count);
@@ -297,15 +297,21 @@ async function generateMusclesChart(
       });
     });
   } else {
-    muscleCount.forEach((muscle) => {
+    muscleData.forEach((muscle) => {
       datasets.push({
         data: [muscle.count],
         label: muscle.label,
-        borderColor: muscle.borderColor,
-        backgroundColor: muscle.backgroundColor,
+        borderColor: muscle.color,
+        backgroundColor: muscle.color,
       });
     });
   }
+}
+
+export function adminOrUserFilter(decode?: TDecode, token?: string) {
+  const decodedUser = decodeToken(decode, token);
+
+  return decodedUser ? { email: decodedUser.email } : { role: 'admin' };
 }
 
 export function activitiesGetStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {
@@ -362,7 +368,7 @@ export function exerciseGetStatistics(
   const exerciseStatistics: IExerciseStatistics[] = [];
 
   exercises.forEach((exercise) => {
-    const exerciseStatisticsElement: IExerciseStatistics = {
+    const exerciseStats: IExerciseStatistics = {
       exercise,
       sets: 0,
       setsDynamics: 0,
@@ -374,50 +380,38 @@ export function exerciseGetStatistics(
 
     const isEquipmentMatches = !user || isUserEquipmentMatches(exercise, user);
 
-    if (isEquipmentMatches) exerciseStatisticsElement.isUserEquipmentMatches = true;
+    if (isEquipmentMatches) exerciseStats.isUserEquipmentMatches = true;
+
+    let totalDuration = 0;
 
     activities.forEach((activity: IActivity) => {
       const filteredExercises = activity.exercises.filter(
-        (exerciseToFilter) => exerciseToFilter.exercise?.toString() === exercise._id?.toString()
+        (exerciseToFilter) => exerciseToFilter.exercise?._id?.toString() === exercise._id?.toString()
       );
 
-      exerciseStatisticsElement.sets += filteredExercises.length;
-
-      exerciseStatisticsElement.repeats += filteredExercises.reduce((acc, current) => acc + (current.repeats || 0), 0);
-
-      exerciseStatisticsElement.averageDuration += filteredExercises.reduce(
-        (acc, current) => acc + (current.duration || 0),
-        0
-      );
+      exerciseStats.sets += filteredExercises.length;
+      exerciseStats.repeats += filteredExercises.reduce((acc, current) => acc + (current.repeats || 0), 0);
+      totalDuration += filteredExercises.reduce((acc, current) => acc + (current.duration || 0), 0);
     });
+
+    let prevSets = 0;
+    let prevRepeats = 0;
 
     activitiesPrev.forEach((activity: IActivity) => {
       const filteredExercises = activity.exercises.filter(
-        (exerciseToFilter) => exerciseToFilter.exercise?.toString() === exercise._id?.toString()
+        (exerciseToFilter) => exerciseToFilter.exercise?._id?.toString() === exercise._id?.toString()
       );
 
-      exerciseStatisticsElement.setsDynamics += filteredExercises.length;
-
-      exerciseStatisticsElement.repeatsDynamics += filteredExercises.reduce(
-        (acc, current) => acc + (current.repeats || 0),
-        0
-      );
+      prevSets += filteredExercises.length;
+      prevRepeats += filteredExercises.reduce((acc, current) => acc + (current.repeats || 0), 0);
     });
 
-    exerciseStatisticsElement.setsDynamics = getPercentDiff(
-      exerciseStatisticsElement.sets,
-      exerciseStatisticsElement.setsDynamics
-    );
+    exerciseStats.setsDynamics = getPercentDiff(exerciseStats.sets, prevSets);
+    exerciseStats.repeatsDynamics = getPercentDiff(exerciseStats.repeats, prevRepeats);
 
-    exerciseStatisticsElement.repeatsDynamics = getPercentDiff(
-      exerciseStatisticsElement.repeats,
-      exerciseStatisticsElement.repeatsDynamics
-    );
+    exerciseStats.averageDuration = exerciseStats.repeats > 0 ? totalDuration / exerciseStats.repeats : 0;
 
-    exerciseStatisticsElement.averageDuration =
-      exerciseStatisticsElement.averageDuration / exerciseStatisticsElement.repeats || 0;
-
-    exerciseStatistics.push(exerciseStatisticsElement);
+    exerciseStatistics.push(exerciseStats);
   });
 
   return exerciseStatistics.sort((a, b) => b.sets - a.sets);
@@ -440,22 +434,28 @@ export async function activitiesGetChartData(
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
-    const activitiesCount = await Entity.find(filter).countDocuments();
+
+    const activitiesCount = await Entity.countDocuments(filter);
 
     labels.push(week.label);
 
-    if (type === 'activity') generateActivitiesChart(activitiesCount, activitiesGoal, datasets, locale);
-
-    if (type === 'set') await generateSetsChart(Entity, filter, activitiesCount, setsGoal, isAverage, datasets, locale);
-
-    if (type === 'repeat')
-      await generateRepeatsChart(Entity, filter, activitiesCount, repeatsGoal, isAverage, datasets, locale);
-
-    if (type === 'muscle')
-      await generateMusclesChart(Entity, filter, activitiesCount, muscles, isAverage, datasets, locale);
-
-    if (type === 'duration')
-      await generateDurationChart(Entity, filter, activitiesCount, durationGoal, isAverage, datasets, locale);
+    switch (type) {
+      case 'activity':
+        generateActivitiesChart(activitiesCount, activitiesGoal, datasets, locale);
+        break;
+      case 'set':
+        await generateSetsChart(Entity, filter, activitiesCount, setsGoal, isAverage, datasets, locale);
+        break;
+      case 'repeat':
+        await generateRepeatsChart(Entity, filter, activitiesCount, repeatsGoal, isAverage, datasets, locale);
+        break;
+      case 'muscle':
+        await generateMusclesChart(Entity, filter, activitiesCount, muscles, isAverage, datasets, locale);
+        break;
+      case 'duration':
+        await generateDurationChart(Entity, filter, activitiesCount, durationGoal, isAverage, datasets, locale);
+        break;
+    }
   }
 
   return { labels, datasets };

@@ -3,6 +3,7 @@ import type { IAuthData, IRegisterData, IAuthService, IUser, TDecode } from 'fit
 import { generatePassword } from 'mhz-helpers';
 
 import User from '../user/model.js';
+import { USER_POPULATE } from '../user/constants.js';
 import { sendMail } from '../common/helpers.js';
 import { decodeToken, filterUserData } from './helpers.js';
 
@@ -10,21 +11,15 @@ export const authService: IAuthService = {
   check: async (request: { jwtVerify: () => Promise<IUser> }) => {
     const verifiedUser = await request.jwtVerify();
 
-    const user = await User.findOne({ email: verifiedUser.email })
-      .populate({ path: 'equipments', populate: { path: 'equipment' } })
-      .lean();
+    const user = await User.findOne({ email: verifiedUser.email }).populate(USER_POPULATE).lean();
 
-    if (user) {
-      return { user: filterUserData(user), isUserNotFound: false };
-    } else {
-      return { user: undefined, isUserNotFound: true };
-    }
+    return { user: user ? filterUserData(user) : undefined, isUserNotFound: !user };
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
     const { email, password } = loginData;
 
-    const user = await User.findOne({ email }).populate({ path: 'equipments', populate: { path: 'equipment' } });
+    const user = await User.findOne({ email }).populate(USER_POPULATE);
 
     if (!user?.password) {
       return { user: undefined, isUserNotFound: true, isWrongPassword: false, isEmailNotConfirmed: false };
@@ -73,35 +68,32 @@ export const authService: IAuthService = {
   },
 
   setup: async (adminToCreate: IAuthData) => {
-    const existingUsers = await User.find().lean();
+    const usersCount = await User.countDocuments();
 
-    if (existingUsers.length) return true;
+    if (usersCount > 0) return true;
 
     const password = await bcrypt.hash(adminToCreate.password, 10);
-    const user = new User({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
 
-    await user.save();
+    await User.create({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
 
     return false;
   },
 
   register: async (userToCreate: IRegisterData, lang: string, sign: (payload: IUser, options: object) => string) => {
-    const existingUser = await User.findOne({ email: userToCreate.email }).lean();
+    const existingUser = await User.countDocuments({ email: userToCreate.email });
 
-    if (existingUser) return true;
+    if (existingUser > 0) return true;
 
     const password = await bcrypt.hash(userToCreate.password, 10);
     const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
 
-    const user = new User({
+    await User.create({
       email: userToCreate.email,
       name: userToCreate.name,
       password,
       confirmationToken,
       role: 'user',
     });
-
-    await user.save();
 
     const text =
       lang === 'ru' ? 'для подтверждения регистрации перейдите по ссылке' : 'to confirm registration, follow the link';
@@ -118,29 +110,26 @@ export const authService: IAuthService = {
 
     if (!decodedUser) return true;
 
-    const user = await User.findOne({ email: decodedUser.email });
+    const result = await User.updateOne(
+      { email: decodedUser.email, isEmailConfirmed: false, confirmationToken: token },
+      { $set: { isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() } }
+    );
 
-    if (!user || user.isEmailConfirmed || token !== user.confirmationToken) return true;
-
-    await user.updateOne({ isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() });
-
-    await user.save();
-
-    return false;
+    return result.modifiedCount === 0;
   },
 
   reset: async (email: string, lang: string) => {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).lean();
 
-    if (!user || !user.isEmailConfirmed) return true;
+    if (!user) return true;
 
     const newPassword = generatePassword();
-
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await user.updateOne({ passwordTemporary: hashedPassword, isResetPassword: true, dateUpdated: new Date() });
-
-    await user.save();
+    await User.updateOne(
+      { _id: user._id },
+      { $set: { passwordTemporary: hashedPassword, isResetPassword: true, dateUpdated: new Date() } }
+    );
 
     const text =
       lang === 'ru'

@@ -1,14 +1,20 @@
-import type { IActivity, TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
+import type { TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { paginate, checkInvalidId } from '../common/helpers.js';
+import { USER_POPULATE } from '../user/constants.js';
 import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
-import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
 import { ACTIVITY_POPULATE } from './constants.js';
+import {
+  activitiesGetStatistics,
+  exerciseGetStatistics,
+  activitiesGetChartData,
+  adminOrUserFilter,
+} from './helpers.js';
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
@@ -18,36 +24,36 @@ export const activityService: IActivityService = {
   },
 
   getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
-    const decodedUser = decodeToken(decode, token);
+    const filter = adminOrUserFilter(decode, token);
 
-    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
-      .select('_id name role email equipments')
-      .populate({ path: 'equipments.equipment' })
-      .lean();
+    const user = await User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean();
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const activities = await Activity.find({
-      dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
-      isDone: true,
-      createdBy: user?._id,
-    })
-      .select('_id exercises dateCreated dateUpdated')
-      .populate({ path: 'exercises' })
-      .lean();
+    const [activities, activitiesPrev] = await Promise.all([
+      Activity.find({
+        dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
+        isDone: true,
+        createdBy: user?._id,
+      })
+        .select('_id exercises dateCreated dateUpdated')
+        .populate(ACTIVITY_POPULATE)
+        .lean(),
 
-    const activitiesPrev = await Activity.find({
-      dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
-      isDone: true,
-      createdBy: user?._id,
-    })
-      .select('_id exercises dateCreated dateUpdated')
-      .populate({ path: 'exercises' })
-      .lean();
+      Activity.find({
+        dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
+        isDone: true,
+        createdBy: user?._id,
+      })
+        .select('_id exercises dateCreated dateUpdated')
+        .populate(ACTIVITY_POPULATE)
+        .lean(),
+    ]);
 
-    const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
-
-    const exercises = await getAdminAndUserExercises(decode, token);
+    const [activityStatistics, exercises] = await Promise.all([
+      Promise.resolve(activitiesGetStatistics(activities, activitiesPrev)),
+      getAdminAndUserExercises(decode, token),
+    ]);
 
     const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises, user);
 
@@ -55,11 +61,9 @@ export const activityService: IActivityService = {
   },
 
   getCalendar: async <T>(dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
-    const decodedUser = decodeToken(decode, token);
+    const filter = adminOrUserFilter(decode, token);
 
-    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
-      .select('_id')
-      .lean();
+    const user = await User.findOne(filter).select('_id').lean();
 
     const calendarData = await Activity.find({
       dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
@@ -79,15 +83,16 @@ export const activityService: IActivityService = {
     decode?: TDecode,
     token?: string
   ) => {
-    const decodedUser = decodeToken(decode, token);
+    const filter = adminOrUserFilter(decode, token);
 
-    const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
-      .select('_id')
-      .lean();
+    const [user, muscles] = await Promise.all([
+      await User.findOne(filter).select('_id').lean(),
+      await Muscle.find().lean(),
+    ]);
 
-    const weeks = getFirstAndLastDays(7, month === 'true');
+    const isMonth = month === 'true';
 
-    const muscles = await Muscle.find().lean();
+    const weeks = getFirstAndLastDays(7, isMonth);
 
     const { labels, datasets } = await activitiesGetChartData(
       Activity,
@@ -96,7 +101,7 @@ export const activityService: IActivityService = {
       locale,
       user,
       muscles,
-      month === 'true',
+      isMonth,
       average === 'true'
     );
 
@@ -106,7 +111,7 @@ export const activityService: IActivityService = {
   getOne: async <T>(_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity: IActivity | null = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
+    const activity = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
 
     if (!activity?.createdBy?._id) return { data: null };
 
@@ -118,7 +123,7 @@ export const activityService: IActivityService = {
   getLast: async <T>(decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    const activity: IActivity | null = await Activity.findOne({ createdBy: user?._id })
+    const activity = await Activity.findOne({ createdBy: user?._id })
       .sort('-dateCreated')
       .populate(ACTIVITY_POPULATE)
       .lean();
@@ -133,34 +138,30 @@ export const activityService: IActivityService = {
 
     const newActivity = await activity.save();
 
-    const id = newActivity._id.toString();
-
-    return id;
+    return newActivity._id.toString();
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id });
+    const activity = await Activity.findOne({ _id }).lean();
 
     if (!activity?.createdBy?._id) return;
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await activity.updateOne({ ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
-
-    await activity.save();
+    await Activity.findByIdAndUpdate(_id, { ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id });
+    const activity = await Activity.findOne({ _id }).lean();
 
     if (!activity?.createdBy?._id) return;
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await activity.deleteOne();
+    await Activity.findByIdAndDelete(_id);
   },
 };

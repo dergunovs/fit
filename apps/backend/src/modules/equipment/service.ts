@@ -1,4 +1,4 @@
-import type { IEquipment, IEquipmentService, TDecode } from 'fitness-tracker-contracts';
+import type { IEquipmentService, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
 import { checkInvalidId } from '../common/helpers.js';
@@ -8,13 +8,13 @@ export const equipmentService: IEquipmentService = {
   getAll: async () => {
     const equipments = await Equipment.find().sort('title').lean();
 
-    return { data: equipments as IEquipment[] };
+    return { data: equipments };
   },
 
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const equipment: IEquipment | null = await Equipment.findOne({ _id }).lean();
+    const equipment = await Equipment.findOne({ _id }).lean();
 
     return { data: equipment as T };
   },
@@ -22,9 +22,7 @@ export const equipmentService: IEquipmentService = {
   create: async <T>(equipmentToCreate: T, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    const equipment = new Equipment({ ...equipmentToCreate, createdBy: user?._id });
-
-    await equipment.save();
+    await Equipment.create({ ...equipmentToCreate, createdBy: user?._id });
   },
 
   update: async <T>(_id: string, itemToUpdate: T) => {
