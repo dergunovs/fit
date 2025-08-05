@@ -13,6 +13,7 @@ import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
 import { defaultColor, goalColor, getGoals } from '../common/helpers.js';
 import { IChartFilter } from '../common/types.js';
+import { ACTIVITY_POPULATE } from './constants.js';
 
 function activitiesGetCount(activities: IActivity[]) {
   const activitiesCount = activities.length;
@@ -146,11 +147,7 @@ async function generateSetsChart(
   datasets: IActivityChartDataset[],
   locale: string
 ) {
-  const activities = await Entity.find(filter)
-    .select('_id exercises dateCreated')
-    .populate({ path: 'exercises' })
-    .lean()
-    .exec();
+  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
   let count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
 
@@ -186,11 +183,7 @@ async function generateRepeatsChart(
   datasets: IActivityChartDataset[],
   locale: string
 ) {
-  const activities = await Entity.find(filter)
-    .select('_id exercises dateCreated')
-    .populate({ path: 'exercises.exercise', select: ['title'] })
-    .lean()
-    .exec();
+  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
   let count = activities.reduce((acc, activity) => {
     const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
@@ -230,7 +223,7 @@ async function generateDurationChart(
   datasets: IActivityChartDataset[],
   locale: string
 ) {
-  const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean().exec();
+  const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean();
 
   let count = Math.floor(activitiesGetTotalDuration(activities) / 60);
 
@@ -277,11 +270,7 @@ async function generateMusclesChart(
   });
 
   for (const [index, muscle] of muscleCount.entries()) {
-    const activities = await Entity.find(filter)
-      .select('_id exercises dateCreated')
-      .populate({ path: 'exercises.exercise', populate: 'muscles' })
-      .lean()
-      .exec();
+    const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
     let count = activities.reduce((acc, current) => {
       let sets = 0;
@@ -451,7 +440,7 @@ export async function activitiesGetChartData(
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
-    const activitiesCount = await Entity.find(filter).countDocuments().exec();
+    const activitiesCount = await Entity.find(filter).countDocuments();
 
     labels.push(week.label);
 

@@ -3,17 +3,13 @@ import type { IExercise, IExerciseService, TDecode } from 'fitness-tracker-contr
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
 import { checkInvalidId, paginate } from '../common/helpers.js';
-import { getAdminAndUserExercises } from './helpers.js';
+import { getAdminAndUserExercises, getExercisesByUserId } from './helpers.js';
 import Exercise from './model.js';
+import { EXERCISE_POPULATE } from './constants.js';
 
 export const exerciseService: IExerciseService = {
   getMany: async <T>(page: number) => {
-    const { data, total } = await paginate(Exercise, page, '-dateCreated', [
-      { path: 'createdBy', select: ['_id', 'name', 'email'] },
-      { path: 'equipment' },
-      { path: 'equipmentForWeight' },
-      { path: 'muscles' },
-    ]);
+    const { data, total } = await paginate(Exercise, page, '-dateCreated', EXERCISE_POPULATE);
 
     return { data: data as T[], total };
   },
@@ -27,35 +23,17 @@ export const exerciseService: IExerciseService = {
   getCustom: async (decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    const exercises = await Exercise.find({ createdBy: user?._id })
-      .select(
-        '_id title title_en description description_en equipment equipmentForWeight isWeights isWeightsRequired muscles isCustom'
-      )
-      .sort('title')
-      .populate([
-        { path: 'createdBy', select: ['_id', 'name', 'email'] },
-        { path: 'equipment' },
-        { path: 'equipmentForWeight' },
-        { path: 'muscles' },
-      ])
-      .lean()
-      .exec();
+    if (!user?._id) return { data: [] };
 
-    return { data: exercises as IExercise[] };
+    const exercises = await getExercisesByUserId(user._id);
+
+    return { data: exercises };
   },
 
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const exercise: IExercise | null = await Exercise.findOne({ _id })
-      .populate([
-        { path: 'createdBy', select: ['_id', 'name', 'email'] },
-        { path: 'equipment' },
-        { path: 'equipmentForWeight' },
-        { path: 'muscles' },
-      ])
-      .lean()
-      .exec();
+    const exercise: IExercise | null = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
 
     return { data: exercise as T };
   },

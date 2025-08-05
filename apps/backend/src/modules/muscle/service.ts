@@ -5,7 +5,7 @@ import Muscle from './model.js';
 
 export const muscleService: IMuscleService = {
   getAll: async () => {
-    const muscles = await Muscle.find().sort('title').lean().exec();
+    const muscles = await Muscle.find().sort('title').lean();
 
     return { data: muscles as IMuscle[] };
   },
@@ -13,7 +13,7 @@ export const muscleService: IMuscleService = {
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const muscle: IMuscle | null = await Muscle.findOne({ _id }).lean().exec();
+    const muscle: IMuscle | null = await Muscle.findOne({ _id }).lean();
 
     return { data: muscle as T };
   },

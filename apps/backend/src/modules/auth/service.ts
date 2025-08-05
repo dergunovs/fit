@@ -12,8 +12,7 @@ export const authService: IAuthService = {
 
     const user = await User.findOne({ email: verifiedUser.email })
       .populate({ path: 'equipments', populate: { path: 'equipment' } })
-      .lean()
-      .exec();
+      .lean();
 
     if (user) {
       return { user: filterUserData(user), isUserNotFound: false };
@@ -25,9 +24,7 @@ export const authService: IAuthService = {
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
     const { email, password } = loginData;
 
-    const user = await User.findOne({ email })
-      .populate({ path: 'equipments', populate: { path: 'equipment' } })
-      .exec();
+    const user = await User.findOne({ email }).populate({ path: 'equipments', populate: { path: 'equipment' } });
 
     if (!user?.password) {
       return { user: undefined, isUserNotFound: true, isWrongPassword: false, isEmailNotConfirmed: false };
@@ -76,7 +73,7 @@ export const authService: IAuthService = {
   },
 
   setup: async (adminToCreate: IAuthData) => {
-    const existingUsers = await User.find().lean().exec();
+    const existingUsers = await User.find().lean();
 
     if (existingUsers.length) return true;
 
@@ -89,7 +86,7 @@ export const authService: IAuthService = {
   },
 
   register: async (userToCreate: IRegisterData, lang: string, sign: (payload: IUser, options: object) => string) => {
-    const existingUser = await User.findOne({ email: userToCreate.email }).lean().exec();
+    const existingUser = await User.findOne({ email: userToCreate.email }).lean();
 
     if (existingUser) return true;
 

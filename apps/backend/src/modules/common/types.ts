@@ -22,3 +22,9 @@ export interface IErrorCause {
 export interface IStatusHandler {
   [key: number]: (reply: FastifyReply, error: FastifyError) => void;
 }
+
+export interface IPopulate {
+  path: string;
+  select?: string | string[];
+  populate?: IPopulate[];
+}

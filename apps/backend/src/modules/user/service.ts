@@ -18,8 +18,7 @@ export const userService: IUserService = {
     const user: IUser | null = await User.findOne({ _id })
       .select('_id name role email equipments defaultWeights isResetPassword')
       .populate({ path: 'equipments.equipment' })
-      .lean()
-      .exec();
+      .lean();
 
     return { data: user as T };
   },

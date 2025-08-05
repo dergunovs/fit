@@ -6,7 +6,7 @@ import Equipment from './model.js';
 
 export const equipmentService: IEquipmentService = {
   getAll: async () => {
-    const equipments = await Equipment.find().sort('title').lean().exec();
+    const equipments = await Equipment.find().sort('title').lean();
 
     return { data: equipments as IEquipment[] };
   },
@@ -14,7 +14,7 @@ export const equipmentService: IEquipmentService = {
   getOne: async <T>(_id: string) => {
     checkInvalidId(_id);
 
-    const equipment: IEquipment | null = await Equipment.findOne({ _id }).lean().exec();
+    const equipment: IEquipment | null = await Equipment.findOne({ _id }).lean();
 
     return { data: equipment as T };
   },

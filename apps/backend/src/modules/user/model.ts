@@ -3,9 +3,9 @@ import type { IUser } from 'fitness-tracker-contracts';
 
 const userSchema = new Schema<IUser>(
   {
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     name: { type: String },
-    role: { type: String, enum: ['admin', 'user'] },
+    role: { type: String, enum: ['admin', 'user'], default: 'user' },
     password: { type: String, required: true },
     passwordTemporary: { type: String },
     isResetPassword: { type: Boolean, default: false },

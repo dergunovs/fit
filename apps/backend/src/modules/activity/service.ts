@@ -8,20 +8,11 @@ import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
 import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
+import { ACTIVITY_POPULATE } from './constants.js';
 
 export const activityService: IActivityService = {
   getMany: async <T>(page?: number) => {
-    const { data, total } = await paginate(Activity, page, '-dateCreated', [
-      {
-        path: 'exercises.exercise',
-        select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
-        populate: [
-          { path: 'createdBy', select: ['_id', 'name', 'email'] },
-          { path: 'muscles', select: ['_id', 'title', 'color'] },
-        ],
-      },
-      { path: 'createdBy', select: ['_id', 'name', 'email'] },
-    ]);
+    const { data, total } = await paginate(Activity, page, '-dateCreated', ACTIVITY_POPULATE);
 
     return { data: data as T[], total };
   },
@@ -32,8 +23,7 @@ export const activityService: IActivityService = {
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
       .select('_id name role email equipments')
       .populate({ path: 'equipments.equipment' })
-      .lean()
-      .exec();
+      .lean();
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
@@ -43,9 +33,8 @@ export const activityService: IActivityService = {
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
-      .populate({ path: 'exercises' })
-      .lean()
-      .exec();
+      .populate(ACTIVITY_POPULATE)
+      .lean();
 
     const activitiesPrev = await Activity.find({
       dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
@@ -53,9 +42,8 @@ export const activityService: IActivityService = {
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
-      .populate({ path: 'exercises' })
-      .lean()
-      .exec();
+      .populate(ACTIVITY_POPULATE)
+      .lean();
 
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
 
@@ -71,23 +59,14 @@ export const activityService: IActivityService = {
 
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
       .select('_id')
-      .lean()
-      .exec();
+      .lean();
 
     const calendarData = await Activity.find({
       dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
       createdBy: user?._id,
     })
-      .populate([
-        {
-          path: 'exercises.exercise',
-          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
-          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
-        },
-        { path: 'createdBy', select: ['_id', 'name', 'email'] },
-      ])
-      .lean()
-      .exec();
+      .populate(ACTIVITY_POPULATE)
+      .lean();
 
     return calendarData as T[];
   },
@@ -104,12 +83,11 @@ export const activityService: IActivityService = {
 
     const user = await User.findOne(decodedUser ? { email: decodedUser.email } : { role: 'admin' })
       .select('_id')
-      .lean()
-      .exec();
+      .lean();
 
     const weeks = getFirstAndLastDays(7, month === 'true');
 
-    const muscles = await Muscle.find().lean().exec();
+    const muscles = await Muscle.find().lean();
 
     const { labels, datasets } = await activitiesGetChartData(
       Activity,
@@ -128,17 +106,7 @@ export const activityService: IActivityService = {
   getOne: async <T>(_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity: IActivity | null = await Activity.findOne({ _id })
-      .populate([
-        {
-          path: 'exercises.exercise',
-          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
-          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
-        },
-        { path: 'createdBy', select: ['_id', 'name', 'email'] },
-      ])
-      .lean()
-      .exec();
+    const activity: IActivity | null = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
 
     if (!activity?.createdBy?._id) return { data: null };
 
@@ -152,16 +120,8 @@ export const activityService: IActivityService = {
 
     const activity: IActivity | null = await Activity.findOne({ createdBy: user?._id })
       .sort('-dateCreated')
-      .populate([
-        {
-          path: 'exercises.exercise',
-          select: ['_id', 'title', 'title_en', 'muscles', 'createdBy'],
-          populate: [{ path: 'createdBy', select: ['_id', 'name', 'email'] }, { path: 'muscles' }],
-        },
-        { path: 'createdBy', select: ['_id', 'name', 'email'] },
-      ])
-      .lean()
-      .exec();
+      .populate(ACTIVITY_POPULATE)
+      .lean();
 
     return { data: activity as T };
   },
