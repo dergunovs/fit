@@ -35,8 +35,13 @@ interface IProps {
   activeExerciseId?: string;
 }
 
+interface IEmit {
+  start: [id: string];
+  stop: [exerciseDone: IExerciseDone];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ start: [id: string]; stop: [exerciseDone: IExerciseDone] }>();
+const emit = defineEmits<IEmit>();
 
 const currentExerciseIndex = computed(() => props.exercises.filter((exercise) => exercise.isDone).length);
 </script>

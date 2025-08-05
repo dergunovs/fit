@@ -37,8 +37,12 @@ interface IProps {
   isTall?: boolean;
 }
 
+interface IEmit {
+  'update:modelValue': [repeats: number];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ 'update:modelValue': [repeats: number] }>();
+const emit = defineEmits<IEmit>();
 
 function updateValue(value: number | Event) {
   emit('update:modelValue', typeof value === 'number' ? value : Number((value.target as HTMLInputElement).value));

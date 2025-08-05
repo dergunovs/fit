@@ -137,8 +137,12 @@ interface IProps {
   isPopup?: boolean;
 }
 
+interface IEmit {
+  delete: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [] }>();
+const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 const { t, locale } = useI18n();

@@ -54,8 +54,13 @@ interface IProps {
   isEmitCancel?: boolean;
 }
 
+interface IEmit {
+  delete: [id: string];
+  cancel: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string]; cancel: [] }>();
+const emit = defineEmits<IEmit>();
 
 const isShowConfirm = ref(false);
 

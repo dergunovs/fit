@@ -8,13 +8,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "noEmit": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "baseUrl": "./",
     "paths": { "@/*": ["src/modules/*"] },
-    "types": ["vite/client", "vite-svg-loader", "vite-plugin-pwa/vue", "node"]
+    "types": ["vite/client", "vite-svg-loader", "vite-plugin-pwa/vue", "node", "@intlify/unplugin-vue-i18n/messages"],
+    "noEmit": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

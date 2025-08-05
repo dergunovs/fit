@@ -121,8 +121,12 @@ interface IProps {
   modelValue?: IUserEquipment[];
 }
 
+interface IEmit {
+  'update:modelValue': [value?: IUserEquipment[]];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ 'update:modelValue': [value?: IUserEquipment[]] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

@@ -97,8 +97,12 @@ interface IProps {
   isDisableRedirect?: boolean;
 }
 
+interface IEmit {
+  hide: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ hide: [] }>();
+const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 const { t, locale } = useI18n();

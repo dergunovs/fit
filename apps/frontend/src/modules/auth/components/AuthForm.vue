@@ -60,8 +60,13 @@ interface IProps {
   isSetup?: boolean;
 }
 
+interface IEmit {
+  login: [];
+  reset: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ login: []; reset: [] }>();
+const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 const { t, locale } = useI18n();

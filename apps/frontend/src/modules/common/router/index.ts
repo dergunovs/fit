@@ -7,7 +7,7 @@ import { routes } from '@/common/router/routes';
 
 const router = createRouter({ history: createWebHistory(), routes });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   if (!GUEST_PAGES.includes(to.path) && !getCookieToken(TOKEN_NAME)) {
     logout(URL_HOME, deleteAuthHeader, TOKEN_NAME);
   } else {

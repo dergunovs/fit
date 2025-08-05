@@ -27,6 +27,11 @@ interface IProps {
   choosenExercises: IExerciseChoosen[];
 }
 
+interface IEmit {
+  delete: [id: string];
+  createSet: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string]; createSet: [] }>();
+const emit = defineEmits<IEmit>();
 </script>

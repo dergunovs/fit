@@ -32,8 +32,12 @@ interface IProps {
   exercises?: IExercise[];
 }
 
+interface IEmit {
+  edit: [exercise: IExercise];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ edit: [exercise: IExercise] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 </script>

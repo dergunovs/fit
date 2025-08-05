@@ -53,7 +53,7 @@ vi.spyOn(authService, 'setup').mockImplementation((options: { onSuccess?: () => 
   return mockMutationReply<TPostAuthSetupDTO, TPostAuthSetupDataDTO>(spySetup);
 });
 
-vi.spyOn(authService, 'register').mockImplementation((lang: string, options: { onSuccess?: () => Promise<void> }) => {
+vi.spyOn(authService, 'register').mockImplementation((_lang: string, options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) mockOnSuccess.register = options.onSuccess;
 
   return mockMutationReply<TPostAuthRegisterDTO, TPostAuthRegisterDataDTO>(spyRegister);
@@ -66,7 +66,7 @@ vi.spyOn(authService, 'confirmToken').mockImplementation((options: { onSuccess?:
 });
 
 vi.spyOn(authService, 'resetPassword').mockImplementation(
-  (lang: string, options: { onSuccess?: () => Promise<void> }) => {
+  (_lang: string, options: { onSuccess?: () => Promise<void> }) => {
     if (options.onSuccess) mockOnSuccess.resetPassword = options.onSuccess;
 
     return mockMutationReply<TPostAuthResetPasswordDTO, TPostAuthResetPasswordDataDTO>(spyResetPassword);

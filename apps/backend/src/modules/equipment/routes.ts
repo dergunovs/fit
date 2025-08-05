@@ -27,7 +27,7 @@ export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetEquipmentsDTO } }>(
     API_EQUIPMENT,
     { ...equipmentGetAllSchema },
-    async function (request, reply) {
+    async function (_request, reply) {
       const { data } = await equipmentService.getAll();
 
       reply.code(200).send({ data });

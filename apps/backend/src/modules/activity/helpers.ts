@@ -119,7 +119,7 @@ function generateActivitiesChart(
 ) {
   const count = activitiesCount;
 
-  if (datasets.length) {
+  if (datasets.length >= 2) {
     datasets[0].data.push(count);
     datasets[1].data.push(activitiesGoal);
   } else {

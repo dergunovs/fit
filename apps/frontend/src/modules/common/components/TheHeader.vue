@@ -58,8 +58,14 @@ interface IProps {
   isAdmin: boolean;
 }
 
+interface IEmit {
+  showLogin: [];
+  showRegistration: [];
+  install: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ showLogin: []; showRegistration: []; install: [] }>();
+const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 

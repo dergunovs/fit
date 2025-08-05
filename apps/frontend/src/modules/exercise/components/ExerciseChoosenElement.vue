@@ -30,8 +30,13 @@ interface IProps {
   isSetCreatable: boolean;
 }
 
+interface IEmit {
+  delete: [id: string];
+  createSet: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ delete: [id: string]; createSet: [] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

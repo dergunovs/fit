@@ -58,8 +58,12 @@ interface IProps {
   exercises: IExercise[];
 }
 
+interface IEmit {
+  choose: [choosenExercise: IExerciseChoosen];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ choose: [choosenExercise: IExerciseChoosen] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 const { user } = useAuthCheck();

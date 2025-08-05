@@ -27,7 +27,7 @@ export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetMusclesDTO } }>(
     API_MUSCLE,
     { ...muscleGetAllSchema },
-    async function (request, reply) {
+    async function (_request, reply) {
       const { data } = await muscleService.getAll();
 
       reply.code(200).send({ data });

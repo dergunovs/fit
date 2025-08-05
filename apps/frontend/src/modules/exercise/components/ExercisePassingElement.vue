@@ -63,8 +63,13 @@ interface IProps {
   exercisesCount: number;
 }
 
+interface IEmit {
+  start: [id: string];
+  stop: [exerciseDone: IExerciseDone];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ start: [id: string]; stop: [exerciseDone: IExerciseDone] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

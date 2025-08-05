@@ -38,8 +38,14 @@ interface IProps {
   events?: IActivityCalendarEvent<IExerciseDone>[];
 }
 
+interface IEmit {
+  ready: [dates: ICalendarDates];
+  update: [dates: ICalendarDates];
+  deleteEvent: [];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ ready: [dates: ICalendarDates]; update: [dates: ICalendarDates]; deleteEvent: [] }>();
+const emit = defineEmits<IEmit>();
 
 const { locale } = useI18n();
 

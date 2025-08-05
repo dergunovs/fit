@@ -19,7 +19,7 @@ async function buildApp() {
   registerPluginsAndRoutes(fastify);
   addSchemas(fastify);
 
-  fastify.setErrorHandler((error, request, reply) => errorHandler(error, reply));
+  fastify.setErrorHandler((error, _request, reply) => errorHandler(error, reply));
 
   return fastify;
 }

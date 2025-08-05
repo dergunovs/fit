@@ -34,7 +34,11 @@ import { IRegisterData } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
 
-const emit = defineEmits<{ register: [] }>();
+interface IEmit {
+  register: [];
+}
+
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

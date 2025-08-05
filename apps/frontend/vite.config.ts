@@ -11,6 +11,7 @@ import { removeDataTest } from 'mhz-helpers';
 
 export default defineConfig({
   clearScreen: false,
+
   server: {
     port: 8080,
     strictPort: true,
@@ -38,16 +39,16 @@ export default defineConfig({
       workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'] },
       manifest: {
         name: 'FiT',
-        start_url: '/',
-        scope: '/',
         short_name: 'FiT',
         description: 'FiT',
+        start_url: '/',
+        scope: '/',
         display: 'standalone',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         lang: 'ru',
         orientation: 'natural',
-        categories: ['fitness', 'sports'],
+        categories: ['fitness', 'sports', 'health'],
         icons: [
           { src: 'pwa-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png' },

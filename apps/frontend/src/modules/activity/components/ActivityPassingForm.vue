@@ -49,15 +49,16 @@ interface IProps {
   activity: IActivity;
 }
 
-const props = defineProps<IProps>();
-
-const emit = defineEmits<{
+interface IEmit {
   exit: [];
   done: [isDone: boolean];
   updateExercises: [exercises: IExerciseDone[]];
   setDateCreated: [dateCreated: Date];
   setDateUpdated: [dateUpdated: Date];
-}>();
+}
+
+const props = defineProps<IProps>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

@@ -34,8 +34,12 @@ interface IProps {
   modelValue?: IUserDefaultWeights;
 }
 
+interface IEmit {
+  'update:modelValue': [value?: IUserDefaultWeights];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ 'update:modelValue': [value?: IUserDefaultWeights] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 

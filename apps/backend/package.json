@@ -16,7 +16,7 @@
     "dev": "nodemon",
     "start": "node build/index.js",
     "build": "tsc -p tsconfig.json",
-    "lint": "eslint 'src/**/*.{js,ts}'",
+    "lint": "eslint src/**/*.{js,ts}",
     "ts": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

@@ -13,8 +13,12 @@ interface IProps {
   stop: boolean;
 }
 
+interface IEmit {
+  stop: [duration: number];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ stop: [duration: number] }>();
+const emit = defineEmits<IEmit>();
 
 const { timer, duration, startTimer, stopTimer } = useTimer();
 

@@ -47,8 +47,12 @@ interface IProps {
   weights?: number[];
 }
 
+interface IEmit {
+  add: [choosenExercise: IExerciseChoosen];
+}
+
 const props = defineProps<IProps>();
-const emit = defineEmits<{ add: [choosenExercise: IExerciseChoosen] }>();
+const emit = defineEmits<IEmit>();
 
 const { t, locale } = useI18n();
 
