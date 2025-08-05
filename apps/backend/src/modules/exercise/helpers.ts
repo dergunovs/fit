@@ -4,16 +4,12 @@ import { decodeToken } from '../auth/helpers.js';
 import { checkInvalidId } from '../common/helpers.js';
 import User from '../user/model.js';
 import Exercise from './model.js';
-import { EXERCISE_POPULATE, EXERCISE_SELECT } from './constants.js';
+import { EXERCISE_POPULATE } from './constants.js';
 
 export async function getExercisesByUserId(userId: string) {
   checkInvalidId(userId);
 
-  const exercises = await Exercise.find({ createdBy: userId })
-    .select(EXERCISE_SELECT)
-    .sort('title')
-    .populate(EXERCISE_POPULATE)
-    .lean();
+  const exercises = await Exercise.find({ createdBy: userId }).sort('title').populate(EXERCISE_POPULATE).lean();
 
   return exercises;
 }

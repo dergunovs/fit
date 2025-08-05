@@ -33,7 +33,7 @@ export const activityService: IActivityService = {
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
-      .populate(ACTIVITY_POPULATE)
+      .populate({ path: 'exercises' })
       .lean();
 
     const activitiesPrev = await Activity.find({
@@ -42,7 +42,7 @@ export const activityService: IActivityService = {
       createdBy: user?._id,
     })
       .select('_id exercises dateCreated dateUpdated')
-      .populate(ACTIVITY_POPULATE)
+      .populate({ path: 'exercises' })
       .lean();
 
     const activityStatistics = activitiesGetStatistics(activities, activitiesPrev);
