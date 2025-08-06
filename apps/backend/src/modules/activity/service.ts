@@ -144,24 +144,26 @@ export const activityService: IActivityService = {
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id }).lean();
+    const activity = await Activity.findOne({ _id });
 
     if (!activity?.createdBy?._id) return;
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await Activity.findByIdAndUpdate(_id, { ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
+    await activity.updateOne({ ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
+
+    await activity.save();
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id }).lean();
+    const activity = await Activity.findOne({ _id });
 
     if (!activity?.createdBy?._id) return;
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await Activity.findByIdAndDelete(_id);
+    await activity.deleteOne();
   },
 };
