@@ -111,7 +111,7 @@ function getAverage(count: number, activitiesCount: number) {
   return activitiesCount > 0 ? Math.floor(count / activitiesCount) : 0;
 }
 
-function generateActivitiesChart(
+function getActivitiesChart(
   activitiesCount: number,
   activitiesGoal: number,
   datasets: IActivityChartDataset[],
@@ -140,7 +140,7 @@ function generateActivitiesChart(
   }
 }
 
-async function generateSetsChart(
+async function getSetsChart(
   Entity: Model<IActivity>,
   filter: IChartFilter,
   activitiesCount: number,
@@ -176,7 +176,7 @@ async function generateSetsChart(
   }
 }
 
-async function generateRepeatsChart(
+async function getRepeatsChart(
   Entity: Model<IActivity>,
   filter: IChartFilter,
   activitiesCount: number,
@@ -216,7 +216,7 @@ async function generateRepeatsChart(
   }
 }
 
-async function generateDurationChart(
+async function getDurationChart(
   Entity: Model<IActivity>,
   filter: IChartFilter,
   activitiesCount: number,
@@ -252,7 +252,7 @@ async function generateDurationChart(
   }
 }
 
-async function generateMusclesChart(
+async function getMusclesChart(
   Entity: Model<IActivity>,
   filter: IChartFilter,
   activitiesCount: number,
@@ -434,28 +434,15 @@ export async function activitiesGetChartData(
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
-
-    const activitiesCount = await Entity.countDocuments(filter);
+    const count = await Entity.countDocuments(filter);
 
     labels.push(week.label);
 
-    switch (type) {
-      case 'activity':
-        generateActivitiesChart(activitiesCount, activitiesGoal, datasets, locale);
-        break;
-      case 'set':
-        await generateSetsChart(Entity, filter, activitiesCount, setsGoal, isAverage, datasets, locale);
-        break;
-      case 'repeat':
-        await generateRepeatsChart(Entity, filter, activitiesCount, repeatsGoal, isAverage, datasets, locale);
-        break;
-      case 'muscle':
-        await generateMusclesChart(Entity, filter, activitiesCount, muscles, isAverage, datasets, locale);
-        break;
-      case 'duration':
-        await generateDurationChart(Entity, filter, activitiesCount, durationGoal, isAverage, datasets, locale);
-        break;
-    }
+    if (type === 'activity') getActivitiesChart(count, activitiesGoal, datasets, locale);
+    if (type === 'set') await getSetsChart(Entity, filter, count, setsGoal, isAverage, datasets, locale);
+    if (type === 'repeat') await getRepeatsChart(Entity, filter, count, repeatsGoal, isAverage, datasets, locale);
+    if (type === 'duration') await getDurationChart(Entity, filter, count, durationGoal, isAverage, datasets, locale);
+    if (type === 'muscle') await getMusclesChart(Entity, filter, count, muscles, isAverage, datasets, locale);
   }
 
   return { labels, datasets };
