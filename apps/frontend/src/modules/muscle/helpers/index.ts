@@ -1,7 +1,7 @@
-import { IExerciseDone, IMuscle, IMuscleStatistics } from 'fitness-tracker-contracts';
+import { IExerciseDone, IMuscle, IMuscleStatistics, TLocale } from 'fitness-tracker-contracts';
 import { localeField } from 'mhz-helpers';
 
-export function generateMuscleStatistics(exercises: IExerciseDone[], muscles: IMuscle[], locale: string) {
+export function generateMuscleStatistics(exercises: IExerciseDone[], muscles: IMuscle[], locale: TLocale) {
   const muscleStatistics: IMuscleStatistics[] = [];
 
   muscles.forEach((muscle: IMuscle) => {

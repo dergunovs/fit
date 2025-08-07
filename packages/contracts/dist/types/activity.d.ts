@@ -4,6 +4,7 @@ import {
   IEntity,
   IPaginatedQuery,
   IPaginatedReply,
+  TLocale,
 } from "./base";
 import { IExerciseDone, IExerciseStatistics } from "./exercise";
 import { IUser } from "./user";
@@ -80,7 +81,7 @@ export interface IActivityService extends IBaseService {
     type: TActivityChartType,
     month: string,
     average: string,
-    locale: string,
+    locale: TLocale,
     decode?: TDecode,
     token?: string,
   ) => Promise<IActivityChart>;
@@ -105,7 +106,7 @@ export type TGetActivitiesChartQueryDTO = {
   type: TActivityChartType;
   month: string;
   average: string;
-  locale: string;
+  locale: TLocale;
 };
 export type TGetActivityDTO = { data: IActivity | null };
 export type TGetActivityLastDTO = { data: IActivity | null };

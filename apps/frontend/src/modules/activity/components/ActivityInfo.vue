@@ -110,8 +110,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone } from 'fitness-tracker-contracts';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone, TLocale } from 'fitness-tracker-contracts';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration, localeField } from 'mhz-helpers';
 
@@ -145,7 +145,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const queryClient = useQueryClient();
 
 const isShowConfirm = ref(false);

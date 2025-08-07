@@ -1,4 +1,4 @@
-import type { TActivityChartType, IActivityService, TDecode } from 'fitness-tracker-contracts';
+import type { TActivityChartType, IActivityService, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
@@ -79,7 +79,7 @@ export const activityService: IActivityService = {
     type: TActivityChartType,
     month: string,
     average: string,
-    locale: string,
+    locale: TLocale,
     decode?: TDecode,
     token?: string
   ) => {

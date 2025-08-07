@@ -21,6 +21,7 @@ import {
   TUpdateActivityDTO,
   TUpdateActivityDataDTO,
   TDeleteActivityDTO,
+  TLocale,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
@@ -65,7 +66,7 @@ export const activityService = {
     });
   },
 
-  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, isAverage: Ref<boolean>, locale: Ref<string>) => {
+  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, isAverage: Ref<boolean>, locale: Ref<TLocale>) => {
     return useQuery({
       queryKey: [API_ACTIVITY_CHART, type, isMonth, isAverage, locale],
       queryFn: async () => {

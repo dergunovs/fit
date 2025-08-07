@@ -42,13 +42,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiChart, UiCheckbox, UiFlex, UiTabs } from 'mhz-ui';
-import { TActivityChartType } from 'fitness-tracker-contracts';
+import { TActivityChartType, TLocale } from 'fitness-tracker-contracts';
 
 import { activityService } from '@/activity/services';
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const CHART_TYPES = computed(
   () =>

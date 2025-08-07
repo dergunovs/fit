@@ -8,6 +8,8 @@ export interface IGoals {
   duration: number;
 }
 
+export type TLocale = "ru" | "en";
+
 export interface IEntity {
   _id?: string;
   dateCreated?: Date | string;

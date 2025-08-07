@@ -9,6 +9,7 @@ import {
   IUser,
   GOALS,
   TDecode,
+  TLocale,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
@@ -111,11 +112,30 @@ function getAverage(count: number, activitiesCount: number) {
   return activitiesCount > 0 ? Math.floor(count / activitiesCount) : 0;
 }
 
+const LABELS = {
+  goal: { ru: 'Цель', en: 'Goal' },
+  activity: { ru: 'Занятия', en: 'Activities' },
+  sets: { ru: 'Подходы', en: 'Sets' },
+  repeats: { ru: 'Повторы', en: 'Repeats' },
+  duration: { ru: 'Длительность', en: 'Duration' },
+};
+
+function getDataset(count: number, type: 'goal' | 'activity' | 'sets' | 'repeats' | 'duration', locale: TLocale) {
+  const isGoal = type === 'goal';
+
+  return {
+    data: [count],
+    label: LABELS[type][locale],
+    borderColor: isGoal ? goalColor : defaultColor,
+    backgroundColor: isGoal ? goalColor : defaultColor,
+  };
+}
+
 function getActivitiesChart(
   activitiesCount: number,
   activitiesGoal: number,
   datasets: IActivityChartDataset[],
-  locale: string
+  locale: TLocale
 ) {
   const count = activitiesCount;
 
@@ -123,20 +143,7 @@ function getActivitiesChart(
     datasets[0].data.push(count);
     datasets[1].data.push(activitiesGoal);
   } else {
-    datasets.push(
-      {
-        data: [count],
-        label: locale === 'ru' ? 'Занятия' : 'Activities',
-        borderColor: defaultColor,
-        backgroundColor: defaultColor,
-      },
-      {
-        data: [activitiesGoal],
-        label: locale === 'ru' ? 'Цель' : 'Goal',
-        borderColor: goalColor,
-        backgroundColor: goalColor,
-      }
-    );
+    datasets.push(getDataset(count, 'activity', locale), getDataset(activitiesGoal, 'goal', locale));
   }
 }
 
@@ -147,7 +154,7 @@ async function getSetsChart(
   setsGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
-  locale: string
+  locale: TLocale
 ) {
   const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
@@ -159,20 +166,7 @@ async function getSetsChart(
     datasets[0].data.push(count);
     datasets[1].data.push(setsGoal);
   } else {
-    datasets.push(
-      {
-        data: [count],
-        label: locale === 'ru' ? 'Подходы' : 'Sets',
-        borderColor: defaultColor,
-        backgroundColor: defaultColor,
-      },
-      {
-        data: [setsGoal],
-        label: locale === 'ru' ? 'Цель' : 'Goal',
-        borderColor: goalColor,
-        backgroundColor: goalColor,
-      }
-    );
+    datasets.push(getDataset(count, 'sets', locale), getDataset(setsGoal, 'goal', locale));
   }
 }
 
@@ -183,7 +177,7 @@ async function getRepeatsChart(
   repeatsGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
-  locale: string
+  locale: TLocale
 ) {
   const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
@@ -199,20 +193,7 @@ async function getRepeatsChart(
     datasets[0].data.push(count);
     datasets[1].data.push(repeatsGoal);
   } else {
-    datasets.push(
-      {
-        data: [count],
-        label: locale === 'ru' ? 'Повторы' : 'Repeats',
-        borderColor: defaultColor,
-        backgroundColor: defaultColor,
-      },
-      {
-        data: [repeatsGoal],
-        label: locale === 'ru' ? 'Цель' : 'Goal',
-        borderColor: goalColor,
-        backgroundColor: goalColor,
-      }
-    );
+    datasets.push(getDataset(count, 'repeats', locale), getDataset(repeatsGoal, 'goal', locale));
   }
 }
 
@@ -223,7 +204,7 @@ async function getDurationChart(
   durationGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
-  locale: string
+  locale: TLocale
 ) {
   const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean();
 
@@ -235,20 +216,7 @@ async function getDurationChart(
     datasets[0].data.push(count);
     datasets[1].data.push(durationGoal);
   } else {
-    datasets.push(
-      {
-        data: [count],
-        label: locale === 'ru' ? 'Длительность' : 'Duration',
-        borderColor: defaultColor,
-        backgroundColor: defaultColor,
-      },
-      {
-        data: [durationGoal],
-        label: locale === 'ru' ? 'Цель' : 'Goal',
-        borderColor: goalColor,
-        backgroundColor: goalColor,
-      }
-    );
+    datasets.push(getDataset(count, 'duration', locale), getDataset(durationGoal, 'goal', locale));
   }
 }
 
@@ -259,7 +227,7 @@ async function getMusclesChart(
   muscles: IMuscle[],
   isAverage: boolean,
   datasets: IActivityChartDataset[],
-  locale: string
+  locale: TLocale
 ) {
   const muscleData = muscles.map((muscle) => ({
     id: muscle._id?.toString(),
@@ -287,24 +255,28 @@ async function getMusclesChart(
     muscleData[index].count = count;
   }
 
+  const chartDatasets: IActivityChartDataset[] = [];
+
+  for (const muscle of muscleData) {
+    chartDatasets.push({
+      data: [muscle.count],
+      label: muscle.label,
+      borderColor: muscle.color,
+      backgroundColor: muscle.color,
+    });
+  }
+
   if (datasets.length) {
-    muscleData.forEach((muscle) => {
-      datasets.forEach((set) => {
-        if (set.label === muscle.label) {
-          set.data.push(muscle.count);
-          if (locale !== 'ru' && datasets[0].data.length === datasets.length + 1) set.label = muscle.label_en;
-        }
-      });
+    datasets.forEach((set, index) => {
+      if (index < chartDatasets.length) {
+        set.data.push(chartDatasets[index].data[0]);
+        if (locale === 'en' && datasets[0].data.length === datasets.length + 1) set.label = muscleData[index]?.label_en;
+      }
     });
   } else {
-    muscleData.forEach((muscle) => {
-      datasets.push({
-        data: [muscle.count],
-        label: muscle.label,
-        borderColor: muscle.color,
-        backgroundColor: muscle.color,
-      });
-    });
+    for (const dataset of chartDatasets) {
+      datasets.push(dataset);
+    }
   }
 }
 
@@ -421,7 +393,7 @@ export async function activitiesGetChartData(
   Entity: Model<IActivity>,
   weeks: IWeekDays[],
   type: TActivityChartType,
-  locale: string,
+  locale: TLocale,
   user: IUser | null,
   muscles: IMuscle[],
   isMonth: boolean,

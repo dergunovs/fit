@@ -5,6 +5,7 @@ import {
   IExerciseStatistics,
   IUser,
   IUserEquipment,
+  TLocale,
 } from 'fitness-tracker-contracts';
 import { localeField } from 'mhz-helpers';
 
@@ -90,7 +91,7 @@ export function getExercisePassingTitle(
   count: number,
   exercise: IExerciseDone,
   weightTitle: string,
-  locale: string
+  locale: TLocale
 ) {
   return `${index}${isCurrent ? ` - ${count}.` : `.`} ${exercise.exercise?.[localeField('title', locale)] || '-'}${exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`}`;
 }
