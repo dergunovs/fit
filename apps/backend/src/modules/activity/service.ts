@@ -138,7 +138,7 @@ export const activityService: IActivityService = {
 
     const newActivity = await activity.save();
 
-    return newActivity._id.toString();
+    return newActivity._id;
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {

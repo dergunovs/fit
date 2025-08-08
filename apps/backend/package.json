@@ -32,8 +32,8 @@
     "fastify": "5.4.0",
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
-    "mongoose": "8.17.0",
-    "mhz-helpers": "1.1.45",
+    "mongoose": "8.17.1",
+    "mhz-helpers": "1.1.46",
     "nodemailer": "7.0.5"
   },
   "devDependencies": {
@@ -46,9 +46,9 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import-x": "4.16.1",
-    "eslint-plugin-prettier": "5.5.3",
+    "eslint-plugin-prettier": "5.5.4",
     "globals": "16.3.0",
-    "fastify-linters-config": "0.1.4",
+    "fastify-linters-config": "0.1.5",
     "nodemon": "3.1.10",
     "prettier": "3.6.2",
     "typescript": "5.9.2",

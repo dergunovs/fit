@@ -13,7 +13,7 @@ export const authService: IAuthService = {
 
     const user = await User.findOne({ email: verifiedUser.email }).populate(USER_POPULATE).lean();
 
-    return { user: user ? filterUserData(user) : undefined, isUserNotFound: !user };
+    return user ? filterUserData(user) : undefined;
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
@@ -22,7 +22,7 @@ export const authService: IAuthService = {
     const user = await User.findOne({ email }).populate(USER_POPULATE);
 
     if (!user?.password) {
-      return { user: undefined, isUserNotFound: true, isWrongPassword: false, isEmailNotConfirmed: false };
+      return { user: undefined, isWrongPassword: false, isEmailNotConfirmed: false };
     }
 
     let isValid = false;
@@ -45,11 +45,11 @@ export const authService: IAuthService = {
     }
 
     if (!isValid) {
-      return { user: undefined, isUserNotFound: false, isWrongPassword: true, isEmailNotConfirmed: false };
+      return { user: undefined, isWrongPassword: true, isEmailNotConfirmed: false };
     }
 
     if (user.isEmailConfirmed === false && user.role !== 'admin') {
-      return { user: undefined, isUserNotFound: false, isWrongPassword: false, isEmailNotConfirmed: true };
+      return { user: undefined, isWrongPassword: false, isEmailNotConfirmed: true };
     }
 
     const token = sign(filterUserData(user, true), { expiresIn: '365d' });
@@ -58,31 +58,23 @@ export const authService: IAuthService = {
 
     await user.save();
 
-    return {
-      user: filterUserData(user),
-      token,
-      isUserNotFound: false,
-      isWrongPassword: false,
-      isEmailNotConfirmed: false,
-    };
+    return { user: filterUserData(user), token, isWrongPassword: false, isEmailNotConfirmed: false };
   },
 
   setup: async (adminToCreate: IAuthData) => {
     const usersCount = await User.countDocuments();
 
-    if (usersCount > 0) return true;
+    if (usersCount > 0) throw new Error('Users exists', { cause: { code: 500 } });
 
     const password = await bcrypt.hash(adminToCreate.password, 10);
 
     await User.create({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
-
-    return false;
   },
 
   register: async (userToCreate: IRegisterData, lang: string, sign: (payload: IUser, options: object) => string) => {
     const existingUser = await User.countDocuments({ email: userToCreate.email });
 
-    if (existingUser > 0) return true;
+    if (existingUser > 0) throw new Error('User exists', { cause: { code: 500 } });
 
     const password = await bcrypt.hash(userToCreate.password, 10);
     const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
@@ -101,27 +93,23 @@ export const authService: IAuthService = {
     const template = `${userToCreate.name}, ${text} ${process.env.APP_URL}?token=${confirmationToken}`;
 
     await sendMail(template, userToCreate.email);
-
-    return false;
   },
 
   confirm: async (token: string, decode?: TDecode) => {
     const decodedUser = decodeToken(decode, `Bearer ${token}`);
 
-    if (!decodedUser) return true;
+    if (!decodedUser) throw new Error('Email is not confirmed', { cause: { code: 500 } });
 
-    const result = await User.updateOne(
+    await User.updateOne(
       { email: decodedUser.email, isEmailConfirmed: false, confirmationToken: token },
       { $set: { isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() } }
     );
-
-    return result.modifiedCount === 0;
   },
 
   reset: async (email: string, lang: string) => {
     const user = await User.findOne({ email }).lean();
 
-    if (!user) return true;
+    if (!user) throw new Error('No such user', { cause: { code: 500 } });
 
     const newPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -139,7 +127,5 @@ export const authService: IAuthService = {
     const template = `${user.name}, ${text}: ${newPassword}`;
 
     await sendMail(template, email);
-
-    return false;
   },
 };

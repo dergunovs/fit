@@ -10,7 +10,6 @@ import type {
   TUpdateExerciseDTO,
   TUpdateExerciseDataDTO,
   TDeleteExerciseDTO,
-  IBaseReply,
   TGetExercisesAllDTO,
   TGetExercisesCustomDTO,
 } from 'fitness-tracker-contracts';
@@ -70,21 +69,13 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO; 500: IBaseReply } }>(
+  fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
     API_EXERCISE,
     { preValidation: [fastify.onlyUser], ...exercisePostSchema },
     async function (request, reply) {
-      const isAllowToCreateExercise = await exerciseService.create<IExercise>(
-        request.body,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      await exerciseService.create<IExercise>(request.body, fastify.jwt.decode, request.headers.authorization);
 
-      if (isAllowToCreateExercise) {
-        reply.code(201).send({ message: 'Exercise added' });
-      } else {
-        reply.code(500).send({ message: 'Custom exercises limit error' });
-      }
+      reply.code(201).send({ message: 'Exercise added' });
     }
   );
 

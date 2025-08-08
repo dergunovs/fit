@@ -39,12 +39,12 @@ export default async function (fastify: IFastifyInstance) {
     API_AUTH_GET,
     { ...authGetSchema },
     async function (request, reply) {
-      const { user, isUserNotFound } = await authService.check(request);
+      const user = await authService.check(request);
 
-      if (isUserNotFound) {
-        reply.code(404).send({ message: 'User not found' });
-      } else {
+      if (user) {
         reply.code(200).send(user);
+      } else {
+        reply.code(404).send({ message: 'User not found' });
       }
     }
   );
@@ -53,12 +53,12 @@ export default async function (fastify: IFastifyInstance) {
     API_AUTH_LOGIN,
     { ...authLoginSchema },
     async function (request, reply) {
-      const { user, token, isUserNotFound, isWrongPassword, isEmailNotConfirmed } = await authService.login(
+      const { user, token, isWrongPassword, isEmailNotConfirmed } = await authService.login(
         request.body,
         fastify.jwt.sign
       );
 
-      if (isUserNotFound) {
+      if (!user) {
         reply.code(404).send({ message: 'User not found' });
       } else if (isWrongPassword) {
         reply.code(401).send({ message: 'Wrong password' });
@@ -70,59 +70,43 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: TPostAuthSetupDataDTO; Reply: { 201: TPostAuthSetupDTO; '5xx': IBaseReply } }>(
+  fastify.post<{ Body: TPostAuthSetupDataDTO; Reply: { 201: TPostAuthSetupDTO } }>(
     API_AUTH_SETUP,
     { ...authSetupSchema },
     async function (request, reply) {
-      const isUsersExists = await authService.setup(request.body);
+      await authService.setup(request.body);
 
-      if (isUsersExists) {
-        reply.code(500).send({ message: 'User does not exist' });
-      } else {
-        reply.code(201).send({ message: 'User created' });
-      }
+      reply.code(201).send({ message: 'Administrator created' });
     }
   );
 
   fastify.post<{
     Body: TPostAuthRegisterDataDTO;
     Querystring: TPostAuthRegisterQueryDTO;
-    Reply: { 201: TPostAuthRegisterDTO; '5xx': IBaseReply };
+    Reply: { 201: TPostAuthRegisterDTO };
   }>(API_AUTH_REGISTER, { ...authRegisterSchema }, async function (request, reply) {
-    const isUserExists = await authService.register(request.body, request.query.lang, fastify.jwt.sign);
+    await authService.register(request.body, request.query.lang, fastify.jwt.sign);
 
-    if (isUserExists) {
-      reply.code(500).send({ message: 'User exists' });
-    } else {
-      reply.code(201).send({ message: 'User added' });
-    }
+    reply.code(201).send({ message: 'User created' });
   });
 
-  fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 200: TPostAuthConfirmTokenDTO; '5xx': IBaseReply } }>(
+  fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 200: TPostAuthConfirmTokenDTO } }>(
     API_AUTH_CONFIRM,
     { ...authConfirmSchema },
     async function (request, reply) {
-      const isEmailNotConfirmed = await authService.confirm(request.body.token, fastify.jwt.decode);
+      await authService.confirm(request.body.token, fastify.jwt.decode);
 
-      if (isEmailNotConfirmed) {
-        reply.code(500).send({ message: 'Email is not confirmed' });
-      } else {
-        reply.code(200).send({ message: 'Email confirmed' });
-      }
+      reply.code(200).send({ message: 'Email confirmed' });
     }
   );
 
   fastify.post<{
     Body: TPostAuthResetPasswordDataDTO;
     Querystring: TPostAuthResetPasswordQueryDTO;
-    Reply: { 200: TPostAuthResetPasswordDTO; '5xx': IBaseReply };
+    Reply: { 200: TPostAuthResetPasswordDTO };
   }>(API_AUTH_RESET, { ...authResetSchema }, async function (request, reply) {
-    const isUserNotExists = await authService.reset(request.body.email, request.query.lang);
+    await authService.reset(request.body.email, request.query.lang);
 
-    if (isUserNotExists) {
-      reply.code(500).send({ message: 'User does not exist' });
-    } else {
-      reply.code(200).send({ message: 'Check email' });
-    }
+    reply.code(200).send({ message: 'Password reseted' });
   });
 }

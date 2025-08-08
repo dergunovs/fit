@@ -41,19 +41,15 @@ export const exerciseService: IExerciseService = {
   create: async <T>(exerciseToCreate: T, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user?._id) return false;
+    if (!user?._id) throw new Error('Auth error', { cause: { code: 403 } });
 
     const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user._id });
 
     const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < 21;
 
-    if (isAllowToCreateExercise) {
-      await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
+    if (!isAllowToCreateExercise) throw new Error('Not allowed to add exercise', { cause: { code: 500 } });
 
-      return true;
-    } else {
-      return false;
-    }
+    await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
   },
 
   update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {

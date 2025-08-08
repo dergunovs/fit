@@ -51,17 +51,13 @@ export interface IBaseService {
     itemToUpdate: T,
     decode?: TDecode,
     token?: string,
-  ) => Promise<boolean | void>;
+  ) => Promise<void>;
 
   create: <T>(
     item: T,
     decode?: TDecode,
     token?: string,
-  ) => Promise<string | boolean | void>;
+  ) => Promise<string | void>;
 
-  delete: (
-    _id: string,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<boolean | void>;
+  delete: (_id: string, decode?: TDecode, token?: string) => Promise<void>;
 }
