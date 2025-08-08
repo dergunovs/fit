@@ -8,7 +8,6 @@ import {
   TPostUserFeedbackDTO,
   TUpdateUserDataDTO,
   TUpdateUserDTO,
-  TUpdateUserPasswordDataDTO,
   TUpdateUserPasswordDTO,
 } from 'fitness-tracker-contracts';
 
@@ -58,7 +57,7 @@ vi.spyOn(userService, 'update').mockImplementation((options: { onSuccess?: () =>
 vi.spyOn(userService, 'updatePassword').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) mockOnSuccess.updatePassword = options.onSuccess;
 
-  return mockMutationReply<TUpdateUserPasswordDTO, TUpdateUserPasswordDataDTO>(spyUpdateUserPassword);
+  return mockMutationReply<TUpdateUserPasswordDTO, { password: string; id: string }>(spyUpdateUserPassword);
 });
 
 vi.spyOn(userService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {

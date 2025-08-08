@@ -19,8 +19,8 @@ import {
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
 export const userService = {
-  getMany: (page: Ref<number>) => {
-    return useQuery({
+  getMany: (page: Ref<number>) =>
+    useQuery({
       queryKey: [API_USER, page],
       queryFn: async () => {
         const params: TGetUsersQueryDTO = { page: page.value };
@@ -29,25 +29,21 @@ export const userService = {
 
         return data;
       },
-    });
-  },
+    }),
 
-  getOne: (options: object, id?: ComputedRef<string | undefined> | Ref<string | undefined>) => {
-    return useQuery({
+  getOne: (options: object, id: ComputedRef<string>) =>
+    useQuery({
       queryKey: [API_USER, id],
       queryFn: async () => {
-        if (!id?.value) return null;
-
         const { data } = await api.get<TGetUserDTO>(`${API_USER}/${id.value}`);
 
         return data.data;
       },
       ...options,
-    });
-  },
+    }),
 
-  create: (options: object) => {
-    return useMutation({
+  create: (options: object) =>
+    useMutation({
       mutationKey: [API_USER],
       mutationFn: async (formData: TPostUserDataDTO) => {
         const { data } = await api.post<TPostUserDTO>(API_USER, formData);
@@ -55,11 +51,10 @@ export const userService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  feedback: (options: object) => {
-    return useMutation({
+  feedback: (options: object) =>
+    useMutation({
       mutationKey: [API_USER_FEEDBACK],
       mutationFn: async (formData: TPostUserFeedbackDataDTO) => {
         const { data } = await api.post<TPostUserFeedbackDTO>(API_USER_FEEDBACK, formData);
@@ -67,11 +62,10 @@ export const userService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  update: (options: object) => {
-    return useMutation({
+  update: (options: object) =>
+    useMutation({
       mutationKey: [API_USER],
       mutationFn: async (formData: TUpdateUserDataDTO) => {
         const { data } = await api.patch<TUpdateUserDTO>(`${API_USER}/${formData._id}`, formData);
@@ -79,25 +73,23 @@ export const userService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  updatePassword: (options: object, id?: string) => {
-    return useMutation({
-      mutationKey: [API_USER_PASSWORD, id],
-      mutationFn: async (password: TUpdateUserPasswordDataDTO) => {
-        if (!id) return null;
+  updatePassword: (options: object) =>
+    useMutation({
+      mutationKey: [API_USER_PASSWORD],
+      mutationFn: async (passwordData: { password: string; id: string }) => {
+        const password: TUpdateUserPasswordDataDTO = { password: passwordData.password };
 
-        const { data } = await api.patch<TUpdateUserPasswordDTO>(`${API_USER_PASSWORD}/${id}`, password);
+        const { data } = await api.patch<TUpdateUserPasswordDTO>(`${API_USER_PASSWORD}/${passwordData.id}`, password);
 
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  delete: (options: object) => {
-    return useMutation({
+  delete: (options: object) =>
+    useMutation({
       mutationKey: [API_USER],
       mutationFn: async (id: string) => {
         const { data } = await api.delete<TDeleteUserDTO>(`${API_USER}/${id}`);
@@ -105,6 +97,5 @@ export const userService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 };

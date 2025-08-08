@@ -159,11 +159,11 @@ export function getExercisesToChooseDefaultWeight(exercises: IExercise[], userEq
       ?.filter((eq) => equipmentsForWeight?.some((equipment) => equipment.equipment?._id === eq._id))
       .map((exToMap) => exToMap._id);
 
-    const availableEqupment = equipmentsForWeight?.filter((eq) =>
+    const availableEquipment = equipmentsForWeight?.filter((eq) =>
       exerciseEquipment?.some((equipmentId) => equipmentId === eq.equipment?._id)
     );
 
-    const options = getWeightsForUserEquipment(availableEqupment);
+    const options = getWeightsForUserEquipment(availableEquipment);
 
     return {
       _id: ex._id,

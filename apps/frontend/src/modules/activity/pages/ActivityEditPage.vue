@@ -58,7 +58,7 @@ const queryClient = useQueryClient();
 
 const { id } = useRouteId('activity');
 
-const { data: activity } = activityService.getOne({}, id);
+const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
 
 const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {

@@ -48,7 +48,7 @@ describe('ActivityEditPage', async () => {
     expect(spyUseRouteId).toBeCalledWith('activity');
 
     expect(spyGetActivity).toBeCalledTimes(1);
-    expect(spyGetActivity).toBeCalledWith({}, mockRouteId);
+    expect(spyGetActivity).toBeCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.id).toStrictEqual(ACTIVITY_FIXTURE._id);
 

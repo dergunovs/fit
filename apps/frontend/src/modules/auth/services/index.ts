@@ -22,8 +22,8 @@ import {
 import { useQuery, useMutation, api } from 'mhz-helpers';
 
 export const authService = {
-  check: (options: object) => {
-    return useQuery({
+  check: (options: object) =>
+    useQuery({
       queryKey: [API_AUTH_GET],
       queryFn: async () => {
         const { data } = await api.get<TGetAuthDTO>(API_AUTH_GET);
@@ -31,11 +31,10 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  login: (options: object) => {
-    return useMutation({
+  login: (options: object) =>
+    useMutation({
       mutationKey: [API_AUTH_LOGIN],
       mutationFn: async (formData: TPostAuthLoginDataDTO) => {
         const { data } = await api.post<TPostAuthLoginDTO>(API_AUTH_LOGIN, formData);
@@ -43,11 +42,10 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  setup: (options: object) => {
-    return useMutation({
+  setup: (options: object) =>
+    useMutation({
       mutationKey: [API_AUTH_SETUP],
       mutationFn: async (formData: TPostAuthSetupDataDTO) => {
         const { data } = await api.post<TPostAuthSetupDTO>(API_AUTH_SETUP, formData);
@@ -55,11 +53,10 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  register: (lang: string, options: object) => {
-    return useMutation({
+  register: (lang: string, options: object) =>
+    useMutation({
       mutationKey: [API_AUTH_REGISTER],
       mutationFn: async (formData: TPostAuthRegisterDataDTO) => {
         const params: TPostAuthRegisterQueryDTO = { lang };
@@ -69,11 +66,10 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  confirmToken: (options: object) => {
-    return useMutation({
+  confirmToken: (options: object) =>
+    useMutation({
       mutationKey: [API_AUTH_CONFIRM],
       mutationFn: async (token: TPostAuthConfirmTokenDataDTO) => {
         const { data } = await api.post<TPostAuthConfirmTokenDTO>(API_AUTH_CONFIRM, token);
@@ -81,11 +77,10 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  resetPassword: (lang: string, options: object) => {
-    return useMutation({
+  resetPassword: (lang: string, options: object) =>
+    useMutation({
       mutationKey: [API_AUTH_RESET],
       mutationFn: async (email: TPostAuthResetPasswordDataDTO) => {
         const params: TPostAuthResetPasswordQueryDTO = { lang };
@@ -95,6 +90,5 @@ export const authService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 };

@@ -26,8 +26,8 @@ import {
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
 export const activityService = {
-  getMany: (page: Ref<number>) => {
-    return useQuery({
+  getMany: (page: Ref<number>) =>
+    useQuery({
       queryKey: [API_ACTIVITY, page],
       queryFn: async () => {
         const params: TGetActivitiesQueryDTO = { page: page.value };
@@ -36,11 +36,10 @@ export const activityService = {
 
         return data;
       },
-    });
-  },
+    }),
 
-  getStatistics: (gap: number) => {
-    return useQuery({
+  getStatistics: (gap: number) =>
+    useQuery({
       queryKey: [API_ACTIVITY_STATISTICS],
       queryFn: async () => {
         const params: TGetActivitiesStatisticsQueryDTO = { gap };
@@ -49,11 +48,10 @@ export const activityService = {
 
         return data;
       },
-    });
-  },
+    }),
 
-  getCalendar: (options: object, dateFrom: Ref<string>, dateTo: Ref<string>) => {
-    return useQuery({
+  getCalendar: (options: object, dateFrom: Ref<string>, dateTo: Ref<string>) =>
+    useQuery({
       queryKey: [API_ACTIVITY_CALENDAR, dateFrom, dateTo],
       queryFn: async () => {
         const params: TGetActivitiesCalendarQueryDTO = { dateFrom: dateFrom.value, dateTo: dateTo.value };
@@ -63,11 +61,10 @@ export const activityService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, isAverage: Ref<boolean>, locale: Ref<TLocale>) => {
-    return useQuery({
+  getChart: (type: Ref<TActivityChartType>, isMonth: Ref<boolean>, isAverage: Ref<boolean>, locale: Ref<TLocale>) =>
+    useQuery({
       queryKey: [API_ACTIVITY_CHART, type, isMonth, isAverage, locale],
       queryFn: async () => {
         const params: TGetActivitiesChartQueryDTO = {
@@ -81,36 +78,31 @@ export const activityService = {
 
         return data;
       },
-    });
-  },
+    }),
 
-  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
-    return useQuery({
+  getOne: (options: object, id: ComputedRef<string>) =>
+    useQuery({
       queryKey: [API_ACTIVITY, id],
       queryFn: async () => {
-        if (!id?.value) return null;
-
         const { data } = await api.get<TGetActivityDTO>(`${API_ACTIVITY}/${id.value}`);
 
         return data.data;
       },
       ...options,
-    });
-  },
+    }),
 
-  getLast: () => {
-    return useQuery({
+  getLast: () =>
+    useQuery({
       queryKey: [API_ACTIVITY_LAST],
       queryFn: async () => {
         const { data } = await api.get<TGetActivityLastDTO>(API_ACTIVITY_LAST);
 
         return data.data;
       },
-    });
-  },
+    }),
 
-  create: (options: object) => {
-    return useMutation({
+  create: (options: object) =>
+    useMutation({
       mutationKey: [API_ACTIVITY],
       mutationFn: async (formData: TPostActivityDataDTO) => {
         const { data } = await api.post<TPostActivityDTO>(API_ACTIVITY, formData);
@@ -118,11 +110,10 @@ export const activityService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  update: (options: object) => {
-    return useMutation({
+  update: (options: object) =>
+    useMutation({
       mutationKey: [API_ACTIVITY],
       mutationFn: async (formData: TUpdateActivityDataDTO) => {
         const { data } = await api.patch<TUpdateActivityDTO>(`${API_ACTIVITY}/${formData._id}`, formData);
@@ -130,11 +121,10 @@ export const activityService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  delete: (options: object) => {
-    return useMutation({
+  delete: (options: object) =>
+    useMutation({
       mutationKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR],
       mutationFn: async (id: string) => {
         const { data } = await api.delete<TDeleteActivityDTO>(`${API_ACTIVITY}/${id}`);
@@ -142,6 +132,5 @@ export const activityService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 };

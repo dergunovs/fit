@@ -13,5 +13,5 @@ import { equipmentService } from '@/equipment/services';
 
 const { id } = useRouteId('equipment');
 
-const { data: equipment } = equipmentService.getOne({}, id);
+const { data: equipment } = equipmentService.getOne({ enabled: !!id.value }, id);
 </script>

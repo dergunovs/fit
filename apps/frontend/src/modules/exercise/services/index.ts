@@ -16,8 +16,8 @@ import {
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
 export const exerciseService = {
-  getMany: (page: Ref<number>) => {
-    return useQuery({
+  getMany: (page: Ref<number>) =>
+    useQuery({
       queryKey: [API_EXERCISE, page],
       queryFn: async () => {
         const params: TGetExercisesQueryDTO = { page: page.value };
@@ -26,47 +26,41 @@ export const exerciseService = {
 
         return data;
       },
-    });
-  },
+    }),
 
-  getAll: () => {
-    return useQuery({
+  getAll: () =>
+    useQuery({
       queryKey: [API_EXERCISE, API_EXERCISE_ALL],
       queryFn: async () => {
         const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE_ALL);
 
         return data.data;
       },
-    });
-  },
+    }),
 
-  getCustom: () => {
-    return useQuery({
+  getCustom: () =>
+    useQuery({
       queryKey: [API_EXERCISE, API_EXERCISE_CUSTOM],
       queryFn: async () => {
         const { data } = await api.get<TGetExercisesCustomDTO>(API_EXERCISE_CUSTOM);
 
         return data.data;
       },
-    });
-  },
+    }),
 
-  getOne: (options: object, id?: ComputedRef<string | undefined>) => {
-    return useQuery({
+  getOne: (options: object, id: ComputedRef<string>) =>
+    useQuery({
       queryKey: [API_EXERCISE, id],
       queryFn: async () => {
-        if (!id?.value) return null;
-
         const { data } = await api.get<TGetExerciseDTO>(`${API_EXERCISE}/${id.value}`);
 
         return data.data;
       },
       ...options,
-    });
-  },
+    }),
 
-  create: (options: object) => {
-    return useMutation({
+  create: (options: object) =>
+    useMutation({
       mutationKey: [API_EXERCISE],
       mutationFn: async (formData: TPostExerciseDataDTO) => {
         const { data } = await api.post<TPostExerciseDTO>(API_EXERCISE, formData);
@@ -74,11 +68,10 @@ export const exerciseService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  update: (options: object) => {
-    return useMutation({
+  update: (options: object) =>
+    useMutation({
       mutationKey: [API_EXERCISE],
       mutationFn: async (formData: TUpdateExerciseDataDTO) => {
         const { data } = await api.patch<TUpdateExerciseDTO>(`${API_EXERCISE}/${formData._id}`, formData);
@@ -86,11 +79,10 @@ export const exerciseService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 
-  delete: (options: object) => {
-    return useMutation({
+  delete: (options: object) =>
+    useMutation({
       mutationKey: [API_EXERCISE],
       mutationFn: async (id: string) => {
         const { data } = await api.delete<TDeleteExerciseDTO>(`${API_EXERCISE}/${id}`);
@@ -98,6 +90,5 @@ export const exerciseService = {
         return data;
       },
       ...options,
-    });
-  },
+    }),
 };

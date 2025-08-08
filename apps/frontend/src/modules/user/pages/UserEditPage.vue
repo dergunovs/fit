@@ -13,5 +13,5 @@ import { userService } from '@/user/services';
 
 const { id } = useRouteId('user');
 
-const { data: user } = userService.getOne({}, id);
+const { data: user } = userService.getOne({ enabled: !!id.value }, id);
 </script>

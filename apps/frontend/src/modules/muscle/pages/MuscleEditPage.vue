@@ -13,5 +13,5 @@ import { muscleService } from '@/muscle/services';
 
 const { id } = useRouteId('muscle');
 
-const { data: muscle } = muscleService.getOne({}, id);
+const { data: muscle } = muscleService.getOne({ enabled: !!id.value }, id);
 </script>

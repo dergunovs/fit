@@ -191,7 +191,7 @@ describe('UserForm', async () => {
     await wrapperWithUser.find(formSetNewPassword).trigger('click');
 
     expect(spyUpdateUserPassword).toBeCalledTimes(1);
-    expect(spyUpdateUserPassword).toBeCalledWith({ password: NEW_PASSWORD });
+    expect(spyUpdateUserPassword).toBeCalledWith({ password: NEW_PASSWORD, id: USER_FIXTURE._id });
 
     await mockOnSuccess.updatePassword?.();
 

@@ -35,7 +35,7 @@ const queryClient = useQueryClient();
 
 usePageLock();
 
-const { data: activity } = activityService.getOne({}, id);
+const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
 
 const formData = ref<IActivity>({
   exercises: [],

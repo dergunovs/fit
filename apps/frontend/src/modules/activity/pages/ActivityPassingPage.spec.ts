@@ -50,7 +50,7 @@ describe('ActivityPassingPage', async () => {
     expect(spyUseRouteId).toBeCalledWith('activity');
 
     expect(spyGetActivity).toBeCalledTimes(1);
-    expect(spyGetActivity).toBeCalledWith({}, mockRouteId);
+    expect(spyGetActivity).toBeCalledWith({ enabled: true }, mockRouteId);
   });
 
   it('updates activity create date', async () => {

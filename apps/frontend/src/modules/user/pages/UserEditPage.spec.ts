@@ -34,7 +34,7 @@ describe('UserEditPage', async () => {
     expect(spyUseRouteId).toBeCalledWith('user');
 
     expect(spyGetUser).toBeCalledTimes(1);
-    expect(spyGetUser).toBeCalledWith({}, mockRouteId);
+    expect(spyGetUser).toBeCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof UserForm>(userForm).vm.$props.user).toStrictEqual(USER_FIXTURE);
   });

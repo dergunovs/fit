@@ -67,7 +67,7 @@
           <UiButton
             :isDisabled="newPassword.length < 6"
             isNarrow
-            @click="mutateUpdatePassword({ password: newPassword })"
+            @click="mutateUpdatePassword({ password: newPassword, id: props.user._id })"
             data-test="user-form-set-new-password"
           >
             {{ t('update') }}
@@ -162,17 +162,14 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update(
   },
 });
 
-const { mutate: mutateUpdatePassword } = userService.updatePassword(
-  {
-    onSuccess: async () => {
-      toast.success(t('passwordUpdated'));
-      newPassword.value = '';
-      isShowUpdatePassword.value = false;
-      isPasswordUpdated.value = true;
-    },
+const { mutate: mutateUpdatePassword } = userService.updatePassword({
+  onSuccess: async () => {
+    toast.success(t('passwordUpdated'));
+    newPassword.value = '';
+    isShowUpdatePassword.value = false;
+    isPasswordUpdated.value = true;
   },
-  props.user?._id
-);
+});
 
 const { mutate: mutateDelete } = userService.delete({
   onSuccess: async () => {
