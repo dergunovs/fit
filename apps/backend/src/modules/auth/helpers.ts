@@ -32,3 +32,9 @@ export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, t
     throw new Error('Auth error', { cause: { code: 403 } });
   }
 }
+
+export function adminOrUserFilter(decode?: TDecode, token?: string) {
+  const decodedUser = decodeToken(decode, token);
+
+  return decodedUser ? { email: decodedUser.email } : { role: 'admin' };
+}

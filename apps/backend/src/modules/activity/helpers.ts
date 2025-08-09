@@ -8,15 +8,14 @@ import {
   IMuscle,
   IUser,
   GOALS,
-  TDecode,
   TLocale,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
 import { defaultColor, goalColor, getGoals } from '../common/helpers.js';
 import { IChartFilter } from '../common/types.js';
-import { decodeToken } from '../auth/helpers.js';
-import { ACTIVITY_POPULATE } from './constants.js';
+import { isUserEquipmentMatches } from '../user/helpers.js';
+import { ACTIVITY_POPULATE, CHART_LABELS } from './constants.js';
 
 function activitiesGetCount(activities: IActivity[]) {
   const activitiesCount = activities.length;
@@ -55,77 +54,16 @@ function activitiesGetAverageRest(activities: IActivity[], duration: number) {
   return Math.max(0, Math.floor(100 - (exercisesDurationSum / duration) * 100));
 }
 
-function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
-  const isExerciseHasEquipment = !!exercise.equipment;
-  const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
-  const isWeightsRequired = !!exercise.isWeightsRequired;
-
-  if (!user?.equipments?.length) {
-    return {
-      isExerciseHasEquipment,
-      isExerciseHasEquipmentForWeight,
-      isWeightsRequired,
-      isUserHasEquipment: false,
-      isUserHasEquipmentForWeight: false,
-    };
-  }
-
-  const isUserHasEquipment = user.equipments.some(
-    (equipment) => equipment.equipment?._id?.toString() === exercise.equipment?._id?.toString()
-  );
-
-  const isUserHasEquipmentForWeight = user.equipments.some((equipment) =>
-    exercise.equipmentForWeight?.some(
-      (equipmentForWeight) => equipmentForWeight._id?.toString() === equipment.equipment?._id?.toString()
-    )
-  );
-
-  return {
-    isExerciseHasEquipment,
-    isExerciseHasEquipmentForWeight,
-    isWeightsRequired,
-    isUserHasEquipment,
-    isUserHasEquipmentForWeight,
-  };
-}
-
-function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
-  const {
-    isExerciseHasEquipment,
-    isExerciseHasEquipmentForWeight,
-    isWeightsRequired,
-    isUserHasEquipment,
-    isUserHasEquipmentForWeight,
-  } = getUserEquipmentParams(exercise, user);
-
-  if (!isExerciseHasEquipment && !isExerciseHasEquipmentForWeight) return true;
-  if (isUserHasEquipment && !isWeightsRequired) return true;
-  if (!isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipmentForWeight) return true;
-  if (!isExerciseHasEquipment && !isWeightsRequired) return true;
-  if (isExerciseHasEquipment && isExerciseHasEquipmentForWeight && isUserHasEquipment && isUserHasEquipmentForWeight)
-    return true;
-
-  return false;
-}
-
 function getAverage(count: number, activitiesCount: number) {
   return activitiesCount > 0 ? Math.floor(count / activitiesCount) : 0;
 }
-
-const LABELS = {
-  goal: { ru: 'Цель', en: 'Goal' },
-  activity: { ru: 'Занятия', en: 'Activities' },
-  sets: { ru: 'Подходы', en: 'Sets' },
-  repeats: { ru: 'Повторы', en: 'Repeats' },
-  duration: { ru: 'Длительность', en: 'Duration' },
-};
 
 function getDataset(count: number, type: 'goal' | 'activity' | 'sets' | 'repeats' | 'duration', locale: TLocale) {
   const isGoal = type === 'goal';
 
   return {
     data: [count],
-    label: LABELS[type][locale],
+    label: CHART_LABELS[type][locale],
     borderColor: isGoal ? goalColor : defaultColor,
     backgroundColor: isGoal ? goalColor : defaultColor,
   };
@@ -278,12 +216,6 @@ async function getMusclesChart(
       datasets.push(dataset);
     }
   }
-}
-
-export function adminOrUserFilter(decode?: TDecode, token?: string) {
-  const decodedUser = decodeToken(decode, token);
-
-  return decodedUser ? { email: decodedUser.email } : { role: 'admin' };
 }
 
 export function activitiesGetStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {

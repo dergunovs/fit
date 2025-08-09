@@ -1,7 +1,7 @@
 import type { IActivity, TActivityChartType, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
-import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
+import { adminOrUserFilter, allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { paginate, checkInvalidId } from '../common/helpers.js';
 import { USER_POPULATE } from '../user/constants.js';
@@ -9,12 +9,7 @@ import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
 import { ACTIVITY_POPULATE } from './constants.js';
-import {
-  activitiesGetStatistics,
-  exerciseGetStatistics,
-  activitiesGetChartData,
-  adminOrUserFilter,
-} from './helpers.js';
+import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
 
 export const activityService = {
   getMany: async (page?: number) => {
