@@ -48,7 +48,7 @@ export type TGetExercisesAllDTO = { data: IExercise[] };
 
 export type TGetExercisesCustomDTO = { data: IExercise[] };
 
-export type TGetExerciseDTO = { data: IExercise | null };
+export type TGetExerciseDTO = { data: IExercise };
 
 export type TPostExerciseDTO = IBaseReply;
 export type TPostExerciseDataDTO = IExercise;

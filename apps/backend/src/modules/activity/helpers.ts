@@ -267,7 +267,7 @@ export function exerciseGetStatistics(
   activities: IActivity[],
   activitiesPrev: IActivity[],
   exercises: IExercise[],
-  user: IUser | null
+  user: IUser
 ) {
   const exerciseStatistics: IExerciseStatistics[] = [];
 
@@ -282,7 +282,7 @@ export function exerciseGetStatistics(
       isUserEquipmentMatches: false,
     };
 
-    const isEquipmentMatches = !user || isUserEquipmentMatches(exercise, user);
+    const isEquipmentMatches = isUserEquipmentMatches(exercise, user);
 
     if (isEquipmentMatches) exerciseStats.isUserEquipmentMatches = true;
 
@@ -326,7 +326,7 @@ export async function activitiesGetChartData(
   weeks: IWeekDays[],
   type: TActivityChartType,
   locale: TLocale,
-  user: IUser | null,
+  user: IUser,
   muscles: IMuscle[],
   isMonth: boolean,
   isAverage: boolean
@@ -337,7 +337,7 @@ export async function activitiesGetChartData(
   const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getGoals(isMonth, isAverage, GOALS);
 
   for (const week of weeks) {
-    const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user?._id };
+    const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user._id };
     const count = await Entity.countDocuments(filter);
 
     labels.push(week.label);

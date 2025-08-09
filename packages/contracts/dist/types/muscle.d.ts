@@ -16,7 +16,7 @@ export interface IMuscleStatistics {
 }
 
 export type TGetMusclesDTO = { data: IMuscle[] };
-export type TGetMuscleDTO = { data: IMuscle | null };
+export type TGetMuscleDTO = { data: IMuscle };
 
 export type TPostMuscleDTO = IBaseReply;
 export type TPostMuscleDataDTO = IMuscle;

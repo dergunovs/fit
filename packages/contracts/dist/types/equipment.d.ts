@@ -9,7 +9,7 @@ export interface IEquipment extends IEntity {
 }
 
 export type TGetEquipmentsDTO = { data: IEquipment[] };
-export type TGetEquipmentDTO = { data: IEquipment | null };
+export type TGetEquipmentDTO = { data: IEquipment };
 
 export type TPostEquipmentDTO = IBaseReply;
 export type TPostEquipmentDataDTO = IEquipment;

@@ -109,6 +109,6 @@ describe('exercise helpers', () => {
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(true);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(true);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual(true);
-    expect(isUserEquipmentMatches(EXERCISE_FIXTURE, null)).toStrictEqual(false);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE)).toStrictEqual(false);
   });
 });

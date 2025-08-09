@@ -28,9 +28,9 @@ export function filterUserData(user: IUser, isToken?: boolean) {
 export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, token?: string) {
   const user = decodeToken(decode, token);
 
-  if (user?.role !== 'admin' && id.toString() !== user?._id) {
-    throw new Error('Auth error', { cause: { code: 403 } });
-  }
+  const isRestrictAccess = user?.role !== 'admin' && id.toString() !== user?._id;
+
+  if (isRestrictAccess) throw new Error('Auth error', { cause: { code: 403 } });
 }
 
 export function adminOrUserFilter(decode?: TDecode, token?: string) {

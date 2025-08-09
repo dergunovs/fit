@@ -45,7 +45,7 @@ import { URL_MUSCLE } from '@/muscle/constants';
 import { muscleService } from '@/muscle/services';
 
 interface IProps {
-  muscle?: IMuscle | null;
+  muscle?: IMuscle;
   isEdit?: boolean;
 }
 

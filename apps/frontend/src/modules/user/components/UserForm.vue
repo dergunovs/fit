@@ -117,7 +117,7 @@ import { TOKEN_NAME } from '@/auth/constants';
 import { isAdmin } from '@/auth/composables';
 
 interface IProps {
-  user?: IUser | null;
+  user?: IUser;
   isEdit?: boolean;
 }
 

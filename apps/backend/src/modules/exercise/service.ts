@@ -23,7 +23,7 @@ export const exerciseService = {
   getCustom: async (decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user?._id) return { data: [] };
+    if (!user?._id) throw new Error('User not found', { cause: { code: 404 } });
 
     const exercises = await getExercisesByUserId(user._id);
 
@@ -35,13 +35,15 @@ export const exerciseService = {
 
     const exercise = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
 
+    if (!exercise) throw new Error('Exercise not found', { cause: { code: 404 } });
+
     return { data: exercise };
   },
 
   create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user?._id) throw new Error('Auth error', { cause: { code: 403 } });
+    if (!user) throw new Error('User not found', { cause: { code: 404 } });
 
     const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user._id });
 
@@ -57,7 +59,7 @@ export const exerciseService = {
 
     const exercise = await Exercise.findOne({ _id });
 
-    if (!exercise?.createdBy?._id) return;
+    if (!exercise?.createdBy?._id) throw new Error('Exercise not found', { cause: { code: 404 } });
 
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 
@@ -71,7 +73,7 @@ export const exerciseService = {
 
     const exercise = await Exercise.findOne({ _id });
 
-    if (!exercise?.createdBy?._id) return;
+    if (!exercise?.createdBy?._id) throw new Error('Exercise not found', { cause: { code: 404 } });
 
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 

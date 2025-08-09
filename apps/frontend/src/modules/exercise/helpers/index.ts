@@ -12,7 +12,7 @@ import { localeField } from 'mhz-helpers';
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
 
-export function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
+export function getUserEquipmentParams(exercise: IExercise, user?: IUser) {
   const isExerciseHasEquipment = !!exercise.equipment;
   const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
   const isWeightsRequired = !!exercise.isWeightsRequired;
@@ -36,7 +36,7 @@ export function getUserEquipmentParams(exercise: IExercise, user?: IUser | null)
   };
 }
 
-export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+export function isUserEquipmentMatches(exercise: IExercise, user?: IUser) {
   let result = false;
 
   const {

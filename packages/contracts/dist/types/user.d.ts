@@ -36,7 +36,7 @@ export interface IUserFeedback {
 
 export type TGetUsersDTO = IPaginatedReply<IUser>;
 export type TGetUsersQueryDTO = IPaginatedQuery;
-export type TGetUserDTO = { data: IUser | null };
+export type TGetUserDTO = { data: IUser };
 
 export type TPostUserDTO = IBaseReply;
 export type TPostUserDataDTO = IUser;

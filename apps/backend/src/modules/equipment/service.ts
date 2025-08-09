@@ -16,13 +16,17 @@ export const equipmentService = {
 
     const equipment = await Equipment.findOne({ _id }).lean();
 
+    if (!equipment) throw new Error('Equipment not found', { cause: { code: 404 } });
+
     return { data: equipment };
   },
 
   create: async (equipmentToCreate: IEquipment, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    await Equipment.create({ ...equipmentToCreate, createdBy: user?._id });
+    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+
+    await Equipment.create({ ...equipmentToCreate, createdBy: user._id });
   },
 
   update: async (_id: string, itemToUpdate: IEquipment) => {

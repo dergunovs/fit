@@ -40,7 +40,7 @@ import { URL_EQUIPMENT } from '@/equipment/constants';
 import { equipmentService } from '@/equipment/services';
 
 interface IProps {
-  equipment?: IEquipment | null;
+  equipment?: IEquipment;
   isEdit?: boolean;
 }
 

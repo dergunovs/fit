@@ -1,11 +1,11 @@
 import { IExercise, IUser } from 'fitness-tracker-contracts';
 
-function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
+function getUserEquipmentParams(exercise: IExercise, user: IUser) {
   const isExerciseHasEquipment = !!exercise.equipment;
   const isExerciseHasEquipmentForWeight = !!exercise.equipmentForWeight?.length;
   const isWeightsRequired = !!exercise.isWeightsRequired;
 
-  if (!user?.equipments?.length) {
+  if (!user.equipments?.length) {
     return {
       isExerciseHasEquipment,
       isExerciseHasEquipmentForWeight,
@@ -34,7 +34,7 @@ function getUserEquipmentParams(exercise: IExercise, user?: IUser | null) {
   };
 }
 
-export function isUserEquipmentMatches(exercise: IExercise, user?: IUser | null) {
+export function isUserEquipmentMatches(exercise: IExercise, user: IUser) {
   const {
     isExerciseHasEquipment,
     isExerciseHasEquipmentForWeight,

@@ -92,7 +92,7 @@ import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
 
 interface IProps {
-  exercise?: IExercise | null;
+  exercise?: IExercise;
   isEdit?: boolean;
   isDisableRedirect?: boolean;
 }

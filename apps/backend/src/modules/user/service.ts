@@ -21,13 +21,15 @@ export const userService = {
       .populate(USER_POPULATE)
       .lean();
 
+    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+
     return { data: user };
   },
 
   create: async (userToCreate: IUser) => {
     const user = new User(userToCreate);
 
-    if (!user.password) return;
+    if (!user.password) throw new Error('User create error', { cause: { code: 500 } });
 
     user.password = await bcrypt.hash(user.password, 10);
 

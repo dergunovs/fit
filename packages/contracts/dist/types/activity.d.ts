@@ -77,8 +77,8 @@ export type TGetActivitiesChartQueryDTO = {
   average: string;
   locale: TLocale;
 };
-export type TGetActivityDTO = { data: IActivity | null };
-export type TGetActivityLastDTO = { data: IActivity | null };
+export type TGetActivityDTO = { data: IActivity };
+export type TGetActivityLastDTO = { data: IActivity };
 
 export type TPostActivityDTO = string;
 export type TPostActivityDataDTO = IActivity;

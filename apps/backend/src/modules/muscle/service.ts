@@ -15,6 +15,8 @@ export const muscleService = {
 
     const muscle = await Muscle.findOne({ _id }).lean();
 
+    if (!muscle) throw new Error('Muscle not found', { cause: { code: 404 } });
+
     return { data: muscle };
   },
 
