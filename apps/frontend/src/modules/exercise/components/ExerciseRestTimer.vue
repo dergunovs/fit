@@ -24,8 +24,9 @@ onBeforeUnmount(() => {
 
 <style module lang="scss">
 .timer {
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   font-size: 2rem;
+  color: var(--color-gray-dark-extra);
   text-align: center;
 }
 </style>
