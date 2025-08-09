@@ -1,4 +1,4 @@
-import type { TActivityChartType, IActivityService, TDecode, TLocale } from 'fitness-tracker-contracts';
+import type { IActivity, TActivityChartType, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
@@ -16,11 +16,11 @@ import {
   adminOrUserFilter,
 } from './helpers.js';
 
-export const activityService: IActivityService = {
-  getMany: async <T>(page?: number) => {
+export const activityService = {
+  getMany: async (page?: number) => {
     const { data, total } = await paginate(Activity, page, '-dateCreated', ACTIVITY_POPULATE);
 
-    return { data: data as T[], total };
+    return { data, total };
   },
 
   getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
@@ -60,7 +60,7 @@ export const activityService: IActivityService = {
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
 
-  getCalendar: async <T>(dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
+  getCalendar: async (dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
     const filter = adminOrUserFilter(decode, token);
 
     const user = await User.findOne(filter).select('_id').lean();
@@ -72,7 +72,7 @@ export const activityService: IActivityService = {
       .populate(ACTIVITY_POPULATE)
       .lean();
 
-    return calendarData as T[];
+    return calendarData;
   },
 
   getChart: async (
@@ -108,7 +108,7 @@ export const activityService: IActivityService = {
     return { labels, datasets };
   },
 
-  getOne: async <T>(_id: string, decode?: TDecode, token?: string) => {
+  getOne: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
     const activity = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
@@ -117,10 +117,10 @@ export const activityService: IActivityService = {
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    return { data: activity as T };
+    return { data: activity };
   },
 
-  getLast: async <T>(decode?: TDecode, token?: string) => {
+  getLast: async (decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
     const activity = await Activity.findOne({ createdBy: user?._id })
@@ -128,10 +128,10 @@ export const activityService: IActivityService = {
       .populate(ACTIVITY_POPULATE)
       .lean();
 
-    return { data: activity as T };
+    return { data: activity };
   },
 
-  create: async <T>(activityToCreate: T, decode?: TDecode, token?: string) => {
+  create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
     const activity = new Activity({ ...activityToCreate, createdBy: user?._id });
@@ -141,7 +141,7 @@ export const activityService: IActivityService = {
     return newActivity._id;
   },
 
-  update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IActivity, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
     const activity = await Activity.findOne({ _id });

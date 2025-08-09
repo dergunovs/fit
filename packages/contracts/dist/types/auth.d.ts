@@ -21,34 +21,6 @@ export interface IRegisterData extends IAuthData {
 
 export type TDecode = (token: string) => IUser | null;
 
-export interface IAuthService {
-  check: (request: {
-    jwtVerify: () => Promise<IUser>;
-  }) => Promise<IUser | undefined>;
-
-  login: (
-    loginData: IAuthData,
-    sign: (payload: IUser, options: object) => string,
-  ) => Promise<{
-    user?: IUser;
-    token?: string;
-    isWrongPassword: boolean;
-    isEmailNotConfirmed: boolean;
-  }>;
-
-  setup: (admin: IAuthData) => Promise<void>;
-
-  register: (
-    user: IRegisterData,
-    lang: string,
-    sign: (payload: IUser, options: object) => string,
-  ) => Promise<void>;
-
-  confirm: (token: string, decode?: TDecode) => Promise<void>;
-
-  reset: (email: string, lang: string) => Promise<void>;
-}
-
 export type TGetAuthDTO = IUser;
 
 export type TPostAuthLoginDTO = { user?: IUser; token?: string };

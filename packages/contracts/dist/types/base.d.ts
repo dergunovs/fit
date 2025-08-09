@@ -1,4 +1,3 @@
-import { TDecode } from "./auth";
 export { GOALS } from "../index";
 
 export interface IGoals {
@@ -31,33 +30,4 @@ export interface IPaginatedQuery {
 export interface IPaginatedReply<T> {
   data: T[];
   total: number;
-}
-
-export interface IBaseService {
-  getMany: <T>(
-    page: number,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<IPaginatedReply<T>>;
-
-  getOne: <T>(
-    id: string,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<{ data: T | null }>;
-
-  update: <T>(
-    _id: string,
-    itemToUpdate: T,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<void>;
-
-  create: <T>(
-    item: T,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<string | void>;
-
-  delete: (_id: string, decode?: TDecode, token?: string) => Promise<void>;
 }

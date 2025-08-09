@@ -1,6 +1,5 @@
 import { API_EQUIPMENT } from 'fitness-tracker-contracts';
 import type {
-  IEquipment,
   IBaseParams,
   TGetEquipmentsDTO,
   TGetEquipmentDTO,
@@ -28,9 +27,9 @@ export default async function (fastify: IFastifyInstance) {
     API_EQUIPMENT,
     { ...equipmentGetAllSchema },
     async function (_request, reply) {
-      const { data } = await equipmentService.getAll();
+      const data = await equipmentService.getAll();
 
-      reply.code(200).send({ data });
+      reply.code(200).send(data);
     }
   );
 
@@ -38,7 +37,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_EQUIPMENT}/:id`,
     { ...equipmentGetOneSchema },
     async function (request, reply) {
-      const data = await equipmentService.getOne<IEquipment>(request.params.id);
+      const data = await equipmentService.getOne(request.params.id);
 
       reply.code(200).send(data);
     }
@@ -48,7 +47,7 @@ export default async function (fastify: IFastifyInstance) {
     API_EQUIPMENT,
     { preValidation: [fastify.onlyAdmin], ...equipmentPostSchema },
     async function (request, reply) {
-      await equipmentService.create<IEquipment>(request.body, fastify.jwt.decode, request.headers.authorization);
+      await equipmentService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(201).send({ message: 'Equipment added' });
     }
@@ -58,7 +57,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_EQUIPMENT}/:id`,
     { preValidation: [fastify.onlyAdmin], ...equipmentUpdateSchema },
     async function (request, reply) {
-      await equipmentService.update<IEquipment>(request.params.id, request.body);
+      await equipmentService.update(request.params.id, request.body);
 
       reply.code(200).send({ message: 'Equipment updated' });
     }

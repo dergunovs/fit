@@ -1,13 +1,6 @@
-import {
-  IBaseReply,
-  IBaseService,
-  IEntity,
-  IPaginatedReply,
-  IPaginatedQuery,
-} from "./base";
+import { IBaseReply, IEntity, IPaginatedReply, IPaginatedQuery } from "./base";
 import { IUser } from "./user";
 import { IMuscle } from "./muscle";
-import { TDecode } from "./auth";
 import { IEquipment } from "./equipment";
 
 export { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from "../index";
@@ -46,14 +39,6 @@ export interface IExerciseStatistics {
   repeatsDynamics: number;
   averageDuration: number;
   isUserEquipmentMatches: boolean;
-}
-
-export interface IExerciseService extends IBaseService {
-  getAll: (decode?: TDecode, token?: string) => Promise<{ data: IExercise[] }>;
-  getCustom: (
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<{ data: IExercise[] }>;
 }
 
 export type TGetExercisesDTO = IPaginatedReply<IExercise>;

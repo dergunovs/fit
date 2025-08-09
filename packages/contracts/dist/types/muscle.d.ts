@@ -1,4 +1,4 @@
-import { IBaseReply, IEntity, IBaseService } from "./base";
+import { IBaseReply, IEntity } from "./base";
 export { API_MUSCLE } from "../index";
 
 export interface IMuscle extends IEntity {
@@ -13,11 +13,6 @@ export interface IMuscleStatistics {
   color: string;
   sets: number;
   repeats: number;
-}
-
-export interface IMuscleService
-  extends Pick<IBaseService, "getOne" | "update" | "create" | "delete"> {
-  getAll: (decode?: TDecode, token?: string) => Promise<{ data: IMuscle[] }>;
 }
 
 export type TGetMusclesDTO = { data: IMuscle[] };

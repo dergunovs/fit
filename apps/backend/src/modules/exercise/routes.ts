@@ -1,6 +1,5 @@
 import { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from 'fitness-tracker-contracts';
 import type {
-  IExercise,
   IBaseParams,
   TGetExercisesDTO,
   TGetExercisesQueryDTO,
@@ -33,9 +32,9 @@ export default async function (fastify: IFastifyInstance) {
     API_EXERCISE,
     { preValidation: [fastify.onlyAdmin], ...exerciseGetManySchema },
     async function (request, reply) {
-      const { data, total } = await exerciseService.getMany<IExercise>(request.query.page);
+      const data = await exerciseService.getMany(request.query.page);
 
-      reply.code(200).send({ data, total });
+      reply.code(200).send(data);
     }
   );
 
@@ -43,9 +42,9 @@ export default async function (fastify: IFastifyInstance) {
     API_EXERCISE_ALL,
     { ...exerciseGetAllSchema },
     async function (request, reply) {
-      const { data } = await exerciseService.getAll(fastify.jwt.decode, request.headers.authorization);
+      const data = await exerciseService.getAll(fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(200).send({ data });
+      reply.code(200).send(data);
     }
   );
 
@@ -53,9 +52,9 @@ export default async function (fastify: IFastifyInstance) {
     API_EXERCISE_CUSTOM,
     { ...exerciseGetCustomSchema },
     async function (request, reply) {
-      const { data } = await exerciseService.getCustom(fastify.jwt.decode, request.headers.authorization);
+      const data = await exerciseService.getCustom(fastify.jwt.decode, request.headers.authorization);
 
-      reply.code(200).send({ data });
+      reply.code(200).send(data);
     }
   );
 
@@ -63,7 +62,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_EXERCISE}/:id`,
     { ...exerciseGetOneSchema },
     async function (request, reply) {
-      const data = await exerciseService.getOne<IExercise>(request.params.id);
+      const data = await exerciseService.getOne(request.params.id);
 
       reply.code(200).send(data);
     }
@@ -73,7 +72,7 @@ export default async function (fastify: IFastifyInstance) {
     API_EXERCISE,
     { preValidation: [fastify.onlyUser], ...exercisePostSchema },
     async function (request, reply) {
-      await exerciseService.create<IExercise>(request.body, fastify.jwt.decode, request.headers.authorization);
+      await exerciseService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(201).send({ message: 'Exercise added' });
     }
@@ -83,12 +82,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_EXERCISE}/:id`,
     { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
     async function (request, reply) {
-      await exerciseService.update<IExercise>(
-        request.params.id,
-        request.body,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      await exerciseService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send({ message: 'Exercise updated' });
     }

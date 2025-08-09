@@ -7,7 +7,6 @@ import {
 } from 'fitness-tracker-contracts';
 import type {
   IBaseReply,
-  IActivity,
   IBaseParams,
   TGetActivitiesDTO,
   TGetActivitiesQueryDTO,
@@ -47,9 +46,9 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY,
     { preValidation: [fastify.onlyAdmin], ...activityGetManySchema },
     async function (request, reply) {
-      const { data, total } = await activityService.getMany<IActivity>(request.query.page);
+      const data = await activityService.getMany(request.query.page);
 
-      reply.code(200).send({ data, total });
+      reply.code(200).send(data);
     }
   );
 
@@ -86,7 +85,7 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_CHART,
     { ...activityGetChartSchema },
     async function (request, reply) {
-      const data: TGetActivitiesChartDTO = await activityService.getChart(
+      const data = await activityService.getChart(
         request.query.type,
         request.query.month,
         request.query.average,
@@ -103,11 +102,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
     async function (request, reply) {
-      const data: TGetActivityDTO = await activityService.getOne<IActivity>(
-        request.params.id,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const data = await activityService.getOne(request.params.id, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send(data);
     }
@@ -117,10 +112,7 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_LAST,
     { preValidation: [fastify.onlyUser], ...activityGetLastSchema },
     async function (request, reply) {
-      const data: TGetActivityLastDTO = await activityService.getLast<IActivity>(
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const data = await activityService.getLast(fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send(data);
     }
@@ -130,11 +122,7 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser], ...activityPostSchema },
     async function (request, reply) {
-      const id = await activityService.create<IActivity>(
-        request.body,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const id = await activityService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 
       if (id) {
         reply.code(201).send(id.toString());
@@ -148,12 +136,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityUpdateSchema },
     async function (request, reply) {
-      await activityService.update<IActivity>(
-        request.params.id,
-        request.body,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      await activityService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send({ message: 'Activity updated' });
     }

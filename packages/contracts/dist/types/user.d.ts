@@ -1,10 +1,4 @@
-import {
-  IBaseReply,
-  IEntity,
-  IPaginatedQuery,
-  IPaginatedReply,
-  IBaseService,
-} from "./base";
+import { IBaseReply, IEntity, IPaginatedQuery, IPaginatedReply } from "./base";
 import { IEquipment } from "./equipment";
 
 export { API_USER, API_USER_PASSWORD, API_USER_FEEDBACK } from "../index";
@@ -38,17 +32,6 @@ export interface IUserFeedback {
   name: string;
   email: string;
   message: string;
-}
-
-export interface IUserService extends IBaseService {
-  updatePassword: (
-    _id: string,
-    password: string,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<void>;
-
-  feedback: (feedback: IUserFeedback) => Promise<void>;
 }
 
 export type TGetUsersDTO = IPaginatedReply<IUser>;

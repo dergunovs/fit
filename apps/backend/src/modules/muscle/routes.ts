@@ -1,6 +1,5 @@
 import { API_MUSCLE } from 'fitness-tracker-contracts';
 import type {
-  IMuscle,
   IBaseParams,
   TGetMusclesDTO,
   TGetMuscleDTO,
@@ -28,9 +27,9 @@ export default async function (fastify: IFastifyInstance) {
     API_MUSCLE,
     { ...muscleGetAllSchema },
     async function (_request, reply) {
-      const { data } = await muscleService.getAll();
+      const data = await muscleService.getAll();
 
-      reply.code(200).send({ data });
+      reply.code(200).send(data);
     }
   );
 
@@ -38,7 +37,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_MUSCLE}/:id`,
     { ...muscleGetOneSchema },
     async function (request, reply) {
-      const data = await muscleService.getOne<IMuscle>(request.params.id);
+      const data = await muscleService.getOne(request.params.id);
 
       reply.code(200).send(data);
     }
@@ -48,7 +47,7 @@ export default async function (fastify: IFastifyInstance) {
     API_MUSCLE,
     { preValidation: [fastify.onlyAdmin], ...musclePostSchema },
     async function (request, reply) {
-      await muscleService.create<IMuscle>(request.body, fastify.jwt.decode, request.headers.authorization);
+      await muscleService.create(request.body);
 
       reply.code(201).send({ message: 'Muscle groud added' });
     }
@@ -58,7 +57,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_MUSCLE}/:id`,
     { preValidation: [fastify.onlyAdmin], ...muscleUpdateSchema },
     async function (request, reply) {
-      await muscleService.update<IMuscle>(request.params.id, request.body);
+      await muscleService.update(request.params.id, request.body);
 
       reply.code(200).send({ message: 'Muscle groud updated' });
     }

@@ -1,6 +1,5 @@
 import { API_USER, API_USER_FEEDBACK, API_USER_PASSWORD } from 'fitness-tracker-contracts';
 import type {
-  IUser,
   IBaseParams,
   TGetUsersDTO,
   TGetUsersQueryDTO,
@@ -35,9 +34,9 @@ export default async function (fastify: IFastifyInstance) {
     API_USER,
     { preValidation: [fastify.onlyAdmin], ...userGetManySchema },
     async function (request, reply) {
-      const { data, total } = await userService.getMany<IUser>(request.query.page);
+      const data = await userService.getMany(request.query.page);
 
-      reply.code(200).send({ data, total });
+      reply.code(200).send(data);
     }
   );
 
@@ -45,7 +44,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyAdmin], ...userGetOneSchema },
     async function (request, reply) {
-      const data = await userService.getOne<IUser>(request.params.id);
+      const data = await userService.getOne(request.params.id);
 
       reply.code(200).send(data);
     }
@@ -55,7 +54,7 @@ export default async function (fastify: IFastifyInstance) {
     API_USER,
     { preValidation: [fastify.onlyAdmin], ...userPostSchema },
     async function (request, reply) {
-      await userService.create<IUser>(request.body);
+      await userService.create(request.body);
 
       reply.code(201).send({ message: 'User added' });
     }
@@ -75,12 +74,7 @@ export default async function (fastify: IFastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser], ...userUpdateSchema },
     async function (request, reply) {
-      await userService.update<IUser>(
-        request.params.id,
-        request.body,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      await userService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send({ message: 'User updated' });
     }

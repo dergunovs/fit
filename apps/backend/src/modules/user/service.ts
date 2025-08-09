@@ -1,19 +1,19 @@
 import bcrypt from 'bcryptjs';
-import type { IUserFeedback, IUserService, TDecode } from 'fitness-tracker-contracts';
+import type { IUserFeedback, IUser, TDecode } from 'fitness-tracker-contracts';
 
 import { checkInvalidId, paginate, sendMail } from '../common/helpers.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 import { USER_POPULATE } from './constants.js';
 
-export const userService: IUserService = {
-  getMany: async <T>(page?: number) => {
+export const userService = {
+  getMany: async (page?: number) => {
     const { data, total } = await paginate(User, page, '-dateCreated', USER_POPULATE);
 
-    return { data: data as T[], total };
+    return { data, total };
   },
 
-  getOne: async <T>(_id: string) => {
+  getOne: async (_id: string) => {
     checkInvalidId(_id);
 
     const user = await User.findOne({ _id })
@@ -21,10 +21,10 @@ export const userService: IUserService = {
       .populate(USER_POPULATE)
       .lean();
 
-    return { data: user as T };
+    return { data: user };
   },
 
-  create: async <T>(userToCreate: T) => {
+  create: async (userToCreate: IUser) => {
     const user = new User(userToCreate);
 
     if (!user.password) return;
@@ -34,7 +34,7 @@ export const userService: IUserService = {
     await user.save();
   },
 
-  update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IUser, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
     allowAccessToAdminAndCurrentUser(_id, decode, token);

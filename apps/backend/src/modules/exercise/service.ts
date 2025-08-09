@@ -1,4 +1,4 @@
-import type { IExerciseService, TDecode } from 'fitness-tracker-contracts';
+import type { IExercise, TDecode } from 'fitness-tracker-contracts';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
@@ -7,11 +7,11 @@ import { getAdminAndUserExercises, getExercisesByUserId } from './helpers.js';
 import Exercise from './model.js';
 import { EXERCISE_POPULATE } from './constants.js';
 
-export const exerciseService: IExerciseService = {
-  getMany: async <T>(page: number) => {
+export const exerciseService = {
+  getMany: async (page: number) => {
     const { data, total } = await paginate(Exercise, page, '-dateCreated', EXERCISE_POPULATE);
 
-    return { data: data as T[], total };
+    return { data, total };
   },
 
   getAll: async (decode?: TDecode, token?: string) => {
@@ -30,15 +30,15 @@ export const exerciseService: IExerciseService = {
     return { data: exercises };
   },
 
-  getOne: async <T>(_id: string) => {
+  getOne: async (_id: string) => {
     checkInvalidId(_id);
 
     const exercise = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
 
-    return { data: exercise as T };
+    return { data: exercise };
   },
 
-  create: async <T>(exerciseToCreate: T, decode?: TDecode, token?: string) => {
+  create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
     if (!user?._id) throw new Error('Auth error', { cause: { code: 403 } });
@@ -52,7 +52,7 @@ export const exerciseService: IExerciseService = {
     await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
   },
 
-  update: async <T>(_id: string, itemToUpdate: T, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IExercise, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
     const exercise = await Exercise.findOne({ _id });

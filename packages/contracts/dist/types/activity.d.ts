@@ -1,6 +1,5 @@
 import {
   IBaseReply,
-  IBaseService,
   IEntity,
   IPaginatedQuery,
   IPaginatedReply,
@@ -8,7 +7,6 @@ import {
 } from "./base";
 import { IExerciseDone, IExerciseStatistics } from "./exercise";
 import { IUser } from "./user";
-import { TDecode } from "./auth";
 
 export {
   API_ACTIVITY,
@@ -59,35 +57,6 @@ export type TActivityChartType =
   | "repeat"
   | "muscle"
   | "duration";
-
-export interface IActivityService extends IBaseService {
-  getCalendar: (
-    dateFrom: string,
-    dateTo: string,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<IActivity[]>;
-
-  getStatistics: (
-    gap: number,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<{
-    activity: IActivityStatistics;
-    exercise: IExerciseStatistics[];
-  }>;
-
-  getChart: (
-    type: TActivityChartType,
-    month: string,
-    average: string,
-    locale: TLocale,
-    decode?: TDecode,
-    token?: string,
-  ) => Promise<IActivityChart>;
-
-  getLast: <T>(decode?: TDecode, token?: string) => Promise<{ data: T | null }>;
-}
 
 export type TGetActivitiesDTO = IPaginatedReply<IActivity>;
 export type TGetActivitiesQueryDTO = IPaginatedQuery;
