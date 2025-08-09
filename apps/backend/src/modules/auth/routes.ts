@@ -7,7 +7,6 @@ import {
   API_AUTH_SETUP,
 } from 'fitness-tracker-contracts';
 import type {
-  IBaseReply,
   TGetAuthDTO,
   TPostAuthConfirmTokenDTO,
   TPostAuthConfirmTokenDataDTO,
@@ -35,38 +34,19 @@ import {
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
-  fastify.get<{ Reply: { 200: TGetAuthDTO; '4xx': IBaseReply } }>(
-    API_AUTH_GET,
-    { ...authGetSchema },
-    async function (request, reply) {
-      const user = await authService.check(request);
+  fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
+    const user = await authService.check(request);
 
-      if (user) {
-        reply.code(200).send(user);
-      } else {
-        reply.code(404).send({ message: 'User not found' });
-      }
-    }
-  );
+    reply.code(200).send(user);
+  });
 
-  fastify.post<{ Body: TPostAuthLoginDataDTO; Reply: { 200: TPostAuthLoginDTO; '4xx': IBaseReply } }>(
+  fastify.post<{ Body: TPostAuthLoginDataDTO; Reply: { 200: TPostAuthLoginDTO } }>(
     API_AUTH_LOGIN,
     { ...authLoginSchema },
     async function (request, reply) {
-      const { user, token, isWrongPassword, isEmailNotConfirmed } = await authService.login(
-        request.body,
-        fastify.jwt.sign
-      );
+      const data = await authService.login(request.body, fastify.jwt.sign);
 
-      if (!user) {
-        reply.code(404).send({ message: 'User not found' });
-      } else if (isWrongPassword) {
-        reply.code(401).send({ message: 'Wrong password' });
-      } else if (isEmailNotConfirmed) {
-        reply.code(401).send({ message: 'Email is not confirmed' });
-      } else {
-        reply.code(200).send({ user, token });
-      }
+      reply.code(200).send(data);
     }
   );
 

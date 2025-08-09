@@ -6,7 +6,6 @@ import {
   API_ACTIVITY_CHART,
 } from 'fitness-tracker-contracts';
 import type {
-  IBaseReply,
   IBaseParams,
   TGetActivitiesDTO,
   TGetActivitiesQueryDTO,
@@ -118,17 +117,13 @@ export default async function (fastify: IFastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO; 500: IBaseReply } }>(
+  fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO } }>(
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser], ...activityPostSchema },
     async function (request, reply) {
       const id = await activityService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 
-      if (id) {
-        reply.code(201).send(id.toString());
-      } else {
-        reply.code(500).send({ message: 'Activity is not created' });
-      }
+      reply.code(201).send(id);
     }
   );
 

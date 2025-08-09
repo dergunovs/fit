@@ -13,7 +13,9 @@ export const authService = {
 
     const user = await User.findOne({ email: verifiedUser.email }).populate(USER_POPULATE).lean();
 
-    return user ? filterUserData(user) : undefined;
+    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+
+    return filterUserData(user);
   },
 
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
@@ -21,9 +23,7 @@ export const authService = {
 
     const user = await User.findOne({ email }).populate(USER_POPULATE);
 
-    if (!user?.password) {
-      return { user: undefined, isWrongPassword: false, isEmailNotConfirmed: false };
-    }
+    if (!user?.password) throw new Error('User not found', { cause: { code: 404 } });
 
     let isValid = false;
 
@@ -44,12 +44,10 @@ export const authService = {
       isValid = await bcrypt.compare(password, user.password);
     }
 
-    if (!isValid) {
-      return { user: undefined, isWrongPassword: true, isEmailNotConfirmed: false };
-    }
+    if (!isValid) throw new Error('Wrong password', { cause: { code: 401 } });
 
     if (user.isEmailConfirmed === false && user.role !== 'admin') {
-      return { user: undefined, isWrongPassword: false, isEmailNotConfirmed: true };
+      throw new Error('Email in not confirmed', { cause: { code: 401 } });
     }
 
     const token = sign(filterUserData(user, true), { expiresIn: '365d' });
@@ -58,7 +56,7 @@ export const authService = {
 
     await user.save();
 
-    return { user: filterUserData(user), token, isWrongPassword: false, isEmailNotConfirmed: false };
+    return { user: filterUserData(user), token };
   },
 
   setup: async (adminToCreate: IAuthData) => {

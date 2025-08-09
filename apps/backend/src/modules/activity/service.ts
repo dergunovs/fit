@@ -138,6 +138,8 @@ export const activityService = {
 
     const newActivity = await activity.save();
 
+    if (!newActivity._id) throw new Error('Activity not created', { cause: { code: 500 } });
+
     return newActivity._id;
   },
 
