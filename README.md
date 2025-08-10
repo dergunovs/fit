@@ -1,6 +1,6 @@
 Home workout calendar app
 
-**Overview and documentation:** https://deepwiki.com/dergunovs/fit
+**Overview and documentation:** https://deepwiki.com/dergunovs/fit or https://zread.ai/dergunovs/fit
 
 **Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n, Tauri
 
