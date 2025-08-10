@@ -75,13 +75,11 @@ function getActivitiesChart(
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const count = activitiesCount;
-
   if (datasets.length >= 2) {
-    datasets[0].data.push(count);
+    datasets[0].data.push(activitiesCount);
     datasets[1].data.push(activitiesGoal);
   } else {
-    datasets.push(getDataset(count, 'activity', locale), getDataset(activitiesGoal, 'goal', locale));
+    datasets.push(getDataset(activitiesCount, 'activity', locale), getDataset(activitiesGoal, 'goal', locale));
   }
 }
 

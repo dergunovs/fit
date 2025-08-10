@@ -1,4 +1,4 @@
-import type { IExercise, TDecode } from 'fitness-tracker-contracts';
+import type { TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
 import { checkInvalidId } from '../common/helpers.js';
@@ -17,15 +17,15 @@ export async function getExercisesByUserId(userId: string) {
 export async function getAdminAndUserExercises(decode?: TDecode, token?: string) {
   const admin = await User.findOne({ role: 'admin' }).lean();
 
-  if (!admin) return [];
+  if (!admin) throw new Error('Administrator not found', { cause: { code: 404 } });
 
   const adminExercises = await getExercisesByUserId(admin._id);
 
   const user = decodeToken(decode, token);
 
-  if (!user?._id || user.role === 'admin') return adminExercises as IExercise[];
+  if (!user?._id || user.role === 'admin') return adminExercises;
 
   const userExercises = await getExercisesByUserId(user._id);
 
-  return [...userExercises, ...adminExercises] as IExercise[];
+  return [...userExercises, ...adminExercises];
 }

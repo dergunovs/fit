@@ -27,32 +27,30 @@ export const activityService = {
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const [activities, activitiesPrev] = await Promise.all([
-      Activity.find({
-        dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
-        isDone: true,
-        createdBy: user._id,
-      })
-        .select('_id exercises dateCreated dateUpdated')
-        .populate(ACTIVITY_POPULATE)
-        .lean(),
-
-      Activity.find({
-        dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) },
-        isDone: true,
-        createdBy: user._id,
-      })
-        .select('_id exercises dateCreated dateUpdated')
-        .populate(ACTIVITY_POPULATE)
-        .lean(),
+    const activities = await Activity.aggregate([
+      { $match: { createdBy: user._id, isDone: true } },
+      {
+        $facet: {
+          currentPeriod: [
+            { $match: { dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } } },
+            { $sort: { dateCreated: 1 } },
+          ],
+          previousPeriod: [
+            { $match: { dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) } } },
+            { $sort: { dateCreated: 1 } },
+          ],
+        },
+      },
     ]);
 
+    const { currentPeriod, previousPeriod } = activities[0];
+
     const [activityStatistics, exercises] = await Promise.all([
-      Promise.resolve(activitiesGetStatistics(activities, activitiesPrev)),
+      Promise.resolve(activitiesGetStatistics(currentPeriod, previousPeriod)),
       getAdminAndUserExercises(decode, token),
     ]);
 
-    const exerciseStatistics = exerciseGetStatistics(activities, activitiesPrev, exercises, user);
+    const exerciseStatistics = exerciseGetStatistics(currentPeriod, previousPeriod, exercises, user);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
