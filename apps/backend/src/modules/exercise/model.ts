@@ -20,4 +20,6 @@ const exerciseSchema = new Schema<IExercise>(
   { versionKey: false }
 );
 
+exerciseSchema.index({ createdBy: 1 });
+
 export default model('Exercise', exerciseSchema);

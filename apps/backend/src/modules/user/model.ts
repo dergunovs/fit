@@ -27,4 +27,7 @@ const userSchema = new Schema<IUser>(
   { versionKey: false }
 );
 
+userSchema.index({ role: 1 });
+userSchema.index({ email: 1 });
+
 export default model('User', userSchema);

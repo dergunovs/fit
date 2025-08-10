@@ -25,4 +25,7 @@ const activitySchema = new Schema<IActivity>(
   { versionKey: false }
 );
 
+activitySchema.index({ createdBy: 1, dateCreated: -1 });
+activitySchema.index({ dateCreated: 1 });
+
 export default model('Activity', activitySchema);

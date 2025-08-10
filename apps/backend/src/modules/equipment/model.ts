@@ -12,4 +12,7 @@ const equipmentSchema = new Schema<IEquipment>(
   { versionKey: false }
 );
 
+equipmentSchema.index({ title: 1 });
+equipmentSchema.index({ title_en: 1 });
+
 export default model('Equipment', equipmentSchema);

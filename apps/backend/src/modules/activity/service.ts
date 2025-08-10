@@ -27,30 +27,24 @@ export const activityService = {
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const activities = await Activity.aggregate([
+    const activities: { current: IActivity[]; previous: IActivity[] }[] = await Activity.aggregate([
       { $match: { createdBy: user._id, isDone: true } },
       {
         $facet: {
-          currentPeriod: [
-            { $match: { dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } } },
-            { $sort: { dateCreated: 1 } },
-          ],
-          previousPeriod: [
-            { $match: { dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) } } },
-            { $sort: { dateCreated: 1 } },
-          ],
+          current: [{ $match: { dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } } }],
+          previous: [{ $match: { dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) } } }],
         },
       },
     ]);
 
-    const { currentPeriod, previousPeriod } = activities[0];
+    const { current, previous } = activities[0];
 
     const [activityStatistics, exercises] = await Promise.all([
-      Promise.resolve(activitiesGetStatistics(currentPeriod, previousPeriod)),
+      Promise.resolve(activitiesGetStatistics(current, previous)),
       getAdminAndUserExercises(decode, token),
     ]);
 
-    const exerciseStatistics = exerciseGetStatistics(currentPeriod, previousPeriod, exercises, user);
+    const exerciseStatistics = exerciseGetStatistics(current, previous, exercises, user);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
