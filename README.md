@@ -1,5 +1,7 @@
 Home workout calendar app
 
+**Overview and documentation:** https://deepwiki.com/dergunovs/fit
+
 **Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n, Tauri
 
 **Backend:** Typescript, Fastify, Mongoose, MongoDB, Swagger
