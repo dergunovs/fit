@@ -52,7 +52,7 @@
     "prettier": "3.6.2",
     "sass-embedded": "1.90.0",
     "stylelint": "16.23.1",
-    "stylelint-config-recess-order": "7.1.0",
+    "stylelint-config-recess-order": "7.2.0",
     "stylelint-config-recommended-scss": "16.0.0",
     "stylelint-config-recommended-vue": "1.6.1",
     "stylelint-order": "7.0.0",
