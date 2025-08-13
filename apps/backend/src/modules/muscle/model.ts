@@ -12,7 +12,4 @@ const muscleSchema = new Schema<IMuscle>(
   { versionKey: false }
 );
 
-muscleSchema.index({ title: 1 });
-muscleSchema.index({ title_en: 1 });
-
 export default model('Muscle', muscleSchema);
