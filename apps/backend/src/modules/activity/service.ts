@@ -123,7 +123,7 @@ export const activityService = {
       .populate(ACTIVITY_POPULATE)
       .lean();
 
-    if (!activity) throw new Error('Activity not found', { cause: { code: 404 } });
+    if (!activity) return undefined;
 
     return { data: activity };
   },

@@ -97,7 +97,7 @@ export const activityService = {
       queryFn: async () => {
         const { data } = await api.get<TGetActivityLastDTO>(API_ACTIVITY_LAST);
 
-        return data.data;
+        return data.data || null;
       },
     }),
 

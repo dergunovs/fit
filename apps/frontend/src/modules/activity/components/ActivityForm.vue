@@ -14,7 +14,13 @@
       </p>
 
       <UiFlex justify="space-between">
-        <UiButton @click="repeatLastActivity" isNarrow layout="secondary" data-test="activity-form-repeat-last">
+        <UiButton
+          @click="repeatLastActivity"
+          :isDisabled="lastActivity === null"
+          isNarrow
+          layout="secondary"
+          data-test="activity-form-repeat-last"
+        >
           {{ t('activity.repeatLast') }}
         </UiButton>
 
