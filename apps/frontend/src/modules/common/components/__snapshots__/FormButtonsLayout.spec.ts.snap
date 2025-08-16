@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormButtonsLayout > matches snapshot 1`] = `
+"<div>
+  <div class="_margin_871dab" data-test="form-buttons-layout-margin"></div>
+  <div class="_buttons_871dab" data-fixed="true" data-test="form-buttons-layout-buttons"></div>
+</div>"
+`;

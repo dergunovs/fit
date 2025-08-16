@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div :class="$style.margin" v-if="props.isFixed"></div>
+    <div :class="$style.margin" v-if="props.isFixed" data-test="form-buttons-layout-margin"></div>
 
-    <div :class="$style.buttons" :data-fixed="props.isFixed">
+    <div :class="$style.buttons" :data-fixed="props.isFixed" data-test="form-buttons-layout-buttons">
       <slot></slot>
     </div>
   </div>
