@@ -159,6 +159,7 @@ describe('ExerciseForm', async () => {
     expect(spyUpdateExercise).toBeCalledWith({
       _id: EXERCISE_FIXTURE._id,
       title: NEW_TITLE,
+      title_en: EXERCISE_FIXTURE.title_en,
       description: EXERCISE_FIXTURE.description,
       muscles: EXERCISE_FIXTURE.muscles,
       createdBy: EXERCISE_FIXTURE.createdBy,

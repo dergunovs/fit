@@ -30,7 +30,9 @@ describe('MuscleList', async () => {
 
   it('shows muscles in table', async () => {
     expect(wrapper.findAll(muscleTableRow).length).toBe(MUSCLES_FIXTURE.length);
-    expect(wrapper.find(muscleTableTitleLink).text()).toBe(MUSCLES_FIXTURE[0].title);
+    expect(wrapper.find(muscleTableTitleLink).text()).toBe(
+      `${MUSCLES_FIXTURE[0].title} (${MUSCLES_FIXTURE[0].title_en})`
+    );
   });
 
   it('sets muscle page link', async () => {

@@ -30,7 +30,9 @@ describe('ExerciseList', async () => {
 
   it('shows exercises in table', async () => {
     expect(wrapper.findAll(exerciseTableRow).length).toBe(EXERCISES_FIXTURE.length);
-    expect(wrapper.find(exerciseTableTitleLink).text()).toBe(EXERCISES_FIXTURE[0].title);
+    expect(wrapper.find(exerciseTableTitleLink).text()).toBe(
+      `${EXERCISES_FIXTURE[0].title} (${EXERCISES_FIXTURE[0].title_en})`
+    );
   });
 
   it('sets exercise page link', async () => {

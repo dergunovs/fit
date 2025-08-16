@@ -12,6 +12,7 @@ import {
   getExercisesToChooseDefaultWeight,
   getDefaultExerciseWeight,
   isUserEquipmentMatches,
+  getUserEquipmentParams,
 } from '.';
 import {
   EXERCISES_DONE_FIXTURE,
@@ -21,7 +22,7 @@ import {
   EXERCISE_FIXTURE_3,
   EXERCISE_STATISTICS_FIXTURE,
 } from '@/exercise/fixtures';
-import { USER_FIXTURE } from '@/user/fixtures';
+import { USER_FIXTURE, USER_FIXTURE_2 } from '@/user/fixtures';
 
 describe('exercise helpers', () => {
   test('gets average duration', async () => {
@@ -33,11 +34,15 @@ describe('exercise helpers', () => {
     expect(getAverageRepeatsInSet(12, 2)).toStrictEqual(12 / 2);
     expect(getAverageRepeatsInSet(13, 2)).toStrictEqual(7);
     expect(getAverageRepeatsInSet()).toStrictEqual(0);
+    expect(getAverageRepeatsInSet(0, 2)).toStrictEqual(0);
+    expect(getAverageRepeatsInSet(10, 0)).toStrictEqual(0);
   });
 
   test('checks is prev exercise same', async () => {
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
+    expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1, undefined)).toStrictEqual(false);
+    expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 0, 'non-existent-id')).toStrictEqual(false);
   });
 
   test('checks is set creatable', async () => {
@@ -45,18 +50,21 @@ describe('exercise helpers', () => {
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(true);
+    expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 2, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
   });
 
   test('gets exercise passing title', async () => {
     expect(getExercisePassingTitle(1, true, 2, EXERCISES_DONE_FIXTURE[0], 'кг', 'ru')).toStrictEqual(
       '1 - 2. Отжимание от скамьи 8 кг.'
     );
-
     expect(getExercisePassingTitle(2, true, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
       '2 - 2. Подтягивание.'
     );
     expect(getExercisePassingTitle(2, false, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
       '2. Подтягивание.'
+    );
+    expect(getExercisePassingTitle(3, true, 5, EXERCISES_DONE_FIXTURE[0], 'lbs', 'en')).toStrictEqual(
+      '3 - 5. Bench Press 8 lbs.'
     );
   });
 
@@ -66,6 +74,12 @@ describe('exercise helpers', () => {
     expect(generateTimeline(EXERCISES_DONE_FIXTURE, new Date('2024-11-30T07:33:57.304Z'), 10000)).toStrictEqual(
       timeline
     );
+
+    expect(generateTimeline(EXERCISES_DONE_FIXTURE, null, 10000)).toStrictEqual([]);
+
+    const exercisesWithUndefined = [{ ...EXERCISES_DONE_FIXTURE[0], dateUpdated: undefined, duration: undefined }];
+
+    expect(generateTimeline(exercisesWithUndefined, new Date('2024-11-30T07:33:57.304Z'), 10000)).toStrictEqual([]);
   });
 
   test('filter exercises by title and muscle group', async () => {
@@ -87,22 +101,35 @@ describe('exercise helpers', () => {
     expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', muscleGroup, USER_FIXTURE)).toStrictEqual([
       EXERCISE_FIXTURE_2,
     ]);
+
+    expect(filterExercisesByTitleAndMuscle(EXERCISES_FIXTURE, '', 'non-existent-muscle', USER_FIXTURE)).toStrictEqual(
+      []
+    );
   });
 
   test('gets available exercise weights', async () => {
     expect(getAvailableExerciseWeights(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual([1, 2, 3]);
+    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual(undefined);
+    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(undefined);
   });
 
   test('gets exercises to choose default weight', async () => {
+    expect(getExercisesToChooseDefaultWeight(EXERCISES_FIXTURE, [])).toStrictEqual([]);
+
     expect(getExercisesToChooseDefaultWeight(EXERCISES_FIXTURE, USER_FIXTURE.equipments)).toStrictEqual([
-      { _id: '1', options: [1, 2, 3], title: 'Отжимание от скамьи', title_en: undefined },
+      { _id: '1', options: [1, 2, 3], title: 'Отжимание от скамьи', title_en: 'Bench Press' },
     ]);
+    expect(
+      getExercisesToChooseDefaultWeight([EXERCISE_FIXTURE_2, EXERCISE_FIXTURE_3], USER_FIXTURE.equipments)
+    ).toStrictEqual([]);
   });
 
   test('gets default exercise weight', async () => {
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual(1);
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [])).toStrictEqual(1);
     expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, [1, 2, 3])).toStrictEqual(1);
+    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(0);
+    expect(getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE_2)).toStrictEqual(0);
   });
 
   test('checks is user equipment matches for exercise', async () => {
@@ -110,5 +137,49 @@ describe('exercise helpers', () => {
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(true);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual(true);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE)).toStrictEqual(false);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE, USER_FIXTURE_2)).toStrictEqual(false);
+    expect(isUserEquipmentMatches(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual(true);
+  });
+
+  test('gets user equipment params', async () => {
+    expect(getUserEquipmentParams(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual({
+      isExerciseHasEquipment: true,
+      isExerciseHasEquipmentForWeight: true,
+      isWeightsRequired: true,
+      isUserHasEquipment: true,
+      isUserHasEquipmentForWeight: true,
+    });
+
+    expect(getUserEquipmentParams(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual({
+      isExerciseHasEquipment: false,
+      isExerciseHasEquipmentForWeight: false,
+      isWeightsRequired: false,
+      isUserHasEquipment: false,
+      isUserHasEquipmentForWeight: false,
+    });
+
+    expect(getUserEquipmentParams(EXERCISE_FIXTURE_3, USER_FIXTURE)).toStrictEqual({
+      isExerciseHasEquipment: false,
+      isExerciseHasEquipmentForWeight: false,
+      isWeightsRequired: true,
+      isUserHasEquipment: false,
+      isUserHasEquipmentForWeight: false,
+    });
+
+    expect(getUserEquipmentParams(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual({
+      isExerciseHasEquipment: false,
+      isExerciseHasEquipmentForWeight: false,
+      isWeightsRequired: false,
+      isUserHasEquipment: false,
+      isUserHasEquipmentForWeight: false,
+    });
+
+    expect(getUserEquipmentParams(EXERCISE_FIXTURE)).toStrictEqual({
+      isExerciseHasEquipment: true,
+      isExerciseHasEquipmentForWeight: true,
+      isWeightsRequired: true,
+      isUserHasEquipment: false,
+      isUserHasEquipmentForWeight: false,
+    });
   });
 });

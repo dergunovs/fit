@@ -4,9 +4,7 @@ exports[`ExerciseList > matches snapshot 1`] = `
 "<table headers="[object Object],[object Object]" isloading="false" lang="ru">
   <tbody>
     <tr data-test="exercise-table-row">
-      <td data-grow=""><a to="/exercises/edit/1" class="_title_ee0021" data-test="exercise-table-title-link">Отжимание от скамьи
-          <!--v-if-->
-        </a></td>
+      <td data-grow=""><a to="/exercises/edit/1" class="_title_ee0021" data-test="exercise-table-title-link">Отжимание от скамьи<span> (Bench Press)</span></a></td>
       <td>Александр</td>
     </tr>
     <tr data-test="exercise-table-row">

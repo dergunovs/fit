@@ -143,6 +143,9 @@ export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExer
 
 export function getToFailurePercent(exercises: IExerciseDone[]) {
   const allExercises = exercises.length;
+
+  if (!allExercises) return '0%';
+
   const toFailureExercises = exercises.filter((exercise) => exercise.isToFailure).length;
 
   return `${Math.floor((toFailureExercises / allExercises) * 100)}%`;
@@ -154,7 +157,7 @@ export function getRestPercent(
   start?: Date | null | string,
   end?: Date | null | string
 ) {
-  if (exercises.length === 1) return '0%';
+  if (exercises.length < 2) return '0%';
 
   const activityDuration = Number(subtractDates(end, start, lang, true));
   const exercisesDuration = exercises.reduce((acc, current) => acc + (current.duration || 0), 0);

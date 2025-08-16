@@ -99,6 +99,7 @@ describe('MuscleForm', async () => {
     expect(spyUpdateMuscle).toBeCalledWith({
       _id: muscle._id,
       title: NEW_TITLE,
+      title_en: muscle.title_en,
       color: muscle.color,
       dateCreated: muscle.dateCreated,
     });

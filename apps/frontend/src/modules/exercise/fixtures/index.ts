@@ -8,6 +8,7 @@ import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 export const EXERCISE_FIXTURE: IExercise = {
   _id: '1',
   title: 'Отжимание от скамьи',
+  title_en: 'Bench Press',
   description: 'Описание 1',
   createdBy: USER_FIXTURE,
   muscles: [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]],
