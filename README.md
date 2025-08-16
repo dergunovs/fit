@@ -1,4 +1,4 @@
-Home workout calendar app
+# Home workout calendar app
 
 **Overview and documentation:** https://deepwiki.com/dergunovs/fit or https://zread.ai/dergunovs/fit
 
@@ -20,3 +20,5 @@ Home workout calendar app
 4. `npm run dev` - start app in dev mode
 5. Create administrator by url `/setup`
 6. Swagger available at backend url `/api-docs`
+7. `npm run build` - build app for web
+8. `npm run build:apk` - build app for android
