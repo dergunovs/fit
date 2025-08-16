@@ -164,19 +164,24 @@ const formData = ref<IUser>({
   role: 'user',
 });
 
-const generalTab = { value: 'general', title: t('user.general') };
-const exercisesTab = { value: 'exercises', title: t('exercise.many') };
+const generalTab = computed(() => {
+  return { value: 'general', title: t('user.general') };
+});
 
-const otherTabs = [
+const exercisesTab = computed(() => {
+  return { value: 'exercises', title: t('exercise.many') };
+});
+
+const otherTabs = computed(() => [
   { value: 'equipment', title: t('equipment.one') },
   { value: 'weights', title: t('user.chooseWeights') },
-];
+]);
 
 const TABS = computed(() => {
-  if (!props.user?._id) return [generalTab];
-  if (isAdmin.value) return [generalTab, ...otherTabs];
+  if (!props.user?._id) return [generalTab.value];
+  if (isAdmin.value) return [generalTab.value, ...otherTabs.value];
 
-  return [generalTab, ...otherTabs, exercisesTab];
+  return [generalTab.value, ...otherTabs.value, exercisesTab.value];
 });
 
 const currentTab = ref(TABS.value[0].value);
