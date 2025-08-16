@@ -2,7 +2,6 @@
 
 exports[`UserExercises > matches snapshot 1`] = `
 "<div column="" gap="16">
-  <h3>Ваши упражнения</h3>
   <div wrap="">
     <div align="center" data-test="user-exercises"><span data-test="user-exercise-title">Отжимание от скамьи</span><button type="button" class="_edit_55fb12" data-test="user-exercise-edit">
         <anonymous-stub width="20" height="20"></anonymous-stub>

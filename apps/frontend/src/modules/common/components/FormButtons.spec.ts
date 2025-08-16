@@ -1,7 +1,7 @@
-import { DefineComponent } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
+import { UiModal } from 'mhz-ui';
 
 import FormButtons from './FormButtons.vue';
 
@@ -88,7 +88,7 @@ describe('FormButtons', async () => {
 
     expect(wrapper.findComponent(buttonsConfirmModal).attributes('modelvalue')).toBe('true');
 
-    wrapper.findComponent<DefineComponent>(buttonsConfirmModal).vm.$emit('confirm');
+    wrapper.findComponent<typeof UiModal>(buttonsConfirmModal).vm.$emit('confirm');
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
     expect(wrapper.emitted()['delete'][0]).toStrictEqual([id]);

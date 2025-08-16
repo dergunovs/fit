@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,
@@ -24,9 +24,9 @@
     "@changesets/cli": "2.29.5"
   },
   "devDependencies": {
-    "@turbo/gen": "2.5.5",
+    "@turbo/gen": "2.5.6",
     "prettier": "3.6.2",
-    "turbo": "2.5.5"
+    "turbo": "2.5.6"
   },
   "packageManager": "npm@11.5.1",
   "workspaces": [

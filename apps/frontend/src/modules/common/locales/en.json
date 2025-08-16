@@ -137,10 +137,8 @@
     "deleted": "@:user.one deleted",
     "profile": "@:user.one profile",
     "admin": "@:user.one has admin rights",
-    "exercises": "Your @.lower:exercise.many",
-    "equipment": "Your @.lower:equipment.one",
-    "defaultWeights": "Default weights",
-    "generalInfo": "General info"
+    "chooseWeights": "Choose weights",
+    "general": "General"
   },
   "muscle": {
     "many": "Muscles",

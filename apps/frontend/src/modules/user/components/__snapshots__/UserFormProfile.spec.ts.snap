@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserFormProfile > matches snapshot 1`] = `
+"<div column="" gap="16" align="flex-start">
+  <h2>Профиль пользователя</h2>
+  <div class="_admin_f81dfa" data-test="user-form-profile-admin">Пользователь с правами администратора</div>
+  <!--v-if-->
+</div>"
+`;

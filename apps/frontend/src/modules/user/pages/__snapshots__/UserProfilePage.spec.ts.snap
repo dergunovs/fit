@@ -2,16 +2,6 @@
 
 exports[`UserProfilePage > matches snapshot 1`] = `
 "<div>
-  <div isedit="" data-test="user-form">
-    <user-exercises-stub exercises="[object Object]" data-test="user-exercises"></user-exercises-stub>
-    <div column="" gap="16"><button data-test="user-add-exercise">Добавить своё упражнение</button>
-      <div modelvalue="false" width="360" data-test="user-exercise-form-modal">
-        <div class="_form_87f674">
-          <h3>Добавить своё упражнение</h3>
-          <exercise-form-stub isedit="false" isdisableredirect="true" data-test="user-exercise-form"></exercise-form-stub>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div isedit="" data-test="user-form"></div>
 </div>"
 `;

@@ -1,7 +1,5 @@
 <template>
   <UiFlex column gap="16">
-    <h3>{{ t('user.exercises') }}</h3>
-
     <UiFlex wrap>
       <UiChip v-for="exercise in props.exercises" :key="exercise._id" align="center" data-test="user-exercises">
         <span data-test="user-exercise-title">{{ exercise[localeField('title', locale)] }}</span>
@@ -39,7 +37,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 </script>
 
 <style module lang="scss">

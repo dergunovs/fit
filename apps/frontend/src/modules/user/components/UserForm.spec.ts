@@ -1,11 +1,15 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser, IUserEquipment } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUserEquipment } from 'fitness-tracker-contracts';
 import { dataTest, deleteAuthHeader } from 'mhz-helpers';
 
 import UserForm from './UserForm.vue';
 import UserEquipmentForm from './UserEquipmentForm.vue';
 import UserDefaultWeightsForm from './UserDefaultWeightsForm.vue';
+import UserExercises from './UserExercises.vue';
+import UserFormTab from './UserFormTab.vue';
+import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -22,8 +26,8 @@ import {
 import { URL_USER } from '@/user/constants';
 import { spyGetEquipments } from '@/equipment/mocks';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
-import { spyGetExercisesAll } from '@/exercise/mocks';
-import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
+import { spyGetExercisesAll, spyGetExercisesCustom } from '@/exercise/mocks';
+import { EXERCISE_FIXTURE_CUSTOM, EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
@@ -34,8 +38,7 @@ const PASSWORD = 'unique';
 const EQUIPMENTS: IUserEquipment[] = [];
 
 const form = dataTest('user-form');
-const formAdmin = dataTest('user-form-admin');
-const formResetPassword = dataTest('user-form-reset-password');
+const formTab = dataTest('user-form-tab');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
@@ -45,13 +48,21 @@ const formSetNewPassword = dataTest('user-form-set-new-password');
 const formEquipments = dataTest('user-form-equipments');
 const formDefaultWeights = dataTest('user-form-default-weights');
 const formButtons = dataTest('user-form-buttons');
+const formExercises = dataTest('user-form-exercises');
+const formAddExercise = dataTest('user-form-add-exercise');
+const formExerciseForm = dataTest('user-form-exercise-form');
+const formExerciseFormModal = dataTest('user-form-exercise-form-modal');
 
-const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(UserForm, { user: USER_FIXTURE });
+const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(
+  UserForm,
+  { user: USER_FIXTURE },
+  { UserFormTab }
+);
 
 let wrapper: VueWrapper<InstanceType<typeof UserForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserForm);
+  wrapper = wrapperFactory(UserForm, {}, { UserFormTab });
 });
 
 enableAutoUnmount(afterEach);
@@ -65,24 +76,12 @@ describe('UserForm', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('shows admin role in header', async () => {
-    const adminUser: IUser = { _id: '1', role: 'admin', email: 'a@b.ru' };
+  it('shows only one tab in user create form', async () => {
+    expect(wrapper.findAll(formTab)[0].isVisible()).toBe(true);
+    expect(wrapper.findAll(formTab)[1].isVisible()).toBe(false);
 
-    expect(wrapper.find(formAdmin).exists()).toBe(false);
-
-    await wrapper.setProps({ user: adminUser });
-
-    expect(wrapper.find(formAdmin).exists()).toBe(true);
-  });
-
-  it('shows reset password message in header', async () => {
-    const resetPasswordUser: IUser = { _id: '1', email: 'a@b.ru', isResetPassword: true };
-
-    expect(wrapper.find(formResetPassword).exists()).toBe(false);
-
-    await wrapper.setProps({ user: resetPasswordUser });
-
-    expect(wrapper.find(formResetPassword).exists()).toBe(true);
+    expect(wrapperWithUser.findAll(formTab)[0].isVisible()).toBe(true);
+    expect(wrapperWithUser.findAll(formTab)[1].isVisible()).toBe(true);
   });
 
   it('shows password field only when creating users', async () => {
@@ -264,5 +263,58 @@ describe('UserForm', async () => {
     expect(
       wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.userEquipments
     ).toStrictEqual(USER_FIXTURE.equipments);
+  });
+
+  it('gets and sets user custom exercises', async () => {
+    expect(spyGetExercisesCustom).toBeCalledTimes(1);
+    expect(wrapper.findComponent<typeof UserExercises>(formExercises).vm.$props.exercises).toStrictEqual([
+      EXERCISE_FIXTURE_CUSTOM,
+    ]);
+  });
+
+  it('shows form modal by add exercise button click', async () => {
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
+
+    await wrapper.find(formAddExercise).trigger('click');
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
+  });
+
+  it('sets emited exercise to edit in modal', async () => {
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
+
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(undefined);
+
+    wrapper.findComponent<typeof UserExercises>(formExercises).vm.$emit('edit', EXERCISE_FIXTURE_CUSTOM);
+
+    await nextTick();
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
+
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(
+      EXERCISE_FIXTURE_CUSTOM
+    );
+  });
+
+  it('hides form modal and clears current exercise by hide emit', async () => {
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
+
+    wrapper.findComponent<typeof UserExercises>(formExercises).vm.$emit('edit', EXERCISE_FIXTURE_CUSTOM);
+
+    await nextTick();
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
+
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(
+      EXERCISE_FIXTURE_CUSTOM
+    );
+
+    wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$emit('hide');
+
+    await nextTick();
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
+
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(undefined);
   });
 });

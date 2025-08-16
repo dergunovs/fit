@@ -137,10 +137,8 @@
     "deleted": "@:user.one удален",
     "profile": "Профиль пользователя",
     "admin": "@:user.one с правами администратора",
-    "exercises": "Ваши @.lower:exercise.many",
-    "equipment": "Ваше @.lower:equipment.one",
-    "defaultWeights": "Выбор веса по-умолчанию",
-    "generalInfo": "Общие данные"
+    "chooseWeights": "Выбор веса",
+    "general": "Общее"
   },
   "muscle": {
     "many": "Мышцы",

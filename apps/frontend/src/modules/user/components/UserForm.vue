@@ -1,79 +1,99 @@
 <template>
   <div>
-    <UiFlex @submit.prevent="submit" tag="form" column gap="16" align="flex-start" data-test="user-form">
-      <h2>{{ t('user.profile') }}</h2>
-
-      <div v-if="props.user?.role === 'admin'" :class="$style.admin" data-test="user-form-admin">
-        {{ t('user.admin') }}
-      </div>
-
-      <div
-        v-if="props.user?.isResetPassword && !isPasswordUpdated"
-        :class="$style.reset"
-        data-test="user-form-reset-password"
-      >
-        {{ t('setNewPassword') }}
-      </div>
-
-      <h3>{{ t('user.equipment') }}</h3>
-
-      <UserEquipmentForm
-        v-if="equipments"
-        :equipments="equipments"
-        v-model="formData.equipments"
-        data-test="user-form-equipments"
+    <UiFlex @submit.prevent="submit" tag="form" column gap="16" data-test="user-form">
+      <UserFormProfile
+        v-if="props.user"
+        :isAdmin="props.user.role === 'admin'"
+        :isPasswordUpdated="isPasswordUpdated"
+        :isResetPassword="props.user.isResetPassword"
+        data-test="user-form-profile"
       />
 
-      <slot></slot>
+      <UiTabs :tabs="TABS" v-model="currentTab" data-test="user-form-tabs" />
 
-      <h3>{{ t('user.defaultWeights') }}</h3>
+      <UserFormTab v-show="currentTab === 'general'" :title="t('user.general')" data-test="user-form-tab">
+        <UiField :label="t('name')" isRequired :error="error('name')">
+          <UiInput v-model="formData.name" data-test="user-form-name" />
+        </UiField>
 
-      <UserDefaultWeightsForm
-        v-if="formData.equipments && exercises"
-        :userEquipments="formData.equipments"
-        :exercises="exercises"
-        v-model="formData.defaultWeights"
-        data-test="user-form-default-weights"
-      />
+        <UiField :label="t('email')" isRequired :error="error('email')">
+          <UiInput v-model="formData.email" type="email" data-test="user-form-email" />
+        </UiField>
 
-      <h3>{{ t('user.generalInfo') }}</h3>
+        <UiField v-if="!props.user" :label="t('password')" isRequired :error="error('password')">
+          <UiInput v-model="formData.password" isPassword data-test="user-form-password" />
+        </UiField>
 
-      <UiField :label="t('name')" isRequired :error="error('name')">
-        <UiInput v-model="formData.name" data-test="user-form-name" />
-      </UiField>
+        <UiSpoiler
+          v-if="props.user?._id"
+          :title="t('updatePassword')"
+          v-model="isShowUpdatePassword"
+          data-test="user-form-new-password-spoiler"
+        >
+          <UiFlex>
+            <UiInput
+              v-model="newPassword"
+              :placeholder="t('password6Symbols')"
+              isPassword
+              data-test="user-form-new-password"
+            />
 
-      <UiField :label="t('email')" isRequired :error="error('email')">
-        <UiInput v-model="formData.email" type="email" data-test="user-form-email" />
-      </UiField>
+            <UiButton
+              :isDisabled="newPassword.length < 6"
+              isNarrow
+              @click="mutateUpdatePassword({ password: newPassword, id: props.user._id })"
+              data-test="user-form-set-new-password"
+            >
+              {{ t('update') }}
+            </UiButton>
+          </UiFlex>
+        </UiSpoiler>
+      </UserFormTab>
 
-      <UiField v-if="!props.user?._id" :label="t('password')" isRequired :error="error('password')">
-        <UiInput v-model="formData.password" isPassword data-test="user-form-password" />
-      </UiField>
+      <UserFormTab v-show="currentTab === 'equipment'" :title="t('equipment.one')" data-test="user-form-tab">
+        <UserEquipmentForm
+          v-if="equipments"
+          :equipments="equipments"
+          v-model="formData.equipments"
+          data-test="user-form-equipments"
+        />
+      </UserFormTab>
 
-      <UiSpoiler
-        v-if="props.user?._id"
-        :title="t('updatePassword')"
-        v-model="isShowUpdatePassword"
-        data-test="user-form-new-password-spoiler"
-      >
-        <UiFlex>
-          <UiInput
-            v-model="newPassword"
-            :placeholder="t('password6Symbols')"
-            isPassword
-            data-test="user-form-new-password"
-          />
+      <UserFormTab v-show="currentTab === 'weights'" :title="t('user.chooseWeights')" data-test="user-form-tab">
+        <UserDefaultWeightsForm
+          v-if="formData.equipments && exercises"
+          :userEquipments="formData.equipments"
+          :exercises="exercises"
+          v-model="formData.defaultWeights"
+          data-test="user-form-default-weights"
+        />
+      </UserFormTab>
 
-          <UiButton
-            :isDisabled="newPassword.length < 6"
-            isNarrow
-            @click="mutateUpdatePassword({ password: newPassword, id: props.user._id })"
-            data-test="user-form-set-new-password"
-          >
-            {{ t('update') }}
-          </UiButton>
-        </UiFlex>
-      </UiSpoiler>
+      <UserFormTab v-show="currentTab === 'exercises'" :title="t('exercise.many')" data-test="user-form-tab">
+        <UserExercises
+          v-if="exercisesCustom?.length"
+          :exercises="exercisesCustom"
+          @edit="editExercise"
+          data-test="user-form-exercises"
+        />
+
+        <UiButton @click="isShowCreateExercise = true" data-test="user-form-add-exercise">
+          {{ t('exercise.addCustom') }}
+        </UiButton>
+
+        <UiModal v-model="isShowCreateExercise" width="360" data-test="user-form-exercise-form-modal">
+          <div :class="$style.modal">
+            <h3>{{ t('exercise.addCustom') }}</h3>
+
+            <ExerciseForm
+              :exercise="currentExercise"
+              isDisableRedirect
+              @hide="hideExerciseModal"
+              data-test="user-form-exercise-form"
+            />
+          </div>
+        </UiModal>
+      </UserFormTab>
 
       <FormButtons
         :id="props.user?._id"
@@ -87,10 +107,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
+import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, UiModal, toast, UiTabs } from 'mhz-ui';
 import {
   useQueryClient,
   useValidator,
@@ -102,11 +122,15 @@ import {
   letters,
   min,
 } from 'mhz-helpers';
-import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUser } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IExercise, IUser } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
+import UserFormTab from '@/user/components/UserFormTab.vue';
 import UserDefaultWeightsForm from '@/user/components/UserDefaultWeightsForm.vue';
+import UserExercises from '@/user/components/UserExercises.vue';
+import UserFormProfile from '@/user/components/UserFormProfile.vue';
+import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
 import { URL_USER } from '@/user/constants';
 import { userService } from '@/user/services';
@@ -128,8 +152,8 @@ const { t, locale } = useI18n();
 const queryClient = useQueryClient();
 
 const { data: equipments } = equipmentService.getAll();
-
 const { data: exercises } = exerciseService.getAll();
+const { data: exercisesCustom } = exerciseService.getCustom({ enabled: !isAdmin.value });
 
 const formData = ref<IUser>({
   email: '',
@@ -140,6 +164,25 @@ const formData = ref<IUser>({
   role: 'user',
 });
 
+const generalTab = { value: 'general', title: t('user.general') };
+const exercisesTab = { value: 'exercises', title: t('exercise.many') };
+
+const otherTabs = [
+  { value: 'equipment', title: t('equipment.one') },
+  { value: 'weights', title: t('user.chooseWeights') },
+];
+
+const TABS = computed(() => {
+  if (!props.user?._id) return [generalTab];
+  if (isAdmin.value) return [generalTab, ...otherTabs];
+
+  return [generalTab, ...otherTabs, exercisesTab];
+});
+
+const currentTab = ref(TABS.value[0].value);
+const currentExercise = ref<IExercise>();
+
+const isShowCreateExercise = ref(false);
 const isShowUpdatePassword = ref(false);
 const isPasswordUpdated = ref(false);
 
@@ -201,19 +244,27 @@ function submit() {
   }
 }
 
+function editExercise(exercise: IExercise) {
+  currentExercise.value = exercise;
+  isShowCreateExercise.value = true;
+}
+
+function hideExerciseModal() {
+  currentExercise.value = undefined;
+  isShowCreateExercise.value = false;
+}
+
 onMounted(() => {
   if (props.user) formData.value = clone(props.user);
 });
 </script>
 
 <style module lang="scss">
-.admin {
-  font-weight: 700;
-  color: var(--color-success);
-}
-
-.reset {
-  font-weight: 700;
-  color: var(--color-error);
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 64dvh;
+  overflow-y: auto;
 }
 </style>

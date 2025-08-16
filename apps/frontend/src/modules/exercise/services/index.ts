@@ -38,7 +38,7 @@ export const exerciseService = {
       },
     }),
 
-  getCustom: () =>
+  getCustom: (options: object) =>
     useQuery({
       queryKey: [API_EXERCISE, API_EXERCISE_CUSTOM],
       queryFn: async () => {
@@ -46,6 +46,7 @@ export const exerciseService = {
 
         return data.data;
       },
+      ...options,
     }),
 
   getOne: (options: object, id: ComputedRef<string>) =>

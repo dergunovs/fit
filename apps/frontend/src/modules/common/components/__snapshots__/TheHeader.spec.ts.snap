@@ -5,7 +5,7 @@ exports[`TheHeader > matches snapshot 1`] = `
     <anonymous-stub width="30" height="30"></anonymous-stub>
     <div column="" gap="0">
       <div class="_logo_ad8e33">FiT</div>
-      <div class="_version_ad8e33">v. 0.1.15</div>
+      <div class="_version_ad8e33">v. 0.1.16</div>
     </div>
   </a>
   <div justify="flex-end"><button layout="plain" data-test="header-locale">RU</button><button layout="plain" data-test="header-help">Помощь</button><button layout="plain" data-test="header-registration">Регистрация</button><button layout="plain" data-test="header-login">Вход</button></div>
