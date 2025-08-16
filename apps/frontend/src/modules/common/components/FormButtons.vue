@@ -1,5 +1,5 @@
 <template>
-  <UiFlex v-if="(props.isEdit && props.id) || !props.isEdit" justify="space-between" grow>
+  <FormButtonsLayout v-if="(props.isEdit && props.id) || !props.isEdit" :isFixed="props.isFixed">
     <UiFlex>
       <UiButton type="submit" :isDisabled="props.isLoading" data-test="form-buttons-submit">
         {{ props.id ? t('save') : t('create') }}
@@ -38,20 +38,22 @@
     >
       {{ t('confirmDelete') }}?
     </UiModal>
-  </UiFlex>
+  </FormButtonsLayout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { UiButton, UiFlex, UiModal } from 'mhz-ui';
+import { UiButton, UiModal, UiFlex } from 'mhz-ui';
+import FormButtonsLayout from './FormButtonsLayout.vue';
 
 interface IProps {
   id?: string;
   isLoading?: boolean;
   isEdit?: boolean;
   isEmitCancel?: boolean;
+  isFixed?: boolean;
 }
 
 interface IEmit {

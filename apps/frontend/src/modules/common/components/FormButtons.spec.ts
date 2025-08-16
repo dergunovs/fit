@@ -4,6 +4,7 @@ import { dataTest } from 'mhz-helpers';
 import { UiModal } from 'mhz-ui';
 
 import FormButtons from './FormButtons.vue';
+import FormButtonsLayout from './FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { spyRouterGo } from '@/common/mocks';
@@ -18,7 +19,7 @@ const buttonsConfirmModal = dataTest('form-buttons-confirm-modal');
 let wrapper: VueWrapper<InstanceType<typeof FormButtons>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(FormButtons, { id, isLoading: false });
+  wrapper = wrapperFactory(FormButtons, { id, isLoading: false }, { FormButtonsLayout });
 });
 
 enableAutoUnmount(afterEach);

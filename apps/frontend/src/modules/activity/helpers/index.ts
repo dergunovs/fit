@@ -50,9 +50,17 @@ export function getPotentialActivityDuration(
   return formatDuration(durationWithRest, locale);
 }
 
-export function getActivityColor(exercises: IExerciseDone[], muscles: IMuscle[], dateScheduled?: Date | string) {
-  if (dateScheduled && new Date(dateScheduled) > new Date()) return 'gray';
-  if (dateScheduled && new Date(dateScheduled) < new Date()) return 'darkred';
+export function getActivityColor(
+  exercises: IExerciseDone[],
+  muscles: IMuscle[],
+  isFinished: boolean,
+  dateScheduled?: Date | string
+) {
+  const scheduled = new Date(`${dateScheduled}`);
+
+  if (scheduled > new Date()) return 'gray';
+  if (scheduled < new Date()) return 'darkred';
+  if (!isFinished) return 'black';
 
   const groups: { repeats: number; color?: string }[] = [];
 
@@ -89,10 +97,16 @@ export function convertActivityCalendarEvents(
   return activities?.map((activity: IActivity) => {
     const isScheduled = !!activity.dateScheduled;
 
-    const start = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateCreated}`);
-    const end = isScheduled ? new Date(`${activity.dateScheduled}`) : new Date(`${activity.dateUpdated}`);
+    const scheduled = new Date(`${activity.dateScheduled}`);
+    const created = new Date(`${activity.dateCreated}`);
+    const updated = activity.dateUpdated ? new Date(`${activity.dateUpdated}`) : created;
+
+    const start = isScheduled ? scheduled : created;
+    const end = isScheduled ? scheduled : updated;
 
     if (isScheduled) end.setHours(23, 59, 59);
+
+    const isFinished = created !== updated;
 
     return {
       _id: activity._id,
@@ -102,7 +116,7 @@ export function convertActivityCalendarEvents(
       endSeconds: end.getUTCSeconds(),
       title: activity.exercises.length.toString(),
       content: activity.exercises,
-      color: getActivityColor(activity.exercises, muscles, activity.dateScheduled),
+      color: getActivityColor(activity.exercises, muscles, isFinished, activity.dateScheduled),
     };
   });
 }

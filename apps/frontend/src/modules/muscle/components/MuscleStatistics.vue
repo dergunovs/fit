@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.table">
+  <div v-if="props.statistics.length" :class="$style.table">
     <UiTable :headers="MUSCLE_STATISTICS_HEADERS" :lang="locale">
       <tr v-for="muscle in props.statistics" :key="muscle.title" data-test="muscle-row">
         <td :style="{ color: muscle.color }" data-test="muscle-title">{{ muscle.title }}</td>

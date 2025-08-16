@@ -2,6 +2,6 @@
 
 exports[`ExerciseEditPage > matches snapshot 1`] = `
 "<div>
-  <exercise-form-stub exercise="[object Object]" isedit="true" isdisableredirect="false" data-test="exercise-form"></exercise-form-stub>
+  <exercise-form-stub exercise="[object Object]" isedit="true" isdisableredirect="false" isfixed="true" data-test="exercise-form"></exercise-form-stub>
 </div>"
 `;

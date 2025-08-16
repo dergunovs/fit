@@ -26,11 +26,11 @@ exports[`UserForm > matches snapshot 1`] = `
       <div modelvalue="false" width="360" data-test="user-form-exercise-form-modal">
         <div class="_modal_0ded47">
           <h3>Добавить своё упражнение</h3>
-          <exercise-form-stub isedit="false" isdisableredirect="true" data-test="user-form-exercise-form"></exercise-form-stub>
+          <exercise-form-stub isedit="false" isdisableredirect="true" isfixed="false" data-test="user-form-exercise-form"></exercise-form-stub>
         </div>
       </div>
     </div>
-    <form-buttons-stub isedit="false" isemitcancel="false" data-test="user-form-buttons"></form-buttons-stub>
+    <form-buttons-stub isedit="false" isemitcancel="false" isfixed="true" data-test="user-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

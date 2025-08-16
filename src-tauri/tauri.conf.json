@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "FiT",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "identifier": "com.appfit.dev",
   "build": {
     "frontendDist": "../apps/frontend/dist",

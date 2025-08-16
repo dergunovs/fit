@@ -67,7 +67,7 @@
       />
     </UiFlex>
 
-    <UiFlex justify="space-between">
+    <FormButtonsLayout :isFixed="!isPopup">
       <UiButton
         v-if="isAuth && isPopup && !isFutureActivity"
         @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
@@ -84,15 +84,14 @@
         {{ t('start') }}
       </UiButton>
 
-      <UiButton
-        v-if="isAuth && isPopup"
-        @click="isShowConfirm = true"
-        layout="secondary"
-        data-test="activity-info-delete"
-      >
+      <UiButton v-if="!isPopup" @click="router.go(-1)" data-test="activity-info-go-back-button">
+        {{ t('back') }}
+      </UiButton>
+
+      <UiButton v-if="isAuth" @click="isShowConfirm = true" layout="secondary" data-test="activity-info-delete">
         {{ t('delete') }}
       </UiButton>
-    </UiFlex>
+    </FormButtonsLayout>
 
     <UiModal
       v-model="isShowConfirm"
@@ -118,6 +117,7 @@ import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration, loca
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
+import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 

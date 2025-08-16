@@ -88,6 +88,7 @@
             <ExerciseForm
               :exercise="currentExercise"
               isDisableRedirect
+              :isFixed="false"
               @hide="hideExerciseModal"
               data-test="user-form-exercise-form"
             />
@@ -99,6 +100,7 @@
         :id="props.user?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
         :isEdit="props.isEdit"
+        isFixed
         @delete="(id) => mutateDelete(id)"
         data-test="user-form-buttons"
       />

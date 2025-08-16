@@ -24,6 +24,7 @@
         :id="props.muscle?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
         :isEdit="props.isEdit"
+        isFixed
         @delete="(id) => mutateDelete(id)"
         data-test="muscle-form-buttons"
       />

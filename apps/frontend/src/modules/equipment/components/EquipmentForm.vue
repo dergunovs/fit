@@ -19,6 +19,7 @@
         :id="props.equipment?._id"
         :isLoading="isLoadingPost || isLoadingUpdate"
         :isEdit="props.isEdit"
+        isFixed
         @delete="(id) => mutateDelete(id)"
         data-test="equipment-form-buttons"
       />

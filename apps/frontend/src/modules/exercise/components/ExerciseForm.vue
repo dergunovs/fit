@@ -67,6 +67,7 @@
         :isLoading="isLoadingPost || isLoadingUpdate"
         :isEdit="props.isEdit"
         :isEmitCancel="props.isDisableRedirect"
+        :isFixed="props.isFixed"
         @delete="(id) => mutateDelete(id)"
         @cancel="emit('hide')"
         data-test="exercise-form-buttons"
@@ -95,6 +96,7 @@ interface IProps {
   exercise?: IExercise;
   isEdit?: boolean;
   isDisableRedirect?: boolean;
+  isFixed?: boolean;
 }
 
 interface IEmit {

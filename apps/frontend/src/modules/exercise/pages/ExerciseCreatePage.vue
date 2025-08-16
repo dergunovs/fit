@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ExerciseForm data-test="exercise-form" />
+    <ExerciseForm isFixed data-test="exercise-form" />
   </div>
 </template>
 

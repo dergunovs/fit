@@ -8,6 +8,7 @@ import ActivityInfo from './ActivityInfo.vue';
 import ActivityTimeline from './ActivityTimeline.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
+import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
@@ -23,6 +24,7 @@ import {
   spyRouterPush,
   spyToastSuccess,
   spyCopyToClipboard,
+  spyRouterGo,
 } from '@/common/mocks';
 
 const activityInfo = dataTest('activity-info');
@@ -39,6 +41,7 @@ const startActivity = dataTest('activity-info-start');
 const deleteActivity = dataTest('activity-info-delete');
 const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
 const modal = dataTest('activity-info-modal');
+const goBackButton = dataTest('activity-info-go-back-button');
 
 const id = '123';
 const start = new Date('01-01-2025');
@@ -49,7 +52,7 @@ const isPopup = false;
 let wrapper: VueWrapper<InstanceType<typeof ActivityInfo>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityInfo, { id, start, end, exercises, isPopup });
+  wrapper = wrapperFactory(ActivityInfo, { id, start, end, exercises, isPopup }, { FormButtonsLayout });
 });
 
 enableAutoUnmount(afterEach);
@@ -143,11 +146,6 @@ describe('ActivityInfo', async () => {
 
     expect(wrapper.emitted()).not.toHaveProperty('delete');
 
-    expect(wrapper.find(deleteActivity).exists()).toBe(false);
-
-    setAuth(true);
-    await wrapper.setProps({ isPopup: true });
-
     expect(wrapper.find(deleteActivity).exists()).toBe(true);
 
     expect(wrapper.find(modal).attributes('modelvalue')).toBe('false');
@@ -180,5 +178,12 @@ describe('ActivityInfo', async () => {
     await wrapper.find(copyActivityToClipboard).trigger('click');
 
     expect(spyCopyToClipboard).toBeCalledTimes(1);
+  });
+
+  it('handle go back button click', async () => {
+    await wrapper.find(goBackButton).trigger('click');
+
+    expect(spyRouterGo).toBeCalledTimes(1);
+    expect(spyRouterGo).toBeCalledWith(-1);
   });
 });

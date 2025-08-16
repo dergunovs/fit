@@ -26,6 +26,7 @@
 
         <UiButton
           @click="isShowCalendar = !isShowCalendar"
+          :isDisabled="!isValid"
           isNarrow
           layout="secondary"
           data-test="activity-form-add-to-calendar"
@@ -55,10 +56,6 @@
         />
       </UiFlex>
 
-      <UiButton @click="isShowModal = true" data-test="activity-form-add-exercise">
-        {{ t('exercise.add') }}
-      </UiButton>
-
       <UiModal v-model="isShowModal" width="360" data-test="activity-form-add-exercise-modal">
         <ExerciseChooseList
           v-if="exercises?.length"
@@ -79,9 +76,21 @@
         />
       </UiFlex>
 
-      <UiButton layout="accent" :isDisabled="!isValid || isLoadingPost" type="submit" data-test="activity-form-submit">
-        {{ t('activity.start') }}
-      </UiButton>
+      <FormButtonsLayout isFixed>
+        <UiButton @click="isShowModal = true" isNarrow data-test="activity-form-add-exercise">
+          {{ t('exercise.add') }}
+        </UiButton>
+
+        <UiButton
+          layout="accent"
+          isNarrow
+          :isDisabled="!isValid || isLoadingPost"
+          type="submit"
+          data-test="activity-form-submit"
+        >
+          {{ t('activity.start') }}
+        </UiButton>
+      </FormButtonsLayout>
     </UiFlex>
   </div>
 </template>
@@ -102,6 +111,7 @@ import {
 
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';

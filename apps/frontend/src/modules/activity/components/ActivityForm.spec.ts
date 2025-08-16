@@ -8,6 +8,7 @@ import { API_ACTIVITY } from 'fitness-tracker-contracts';
 import ActivityForm from './ActivityForm.vue';
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITIES_STATISTICS_FIXTURE, ACTIVITY_FIXTURE, ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
@@ -49,10 +50,11 @@ const submit = dataTest('activity-form-submit');
 let wrapper: VueWrapper<InstanceType<typeof ActivityForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityForm, {
-    exerciseStatistics: ACTIVITIES_STATISTICS_FIXTURE.exercise,
-    averageRestPercent,
-  });
+  wrapper = wrapperFactory(
+    ActivityForm,
+    { exerciseStatistics: ACTIVITIES_STATISTICS_FIXTURE.exercise, averageRestPercent },
+    { FormButtonsLayout }
+  );
 });
 
 enableAutoUnmount(afterEach);
