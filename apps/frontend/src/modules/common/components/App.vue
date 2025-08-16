@@ -1,7 +1,7 @@
 <template>
   <div>
     <component
-      v-if="isLoaded"
+      v-if="isLoaded && isAuthChecked"
       :is="layoutComponent"
       :isAdmin="isAdmin"
       data-test="app-layout"
@@ -22,7 +22,7 @@ const { initLocale } = useLocale();
 
 const { isLoaded, layoutComponent } = useLayout();
 
-const { isAdmin } = useAuthCheck();
+const { isAdmin, isAuthChecked } = useAuthCheck();
 
 initLocale();
 </script>

@@ -20,10 +20,11 @@ import { IOnSuccess } from '@/common/interface';
 import { USER_FIXTURE } from '@/user/fixtures';
 
 const mockIsAdmin = ref(true);
+const mockIsAuthChecked = ref(true);
 
 const spyUseAuthCheck = vi
   .spyOn(authComposables, 'useAuthCheck')
-  .mockReturnValue({ user: ref(USER_FIXTURE), isAdmin: ref(mockIsAdmin) });
+  .mockReturnValue({ user: ref(USER_FIXTURE), isAdmin: ref(mockIsAdmin), isAuthChecked: ref(mockIsAuthChecked) });
 
 const spyLogin = vi.fn();
 const spySetup = vi.fn();

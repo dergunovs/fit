@@ -18,7 +18,7 @@ const props = defineProps<IProps>();
 
 <style module lang="scss">
 .margin {
-  height: calc(var(--form-buttons-height) - 16px);
+  height: calc(var(--form-buttons-height) - 8px);
 }
 
 .buttons {

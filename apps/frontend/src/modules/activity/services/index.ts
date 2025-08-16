@@ -84,6 +84,8 @@ export const activityService = {
     useQuery({
       queryKey: [API_ACTIVITY, id],
       queryFn: async () => {
+        if (!id.value) return null;
+
         const { data } = await api.get<TGetActivityDTO>(`${API_ACTIVITY}/${id.value}`);
 
         return data.data;
