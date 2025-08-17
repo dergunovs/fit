@@ -1,13 +1,13 @@
-import { API_MUSCLE } from 'fitness-tracker-contracts';
-import type {
-  IBaseParams,
-  TGetMusclesDTO,
-  TGetMuscleDTO,
-  TPostMuscleDTO,
-  TPostMuscleDataDTO,
-  TUpdateMuscleDTO,
-  TUpdateMuscleDataDTO,
-  TDeleteMuscleDTO,
+import {
+  API_MUSCLE,
+  type IBaseParams,
+  type TGetMusclesDTO,
+  type TGetMuscleDTO,
+  type TPostMuscleDTO,
+  type TPostMuscleDataDTO,
+  type TUpdateMuscleDTO,
+  type TUpdateMuscleDataDTO,
+  type TDeleteMuscleDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';

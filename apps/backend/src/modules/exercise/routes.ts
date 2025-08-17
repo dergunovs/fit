@@ -1,16 +1,18 @@
-import { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from 'fitness-tracker-contracts';
-import type {
-  IBaseParams,
-  TGetExercisesDTO,
-  TGetExercisesQueryDTO,
-  TGetExerciseDTO,
-  TPostExerciseDTO,
-  TPostExerciseDataDTO,
-  TUpdateExerciseDTO,
-  TUpdateExerciseDataDTO,
-  TDeleteExerciseDTO,
-  TGetExercisesAllDTO,
-  TGetExercisesCustomDTO,
+import {
+  API_EXERCISE,
+  API_EXERCISE_ALL,
+  API_EXERCISE_CUSTOM,
+  type IBaseParams,
+  type TGetExercisesDTO,
+  type TGetExercisesQueryDTO,
+  type TGetExerciseDTO,
+  type TPostExerciseDTO,
+  type TPostExerciseDataDTO,
+  type TUpdateExerciseDTO,
+  type TUpdateExerciseDataDTO,
+  type TDeleteExerciseDTO,
+  type TGetExercisesAllDTO,
+  type TGetExercisesCustomDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';

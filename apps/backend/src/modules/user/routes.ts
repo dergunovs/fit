@@ -1,18 +1,20 @@
-import { API_USER, API_USER_FEEDBACK, API_USER_PASSWORD } from 'fitness-tracker-contracts';
-import type {
-  IBaseParams,
-  TGetUsersDTO,
-  TGetUsersQueryDTO,
-  TGetUserDTO,
-  TPostUserDTO,
-  TPostUserDataDTO,
-  TUpdateUserDTO,
-  TUpdateUserDataDTO,
-  TDeleteUserDTO,
-  TUpdateUserPasswordDTO,
-  TUpdateUserPasswordDataDTO,
-  TPostUserFeedbackDataDTO,
-  TPostUserFeedbackDTO,
+import {
+  API_USER,
+  API_USER_FEEDBACK,
+  API_USER_PASSWORD,
+  type IBaseParams,
+  type TGetUsersDTO,
+  type TGetUsersQueryDTO,
+  type TGetUserDTO,
+  type TPostUserDTO,
+  type TPostUserDataDTO,
+  type TUpdateUserDTO,
+  type TUpdateUserDataDTO,
+  type TDeleteUserDTO,
+  type TUpdateUserPasswordDTO,
+  type TUpdateUserPasswordDataDTO,
+  type TPostUserFeedbackDataDTO,
+  type TPostUserFeedbackDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';

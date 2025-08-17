@@ -1,13 +1,13 @@
-import { API_EQUIPMENT } from 'fitness-tracker-contracts';
-import type {
-  IBaseParams,
-  TGetEquipmentsDTO,
-  TGetEquipmentDTO,
-  TPostEquipmentDTO,
-  TPostEquipmentDataDTO,
-  TUpdateEquipmentDTO,
-  TUpdateEquipmentDataDTO,
-  TDeleteEquipmentDTO,
+import {
+  API_EQUIPMENT,
+  type IBaseParams,
+  type TGetEquipmentsDTO,
+  type TGetEquipmentDTO,
+  type TPostEquipmentDTO,
+  type TPostEquipmentDataDTO,
+  type TUpdateEquipmentDTO,
+  type TUpdateEquipmentDataDTO,
+  type TDeleteEquipmentDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
