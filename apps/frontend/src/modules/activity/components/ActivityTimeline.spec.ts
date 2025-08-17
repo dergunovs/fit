@@ -59,4 +59,40 @@ describe('ActivityTimeline', async () => {
 
     expect(wrapper.findAll(step).length).toBe(0);
   });
+
+  it('calculates ratio correctly when both lastStepDate and start exist', async () => {
+    const testExercises = [
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: '01-01-2025' },
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: '01-03-2025' },
+    ];
+
+    await wrapper.setProps({ exercises: testExercises });
+
+    const expectedRatio = 86400000 / 308;
+
+    const generatedSteps = generateTimeline(testExercises, start, expectedRatio);
+
+    expect(generatedSteps.length).toBe(2);
+  });
+
+  it('sets ratio to 0 when lastStepDate is missing', async () => {
+    const testExercises = [
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: undefined },
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: undefined },
+    ];
+
+    await wrapper.setProps({ exercises: testExercises, start: null });
+
+    const generatedSteps = generateTimeline(testExercises, null, 0);
+
+    expect(generatedSteps.length).toBe(0);
+  });
+
+  it('sets ratio to 0 when start is missing', async () => {
+    await wrapper.setProps({ start: null });
+
+    const generatedSteps = generateTimeline(exercises, null, 0);
+
+    expect(generatedSteps.length).toBe(0);
+  });
 });

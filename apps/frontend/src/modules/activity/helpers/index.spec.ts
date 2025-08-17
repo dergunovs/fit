@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { IExercise } from 'fitness-tracker-contracts';
 
 import {
   getPotentialActivityDuration,
@@ -88,6 +89,23 @@ describe('activity helpers', () => {
 
     expect(getActivityColor(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE, true)).toBe(
       'linear-gradient(135deg, #00CED1 33%, #000080 33%, #000080 66%, #C41E3A 66%, #C41E3A 99%)'
+    );
+
+    const musclesWithTwoColors = [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]];
+
+    const exercisesWithTwoMuscles = [
+      {
+        ...EXERCISES_DONE_FIXTURE[0],
+        exercise: { ...EXERCISES_DONE_FIXTURE[0].exercise, muscles: [MUSCLES_FIXTURE[0]] } as IExercise,
+      },
+      {
+        ...EXERCISES_DONE_FIXTURE[1],
+        exercise: { ...EXERCISES_DONE_FIXTURE[1].exercise, muscles: [MUSCLES_FIXTURE[1]] } as IExercise,
+      },
+    ];
+
+    expect(getActivityColor(exercisesWithTwoMuscles, musclesWithTwoColors, true)).toBe(
+      'linear-gradient(135deg, #00CED1 50%, #000080 50%, #000080 100%)'
     );
   });
 });

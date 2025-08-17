@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiFlex v-if="exercisesToChooseWeight.length" column>
+    <UiFlex v-if="exercisesToChooseWeight.length" column data-test="user-default-weights">
       <UiFlex v-for="exercise in exercisesToChooseWeight" :key="exercise._id" column data-test="user-default-weight">
         <div data-test="user-default-weight-title">{{ exercise[localeField('title', locale)] }}</div>
 
@@ -15,7 +15,7 @@
       </UiFlex>
     </UiFlex>
 
-    <div v-else>{{ t('exercise.noAvailable') }}</div>
+    <div v-else data-test="user-default-weights-empty">{{ t('exercise.noAvailable') }}</div>
   </div>
 </template>
 

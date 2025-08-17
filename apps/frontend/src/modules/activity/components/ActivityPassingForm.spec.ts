@@ -97,4 +97,27 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.emitted('updateExercises')).toHaveLength(1);
     expect(wrapper.emitted('setDateUpdated')).toHaveLength(1);
   });
+
+  it('sets date created when activity is not updated', async () => {
+    const activityWithoutDateUpdated = { ...ACTIVITY_FIXTURE_2, dateUpdated: undefined };
+
+    await wrapper.setProps({ activity: activityWithoutDateUpdated });
+
+    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('start', activity.exercises[0]._id);
+
+    await nextTick();
+
+    const exerciseDone = { ...activity.exercises[0], duration: 60 };
+
+    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('stop', exerciseDone);
+
+    await nextTick();
+
+    expect(wrapper.emitted('setDateCreated')).toHaveLength(1);
+
+    const emittedDate = wrapper.emitted('setDateCreated')?.[0][0] as Date;
+    const expectedDate = new Date(new Date().getTime() - 60 * 1000);
+
+    expect(emittedDate.getTime()).toBeCloseTo(expectedDate.getTime(), -3);
+  });
 });

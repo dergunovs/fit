@@ -23,6 +23,7 @@ import {
   EXERCISE_STATISTICS_FIXTURE,
 } from '@/exercise/fixtures';
 import { USER_FIXTURE, USER_FIXTURE_2 } from '@/user/fixtures';
+import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 
 describe('exercise helpers', () => {
   test('gets average duration', async () => {
@@ -139,6 +140,33 @@ describe('exercise helpers', () => {
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE)).toStrictEqual(false);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE, USER_FIXTURE_2)).toStrictEqual(false);
     expect(isUserEquipmentMatches(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual(true);
+
+    const exerciseWithEquipmentNoWeights = {
+      ...EXERCISE_FIXTURE,
+      equipment: EQUIPMENT_FIXTURE_2,
+      isWeightsRequired: false,
+      equipmentForWeight: [],
+    };
+
+    expect(isUserEquipmentMatches(exerciseWithEquipmentNoWeights, USER_FIXTURE)).toStrictEqual(true);
+
+    const exerciseWithoutEquipmentButWithWeight = {
+      ...EXERCISE_FIXTURE_2,
+      equipment: undefined,
+      equipmentForWeight: [EQUIPMENT_FIXTURE],
+      isWeightsRequired: true,
+    };
+
+    expect(isUserEquipmentMatches(exerciseWithoutEquipmentButWithWeight, USER_FIXTURE)).toStrictEqual(true);
+
+    const exerciseWithoutEquipmentNoWeights = {
+      ...EXERCISE_FIXTURE_2,
+      equipment: undefined,
+      equipmentForWeight: [],
+      isWeightsRequired: false,
+    };
+
+    expect(isUserEquipmentMatches(exerciseWithoutEquipmentNoWeights, USER_FIXTURE)).toStrictEqual(true);
   });
 
   test('gets user equipment params', async () => {

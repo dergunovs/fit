@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUserEquipment } from 'fitness-tracker-contracts';
 import { dataTest, deleteAuthHeader } from 'mhz-helpers';
+import { UiTabs } from 'mhz-ui';
 
 import UserForm from './UserForm.vue';
 import UserEquipmentForm from './UserEquipmentForm.vue';
@@ -38,6 +39,7 @@ const PASSWORD = 'unique';
 const EQUIPMENTS: IUserEquipment[] = [];
 
 const form = dataTest('user-form');
+const formTabs = dataTest('user-form-tabs');
 const formTab = dataTest('user-form-tab');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
@@ -74,14 +76,6 @@ describe('UserForm', async () => {
 
   it('matches snapshot', async () => {
     expect(wrapper.html()).toMatchSnapshot();
-  });
-
-  it('shows only one tab in user create form', async () => {
-    expect(wrapper.findAll(formTab)[0].isVisible()).toBe(true);
-    expect(wrapper.findAll(formTab)[1].isVisible()).toBe(false);
-
-    expect(wrapperWithUser.findAll(formTab)[0].isVisible()).toBe(true);
-    expect(wrapperWithUser.findAll(formTab)[1].isVisible()).toBe(true);
   });
 
   it('shows password field only when creating users', async () => {
@@ -316,5 +310,27 @@ describe('UserForm', async () => {
     expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
 
     expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toStrictEqual(undefined);
+  });
+
+  it('shows only one tab in user create form', async () => {
+    expect(wrapper.findAll(formTab)[0].isVisible()).toBe(true);
+    expect(wrapper.findAll(formTab)[1].isVisible()).toBe(false);
+
+    expect(wrapperWithUser.findAll(formTab)[0].isVisible()).toBe(true);
+    expect(wrapperWithUser.findAll(formTab)[1].isVisible()).toBe(true);
+  });
+
+  it('shows tabs for admin user', async () => {
+    setAdmin(false);
+
+    await nextTick();
+
+    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(4);
+
+    setAdmin(true);
+
+    await nextTick();
+
+    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(3);
   });
 });

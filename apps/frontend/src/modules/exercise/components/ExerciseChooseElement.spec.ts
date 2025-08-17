@@ -42,7 +42,7 @@ describe('ExerciseChooseElement', async () => {
     expect(wrapper.find(exerciseRepeats).attributes('modelvalue')).toBe(EXERCISE_REPEATS_DEFAULT.toString());
   });
 
-  it('sets default weight and weught options', async () => {
+  it('sets default weight and weight options', async () => {
     expect(wrapper.find(exerciseWeight).attributes('modelvalue')).toBe(defaultWeight.toString());
   });
 
@@ -79,5 +79,19 @@ describe('ExerciseChooseElement', async () => {
     expect(wrapper.emitted()['add'][3]).toStrictEqual([choosenExercise]);
     expect(wrapper.emitted()['add'][4]).toStrictEqual([choosenExercise]);
     expect(wrapper.emitted()['add'][5]).toStrictEqual([choosenExercise]);
+  });
+
+  it('does not render weight field when exercise does not require weights', async () => {
+    const exerciseWithoutWeights = { ...EXERCISE_FIXTURE, isWeights: false };
+
+    await wrapper.setProps({ exercise: exerciseWithoutWeights, user: USER_FIXTURE, weights: [] });
+
+    expect(wrapper.find(exerciseWeight).exists()).toBe(false);
+  });
+
+  it('does not render weight field when no weights available', async () => {
+    await wrapper.setProps({ exercise: EXERCISE_FIXTURE, user: USER_FIXTURE, weights: [] });
+
+    expect(wrapper.find(exerciseWeight).exists()).toBe(false);
   });
 });
