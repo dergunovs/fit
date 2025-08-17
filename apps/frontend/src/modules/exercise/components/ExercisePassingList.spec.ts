@@ -54,21 +54,21 @@ describe('ExercisePassingList', async () => {
   it('shows exercise elements and sets props', async () => {
     expect(wrapper.findAll(exercise).length).toBe(exercises.length);
 
-    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$props.exercise).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).props('exercise')).toStrictEqual(
       exercises[0]
     );
 
-    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$props.activeExerciseId).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).props('activeExerciseId')).toStrictEqual(
       activeExerciseId
     );
 
-    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$props.isCurrentExercise).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).props('isCurrentExercise')).toStrictEqual(
       exercises.filter((ex) => ex.isDone).length === 0
     );
 
-    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$props.index).toStrictEqual(0 + 1);
+    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).props('index')).toStrictEqual(0 + 1);
 
-    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).vm.$props.exercisesCount).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingElement>(exercise).props('exercisesCount')).toStrictEqual(
       exercises.length
     );
   });

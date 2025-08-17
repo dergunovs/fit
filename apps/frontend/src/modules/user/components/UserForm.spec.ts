@@ -248,7 +248,7 @@ describe('UserForm', async () => {
 
   it('gets and sets equipment options', async () => {
     expect(spyGetEquipments).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof UserEquipmentForm>(formEquipments).vm.$props.equipments).toStrictEqual(
+    expect(wrapper.findComponent<typeof UserEquipmentForm>(formEquipments).props('equipments')).toStrictEqual(
       EQUIPMENTS_FIXTURE
     );
   });
@@ -257,17 +257,17 @@ describe('UserForm', async () => {
     expect(spyGetExercisesAll).toBeCalledTimes(1);
 
     expect(
-      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.exercises
+      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).props('exercises')
     ).toStrictEqual(EXERCISES_FIXTURE);
 
     expect(
-      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).vm.$props.userEquipments
+      wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).props('userEquipments')
     ).toStrictEqual(USER_FIXTURE.equipments);
   });
 
   it('gets and sets user custom exercises', async () => {
     expect(spyGetExercisesCustom).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof UserExercises>(formExercises).vm.$props.exercises).toStrictEqual([
+    expect(wrapper.findComponent<typeof UserExercises>(formExercises).props('exercises')).toStrictEqual([
       EXERCISE_FIXTURE_CUSTOM,
     ]);
   });
@@ -283,7 +283,7 @@ describe('UserForm', async () => {
   it('sets emited exercise to edit in modal', async () => {
     expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
 
-    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(undefined);
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toStrictEqual(undefined);
 
     wrapper.findComponent<typeof UserExercises>(formExercises).vm.$emit('edit', EXERCISE_FIXTURE_CUSTOM);
 
@@ -291,7 +291,7 @@ describe('UserForm', async () => {
 
     expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
 
-    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toStrictEqual(
       EXERCISE_FIXTURE_CUSTOM
     );
   });
@@ -305,7 +305,7 @@ describe('UserForm', async () => {
 
     expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
 
-    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toStrictEqual(
       EXERCISE_FIXTURE_CUSTOM
     );
 
@@ -315,6 +315,6 @@ describe('UserForm', async () => {
 
     expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
 
-    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).vm.$props.exercise).toStrictEqual(undefined);
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toStrictEqual(undefined);
   });
 });

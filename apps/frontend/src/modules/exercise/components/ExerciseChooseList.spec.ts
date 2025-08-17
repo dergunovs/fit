@@ -55,10 +55,10 @@ describe('ExerciseChooseList', async () => {
 
     expect(wrapper.findAll(exerciseChooseElement).length).toBe(filteredExercises.length);
 
-    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.exercise).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('exercise')).toStrictEqual(
       filteredExercises[0]
     );
-    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.weights).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('weights')).toStrictEqual(
       getAvailableExerciseWeights(filteredExercises[0], USER_FIXTURE)
     );
   });
@@ -66,7 +66,7 @@ describe('ExerciseChooseList', async () => {
   it('gets and sets user data', async () => {
     expect(spyUseAuthCheck).toBeCalledTimes(1);
 
-    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).vm.$props.user).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('user')).toStrictEqual(
       USER_FIXTURE
     );
   });

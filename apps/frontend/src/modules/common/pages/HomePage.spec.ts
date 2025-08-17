@@ -80,7 +80,7 @@ describe('HomePage', async () => {
     expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
     expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
 
-    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$props.events).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).props('events')).toStrictEqual(
       convertActivityCalendarEvents(MUSCLES_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE)
     );
   });
@@ -103,13 +103,13 @@ describe('HomePage', async () => {
   });
 
   it('sets activity statistics', async () => {
-    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).vm.$props.statistics).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityStatistics>(activityStatistics).props('statistics')).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.activity
     );
   });
 
   it('sets exercise statistics', async () => {
-    expect(wrapper.findComponent<typeof ExerciseStatistics>(exerciseStatistics).vm.$props.statistics).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseStatistics>(exerciseStatistics).props('statistics')).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.exercise
     );
   });

@@ -47,7 +47,7 @@ describe('UserListPage', async () => {
     expect(spyUsePagination).toBeCalledTimes(1);
     expect(spyUsePagination).toBeCalledWith(ref(mockGetUsersData));
 
-    expect(wrapper.findComponent<typeof UserList>(userList).vm.$props.users).toStrictEqual(USERS_FIXTURE);
+    expect(wrapper.findComponent<typeof UserList>(userList).props('users')).toStrictEqual(USERS_FIXTURE);
   });
 
   it('sets data to pagination', async () => {

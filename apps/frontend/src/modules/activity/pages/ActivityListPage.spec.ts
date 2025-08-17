@@ -41,9 +41,7 @@ describe('ActivityListPage', async () => {
     expect(spyUsePagination).toBeCalledTimes(1);
     expect(spyUsePagination).toBeCalledWith(ref(mockGetActivitiesData));
 
-    expect(wrapper.findComponent<typeof ActivityAdminList>(list).vm.$props.activities).toStrictEqual(
-      ACTIVITIES_FIXTURE
-    );
+    expect(wrapper.findComponent<typeof ActivityAdminList>(list).props('activities')).toStrictEqual(ACTIVITIES_FIXTURE);
   });
 
   it('sets data to pagination', async () => {

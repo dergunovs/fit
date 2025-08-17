@@ -102,16 +102,16 @@ describe('ExercisePassingElement', async () => {
 
     await wrapper.setProps({ isCurrentExercise: true });
 
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.start).toStrictEqual(false);
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.stop).toStrictEqual(false);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('start')).toStrictEqual(false);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('stop')).toStrictEqual(false);
 
     await wrapper.find(button).trigger('click');
 
     expect(wrapper.emitted('start')).toHaveLength(1);
     expect(wrapper.emitted()['start'][0]).toStrictEqual([exerciseNotDone._id]);
 
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.start).toStrictEqual(true);
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.stop).toStrictEqual(false);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('start')).toStrictEqual(true);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('stop')).toStrictEqual(false);
   });
 
   it('emits exercise data when stopped', async () => {
@@ -125,8 +125,8 @@ describe('ExercisePassingElement', async () => {
 
     await wrapper.find(button).trigger('click');
 
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.start).toStrictEqual(false);
-    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$props.stop).toStrictEqual(true);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('start')).toStrictEqual(false);
+    expect(wrapper.findComponent<typeof ExerciseDurationTimer>(duration).props('stop')).toStrictEqual(true);
 
     const durationTime = 12;
 

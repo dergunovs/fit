@@ -47,7 +47,7 @@ describe('ExerciseListPage', async () => {
     expect(spyUsePagination).toBeCalledTimes(1);
     expect(spyUsePagination).toBeCalledWith(ref(mockGetExercisesData));
 
-    expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).vm.$props.exercises).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).props('exercises')).toStrictEqual(
       EXERCISES_FIXTURE
     );
   });

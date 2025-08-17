@@ -81,9 +81,9 @@ describe('ActivityForm', async () => {
   });
 
   it('adds and deletes exercises', async () => {
-    expect(
-      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual([...existingExercises]);
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).props('choosenExercises')).toStrictEqual(
+      [...existingExercises]
+    );
 
     expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('false');
 
@@ -98,9 +98,9 @@ describe('ActivityForm', async () => {
     expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('false');
     expect(wrapper.find(exercisesChoosenContainer).exists()).toBe(true);
 
-    expect(
-      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual([...existingExercises, EXERCISE_CHOOSEN_FIXTURE]);
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).props('choosenExercises')).toStrictEqual(
+      [...existingExercises, EXERCISE_CHOOSEN_FIXTURE]
+    );
 
     wrapper
       .findComponent<typeof ExerciseChoosenList>(exercisesChoosen)
@@ -128,23 +128,23 @@ describe('ActivityForm', async () => {
 
     await nextTick();
 
-    expect(
-      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual([...existingExercises, EXERCISE_CHOOSEN_FIXTURE, EXERCISE_CHOOSEN_2_FIXTURE]);
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).props('choosenExercises')).toStrictEqual(
+      [...existingExercises, EXERCISE_CHOOSEN_FIXTURE, EXERCISE_CHOOSEN_2_FIXTURE]
+    );
 
     wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$emit('createSet');
 
     await nextTick();
 
-    expect(
-      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual([
-      ...existingExercises,
-      EXERCISE_CHOOSEN_FIXTURE,
-      EXERCISE_CHOOSEN_2_FIXTURE,
-      { ...EXERCISE_CHOOSEN_FIXTURE, _id: mockTempId },
-      { ...EXERCISE_CHOOSEN_2_FIXTURE, _id: mockTempId },
-    ]);
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).props('choosenExercises')).toStrictEqual(
+      [
+        ...existingExercises,
+        EXERCISE_CHOOSEN_FIXTURE,
+        EXERCISE_CHOOSEN_2_FIXTURE,
+        { ...EXERCISE_CHOOSEN_FIXTURE, _id: mockTempId },
+        { ...EXERCISE_CHOOSEN_2_FIXTURE, _id: mockTempId },
+      ]
+    );
   });
 
   it('disables submit button if no exercises added', async () => {
@@ -168,9 +168,9 @@ describe('ActivityForm', async () => {
   it('repeats last activity', async () => {
     await wrapper.find(repeatLast).trigger('click');
 
-    expect(
-      wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).vm.$props.choosenExercises
-    ).toStrictEqual(generateActivityExercises(ACTIVITY_FIXTURE_2.exercises));
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(exercisesChoosen).props('choosenExercises')).toStrictEqual(
+      generateActivityExercises(ACTIVITY_FIXTURE_2.exercises)
+    );
   });
 
   it('shows potential activity duration', async () => {

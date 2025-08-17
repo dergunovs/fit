@@ -36,6 +36,6 @@ describe('MuscleListPage', async () => {
 
   it('gets and sets muscles to list', async () => {
     expect(spyGetMuscles).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof MuscleList>(muscleList).vm.$props.muscles).toStrictEqual(MUSCLES_FIXTURE);
+    expect(wrapper.findComponent<typeof MuscleList>(muscleList).props('muscles')).toStrictEqual(MUSCLES_FIXTURE);
   });
 });

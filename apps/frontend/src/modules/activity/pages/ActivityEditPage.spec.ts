@@ -36,14 +36,12 @@ describe('ActivityEditPage', async () => {
     expect(spyGetActivity).toBeCalledTimes(1);
     expect(spyGetActivity).toBeCalledWith({ enabled: true }, mockRouteId);
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.id).toStrictEqual(ACTIVITY_FIXTURE._id);
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).props('id')).toStrictEqual(ACTIVITY_FIXTURE._id);
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.start).toStrictEqual(
-      ACTIVITY_FIXTURE.dateCreated
-    );
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.end).toStrictEqual(ACTIVITY_FIXTURE.dateUpdated);
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).props('start')).toStrictEqual(ACTIVITY_FIXTURE.dateCreated);
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).props('end')).toStrictEqual(ACTIVITY_FIXTURE.dateUpdated);
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(info).vm.$props.exercises).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityInfo>(info).props('exercises')).toStrictEqual(
       ACTIVITY_FIXTURE.exercises
     );
   });

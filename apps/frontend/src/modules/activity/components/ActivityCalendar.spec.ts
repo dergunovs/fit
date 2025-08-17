@@ -16,13 +16,13 @@ const activityInfo = dataTest('activity-calendar-info');
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityCalendar>>;
 
-beforeEach(() => {
-  wrapper = wrapperFactory(ActivityCalendar, { events: ACTIVITY_CALENDAR_EVENTS });
-});
-
-enableAutoUnmount(afterEach);
-
 describe('ActivityCalendar', async () => {
+  beforeEach(() => {
+    wrapper = wrapperFactory(ActivityCalendar, { events: ACTIVITY_CALENDAR_EVENTS });
+  });
+
+  enableAutoUnmount(afterEach);
+
   it('exists', async () => {
     expect(wrapper.findComponent(ActivityCalendar)).toBeTruthy();
   });
@@ -32,7 +32,7 @@ describe('ActivityCalendar', async () => {
   });
 
   it('passes events to calendar', async () => {
-    expect(wrapper.findComponent<typeof UiCalendar>(calendar).vm.$props.events).toStrictEqual(ACTIVITY_CALENDAR_EVENTS);
+    expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toStrictEqual(ACTIVITY_CALENDAR_EVENTS);
   });
 
   it('emits dates by calendar ready and update events', async () => {
@@ -75,10 +75,10 @@ describe('ActivityCalendar', async () => {
   it('shows event in modal', async () => {
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.start).toStrictEqual(null);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.end).toStrictEqual(null);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.exercises).toStrictEqual([]);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.id).toStrictEqual('');
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('start')).toStrictEqual(null);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('end')).toStrictEqual(null);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('exercises')).toStrictEqual([]);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('id')).toStrictEqual('');
 
     const event = ACTIVITY_CALENDAR_EVENTS[1];
 
@@ -88,9 +88,19 @@ describe('ActivityCalendar', async () => {
 
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('true');
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.start).toStrictEqual(event.start);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.end).toStrictEqual(event.end);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.exercises).toStrictEqual(event.content);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$props.id).toStrictEqual(event._id);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('start')).toStrictEqual(event.start);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('end')).toStrictEqual(event.end);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('exercises')).toStrictEqual(event.content);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('id')).toStrictEqual(event._id);
+  });
+
+  it('handles empty events prop', async () => {
+    await wrapper.setProps({ events: undefined });
+
+    expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toBeUndefined();
+
+    await wrapper.setProps({ events: [] });
+
+    expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toStrictEqual([]);
   });
 });

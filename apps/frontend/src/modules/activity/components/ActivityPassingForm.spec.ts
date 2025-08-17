@@ -34,7 +34,7 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('shows exercises', async () => {
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.exercises).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('exercises')).toStrictEqual(
       activity.exercises
     );
 
@@ -71,7 +71,7 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('starts and stops exercise', async () => {
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.activeExerciseId).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
       undefined
     );
 
@@ -79,7 +79,7 @@ describe('ActivityPassingForm', async () => {
 
     await nextTick();
 
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.activeExerciseId).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
       activity.exercises[0]._id
     );
 
@@ -90,7 +90,7 @@ describe('ActivityPassingForm', async () => {
 
     await nextTick();
 
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$props.activeExerciseId).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
       undefined
     );
 

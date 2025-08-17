@@ -46,4 +46,21 @@ describe('ActivityAdminList', async () => {
       `${URL_USER_EDIT}/${ACTIVITIES_FIXTURE[0].createdBy?._id}`
     );
   });
+
+  it('shows empty state when activities is empty array', async () => {
+    await wrapper.setProps({ activities: [] });
+
+    expect(wrapper.findAll(activityTableRow).length).toBe(0);
+
+    await wrapper.setProps({ activities: undefined });
+
+    expect(wrapper.findAll(activityTableRow).length).toBe(0);
+  });
+
+  it('handles activity without createdBy user gracefully', async () => {
+    await wrapper.setProps({ activities: [{ ...ACTIVITIES_FIXTURE[0], createdBy: undefined }] });
+
+    expect(wrapper.find(activityTableUserLink).exists()).toBe(true);
+    expect(wrapper.find(activityTableUserLink).text()).toBe('');
+  });
 });

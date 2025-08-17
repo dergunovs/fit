@@ -37,11 +37,11 @@ describe('ActivityCreatePage', async () => {
     expect(spyGetActivitiesStatistics).toBeCalledTimes(1);
     expect(spyGetActivitiesStatistics).toBeCalledWith(ACTIVITY_STATISTICS_GAP);
 
-    expect(wrapper.findComponent<typeof ActivityForm>(activityForm).vm.$props.exerciseStatistics).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityForm>(activityForm).props('exerciseStatistics')).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.exercise
     );
 
-    expect(wrapper.findComponent<typeof ActivityForm>(activityForm).vm.$props.averageRestPercent).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityForm>(activityForm).props('averageRestPercent')).toStrictEqual(
       ACTIVITIES_STATISTICS_FIXTURE.activity.averageRestPercent.cur
     );
   });

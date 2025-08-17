@@ -79,8 +79,8 @@ describe('ActivityInfo', async () => {
 
     await wrapper.setProps({ isPopup: true });
 
-    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).vm.$props.exercises).toStrictEqual(exercises);
-    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).vm.$props.start).toStrictEqual(start);
+    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).props('exercises')).toStrictEqual(exercises);
+    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).props('start')).toStrictEqual(start);
   });
 
   it('shows start and duration time', async () => {
@@ -99,14 +99,14 @@ describe('ActivityInfo', async () => {
 
     const statistics = generateMuscleStatistics(exercises, MUSCLES_FIXTURE, 'ru');
 
-    expect(wrapper.findComponent<typeof MuscleStatistics>(muscleStatistics).vm.$props.statistics).toStrictEqual(
+    expect(wrapper.findComponent<typeof MuscleStatistics>(muscleStatistics).props('statistics')).toStrictEqual(
       statistics
     );
   });
 
   it('shows exercises', async () => {
     expect(wrapper.findAll(exercise).length).toBe(exercises.length);
-    expect(wrapper.findAllComponents<typeof ExerciseTitle>(exercise)[0].vm.$props.exercise).toStrictEqual(exercises[0]);
+    expect(wrapper.findComponent<typeof ExerciseTitle>(exercise).props('exercise')).toStrictEqual(exercises[0]);
   });
 
   it('copies activity in popup mode', async () => {

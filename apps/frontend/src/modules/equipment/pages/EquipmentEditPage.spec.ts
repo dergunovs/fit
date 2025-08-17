@@ -36,7 +36,7 @@ describe('EquipmentEditPage', async () => {
     expect(spyGetEquipment).toBeCalledTimes(1);
     expect(spyGetEquipment).toBeCalledWith({ enabled: true }, mockRouteId);
 
-    expect(wrapper.findComponent<typeof EquipmentForm>(equipmentForm).vm.$props.equipment).toStrictEqual(
+    expect(wrapper.findComponent<typeof EquipmentForm>(equipmentForm).props('equipment')).toStrictEqual(
       EQUIPMENT_FIXTURE
     );
   });

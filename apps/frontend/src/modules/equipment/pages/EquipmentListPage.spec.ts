@@ -36,7 +36,7 @@ describe('EquipmentListPage', async () => {
 
   it('gets and sets equipments to list', async () => {
     expect(spyGetEquipments).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof EquipmentList>(equipmentList).vm.$props.equipments).toStrictEqual(
+    expect(wrapper.findComponent<typeof EquipmentList>(equipmentList).props('equipments')).toStrictEqual(
       EQUIPMENTS_FIXTURE
     );
   });

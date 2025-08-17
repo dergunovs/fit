@@ -56,11 +56,11 @@ describe('ActivityPassingPage', async () => {
   it('updates activity create date', async () => {
     const dateCreated = new Date();
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual(formData);
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual(formData);
 
     wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$emit('setDateCreated', dateCreated);
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual({
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual({
       dateCreated,
       dateUpdated: undefined,
       exercises: [],
@@ -71,11 +71,11 @@ describe('ActivityPassingPage', async () => {
   it('updates activity update date', async () => {
     const dateUpdated = new Date();
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual(formData);
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual(formData);
 
     wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$emit('setDateUpdated', dateUpdated);
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual({
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual({
       dateCreated: undefined,
       dateUpdated,
       exercises: [],
@@ -84,11 +84,11 @@ describe('ActivityPassingPage', async () => {
   });
 
   it('updates activity exercises', async () => {
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual(formData);
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual(formData);
 
     wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$emit('updateExercises', EXERCISES_DONE_FIXTURE);
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual({
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual({
       dateCreated: undefined,
       dateUpdated: undefined,
       exercises: EXERCISES_DONE_FIXTURE,
@@ -97,11 +97,11 @@ describe('ActivityPassingPage', async () => {
   });
 
   it('finishes activity', async () => {
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual(formData);
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual(formData);
 
     wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$emit('done', true);
 
-    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).vm.$props.activity).toStrictEqual({
+    expect(wrapper.findComponent<typeof ActivityPassingForm>(form).props('activity')).toStrictEqual({
       dateCreated: undefined,
       dateUpdated: undefined,
       exercises: [],

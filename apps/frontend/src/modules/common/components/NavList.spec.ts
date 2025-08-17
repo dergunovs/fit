@@ -38,6 +38,6 @@ describe('NavList', async () => {
 
   it('shows and set data to nav items', async () => {
     expect(wrapper.findAll(item).length).toBe(NAV_ITEMS.length);
-    expect(wrapper.findComponent<typeof NavItem>(item).vm.$props.navItem).toStrictEqual(NAV_ITEMS[0]);
+    expect(wrapper.findComponent<typeof NavItem>(item).props('navItem')).toStrictEqual(NAV_ITEMS[0]);
   });
 });
