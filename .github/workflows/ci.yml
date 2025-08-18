@@ -9,21 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
+
       - name: Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "24.6.0"
+          cache: "npm"
+
       - name: Install
-        run: npm i
+        run: npm ci
+
       - name: Create frontend .env
-        uses: SpicyPizza/create-envfile@v2.0.2
+        uses: SpicyPizza/create-envfile@v2
         with:
           envkey_VITE_API: ${{ secrets.VITE_API }}
           envkey_VITE_VERSION: ${npm_package_version}
           directory: apps/frontend/
+
       - name: Create backend .env
-        uses: SpicyPizza/create-envfile@v2.0.2
+        uses: SpicyPizza/create-envfile@v2
         with:
           envkey_DATABASE: ${{ secrets.DATABASE }}
           envkey_SECRET: ${{ secrets.SECRET }}
@@ -34,32 +39,37 @@ jobs:
           envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
           envkey_EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           directory: apps/backend/
+
       - name: Build
         run: npm run build
+
       - name: Lint check
         run: npm run lint
       - name: TS check
         run: npm run ts
       - name: Unit tests
         run: npm run test:cov
+
       - name: Deploy App
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: apps/frontend/dist
           target: ${{ secrets.SSH_PATH }}
+
       - name: Deploy Backend
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: "apps/backend/build,apps/backend/package.json,apps/backend/.env"
           target: ${{ secrets.SSH_PATH }}
+
       - name: Install Backend deps and Reload PM2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -70,5 +80,5 @@ jobs:
             rm package-lock.json
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            npm i
+            npm ci --only=production
             pm2 reload fit
