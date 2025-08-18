@@ -9,7 +9,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dergunovs/fit",
+    "url": "git+https://github.com/dergunovs/fit.git",
     "directory": "apps/backend"
   },
   "scripts": {

@@ -9,11 +9,11 @@
   "private": false,
   "sideEffects": false,
   "files": [
-    "dist/*"
+    "dist/"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dergunovs/fit",
+    "url": "git+https://github.com/dergunovs/fit.git",
     "directory": "apps/frontend"
   },
   "scripts": {

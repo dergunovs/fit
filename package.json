@@ -7,7 +7,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dergunovs/fit"
+    "url": "git+https://github.com/dergunovs/fit.git"
   },
   "scripts": {
     "lint": "turbo run lint",
@@ -36,5 +36,6 @@
   "engines": {
     "npm": ">=11.5.1",
     "node": ">=24.6.0"
-  }
+  },
+  "homepage": "https://app-fit.ru"
 }
