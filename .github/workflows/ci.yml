@@ -80,5 +80,5 @@ jobs:
             rm package-lock.json
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            npm ci --only=production
+            npm i
             pm2 reload fit
