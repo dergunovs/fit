@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Checkout specific commit
         uses: actions/checkout@v5
-        with:
-          ref: ${{ github.event.inputs.commit_sha || 'main' }}
 
       - name: Install node.js
         uses: actions/setup-node@v4
