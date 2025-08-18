@@ -61,11 +61,11 @@ jobs:
       - name: Unit tests
         run: npm run test:cov
 
-deploy:
-  needs: build-and-test
-  if: github.event.inputs.deploy == 'true'
-  runs-on: ubuntu-latest
-  steps:
+  deploy:
+    needs: build-and-test
+    if: github.event.inputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy Frontend
         uses: appleboy/scp-action@v1
         with:
