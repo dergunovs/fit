@@ -1,0 +1,78 @@
+name: Deploy
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout specific commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.inputs.commit_sha || 'main' }}
+
+      - name: Install node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.6.0"
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Create Frontend .env
+        uses: SpicyPizza/create-envfile@v2
+        with:
+          envkey_VITE_API: ${{ secrets.VITE_API }}
+          envkey_VITE_VERSION: ${npm_package_version}
+          directory: apps/frontend/
+
+      - name: Create Backend .env
+        uses: SpicyPizza/create-envfile@v2
+        with:
+          envkey_DATABASE: ${{ secrets.DATABASE }}
+          envkey_SECRET: ${{ secrets.SECRET }}
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_APP_URL: ${{ secrets.APP_URL }}
+          envkey_IS_DEV: ${{ secrets.IS_DEV }}
+          envkey_EMAIL_SMTP: ${{ secrets.EMAIL_SMTP }}
+          envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          envkey_EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          directory: apps/backend/
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy Frontend
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: apps/frontend/dist
+          target: ${{ secrets.SSH_PATH }}
+
+      - name: Deploy Backend
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "apps/backend/build,apps/backend/package.json,apps/backend/.env"
+          target: ${{ secrets.SSH_PATH }}
+
+      - name: Install Backend deps and reload PM2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ${{ secrets.SSH_PATH_BACKEND }}
+            rm -rf node_modules
+            rm package-lock.json
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm i
+            pm2 reload fit
