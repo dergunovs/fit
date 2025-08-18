@@ -65,7 +65,7 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['text'],
-      include: ['src/modules/**/*.vue', 'src/modules/**/helpers/*.ts'],
+      include: ['src/modules/**/*.vue', 'src/modules/**/helpers/*.ts', 'src/modules/**/composables/*.ts'],
       all: true,
     },
     css: false,

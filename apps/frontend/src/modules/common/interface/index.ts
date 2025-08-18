@@ -12,6 +12,7 @@ export interface IOnSuccess {
   update?: () => Promise<void>;
   updatePassword?: () => Promise<void>;
   delete?: () => Promise<void>;
+  check?: () => Promise<void>;
   login?: (user: TPostAuthLoginDTO) => Promise<void>;
   setup?: () => Promise<void>;
   register?: () => Promise<void>;

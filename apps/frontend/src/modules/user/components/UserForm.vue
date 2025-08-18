@@ -77,7 +77,7 @@
           data-test="user-form-exercises"
         />
 
-        <UiButton @click="isShowCreateExercise = true" data-test="user-form-add-exercise">
+        <UiButton @click="createExercise" data-test="user-form-add-exercise">
           {{ t('exercise.addCustom') }}
         </UiButton>
 
@@ -259,6 +259,11 @@ function editExercise(exercise: IExercise) {
 function hideExerciseModal() {
   currentExercise.value = undefined;
   isShowCreateExercise.value = false;
+}
+
+function createExercise() {
+  currentExercise.value = undefined;
+  isShowCreateExercise.value = true;
 }
 
 onMounted(() => {

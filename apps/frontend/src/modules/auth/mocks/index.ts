@@ -14,7 +14,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
-import { mockMutationReply } from '@/common/mocks';
+import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import * as authComposables from '@/auth/composables';
 import { IOnSuccess } from '@/common/interface';
 import { USER_FIXTURE } from '@/user/fixtures';
@@ -33,12 +33,15 @@ const spyConfirmToken = vi.fn();
 const spyResetPassword = vi.fn();
 
 const mockOnSuccess: IOnSuccess = {
+  check: undefined,
   login: undefined,
   setup: undefined,
   register: undefined,
   confirmToken: undefined,
   resetPassword: undefined,
 };
+
+const spyCheckAuth = vi.spyOn(authService, 'check').mockImplementation(() => mockQueryReply(USER_FIXTURE));
 
 vi.spyOn(authService, 'login').mockImplementation(
   (options: { onSuccess?: (user: TPostAuthLoginDTO) => Promise<void> }) => {
@@ -76,6 +79,7 @@ vi.spyOn(authService, 'resetPassword').mockImplementation(
 
 export {
   spyUseAuthCheck,
+  spyCheckAuth,
   spyLogin,
   spySetup,
   spyRegister,
