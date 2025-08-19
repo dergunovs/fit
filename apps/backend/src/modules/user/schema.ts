@@ -5,6 +5,7 @@ import type {
   TGetUserDTO,
   TGetUsersDTO,
   TPostUserFeedbackDataDTO,
+  TPostUserResetPasswordDataDTO,
   TUpdateUserPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 
@@ -31,6 +32,17 @@ export const userPasswordModel: JSONSchemaType<TUpdateUserPasswordDataDTO> = {
     password: { type: 'string' },
   },
   required: ['password'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const userResetPasswordDataModel: JSONSchemaType<TPostUserResetPasswordDataDTO> = {
+  $id: 'ResetPasswordData',
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+  },
+  required: ['email'],
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
 };
@@ -147,6 +159,14 @@ export const userUpdatePasswordSchema: ISchema = {
     body: userPasswordModel,
     params: baseParams,
     security: [{ token: [] }],
+  },
+};
+
+export const userResetPasswordSchema: ISchema = {
+  schema: {
+    tags,
+    body: userResetPasswordDataModel,
+    response: { 200: baseReply },
   },
 };
 

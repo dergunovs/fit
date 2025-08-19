@@ -7,8 +7,7 @@ export {
   API_AUTH_SETUP,
   API_AUTH_REGISTER,
   API_AUTH_CONFIRM,
-  API_AUTH_RESET,
-} from "../index";
+} from "..";
 
 export interface IAuthData {
   email: string;
@@ -35,7 +34,3 @@ export type TPostAuthRegisterQueryDTO = { lang: string };
 
 export type TPostAuthConfirmTokenDTO = IBaseReply;
 export type TPostAuthConfirmTokenDataDTO = { token: string };
-
-export type TPostAuthResetPasswordDTO = IBaseReply;
-export type TPostAuthResetPasswordDataDTO = { email: string };
-export type TPostAuthResetPasswordQueryDTO = { lang: string };

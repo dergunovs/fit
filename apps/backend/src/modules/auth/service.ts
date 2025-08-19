@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import type { IAuthData, IRegisterData, IUser, TDecode } from 'fitness-tracker-contracts';
-import { generatePassword } from 'mhz-helpers';
 
 import User from '../user/model.js';
 import { USER_POPULATE } from '../user/constants.js';
@@ -102,28 +101,5 @@ export const authService = {
       { email: decodedUser.email, isEmailConfirmed: false, confirmationToken: token },
       { $set: { isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() } }
     );
-  },
-
-  reset: async (email: string, lang: string) => {
-    const user = await User.findOne({ email }).lean();
-
-    if (!user) throw new Error('No such user', { cause: { code: 500 } });
-
-    const newPassword = generatePassword();
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await User.updateOne(
-      { _id: user._id },
-      { $set: { passwordTemporary: hashedPassword, isResetPassword: true, dateUpdated: new Date() } }
-    );
-
-    const text =
-      lang === 'ru'
-        ? 'войдите в приложение с новым паролем. Если вы не отправляли заявку на смену пароля, то используйте свой текущий пароль. Новый пароль'
-        : 'login to the app with a new password. If you have not submitted a request to change your password, then use your current password. New password';
-
-    const template = `${user.name}, ${text}: ${newPassword}`;
-
-    await sendMail(template, email);
   },
 };

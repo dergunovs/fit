@@ -4,11 +4,14 @@ import {
   API_USER,
   API_USER_FEEDBACK,
   API_USER_PASSWORD,
+  API_USER_PASSWORD_RESET,
   TDeleteUserDTO,
   TGetUserDTO,
   TGetUsersDTO,
+  TLocale,
   TPostUserDTO,
   TPostUserFeedbackDTO,
+  TPostUserResetPasswordDTO,
   TUpdateUserDTO,
   TUpdateUserPasswordDTO,
 } from 'fitness-tracker-contracts';
@@ -78,6 +81,21 @@ describe('userService', () => {
     expect(serviceMocks.http.patch).toHaveBeenCalledWith(`${API_USER_PASSWORD}/${USER_FIXTURE._id}`, {
       password: USER_FIXTURE.password,
     });
+  });
+
+  it('resetPassword', async () => {
+    const lang: TLocale = 'ru';
+
+    serviceMocks.http.mockPost<TPostUserResetPasswordDTO>(BASE_REPLY);
+    userService.resetPassword(lang, {});
+
+    expect(await serviceMocks.lastMutation.mutationFn({ email: USER_FIXTURE.email })).toEqual(BASE_REPLY);
+    expect(serviceMocks.lastMutation.mutationKey).toEqual([API_USER_PASSWORD_RESET]);
+    expect(serviceMocks.http.post).toHaveBeenCalledWith(
+      API_USER_PASSWORD_RESET,
+      { email: USER_FIXTURE.email },
+      { params: { lang } }
+    );
   });
 
   it('delete', async () => {

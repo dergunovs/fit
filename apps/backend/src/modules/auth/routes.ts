@@ -3,7 +3,6 @@ import {
   API_AUTH_GET,
   API_AUTH_LOGIN,
   API_AUTH_REGISTER,
-  API_AUTH_RESET,
   API_AUTH_SETUP,
   type TGetAuthDTO,
   type TPostAuthConfirmTokenDTO,
@@ -13,23 +12,13 @@ import {
   type TPostAuthRegisterDTO,
   type TPostAuthRegisterDataDTO,
   type TPostAuthRegisterQueryDTO,
-  type TPostAuthResetPasswordDTO,
-  type TPostAuthResetPasswordDataDTO,
-  type TPostAuthResetPasswordQueryDTO,
   type TPostAuthSetupDTO,
   type TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
 import { authService } from './service.js';
-import {
-  authGetSchema,
-  authLoginSchema,
-  authSetupSchema,
-  authRegisterSchema,
-  authConfirmSchema,
-  authResetSchema,
-} from './schema.js';
+import { authGetSchema, authLoginSchema, authSetupSchema, authRegisterSchema, authConfirmSchema } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
@@ -77,14 +66,4 @@ export default async function (fastify: IFastifyInstance) {
       reply.code(200).send({ message: 'Email confirmed' });
     }
   );
-
-  fastify.post<{
-    Body: TPostAuthResetPasswordDataDTO;
-    Querystring: TPostAuthResetPasswordQueryDTO;
-    Reply: { 200: TPostAuthResetPasswordDTO };
-  }>(API_AUTH_RESET, { ...authResetSchema }, async function (request, reply) {
-    await authService.reset(request.body.email, request.query.lang);
-
-    reply.code(200).send({ message: 'Password reseted' });
-  });
 }

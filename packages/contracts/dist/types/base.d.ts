@@ -1,4 +1,4 @@
-export { GOALS } from "../index";
+export { GOALS } from "..";
 
 export interface IGoals {
   activities: number;

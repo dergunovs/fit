@@ -1,5 +1,5 @@
 import { IBaseReply, IEntity } from "./base";
-export { API_MUSCLE } from "../index";
+export { API_MUSCLE } from "..";
 
 export interface IMuscle extends IEntity {
   title: string;

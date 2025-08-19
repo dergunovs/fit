@@ -6,7 +6,7 @@ import { API_ACTIVITY_CALENDAR, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } fr
 import AuthForm from './AuthForm.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { mockOnSuccess, spyLogin, spyResetPassword, spySetup } from '@/auth/mocks';
+import { mockOnSuccess, spyLogin, spySetup } from '@/auth/mocks';
 import {
   spyAuth,
   spySetAuthHeaders,
@@ -18,6 +18,7 @@ import {
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_FIXTURE } from '@/auth/fixtures';
 import { TOKEN_NAME } from '@/auth/constants';
+import { spyResetUserPassword, mockOnSuccess as mockOnSuccessUser } from '@/user/mocks';
 
 const EMAIL = 'a@b.ru';
 const PASSWORD = 'qwerty';
@@ -136,7 +137,7 @@ describe('AuthForm', async () => {
   it('resets password', async () => {
     await wrapper.find(formPasswordResetButton).trigger('click');
 
-    expect(spyResetPassword).toBeCalledTimes(0);
+    expect(spyResetUserPassword).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
     expect(wrapper.emitted()).not.toHaveProperty('reset');
 
@@ -144,10 +145,10 @@ describe('AuthForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyResetPassword).toBeCalledTimes(1);
-    expect(spyResetPassword).toBeCalledWith({ email: EMAIL });
+    expect(spyResetUserPassword).toBeCalledTimes(1);
+    expect(spyResetUserPassword).toBeCalledWith({ email: EMAIL });
 
-    await mockOnSuccess.resetPassword?.();
+    await mockOnSuccessUser.resetPassword?.();
 
     expect(spyToastSuccess).toBeCalledTimes(1);
 

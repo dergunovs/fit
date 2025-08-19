@@ -2,6 +2,7 @@ import {
   API_USER,
   API_USER_FEEDBACK,
   API_USER_PASSWORD,
+  API_USER_PASSWORD_RESET,
   type IBaseParams,
   type TGetUsersDTO,
   type TGetUsersQueryDTO,
@@ -15,6 +16,9 @@ import {
   type TUpdateUserPasswordDataDTO,
   type TPostUserFeedbackDataDTO,
   type TPostUserFeedbackDTO,
+  TPostUserResetPasswordDataDTO,
+  TPostUserResetPasswordQueryDTO,
+  TPostUserResetPasswordDTO,
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
@@ -27,6 +31,7 @@ import {
   userUpdateSchema,
   userUpdatePasswordSchema,
   userPostFeedbackSchema,
+  userResetPasswordSchema,
 } from './schema.js';
 
 export default async function (fastify: IFastifyInstance) {
@@ -96,6 +101,16 @@ export default async function (fastify: IFastifyInstance) {
       reply.code(200).send({ message: 'Users password updated' });
     }
   );
+
+  fastify.post<{
+    Body: TPostUserResetPasswordDataDTO;
+    Querystring: TPostUserResetPasswordQueryDTO;
+    Reply: { 200: TPostUserResetPasswordDTO };
+  }>(API_USER_PASSWORD_RESET, { ...userResetPasswordSchema }, async function (request, reply) {
+    await userService.resetPassword(request.body.email, request.query.lang);
+
+    reply.code(200).send({ message: 'Password reset successfull' });
+  });
 
   fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
     `${API_USER}/:id`,
