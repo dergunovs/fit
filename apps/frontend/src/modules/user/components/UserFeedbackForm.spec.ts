@@ -8,10 +8,7 @@ import UserFeedbackForm from './UserFeedbackForm.vue';
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyUserFeedback } from '@/user/mocks';
 import { spyRefetchQueries, spyToastSuccess, mockIsValid } from '@/common/mocks';
-
-const EMAIL = 'a@b.ru';
-const NAME = 'Иван';
-const MESSAGE = 'Спасибо за всё!';
+import { USER_FEEDBACK } from '@/user/fixtures';
 
 const form = dataTest('feedback-form');
 const name = dataTest('feedback-form-name');
@@ -52,14 +49,14 @@ describe('UserFeedbackForm', async () => {
     expect(spyRefetchQueries).toBeCalledTimes(0);
     expect(spyToastSuccess).toBeCalledTimes(0);
 
-    await wrapper.findComponent(name).setValue(NAME);
-    await wrapper.findComponent(email).setValue(EMAIL);
-    await wrapper.findComponent(message).setValue(MESSAGE);
+    await wrapper.findComponent(name).setValue(USER_FEEDBACK.name);
+    await wrapper.findComponent(email).setValue(USER_FEEDBACK.email);
+    await wrapper.findComponent(message).setValue(USER_FEEDBACK.message);
 
     await wrapper.find(form).trigger('submit');
 
     expect(spyUserFeedback).toBeCalledTimes(1);
-    expect(spyUserFeedback).toBeCalledWith({ name: NAME, email: EMAIL, message: MESSAGE });
+    expect(spyUserFeedback).toBeCalledWith(USER_FEEDBACK);
 
     await mockOnSuccess.feedback?.();
 

@@ -1,4 +1,4 @@
-import { IUser } from 'fitness-tracker-contracts';
+import { IUser, IUserFeedback } from 'fitness-tracker-contracts';
 
 import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
 
@@ -27,3 +27,9 @@ export const USER_FIXTURE_2: IUser = {
 };
 
 export const USERS_FIXTURE: IUser[] = [USER_FIXTURE, USER_FIXTURE_2];
+
+export const USER_FEEDBACK: IUserFeedback = {
+  name: 'Иван',
+  email: 'a@b.ru',
+  message: 'Привет',
+};

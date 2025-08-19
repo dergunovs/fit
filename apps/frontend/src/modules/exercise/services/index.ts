@@ -12,6 +12,7 @@ import {
   TUpdateExerciseDTO,
   TUpdateExerciseDataDTO,
   TDeleteExerciseDTO,
+  TGetExercisesAllDTO,
 } from 'fitness-tracker-contracts';
 import { useMutation, useQuery, api } from 'mhz-helpers';
 
@@ -32,7 +33,7 @@ export const exerciseService = {
     useQuery({
       queryKey: [API_EXERCISE, API_EXERCISE_ALL],
       queryFn: async () => {
-        const { data } = await api.get<TGetExercisesDTO>(API_EXERCISE_ALL);
+        const { data } = await api.get<TGetExercisesAllDTO>(API_EXERCISE_ALL);
 
         return data.data;
       },
