@@ -15,7 +15,7 @@ import {
   ACTIVITIES_STATISTICS_FIXTURE,
   ACTIVITY_FIXTURE,
   ACTIVITY_FIXTURE_2,
-  ACTIVITIES_CHART_FIXTURE,
+  ACTIVITY_CHART_FIXTURE,
 } from '@/activity/fixtures';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { IOnSuccess } from '@/common/interface';
@@ -70,7 +70,7 @@ const spyGetActivitiesStatistics = vi
 
 const spyGetActivitiesChart = vi
   .spyOn(activityService, 'getChart')
-  .mockImplementation(() => mockQueryReply(ACTIVITIES_CHART_FIXTURE));
+  .mockImplementation(() => mockQueryReply(ACTIVITY_CHART_FIXTURE));
 
 export {
   spyGetActivities,

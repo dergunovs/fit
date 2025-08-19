@@ -340,7 +340,7 @@ export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] =
   },
 ];
 
-export const ACTIVITIES_CHART_FIXTURE: TGetActivitiesChartDTO = {
+export const ACTIVITY_CHART_FIXTURE: TGetActivitiesChartDTO = {
   labels: [
     '18.11 - 24.11',
     '25.11 - 01.12',

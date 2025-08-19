@@ -7,7 +7,7 @@ import ActivityChart from './ActivityChart.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { spyGetActivitiesChart } from '@/activity/mocks';
-import { ACTIVITIES_CHART_FIXTURE } from '@/activity/fixtures';
+import { ACTIVITY_CHART_FIXTURE } from '@/activity/fixtures';
 
 const chart = dataTest('activity-chart');
 const chartTypes = dataTest('activity-chart-types');
@@ -40,10 +40,10 @@ describe('ActivityChart', async () => {
 
     expect(wrapper.findComponent<typeof UiChart>(chart).props('type')).toStrictEqual('Line');
 
-    expect(wrapper.findComponent<typeof UiChart>(chart).props('labels')).toStrictEqual(ACTIVITIES_CHART_FIXTURE.labels);
+    expect(wrapper.findComponent<typeof UiChart>(chart).props('labels')).toStrictEqual(ACTIVITY_CHART_FIXTURE.labels);
 
     expect(wrapper.findComponent<typeof UiChart>(chart).props('datasets')).toStrictEqual(
-      ACTIVITIES_CHART_FIXTURE.datasets
+      ACTIVITY_CHART_FIXTURE.datasets
     );
   });
 
