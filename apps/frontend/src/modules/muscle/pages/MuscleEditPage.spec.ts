@@ -8,7 +8,7 @@ import MuscleForm from '@/muscle/components/MuscleForm.vue';
 import { wrapperFactory } from '@/common/test';
 import { spyGetMuscle } from '@/muscle/mocks';
 import { spyUseRouteId, mockRouteId } from '@/common/mocks';
-import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { MUSCLE_FIXTURE } from '@/muscle/fixtures';
 
 const muscleForm = dataTest('muscle-form');
 
@@ -36,6 +36,6 @@ describe('MuscleEditPage', async () => {
     expect(spyGetMuscle).toBeCalledTimes(1);
     expect(spyGetMuscle).toBeCalledWith({ enabled: true }, mockRouteId);
 
-    expect(wrapper.findComponent<typeof MuscleForm>(muscleForm).props('muscle')).toStrictEqual(MUSCLES_FIXTURE[0]);
+    expect(wrapper.findComponent<typeof MuscleForm>(muscleForm).props('muscle')).toStrictEqual(MUSCLE_FIXTURE);
   });
 });

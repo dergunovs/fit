@@ -1,13 +1,15 @@
 import { IMuscle } from 'fitness-tracker-contracts';
 
+export const MUSCLE_FIXTURE: IMuscle = {
+  title: 'Грудь',
+  title_en: 'Chest',
+  color: '#00CED1',
+  _id: '67debc85e7b58ba56888a185',
+  dateCreated: '2025-03-22T13:35:01.563Z',
+};
+
 export const MUSCLES_FIXTURE: IMuscle[] = [
-  {
-    title: 'Грудь',
-    title_en: 'Chest',
-    color: '#00CED1',
-    _id: '67debc85e7b58ba56888a185',
-    dateCreated: '2025-03-22T13:35:01.563Z',
-  },
+  MUSCLE_FIXTURE,
   {
     title: 'Ноги',
     title_en: 'Legs',

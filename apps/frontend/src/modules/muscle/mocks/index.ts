@@ -9,11 +9,10 @@ import {
 
 import { muscleService } from '@/muscle/services';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
-import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
+import { MUSCLE_FIXTURE, MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { IOnSuccess } from '@/common/interface';
 
-const spyGetMuscle = vi.spyOn(muscleService, 'getOne').mockReturnValue(mockQueryReply(MUSCLES_FIXTURE[0]));
-
+const spyGetMuscle = vi.spyOn(muscleService, 'getOne').mockReturnValue(mockQueryReply(MUSCLE_FIXTURE));
 const spyGetMuscles = vi.spyOn(muscleService, 'getAll').mockImplementation(() => mockQueryReply(MUSCLES_FIXTURE));
 
 const spyCreateMuscle = vi.fn();
