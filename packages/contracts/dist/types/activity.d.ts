@@ -14,7 +14,7 @@ export {
   API_ACTIVITY_STATISTICS,
   API_ACTIVITY_CHART,
   API_ACTIVITY_LAST,
-} from "..";
+} from "../index";
 
 export interface IActivity extends IEntity {
   exercises: IExerciseDone[];

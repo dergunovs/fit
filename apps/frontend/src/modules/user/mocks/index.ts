@@ -6,8 +6,6 @@ import {
   TPostUserDTO,
   TPostUserFeedbackDataDTO,
   TPostUserFeedbackDTO,
-  TPostUserResetPasswordDataDTO,
-  TPostUserResetPasswordDTO,
   TUpdateUserDataDTO,
   TUpdateUserDTO,
   TUpdateUserPasswordDTO,
@@ -27,7 +25,6 @@ const spyGetUsers = vi.spyOn(userService, 'getMany').mockImplementation(() => mo
 const spyCreateUser = vi.fn();
 const spyUpdateUser = vi.fn();
 const spyUpdateUserPassword = vi.fn();
-const spyResetUserPassword = vi.fn();
 const spyDeleteUser = vi.fn();
 const spyUserFeedback = vi.fn();
 
@@ -35,7 +32,6 @@ const mockOnSuccess: IOnSuccess = {
   create: undefined,
   update: undefined,
   updatePassword: undefined,
-  resetPassword: undefined,
   delete: undefined,
   feedback: undefined,
 };
@@ -64,14 +60,6 @@ vi.spyOn(userService, 'updatePassword').mockImplementation((options: { onSuccess
   return mockMutationReply<TUpdateUserPasswordDTO, { password: string; id: string }>(spyUpdateUserPassword);
 });
 
-vi.spyOn(userService, 'resetPassword').mockImplementation(
-  (_lang: string, options: { onSuccess?: () => Promise<void> }) => {
-    if (options.onSuccess) mockOnSuccess.resetPassword = options.onSuccess;
-
-    return mockMutationReply<TPostUserResetPasswordDTO, TPostUserResetPasswordDataDTO>(spyResetUserPassword);
-  }
-);
-
 vi.spyOn(userService, 'delete').mockImplementation((options: { onSuccess?: () => Promise<void> }) => {
   if (options.onSuccess) mockOnSuccess.delete = options.onSuccess;
 
@@ -84,7 +72,6 @@ export {
   spyCreateUser,
   spyUpdateUser,
   spyUpdateUserPassword,
-  spyResetUserPassword,
   spyDeleteUser,
   spyUserFeedback,
   mockOnSuccess,

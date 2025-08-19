@@ -1,12 +1,7 @@
 import { IBaseReply, IEntity, IPaginatedQuery, IPaginatedReply } from "./base";
 import { IEquipment } from "./equipment";
 
-export {
-  API_USER,
-  API_USER_PASSWORD,
-  API_USER_PASSWORD_RESET,
-  API_USER_FEEDBACK,
-} from "..";
+export { API_USER, API_USER_PASSWORD, API_USER_FEEDBACK } from "../index";
 
 export type TUserRole = "admin" | "user";
 
@@ -48,10 +43,6 @@ export type TPostUserDataDTO = IUser;
 
 export type TPostUserFeedbackDTO = IBaseReply;
 export type TPostUserFeedbackDataDTO = IUserFeedback;
-
-export type TPostUserResetPasswordDTO = IBaseReply;
-export type TPostUserResetPasswordDataDTO = { email: string };
-export type TPostUserResetPasswordQueryDTO = { lang: string };
 
 export type TUpdateUserDTO = IBaseReply;
 export type TUpdateUserDataDTO = IUser;

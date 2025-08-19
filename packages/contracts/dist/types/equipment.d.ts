@@ -1,6 +1,6 @@
 import { IBaseReply, IEntity } from "./base";
 
-export { API_EQUIPMENT } from "..";
+export { API_EQUIPMENT } from "../index";
 
 export interface IEquipment extends IEntity {
   title: string;

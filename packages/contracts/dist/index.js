@@ -3,6 +3,7 @@ export const API_AUTH_LOGIN = "/auth/login";
 export const API_AUTH_SETUP = "/auth/setup";
 export const API_AUTH_REGISTER = "/auth/register";
 export const API_AUTH_CONFIRM = "/auth/confirm";
+export const API_AUTH_RESET = "/auth/reset";
 
 export const API_ACTIVITY = "/activity";
 export const API_ACTIVITY_CALENDAR = "/activity_calendar";
@@ -20,7 +21,11 @@ export const API_MUSCLE = "/muscle";
 
 export const API_USER = "/user";
 export const API_USER_PASSWORD = "/user_password";
-export const API_USER_PASSWORD_RESET = "/user_password_reset";
 export const API_USER_FEEDBACK = "/user_feedback";
 
-export const GOALS = { activities: 2, sets: 24, repeats: 12, duration: 40 };
+export const GOALS = {
+  activities: 2,
+  sets: 24,
+  repeats: 12,
+  duration: 40,
+};

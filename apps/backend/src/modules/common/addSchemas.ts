@@ -1,13 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 
-import {
-  userModel,
-  userEquipmentModel,
-  userPasswordModel,
-  userResetPasswordDataModel,
-  userFeedbackModel,
-} from '../user/schema.js';
-import { authDataModel, registerDataModel, confirmTokenDataModel } from '../auth/schema.js';
+import { userModel, userEquipmentModel, userPasswordModel, userFeedbackModel } from '../user/schema.js';
+import { authDataModel, registerDataModel, confirmTokenDataModel, resetPasswordDataModel } from '../auth/schema.js';
 import { exerciseModel, exerciseDoneModel } from '../exercise/schema.js';
 import { activityModel, activityStatisticsValuesModel } from '../activity/schema.js';
 import { equipmentModel } from '../equipment/schema.js';
@@ -17,6 +11,7 @@ const schemas = [
   authDataModel,
   registerDataModel,
   confirmTokenDataModel,
+  resetPasswordDataModel,
   muscleModel,
   equipmentModel,
   exerciseModel,
@@ -25,7 +20,6 @@ const schemas = [
   activityStatisticsValuesModel,
   userEquipmentModel,
   userPasswordModel,
-  userResetPasswordDataModel,
   userFeedbackModel,
   userModel,
 ];

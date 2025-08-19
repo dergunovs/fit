@@ -3,7 +3,7 @@ import { IUser } from "./user";
 import { IMuscle } from "./muscle";
 import { IEquipment } from "./equipment";
 
-export { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from "..";
+export { API_EXERCISE, API_EXERCISE_ALL, API_EXERCISE_CUSTOM } from "../index";
 
 export interface IExercise extends IEntity {
   title: string;

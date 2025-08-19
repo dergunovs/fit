@@ -55,7 +55,6 @@ import { authService } from '@/auth/services';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
-import { userService } from '@/user/services';
 
 interface IProps {
   isSetup?: boolean;
@@ -119,7 +118,7 @@ const { mutate: mutateSetup } = authService.setup({
   },
 });
 
-const { mutate: mutateReset } = userService.resetPassword(locale.value, {
+const { mutate: mutateReset } = authService.resetPassword(locale.value, {
   onSuccess: () => {
     toast.success(t('tempPasswordSent'));
     emit('reset');
