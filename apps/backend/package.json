@@ -33,7 +33,7 @@
     "fastify-plugin": "5.0.1",
     "fitness-tracker-contracts": "*",
     "mongoose": "8.17.2",
-    "mhz-helpers": "1.2.1",
+    "mhz-helpers": "1.2.2",
     "nodemailer": "7.0.5"
   },
   "devDependencies": {

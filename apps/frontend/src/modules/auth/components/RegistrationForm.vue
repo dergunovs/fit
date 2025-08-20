@@ -27,10 +27,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useValidator, required, email, min, letters } from 'mhz-helpers';
-import { IRegisterData } from 'fitness-tracker-contracts';
+import { IRegisterData, TLocale } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
 
@@ -40,7 +40,7 @@ interface IEmit {
 
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const formData = ref<IRegisterData>({
   email: '',
@@ -55,11 +55,11 @@ const { mutate: mutateRegister } = authService.register(locale.value, {
   },
 });
 
-const { error, isValid } = useValidator(formData, {
-  email: [required(locale.value), email(locale.value)],
-  name: [required(locale.value), min(2, locale.value), letters(locale.value)],
-  password: [required(locale.value), min(6, locale.value)],
-});
+const { error, isValid } = useValidator(
+  formData,
+  { email: [required, email], name: [required, min(2), letters], password: [required, min(6)] },
+  locale.value
+);
 
 function submit() {
   if (!isValid()) return;

@@ -34,11 +34,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, toast, UiFlex } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import { API_MUSCLE, IMuscle } from 'fitness-tracker-contracts';
+import { API_MUSCLE, IMuscle, TLocale } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
@@ -53,7 +53,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const queryClient = useQueryClient();
 
 const formData = ref<IMuscle>({
@@ -86,10 +86,7 @@ const { mutate: mutateDelete } = muscleService.delete({
   },
 });
 
-const { error, isValid } = useValidator(formData, {
-  title: [required(locale.value)],
-  color: [required(locale.value)],
-});
+const { error, isValid } = useValidator(formData, { title: [required], color: [required] }, locale.value);
 
 function submit() {
   if (!isValid()) return;

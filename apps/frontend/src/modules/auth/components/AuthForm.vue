@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email, min } from 'mhz-helpers';
 import {
@@ -48,6 +48,7 @@ import {
   API_ACTIVITY_CHART,
   API_ACTIVITY_STATISTICS,
   IAuthData,
+  TLocale,
   TPostAuthLoginDTO,
 } from 'fitness-tracker-contracts';
 
@@ -69,7 +70,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const queryClient = useQueryClient();
 
 const { auth } = useAuth();
@@ -125,10 +126,11 @@ const { mutate: mutateReset } = authService.resetPassword(locale.value, {
   },
 });
 
-const { error, isValid } = useValidator(formData, {
-  email: [required(locale.value), email(locale.value)],
-  password: isPasswordReset.value && [required(locale.value), min(6, locale.value)],
-});
+const { error, isValid } = useValidator(
+  formData,
+  { email: [required, email], password: isPasswordReset.value ? [] : [required, min(6)] },
+  locale.value
+);
 
 function submit() {
   if (!isValid()) return;

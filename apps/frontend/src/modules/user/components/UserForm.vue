@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, UiModal, toast, UiTabs } from 'mhz-ui';
 import {
@@ -124,7 +124,7 @@ import {
   letters,
   min,
 } from 'mhz-helpers';
-import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IExercise, IUser } from 'fitness-tracker-contracts';
+import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IExercise, IUser, TLocale } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
@@ -150,7 +150,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const queryClient = useQueryClient();
 
 const { data: equipments } = equipmentService.getAll();
@@ -235,11 +235,11 @@ const { mutate: mutateDelete } = userService.delete({
   },
 });
 
-const { error, isValid } = useValidator(formData, {
-  email: [required(locale.value), email(locale.value)],
-  name: [required(locale.value), letters(locale.value)],
-  password: !props.user?._id && [required(locale.value), min(6, locale.value)],
-});
+const { error, isValid } = useValidator(
+  formData,
+  { email: [required, email], name: [required, letters], password: props.user?._id ? [required, min(6)] : [] },
+  locale.value
+);
 
 function submit() {
   if (!isValid()) return;

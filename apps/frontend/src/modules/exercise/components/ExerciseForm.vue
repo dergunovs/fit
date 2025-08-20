@@ -79,10 +79,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone, localeField } from 'mhz-helpers';
-import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
+import {
+  IExercise,
+  IMuscle,
+  IEquipment,
+  API_EXERCISE,
+  API_ACTIVITY_STATISTICS,
+  TLocale,
+} from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
@@ -107,7 +114,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const queryClient = useQueryClient();
 
 const formData = ref<IExercise>({
@@ -173,9 +180,7 @@ const { mutate: mutateDelete } = exerciseService.delete({
   },
 });
 
-const { error, isValid } = useValidator(formData, {
-  title: [required(locale.value)],
-});
+const { error, isValid } = useValidator(formData, { title: [required] }, locale.value);
 
 function submit() {
   if (!isValid()) return;
