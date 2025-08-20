@@ -11,8 +11,8 @@ describe('useAuthCheck composables', () => {
     vi.clearAllMocks();
   });
 
-  it('inits', () => {
-    withSetup(() => {
+  it('inits', async () => {
+    await withSetup(async () => {
       expect(isAuthChecked.value).toBe(false);
       expect(spyCheckAuth).toHaveBeenCalledTimes(0);
 

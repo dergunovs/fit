@@ -9,8 +9,8 @@ describe('useLayout composables', () => {
     vi.clearAllMocks();
   });
 
-  it('handles isLoaded', () => {
-    withSetup(() => {
+  it('handles isLoaded', async () => {
+    await withSetup(async () => {
       expect(spyRouterIsReady).toBeCalledTimes(0);
 
       const { isLoaded, layoutComponent } = useLayout();
