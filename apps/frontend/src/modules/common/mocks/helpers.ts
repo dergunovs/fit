@@ -39,7 +39,7 @@ const spyAuth = vi.fn();
 
 vi.spyOn(helpers, 'useAuth').mockReturnValue({ auth: spyAuth, redirectIfAuth: () => undefined });
 
-const spySetAuthHeaders = vi.spyOn(helpers, 'setAuthHeader');
+const spySetAuthHeader = vi.spyOn(helpers, 'setAuthHeader').mockImplementation((token: string) => token);
 const spyLogout = vi.spyOn(helpers, 'logout');
 
 const mockPageNumber = ref(1);
@@ -75,7 +75,7 @@ const spyUseRouteId = vi.spyOn(helpers, 'useRouteId').mockImplementation(() => {
   return { id: mockRouteId };
 });
 
-function mockQueryReply<T>(reply: object | string, refetch?: () => void) {
+function mockQueryReply<T>(reply?: object | string, refetch?: () => void) {
   return { data: ref(reply), refetch, isSuccess: true } as unknown as UseQueryReturnType<T, Error>;
 }
 
@@ -86,7 +86,7 @@ function mockMutationReply<T, T2>(mutate: () => void) {
 export {
   spyCopyToClipboard,
   spyAuth,
-  spySetAuthHeaders,
+  spySetAuthHeader,
   spyLogout,
   spyUsePageNumber,
   spyUsePagination,

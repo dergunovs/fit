@@ -9,7 +9,7 @@ import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyLogin, spyResetPassword, spySetup } from '@/auth/mocks';
 import {
   spyAuth,
-  spySetAuthHeaders,
+  spySetAuthHeader,
   spyRouterPush,
   spyToastSuccess,
   mockIsValid,
@@ -90,7 +90,7 @@ describe('AuthForm', async () => {
     expect(spyToastSuccess).toBeCalledTimes(1);
 
     expect(spyAuth).toBeCalledTimes(1);
-    expect(spyAuth).toBeCalledWith(TOKEN_FIXTURE, spySetAuthHeaders, TOKEN_NAME);
+    expect(spyAuth).toBeCalledWith(TOKEN_FIXTURE, spySetAuthHeader, TOKEN_NAME);
 
     expect(wrapper.emitted('login')).toHaveLength(1);
 

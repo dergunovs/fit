@@ -11,6 +11,10 @@ export function setAdmin(isAdmin: boolean) {
   isAdminStore.value = isAdmin;
 }
 
+export function setIsAuthChecked(isChecked: boolean) {
+  isAuthCheckedStore.value = isChecked;
+}
+
 export const isAdmin = readonly(isAdminStore);
 export const isAuthChecked = readonly(isAuthCheckedStore);
 
