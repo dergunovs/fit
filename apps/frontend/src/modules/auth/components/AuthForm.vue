@@ -128,7 +128,7 @@ const { mutate: mutateReset } = authService.resetPassword(locale.value, {
 
 const { error, isValid } = useValidator(
   formData,
-  { email: [required, email], password: isPasswordReset.value ? [] : [required, min(6)] },
+  { email: [required, email], password: isPasswordReset.value ? [required, min(6)] : [] },
   locale.value
 );
 

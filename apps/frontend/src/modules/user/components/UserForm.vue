@@ -237,7 +237,7 @@ const { mutate: mutateDelete } = userService.delete({
 
 const { error, isValid } = useValidator(
   formData,
-  { email: [required, email], name: [required, letters], password: props.user?._id ? [required, min(6)] : [] },
+  { email: [required, email], name: [required, letters], password: props.user?._id ? [] : [required, min(6)] },
   locale.value
 );
 
