@@ -69,7 +69,7 @@ describe('useAuthCheck composables', () => {
     expect(isAdmin.value).toBe(true);
   });
 
-  it('sets admin permissions with setAdmin', () => {
+  it('sets is auth checked', () => {
     expect(isAuthChecked.value).toBe(false);
 
     setIsAuthChecked(true);

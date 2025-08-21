@@ -1,4 +1,4 @@
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onBeforeMount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -27,7 +27,7 @@ export function useLayout() {
 
   const layoutComponent = computed(() => (route.meta.layout === 'admin' ? LayoutAdmin : LayoutDefault));
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     await router.isReady();
     isLoaded.value = true;
   });
@@ -59,7 +59,7 @@ export function useLocale() {
     }
   }
 
-  onMounted(() => initLocale());
+  onBeforeMount(() => initLocale());
 
   return {
     toggleLocale,

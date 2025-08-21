@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, toast, UiFlex } from 'mhz-ui';
@@ -98,10 +98,8 @@ function submit() {
   }
 }
 
-onMounted(() => {
-  if (props.muscle) {
-    formData.value = clone(props.muscle);
-  }
+onBeforeMount(() => {
+  if (props.muscle) formData.value = clone(props.muscle);
 });
 </script>
 

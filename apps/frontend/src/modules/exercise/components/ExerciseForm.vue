@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
@@ -192,7 +192,7 @@ function submit() {
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   if (props.exercise) {
     formData.value = clone(props.exercise);
 

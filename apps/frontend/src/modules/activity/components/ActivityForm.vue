@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
@@ -211,7 +211,7 @@ function submit(isAddToCalendar?: boolean) {
   mutatePost(formData.value);
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   if (activity.value) formData.value.exercises = generateActivityExercises(activity.value.exercises);
 });
 </script>

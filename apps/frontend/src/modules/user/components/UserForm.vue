@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, UiModal, toast, UiTabs } from 'mhz-ui';
@@ -266,7 +266,7 @@ function createExercise() {
   isShowCreateExercise.value = true;
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   if (props.user) formData.value = clone(props.user);
 });
 </script>
