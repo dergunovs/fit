@@ -97,7 +97,7 @@ describe('ActivityCalendar', async () => {
   it('handles empty events prop', async () => {
     await wrapper.setProps({ events: undefined });
 
-    expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toBeUndefined();
+    expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toStrictEqual([]);
 
     await wrapper.setProps({ events: [] });
 

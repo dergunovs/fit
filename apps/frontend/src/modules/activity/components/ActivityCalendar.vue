@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiCalendar
-      :events="props.events"
+      :events="props.events || []"
       @eventClick="(event) => showEvent(event as IActivityCalendarEvent<IExerciseDone>)"
       @ready="(dates) => emit('ready', dates)"
       @update="(dates) => emit('update', dates)"
