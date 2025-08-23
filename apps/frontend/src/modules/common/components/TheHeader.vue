@@ -105,7 +105,7 @@ const version = import.meta.env.VITE_VERSION;
 .version {
   padding-left: 2px;
   font-size: 0.75rem;
-  line-height: 1;
+  line-height: 0.8;
   color: var(--color-gray-dark-extra);
 }
 

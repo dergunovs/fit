@@ -25,9 +25,10 @@
       </div>
 
       <UiButton
+        v-if="!props.activity.isDone"
         @click="finishActivity"
         layout="secondary"
-        :isDisabled="props.activity.isDone"
+        :isDisabled="!!activeExerciseId"
         data-test="activity-finish"
       >
         {{ t('activity.finishEarly') }}

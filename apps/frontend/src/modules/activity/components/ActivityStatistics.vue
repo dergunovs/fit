@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex column>
-      <UiFlex column gap="2">
+      <UiFlex column gap="0">
         <b>{{ t('activity.monthData') }}</b>
 
         <div>
@@ -29,7 +29,7 @@
         </div>
       </UiFlex>
 
-      <UiFlex column gap="2">
+      <UiFlex column gap="0">
         <b>{{ t('average') }}</b>
 
         <div>

@@ -20,7 +20,7 @@
     </div>
 
     <template v-if="props.isCurrentExercise">
-      <UiButton @click="handleClick" :isDisabled="isButtonDisabled" isTall data-test="exercise-button">
+      <UiButton @click="handleClick" isLargeFont :isDisabled="isButtonDisabled" isTall data-test="exercise-button">
         {{ buttonTitle }}
       </UiButton>
 
