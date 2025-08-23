@@ -150,7 +150,7 @@
   },
   "features": {
     "progressTitle": "Track Progress",
-    "progressText": "A table with exercise statistics. Charts tracking progress by workouts, sets, repetitions, and muscle groups.",
+    "progressText": "A table with exercise statistics. Charts tracking progress by workouts, sets, repetitions, duration and muscle groups.",
     "shareTitle": "Share Results",
     "shareText": "Copy data from a completed workout in your calendar with one click, including the time of each set.",
     "planTitle": "Plan Workouts",
@@ -162,12 +162,12 @@
   },
   "science": {
     "title": "The best workout is the one you came to!",
-    "researches": "Studies show that tracking sets, rest periods, and load dynamics increases training efficiency by 40%. This helps avoid plateaus, reduce the risk of overtraining, and achieve your goals three months faster."
+    "researches": "Tracking sets, rest periods, and workload increases workout efficiency by 40%. This helps avoid plateaus, reduces the risk of overtraining, and achieve goals 3 months faster."
   },
   "statistics": "Statistics",
   "statisticsText": [
-    "Exercises are grouped by muscles and selected to balance simplicity and variety of training. In the calendar you can view the visualization of the workout, its composition, the time of the approaches. Below are the general and average monthly data on the duration of workouts, the number of workouts, approaches, repetitions, rest time, and graphs with dynamics for these parameters.",
-    "The table shows exercise statistics: monthly sets and repetitions, comparison with the previous period, and average execution time and repeats in set. By clicking on an exercise, you can read about the muscles involved, the equipment, and the technique of execution."
+    "Exercises are grouped by muscles for a balance of simplicity and variety. Calendar with workout visualization, composition, and set timing. Monthly totals and averages: duration, workouts, sets, reps, rest time, dynamic charts.",
+    "Table with exercise data: sets and reps per month, comparison with previous period, average time and reps per set. On click — information about engaged muscles, equipment, execution technique."
   ],
   "hero": {
     "title": "FiT - home workout calendar",

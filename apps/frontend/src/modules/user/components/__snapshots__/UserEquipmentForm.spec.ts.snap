@@ -2,13 +2,14 @@
 
 exports[`UserEquipmentForm > matches snapshot 1`] = `
 "<div gap="16" column="">
-  <div gap="4">
+  <div>
     <div column="">
       <div>Оборудование</div>
       <div><input type="text" options="" isdisabled="false" lang="ru" islocalefield="false" data-test="user-equipment-options"></div>
     </div>
     <!--v-if-->
   </div>
+  <!--v-if-->
   <!--v-if-->
   <div>
     <!--v-if--><button isdisabled="true" data-test="user-add-equipment">Добавить оборудование</button>

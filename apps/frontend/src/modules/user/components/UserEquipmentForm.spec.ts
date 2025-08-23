@@ -80,7 +80,7 @@ describe('UserEquipmentForm', async () => {
 
   it('adds new weight to equipment with validation', async () => {
     const OLD_WEIGHT = USER_FIXTURE.equipments?.[0].weights?.[0];
-    const NEW_WEIGHT = 999;
+    const NEW_WEIGHT = 7;
 
     await wrapper.find(edit).trigger('click');
 
@@ -168,5 +168,29 @@ describe('UserEquipmentForm', async () => {
     expect(wrapper.find(equipmentTitle).exists()).toBe(false);
     expect(wrapper.find(equipmentWeights).exists()).toBe(false);
     expect(wrapper.find(equipmentWeight).exists()).toBe(false);
+  });
+
+  it('disables add weight button when weight is invalid (less than 1)', async () => {
+    await wrapper.find(edit).trigger('click');
+
+    await wrapper.findComponent(weight).setValue(-1);
+
+    expect(wrapper.find(addWeight).attributes('isdisabled')).toStrictEqual('true');
+  });
+
+  it('disables add weight button when weight is invalid (greater than 500)', async () => {
+    await wrapper.find(edit).trigger('click');
+
+    await wrapper.findComponent(weight).setValue(501);
+
+    expect(wrapper.find(addWeight).attributes('isdisabled')).toStrictEqual('true');
+  });
+
+  it('disables add weight button when weight is not a number', async () => {
+    await wrapper.find(edit).trigger('click');
+
+    await wrapper.findComponent(weight).setValue('abc');
+
+    expect(wrapper.find(addWeight).attributes('isdisabled')).toStrictEqual('true');
   });
 });

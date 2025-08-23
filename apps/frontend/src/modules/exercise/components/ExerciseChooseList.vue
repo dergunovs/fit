@@ -95,7 +95,7 @@ function setCurrentMuscle(id?: string) {
 
 .button {
   padding: 4px 1px;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-gray-dark-extra);
   text-decoration: underline;

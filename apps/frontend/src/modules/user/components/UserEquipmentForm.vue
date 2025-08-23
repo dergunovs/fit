@@ -1,6 +1,6 @@
 <template>
   <UiFlex gap="16" column>
-    <UiFlex gap="4">
+    <UiFlex>
       <UiFlex column>
         <div>{{ t('equipment.one') }}</div>
 
@@ -19,20 +19,14 @@
       <UiFlex v-if="choosenEquipment?.isWeights" column>
         <div>{{ t('weight') }}</div>
 
-        <UiFlex gap="4">
-          <UiInput v-model="choosenEquipmentWeight" type="number" step="1" min="1" max="500" data-test="user-weight" />
-
-          <UiButton
-            :isDisabled="isAddWeightDisabled"
-            layout="secondary"
-            isNarrow
-            @click="addWeight"
-            data-test="user-add-weight"
-          >
-            {{ t('choose') }}
-          </UiButton>
-        </UiFlex>
+        <UiInput v-model="choosenEquipmentWeight" type="number" step="1" min="1" max="500" data-test="user-weight" />
       </UiFlex>
+    </UiFlex>
+
+    <UiFlex v-if="choosenEquipment?.isWeights">
+      <UiButton :isDisabled="isAddWeightDisabled" layout="secondary" @click="addWeight" data-test="user-add-weight">
+        {{ t('choose') }}
+      </UiButton>
     </UiFlex>
 
     <UiFlex v-if="choosenEquipmentWeights.length" column>
@@ -138,7 +132,11 @@ const isEditEquipment = ref(false);
 
 const isAddWeightDisabled = computed(
   () =>
-    choosenEquipmentWeight.value === 0 || choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeight.value))
+    !choosenEquipmentWeight.value ||
+    isNaN(Number(choosenEquipmentWeight.value)) ||
+    choosenEquipmentWeight.value < 1 ||
+    choosenEquipmentWeight.value > 500 ||
+    choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeight.value))
 );
 
 const isAddEquipmentDisabled = computed(

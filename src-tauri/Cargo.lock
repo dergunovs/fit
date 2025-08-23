@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "FiT"
-version = "0.1.20"
+version = "0.1.21"
 dependencies = [
  "log",
  "serde",

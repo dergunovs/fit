@@ -5,7 +5,7 @@ exports[`AppFeatures > matches snapshot 1`] = `
   <div class="_feature_5ff3fc" data-test="app-feature">
     <anonymous-stub width="40" height="40" class="_icon_5ff3fc"></anonymous-stub>
     <div class="_title_5ff3fc" data-test="app-feature-title">Отслеживайте прогресс</div>
-    <div data-test="app-feature-text">Таблица со статистикой по упражнениям. Графики с динамикой по занятиям, подходам, повторам и группам мышц.</div>
+    <div data-test="app-feature-text">Таблица со статистикой по упражнениям. Графики с динамикой по занятиям, подходам, повторам, времени и группам мышц.</div>
     <anonymous-stub class="_background_5ff3fc"></anonymous-stub>
   </div>
   <div class="_feature_5ff3fc" data-test="app-feature">
@@ -17,7 +17,7 @@ exports[`AppFeatures > matches snapshot 1`] = `
   <div class="_feature_5ff3fc" data-test="app-feature">
     <anonymous-stub width="40" height="40" class="_icon_5ff3fc"></anonymous-stub>
     <div class="_title_5ff3fc" data-test="app-feature-title">Планируйте тренировки</div>
-    <div data-test="app-feature-text">Повторите одну из прошлых тренировок. Расчет длительности тренировки на основе вашей статистики.</div>
+    <div data-test="app-feature-text">Повторите одну из прошлых тренировок. Предварительный расчет длительности тренировки на основе вашей статистики.</div>
     <anonymous-stub class="_background_5ff3fc"></anonymous-stub>
   </div>
 </div>"
