@@ -29,17 +29,13 @@
           :isDisabled="!isValid"
           isNarrow
           layout="secondary"
-          data-test="activity-form-add-to-calendar"
+          data-test="activity-form-toggle-calendar"
         >
-          {{ addToCalendarText }}
+          {{ toggleCalendarText }}
         </UiButton>
       </UiFlex>
 
       <UiFlex v-if="isShowCalendar" column gap="16" data-test="activity-form-calendar-block">
-        <UiButton @click="submit(true)" :isDisabled="!isValid" data-test="activity-form-save-to-calendar">
-          {{ t('activity.saveToCalendar') }}
-        </UiButton>
-
         <UiFlex gap="4">
           <div>{{ dateScheduledText }}</div>
 
@@ -47,6 +43,14 @@
             {{ formatDate(formData.dateScheduled, locale) }}
           </b>
         </UiFlex>
+
+        <UiButton
+          @click="submit(true)"
+          :isDisabled="!formData.dateScheduled || !isValid"
+          data-test="activity-form-save-to-calendar"
+        >
+          {{ t('activity.saveToCalendar') }}
+        </UiButton>
 
         <UiCalendar
           :minDate="new Date()"
@@ -144,8 +148,8 @@ const isShowModal = ref(false);
 const isShowForm = ref(true);
 const isShowCalendar = ref(false);
 
-const addToCalendarText = computed(() =>
-  isShowCalendar.value ? t('activity.hideCalendar') : t('activity.addToCalendar')
+const toggleCalendarText = computed(() =>
+  isShowCalendar.value ? t('activity.hideCalendar') : t('activity.openCalendar')
 );
 
 const dateScheduledText = computed(() =>

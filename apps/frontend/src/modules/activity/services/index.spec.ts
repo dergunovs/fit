@@ -94,6 +94,23 @@ describe('activityService', () => {
     expect(serviceMocks.http.get).toHaveBeenCalledWith(`${API_ACTIVITY}/${id.value}`);
   });
 
+  it('getOne with empty id', async () => {
+    const emptyId = computed(() => '');
+
+    serviceMocks.http.mockGet<TGetActivityDTO>({ data: null } as unknown as TGetActivityDTO);
+    activityService.getOne({}, emptyId);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
+    expect(serviceMocks.lastQuery.queryKey).toEqual([API_ACTIVITY, emptyId]);
+  });
+
+  it('getOne with null data', async () => {
+    serviceMocks.http.mockGet<TGetActivityDTO>({ data: null } as unknown as TGetActivityDTO);
+    activityService.getOne({}, id);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
+  });
+
   it('getLast', async () => {
     serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: ACTIVITY_FIXTURE });
     activityService.getLast();
@@ -101,6 +118,20 @@ describe('activityService', () => {
     expect(await serviceMocks.lastQuery.queryFn()).toEqual(ACTIVITY_FIXTURE);
     expect(serviceMocks.lastQuery.queryKey).toEqual([API_ACTIVITY_LAST]);
     expect(serviceMocks.http.get).toHaveBeenCalledWith(API_ACTIVITY_LAST);
+  });
+
+  it('getLast with null data', async () => {
+    serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: null } as unknown as TGetActivityLastDTO);
+    activityService.getLast();
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
+  });
+
+  it('getLast with empty data', async () => {
+    serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: undefined } as unknown as TGetActivityLastDTO);
+    activityService.getLast();
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
   });
 
   it('create', async () => {

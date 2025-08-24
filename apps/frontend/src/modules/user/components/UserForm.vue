@@ -30,7 +30,7 @@
           v-model="isShowUpdatePassword"
           data-test="user-form-new-password-spoiler"
         >
-          <UiFlex>
+          <UiFlex gap="12">
             <UiInput
               v-model="newPassword"
               :placeholder="t('password6Symbols')"

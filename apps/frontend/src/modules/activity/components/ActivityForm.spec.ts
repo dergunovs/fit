@@ -35,7 +35,7 @@ const form = dataTest('activity-form');
 const formContainer = dataTest('activity-form-container');
 const potentialDuration = dataTest('activity-form-potential-duration');
 const repeatLast = dataTest('activity-form-repeat-last');
-const addToCalendar = dataTest('activity-form-add-to-calendar');
+const toggleCalendar = dataTest('activity-form-toggle-calendar');
 const addExercise = dataTest('activity-form-add-exercise');
 const addExerciseModal = dataTest('activity-form-add-exercise-modal');
 const exerciseChooseList = dataTest('activity-form-exercise-choose-list');
@@ -195,11 +195,11 @@ describe('ActivityForm', async () => {
   it('toggles calendar', async () => {
     expect(wrapper.find(calendar).exists()).toBe(false);
 
-    await wrapper.find(addToCalendar).trigger('click');
+    await wrapper.find(toggleCalendar).trigger('click');
 
     expect(wrapper.find(calendarBlock).exists()).toBe(true);
 
-    await wrapper.find(addToCalendar).trigger('click');
+    await wrapper.find(toggleCalendar).trigger('click');
 
     expect(wrapper.find(calendarBlock).exists()).toBe(false);
   });
@@ -209,7 +209,7 @@ describe('ActivityForm', async () => {
 
     await nextTick();
 
-    await wrapper.find(addToCalendar).trigger('click');
+    await wrapper.find(toggleCalendar).trigger('click');
 
     expect(wrapper.find(dateScheduled).exists()).toBe(false);
 
