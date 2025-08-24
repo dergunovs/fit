@@ -11,9 +11,9 @@ import {
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
-import { defaultColor, goalColor, getGoals } from '../common/helpers.js';
+import { defaultColor, goalColor } from '../common/helpers.js';
 import { IChartFilter } from '../common/types.js';
-import { isUserEquipmentMatches } from '../user/helpers.js';
+import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
 import { ACTIVITY_POPULATE, CHART_LABELS } from './constants.js';
 
 function activitiesGetCount(activities: IActivity[]) {
@@ -331,7 +331,7 @@ export async function activitiesGetChartData(
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
 
-  const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getGoals(isMonth, isAverage, user);
+  const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getUserGoals(isMonth, isAverage, user);
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user._id };

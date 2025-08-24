@@ -52,3 +52,19 @@ export function isUserEquipmentMatches(exercise: IExercise, user: IUser) {
 
   return false;
 }
+
+export function getUserGoals(isMonth: boolean, isAverage: boolean, user: IUser) {
+  const activities = user.goalActivities || 2;
+  const sets = user.goalSets || 24;
+  const repeats = user.goalRepeats || 12;
+  const duration = user.goalDuration || 40;
+
+  const totalActivities = isMonth ? Math.floor(activities * 4.5) : activities;
+
+  return {
+    activitiesGoal: totalActivities,
+    setsGoal: isAverage ? sets : sets * totalActivities,
+    repeatsGoal: isAverage ? repeats * sets : repeats * sets * totalActivities,
+    durationGoal: isAverage ? duration : duration * totalActivities,
+  };
+}
