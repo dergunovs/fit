@@ -20,6 +20,10 @@ export function filterUserData(user: IUser, isToken?: boolean) {
     equipments: isToken ? undefined : user.equipments,
     defaultWeights: isToken ? {} : user.defaultWeights,
     dateLoggedIn: user.dateLoggedIn,
+    goalActivities: user.goalActivities,
+    goalSets: user.goalSets,
+    goalRepeats: user.goalRepeats,
+    goalDuration: user.goalDuration,
   };
 
   return filteredUser;

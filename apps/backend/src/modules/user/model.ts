@@ -23,6 +23,10 @@ const userSchema = new Schema<IUser>(
     dateUpdated: { type: Date },
     isEmailConfirmed: { type: Boolean, default: false },
     confirmationToken: { type: String },
+    goalActivities: { type: Number, default: 2 },
+    goalSets: { type: Number, default: 24 },
+    goalRepeats: { type: Number, default: 12 },
+    goalDuration: { type: Number, default: 40 },
   },
   { versionKey: false }
 );

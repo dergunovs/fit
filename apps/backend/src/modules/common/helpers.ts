@@ -1,4 +1,4 @@
-import { IPaginatedReply, IGoals } from 'fitness-tracker-contracts';
+import { IPaginatedReply, IUser } from 'fitness-tracker-contracts';
 import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 
@@ -53,13 +53,18 @@ export async function sendMail(text: string, to: string) {
 export const defaultColor = '#464181';
 export const goalColor = '#bcbcbc';
 
-export function getGoals(isMonth: boolean, isAverage: boolean, goals: IGoals) {
-  const totalActivities = isMonth ? getMonthGoal(goals.activities) : goals.activities;
+export function getGoals(isMonth: boolean, isAverage: boolean, user: IUser) {
+  const activities = user.goalActivities || 2;
+  const sets = user.goalSets || 20;
+  const repeats = user.goalRepeats || 12;
+  const duration = user.goalDuration || 40;
+
+  const totalActivities = isMonth ? getMonthGoal(activities) : activities;
 
   return {
     activitiesGoal: totalActivities,
-    setsGoal: isAverage ? goals.sets : goals.sets * totalActivities,
-    repeatsGoal: isAverage ? goals.repeats * goals.sets : goals.repeats * goals.sets * totalActivities,
-    durationGoal: isAverage ? goals.duration : goals.duration * totalActivities,
+    setsGoal: isAverage ? sets : sets * totalActivities,
+    repeatsGoal: isAverage ? repeats * sets : repeats * sets * totalActivities,
+    durationGoal: isAverage ? duration : duration * totalActivities,
   };
 }

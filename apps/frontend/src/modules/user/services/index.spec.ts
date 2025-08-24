@@ -40,6 +40,16 @@ describe('userService', () => {
     expect(serviceMocks.http.get).toHaveBeenCalledWith(`${API_USER}/${id.value}`);
   });
 
+  it('getOne with empty id', async () => {
+    const emptyId = computed(() => '');
+
+    serviceMocks.http.mockGet<TGetUserDTO>({ data: null } as unknown as TGetUserDTO);
+    userService.getOne({}, emptyId);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
+    expect(serviceMocks.lastQuery.queryKey).toEqual([API_USER, emptyId]);
+  });
+
   it('create', async () => {
     serviceMocks.http.mockPost<TPostUserDTO>(BASE_REPLY);
     userService.create({});

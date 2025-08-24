@@ -26,6 +26,10 @@ export interface IUser extends IEntity {
   dateLoggedIn?: Date | string;
   isEmailConfirmed?: boolean;
   confirmationToken?: string;
+  goalActivities?: number;
+  goalSets?: number;
+  goalRepeats?: number;
+  goalDuration?: number;
 }
 
 export interface IUserFeedback {

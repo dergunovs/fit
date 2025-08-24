@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.list">
-    <UiFlex gap="6">
+    <UiFlex gap="4">
       <button
         v-for="muscle in muscleFilters"
         :key="muscle._id"

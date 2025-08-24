@@ -1,12 +1,3 @@
-export { GOALS } from "../index";
-
-export interface IGoals {
-  activities: number;
-  sets: number;
-  repeats: number;
-  duration: number;
-}
-
 export type TLocale = "ru" | "en";
 
 export interface IEntity {

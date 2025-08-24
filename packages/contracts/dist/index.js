@@ -22,10 +22,3 @@ export const API_MUSCLE = "/muscle";
 export const API_USER = "/user";
 export const API_USER_PASSWORD = "/user_password";
 export const API_USER_FEEDBACK = "/user_feedback";
-
-export const GOALS = {
-  activities: 2,
-  sets: 24,
-  repeats: 12,
-  duration: 40,
-};

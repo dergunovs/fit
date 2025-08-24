@@ -31,11 +31,12 @@
         data-test="exercise-to-failure"
       />
 
-      <ExerciseRepeatsChoice
+      <UiChoice
         v-model="repeats"
         :options="repeatsOptions"
         :title="t('repeat.many')"
         isTall
+        isInput
         data-test="exercise-repeats"
       />
 
@@ -47,11 +48,10 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { UiButton, UiCheckbox } from 'mhz-ui';
+import { UiButton, UiCheckbox, UiChoice } from 'mhz-ui';
 import { IExerciseDone, TLocale } from 'fitness-tracker-contracts';
 
 import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';
-import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 import { getExercisePassingTitle } from '@/exercise/helpers';
 

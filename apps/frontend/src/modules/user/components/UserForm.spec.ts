@@ -1,7 +1,13 @@
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IUserEquipment } from 'fitness-tracker-contracts';
+import {
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_STATISTICS,
+  API_AUTH_GET,
+  API_USER,
+  IUserEquipment,
+} from 'fitness-tracker-contracts';
 import { dataTest, deleteAuthHeader } from 'mhz-helpers';
 import { UiTabs } from 'mhz-ui';
 
@@ -161,14 +167,19 @@ describe('UserForm', async () => {
       equipments: USER_FIXTURE.equipments,
       defaultWeights: USER_FIXTURE.defaultWeights,
       role: USER_FIXTURE.role,
+      goalActivities: USER_FIXTURE.goalActivities,
+      goalSets: USER_FIXTURE.goalSets,
+      goalRepeats: USER_FIXTURE.goalRepeats,
+      goalDuration: USER_FIXTURE.goalDuration,
     });
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(3);
+    expect(spyRefetchQueries).toBeCalledTimes(4);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
 
     expect(spyToastSuccess).toBeCalledTimes(1);
   });
@@ -325,12 +336,12 @@ describe('UserForm', async () => {
 
     await nextTick();
 
-    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(4);
+    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(5);
 
     setAdmin(true);
 
     await nextTick();
 
-    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(3);
+    expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(4);
   });
 });

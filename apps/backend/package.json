@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-backend",
   "description": "Fitness tracker backend",
-  "version": "0.1.25",
+  "version": "0.2.0",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",

@@ -10,10 +10,11 @@
         />
       </UiField>
 
-      <ExerciseRepeatsChoice
+      <UiChoice
         v-model="choosenExercise.repeats"
         :options="EXERCISE_REPEATS_OPTIONS"
         :title="t('repeat.many')"
+        isInput
         data-test="exercise-repeats"
       />
 
@@ -33,10 +34,8 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
-import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
+import { UiButton, UiChoice, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
-
-import ExerciseRepeatsChoice from '@/exercise/components/ExerciseRepeatsChoice.vue';
 
 import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
 import { getDefaultExerciseWeight } from '@/exercise/helpers';

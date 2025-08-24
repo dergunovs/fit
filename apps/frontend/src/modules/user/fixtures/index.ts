@@ -16,6 +16,10 @@ export const USER_FIXTURE: IUser = {
     '2': 0,
     '3': 1,
   },
+  goalActivities: 2,
+  goalSets: 24,
+  goalRepeats: 12,
+  goalDuration: 40,
 };
 
 export const USER_FIXTURE_2: IUser = {

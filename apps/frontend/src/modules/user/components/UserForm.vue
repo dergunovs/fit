@@ -50,6 +50,36 @@
         </UiSpoiler>
       </UserFormTab>
 
+      <UserFormTab v-show="currentTab === 'goals'" :title="t('goals')" data-test="user-form-tab">
+        <UiChoice
+          v-model="formData.goalActivities"
+          :options="USER_GOALS_OPTIONS.activities"
+          :title="t('activity.many')"
+          data-test="user-form-goals-activities"
+        />
+
+        <UiChoice
+          v-model="formData.goalSets"
+          :options="USER_GOALS_OPTIONS.sets"
+          :title="t('set.many')"
+          data-test="user-form-goals-sets"
+        />
+
+        <UiChoice
+          v-model="formData.goalRepeats"
+          :options="USER_GOALS_OPTIONS.repeats"
+          :title="t('repeat.many')"
+          data-test="user-form-goals-repeats"
+        />
+
+        <UiChoice
+          v-model="formData.goalDuration"
+          :options="USER_GOALS_OPTIONS.duration"
+          :title="t('duration')"
+          data-test="user-form-goals-duration"
+        />
+      </UserFormTab>
+
       <UserFormTab v-show="currentTab === 'equipment'" :title="t('equipment.one')" data-test="user-form-tab">
         <UserEquipmentForm
           v-if="equipments"
@@ -59,7 +89,7 @@
         />
       </UserFormTab>
 
-      <UserFormTab v-show="currentTab === 'weights'" :title="t('user.chooseWeights')" data-test="user-form-tab">
+      <UserFormTab v-show="currentTab === 'weight'" :title="t('weight')" data-test="user-form-tab">
         <UserDefaultWeightsForm
           v-if="formData.equipments && exercises"
           :userEquipments="formData.equipments"
@@ -112,7 +142,7 @@
 import { ref, onBeforeMount, computed } from 'vue';
 import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, UiModal, toast, UiTabs } from 'mhz-ui';
+import { UiButton, UiField, UiFlex, UiInput, UiSpoiler, UiModal, toast, UiTabs, UiChoice } from 'mhz-ui';
 import {
   useQueryClient,
   useValidator,
@@ -124,7 +154,15 @@ import {
   letters,
   min,
 } from 'mhz-helpers';
-import { API_ACTIVITY_STATISTICS, API_AUTH_GET, API_USER, IExercise, IUser, TLocale } from 'fitness-tracker-contracts';
+import {
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_STATISTICS,
+  API_AUTH_GET,
+  API_USER,
+  IExercise,
+  IUser,
+  TLocale,
+} from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 import UserEquipmentForm from '@/user/components/UserEquipmentForm.vue';
@@ -134,7 +172,7 @@ import UserExercises from '@/user/components/UserExercises.vue';
 import UserFormProfile from '@/user/components/UserFormProfile.vue';
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 
-import { URL_USER } from '@/user/constants';
+import { URL_USER, USER_GOALS_OPTIONS } from '@/user/constants';
 import { userService } from '@/user/services';
 import { equipmentService } from '@/equipment/services';
 import { exerciseService } from '@/exercise/services';
@@ -175,8 +213,9 @@ const exercisesTab = computed(() => {
 });
 
 const otherTabs = computed(() => [
+  { value: 'goals', title: t('goals') },
   { value: 'equipment', title: t('equipment.one') },
-  { value: 'weights', title: t('user.chooseWeights') },
+  { value: 'weight', title: t('weight') },
 ]);
 
 const TABS = computed(() => {
@@ -208,6 +247,7 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update(
     await queryClient.refetchQueries({ queryKey: [API_USER] });
     await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
     toast.success(t('user.updated'));
   },
 });

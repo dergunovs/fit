@@ -35,6 +35,8 @@ export const userService = {
     useQuery({
       queryKey: [API_USER, id],
       queryFn: async () => {
+        if (!id.value) return null;
+
         const { data } = await api.get<TGetUserDTO>(`${API_USER}/${id.value}`);
 
         return data.data;

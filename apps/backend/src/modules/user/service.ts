@@ -17,7 +17,9 @@ export const userService = {
     checkInvalidId(_id);
 
     const user = await User.findOne({ _id })
-      .select('_id name role email equipments defaultWeights isResetPassword')
+      .select(
+        '_id name role email equipments defaultWeights isResetPassword goalActivities goalSets goalRepeats goalDuration'
+      )
       .populate(USER_POPULATE)
       .lean();
 

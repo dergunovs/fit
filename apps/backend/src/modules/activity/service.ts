@@ -77,7 +77,7 @@ export const activityService = {
     const filter = adminOrUserFilter(decode, token);
 
     const [user, muscles] = await Promise.all([
-      await User.findOne(filter).select('_id').lean(),
+      await User.findOne(filter).select('_id goalActivities goalSets goalRepeats goalDuration').lean(),
       await Muscle.find().lean(),
     ]);
 

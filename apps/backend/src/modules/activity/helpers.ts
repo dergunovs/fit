@@ -7,7 +7,6 @@ import {
   IActivityChartDataset,
   IMuscle,
   IUser,
-  GOALS,
   TLocale,
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
@@ -332,7 +331,7 @@ export async function activitiesGetChartData(
   const labels: string[] = [];
   const datasets: IActivityChartDataset[] = [];
 
-  const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getGoals(isMonth, isAverage, GOALS);
+  const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getGoals(isMonth, isAverage, user);
 
   for (const week of weeks) {
     const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user._id };

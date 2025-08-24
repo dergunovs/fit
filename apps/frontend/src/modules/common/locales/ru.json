@@ -10,6 +10,7 @@
   "installation": "Установка",
   "help": "Помощь",
   "all": "Все",
+  "goals": "Цели",
   "adminPanel": "Админка",
   "profile": "Профиль",
   "login": "Вход",
@@ -138,7 +139,6 @@
     "deleted": "@:user.one удален",
     "profile": "Профиль пользователя",
     "admin": "@:user.one с правами администратора",
-    "chooseWeights": "Выбор веса",
     "general": "Общее"
   },
   "muscle": {
