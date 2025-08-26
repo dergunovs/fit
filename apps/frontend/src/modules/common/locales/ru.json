@@ -64,7 +64,7 @@
   "sendNewPassword": "Выслать новый @.lower:password",
   "sendNewPasswordToEmail": "Вышлем на почту новый временный @.lower:password - поменяйте его потом в профиле.",
   "setNewPassword": "Установите новый @.lower:password",
-  "password6Symbols": "Новый @.lower:password от 6 символов",
+  "password6Symbols": "@:password от 6 символов",
   "passwordUpdated": "@:password обновлен",
   "tempPasswordSent": "Временный @.lower:password выслан на почту",
   "followTheEmailLink": "Перейдите по ссылке из почты",
