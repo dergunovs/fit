@@ -139,7 +139,10 @@
     "deleted": "@:user.one deleted",
     "profile": "@:user.one profile",
     "admin": "@:user.one has admin rights",
-    "general": "General"
+    "general": "General",
+    "goalsInfo": "Choose your goals for the number of activities per week, sets per activity, repeats per set, and average activity duration.",
+    "equipmentInfo": "Add your available equipment, including all weights for each type.",
+    "weightsInfo": "Select the default weight for exercises."
   },
   "muscle": {
     "many": "Muscles",
@@ -189,18 +192,14 @@
     "PC: Go to app-fit.ru, click the 'Install' button in the browser’s address bar."
   ],
   "registrationText": [
-    "Register by entering your name, email, and password. A confirmation link will be sent to your email. Check your spam folder if you don’t receive the email.",
-    "Log into the app. In your profile, add the equipment you have access to from the list. This determines which exercises you’ll be able to perform. Some equipment allows weight selection. For example, you might have 2 kg and 3 kg dumbbells.",
-    "If an exercise allows weight selection or you have multiple types of weighted equipment, you’ll be able to set a default weight for each such exercise. Save your changes by clicking the 'Save' button.",
-    "You can add up to 20 custom exercises via the form in your user profile. When creating an exercise, provide its name, description, equipment used, and targeted muscle groups."
+    "Sign up and follow the confirmation link in the email. Check your spam folder if you haven't received the email.",
+    "In your profile, add your equipment—this determines the list of available exercises. Some equipment allows you to select a weight, for example, 2 kg or 3 kg dumbbells. If you have several types of weighted equipment, a default weight selection will be available for exercises. Additionally, in your profile, you can add up to 20 custom exercises and set weekly workout goals."
   ],
   "activityPassingText": [
-    "Add exercises by specifying the number of repetitions and available weight. You can filter exercises by muscle groups or name.",
-    "You can add 2 or 3 sets at once. If the last two exercises differ, an option to 'Add set' with the same exercises will appear.",
-    "After completing at least one workout, you can 'Repeat last activity' with one click. You can also copy any past activity via the calendar on the statistics page by clicking the 'Copy' button at the bottom of the pop-up window.",
-    "Plan future workouts. To do this, click 'Add to calendar' when creating a workout. In the calendar that appears, select a date and click 'Save activity to calendar'. You can start the workout from the calendar at any time, even if it’s not the scheduled day.",
-    "After finalizing building your workout, click 'Start activity'. The activity passing screen will appear. Tap 'Start' to activate the timer for the current exercise. If you feel the set was performed to failure, mark this option. You can adjust the number of completed repetitions. Then click 'Complete'.",
-    "After finishing the exercises, you’ll be redirected to the statistics page. Completed workouts in the calendar are color-coded based on the most engaged muscle groups. The more a muscle group is used, the larger its visual space. Activities can also be deleted from the calendar.",
-    "If you need to stop a workout early, click the 'Finish activity early' button. The timer helps predict future workout durations, track average rest times, and visualize workouts in your statistics."
+    "Add exercises. Specify the number of repetitions and weight. There are filters by muscle groups and exercise names. You can add 2 or 3 sets at once. If the last two exercises are different, a button to add a set will appear.",
+    "If you've completed your first workout, you'll have the option to repeat the previous workout with one click. You can also copy any completed workout through the calendar on the statistics page in the popup window. You can add a workout to the calendar: click the 'Open Calendar' button when creating a workout. Select a date and click the 'Save Workout to Calendar' button. Then in the calendar, select a future workout and click the 'Start' button.",
+    "After creating a workout, you can immediately start it by clicking the corresponding button. Click 'Start' on the workout screen to launch the timer for the first exercise. If a set is performed to failure, mark it as such. You can adjust the number of repetitions. After finishing the exercise, click the 'Complete' button.",
+    "After completing all exercises, you will be redirected to the statistics page. Completed workouts in the calendar are colored according to the most involved muscle groups. The more a muscle group is engaged, the more space it occupies.",
+    "Using the timer allows you to predict the duration of future workouts, track average rest time, and visually display workouts in statistics."
   ]
 }

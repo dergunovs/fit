@@ -20,7 +20,7 @@
     <h3>{{ t('installation') }}</h3>
 
     <div>
-      <b>RuStore(Android): </b>
+      RuStore(Android):
       <a href="https://www.rustore.ru/catalog/app/com.appfit.dev" target="_blank" rel="nofollow noreferrer noopener">
         {{ t('installation') }}
       </a>

@@ -14,6 +14,7 @@ exports[`UserForm > matches snapshot 1`] = `
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Цели</h3>
+      <p>Выберите цели по количеству занятий в неделю, подходам в занятии, повторам в подходе и среднему времени занятия.</p>
       <div options="1,2,3,4,5" title="Занятия" data-test="user-form-goals-activities"><input type="number"></div>
       <div options="12,16,20,24,30" title="Подходы" data-test="user-form-goals-sets"><input type="number"></div>
       <div options="8,10,12,15,20" title="Повторы" data-test="user-form-goals-repeats"><input type="number"></div>
@@ -21,10 +22,12 @@ exports[`UserForm > matches snapshot 1`] = `
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Оборудование</h3>
+      <p>Добавьте доступное вам оборудование, включая все веса для каждого вида.</p>
       <user-equipment-form-stub equipments="[object Object],[object Object]" modelvalue="" data-test="user-form-equipments"></user-equipment-form-stub>
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Вес</h3>
+      <p>Выберите вес по-умолчанию для упражнений.</p>
       <user-default-weights-form-stub userequipments="" exercises="[object Object],[object Object],[object Object]" modelvalue="[object Object]" data-test="user-form-default-weights"></user-default-weights-form-stub>
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">

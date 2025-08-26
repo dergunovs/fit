@@ -51,6 +51,8 @@
       </UserFormTab>
 
       <UserFormTab v-show="currentTab === 'goals'" :title="t('goals')" data-test="user-form-tab">
+        <p>{{ t('user.goalsInfo') }}</p>
+
         <UiChoice
           v-model="formData.goalActivities"
           :options="USER_GOALS_OPTIONS.activities"
@@ -81,6 +83,8 @@
       </UserFormTab>
 
       <UserFormTab v-show="currentTab === 'equipment'" :title="t('equipment.one')" data-test="user-form-tab">
+        <p>{{ t('user.equipmentInfo') }}</p>
+
         <UserEquipmentForm
           v-if="equipments"
           :equipments="equipments"
@@ -90,6 +94,8 @@
       </UserFormTab>
 
       <UserFormTab v-show="currentTab === 'weight'" :title="t('weight')" data-test="user-form-tab">
+        <p>{{ t('user.weightsInfo') }}</p>
+
         <UserDefaultWeightsForm
           v-if="formData.equipments && exercises"
           :userEquipments="formData.equipments"
