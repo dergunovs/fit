@@ -20,23 +20,7 @@ export default tseslint.config(
 
   ignores,
   parser(vueParser, tseslint.parser),
-  {
-    ...options(globals),
-    ...settings,
-    rules: {
-      ...rules.rules,
-      'sonarjs/no-hardcoded-passwords': 'off',
-      'sonarjs/no-duplicated-branches': 'off',
-      'unicorn/prevent-abbreviations': 'off',
-      'unicorn/no-null': 'off',
-      'unicorn/filename-case': ['error', { cases: { camelCase: true, pascalCase: true } }],
-      'unicorn/no-array-callback-reference': 'off',
-      'unicorn/no-useless-undefined': 'off',
-      'unicorn/no-array-for-each': 'off',
-      'unicorn/numeric-separators-style': 'off',
-      'unicorn/no-array-reduce': 'off',
-    },
-  },
+  { ...options(globals), ...settings, ...rules },
 
   eslintPluginPrettierRecommended
 );
