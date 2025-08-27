@@ -8,7 +8,7 @@
           <UiSelect
             v-model="choosenEquipment"
             :options="excludeChoosenUserEquipment(props.equipments, props.modelValue)"
-            :isDisabled="isEditEquipment || !!choosenEquipmentWeights.length"
+            :isDisabled="isEditEquipment || choosenEquipmentWeights.length > 0"
             :lang="locale"
             :isLocaleField="locale === 'en'"
             data-test="user-equipment-options"
@@ -29,7 +29,7 @@
       </UiButton>
     </UiFlex>
 
-    <UiFlex v-if="choosenEquipmentWeights.length" column>
+    <UiFlex v-if="choosenEquipmentWeights.length > 0" column>
       <div>{{ t('addedWeights') }}</div>
 
       <UiFlex wrap>
@@ -133,7 +133,7 @@ const isEditEquipment = ref(false);
 const isAddWeightDisabled = computed(
   () =>
     !choosenEquipmentWeight.value ||
-    isNaN(Number(choosenEquipmentWeight.value)) ||
+    Number.isNaN(Number(choosenEquipmentWeight.value)) ||
     choosenEquipmentWeight.value < 1 ||
     choosenEquipmentWeight.value > 500 ||
     choosenEquipmentWeights.value.includes(Number(choosenEquipmentWeight.value))
@@ -142,7 +142,7 @@ const isAddWeightDisabled = computed(
 const isAddEquipmentDisabled = computed(
   () =>
     !choosenEquipment.value ||
-    (choosenEquipment.value.isWeights && !choosenEquipmentWeights.value.length) ||
+    (choosenEquipment.value.isWeights && choosenEquipmentWeights.value.length === 0) ||
     props.modelValue?.some((equipment) => equipment.equipment?._id === choosenEquipment.value?._id)
 );
 
@@ -180,9 +180,9 @@ function editEquipment(equipment: IUserEquipment) {
 
 function saveEquipment() {
   const updatedEquipments = props.modelValue?.map((equipment) => {
-    if (equipment.equipment?._id === choosenEquipment.value?._id) {
-      return { equipment: choosenEquipment.value, weights: choosenEquipmentWeights.value };
-    } else return equipment;
+    return equipment.equipment?._id === choosenEquipment.value?._id
+      ? { equipment: choosenEquipment.value, weights: choosenEquipmentWeights.value }
+      : equipment;
   });
 
   emit('update:modelValue', updatedEquipments);

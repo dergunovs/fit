@@ -38,7 +38,7 @@ describe('ExerciseChooseElement', async () => {
   });
 
   it('sets default repeat and repeats options', async () => {
-    expect(wrapper.find(exerciseRepeats).attributes('options')).toBe(EXERCISE_REPEATS_OPTIONS.join().toString());
+    expect(wrapper.find(exerciseRepeats).attributes('options')).toBe(EXERCISE_REPEATS_OPTIONS.join(',').toString());
     expect(wrapper.find(exerciseRepeats).attributes('modelvalue')).toBe(EXERCISE_REPEATS_DEFAULT.toString());
   });
 

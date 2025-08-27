@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/unused-import
 import { DefineLocaleMessage } from 'vue-i18n';
 
 import ru from '@/common/locales/ru.json';

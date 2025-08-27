@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
-import PWAUpdateModal from './PWAUpdateModal.vue';
+import PwaUpdateModal from './PwaUpdateModal.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { spyUseRegisterSW, spyUpdateServiceWorker, mockNeedRefresh } from '@/common/mocks';
@@ -11,17 +11,17 @@ const modal = dataTest('pwa-update-modal');
 const submit = dataTest('pwa-update-submit');
 const cancel = dataTest('pwa-update-cancel');
 
-let wrapper: VueWrapper<InstanceType<typeof PWAUpdateModal>>;
+let wrapper: VueWrapper<InstanceType<typeof PwaUpdateModal>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(PWAUpdateModal);
+  wrapper = wrapperFactory(PwaUpdateModal);
 });
 
 enableAutoUnmount(afterEach);
 
-describe('PWAUpdateModal', async () => {
+describe('PwaUpdateModal', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(PWAUpdateModal)).toBeTruthy();
+    expect(wrapper.findComponent(PwaUpdateModal)).toBeTruthy();
   });
 
   it('matches snapshot', async () => {

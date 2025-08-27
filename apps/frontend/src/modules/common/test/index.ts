@@ -26,6 +26,6 @@ export function wrapperFactory<T>(
       },
     },
     props: props as ComponentPublicInstance<T>['$props'],
-    attachTo: document.getElementById('app') as HTMLElement,
+    attachTo: document.querySelector('#app') as HTMLElement,
   });
 }

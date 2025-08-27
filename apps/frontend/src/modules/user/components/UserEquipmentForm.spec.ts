@@ -47,7 +47,7 @@ describe('UserEquipmentForm', async () => {
 
   it('sets filtered equipment options', async () => {
     expect(wrapper.find(options).attributes('options')).toStrictEqual(
-      excludeChoosenUserEquipment(EQUIPMENTS_FIXTURE, USER_FIXTURE.equipments).join()
+      excludeChoosenUserEquipment(EQUIPMENTS_FIXTURE, USER_FIXTURE.equipments).join('')
     );
   });
 

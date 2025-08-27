@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PWAUpdateModal > matches snapshot 1`] = `
+exports[`PwaUpdateModal > matches snapshot 1`] = `
 "<div modelvalue="true" width="360" data-test="pwa-update-modal">
   <div column="" gap="16">
     <div><b>Обновление приложения</b></div>

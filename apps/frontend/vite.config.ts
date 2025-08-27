@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
@@ -22,7 +22,7 @@ export default defineConfig({
 
   build: { target: 'es2022' },
 
-  resolve: { alias: { '@': resolve(__dirname, './src/modules') } },
+  resolve: { alias: { '@': path.resolve(import.meta.dirname, './src/modules') } },
 
   plugins: [
     vue({
@@ -32,7 +32,7 @@ export default defineConfig({
     }),
     svgLoader(),
     VueI18nPlugin({
-      include: resolve(dirname(fileURLToPath(import.meta.url)), './src/modules/common/locales/**'),
+      include: path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src/modules/common/locales/**'),
     }),
     VitePWA({
       registerType: 'prompt',

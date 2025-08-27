@@ -164,7 +164,7 @@ describe('ExercisePassingElement', async () => {
         exerciseNotDone.repeats,
         exerciseNotDone.repeats + 1,
         exerciseNotDone.repeats + 2,
-      ].join()
+      ].join(',')
     );
     expect(wrapper.find(repeats).attributes('modelvalue')).toBe(exerciseNotDone.repeats.toString());
   });

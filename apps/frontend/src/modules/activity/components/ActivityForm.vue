@@ -186,7 +186,7 @@ function createSet() {
 }
 
 function repeatLastActivity() {
-  if (!lastActivity.value || !Object.keys(lastActivity.value).length) return;
+  if (!lastActivity.value || Object.keys(lastActivity.value).length === 0) return;
 
   formData.value.exercises = generateActivityExercises(lastActivity.value.exercises);
 }

@@ -93,7 +93,10 @@ export function getExercisePassingTitle(
   weightTitle: string,
   locale: TLocale
 ) {
-  return `${index}${isCurrent ? ` - ${count}.` : `.`} ${exercise.exercise?.[localeField('title', locale)] || '-'}${exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`}`;
+  const currentCount = isCurrent ? ` - ${count}.` : `.`;
+  const weight = exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`;
+
+  return `${index}${currentCount} ${exercise.exercise?.[localeField('title', locale)] || '-'}${weight}`;
 }
 
 export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {

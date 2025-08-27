@@ -1,3 +1,1 @@
-import { stylelint } from 'vue-linters-config';
-
-export default stylelint;
+export { stylelint as default } from 'vue-linters-config';

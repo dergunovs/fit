@@ -8,12 +8,12 @@
       :data-layout="layoutComponent.name"
     />
 
-    <PWAUpdateModal />
+    <PwaUpdateModal />
   </div>
 </template>
 
 <script setup lang="ts">
-import PWAUpdateModal from '@/common/components/PWAUpdateModal.vue';
+import PwaUpdateModal from '@/common/components/PwaUpdateModal.vue';
 
 import { useLayout, useLocale } from '@/common/composables';
 import { useAuthCheck } from '@/auth/composables';

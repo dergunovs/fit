@@ -92,7 +92,7 @@ function stopExercise(exerciseDone: IExerciseDone) {
   emit('done', !props.activity.exercises?.some((exercise) => !exercise.isDone));
 
   if (!props.activity.dateUpdated) {
-    emit('setDateCreated', new Date(new Date().getTime() - (exerciseDone.duration || 0) * 1000));
+    emit('setDateCreated', new Date(Date.now() - (exerciseDone.duration || 0) * 1000));
   }
 
   emit('setDateUpdated', new Date());

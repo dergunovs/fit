@@ -116,7 +116,7 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.emitted('setDateCreated')).toHaveLength(1);
 
     const emittedDate = wrapper.emitted('setDateCreated')?.[0][0] as Date;
-    const expectedDate = new Date(new Date().getTime() - 60 * 1000);
+    const expectedDate = new Date(Date.now() - 60 * 1000);
 
     expect(emittedDate.getTime()).toBeCloseTo(expectedDate.getTime(), -3);
   });

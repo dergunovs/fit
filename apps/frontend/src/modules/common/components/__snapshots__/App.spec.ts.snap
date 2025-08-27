@@ -3,6 +3,6 @@
 exports[`App > matches snapshot 1`] = `
 "<div>
   <!--v-if-->
-  <p-w-a-update-modal-stub></p-w-a-update-modal-stub>
+  <pwa-update-modal-stub></pwa-update-modal-stub>
 </div>"
 `;

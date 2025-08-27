@@ -172,7 +172,9 @@ ${t('set.many')}: ${props.exercises.length}, ${t('failures')}: ${getToFailurePer
 
 ${props.exercises
   .map((exercise, index) => {
-    return `${index + 1}. ${exercise.exercise?.[localeField('title', locale.value)]} x${exercise.repeats} ${exercise.weight ? `${exercise.weight}${t('kg')}` : ''} ${formatDuration(exercise.duration, locale.value)} ${exercise.isToFailure ? t('toFailure') : ''}\n`;
+    const weight = exercise.weight ? ` ${exercise.weight}${t('kg')}` : '';
+
+    return `${index + 1}. ${exercise.exercise?.[localeField('title', locale.value)]} x${exercise.repeats}${weight} ${formatDuration(exercise.duration, locale.value)} ${exercise.isToFailure ? t('toFailure') : ''}\n`;
   })
   .join('')}`;
 

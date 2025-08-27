@@ -26,7 +26,7 @@ const props = defineProps<IProps>();
 
 const width = 308;
 
-const lastStepDate = props.exercises[props.exercises.length - 1].dateUpdated;
+const lastStepDate = props.exercises.at(-1)?.dateUpdated;
 
 const ratio =
   lastStepDate && props.start ? (new Date(lastStepDate).getTime() - new Date(props.start).getTime()) / width : 0;

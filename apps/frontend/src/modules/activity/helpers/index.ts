@@ -4,7 +4,7 @@ import { createTempId, formatDuration, subtractDates } from 'mhz-helpers';
 import { IActivityCalendarEvent } from '@/activity/interface';
 
 function generateActivityCSSGradients(colors: { percent: number; color: string | undefined }[]) {
-  if (!colors.length) return '#000';
+  if (colors.length === 0) return '#000';
 
   const firstColor = colors[0].color;
 

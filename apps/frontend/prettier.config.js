@@ -1,3 +1,1 @@
-import { prettier } from 'vue-linters-config';
-
-export default prettier;
+export { prettier as default } from 'vue-linters-config';
