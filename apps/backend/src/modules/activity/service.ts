@@ -77,8 +77,8 @@ export const activityService = {
     const filter = adminOrUserFilter(decode, token);
 
     const [user, muscles] = await Promise.all([
-      await User.findOne(filter).select('_id goalActivities goalSets goalRepeats goalDuration').lean(),
-      await Muscle.find().lean(),
+      User.findOne(filter).select('_id goalActivities goalSets goalRepeats goalDuration').lean(),
+      Muscle.find().lean(),
     ]);
 
     if (!user) throw new Error('User not found', { cause: { code: 404 } });

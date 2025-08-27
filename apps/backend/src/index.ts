@@ -40,4 +40,4 @@ async function startApp() {
   }
 }
 
-startApp();
+await startApp();

@@ -34,7 +34,7 @@ function activitiesGetTotalDuration(activities: IActivity[]) {
 
     const diff = Math.floor((dateFrom.getTime() - dateTo.getTime()) / 1000);
 
-    return acc + (diff > 0 ? diff : 0);
+    return acc + Math.max(diff, 0);
   }, 0);
 }
 
@@ -201,7 +201,7 @@ async function getMusclesChart(
     });
   }
 
-  if (datasets.length) {
+  if (datasets.length > 0) {
     datasets.forEach((set, index) => {
       if (index < chartDatasets.length) {
         set.data.push(chartDatasets[index].data[0]);

@@ -1,3 +1,1 @@
-import { prettier } from 'fastify-linters-config';
-
-export default prettier;
+export { prettier as default } from 'fastify-linters-config';
