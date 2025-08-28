@@ -43,10 +43,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiModal, UiFlex } from 'mhz-ui';
-import FormButtonsLayout from './FormButtonsLayout.vue';
+import { TLocale } from 'fitness-tracker-contracts';
+
+import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 interface IProps {
   id?: string;
@@ -67,5 +69,5 @@ const emit = defineEmits<IEmit>();
 const isShowConfirm = ref(false);
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 </script>

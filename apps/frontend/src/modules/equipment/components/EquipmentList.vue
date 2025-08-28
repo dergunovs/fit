@@ -12,9 +12,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
-import { IEquipment } from 'fitness-tracker-contracts';
+import { IEquipment, TLocale } from 'fitness-tracker-contracts';
 
 import { URL_EQUIPMENT_EDIT } from '@/equipment/constants';
 
@@ -24,7 +24,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const EQUIPMENT_LIST_HEADERS = computed(() => [{ title: t('title') }]);
 </script>

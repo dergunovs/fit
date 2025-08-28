@@ -21,8 +21,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { IExercise, IUserDefaultWeights, IUserEquipment } from 'fitness-tracker-contracts';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { IExercise, IUserDefaultWeights, IUserEquipment, TLocale } from 'fitness-tracker-contracts';
 import { UiFlex, UiSelect } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
@@ -41,7 +41,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const exercisesToChooseWeight = computed(() =>
   getExercisesToChooseDefaultWeight(props.exercises, props.userEquipments)

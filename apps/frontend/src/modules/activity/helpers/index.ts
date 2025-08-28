@@ -1,4 +1,4 @@
-import { IActivity, IExerciseDone, IExerciseStatistics, IMuscle } from 'fitness-tracker-contracts';
+import { IActivity, IExerciseDone, IExerciseStatistics, IMuscle, TLocale } from 'fitness-tracker-contracts';
 import { createTempId, formatDuration, subtractDates } from 'mhz-helpers';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
@@ -31,7 +31,7 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
 
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
-  locale: string,
+  locale: TLocale,
   exerciseStatistics?: IExerciseStatistics[],
   averageRestPercent?: number
 ): string {
@@ -153,7 +153,7 @@ export function getToFailurePercent(exercises: IExerciseDone[]) {
 
 export function getRestPercent(
   exercises: IExerciseDone[],
-  lang: string,
+  lang: TLocale,
   start?: Date | null | string,
   end?: Date | null | string
 ) {

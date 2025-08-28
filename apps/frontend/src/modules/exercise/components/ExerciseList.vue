@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
-import { IExercise } from 'fitness-tracker-contracts';
+import { IExercise, TLocale } from 'fitness-tracker-contracts';
 
 import { URL_EXERCISE_EDIT } from '@/exercise/constants';
 
@@ -30,7 +30,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const EXERCISE_LIST_HEADERS = computed(() => [{ title: t('title') }, { title: t('user.one') }]);
 </script>

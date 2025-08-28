@@ -1,4 +1,4 @@
-import { IBaseReply } from "./base";
+import { IBaseReply, TLocale } from "./base";
 import { IUser } from "./user";
 
 export {
@@ -31,11 +31,11 @@ export type TPostAuthSetupDataDTO = IAuthData;
 
 export type TPostAuthRegisterDTO = IBaseReply;
 export type TPostAuthRegisterDataDTO = IRegisterData;
-export type TPostAuthRegisterQueryDTO = { lang: string };
+export type TPostAuthRegisterQueryDTO = { lang: TLocale };
 
 export type TPostAuthConfirmTokenDTO = IBaseReply;
 export type TPostAuthConfirmTokenDataDTO = { token: string };
 
 export type TPostAuthResetPasswordDTO = IBaseReply;
 export type TPostAuthResetPasswordDataDTO = { email: string };
-export type TPostAuthResetPasswordQueryDTO = { lang: string };
+export type TPostAuthResetPasswordQueryDTO = { lang: TLocale };

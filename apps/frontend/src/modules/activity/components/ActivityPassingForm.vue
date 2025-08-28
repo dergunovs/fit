@@ -39,10 +39,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime } from 'mhz-helpers';
-import { IActivity, IExerciseDone } from 'fitness-tracker-contracts';
+import { IActivity, IExerciseDone, TLocale } from 'fitness-tracker-contracts';
 
 import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
 
@@ -61,7 +61,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const activeExerciseId = ref<string>();
 

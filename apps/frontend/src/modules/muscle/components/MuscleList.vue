@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
-import { IMuscle } from 'fitness-tracker-contracts';
+import { IMuscle, TLocale } from 'fitness-tracker-contracts';
 
 import { URL_MUSCLE_EDIT } from '@/muscle/constants';
 
@@ -27,7 +27,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const MUSCLE_LIST_HEADERS = computed(() => [{ title: t('muscle.many') }, { title: t('color') }]);
 </script>

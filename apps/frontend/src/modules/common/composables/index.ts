@@ -1,6 +1,7 @@
 import { ref, computed, onBeforeMount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { TLocale } from 'fitness-tracker-contracts';
 
 import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
 import LayoutDefault from '@/common/components/LayoutDefault.vue';
@@ -39,7 +40,7 @@ export function useLayout() {
 }
 
 export function useLocale() {
-  const { locale, availableLocales } = useI18n();
+  const { locale, availableLocales } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
   function toggleLocale() {
     locale.value = availableLocales.find((l) => l !== locale.value) || locale.value;
@@ -51,7 +52,7 @@ export function useLocale() {
     if (localStorage.getItem('locale')) {
       locale.value = localStorage.locale;
     } else {
-      const defaultLanguage = Intl.DateTimeFormat().resolvedOptions().locale.slice(0, 2);
+      const defaultLanguage = Intl.DateTimeFormat().resolvedOptions().locale.slice(0, 2) as TLocale;
 
       const isLanguageSupported = availableLocales.includes(defaultLanguage);
 

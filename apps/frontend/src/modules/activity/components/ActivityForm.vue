@@ -102,7 +102,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
 import { createTempId, deleteTempId, formatDate, useQueryClient, useRouteId } from 'mhz-helpers';
 import {
@@ -110,6 +110,7 @@ import {
   IActivity,
   IExerciseChoosen,
   IExerciseStatistics,
+  TLocale,
   TPostActivityDTO,
 } from 'fitness-tracker-contracts';
 
@@ -132,7 +133,7 @@ const props = defineProps<IProps>();
 
 const router = useRouter();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const { id } = useRouteId('copy', true);
 

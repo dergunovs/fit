@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import type { IAuthData, IRegisterData, IUser, TDecode } from 'fitness-tracker-contracts';
+import type { IAuthData, IRegisterData, IUser, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { generatePassword } from 'mhz-helpers';
 
 import User from '../user/model.js';
@@ -69,7 +69,7 @@ export const authService = {
     await User.create({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
   },
 
-  register: async (userToCreate: IRegisterData, lang: string, sign: (payload: IUser, options: object) => string) => {
+  register: async (userToCreate: IRegisterData, lang: TLocale, sign: (payload: IUser, options: object) => string) => {
     const existingUser = await User.countDocuments({ email: userToCreate.email });
 
     if (existingUser > 0) throw new Error('User exists', { cause: { code: 500 } });
@@ -104,7 +104,7 @@ export const authService = {
     );
   },
 
-  reset: async (email: string, lang: string) => {
+  reset: async (email: string, lang: TLocale) => {
     const user = await User.findOne({ email }).lean();
 
     if (!user) throw new Error('No such user', { cause: { code: 500 } });

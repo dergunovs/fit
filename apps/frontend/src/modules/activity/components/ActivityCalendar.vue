@@ -25,10 +25,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IExerciseDone } from 'fitness-tracker-contracts';
+import { IExerciseDone, TLocale } from 'fitness-tracker-contracts';
 import { UiCalendar, UiModal } from 'mhz-ui';
 import { ICalendarDates } from 'mhz-helpers';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
@@ -47,7 +47,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { locale } = useI18n();
+const { locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const isShowModal = ref(false);
 

@@ -46,8 +46,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { IExerciseStatistics } from 'fitness-tracker-contracts';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { IExerciseStatistics, TLocale } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
 
@@ -62,7 +62,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const isShowModal = ref(false);
 
