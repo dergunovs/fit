@@ -7,7 +7,7 @@ exports[`ActivityForm > matches snapshot 1`] = `
     <p><span>Примерное время: </span><span data-test="activity-form-potential-duration">0</span></p>
     <div justify="space-between"><button isdisabled="false" isnarrow="" layout="secondary" data-test="activity-form-repeat-last">Повторить прошлое</button><button isdisabled="false" isnarrow="" layout="secondary" data-test="activity-form-toggle-calendar">Открыть календарь</button></div>
     <!--v-if-->
-    <div modelvalue="false" width="360" data-test="activity-form-add-exercise-modal">
+    <div modelvalue="false" data-test="activity-form-add-exercise-modal">
       <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="activity-form-exercise-choose-list"></exercise-choose-list-stub>
     </div>
     <div column="" data-test="activity-form-exercises-choosen-container">

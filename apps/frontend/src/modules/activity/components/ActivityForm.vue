@@ -60,7 +60,7 @@
         />
       </UiFlex>
 
-      <UiModal v-model="isShowModal" width="360" data-test="activity-form-add-exercise-modal">
+      <UiModal v-model="isShowModal" data-test="activity-form-add-exercise-modal">
         <ExerciseChooseList
           v-if="exercises?.length"
           :exercises="exercises"

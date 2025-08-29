@@ -117,7 +117,7 @@
           {{ t('exercise.addCustom') }}
         </UiButton>
 
-        <UiModal v-model="isShowCreateExercise" width="360" data-test="user-form-exercise-form-modal">
+        <UiModal v-model="isShowCreateExercise" data-test="user-form-exercise-form-modal">
           <div :class="$style.modal">
             <h3>{{ t('exercise.addCustom') }}</h3>
 

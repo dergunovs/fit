@@ -43,9 +43,10 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
+import { TLocale } from 'fitness-tracker-contracts';
 
 import IconLogo from '@/common/icons/logo.svg';
 
@@ -69,7 +70,7 @@ const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 
-const { t, locale, availableLocales } = useI18n();
+const { t, locale, availableLocales } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const { toggleLocale } = useLocale();
 
 const version = import.meta.env.VITE_VERSION;

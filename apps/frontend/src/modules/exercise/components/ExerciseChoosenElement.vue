@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { IExerciseChoosen } from 'fitness-tracker-contracts';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { IExerciseChoosen, TLocale } from 'fitness-tracker-contracts';
 import { UiButton, UiClose, UiFlex } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
@@ -38,7 +38,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 
 const exerciseTitle = computed(
   () => `${props.index}. ${props.exercise.exercise?.[localeField('title', locale.value)]} x${props.exercise.repeats}`

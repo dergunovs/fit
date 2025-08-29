@@ -1,5 +1,5 @@
 <template>
-  <UiModal v-model="needRefresh" width="360" data-test="pwa-update-modal">
+  <UiModal v-model="needRefresh" data-test="pwa-update-modal">
     <UiFlex column gap="16">
       <div>
         <b>{{ t('pwa.updateApp') }}</b>

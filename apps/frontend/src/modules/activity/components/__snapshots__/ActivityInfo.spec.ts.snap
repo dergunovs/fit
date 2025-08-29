@@ -27,6 +27,6 @@ exports[`ActivityInfo > matches snapshot 1`] = `
       <!--v-if-->
     </div>
   </div>
-  <div modelvalue="false" isconfirm="" width="360" lang="ru" data-test="activity-info-modal">Подтверждаете удаление? </div>
+  <div modelvalue="false" isconfirm="" lang="ru" data-test="activity-info-modal">Подтверждаете удаление? </div>
 </div>"
 `;

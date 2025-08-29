@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-frontend",
   "description": "Fitness tracker frontend",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "fitness-tracker-contracts": "*",
-    "mhz-ui": "1.2.20",
-    "mhz-helpers": "1.2.8",
+    "mhz-ui": "1.2.21",
+    "mhz-helpers": "1.2.10",
     "vue": "3.5.20",
     "vue-i18n": "11.1.11",
     "vue-router": "4.5.1"

@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
+import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { IExercise, IExerciseChoosen, TLocale } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
@@ -65,7 +65,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
 const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);

@@ -38,7 +38,7 @@
       </tr>
     </UiTable>
 
-    <UiModal v-model="isShowModal" width="360" data-test="exercise-statistics-modal">
+    <UiModal v-model="isShowModal" data-test="exercise-statistics-modal">
       <ExerciseInfo v-if="currentExercise" :exercise="currentExercise" data-test="exercise-statistics-info" />
     </UiModal>
   </div>

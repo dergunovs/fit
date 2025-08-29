@@ -40,6 +40,6 @@ exports[`ExerciseStatistics > matches snapshot 1`] = `
       </tr>
     </tbody>
   </table>
-  <div modelvalue="false" width="360" data-test="exercise-statistics-modal"></div>
+  <div modelvalue="false" data-test="exercise-statistics-modal"></div>
 </div>"
 `;

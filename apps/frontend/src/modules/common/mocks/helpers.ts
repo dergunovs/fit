@@ -55,8 +55,8 @@ const spyUsePagination = vi
   .spyOn(helpers, 'usePagination')
   .mockImplementation(<T>(dataRaw: Ref<{ data: T[]; total: number } | undefined>) => {
     return {
-      data: returnComputed(dataRaw.value?.data),
-      total: returnComputed(dataRaw.value?.total),
+      data: returnComputed(dataRaw.value?.data || []),
+      total: returnComputed(dataRaw.value?.total || 0),
       setPaginationPage: () => 1,
     };
   });

@@ -5,7 +5,7 @@ exports[`FormButtons > matches snapshot 1`] = `
   <!--v-if-->
   <div class="_buttons_871dab" data-fixed="false" data-test="form-buttons-layout-buttons">
     <div><button type="submit" isdisabled="false" data-test="form-buttons-submit">Сохранить</button><button layout="secondary" isdisabled="false" isnarrow="" data-test="form-buttons-back">Назад</button></div><button layout="secondary" isdisabled="false" isnarrow="" data-test="form-buttons-delete">Удалить</button>
-    <div modelvalue="false" isconfirm="" width="360" lang="ru" data-test="form-buttons-confirm-modal">Подтверждаете удаление? </div>
+    <div modelvalue="false" isconfirm="" lang="ru" data-test="form-buttons-confirm-modal">Подтверждаете удаление? </div>
   </div>
 </div>"
 `;

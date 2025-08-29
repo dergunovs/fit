@@ -97,7 +97,6 @@
       v-model="isShowConfirm"
       isConfirm
       @confirm="mutateDelete(id)"
-      width="360"
       :lang="locale"
       data-test="activity-info-modal"
     >

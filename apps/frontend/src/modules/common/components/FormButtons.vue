@@ -32,7 +32,6 @@
       v-model="isShowConfirm"
       isConfirm
       @confirm="emit('delete', props.id)"
-      width="360"
       :lang="locale"
       data-test="form-buttons-confirm-modal"
     >

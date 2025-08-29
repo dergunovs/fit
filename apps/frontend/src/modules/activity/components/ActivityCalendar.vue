@@ -9,7 +9,7 @@
       data-test="activity-calendar"
     />
 
-    <UiModal v-model="isShowModal" width="360" data-test="activity-calendar-modal">
+    <UiModal v-model="isShowModal" data-test="activity-calendar-modal">
       <ActivityInfo
         :start="start"
         :end="end"
