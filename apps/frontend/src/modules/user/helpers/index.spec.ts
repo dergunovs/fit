@@ -30,6 +30,6 @@ describe('user helpers', () => {
   });
 
   test('handles undefined user equipments gracefully', async () => {
-    expect(excludeChoosenUserEquipment(EQUIPMENTS_FIXTURE, undefined)).toStrictEqual(EQUIPMENTS_FIXTURE);
+    expect(excludeChoosenUserEquipment(EQUIPMENTS_FIXTURE)).toStrictEqual(EQUIPMENTS_FIXTURE);
   });
 });

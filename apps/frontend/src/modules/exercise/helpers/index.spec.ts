@@ -42,7 +42,7 @@ describe('exercise helpers', () => {
   test('checks is prev exercise same', async () => {
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 0, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
-    expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1, undefined)).toStrictEqual(false);
+    expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 1)).toStrictEqual(false);
     expect(isPrevExerciseSame(EXERCISES_DONE_FIXTURE, 0, 'non-existent-id')).toStrictEqual(false);
   });
 

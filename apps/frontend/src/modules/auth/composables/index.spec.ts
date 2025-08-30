@@ -40,7 +40,7 @@ describe('useAuthCheck composables', () => {
 
   it('inits without token', async () => {
     spyGetCookieToken.mockReturnValue(undefined);
-    spyCheckAuth.mockImplementation(() => mockQueryReply(undefined));
+    spyCheckAuth.mockImplementation(() => mockQueryReply());
 
     await helpers.withSetup(async () => {
       expect(isAuthChecked.value).toBe(false);

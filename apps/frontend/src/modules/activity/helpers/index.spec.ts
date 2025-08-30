@@ -37,7 +37,7 @@ describe('activity helpers', () => {
       ACTIVITY_CALENDAR_EVENTS
     );
 
-    expect(convertActivityCalendarEvents(MUSCLES_FIXTURE, undefined)).toBeUndefined();
+    expect(convertActivityCalendarEvents(MUSCLES_FIXTURE)).toBeUndefined();
   });
 
   test('generates activity exercises', async () => {
