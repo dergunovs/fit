@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`UserList > matches snapshot 1`] = `
-"<table headers="[object Object],[object Object]" isloading="false" lang="ru">
+"<table headers="[object Object],[object Object]" lang="ru">
   <tbody>
     <tr data-test="user-table-row">
       <td data-grow=""><a to="/users/edit/15546435" data-test="user-table-email-link">a@b.ru</a></td>

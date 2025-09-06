@@ -18,17 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiPagination } from 'mhz-ui';
 import { usePagination, usePageNumber } from 'mhz-helpers';
-import { TLocale } from 'fitness-tracker-contracts';
 
 import ExerciseList from '@/exercise/components/ExerciseList.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { URL_EXERCISE_CREATE } from '@/exercise/constants';
+import { useTI18n } from '@/common/composables';
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const { page, setPage } = usePageNumber();
 
 const { data } = exerciseService.getMany(page);

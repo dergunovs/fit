@@ -2,7 +2,6 @@ import { ComputedRef, Ref } from 'vue';
 import {
   API_ACTIVITY,
   API_ACTIVITY_CALENDAR,
-  API_ACTIVITY_LAST,
   API_ACTIVITY_STATISTICS,
   API_ACTIVITY_CHART,
   TActivityChartType,
@@ -15,7 +14,6 @@ import {
   TGetActivitiesChartDTO,
   TGetActivitiesChartQueryDTO,
   TGetActivityDTO,
-  TGetActivityLastDTO,
   TPostActivityDTO,
   TPostActivityDataDTO,
   TUpdateActivityDTO,
@@ -91,16 +89,6 @@ export const activityService = {
         return data.data;
       },
       ...options,
-    }),
-
-  getLast: () =>
-    useQuery({
-      queryKey: [API_ACTIVITY_LAST],
-      queryFn: async () => {
-        const { data } = await api.get<TGetActivityLastDTO>(API_ACTIVITY_LAST);
-
-        return data.data || null;
-      },
     }),
 
   create: (options: object) =>

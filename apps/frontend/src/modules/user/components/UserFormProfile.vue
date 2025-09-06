@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
@@ -28,7 +29,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t } = useI18n();
+const { t } = useTI18n();
 </script>
 
 <style module lang="scss">

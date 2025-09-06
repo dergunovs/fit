@@ -29,16 +29,16 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiCheckbox, UiField, UiFlex, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
-import { API_EQUIPMENT, IEquipment, TLocale } from 'fitness-tracker-contracts';
+import { API_EQUIPMENT, IEquipment } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { URL_EQUIPMENT } from '@/equipment/constants';
 import { equipmentService } from '@/equipment/services';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   equipment?: IEquipment;
@@ -48,7 +48,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const router = useRouter();
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
 const formData = ref<IEquipment>({
@@ -86,7 +86,7 @@ const { error, isValid } = useValidator(formData, { title: [required] }, locale.
 function submit() {
   if (!isValid()) return;
 
-  if (props.equipment?._id) {
+  if (props.isEdit) {
     mutateUpdate(formData.value);
   } else {
     mutatePost(formData.value);

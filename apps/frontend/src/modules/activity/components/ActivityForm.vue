@@ -3,25 +3,11 @@
     <h2>{{ t('activity.form') }}</h2>
 
     <UiFlex @submit.prevent="submit" tag="form" column gap="24" data-test="activity-form">
-      <p>
-        <span>{{ t('activity.approximateDuration') }}: </span>
-
-        <span v-if="formData.exercises" data-test="activity-form-potential-duration">
-          {{
-            getPotentialActivityDuration(formData.exercises, locale, props.exerciseStatistics, props.averageRestPercent)
-          }}
-        </span>
-      </p>
+      <ActivityPotentialDuration :exercises="formData.exercises" data-test="activity-form-potential-duration" />
 
       <UiFlex justify="space-between">
-        <UiButton
-          @click="repeatLastActivity"
-          :isDisabled="lastActivity === null"
-          isNarrow
-          layout="secondary"
-          data-test="activity-form-repeat-last"
-        >
-          {{ t('activity.repeatLast') }}
+        <UiButton @click="isShowTemplatesModal = true" isNarrow layout="secondary" data-test="activity-form-templates">
+          {{ t('template.many') }}
         </UiButton>
 
         <UiButton
@@ -31,7 +17,7 @@
           layout="secondary"
           data-test="activity-form-toggle-calendar"
         >
-          {{ toggleCalendarText }}
+          {{ t('calendar') }}
         </UiButton>
       </UiFlex>
 
@@ -60,7 +46,38 @@
         />
       </UiFlex>
 
-      <UiModal v-model="isShowModal" data-test="activity-form-add-exercise-modal">
+      <UiModal v-model="isShowTemplatesModal">
+        <UiFlex column gap="32">
+          <UiFlex column gap="16">
+            <UiField :label="t('title')">
+              <UiInput v-model="templateTitle" />
+            </UiField>
+
+            <UiButton
+              @click="createTemplate"
+              :isDisabled="templateTitle.length === 0 || formData.exercises.length === 0"
+              layout="secondary"
+            >
+              {{ t('template.save') }}
+            </UiButton>
+          </UiFlex>
+
+          <UiFlex v-if="user?.templates" column gap="16">
+            <UiField :label="t('template.one')">
+              <UiSelect
+                v-model="currentTemplate"
+                :lang="locale"
+                :options="user.templates"
+                data-test="activity-form-template-select"
+              />
+            </UiField>
+
+            <UiButton @click="chooseTemplate" :isDisabled="!currentTemplate">{{ t('choose') }}</UiButton>
+          </UiFlex>
+        </UiFlex>
+      </UiModal>
+
+      <UiModal v-model="isShowExercisesModal" isScrollable data-test="activity-form-add-exercise-modal">
         <ExerciseChooseList
           v-if="exercises?.length"
           :exercises="exercises"
@@ -69,19 +86,16 @@
         />
       </UiModal>
 
-      <UiFlex v-if="formData.exercises?.length" column data-test="activity-form-exercises-choosen-container">
-        <h3>{{ t('exercise.many') }}</h3>
-
-        <ExerciseChoosenList
-          :choosenExercises="formData.exercises"
-          @delete="deleteExercise"
-          @createSet="createSet"
-          data-test="activity-form-exercises-choosen"
-        />
-      </UiFlex>
+      <ExerciseChoosenList
+        v-if="formData.exercises?.length"
+        :choosenExercises="formData.exercises"
+        @delete="deleteExercise"
+        @createSet="createSet"
+        data-test="activity-form-exercises-choosen"
+      />
 
       <FormButtonsLayout isFixed>
-        <UiButton @click="isShowModal = true" isNarrow data-test="activity-form-add-exercise">
+        <UiButton @click="isShowExercisesModal = true" isNarrow data-test="activity-form-add-exercise">
           {{ t('exercise.add') }}
         </UiButton>
 
@@ -100,44 +114,39 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { toast, UiButton, UiCalendar, UiFlex, UiModal } from 'mhz-ui';
-import { createTempId, deleteTempId, formatDate, useQueryClient, useRouteId } from 'mhz-helpers';
+import { toast, UiButton, UiCalendar, UiFlex, UiModal, UiSelect, UiField, UiInput } from 'mhz-ui';
+import { createTempId, deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
 import {
   API_ACTIVITY,
+  API_AUTH_GET,
+  API_USER,
   IActivity,
   IExerciseChoosen,
-  IExerciseStatistics,
-  TLocale,
+  IUserTemplate,
   TPostActivityDTO,
 } from 'fitness-tracker-contracts';
 
+import ActivityPotentialDuration from '@/activity/components/ActivityPotentialDuration.vue';
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
-import { getPotentialActivityDuration, generateActivityExercises } from '@/activity/helpers';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
-
-interface IProps {
-  exerciseStatistics: IExerciseStatistics[];
-  averageRestPercent: number;
-}
-
-const props = defineProps<IProps>();
+import { useTI18n } from '@/common/composables';
+import { useAuthCheck } from '@/auth/composables';
+import { generateActivityExercises } from '@/activity/helpers';
+import { userService } from '@/user/services';
 
 const router = useRouter();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
-
-const { id } = useRouteId('copy', true);
-
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
+const { user } = useAuthCheck();
 
 const formData = ref<IActivity>({
   exercises: [],
@@ -145,33 +154,24 @@ const formData = ref<IActivity>({
   dateScheduled: undefined,
 });
 
-const isShowModal = ref(false);
+const isShowTemplatesModal = ref(false);
+const isShowExercisesModal = ref(false);
 const isShowForm = ref(true);
 const isShowCalendar = ref(false);
 
-const toggleCalendarText = computed(() =>
-  isShowCalendar.value ? t('activity.hideCalendar') : t('activity.openCalendar')
-);
+const currentTemplate = ref<IUserTemplate>();
+const templateTitle = ref('');
 
 const dateScheduledText = computed(() =>
   formData.value.dateScheduled ? t('activity.date') : t('activity.chooseDate')
 );
 
 const { data: exercises } = exerciseService.getAll();
-const { data: lastActivity } = activityService.getLast();
-const { data: activity } = activityService.getOne({ enabled: !!id.value }, id);
-
-watch(
-  () => activity.value,
-  () => {
-    if (activity.value) formData.value.exercises = generateActivityExercises(activity.value.exercises);
-  }
-);
 
 function addExercise(exercise: IExerciseChoosen) {
   formData.value.exercises = formData.value.exercises?.length ? [...formData.value.exercises, exercise] : [exercise];
 
-  isShowModal.value = false;
+  isShowExercisesModal.value = false;
 }
 
 function deleteExercise(idToDelete: string) {
@@ -186,16 +186,25 @@ function createSet() {
   formData.value.exercises = [...formData.value.exercises, ...set];
 }
 
-function repeatLastActivity() {
-  if (!lastActivity.value || Object.keys(lastActivity.value).length === 0) return;
-
-  formData.value.exercises = generateActivityExercises(lastActivity.value.exercises);
-}
-
 function setScheduledDate(date: Date) {
   date.setHours(23, 59, 59);
   formData.value.dateScheduled = new Date(date);
 }
+
+function chooseTemplate() {
+  isShowTemplatesModal.value = false;
+  if (currentTemplate.value) formData.value.exercises = generateActivityExercises(currentTemplate.value.exercises);
+
+  currentTemplate.value = undefined;
+}
+
+const { mutate: mutateUpdate } = userService.update({
+  onSuccess: async () => {
+    await queryClient.refetchQueries({ queryKey: [API_USER] });
+    await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
+    toast.success(t('template.added'));
+  },
+});
 
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
   onSuccess: async (activityId: TPostActivityDTO) => {
@@ -213,10 +222,22 @@ function submit(isAddToCalendar?: boolean) {
   isShowForm.value = false;
   if (!isAddToCalendar) formData.value.dateScheduled = undefined;
   formData.value.exercises = deleteTempId(formData.value.exercises);
+
   mutatePost(formData.value);
 }
 
-onBeforeMount(() => {
-  if (activity.value) formData.value.exercises = generateActivityExercises(activity.value.exercises);
-});
+function createTemplate() {
+  if (!formData.value.exercises) return;
+
+  isShowTemplatesModal.value = false;
+
+  const templateToCreate = { title: templateTitle.value, exercises: deleteTempId(formData.value.exercises) };
+
+  const templates = user.value?.templates ? [...user.value.templates, templateToCreate] : [templateToCreate];
+
+  if (user.value) mutateUpdate({ ...user.value, templates });
+
+  currentTemplate.value = undefined;
+  templateTitle.value = '';
+}
 </script>

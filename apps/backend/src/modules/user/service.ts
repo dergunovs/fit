@@ -18,7 +18,7 @@ export const userService = {
 
     const user = await User.findOne({ _id })
       .select(
-        '_id name role email equipments defaultWeights isResetPassword goalActivities goalSets goalRepeats goalDuration'
+        '_id name role email equipments defaultWeights isResetPassword templates goalActivities goalSets goalRepeats goalDuration'
       )
       .populate(USER_POPULATE)
       .lean();

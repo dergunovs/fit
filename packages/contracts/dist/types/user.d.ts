@@ -1,9 +1,15 @@
 import { IBaseReply, IEntity, IPaginatedQuery, IPaginatedReply } from "./base";
 import { IEquipment } from "./equipment";
+import { IExerciseChoosen } from "./exercise";
 
 export { API_USER, API_USER_PASSWORD, API_USER_FEEDBACK } from "../index";
 
 export type TUserRole = "admin" | "user";
+
+export interface IUserTemplate extends IEntity {
+  title: string;
+  exercises: IExerciseChoosen[];
+}
 
 export interface IUserEquipment {
   equipment?: IEquipment;
@@ -23,6 +29,7 @@ export interface IUser extends IEntity {
   isResetPassword?: boolean;
   equipments?: IUserEquipment[];
   defaultWeights?: IUserDefaultWeights;
+  templates?: IUserTemplate[];
   dateLoggedIn?: Date | string;
   isEmailConfirmed?: boolean;
   confirmationToken?: string;

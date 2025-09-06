@@ -65,10 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IExerciseStatistics, TLocale } from 'fitness-tracker-contracts';
+import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiFlex, UiChip } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise: IExerciseStatistics;
@@ -76,7 +77,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 </script>
 
 <style module lang="scss">

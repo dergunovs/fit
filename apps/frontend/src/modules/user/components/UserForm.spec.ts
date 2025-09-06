@@ -7,21 +7,23 @@ import {
   API_AUTH_GET,
   API_USER,
   IUserEquipment,
+  IUserTemplate,
 } from 'fitness-tracker-contracts';
-import { dataTest, deleteAuthHeader } from 'mhz-helpers';
+import { dataTest, deleteAuthHeader, createTempId } from 'mhz-helpers';
 import { UiTabs } from 'mhz-ui';
 
 import UserForm from './UserForm.vue';
-import UserEquipmentForm from './UserEquipmentForm.vue';
 import UserDefaultWeightsForm from './UserDefaultWeightsForm.vue';
 import UserExercises from './UserExercises.vue';
 import UserFormTab from './UserFormTab.vue';
+import UserFormTemplateList from './UserFormTemplateList.vue';
+import UserFormTemplateModal from './UserFormTemplateModal.vue';
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { USER_FIXTURE } from '@/user/fixtures';
-import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser, spyUpdateUserPassword } from '@/user/mocks';
+import { mockOnSuccess, spyCreateUser, spyUpdateUser, spyDeleteUser } from '@/user/mocks';
 import {
   spyRefetchQueries,
   spyRemoveQueries,
@@ -31,8 +33,6 @@ import {
   spyLogout,
 } from '@/common/mocks';
 import { URL_USER } from '@/user/constants';
-import { spyGetEquipments } from '@/equipment/mocks';
-import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 import { spyGetExercisesAll, spyGetExercisesCustom } from '@/exercise/mocks';
 import { EXERCISE_FIXTURE_CUSTOM, EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
@@ -43,6 +43,7 @@ const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
 const PASSWORD = 'unique';
 const EQUIPMENTS: IUserEquipment[] = [];
+const TEMPLATE_TITLE = 'Тестовый шаблон';
 
 const form = dataTest('user-form');
 const formTabs = dataTest('user-form-tabs');
@@ -50,20 +51,21 @@ const formTab = dataTest('user-form-tab');
 const formEmail = dataTest('user-form-email');
 const formName = dataTest('user-form-name');
 const formPassword = dataTest('user-form-password');
-const formNewPassword = dataTest('user-form-new-password');
-const formNewPasswordSpoiler = dataTest('user-form-new-password-spoiler');
-const formSetNewPassword = dataTest('user-form-set-new-password');
-const formEquipments = dataTest('user-form-equipments');
+const formUpdatePassword = dataTest('user-form-update-password');
 const formDefaultWeights = dataTest('user-form-default-weights');
 const formButtons = dataTest('user-form-buttons');
 const formExercises = dataTest('user-form-exercises');
 const formAddExercise = dataTest('user-form-add-exercise');
 const formExerciseForm = dataTest('user-form-exercise-form');
 const formExerciseFormModal = dataTest('user-form-exercise-form-modal');
+const formTemplateList = dataTest('user-form-template-list');
+const formAddTemplate = dataTest('user-form-add-template');
+const formTemplateModal = dataTest('user-form-template-modal');
+const formTemplateModalContainer = dataTest('user-form-template-modal-container');
 
 const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(
   UserForm,
-  { user: USER_FIXTURE },
+  { user: USER_FIXTURE, isEdit: true },
   { UserFormTab }
 );
 
@@ -87,7 +89,7 @@ describe('UserForm', async () => {
   it('shows password field only when creating users', async () => {
     expect(wrapper.find(formPassword).exists()).toBe(true);
 
-    await wrapper.setProps({ user: USER_FIXTURE });
+    await wrapper.setProps({ user: USER_FIXTURE, isEdit: true });
 
     expect(wrapper.find(formPassword).exists()).toBe(false);
 
@@ -95,11 +97,11 @@ describe('UserForm', async () => {
   });
 
   it('shows set new password spoiler only when user exists', async () => {
-    expect(wrapper.find(formNewPasswordSpoiler).exists()).toBe(false);
+    expect(wrapper.find(formUpdatePassword).exists()).toBe(false);
 
     await wrapper.setProps({ user: USER_FIXTURE });
 
-    expect(wrapper.find(formNewPasswordSpoiler).exists()).toBe(true);
+    expect(wrapper.find(formUpdatePassword).exists()).toBe(true);
 
     await wrapper.setProps({ user: undefined });
   });
@@ -133,6 +135,7 @@ describe('UserForm', async () => {
       password: PASSWORD,
       equipments: EQUIPMENTS,
       defaultWeights: {},
+      templates: [],
       role: 'user',
     });
 
@@ -184,24 +187,6 @@ describe('UserForm', async () => {
     expect(spyToastSuccess).toBeCalledTimes(1);
   });
 
-  it('updates password', async () => {
-    expect(spyUpdateUserPassword).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-
-    const NEW_PASSWORD = '123456';
-
-    await wrapperWithUser.findComponent(formNewPassword).setValue(NEW_PASSWORD);
-
-    await wrapperWithUser.find(formSetNewPassword).trigger('click');
-
-    expect(spyUpdateUserPassword).toBeCalledTimes(1);
-    expect(spyUpdateUserPassword).toBeCalledWith({ password: NEW_PASSWORD, id: USER_FIXTURE._id });
-
-    await mockOnSuccess.updatePassword?.();
-
-    expect(spyToastSuccess).toBeCalledTimes(1);
-  });
-
   it('deletes user', async () => {
     expect(spyDeleteUser).toBeCalledTimes(0);
     expect(spyRemoveQueries).toBeCalledTimes(0);
@@ -249,13 +234,6 @@ describe('UserForm', async () => {
   it('sets form buttons id', async () => {
     expect(wrapper.find(formButtons).attributes('id')).toBe(undefined);
     expect(wrapperWithUser.find(formButtons).attributes('id')).toBe(USER_FIXTURE._id);
-  });
-
-  it('gets and sets equipment options', async () => {
-    expect(spyGetEquipments).toBeCalledTimes(1);
-    expect(wrapper.findComponent<typeof UserEquipmentForm>(formEquipments).props('equipments')).toStrictEqual(
-      EQUIPMENTS_FIXTURE
-    );
   });
 
   it('gets and sets default weights and exercises', async () => {
@@ -343,5 +321,43 @@ describe('UserForm', async () => {
     await nextTick();
 
     expect(wrapperWithUser.findComponent<typeof UiTabs>(formTabs).props('tabs').length).toBe(4);
+  });
+
+  it('creates template', async () => {
+    expect(wrapper.find(formTemplateModalContainer).attributes('modelvalue')).toBe('false');
+
+    await wrapper.find(formAddTemplate).trigger('click');
+
+    expect(wrapper.find(formTemplateModalContainer).attributes('modelvalue')).toBe('true');
+
+    const template: IUserTemplate = { _id: createTempId(), title: TEMPLATE_TITLE, exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', template);
+
+    await nextTick();
+
+    expect(wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).props('templates')).toContainEqual(
+      template
+    );
+  });
+
+  it('edits template', async () => {
+    await wrapper.find(formAddTemplate).trigger('click');
+
+    const template: IUserTemplate = { _id: createTempId(), title: 'шаблон', exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', template);
+
+    await nextTick();
+
+    const updatedTemplate = { ...template, name: TEMPLATE_TITLE };
+
+    wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).vm.$emit('edit', updatedTemplate);
+
+    await nextTick();
+
+    expect(wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).props('template')).toEqual(
+      updatedTemplate
+    );
   });
 });

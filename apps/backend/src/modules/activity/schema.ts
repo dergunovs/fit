@@ -247,14 +247,6 @@ export const activityGetOneSchema: ISchema = {
   },
 };
 
-export const activityGetLastSchema: ISchema = {
-  schema: {
-    tags,
-    response: { 200: activityReply },
-    security: [{ token: [] }],
-  },
-};
-
 export const activityPostSchema: ISchema = {
   schema: {
     tags,

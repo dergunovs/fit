@@ -81,15 +81,22 @@
     "many": "Repeats",
     "inSet": "Repeats in set"
   },
+  "template": {
+    "one": "Template",
+    "many": "Templates",
+    "create": "@:create @.lower:template.one",
+    "add": "@:add @.lower:template.one",
+    "added": "@:template.one added",
+    "updated": "@:template.one updated",
+    "deleted": "@:template.one deleted",
+    "save": "Save to @.lower:template.one"
+  },
   "activity": {
     "one": "Activity",
     "many": "Activities",
     "form": "Form @.lower:activity.one",
-    "approximateDuration": "Approximate @.lower:duration",
-    "repeatLast": "Repeat last",
-    "openCalendar": "@:open @.lower:calendar",
+    "potentialDuration": "Approximate @.lower:duration",
     "saveToCalendar": "@:save to @.lower:calendar",
-    "hideCalendar": "Hide @.lower:calendar",
     "date": "@:activity.one date",
     "chooseDate": "Choose @.lower:activity.one date",
     "start": "Start @.lower:activity.one",
@@ -140,9 +147,11 @@
     "profile": "@:user.one profile",
     "admin": "@:user.one has admin rights",
     "general": "General",
+    "generalInfo": "Add equipment and available weights.",
     "goalsInfo": "Choose your goals for the number of activities per week, sets per activity, repeats per set, and average activity duration.",
-    "equipmentInfo": "Add your available equipment, including all weights for each type.",
-    "weightsInfo": "Select the default weight for exercises."
+    "templatesInfo": "Template management, from which you can easily create activities.",
+    "weightsInfo": "Select the default weight for exercises.",
+    "exercisesInfo": "Add up to 20 custom exercises."
   },
   "muscle": {
     "many": "Muscles",

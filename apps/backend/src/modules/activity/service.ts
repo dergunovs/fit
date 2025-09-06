@@ -113,21 +113,6 @@ export const activityService = {
     return { data: activity };
   },
 
-  getLast: async (decode?: TDecode, token?: string) => {
-    const user = decodeToken(decode, token);
-
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
-
-    const activity = await Activity.findOne({ createdBy: user._id })
-      .sort('-dateCreated')
-      .populate(ACTIVITY_POPULATE)
-      .lean();
-
-    if (!activity) return undefined;
-
-    return { data: activity };
-  },
-
   create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 

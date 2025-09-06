@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast, UiFlex } from 'mhz-ui';
 import { isAuth, scrollToTop, useRouteId, useCalendar } from 'mhz-helpers';
@@ -46,6 +45,7 @@ import { authService } from '@/auth/services';
 import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
+import { useTI18n } from '@/common/composables';
 
 const { dateFrom, dateTo, isDatesReady, updateDates } = useCalendar();
 
@@ -54,7 +54,7 @@ const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_G
 const { data: muscles } = muscleService.getAll();
 
 const router = useRouter();
-const { t } = useI18n();
+const { t } = useTI18n();
 const { id: token } = useRouteId('token', true);
 
 const { mutate: mutateConfirm } = authService.confirmToken({

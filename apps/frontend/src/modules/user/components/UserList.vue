@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="USER_LIST_HEADERS" :isLoading="!props.users?.length" :lang="locale">
+  <UiTable :headers="USER_LIST_HEADERS" v-show="props.users?.length" :lang="locale">
     <tr v-for="user in props.users" :key="user._id" data-test="user-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_USER_EDIT}/${user._id}`" data-test="user-table-email-link">
@@ -15,11 +15,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
-import { IUser, TLocale } from 'fitness-tracker-contracts';
+import { IUser } from 'fitness-tracker-contracts';
 
 import { URL_USER_EDIT } from '@/user/constants';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   users?: IUser[];
@@ -27,7 +27,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const USER_LIST_HEADERS = computed(() => [{ title: t('email') }, { title: t('confirmed') }]);
 </script>

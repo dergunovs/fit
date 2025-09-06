@@ -24,6 +24,7 @@ const formButtons = dataTest('equipment-form-buttons');
 
 const wrapperWithEquipment: VueWrapper<InstanceType<typeof EquipmentForm>> = wrapperFactory(EquipmentForm, {
   equipment: EQUIPMENT_FIXTURE,
+  isEdit: true,
 });
 
 let wrapper: VueWrapper<InstanceType<typeof EquipmentForm>>;

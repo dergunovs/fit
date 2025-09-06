@@ -13,7 +13,6 @@ export {
   API_ACTIVITY_CALENDAR,
   API_ACTIVITY_STATISTICS,
   API_ACTIVITY_CHART,
-  API_ACTIVITY_LAST,
 } from "../index";
 
 export interface IActivity extends IEntity {
@@ -78,7 +77,6 @@ export type TGetActivitiesChartQueryDTO = {
   locale: TLocale;
 };
 export type TGetActivityDTO = { data: IActivity };
-export type TGetActivityLastDTO = { data: IActivity };
 
 export type TPostActivityDTO = string;
 export type TPostActivityDataDTO = IActivity;

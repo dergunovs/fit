@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.info" :data-scrollable="props.isPopup" data-test="activity-info">
+  <UiFlex column gap="16" :data-scrollable="props.isPopup" data-test="activity-info">
     <UiFlex gap="4" align="center" wrap>
       <ActivityTimeline
         v-if="props.isPopup && props.exercises[0].dateUpdated"
@@ -70,10 +70,10 @@
     <FormButtonsLayout :isFixed="!isPopup">
       <UiButton
         v-if="isAuth && isPopup && !isFutureActivity"
-        @click="router.push(`${URL_ACTIVITY_CREATE}?copy=${props.id}`)"
-        data-test="activity-info-copy"
+        @click="createUserTemplate"
+        data-test="activity-info-create-template"
       >
-        {{ t('copy') }}
+        {{ t('template.create') }}
       </UiButton>
 
       <UiButton
@@ -88,7 +88,13 @@
         {{ t('back') }}
       </UiButton>
 
-      <UiButton v-if="isAuth" @click="isShowConfirm = true" layout="secondary" data-test="activity-info-delete">
+      <UiButton
+        v-if="isAuth"
+        @click="isShowConfirm = true"
+        isNarrow
+        layout="secondary"
+        data-test="activity-info-delete"
+      >
         {{ t('delete') }}
       </UiButton>
     </FormButtonsLayout>
@@ -102,16 +108,23 @@
     >
       {{ t('confirmDelete') }}?
     </UiModal>
-  </div>
+  </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone, TLocale } from 'fitness-tracker-contracts';
+import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone, IUserTemplate } from 'fitness-tracker-contracts';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
-import { formatDate, subtractDates, isAuth, useQueryClient, formatDuration, localeField } from 'mhz-helpers';
+import {
+  formatDate,
+  subtractDates,
+  isAuth,
+  useQueryClient,
+  formatDuration,
+  localeField,
+  deleteTempId,
+} from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
 import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
@@ -120,13 +133,19 @@ import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
-import { ACTIVITY_STATISTICS_GAP, URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
-import { getRestPercent, getToFailurePercent, getPotentialActivityDuration } from '@/activity/helpers';
+import { ACTIVITY_STATISTICS_GAP, URL_ACTIVITY_EDIT } from '@/activity/constants';
+import {
+  getRestPercent,
+  getToFailurePercent,
+  getPotentialActivityDuration,
+  generateActivityExercises,
+} from '@/activity/helpers';
 import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
 import { generateMuscleStatistics } from '@/muscle/helpers';
 import { copyToClipboard } from '@/common/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   id: string;
@@ -138,13 +157,14 @@ interface IProps {
 
 interface IEmit {
   delete: [];
+  createTemplate: [template: IUserTemplate];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
 const isShowConfirm = ref(false);
@@ -165,6 +185,17 @@ const { mutate: mutateDelete } = activityService.delete({
   },
 });
 
+function createUserTemplate() {
+  const exercises = generateActivityExercises(props.exercises);
+
+  const template: IUserTemplate = {
+    title: formatDate(props.start, locale.value),
+    exercises: deleteTempId(exercises),
+  };
+
+  emit('createTemplate', template);
+}
+
 function createActivityClipboardText() {
   const text = `${formatDate(props.start, locale.value)}, ${t('duration')}: ${subtractDates(props.end, props.start, locale.value)}
 ${t('set.many')}: ${props.exercises.length}, ${t('failures')}: ${getToFailurePercent(props.exercises)}, ${t('rest')}: ${getRestPercent(props.exercises, locale.value, props.start, props.end)}.
@@ -180,16 +211,3 @@ ${props.exercises
   return text;
 }
 </script>
-
-<style module lang="scss">
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  &[data-scrollable='true'] {
-    max-height: 64dvh;
-    overflow-y: auto;
-  }
-}
-</style>

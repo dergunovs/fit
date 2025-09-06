@@ -12,9 +12,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IMuscleStatistics, TLocale } from 'fitness-tracker-contracts';
+import { IMuscleStatistics } from 'fitness-tracker-contracts';
 import { UiTable } from 'mhz-ui';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   statistics: IMuscleStatistics[];
@@ -22,7 +23,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const MUSCLE_STATISTICS_HEADERS = computed(() => [
   { title: t('muscle.many') },

@@ -42,24 +42,21 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiChart, UiCheckbox, UiFlex, UiTabs } from 'mhz-ui';
-import { TActivityChartType, TLocale } from 'fitness-tracker-contracts';
+import { TActivityChartType } from 'fitness-tracker-contracts';
 
 import { activityService } from '@/activity/services';
+import { useTI18n } from '@/common/composables';
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
-const CHART_TYPES = computed(
-  () =>
-    [
-      { title: t('activity.many'), value: 'activity' },
-      { title: t('set.many'), value: 'set' },
-      { title: t('repeat.many'), value: 'repeat' },
-      { title: t('duration'), value: 'duration' },
-      { title: t('muscle.many'), value: 'muscle' },
-    ] as { title: string; value: TActivityChartType }[]
-);
+const CHART_TYPES = computed<{ title: string; value: TActivityChartType }[]>(() => [
+  { title: t('activity.many'), value: 'activity' },
+  { title: t('set.many'), value: 'set' },
+  { title: t('repeat.many'), value: 'repeat' },
+  { title: t('duration'), value: 'duration' },
+  { title: t('muscle.many'), value: 'muscle' },
+]);
 
 const type = ref<TActivityChartType>(CHART_TYPES.value[0].value);
 

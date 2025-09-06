@@ -14,15 +14,12 @@ import {
   ACTIVITIES_FIXTURE,
   ACTIVITIES_STATISTICS_FIXTURE,
   ACTIVITY_FIXTURE,
-  ACTIVITY_FIXTURE_2,
   ACTIVITY_CHART_FIXTURE,
 } from '@/activity/fixtures';
 import { mockMutationReply, mockQueryReply } from '@/common/mocks';
 import { IOnSuccess } from '@/common/interface';
 
 const spyGetActivity = vi.spyOn(activityService, 'getOne').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE));
-
-const spyGetActivityLast = vi.spyOn(activityService, 'getLast').mockReturnValue(mockQueryReply(ACTIVITY_FIXTURE_2));
 
 const mockGetActivitiesData: TGetActivitiesDTO = { data: ACTIVITIES_FIXTURE, total: ACTIVITIES_FIXTURE.length };
 
@@ -75,7 +72,6 @@ const spyGetActivitiesChart = vi
 export {
   spyGetActivities,
   spyGetActivity,
-  spyGetActivityLast,
   spyGetActivitiesStatistics,
   spyGetActivitiesChart,
   spyCreateActivity,

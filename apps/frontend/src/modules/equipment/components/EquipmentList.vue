@@ -1,5 +1,5 @@
 <template>
-  <UiTable :headers="EQUIPMENT_LIST_HEADERS" :isLoading="!props.equipments?.length" :lang="locale">
+  <UiTable :headers="EQUIPMENT_LIST_HEADERS" v-show="props.equipments?.length" :lang="locale">
     <tr v-for="equipment in props.equipments" :key="equipment._id" data-test="equipment-table-row">
       <td data-grow>
         <RouterLink :to="`${URL_EQUIPMENT_EDIT}/${equipment._id}`" data-test="equipment-table-title-link">
@@ -12,11 +12,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiTable } from 'mhz-ui';
-import { IEquipment, TLocale } from 'fitness-tracker-contracts';
+import { IEquipment } from 'fitness-tracker-contracts';
 
 import { URL_EQUIPMENT_EDIT } from '@/equipment/constants';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   equipments?: IEquipment[];
@@ -24,7 +24,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const EQUIPMENT_LIST_HEADERS = computed(() => [{ title: t('title') }]);
 </script>

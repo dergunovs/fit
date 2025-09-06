@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import { useRouteId, useQueryClient, usePageLock, clone } from 'mhz-helpers';
 import { toast } from 'mhz-ui';
 import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS, IActivity } from 'fitness-tracker-contracts';
@@ -25,11 +24,12 @@ import ActivityPassingForm from '@/activity/components/ActivityPassingForm.vue';
 
 import { activityService } from '@/activity/services';
 import { URL_HOME } from '@/common/constants';
+import { useTI18n } from '@/common/composables';
 
 const router = useRouter();
 const { id } = useRouteId('activity');
 
-const { t } = useI18n();
+const { t } = useTI18n();
 
 const queryClient = useQueryClient();
 

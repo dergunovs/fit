@@ -20,12 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 
 import HeroBackground from '@/common/images/hero.svg';
 
-const { t, tm, rt } = useI18n();
+import { useTI18n } from '@/common/composables';
+
+const { t, tm, rt } = useTI18n();
 </script>
 
 <style module lang="scss">

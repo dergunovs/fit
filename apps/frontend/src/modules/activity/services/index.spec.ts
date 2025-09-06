@@ -10,8 +10,6 @@ import {
   API_ACTIVITY_CALENDAR,
   TGetActivitiesStatisticsDTO,
   API_ACTIVITY_STATISTICS,
-  TGetActivityLastDTO,
-  API_ACTIVITY_LAST,
   TGetActivitiesCalendarDTO,
   TGetActivitiesChartDTO,
   TActivityChartType,
@@ -107,29 +105,6 @@ describe('activityService', () => {
   it('getOne with null data', async () => {
     serviceMocks.http.mockGet<TGetActivityDTO>({ data: null } as unknown as TGetActivityDTO);
     activityService.getOne({}, id);
-
-    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
-  });
-
-  it('getLast', async () => {
-    serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: ACTIVITY_FIXTURE });
-    activityService.getLast();
-
-    expect(await serviceMocks.lastQuery.queryFn()).toEqual(ACTIVITY_FIXTURE);
-    expect(serviceMocks.lastQuery.queryKey).toEqual([API_ACTIVITY_LAST]);
-    expect(serviceMocks.http.get).toHaveBeenCalledWith(API_ACTIVITY_LAST);
-  });
-
-  it('getLast with null data', async () => {
-    serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: null } as unknown as TGetActivityLastDTO);
-    activityService.getLast();
-
-    expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
-  });
-
-  it('getLast with empty data', async () => {
-    serviceMocks.http.mockGet<TGetActivityLastDTO>({ data: undefined } as unknown as TGetActivityLastDTO);
-    activityService.getLast();
 
     expect(await serviceMocks.lastQuery.queryFn()).toEqual(null);
   });

@@ -19,7 +19,8 @@ export interface IExercise extends IEntity {
   isCustom?: boolean;
 }
 
-export interface IExerciseChoosen extends IEntity {
+export interface IExerciseChoosen {
+  _id?: string;
   exercise?: IExercise;
   repeats: number;
   weight?: number;
@@ -29,6 +30,7 @@ export interface IExerciseDone extends IExerciseChoosen {
   isToFailure?: boolean;
   duration?: number;
   isDone?: boolean;
+  dateUpdated?: Date | string;
 }
 
 export interface IExerciseStatistics {

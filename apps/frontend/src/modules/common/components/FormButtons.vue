@@ -6,6 +6,7 @@
       </UiButton>
 
       <UiButton
+        v-if="!props.isHideBackButton"
         @click="props.isEmitCancel ? emit('cancel') : router.go(-1)"
         layout="secondary"
         :isDisabled="props.isLoading"
@@ -42,12 +43,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { UiButton, UiModal, UiFlex } from 'mhz-ui';
-import { TLocale } from 'fitness-tracker-contracts';
 
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   id?: string;
@@ -55,6 +56,7 @@ interface IProps {
   isEdit?: boolean;
   isEmitCancel?: boolean;
   isFixed?: boolean;
+  isHideBackButton?: boolean;
 }
 
 interface IEmit {
@@ -68,5 +70,5 @@ const emit = defineEmits<IEmit>();
 const isShowConfirm = ref(false);
 
 const router = useRouter();
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 </script>

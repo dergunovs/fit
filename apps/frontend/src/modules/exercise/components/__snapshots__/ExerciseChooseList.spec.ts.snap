@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseChooseList > matches snapshot 1`] = `
-"<div class="_list_59b0ee">
+"<div column="" gap="16" class="_list_59b0ee">
   <div gap="4"><button type="button" class="_button_59b0ee" data-current="true" data-test="muscle">Все</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Грудь</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Ноги</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Плечи</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Пресс</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Руки</button><button type="button" class="_button_59b0ee" data-current="false" data-test="muscle">Спина</button></div>
   <div>
     <fieldset label="Фильтр по названию упражнения"><input type="text" modelvalue="" data-test="exercise-title"></fieldset>

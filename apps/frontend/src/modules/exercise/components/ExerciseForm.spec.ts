@@ -37,6 +37,7 @@ const formButtons = dataTest('exercise-form-buttons');
 
 const wrapperWithExercise: VueWrapper<InstanceType<typeof ExerciseForm>> = wrapperFactory(ExerciseForm, {
   exercise: EXERCISE_FIXTURE,
+  isEdit: true,
 });
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseForm>>;

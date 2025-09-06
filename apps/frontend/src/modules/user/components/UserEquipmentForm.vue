@@ -100,8 +100,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IEquipment, IUserEquipment, TLocale } from 'fitness-tracker-contracts';
+import { IEquipment, IUserEquipment } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex, UiInput, UiSelect, UiChip, UiClose } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
@@ -109,6 +108,7 @@ import IconWeight from '@/common/icons/weight.svg';
 import IconEdit from '@/common/icons/edit.svg';
 
 import { excludeChoosenUserEquipment } from '@/user/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   equipments: IEquipment[];
@@ -122,7 +122,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const choosenEquipment = ref<IEquipment>();
 const choosenEquipmentWeight = ref<number>(0);

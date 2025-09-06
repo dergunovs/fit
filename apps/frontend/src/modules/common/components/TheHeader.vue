@@ -10,7 +10,7 @@
     </RouterLink>
 
     <UiFlex justify="flex-end">
-      <UiButton v-if="availableLocales.length > 1" @click="toggleLocale" layout="plain" data-test="header-locale">
+      <UiButton @click="toggleLocale" layout="plain" data-test="header-locale">
         {{ locale.toUpperCase() }}
       </UiButton>
 
@@ -43,17 +43,15 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
-import { TLocale } from 'fitness-tracker-contracts';
 
 import IconLogo from '@/common/icons/logo.svg';
 
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME, URL_HELP } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
-import { useLocale } from '@/common/composables';
+import { useLocale, useTI18n } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
@@ -70,7 +68,7 @@ const emit = defineEmits<IEmit>();
 
 const router = useRouter();
 
-const { t, locale, availableLocales } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const { toggleLocale } = useLocale();
 
 const version = import.meta.env.VITE_VERSION;

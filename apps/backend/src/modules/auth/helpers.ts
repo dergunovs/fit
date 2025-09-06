@@ -18,6 +18,7 @@ export function filterUserData(user: IUser, isToken?: boolean) {
     email: user.email,
     isResetPassword: user.isResetPassword,
     equipments: isToken ? undefined : user.equipments,
+    templates: isToken ? undefined : user.templates,
     defaultWeights: isToken ? {} : user.defaultWeights,
     dateLoggedIn: user.dateLoggedIn,
     goalActivities: user.goalActivities,

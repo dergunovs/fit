@@ -9,14 +9,15 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 
 import MuscleList from '@/muscle/components/MuscleList.vue';
+
 import { muscleService } from '@/muscle/services';
 import { URL_MUSCLE_CREATE } from '@/muscle/constants';
+import { useTI18n } from '@/common/composables';
 
-const { t } = useI18n();
+const { t } = useTI18n();
 
 const { data: muscles } = muscleService.getAll();
 </script>

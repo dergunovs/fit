@@ -6,10 +6,11 @@
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useTimer } from 'mhz-helpers';
 
-const { t } = useI18n();
+import { useTI18n } from '@/common/composables';
+
+const { t } = useTI18n();
 
 const { timer, startTimer, stopTimer } = useTimer();
 

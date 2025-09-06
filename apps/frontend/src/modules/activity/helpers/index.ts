@@ -1,4 +1,11 @@
-import { IActivity, IExerciseDone, IExerciseStatistics, IMuscle, TLocale } from 'fitness-tracker-contracts';
+import {
+  IActivity,
+  IExerciseChoosen,
+  IExerciseDone,
+  IExerciseStatistics,
+  IMuscle,
+  TLocale,
+} from 'fitness-tracker-contracts';
 import { createTempId, formatDuration, subtractDates } from 'mhz-helpers';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
@@ -121,7 +128,7 @@ export function convertActivityCalendarEvents(
   });
 }
 
-export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExerciseDone[] {
+export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExerciseChoosen[] {
   const activityExercises = exercisesDone.map((exercise) => {
     return {
       _id: createTempId(),

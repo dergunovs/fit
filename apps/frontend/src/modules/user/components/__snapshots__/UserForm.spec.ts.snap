@@ -4,43 +4,47 @@ exports[`UserForm > matches snapshot 1`] = `
 "<div>
   <div tag="form" column="" gap="16" data-test="user-form">
     <!--v-if-->
-    <ui-tabs-stub tabs="[object Object]" modelvalue="general" data-test="user-form-tabs"></ui-tabs-stub>
+    <!--v-if-->
     <div column="" gap="16" data-test="user-form-tab">
       <h3 data-test="user-form-tab-title">Общее</h3>
+      <p data-test="user-form-tab-description"></p>
       <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="user-form-name"></fieldset>
       <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="user-form-email"></fieldset>
       <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" data-test="user-form-password"></fieldset>
       <!--v-if-->
+      <!--v-if-->
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Цели</h3>
-      <p>Выберите цели по количеству занятий в неделю, подходам в занятии, повторам в подходе и среднему времени занятия.</p>
+      <p data-test="user-form-tab-description">Выберите цели по количеству занятий в неделю, подходам в занятии, повторам в подходе и среднему времени занятия.</p>
       <div options="1,2,3,4,5" title="Занятия" data-test="user-form-goals-activities"><input type="number"></div>
       <div options="12,16,20,24,30" title="Подходы" data-test="user-form-goals-sets"><input type="number"></div>
       <div options="8,10,12,15,20" title="Повторы" data-test="user-form-goals-repeats"><input type="number"></div>
       <div options="20,30,40,50,60" title="Время" data-test="user-form-goals-duration"><input type="number"></div>
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
-      <h3 data-test="user-form-tab-title">Оборудование</h3>
-      <p>Добавьте доступное вам оборудование, включая все веса для каждого вида.</p>
-      <user-equipment-form-stub equipments="[object Object],[object Object]" modelvalue="" data-test="user-form-equipments"></user-equipment-form-stub>
-    </div>
-    <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Вес</h3>
-      <p>Выберите вес по-умолчанию для упражнений.</p>
+      <p data-test="user-form-tab-description">Выберите вес по-умолчанию для упражнений.</p>
       <user-default-weights-form-stub userequipments="" exercises="[object Object],[object Object],[object Object]" modelvalue="[object Object]" data-test="user-form-default-weights"></user-default-weights-form-stub>
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
-      <h3 data-test="user-form-tab-title">Упражнения</h3>
-      <user-exercises-stub exercises="[object Object]" data-test="user-form-exercises"></user-exercises-stub><button data-test="user-form-add-exercise">Добавить своё упражнение</button>
-      <div modelvalue="false" data-test="user-form-exercise-form-modal">
-        <div class="_modal_0ded47">
-          <h3>Добавить своё упражнение</h3>
-          <exercise-form-stub isedit="false" isdisableredirect="true" isfixed="false" data-test="user-form-exercise-form"></exercise-form-stub>
-        </div>
+      <h3 data-test="user-form-tab-title">Шаблоны</h3>
+      <p data-test="user-form-tab-description">Управление шаблонами, из которых можно легко создавать занятия.</p><button data-test="user-form-add-template">Добавить шаблон</button>
+      <!--v-if-->
+      <div modelvalue="false" isscrollable="" data-test="user-form-template-modal-container">
+        <user-form-template-modal-stub data-test="user-form-template-modal"></user-form-template-modal-stub>
       </div>
     </div>
-    <form-buttons-stub isedit="false" isemitcancel="false" isfixed="true" data-test="user-form-buttons"></form-buttons-stub>
+    <div column="" gap="16" data-test="user-form-tab" style="display: none;">
+      <h3 data-test="user-form-tab-title">Упражнения</h3>
+      <p data-test="user-form-tab-description">Добавьте до 20 своих упражнений.</p>
+      <user-exercises-stub exercises="[object Object]" data-test="user-form-exercises"></user-exercises-stub><button data-test="user-form-add-exercise">Добавить своё упражнение</button>
+      <div modelvalue="false" isscrollable="" data-test="user-form-exercise-form-modal">
+        <h3>Добавить своё упражнение</h3>
+        <exercise-form-stub isedit="false" isdisableredirect="true" isfixed="false" data-test="user-form-exercise-form"></exercise-form-stub>
+      </div>
+    </div>
+    <form-buttons-stub isedit="false" isemitcancel="false" isfixed="true" ishidebackbutton="false" data-test="user-form-buttons"></form-buttons-stub>
   </div>
 </div>"
 `;

@@ -47,13 +47,13 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiButton, UiCheckbox, UiChoice } from 'mhz-ui';
-import { IExerciseDone, TLocale } from 'fitness-tracker-contracts';
+import { IExerciseDone } from 'fitness-tracker-contracts';
 
 import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';
 
 import { getExercisePassingTitle } from '@/exercise/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise: IExerciseDone;
@@ -71,7 +71,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const start = ref(false);
 const stop = ref(false);

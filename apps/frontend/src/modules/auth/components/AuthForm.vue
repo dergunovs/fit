@@ -40,7 +40,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email, min } from 'mhz-helpers';
 import {
@@ -48,7 +47,6 @@ import {
   API_ACTIVITY_CHART,
   API_ACTIVITY_STATISTICS,
   IAuthData,
-  TLocale,
   TPostAuthLoginDTO,
 } from 'fitness-tracker-contracts';
 
@@ -56,6 +54,7 @@ import { authService } from '@/auth/services';
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   isSetup?: boolean;
@@ -70,7 +69,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
 const { auth } = useAuth();

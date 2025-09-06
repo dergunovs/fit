@@ -9,7 +9,7 @@
       data-test="activity-calendar"
     />
 
-    <UiModal v-model="isShowModal" data-test="activity-calendar-modal">
+    <UiModal v-model="isShowModal" isScrollable data-test="activity-calendar-modal">
       <ActivityInfo
         :start="start"
         :end="end"
@@ -17,6 +17,7 @@
         :id="id"
         isPopup
         @delete="deleteEvent"
+        @createTemplate="createUserTemplate"
         data-test="activity-calendar-info"
       />
     </UiModal>
@@ -25,14 +26,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IExerciseDone, TLocale } from 'fitness-tracker-contracts';
-import { UiCalendar, UiModal } from 'mhz-ui';
-import { ICalendarDates } from 'mhz-helpers';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { API_AUTH_GET, API_USER, IExerciseDone, IUserTemplate } from 'fitness-tracker-contracts';
+import { toast, UiCalendar, UiModal } from 'mhz-ui';
+import { ICalendarDates, useQueryClient } from 'mhz-helpers';
 
 import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
+import { useTI18n } from '@/common/composables';
+import { useAuthCheck } from '@/auth/composables';
+import { userService } from '@/user/services';
 
 interface IProps {
   events?: IActivityCalendarEvent<IExerciseDone>[];
@@ -47,7 +50,9 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
+const queryClient = useQueryClient();
+const { user } = useAuthCheck();
 
 const isShowModal = ref(false);
 
@@ -55,6 +60,14 @@ const start = ref<Date | null>(null);
 const end = ref<Date | null>(null);
 const exercises = ref<IExerciseDone[]>([]);
 const id = ref('');
+
+const { mutate: mutateUpdate } = userService.update({
+  onSuccess: async () => {
+    await queryClient.refetchQueries({ queryKey: [API_USER] });
+    await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
+    toast.success(t('template.added'));
+  },
+});
 
 function showEvent(event: IActivityCalendarEvent<IExerciseDone>) {
   start.value = event.start;
@@ -70,5 +83,13 @@ function showEvent(event: IActivityCalendarEvent<IExerciseDone>) {
 function deleteEvent() {
   emit('deleteEvent');
   isShowModal.value = false;
+}
+
+function createUserTemplate(template: IUserTemplate) {
+  isShowModal.value = false;
+
+  const templates = user.value?.templates ? [...user.value.templates, template] : [template];
+
+  if (user.value) mutateUpdate({ ...user.value, templates });
 }
 </script>

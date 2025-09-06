@@ -17,6 +17,22 @@ const userSchema = new Schema<IUser>(
         },
       ],
     },
+    templates: {
+      type: [
+        {
+          title: { type: String },
+          exercises: {
+            type: [
+              {
+                exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
+                repeats: Number,
+                weight: Number,
+              },
+            ],
+          },
+        },
+      ],
+    },
     defaultWeights: { type: Object },
     dateLoggedIn: { type: Date, default: Date.now },
     dateCreated: { type: Date, default: Date.now },

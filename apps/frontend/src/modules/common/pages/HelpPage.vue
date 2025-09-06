@@ -54,13 +54,14 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { UiFlex } from 'mhz-ui';
 import { scrollToTop } from 'mhz-helpers';
 
 import UserFeedbackForm from '@/user/components/UserFeedbackForm.vue';
 
-const { t, tm, rt } = useI18n();
+import { useTI18n } from '@/common/composables';
+
+const { t, tm, rt } = useTI18n();
 
 onMounted(() => scrollToTop('main'));
 </script>

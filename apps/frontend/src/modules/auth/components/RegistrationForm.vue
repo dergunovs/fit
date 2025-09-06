@@ -27,12 +27,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useValidator, required, email, min, letters } from 'mhz-helpers';
-import { IRegisterData, TLocale } from 'fitness-tracker-contracts';
+import { IRegisterData } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
+import { useTI18n } from '@/common/composables';
 
 interface IEmit {
   register: [];
@@ -40,7 +40,7 @@ interface IEmit {
 
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const formData = ref<IRegisterData>({
   email: '',

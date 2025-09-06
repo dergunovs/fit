@@ -24,14 +24,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiButton, UiField, UiInput, UiTextarea, toast } from 'mhz-ui';
 import { useQueryClient, useValidator, required, email } from 'mhz-helpers';
-import { API_USER_FEEDBACK, IUserFeedback, TLocale } from 'fitness-tracker-contracts';
+import { API_USER_FEEDBACK, IUserFeedback } from 'fitness-tracker-contracts';
 
 import { userService } from '@/user/services';
+import { useTI18n } from '@/common/composables';
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
 const formData = ref<IUserFeedback>({

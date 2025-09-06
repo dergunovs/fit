@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.list">
+  <UiFlex column gap="16" :class="$style.list">
     <UiFlex gap="4">
       <button
         v-for="muscle in muscleFilters"
@@ -38,13 +38,12 @@
         />
       </UiSpoiler>
     </UiFlex>
-  </div>
+  </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IExercise, IExerciseChoosen, TLocale } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
@@ -53,6 +52,7 @@ import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.v
 import { useAuthCheck } from '@/auth/composables';
 import { muscleService } from '@/muscle/services';
 import { filterExercisesByTitleAndMuscle, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercises: IExercise[];
@@ -65,7 +65,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const { user } = useAuthCheck();
 
 const exerciseSpoilers = ref([]);
@@ -85,12 +85,7 @@ function setCurrentMuscle(id?: string) {
 
 <style module lang="scss">
 .list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 320px;
-  height: 64dvh;
-  overflow: auto;
+  min-height: 53dvh;
 }
 
 .button {

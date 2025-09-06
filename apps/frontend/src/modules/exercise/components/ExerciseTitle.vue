@@ -29,8 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { IExerciseDone, TLocale } from 'fitness-tracker-contracts';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { IExerciseDone } from 'fitness-tracker-contracts';
 import { UiChip, UiFlex } from 'mhz-ui';
 import { formatDuration, localeField } from 'mhz-helpers';
 
@@ -38,6 +37,8 @@ import IconDuration from '@/common/icons/duration.svg';
 import IconToFailure from '@/common/icons/to-failure.svg';
 import IconFail from '@/common/icons/fail.svg';
 import IconWeight from '@/common/icons/weight.svg';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise: IExerciseDone;
@@ -47,7 +48,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 </script>
 
 <style module lang="scss">

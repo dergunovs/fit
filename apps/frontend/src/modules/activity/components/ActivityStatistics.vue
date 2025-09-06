@@ -62,12 +62,13 @@
 </template>
 
 <script setup lang="ts">
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IActivityStatistics, TLocale } from 'fitness-tracker-contracts';
+import { IActivityStatistics } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
 import { formatDuration } from 'mhz-helpers';
 
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   statistics: IActivityStatistics;
@@ -75,5 +76,5 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 </script>

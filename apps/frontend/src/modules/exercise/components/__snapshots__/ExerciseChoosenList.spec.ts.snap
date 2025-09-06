@@ -1,7 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseChoosenList > matches snapshot 1`] = `
-"<div>
+"<div column="" grow="">
+  <h3>Упражнения</h3>
   <div column="">
     <exercise-choosen-element-stub exercise="[object Object]" index="1" issetcreatable="false" data-test="exercise-choosen"></exercise-choosen-element-stub>
     <exercise-choosen-element-stub exercise="[object Object]" index="2" issetcreatable="true" data-test="exercise-choosen"></exercise-choosen-element-stub>

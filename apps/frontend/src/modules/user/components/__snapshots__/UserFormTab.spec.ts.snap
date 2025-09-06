@@ -3,5 +3,6 @@
 exports[`UserFormTab > matches snapshot 1`] = `
 "<div column="" gap="16">
   <h3 data-test="user-form-tab-title">заголовок</h3>
+  <p data-test="user-form-tab-description">описание</p>
 </div>"
 `;

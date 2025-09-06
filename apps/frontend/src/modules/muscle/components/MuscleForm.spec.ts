@@ -24,7 +24,10 @@ const formColor = dataTest('muscle-form-color');
 const formColorExample = dataTest('muscle-form-color-example');
 const formButtons = dataTest('muscle-form-buttons');
 
-const wrapperWithMuscle: VueWrapper<InstanceType<typeof MuscleForm>> = wrapperFactory(MuscleForm, { muscle });
+const wrapperWithMuscle: VueWrapper<InstanceType<typeof MuscleForm>> = wrapperFactory(MuscleForm, {
+  muscle,
+  isEdit: true,
+});
 
 let wrapper: VueWrapper<InstanceType<typeof MuscleForm>>;
 

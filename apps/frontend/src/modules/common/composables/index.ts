@@ -1,6 +1,6 @@
-import { ref, computed, onBeforeMount } from 'vue';
+import { ref, computed, onBeforeMount, Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
 import { TLocale } from 'fitness-tracker-contracts';
 
 import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
@@ -39,8 +39,14 @@ export function useLayout() {
   };
 }
 
+export function useTI18n() {
+  const { t, tm, rt, availableLocales, locale } = useI18n();
+
+  return { t, tm, rt, availableLocales: availableLocales as TLocale[], locale: locale as Ref<TLocale> };
+}
+
 export function useLocale() {
-  const { locale, availableLocales } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+  const { locale, availableLocales } = useTI18n();
 
   function toggleLocale() {
     locale.value = availableLocales.find((l) => l !== locale.value) || locale.value;
@@ -69,27 +75,21 @@ export function useLocale() {
 }
 
 export function useNavItems() {
-  const { t } = useI18n();
+  const { t } = useTI18n();
 
-  const NAV_ITEMS = computed(
-    () =>
-      [
-        { url: URL_EXERCISE, title: t('exercise.many'), icon: IconExercise },
-        { url: URL_ACTIVITY_ADMIN, title: t('activity.many'), icon: IconActivity },
-        { url: URL_EQUIPMENT, title: t('equipment.one'), icon: IconEquipment },
-        { url: URL_MUSCLE, title: t('muscle.many'), icon: IconMuscle },
-        { url: URL_USER, title: t('user.many'), icon: IconUser },
-      ] as INavItem[]
-  );
+  const NAV_ITEMS = computed<INavItem[]>(() => [
+    { url: URL_EXERCISE, title: t('exercise.many'), icon: IconExercise },
+    { url: URL_ACTIVITY_ADMIN, title: t('activity.many'), icon: IconActivity },
+    { url: URL_EQUIPMENT, title: t('equipment.one'), icon: IconEquipment },
+    { url: URL_MUSCLE, title: t('muscle.many'), icon: IconMuscle },
+    { url: URL_USER, title: t('user.many'), icon: IconUser },
+  ]);
 
-  const BOTTOM_NAV_ITEMS = computed(
-    () =>
-      [
-        { url: URL_HOME, title: t('statistics'), icon: IconActivity },
-        { url: URL_ACTIVITY_CREATE, title: t('activity.one'), icon: IconExercise },
-        { url: URL_USER_PROFILE, title: t('profile'), icon: IconUser },
-      ] as INavItem[]
-  );
+  const BOTTOM_NAV_ITEMS = computed<INavItem[]>(() => [
+    { url: URL_HOME, title: t('statistics'), icon: IconActivity },
+    { url: URL_ACTIVITY_CREATE, title: t('activity.one'), icon: IconExercise },
+    { url: URL_USER_PROFILE, title: t('profile'), icon: IconUser },
+  ]);
 
   return { NAV_ITEMS, BOTTOM_NAV_ITEMS };
 }

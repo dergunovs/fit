@@ -32,13 +32,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IExercise, IExerciseChoosen, IUser, TLocale } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
 import { UiButton, UiChoice, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
 import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
 import { getDefaultExerciseWeight } from '@/exercise/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise: IExercise;
@@ -53,7 +53,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const choosenExercise = ref({
   repeats: EXERCISE_REPEATS_DEFAULT,

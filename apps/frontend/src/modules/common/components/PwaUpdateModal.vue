@@ -21,10 +21,11 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { UiButton, UiFlex, UiModal } from 'mhz-ui';
 
-const { t } = useI18n();
+import { useTI18n } from '@/common/composables';
+
+const { t } = useTI18n();
 const { needRefresh, updateServiceWorker } = useRegisterSW();
 </script>

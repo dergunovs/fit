@@ -19,12 +19,13 @@
 </template>
 
 <script setup lang="ts">
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiFlex, UiChip } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
-import { IExercise, TLocale } from 'fitness-tracker-contracts';
+import { IExercise } from 'fitness-tracker-contracts';
 
 import IconEdit from '@/common/icons/edit.svg';
+
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercises?: IExercise[];
@@ -37,7 +38,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { locale } = useTI18n();
 </script>
 
 <style module lang="scss">

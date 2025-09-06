@@ -1,6 +1,7 @@
 import type { JSONSchemaType } from 'ajv';
 import type {
   IExercise,
+  IExerciseChoosen,
   IExerciseDone,
   TGetExerciseDTO,
   TGetExercisesAllDTO,
@@ -44,7 +45,6 @@ export const exerciseDoneModel: JSONSchemaType<IExerciseDone> = {
   type: 'object',
   properties: {
     _id: { type: 'string', nullable: true },
-    dateCreated: { type: 'string', format: 'date-time', nullable: true },
     dateUpdated: { type: 'string', format: 'date-time', nullable: true },
     exercise: { type: 'object', $ref: 'Exercise', nullable: true },
     repeats: { type: 'number' },
@@ -52,6 +52,20 @@ export const exerciseDoneModel: JSONSchemaType<IExerciseDone> = {
     isToFailure: { type: 'boolean', nullable: true },
     duration: { type: 'number', nullable: true },
     isDone: { type: 'boolean', nullable: true },
+  },
+  required: ['repeats'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const exerciseChoosenModel: JSONSchemaType<IExerciseChoosen> = {
+  $id: 'ExerciseChoosen',
+  type: 'object',
+  properties: {
+    _id: { type: 'string', nullable: true },
+    exercise: { type: 'object', $ref: 'Exercise', nullable: true },
+    repeats: { type: 'number' },
+    weight: { type: 'number', nullable: true },
   },
   required: ['repeats'],
   $schema: 'http://json-schema.org/draft-07/schema#',

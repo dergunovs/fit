@@ -14,7 +14,7 @@ import { wrapperFactory } from '@/common/test';
 import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { mockOnSuccess, spyDeleteActivity } from '@/activity/mocks';
-import { URL_ACTIVITY_CREATE, URL_ACTIVITY_EDIT } from '@/activity/constants';
+import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { generateMuscleStatistics } from '@/muscle/helpers';
 import { spyGetMuscles } from '@/muscle/mocks';
@@ -36,7 +36,6 @@ const toFailurePercent = dataTest('activity-info-to-failure-percent');
 const restPercent = dataTest('activity-info-rest-percent');
 const muscleStatistics = dataTest('activity-info-muscle-statistics');
 const exercise = dataTest('activity-info-exercise');
-const copyActivity = dataTest('activity-info-copy');
 const startActivity = dataTest('activity-info-start');
 const deleteActivity = dataTest('activity-info-delete');
 const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
@@ -107,21 +106,6 @@ describe('ActivityInfo', async () => {
   it('shows exercises', async () => {
     expect(wrapper.findAll(exercise).length).toBe(exercises.length);
     expect(wrapper.findComponent<typeof ExerciseTitle>(exercise).props('exercise')).toStrictEqual(exercises[0]);
-  });
-
-  it('copies activity in popup mode', async () => {
-    expect(wrapper.find(copyActivity).exists()).toBe(false);
-    expect(spyRouterPush).toBeCalledTimes(0);
-
-    setAuth(true);
-    await wrapper.setProps({ isPopup: true });
-
-    expect(wrapper.find(copyActivity).exists()).toBe(true);
-
-    await wrapper.find(copyActivity).trigger('click');
-
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(`${URL_ACTIVITY_CREATE}?copy=${id}`);
   });
 
   it('starts activity in popup', async () => {

@@ -2,6 +2,6 @@
 
 exports[`ActivityCreatePage > matches snapshot 1`] = `
 "<div>
-  <activity-form-stub exercisestatistics="[object Object],[object Object]" averagerestpercent="49" data-test="activity-form"></activity-form-stub>
+  <activity-form-stub data-test="activity-form"></activity-form-stub>
 </div>"
 `;

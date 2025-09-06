@@ -46,8 +46,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
-import { IExerciseStatistics, TLocale } from 'fitness-tracker-contracts';
+import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
 
@@ -55,6 +54,7 @@ import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 import { getAverageDuration, getAverageRepeatsInSet } from '@/exercise/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   statistics: IExerciseStatistics[];
@@ -62,7 +62,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 
 const isShowModal = ref(false);
 

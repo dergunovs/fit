@@ -2,6 +2,7 @@ import type { JSONSchemaType } from 'ajv';
 import type {
   IUser,
   IUserEquipment,
+  IUserTemplate,
   TGetUserDTO,
   TGetUsersDTO,
   TPostUserFeedbackDataDTO,
@@ -10,8 +11,24 @@ import type {
 
 import { ISchema } from '../common/types.js';
 import { paginatedQuery, baseParams, baseReply } from '../common/schema.js';
+import { exerciseChoosenModel } from '../exercise/schema.js';
 
 const tags = ['User'];
+
+export const userTemplateModel: JSONSchemaType<IUserTemplate> = {
+  $id: 'UserTemplate',
+  type: 'object',
+  properties: {
+    _id: { type: 'string', nullable: true },
+    title: { type: 'string' },
+    dateCreated: { type: 'string', format: 'date-time', nullable: true },
+    dateUpdated: { type: 'string', format: 'date-time', nullable: true },
+    exercises: { type: 'array', items: exerciseChoosenModel },
+  },
+  required: ['exercises', 'title'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
 
 export const userEquipmentModel: JSONSchemaType<IUserEquipment> = {
   $id: 'UserEquipment',
@@ -65,6 +82,7 @@ export const userModel: JSONSchemaType<IUser> = {
     isEmailConfirmed: { type: 'boolean', nullable: true },
     confirmationToken: { type: 'string', nullable: true },
     equipments: { type: 'array', items: userEquipmentModel, nullable: true },
+    templates: { type: 'array', items: userTemplateModel, nullable: true },
     defaultWeights: { type: 'object', additionalProperties: { type: 'number' }, nullable: true, required: [] },
     goalActivities: { type: 'number', nullable: true },
     goalSets: { type: 'number', nullable: true },

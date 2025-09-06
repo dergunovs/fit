@@ -11,9 +11,10 @@ const tabTitle = dataTest('user-form-tab-title');
 let wrapper: VueWrapper<InstanceType<typeof UserFormTab>>;
 
 const title = 'заголовок';
+const description = 'описание';
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserFormTab, { title });
+  wrapper = wrapperFactory(UserFormTab, { title, description });
 });
 
 enableAutoUnmount(afterEach);

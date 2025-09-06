@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <UiFlex column grow>
+    <h3>{{ t('exercise.many') }}</h3>
+
     <UiFlex column>
       <ExerciseChoosenElement
         v-for="(exercise, index) in props.choosenExercises"
@@ -12,7 +14,7 @@
         data-test="exercise-choosen"
       />
     </UiFlex>
-  </div>
+  </UiFlex>
 </template>
 
 <script setup lang="ts">
@@ -22,6 +24,7 @@ import { IExerciseChoosen } from 'fitness-tracker-contracts';
 import ExerciseChoosenElement from '@/exercise/components/ExerciseChoosenElement.vue';
 
 import { isSetCreatable } from '@/exercise/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   choosenExercises: IExerciseChoosen[];
@@ -34,4 +37,6 @@ interface IEmit {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
+
+const { t } = useTI18n();
 </script>

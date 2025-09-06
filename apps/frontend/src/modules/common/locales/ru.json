@@ -81,15 +81,22 @@
     "many": "Повторы",
     "inSet": "Повторов в подходе"
   },
+  "template": {
+    "one": "Шаблон",
+    "many": "Шаблоны",
+    "create": "@:create @.lower:template.one",
+    "add": "@:add @.lower:template.one",
+    "added": "@:template.one добавлен",
+    "updated": "@:template.one обновлен",
+    "deleted": "@:template.one удален",
+    "save": "Сохранить как @.lower:template.one"
+  },
   "activity": {
     "one": "Занятие",
     "many": "Занятия",
     "form": "Сформировать @.lower:activity.one",
-    "approximateDuration": "Примерное @.lower:duration",
-    "repeatLast": "Повторить прошлое",
-    "openCalendar": "@:open @.lower:calendar",
+    "potentialDuration": "Примерное @.lower:duration",
     "saveToCalendar": "@:save в @.lower:calendar",
-    "hideCalendar": "Скрыть @.lower:calendar",
     "date": "Дата @.lower:activity.many",
     "chooseDate": "Выберите дату @.lower:activity.many",
     "start": "Начать @.lower:activity.one",
@@ -140,9 +147,11 @@
     "profile": "Профиль пользователя",
     "admin": "@:user.one с правами администратора",
     "general": "Общее",
+    "generalInfo": "Добавьте оборудование и доступные веса.",
     "goalsInfo": "Выберите цели по количеству занятий в неделю, подходам в занятии, повторам в подходе и среднему времени занятия.",
-    "equipmentInfo": "Добавьте доступное вам оборудование, включая все веса для каждого вида.",
-    "weightsInfo": "Выберите вес по-умолчанию для упражнений."
+    "templatesInfo": "Управление шаблонами, из которых можно легко создавать занятия.",
+    "weightsInfo": "Выберите вес по-умолчанию для упражнений.",
+    "exercisesInfo": "Добавьте до 20 своих упражнений."
   },
   "muscle": {
     "many": "Мышцы",

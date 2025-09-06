@@ -1,7 +1,6 @@
 import {
   API_ACTIVITY,
   API_ACTIVITY_CALENDAR,
-  API_ACTIVITY_LAST,
   API_ACTIVITY_STATISTICS,
   API_ACTIVITY_CHART,
   type IBaseParams,
@@ -14,7 +13,6 @@ import {
   type TGetActivitiesChartDTO,
   type TGetActivitiesChartQueryDTO,
   type TGetActivityDTO,
-  type TGetActivityLastDTO,
   type TUpdateActivityDTO,
   type TUpdateActivityDataDTO,
   type TPostActivityDTO,
@@ -28,7 +26,6 @@ import {
   activityDeleteSchema,
   activityGetCalendarSchema,
   activityGetChartSchema,
-  activityGetLastSchema,
   activityGetManySchema,
   activityGetOneSchema,
   activityGetStatisticsSchema,
@@ -100,16 +97,6 @@ export default async function (fastify: IFastifyInstance) {
     { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
     async function (request, reply) {
       const data = await activityService.getOne(request.params.id, fastify.jwt.decode, request.headers.authorization);
-
-      reply.code(200).send(data);
-    }
-  );
-
-  fastify.get<{ Reply: { 200: TGetActivityLastDTO } }>(
-    API_ACTIVITY_LAST,
-    { preValidation: [fastify.onlyUser], ...activityGetLastSchema },
-    async function (request, reply) {
-      const data = await activityService.getLast(fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send(data);
     }

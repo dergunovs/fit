@@ -79,17 +79,9 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { DefaultLocaleMessageSchema, useI18n } from 'vue-i18n';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
 import { useQueryClient, useValidator, required, clone, localeField } from 'mhz-helpers';
-import {
-  IExercise,
-  IMuscle,
-  IEquipment,
-  API_EXERCISE,
-  API_ACTIVITY_STATISTICS,
-  TLocale,
-} from 'fitness-tracker-contracts';
+import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
 
@@ -98,6 +90,7 @@ import { equipmentService } from '@/equipment/services';
 import { muscleService } from '@/muscle/services';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
+import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise?: IExercise;
@@ -114,7 +107,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
-const { t, locale } = useI18n<DefaultLocaleMessageSchema, TLocale>();
+const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
 const formData = ref<IExercise>({
@@ -185,7 +178,7 @@ const { error, isValid } = useValidator(formData, { title: [required] }, locale.
 function submit() {
   if (!isValid()) return;
 
-  if (props.exercise?._id) {
+  if (props.isEdit) {
     mutateUpdate(formData.value);
   } else {
     mutatePost(formData.value);

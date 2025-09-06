@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 import FeatureBackground from '@/common/images/feature-background.svg';
 
@@ -21,7 +20,9 @@ import IconShare from '@/common/icons/share.svg?component';
 import IconProgress from '@/common/icons/to-failure.svg?component';
 import IconPlan from '@/common/icons/activity.svg?component';
 
-const { t } = useI18n();
+import { useTI18n } from '@/common/composables';
+
+const { t } = useTI18n();
 
 const APP_FEATURES = computed(() => [
   { icon: IconProgress, title: t('features.progressTitle'), text: t('features.progressText') },
