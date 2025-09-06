@@ -38,6 +38,7 @@ import { EXERCISE_FIXTURE_CUSTOM, EXERCISES_FIXTURE } from '@/exercise/fixtures'
 import { URL_HOME } from '@/common/constants';
 import { TOKEN_NAME } from '@/auth/constants';
 import { setAdmin } from '@/auth/composables';
+import { spyGetEquipments } from '@/equipment/mocks';
 
 const EMAIL = 'unique@mail.ru';
 const NAME = 'Уникум';
@@ -229,6 +230,10 @@ describe('UserForm', async () => {
 
     expect(spyRouterPush).toBeCalledTimes(1);
     expect(spyRouterPush).toBeCalledWith(URL_USER);
+  });
+
+  it('gets equipments', async () => {
+    expect(spyGetEquipments).toBeCalledTimes(1);
   });
 
   it('sets form buttons id', async () => {
