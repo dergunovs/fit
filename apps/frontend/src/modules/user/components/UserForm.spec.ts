@@ -8,6 +8,8 @@ import {
   API_USER,
   IUserEquipment,
   IUserTemplate,
+  IExercise,
+  TUserRole,
 } from 'fitness-tracker-contracts';
 import { dataTest, deleteAuthHeader, createTempId } from 'mhz-helpers';
 import { UiTabs } from 'mhz-ui';
@@ -18,6 +20,8 @@ import UserExercises from './UserExercises.vue';
 import UserFormTab from './UserFormTab.vue';
 import UserFormTemplateList from './UserFormTemplateList.vue';
 import UserFormTemplateModal from './UserFormTemplateModal.vue';
+import UserFormProfile from '@/user/components/UserFormProfile.vue';
+import UserFormUpdatePassword from '@/user/components/UserFormUpdatePassword.vue';
 import ExerciseForm from '@/exercise/components/ExerciseForm.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
@@ -63,6 +67,10 @@ const formTemplateList = dataTest('user-form-template-list');
 const formAddTemplate = dataTest('user-form-add-template');
 const formTemplateModal = dataTest('user-form-template-modal');
 const formTemplateModalContainer = dataTest('user-form-template-modal-container');
+const formGoalsActivities = dataTest('user-form-goals-activities');
+const formGoalsSets = dataTest('user-form-goals-sets');
+const formGoalsRepeats = dataTest('user-form-goals-repeats');
+const formGoalsDuration = dataTest('user-form-goals-duration');
 
 const wrapperWithUser: VueWrapper<InstanceType<typeof UserForm>> = wrapperFactory(
   UserForm,
@@ -365,5 +373,155 @@ describe('UserForm', async () => {
     expect(wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).props('template')).toEqual(
       updatedTemplate
     );
+  });
+
+  it('deletes template', async () => {
+    await wrapper.find(formAddTemplate).trigger('click');
+
+    const template: IUserTemplate = { _id: createTempId(), title: 'шаблон', exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', template);
+
+    await nextTick();
+
+    expect(wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).props('templates')).toContainEqual(
+      template
+    );
+
+    wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).vm.$emit('delete', template._id);
+
+    await nextTick();
+
+    expect(wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).exists()).toBe(false);
+  });
+
+  it('shows user profile component with correct props', async () => {
+    const adminUser = { ...USER_FIXTURE, role: 'admin' as TUserRole };
+
+    await wrapper.setProps({ user: adminUser });
+
+    expect(wrapper.findComponent(UserFormProfile).exists()).toBe(true);
+    expect(wrapper.findComponent(UserFormProfile).props('isAdmin')).toBe(true);
+    expect(wrapper.findComponent(UserFormProfile).props('isResetPassword')).toBe(adminUser.isResetPassword);
+  });
+
+  it('shows goals form with choice components', async () => {
+    await wrapper.setProps({ user: USER_FIXTURE, isEdit: true });
+
+    const tabs = wrapper.findComponent<typeof UiTabs>(formTabs);
+
+    tabs.vm.$emit('update:modelValue', 'goals');
+
+    await nextTick();
+
+    expect(wrapper.find(formGoalsActivities).exists()).toBe(true);
+    expect(wrapper.find(formGoalsSets).exists()).toBe(true);
+    expect(wrapper.find(formGoalsRepeats).exists()).toBe(true);
+    expect(wrapper.find(formGoalsDuration).exists()).toBe(true);
+  });
+
+  it('handles password update event', async () => {
+    await wrapper.setProps({ user: USER_FIXTURE });
+
+    expect(wrapper.findComponent(UserFormUpdatePassword).exists()).toBe(true);
+
+    wrapper.findComponent(UserFormUpdatePassword).vm.$emit('updated');
+
+    await nextTick();
+
+    expect(wrapper.findComponent(UserFormProfile).props('isPasswordUpdated')).toBe(true);
+  });
+
+  it('creates exercise and shows modal', async () => {
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('false');
+
+    await wrapper.find(formAddExercise).trigger('click');
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toBeUndefined();
+  });
+
+  it('edits exercise and shows modal with exercise data', async () => {
+    const exercise: IExercise = { ...EXERCISE_FIXTURE_CUSTOM, _id: 'test-id' };
+
+    wrapper.findComponent<typeof UserExercises>(formExercises).vm.$emit('edit', exercise);
+
+    await nextTick();
+
+    expect(wrapper.find(formExerciseFormModal).attributes('modelvalue')).toBe('true');
+    expect(wrapper.findComponent<typeof ExerciseForm>(formExerciseForm).props('exercise')).toEqual(exercise);
+  });
+
+  it('creates template with temp id when no id provided', async () => {
+    await wrapper.find(formAddTemplate).trigger('click');
+
+    const templateWithoutId = { title: TEMPLATE_TITLE, exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', templateWithoutId);
+
+    await nextTick();
+
+    const templates = wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).props('templates');
+
+    expect(templates).toHaveLength(1);
+    expect(templates[0]._id).toBeDefined();
+    expect(templates[0].title).toBe(TEMPLATE_TITLE);
+  });
+
+  it('saves template with temp id when no id provided', async () => {
+    await wrapper.find(formAddTemplate).trigger('click');
+
+    const templateWithoutId = { title: 'Original', exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', templateWithoutId);
+
+    await nextTick();
+
+    const createdTemplate = wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).props('templates')[0];
+    const updatedTemplate = { ...createdTemplate, title: 'Updated' };
+
+    wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).vm.$emit('edit', updatedTemplate);
+    await nextTick();
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('edit', updatedTemplate);
+    await nextTick();
+
+    const templates = wrapper.findComponent<typeof UserFormTemplateList>(formTemplateList).props('templates');
+
+    expect(templates[0].title).toBe('Updated');
+  });
+
+  it('submits form with temp ids removed from templates', async () => {
+    mockIsValid.value = true;
+
+    await wrapper.setProps({ user: USER_FIXTURE, isEdit: true });
+
+    await wrapper.find(formAddTemplate).trigger('click');
+    const template = { _id: createTempId(), title: 'Test', exercises: [] };
+
+    wrapper.findComponent<typeof UserFormTemplateModal>(formTemplateModal).vm.$emit('create', template);
+
+    await nextTick();
+
+    await wrapper.find(form).trigger('submit');
+
+    expect(spyUpdateUser).toBeCalledTimes(1);
+    const calledWith = spyUpdateUser.mock.calls[0][0];
+
+    expect(calledWith.templates?.[0]._id).not.toContain('temp_');
+  });
+
+  it('shows correct tabs based on edit mode', async () => {
+    expect(wrapper.findComponent<typeof UiTabs>(formTabs).exists()).toBe(false);
+
+    await wrapper.setProps({ user: USER_FIXTURE, isEdit: true });
+    expect(wrapper.findComponent<typeof UiTabs>(formTabs).exists()).toBe(true);
+  });
+
+  it('shows email field only when creating user', async () => {
+    expect(wrapper.find(formEmail).exists()).toBe(true);
+
+    await wrapper.setProps({ user: USER_FIXTURE, isEdit: true });
+    expect(wrapper.find(formEmail).exists()).toBe(false);
   });
 });

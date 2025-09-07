@@ -7,13 +7,13 @@ exports[`ActivityForm > matches snapshot 1`] = `
     <activity-potential-duration-stub exercises="" data-test="activity-form-potential-duration"></activity-potential-duration-stub>
     <div justify="space-between"><button isnarrow="" layout="secondary" data-test="activity-form-templates">Шаблоны</button><button isdisabled="true" isnarrow="" layout="secondary" data-test="activity-form-toggle-calendar">Календарь</button></div>
     <!--v-if-->
-    <div modelvalue="false">
+    <div modelvalue="false" data-test="activity-form-templates-modal">
       <div column="" gap="32">
         <div column="" gap="16">
-          <fieldset label="Название"><input type="text" modelvalue=""></fieldset><button isdisabled="true" layout="secondary">Сохранить как шаблон</button>
+          <fieldset label="Название"><input type="text" modelvalue="" data-test="activity-form-template-title"></fieldset><button isdisabled="true" layout="secondary" data-test="activity-form-create-template">Сохранить как шаблон</button>
         </div>
         <div column="" gap="16">
-          <fieldset label="Шаблон"><input type="text" lang="ru" options="[object Object]" data-test="activity-form-template-select"></fieldset><button isdisabled="true">Выбрать</button>
+          <fieldset label="Шаблон"><input type="text" lang="ru" options="[object Object]" data-test="activity-form-template-select"></fieldset><button isdisabled="true" data-test="activity-form-template-choose">Выбрать</button>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@ exports[`ActivityForm > matches snapshot 1`] = `
     <!--v-if-->
     <div>
       <div class="_margin_871dab" data-test="form-buttons-layout-margin"></div>
-      <div class="_buttons_871dab" data-fixed="true" data-test="form-buttons-layout-buttons"><button isnarrow="" data-test="activity-form-add-exercise">Добавить упражнение</button><button layout="accent" isnarrow="" isdisabled="true" type="submit" data-test="activity-form-submit">Начать занятие</button></div>
+      <div class="_buttons_871dab" data-fixed="true" data-test="form-buttons-layout-buttons"><button isnarrow="" data-test="activity-form-add-exercise">Добавить упражнение</button><button layout="accent" isnarrow="" isdisabled="true" type="submit">Начать занятие</button></div>
     </div>
   </div>
 </div>"

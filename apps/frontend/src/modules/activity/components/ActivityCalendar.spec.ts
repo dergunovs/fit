@@ -3,12 +3,17 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { UiCalendar } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
+import { API_AUTH_GET, API_USER } from 'fitness-tracker-contracts';
 
 import ActivityCalendar from './ActivityCalendar.vue';
 import ActivityInfo from './ActivityInfo.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_CALENDAR_EVENTS } from '@/activity/fixtures';
+import { USER_FIXTURE, USER_TEMPLATES } from '@/user/fixtures';
+import { spyUseAuthCheck } from '@/auth/mocks';
+import { mockOnSuccess, spyUpdateUser } from '@/user/mocks';
+import { spyRefetchQueries, spyToastSuccess } from '@/common/mocks';
 
 const calendar = dataTest('activity-calendar');
 const calendarModal = dataTest('activity-calendar-modal');
@@ -102,5 +107,32 @@ describe('ActivityCalendar', async () => {
     await wrapper.setProps({ events: [] });
 
     expect(wrapper.findComponent<typeof UiCalendar>(calendar).props('events')).toStrictEqual([]);
+  });
+
+  it('creates user template', async () => {
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
+
+    expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
+
+    const event = ACTIVITY_CALENDAR_EVENTS[1];
+
+    wrapper.findComponent<typeof UiCalendar>(calendar).vm.$emit('eventClick', event);
+
+    await nextTick();
+
+    expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('true');
+
+    wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$emit('createTemplate', USER_TEMPLATES[0]);
+
+    await mockOnSuccess.update?.();
+
+    expect(spyUpdateUser).toBeCalledTimes(1);
+    expect(spyUpdateUser).toBeCalledWith({ ...USER_FIXTURE, templates: [...USER_TEMPLATES, USER_TEMPLATES[0]] });
+
+    expect(spyRefetchQueries).toBeCalledTimes(2);
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
+
+    expect(spyToastSuccess).toBeCalledTimes(1);
   });
 });

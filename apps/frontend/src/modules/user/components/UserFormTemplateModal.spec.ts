@@ -120,4 +120,18 @@ describe('UserFormTemplateModal', async () => {
     expect(wrapper.emitted('delete')).toHaveLength(1);
     expect(wrapper.emitted()['delete'][0]).toStrictEqual([USER_TEMPLATES[0]._id]);
   });
+
+  it('deletes exercises', async () => {
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(choosenExercises).props('choosenExercises')).toStrictEqual(
+      USER_TEMPLATES[0].exercises
+    );
+
+    wrapper.findComponent<typeof ExerciseChooseList>(addExerciseChooseList).vm.$emit('delete', USER_TEMPLATES[0]._id);
+
+    await nextTick();
+
+    expect(wrapper.findComponent<typeof ExerciseChoosenList>(choosenExercises).props('choosenExercises')).toStrictEqual(
+      [undefined]
+    );
+  });
 });

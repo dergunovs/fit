@@ -46,17 +46,18 @@
         />
       </UiFlex>
 
-      <UiModal v-model="isShowTemplatesModal">
+      <UiModal v-model="isShowTemplatesModal" data-test="activity-form-templates-modal">
         <UiFlex column gap="32">
           <UiFlex column gap="16">
             <UiField :label="t('title')">
-              <UiInput v-model="templateTitle" />
+              <UiInput v-model="templateTitle" data-test="activity-form-template-title" />
             </UiField>
 
             <UiButton
               @click="createTemplate"
               :isDisabled="templateTitle.length === 0 || formData.exercises.length === 0"
               layout="secondary"
+              data-test="activity-form-create-template"
             >
               {{ t('template.save') }}
             </UiButton>
@@ -72,7 +73,9 @@
               />
             </UiField>
 
-            <UiButton @click="chooseTemplate" :isDisabled="!currentTemplate">{{ t('choose') }}</UiButton>
+            <UiButton @click="chooseTemplate" :isDisabled="!currentTemplate" data-test="activity-form-template-choose">
+              {{ t('choose') }}
+            </UiButton>
           </UiFlex>
         </UiFlex>
       </UiModal>
@@ -99,13 +102,7 @@
           {{ t('exercise.add') }}
         </UiButton>
 
-        <UiButton
-          layout="accent"
-          isNarrow
-          :isDisabled="!isValid || isLoadingPost"
-          type="submit"
-          data-test="activity-form-submit"
-        >
+        <UiButton layout="accent" isNarrow :isDisabled="!isValid || isLoadingPost" type="submit">
           {{ t('activity.start') }}
         </UiButton>
       </FormButtonsLayout>
