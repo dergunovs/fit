@@ -7,14 +7,15 @@ import UserFormTab from './UserFormTab.vue';
 import { wrapperFactory } from '@/common/test';
 
 const tabTitle = dataTest('user-form-tab-title');
+const tabDescription = dataTest('user-form-tab-description');
 
 let wrapper: VueWrapper<InstanceType<typeof UserFormTab>>;
 
-const title = 'заголовок';
-const description = 'описание';
+const TITLE = 'заголовок';
+const DESCRIPTION = 'описание';
 
 beforeEach(() => {
-  wrapper = wrapperFactory(UserFormTab, { title, description });
+  wrapper = wrapperFactory(UserFormTab, { title: TITLE, description: DESCRIPTION });
 });
 
 enableAutoUnmount(afterEach);
@@ -28,7 +29,8 @@ describe('UserFormTab', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('shows title', async () => {
-    expect(wrapper.find(tabTitle).text()).toStrictEqual(title);
+  it('shows title and description', async () => {
+    expect(wrapper.find(tabTitle).text()).toStrictEqual(TITLE);
+    expect(wrapper.find(tabDescription).text()).toStrictEqual(DESCRIPTION);
   });
 });

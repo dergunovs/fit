@@ -7,11 +7,11 @@
 
       <ActivityPotentialDuration :exercises="formData.exercises" data-test="template-form-potential-duration" />
 
-      <UiButton @click="isShowModal = true" isNarrow layout="secondary" data-test="template-form-add">
+      <UiButton @click="isShowModal = true" isNarrow layout="secondary" data-test="template-form-add-exercise">
         {{ t('exercise.add') }}
       </UiButton>
 
-      <UiModal v-model="isShowModal" isScrollable data-test="template-form-add-modal">
+      <UiModal v-model="isShowModal" isScrollable data-test="template-form-add-exercise-modal">
         <ExerciseChooseList
           v-if="exercises?.length"
           :exercises="exercises"

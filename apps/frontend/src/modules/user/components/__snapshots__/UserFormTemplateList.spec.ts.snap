@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserFormTemplateList > matches snapshot 1`] = `
+"<div wrap="">
+  <user-form-template-element-stub template="[object Object]" data-test="user-form-template-element"></user-form-template-element-stub>
+</div>"
+`;

@@ -12,7 +12,9 @@ exports[`ActivityForm > matches snapshot 1`] = `
         <div column="" gap="16">
           <fieldset label="Название"><input type="text" modelvalue=""></fieldset><button isdisabled="true" layout="secondary">Сохранить как шаблон</button>
         </div>
-        <!--v-if-->
+        <div column="" gap="16">
+          <fieldset label="Шаблон"><input type="text" lang="ru" options="[object Object]" data-test="activity-form-template-select"></fieldset><button isdisabled="true">Выбрать</button>
+        </div>
       </div>
     </div>
     <div modelvalue="false" isscrollable="" data-test="activity-form-add-exercise-modal">

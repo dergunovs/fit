@@ -6,6 +6,7 @@
       :template="template"
       @edit="(template) => emit('edit', template)"
       @delete="(id) => emit('delete', id)"
+      data-test="user-form-template-element"
     />
   </UiFlex>
 </template>

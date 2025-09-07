@@ -1,6 +1,6 @@
 <template>
   <UiChip>
-    <span>
+    <span data-test="user-form-template-title">
       {{ props.template.title }}
     </span>
 

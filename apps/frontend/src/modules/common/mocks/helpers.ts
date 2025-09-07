@@ -34,6 +34,7 @@ const spyUsePageLock = vi.spyOn(helpers, 'usePageLock');
 const mockTempId = 'fd98bye9rbrube';
 
 vi.spyOn(helpers, 'createTempId').mockReturnValue(mockTempId);
+vi.spyOn(helpers, 'deleteTempId').mockImplementation((array) => array);
 
 const spyAuth = vi.fn();
 

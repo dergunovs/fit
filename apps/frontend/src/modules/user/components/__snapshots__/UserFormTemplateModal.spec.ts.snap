@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserFormTemplateModal > matches snapshot 1`] = `
+"<div class="_form_d29518">
+  <div tag="form" column="" gap="24" align="flex-start" data-test="template-form-modal">
+    <fieldset label="Название" isrequired=""><input type="text" modelvalue="Заголовок шаблона" data-test="template-form-title"></fieldset>
+    <activity-potential-duration-stub exercises="" data-test="template-form-potential-duration"></activity-potential-duration-stub><button isnarrow="" layout="secondary" data-test="template-form-add-exercise">Добавить упражнение</button>
+    <div modelvalue="false" isscrollable="" data-test="template-form-add-exercise-modal">
+      <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="template-form-exercise-choose-list"></exercise-choose-list-stub>
+    </div>
+    <exercise-choosen-list-stub choosenexercises="" data-test="template-form-exercise-choosen-list"></exercise-choosen-list-stub>
+    <form-buttons-stub id="dgoeg1ger" isloading="false" isedit="true" isemitcancel="false" isfixed="false" ishidebackbutton="true" data-test="template-form-buttons"></form-buttons-stub>
+  </div>
+</div>"
+`;

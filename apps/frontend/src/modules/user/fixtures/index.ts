@@ -1,6 +1,11 @@
-import { IUser, IUserFeedback } from 'fitness-tracker-contracts';
+import { IUser, IUserFeedback, IUserTemplate } from 'fitness-tracker-contracts';
 
 import { EQUIPMENT_FIXTURE, EQUIPMENT_FIXTURE_2 } from '@/equipment/fixtures';
+import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
+
+export const USER_TEMPLATES: IUserTemplate[] = [
+  { _id: 'dgoeg1ger', title: 'Заголовок шаблона', exercises: [EXERCISE_CHOOSEN_FIXTURE] },
+];
 
 export const USER_FIXTURE: IUser = {
   email: 'a@b.ru',
@@ -16,6 +21,7 @@ export const USER_FIXTURE: IUser = {
     '2': 0,
     '3': 1,
   },
+  templates: USER_TEMPLATES,
   goalActivities: 2,
   goalSets: 24,
   goalRepeats: 12,
