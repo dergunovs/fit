@@ -50,28 +50,28 @@
         :description="t('user.goalsInfo')"
         data-test="user-form-tab"
       >
-        <UiChoice
+        <UiButtongroup
           v-model="formData.goalActivities"
           :options="USER_GOALS_OPTIONS.activities"
           :title="t('activity.many')"
           data-test="user-form-goals-activities"
         />
 
-        <UiChoice
+        <UiButtongroup
           v-model="formData.goalSets"
           :options="USER_GOALS_OPTIONS.sets"
           :title="t('set.many')"
           data-test="user-form-goals-sets"
         />
 
-        <UiChoice
+        <UiButtongroup
           v-model="formData.goalRepeats"
           :options="USER_GOALS_OPTIONS.repeats"
           :title="t('repeat.many')"
           data-test="user-form-goals-repeats"
         />
 
-        <UiChoice
+        <UiButtongroup
           v-model="formData.goalDuration"
           :options="USER_GOALS_OPTIONS.duration"
           :title="t('duration')"
@@ -166,7 +166,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { UiButton, UiField, UiFlex, UiInput, UiModal, toast, UiTabs, UiChoice } from 'mhz-ui';
+import { UiButton, UiField, UiFlex, UiInput, UiModal, toast, UiTabs, UiButtongroup } from 'mhz-ui';
 import {
   useQueryClient,
   useValidator,

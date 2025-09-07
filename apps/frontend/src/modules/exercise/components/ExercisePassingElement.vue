@@ -31,7 +31,7 @@
         data-test="exercise-to-failure"
       />
 
-      <UiChoice
+      <UiButtongroup
         v-model="repeats"
         :options="repeatsOptions"
         :title="t('repeat.many')"
@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { UiButton, UiCheckbox, UiChoice } from 'mhz-ui';
+import { UiButton, UiCheckbox, UiButtongroup } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
 import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';

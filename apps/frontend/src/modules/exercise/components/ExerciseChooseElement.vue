@@ -10,7 +10,7 @@
         />
       </UiField>
 
-      <UiChoice
+      <UiButtongroup
         v-model="choosenExercise.repeats"
         :options="EXERCISE_REPEATS_OPTIONS"
         :title="t('repeat.many')"
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
-import { UiButton, UiChoice, UiField, UiFlex, UiSelect } from 'mhz-ui';
+import { UiButton, UiButtongroup, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
 import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
