@@ -161,13 +161,22 @@
     "updated": "@:muscle.many updated",
     "deleted": "@:muscle.many deleted"
   },
+  "hero": {
+    "title": "FiT - home workout calendar",
+    "benefits": [
+      "Calendar with planning and visualization of workouts",
+      "Templates for your future workouts",
+      "General and individual exercises with and without equipment",
+      "Free app for PC, Android and iOS"
+    ]
+  },
   "features": {
     "progressTitle": "Track Progress",
     "progressText": "A table with exercise statistics. Charts tracking progress by workouts, sets, repetitions, duration and muscle groups.",
     "shareTitle": "Share Results",
     "shareText": "Copy data from a completed workout in your calendar with one click, including the time of each set.",
     "planTitle": "Plan Workouts",
-    "planText": "Repeat one of your past workouts. Workout duration is estimated based on your statistics."
+    "planText": "Create and use workout templates. Workout duration is estimated based on your statistics."
   },
   "pwa": {
     "updateApp": "Update app",
@@ -175,22 +184,10 @@
   },
   "science": {
     "title": "The best workout is the one you came to!",
-    "researches": "Tracking sets, rest periods, and workload increases workout efficiency by 40%. This helps avoid plateaus, reduces the risk of overtraining, and achieve goals 3 months faster."
+    "text": "Tracking sets, rest periods, and workload increases workout efficiency by 40%. This helps avoid plateaus, reduces the risk of overtraining, and achieve goals 3 months faster."
   },
+  "callToAction": "More than 60 people are already using the app to improve their athletic performance and quality of life.",
   "statistics": "Statistics",
-  "statisticsText": [
-    "Exercises are grouped by muscles for a balance of simplicity and variety. Calendar with workout visualization, composition, and set timing. Monthly totals and averages: duration, workouts, sets, reps, rest time, dynamic charts.",
-    "Table with exercise data: sets and reps per month, comparison with previous period, average time and reps per set. On click — information about engaged muscles, equipment, execution technique."
-  ],
-  "hero": {
-    "title": "FiT - home workout calendar",
-    "benefits": [
-      "An easy way to improve your health and mood",
-      "Calendar with planning and visualization of workouts",
-      "General and individual exercises with and without equipment",
-      "Free app for PC, Android and iOS"
-    ]
-  },
   "sourceCode": "Source code",
   "videoLinks": "Video links about app development",
   "emailLink": "Feedback email",
@@ -202,11 +199,12 @@
   ],
   "registrationText": [
     "Sign up and follow the confirmation link in the email. Check your spam folder if you haven't received the email.",
-    "In your profile, add your equipment—this determines the list of available exercises. Some equipment allows you to select a weight, for example, 2 kg or 3 kg dumbbells. If you have several types of weighted equipment, a default weight selection will be available for exercises. Additionally, in your profile, you can add up to 20 custom exercises and set weekly workout goals."
+    "In your profile, add your equipment—this determines the list of available exercises. Some equipment allows you to select a weight, for example, 2 kg or 3 kg dumbbells. If you have several types of weighted equipment, a default weight selection will be available for exercises. Additionally, in your profile, you can add up to 20 custom exercises, set weekly workout goals and create templates for your future workouts."
   ],
   "activityPassingText": [
     "Add exercises. Specify the number of repetitions and weight. There are filters by muscle groups and exercise names. You can add 2 or 3 sets at once. If the last two exercises are different, a button to add a set will appear.",
-    "If you've completed your first workout, you'll have the option to repeat the previous workout with one click. You can also copy any completed workout through the calendar on the statistics page in the popup window. You can add a workout to the calendar: click the 'Open Calendar' button when creating a workout. Select a date and click the 'Save Workout to Calendar' button. Then in the calendar, select a future workout and click the 'Start' button.",
+    "Use templates to quickly create workouts. You can create templates in your user profile and when creating a workout. You can also convert past workouts from the calendar to a template in the pop-up window.",
+    "You can add a workout to the calendar: click the 'Open Calendar' button when creating a workout. Select a date and click the 'Save Workout to Calendar' button. Then in the calendar, select a future workout and click the 'Start' button.",
     "After creating a workout, you can immediately start it by clicking the corresponding button. Click 'Start' on the workout screen to launch the timer for the first exercise. If a set is performed to failure, mark it as such. You can adjust the number of repetitions. After finishing the exercise, click the 'Complete' button.",
     "After completing all exercises, you will be redirected to the statistics page. Completed workouts in the calendar are colored according to the most involved muscle groups. The more a muscle group is engaged, the more space it occupies.",
     "Using the timer allows you to predict the duration of future workouts, track average rest time, and visually display workouts in statistics."

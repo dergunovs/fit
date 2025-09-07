@@ -5,7 +5,7 @@ exports[`ActivityForm > matches snapshot 1`] = `
   <h2>Сформировать занятие</h2>
   <div tag="form" column="" gap="24" data-test="activity-form">
     <activity-potential-duration-stub exercises="" data-test="activity-form-potential-duration"></activity-potential-duration-stub>
-    <div justify="space-between"><button isnarrow="" layout="secondary" data-test="activity-form-templates">Шаблоны</button><button isdisabled="true" isnarrow="" layout="secondary" data-test="activity-form-toggle-calendar">Календарь</button></div>
+    <div justify="space-between"><button icon="[object Object]" layout="secondary" data-test="activity-form-templates">Шаблоны</button><button isdisabled="true" icon="[object Object]" layout="secondary" data-test="activity-form-toggle-calendar">Календарь</button></div>
     <!--v-if-->
     <div modelvalue="false" data-test="activity-form-templates-modal">
       <div column="" gap="32">

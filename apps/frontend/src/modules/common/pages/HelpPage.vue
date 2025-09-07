@@ -11,7 +11,12 @@
       <p>
         {{ t('videoLinks') }}:
         <a href="https://vkvideo.ru/playlist/15313879_11" target="_blank" rel="nofollow noreferrer noopener">VK</a>,
-        <a href="https://youtube.com/@dergunovalexandr" target="_blank" rel="nofollow noreferrer noopener">Youtube</a>
+        <a
+          href="https://youtube.com/playlist?list=PLOICX-WjKEZcaT9VXzntq0inHwTBQKXkr"
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+          >Youtube</a
+        >
       </p>
 
       <p>{{ t('emailLink') }}: mail@app-fit.ru</p>

@@ -6,14 +6,19 @@
       <ActivityPotentialDuration :exercises="formData.exercises" data-test="activity-form-potential-duration" />
 
       <UiFlex justify="space-between">
-        <UiButton @click="isShowTemplatesModal = true" isNarrow layout="secondary" data-test="activity-form-templates">
+        <UiButton
+          @click="isShowTemplatesModal = true"
+          :icon="IconTemplate"
+          layout="secondary"
+          data-test="activity-form-templates"
+        >
           {{ t('template.many') }}
         </UiButton>
 
         <UiButton
           @click="isShowCalendar = !isShowCalendar"
           :isDisabled="!isValid"
-          isNarrow
+          :icon="IconCalendar"
           layout="secondary"
           data-test="activity-form-toggle-calendar"
         >
@@ -129,6 +134,9 @@ import ActivityPotentialDuration from '@/activity/components/ActivityPotentialDu
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
+
+import IconTemplate from '@/common/icons/template.svg?component';
+import IconCalendar from '@/common/icons/date.svg?component';
 
 import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';

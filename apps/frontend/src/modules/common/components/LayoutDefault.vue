@@ -9,7 +9,7 @@
 
     <div :class="$style.container" :data-auth="isAuth">
       <main :class="$style.main" :data-auth="isAuth">
-        <RouterView :class="$style.content" :data-auth="isAuth" />
+        <RouterView :class="$style.content" @register="isShowRegistration = true" :data-auth="isAuth" />
       </main>
 
       <UiModal v-model="isShowLogin" data-test="layout-default-login-form-modal">

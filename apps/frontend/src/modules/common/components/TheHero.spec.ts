@@ -27,6 +27,6 @@ describe('TheHero', async () => {
 
   it('shows benefits', async () => {
     expect(wrapper.findAll(benefit).length).toBe(4);
-    expect(wrapper.find(benefit).text()).toBe('Простой способ улучшить здоровье и настроение');
+    expect(wrapper.find(benefit).text()).toBe('Календарь с планированием и визуализацией занятий');
   });
 });

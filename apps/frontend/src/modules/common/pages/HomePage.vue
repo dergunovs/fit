@@ -1,6 +1,6 @@
 <template>
   <UiFlex column gap="64">
-    <PromoBlocks v-if="!isAuth && statistics" data-test="promo" />
+    <PromoBlocks v-if="!isAuth && statistics" @register="emit('register')" data-test="promo" />
 
     <UiFlex column gap="16">
       <div :class="$style.main">
@@ -46,6 +46,12 @@ import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
 import { useTI18n } from '@/common/composables';
+
+interface IEmit {
+  register: [];
+}
+
+const emit = defineEmits<IEmit>();
 
 const { dateFrom, dateTo, isDatesReady, updateDates } = useCalendar();
 
