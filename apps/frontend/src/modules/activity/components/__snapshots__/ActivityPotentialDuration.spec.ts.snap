@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActivityPotentialDuration > matches snapshot 1`] = `"<p><span>Примерное время: </span><span data-test="activity-potential-duration">2 мин. 30 сек.</span></p>"`;

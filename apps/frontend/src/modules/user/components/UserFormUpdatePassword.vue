@@ -1,5 +1,5 @@
 <template>
-  <UiSpoiler :title="t('updatePassword')" v-model="isShowUpdatePassword" data-test="user-form-update-password-spoiler">
+  <UiSpoiler :title="t('updatePassword')" v-model="isShowUpdatePassword">
     <UiFlex gap="12">
       <UiInput
         v-model="newPassword"
