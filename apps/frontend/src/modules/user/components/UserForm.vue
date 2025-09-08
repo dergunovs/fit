@@ -17,6 +17,13 @@
         :description="props.isEdit ? t('user.generalInfo') : ''"
         data-test="user-form-tab"
       >
+        <UserEquipmentForm
+          v-if="equipments && props.isEdit"
+          :equipments="equipments"
+          v-model="formData.equipments"
+          data-test="user-form-equipments"
+        />
+
         <UiField :label="t('name')" isRequired :error="error('name')">
           <UiInput v-model="formData.name" data-test="user-form-name" />
         </UiField>
@@ -34,13 +41,6 @@
           :id="props.user._id"
           @updated="isPasswordUpdated = true"
           data-test="user-form-update-password"
-        />
-
-        <UserEquipmentForm
-          v-if="equipments && props.isEdit"
-          :equipments="equipments"
-          v-model="formData.equipments"
-          data-test="user-form-equipments"
         />
       </UserFormTab>
 

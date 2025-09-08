@@ -8,10 +8,10 @@ exports[`UserForm > matches snapshot 1`] = `
     <div column="" gap="16" data-test="user-form-tab">
       <h3 data-test="user-form-tab-title">Общее</h3>
       <p data-test="user-form-tab-description"></p>
+      <!--v-if-->
       <fieldset label="Имя" isrequired=""><input type="text" modelvalue="" data-test="user-form-name"></fieldset>
       <fieldset label="Электронная почта" isrequired=""><input type="email" modelvalue="" data-test="user-form-email"></fieldset>
       <fieldset label="Пароль" isrequired=""><input type="text" modelvalue="" ispassword="" data-test="user-form-password"></fieldset>
-      <!--v-if-->
       <!--v-if-->
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">

@@ -11,21 +11,11 @@
         {{ t('exercise.add') }}
       </UiButton>
 
-      <UiModal v-model="isShowModal" isScrollable data-test="template-form-add-exercise-modal">
-        <ExerciseChooseList
-          v-if="exercises?.length"
-          :exercises="exercises"
-          @choose="addExercise"
-          data-test="template-form-exercise-choose-list"
-        />
-      </UiModal>
-
-      <ExerciseChoosenList
-        v-if="formData.exercises?.length"
-        :choosenExercises="formData.exercises"
-        @delete="deleteExercise"
-        @createSet="createSet"
-        data-test="template-form-exercise-choosen-list"
+      <ExerciseManagment
+        v-model="formData.exercises"
+        :isShowModal="isShowModal"
+        @updateModal="(value) => (isShowModal = value)"
+        data-test="user-form-template-exercise-managment"
       />
 
       <FormButtons
@@ -41,17 +31,15 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
-import { UiField, UiInput, UiFlex, UiModal, UiButton } from 'mhz-ui';
-import { useValidator, required, clone, createTempId, deleteTempId } from 'mhz-helpers';
-import { IExerciseChoosen, IUserTemplate } from 'fitness-tracker-contracts';
+import { UiField, UiInput, UiFlex, UiButton } from 'mhz-ui';
+import { useValidator, required, clone, deleteTempId } from 'mhz-helpers';
+import { IUserTemplate } from 'fitness-tracker-contracts';
 
 import ActivityPotentialDuration from '@/activity/components/ActivityPotentialDuration.vue';
-import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
-import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import ExerciseManagment from '@/exercise/components/ExerciseManagment.vue';
 import FormButtons from '@/common/components/FormButtons.vue';
 
 import { useTI18n } from '@/common/composables';
-import { exerciseService } from '@/exercise/services';
 
 interface IProps {
   template?: IUserTemplate;
@@ -75,8 +63,6 @@ const formData = ref<IUserTemplate>({
 
 const isShowModal = ref(false);
 
-const { data: exercises } = exerciseService.getAll();
-
 const { error, isValid } = useValidator(formData, { title: [required] }, locale.value);
 
 function submit() {
@@ -89,24 +75,6 @@ function submit() {
   } else {
     emit('create', formData.value);
   }
-}
-
-function addExercise(exercise: IExerciseChoosen) {
-  formData.value.exercises = formData.value.exercises?.length ? [...formData.value.exercises, exercise] : [exercise];
-
-  isShowModal.value = false;
-}
-
-function deleteExercise(idToDelete: string) {
-  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToDelete);
-}
-
-function createSet() {
-  const set = formData.value.exercises.slice(-2).map((exercise) => {
-    return { ...exercise, _id: createTempId() };
-  });
-
-  formData.value.exercises = [...formData.value.exercises, ...set];
 }
 
 onBeforeMount(() => {

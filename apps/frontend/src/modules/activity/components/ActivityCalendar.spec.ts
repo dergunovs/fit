@@ -10,7 +10,7 @@ import ActivityInfo from './ActivityInfo.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_CALENDAR_EVENTS } from '@/activity/fixtures';
-import { USER_FIXTURE, USER_TEMPLATES } from '@/user/fixtures';
+import { USER_FIXTURE, USER_TEMPLATE } from '@/user/fixtures';
 import { spyUseAuthCheck } from '@/auth/mocks';
 import { mockOnSuccess, spyUpdateUser } from '@/user/mocks';
 import { spyRefetchQueries, spyToastSuccess } from '@/common/mocks';
@@ -122,12 +122,12 @@ describe('ActivityCalendar', async () => {
 
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('true');
 
-    wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$emit('createTemplate', USER_TEMPLATES[0]);
+    wrapper.findComponent<typeof ActivityInfo>(activityInfo).vm.$emit('createTemplate', USER_TEMPLATE);
 
     await mockOnSuccess.update?.();
 
     expect(spyUpdateUser).toBeCalledTimes(1);
-    expect(spyUpdateUser).toBeCalledWith({ ...USER_FIXTURE, templates: [...USER_TEMPLATES, USER_TEMPLATES[0]] });
+    expect(spyUpdateUser).toBeCalledWith({ ...USER_FIXTURE, templates: [USER_TEMPLATE, USER_TEMPLATE] });
 
     expect(spyRefetchQueries).toBeCalledTimes(2);
     expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });

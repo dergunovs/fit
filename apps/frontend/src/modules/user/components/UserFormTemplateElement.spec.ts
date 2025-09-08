@@ -5,7 +5,7 @@ import { dataTest } from 'mhz-helpers';
 import UserFormTemplateElement from './UserFormTemplateElement.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { USER_TEMPLATES } from '@/user/fixtures';
+import { USER_TEMPLATE } from '@/user/fixtures';
 
 const title = dataTest('user-form-template-title');
 const editButton = dataTest('user-form-template-edit');
@@ -13,10 +13,8 @@ const deleteButton = dataTest('user-form-template-delete');
 
 let wrapper: VueWrapper<InstanceType<typeof UserFormTemplateElement>>;
 
-const template = USER_TEMPLATES[0];
-
 beforeEach(() => {
-  wrapper = wrapperFactory(UserFormTemplateElement, { template });
+  wrapper = wrapperFactory(UserFormTemplateElement, { template: USER_TEMPLATE });
 });
 
 enableAutoUnmount(afterEach);
@@ -31,7 +29,7 @@ describe('UserFormTemplateElement', async () => {
   });
 
   it('shows template title', async () => {
-    expect(wrapper.find(title).text()).toStrictEqual(template.title);
+    expect(wrapper.find(title).text()).toStrictEqual(USER_TEMPLATE.title);
   });
 
   it('emits template by edit button click', async () => {
@@ -40,7 +38,7 @@ describe('UserFormTemplateElement', async () => {
     await wrapper.find(editButton).trigger('click');
 
     expect(wrapper.emitted('edit')).toHaveLength(1);
-    expect(wrapper.emitted()['edit'][0]).toStrictEqual([template]);
+    expect(wrapper.emitted()['edit'][0]).toStrictEqual([USER_TEMPLATE]);
   });
 
   it('emits id by delete button click', async () => {
@@ -49,6 +47,6 @@ describe('UserFormTemplateElement', async () => {
     await wrapper.find(deleteButton).trigger('click');
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
-    expect(wrapper.emitted()['delete'][0]).toStrictEqual([template._id]);
+    expect(wrapper.emitted()['delete'][0]).toStrictEqual([USER_TEMPLATE._id]);
   });
 });

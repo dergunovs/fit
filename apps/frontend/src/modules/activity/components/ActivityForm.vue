@@ -85,21 +85,11 @@
         </UiFlex>
       </UiModal>
 
-      <UiModal v-model="isShowExercisesModal" isScrollable data-test="activity-form-add-exercise-modal">
-        <ExerciseChooseList
-          v-if="exercises?.length"
-          :exercises="exercises"
-          @choose="addExercise"
-          data-test="activity-form-exercise-choose-list"
-        />
-      </UiModal>
-
-      <ExerciseChoosenList
-        v-if="formData.exercises?.length"
-        :choosenExercises="formData.exercises"
-        @delete="deleteExercise"
-        @createSet="createSet"
-        data-test="activity-form-exercises-choosen"
+      <ExerciseManagment
+        v-model="formData.exercises"
+        :isShowModal="isShowExercisesModal"
+        @updateModal="(value) => (isShowExercisesModal = value)"
+        data-test="activity-form-exercise-managment"
       />
 
       <FormButtonsLayout isFixed>
@@ -119,26 +109,23 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal, UiSelect, UiField, UiInput } from 'mhz-ui';
-import { createTempId, deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
+import { deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   API_AUTH_GET,
   API_USER,
   IActivity,
-  IExerciseChoosen,
   IUserTemplate,
   TPostActivityDTO,
 } from 'fitness-tracker-contracts';
 
 import ActivityPotentialDuration from '@/activity/components/ActivityPotentialDuration.vue';
-import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
-import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import ExerciseManagment from '@/exercise/components/ExerciseManagment.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import IconTemplate from '@/common/icons/template.svg?component';
 import IconCalendar from '@/common/icons/date.svg?component';
 
-import { exerciseService } from '@/exercise/services';
 import { activityService } from '@/activity/services';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
@@ -170,26 +157,6 @@ const templateTitle = ref('');
 const dateScheduledText = computed(() =>
   formData.value.dateScheduled ? t('activity.date') : t('activity.chooseDate')
 );
-
-const { data: exercises } = exerciseService.getAll();
-
-function addExercise(exercise: IExerciseChoosen) {
-  formData.value.exercises = formData.value.exercises?.length ? [...formData.value.exercises, exercise] : [exercise];
-
-  isShowExercisesModal.value = false;
-}
-
-function deleteExercise(idToDelete: string) {
-  formData.value.exercises = formData.value.exercises.filter((exercise) => exercise._id !== idToDelete);
-}
-
-function createSet() {
-  const set = formData.value.exercises.slice(-2).map((exercise) => {
-    return { ...exercise, _id: createTempId() };
-  });
-
-  formData.value.exercises = [...formData.value.exercises, ...set];
-}
 
 function setScheduledDate(date: Date) {
   date.setHours(23, 59, 59);
