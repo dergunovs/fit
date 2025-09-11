@@ -6,9 +6,9 @@
     data-test="exercise-modal"
   >
     <ExerciseChooseList
-      v-if="exercises?.length"
-      :exercises="exercises"
-      @choose="addExercise"
+      v-if="exercisesAll?.length"
+      :exercises="exercisesAll"
+      @choose="addExercises"
       data-test="exercise-choose-list"
     />
   </UiModal>
@@ -45,10 +45,10 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { data: exercises } = exerciseService.getAll();
+const { data: exercisesAll } = exerciseService.getAll();
 
-function addExercise(exercise: IExerciseChoosen) {
-  const updatedExercises = props.modelValue?.length ? [...props.modelValue, exercise] : [exercise];
+function addExercises(exercises: IExerciseChoosen[]) {
+  const updatedExercises = props.modelValue?.length ? [...props.modelValue, ...exercises] : exercises;
 
   emit('update:modelValue', updatedExercises);
 

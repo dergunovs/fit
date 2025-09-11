@@ -48,11 +48,11 @@ describe('ExerciseManagment', async () => {
     );
   });
 
-  it('adds exercise', async () => {
+  it('adds exercises', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
     expect(wrapper.emitted()).not.toHaveProperty('updateModal');
 
-    wrapper.findComponent<typeof ExerciseChooseList>(chooseList).vm.$emit('choose', EXERCISE_CHOOSEN_FIXTURE);
+    wrapper.findComponent<typeof ExerciseChooseList>(chooseList).vm.$emit('choose', [EXERCISE_CHOOSEN_FIXTURE]);
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([

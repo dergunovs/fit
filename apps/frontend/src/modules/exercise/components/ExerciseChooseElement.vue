@@ -19,11 +19,11 @@
       />
 
       <UiFlex justify="space-between">
-        <UiButton @click="addExercise(1)" data-test="exercise-add-1">{{ t('add') }}</UiButton>
+        <UiButton @click="addExercises(1)" data-test="exercise-add-1">{{ t('add') }}</UiButton>
 
         <UiFlex>
-          <UiButton @click="addExercise(2)" layout="secondary" isNarrow data-test="exercise-add-2">+2</UiButton>
-          <UiButton @click="addExercise(3)" layout="secondary" isNarrow data-test="exercise-add-3">+3</UiButton>
+          <UiButton @click="addExercises(2)" layout="secondary" isNarrow data-test="exercise-add-2">+2</UiButton>
+          <UiButton @click="addExercises(3)" layout="secondary" isNarrow data-test="exercise-add-3">+3</UiButton>
         </UiFlex>
       </UiFlex>
     </UiFlex>
@@ -47,7 +47,7 @@ interface IProps {
 }
 
 interface IEmit {
-  add: [choosenExercise: IExerciseChoosen];
+  add: [choosenExercises: IExerciseChoosen[]];
 }
 
 const props = defineProps<IProps>();
@@ -60,7 +60,9 @@ const choosenExercise = ref({
   weight: getDefaultExerciseWeight(props.exercise, props.user, props.weights),
 });
 
-function addExercise(count: number) {
+function addExercises(count: number) {
+  const exercises = [];
+
   for (let i = 0; i < count; i++) {
     const exercise = {
       _id: props.exercise?._id,
@@ -70,7 +72,9 @@ function addExercise(count: number) {
       isWeightsRequired: props.exercise?.isWeightsRequired,
     };
 
-    emit('add', { _id: createTempId(), exercise, ...choosenExercise.value });
+    exercises.push({ _id: createTempId(), exercise, ...choosenExercise.value });
   }
+
+  emit('add', exercises);
 }
 </script>

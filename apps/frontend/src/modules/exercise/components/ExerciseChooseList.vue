@@ -33,7 +33,7 @@
           :exercise="exercise"
           :weights="getAvailableExerciseWeights(exercise, user)"
           :user="user"
-          @add="(choosenExercise) => emit('choose', choosenExercise)"
+          @add="(choosenExercises) => emit('choose', choosenExercises)"
           data-test="exercise-choose-element"
         />
       </UiSpoiler>
@@ -59,7 +59,7 @@ interface IProps {
 }
 
 interface IEmit {
-  choose: [choosenExercise: IExerciseChoosen];
+  choose: [choosenExercises: IExerciseChoosen[]];
 }
 
 const props = defineProps<IProps>();

@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,
@@ -21,7 +21,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@changesets/cli": "2.29.6"
+    "@changesets/cli": "2.29.7"
   },
   "devDependencies": {
     "@turbo/gen": "2.5.6",
