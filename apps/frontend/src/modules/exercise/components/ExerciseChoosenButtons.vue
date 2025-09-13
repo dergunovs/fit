@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.buttons">
     <button
+      v-if="props.index !== 0"
       @click="emit('setIndex', props.index)"
       type="button"
-      :disabled="props.index === 0"
       :class="[$style.arrow, $style.button]"
       data-test="exercise-choose-buttons-index-down"
     >
@@ -11,9 +11,9 @@
     </button>
 
     <button
+      v-if="!props.isLast"
       @click="emit('setIndex', props.index + 1)"
       type="button"
-      :disabled="props.isLast"
       :class="[$style.arrow, $style.button]"
       data-test="exercise-choose-buttons-index-up"
     >
@@ -89,7 +89,7 @@ const { t } = useTI18n();
   justify-content: center;
   min-width: 32px;
   height: 24px;
-  padding: 0 6px;
+  padding: 0 7px;
   font-size: 0.875rem;
   -webkit-user-select: none;
   user-select: none;

@@ -44,7 +44,11 @@ const emit = defineEmits<IEmit>();
   justify-content: center;
   padding: 2px;
   cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   background: none;
   border: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 </style>

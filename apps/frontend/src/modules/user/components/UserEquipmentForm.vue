@@ -60,7 +60,7 @@
       </UiButton>
     </UiFlex>
 
-    <UiFlex v-if="props.modelValue?.length" column>
+    <UiFlex v-if="props.modelValue?.length && !isEditEquipment" column>
       <div>{{ t('equipment.added') }}</div>
 
       <UiFlex wrap>

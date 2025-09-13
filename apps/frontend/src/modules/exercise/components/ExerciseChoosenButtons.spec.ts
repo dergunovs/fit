@@ -40,24 +40,24 @@ describe('ExerciseChoosenButtons', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('disables update index buttons if first or last index', async () => {
-    expect(wrapper.find(indexDown).attributes('disabled')).toBe(undefined);
-    expect(wrapper.find(indexUp).attributes('disabled')).toBe(undefined);
+  it('hides update index buttons if first or last index', async () => {
+    expect(wrapper.find(indexDown).exists()).toBe(true);
+    expect(wrapper.find(indexUp).exists()).toBe(true);
 
     await wrapper.setProps({ index: 0 });
 
-    expect(wrapper.find(indexDown).attributes('disabled')).toBe('');
-    expect(wrapper.find(indexUp).attributes('disabled')).toBe(undefined);
+    expect(wrapper.find(indexDown).exists()).toBe(false);
+    expect(wrapper.find(indexUp).exists()).toBe(true);
 
     await wrapper.setProps({ index: 1, isLast: true });
 
-    expect(wrapper.find(indexDown).attributes('disabled')).toBe(undefined);
-    expect(wrapper.find(indexUp).attributes('disabled')).toBe('');
+    expect(wrapper.find(indexDown).exists()).toBe(true);
+    expect(wrapper.find(indexUp).exists()).toBe(false);
 
     await wrapper.setProps({ index: 0, isLast: true });
 
-    expect(wrapper.find(indexDown).attributes('disabled')).toBe('');
-    expect(wrapper.find(indexUp).attributes('disabled')).toBe('');
+    expect(wrapper.find(indexDown).exists()).toBe(false);
+    expect(wrapper.find(indexUp).exists()).toBe(false);
   });
 
   it('hides create set button if set is not creatable', async () => {

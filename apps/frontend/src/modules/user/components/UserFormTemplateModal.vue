@@ -85,6 +85,6 @@ onBeforeMount(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 53dvh;
+  min-height: 30dvh;
 }
 </style>
