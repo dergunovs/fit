@@ -1,6 +1,6 @@
 <template>
   <UiFlex column gap="64">
-    <PromoBlocks v-if="!isAuth && statistics" @register="emit('register')" data-test="promo" />
+    <PromoBlocks v-if="!isAuth && statistics" @register="emit('register')" data-test="home-page-promo-blocks" />
 
     <UiFlex column gap="16">
       <div :class="$style.main">
@@ -11,16 +11,16 @@
             @ready="updateDates"
             @update="updateDates"
             @deleteEvent="refetch"
-            data-test="activity-calendar"
+            data-test="home-page-activity-calendar"
           />
 
-          <ActivityStatistics :statistics="statistics.activity" data-test="activity-statistics" />
+          <ActivityStatistics :statistics="statistics.activity" data-test="home-page-activity-statistics" />
 
           <ActivityChart />
         </div>
 
         <div v-if="statistics" :class="$style.statistics">
-          <ExerciseStatistics :statistics="statistics.exercise" data-test="exercise-statistics" />
+          <ExerciseStatistics :statistics="statistics.exercise" data-test="home-page-exercise-statistics" />
         </div>
       </div>
     </UiFlex>

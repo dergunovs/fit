@@ -34,8 +34,17 @@ describe('ExerciseChoosenList', async () => {
     );
   });
 
-  it('emits delete choosen exercise', async () => {
+  it('emits choosen exercise events', async () => {
+    const INDEX = 1;
+
+    expect(wrapper.emitted()).not.toHaveProperty('createSet');
     expect(wrapper.emitted()).not.toHaveProperty('delete');
+    expect(wrapper.emitted()).not.toHaveProperty('setIndex');
+
+    wrapper.findComponent<typeof ExerciseChoosenElement>(exerciseChoosen).vm.$emit('createSet');
+
+    expect(wrapper.emitted('createSet')).toHaveLength(1);
+    expect(wrapper.emitted()['createSet'][0]).toStrictEqual([]);
 
     wrapper
       .findComponent<typeof ExerciseChoosenElement>(exerciseChoosen)
@@ -43,13 +52,10 @@ describe('ExerciseChoosenList', async () => {
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
     expect(wrapper.emitted()['delete'][0]).toStrictEqual([EXERCISES_CHOOSEN_FIXTURE[0]._id]);
-  });
 
-  it('emits create set', async () => {
-    expect(wrapper.emitted()).not.toHaveProperty('createSet');
+    wrapper.findComponent<typeof ExerciseChoosenElement>(exerciseChoosen).vm.$emit('setIndex', INDEX);
 
-    wrapper.findComponent<typeof ExerciseChoosenElement>(exerciseChoosen).vm.$emit('createSet');
-
-    expect(wrapper.emitted('createSet')).toHaveLength(1);
+    expect(wrapper.emitted('setIndex')).toHaveLength(1);
+    expect(wrapper.emitted()['setIndex'][0]).toStrictEqual([INDEX]);
   });
 });

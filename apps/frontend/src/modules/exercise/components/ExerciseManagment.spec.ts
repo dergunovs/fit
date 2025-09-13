@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { createTempId, dataTest } from 'mhz-helpers';
+import { dataTest } from 'mhz-helpers';
 
 import ExerciseManagment from './ExerciseManagment.vue';
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
@@ -9,6 +9,7 @@ import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_CHOOSEN_FIXTURE, EXERCISE_CHOOSEN_FIXTURE, EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { spyGetExercisesAll } from '@/exercise/mocks';
+import { addSetToExercises, updateExercisesIndex } from '@/exercise/helpers';
 
 const modal = dataTest('exercise-modal');
 const chooseList = dataTest('exercise-choose-list');
@@ -77,11 +78,22 @@ describe('ExerciseManagment', async () => {
 
     wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('createSet');
 
-    const set = EXERCISES_CHOOSEN_FIXTURE.slice(-2).map((exercise) => {
-      return { ...exercise, _id: createTempId() };
-    });
+    const updatedExercises = addSetToExercises(EXERCISES_CHOOSEN_FIXTURE);
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
-    expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([[...EXERCISES_CHOOSEN_FIXTURE, ...set]]);
+    expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([updatedExercises]);
+  });
+
+  it('sets new exercise index', async () => {
+    const INDEX = 2;
+
+    expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
+
+    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('setIndex', INDEX);
+
+    const updatedExercises = updateExercisesIndex(EXERCISES_CHOOSEN_FIXTURE, INDEX);
+
+    expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
+    expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([updatedExercises]);
   });
 });

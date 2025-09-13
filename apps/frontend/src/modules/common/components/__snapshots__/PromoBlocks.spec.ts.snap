@@ -4,6 +4,6 @@ exports[`PromoBlocks > matches snapshot 1`] = `
 "<div column="" gap="64">
   <the-hero-stub></the-hero-stub>
   <app-features-stub></app-features-stub>
-  <science-info-stub></science-info-stub>
+  <science-info-stub data-test="promo-blocks-science-info"></science-info-stub>
 </div>"
 `;

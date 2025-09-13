@@ -8,7 +8,9 @@
       <p>{{ t('callToAction') }}</p>
 
       <div :class="$style.button">
-        <UiButton @click="emit('register')" layout="gradient" isTall isLargeFont>{{ t('register') }}</UiButton>
+        <UiButton @click="emit('register')" layout="gradient" isTall isLargeFont data-test="science-info-register">
+          {{ t('register') }}
+        </UiButton>
       </div>
     </div>
   </UiFlex>

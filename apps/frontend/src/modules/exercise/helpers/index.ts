@@ -7,7 +7,7 @@ import {
   IUserEquipment,
   TLocale,
 } from 'fitness-tracker-contracts';
-import { localeField } from 'mhz-helpers';
+import { createTempId, localeField } from 'mhz-helpers';
 
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
@@ -187,4 +187,22 @@ export function getDefaultExerciseWeight(exercise: IExercise, user: IUser, weigh
   }
 
   return weight;
+}
+
+export function addSetToExercises(exercises: IExerciseChoosen[]) {
+  const set = exercises.slice(-2).map((exercise) => {
+    return { ...exercise, _id: createTempId() };
+  });
+
+  return [...exercises, ...set];
+}
+
+export function updateExercisesIndex(exercises: IExerciseChoosen[], index: number) {
+  const updatedExercises = [...exercises];
+  const exerciseToMove = updatedExercises[index];
+
+  updatedExercises.splice(index, 1);
+  updatedExercises.splice(index - 1, 0, exerciseToMove);
+
+  return updatedExercises;
 }

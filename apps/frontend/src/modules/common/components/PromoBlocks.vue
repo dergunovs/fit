@@ -2,7 +2,7 @@
   <UiFlex column gap="64">
     <TheHero />
     <AppFeatures />
-    <ScienceInfo @register="emit('register')" />
+    <ScienceInfo @register="emit('register')" data-test="promo-blocks-science-info" />
   </UiFlex>
 </template>
 

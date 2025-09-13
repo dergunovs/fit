@@ -13,8 +13,11 @@ import {
   getDefaultExerciseWeight,
   isUserEquipmentMatches,
   getUserEquipmentParams,
+  addSetToExercises,
+  updateExercisesIndex,
 } from '.';
 import {
+  EXERCISES_CHOOSEN_FIXTURE,
   EXERCISES_DONE_FIXTURE,
   EXERCISES_FIXTURE,
   EXERCISE_FIXTURE,
@@ -209,5 +212,23 @@ describe('exercise helpers', () => {
       isUserHasEquipment: false,
       isUserHasEquipmentForWeight: false,
     });
+  });
+
+  test('adds set to exercises', async () => {
+    const result = addSetToExercises(EXERCISES_CHOOSEN_FIXTURE);
+
+    expect(result).toHaveLength(4);
+    expect(result[0]).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[0]);
+    expect(result[1]).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[1]);
+    expect(result[2].exercise).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[0].exercise);
+    expect(result[3].exercise).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[1].exercise);
+  });
+
+  test('updates exercises index', async () => {
+    const result = updateExercisesIndex(EXERCISES_CHOOSEN_FIXTURE, 1);
+
+    expect(result).toHaveLength(2);
+    expect(result[0]).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[1]);
+    expect(result[1]).toStrictEqual(EXERCISES_CHOOSEN_FIXTURE[0]);
   });
 });

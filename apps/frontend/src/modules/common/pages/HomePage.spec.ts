@@ -4,6 +4,7 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest, setAuth, wait } from 'mhz-helpers';
 
 import HomePage from './HomePage.vue';
+import PromoBlocks from '@/common/components/PromoBlocks.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ExerciseStatistics from '@/exercise/components/ExerciseStatistics.vue';
@@ -29,10 +30,10 @@ import { URL_HOME } from '@/common/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { spyGetMuscles } from '@/muscle/mocks';
 
-const promo = dataTest('promo');
-const activityCalendar = dataTest('activity-calendar');
-const activityStatistics = dataTest('activity-statistics');
-const exerciseStatistics = dataTest('exercise-statistics');
+const promoBlocks = dataTest('home-page-promo-blocks');
+const calendar = dataTest('home-page-activity-calendar');
+const activityStatistics = dataTest('home-page-activity-statistics');
+const exerciseStatistics = dataTest('home-page-exercise-statistics');
 
 let wrapper: VueWrapper<InstanceType<typeof HomePage>>;
 
@@ -80,7 +81,7 @@ describe('HomePage', async () => {
     expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
     expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
 
-    expect(wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).props('events')).toStrictEqual(
+    expect(wrapper.findComponent<typeof ActivityCalendar>(calendar).props('events')).toStrictEqual(
       convertActivityCalendarEvents(MUSCLES_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE)
     );
   });
@@ -88,11 +89,11 @@ describe('HomePage', async () => {
   it('updates dates on ready and update activity calendar events', async () => {
     expect(spyUpdateDates).toBeCalledTimes(0);
 
-    wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('ready');
+    wrapper.findComponent<typeof ActivityCalendar>(calendar).vm.$emit('ready');
 
     expect(spyUpdateDates).toBeCalledTimes(1);
 
-    wrapper.findComponent<typeof ActivityCalendar>(activityCalendar).vm.$emit('update');
+    wrapper.findComponent<typeof ActivityCalendar>(calendar).vm.$emit('update');
 
     expect(spyUpdateDates).toBeCalledTimes(2);
   });
@@ -114,13 +115,22 @@ describe('HomePage', async () => {
     );
   });
 
+  it('emites register by promo blocks event', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('register');
+
+    wrapper.findComponent<typeof PromoBlocks>(promoBlocks).vm.$emit('register');
+
+    expect(wrapper.emitted('register')).toHaveLength(1);
+    expect(wrapper.emitted()['register'][0]).toStrictEqual([]);
+  });
+
   it('hides promo blocks to auth users', async () => {
-    expect(wrapper.find(promo).exists()).toBe(true);
+    expect(wrapper.find(promoBlocks).exists()).toBe(true);
 
     setAuth(true);
 
     await nextTick();
 
-    expect(wrapper.find(promo).exists()).toBe(false);
+    expect(wrapper.find(promoBlocks).exists()).toBe(false);
   });
 });

@@ -1,12 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`UserFormTemplateModal > matches snapshot 1`] = `
-"<div class="_form_d29518">
-  <div tag="form" column="" gap="24" align="flex-start" data-test="template-form-modal">
-    <fieldset label="Название" isrequired=""><input type="text" modelvalue="Заголовок шаблона" data-test="template-form-title"></fieldset>
-    <activity-potential-duration-stub exercises="[object Object]" data-test="template-form-potential-duration"></activity-potential-duration-stub><button isnarrow="" layout="secondary" data-test="template-form-add-exercise">Добавить упражнение</button>
-    <exercise-managment-stub modelvalue="[object Object]" isshowmodal="false" data-test="user-form-template-exercise-managment"></exercise-managment-stub>
-    <form-buttons-stub id="dgoeg1ger" isloading="false" isedit="true" isemitcancel="false" isfixed="false" ishidebackbutton="true" data-test="template-form-buttons"></form-buttons-stub>
-  </div>
-</div>"
+"<form class="_form_d29518" data-test="template-form-modal">
+  <fieldset label="Название" isrequired=""><input type="text" modelvalue="Заголовок шаблона" data-test="template-form-title"></fieldset>
+  <activity-potential-duration-stub exercises="[object Object]" data-test="template-form-potential-duration"></activity-potential-duration-stub><button isnarrow="" layout="secondary" data-test="template-form-add-exercise">Добавить упражнение</button>
+  <exercise-managment-stub modelvalue="[object Object]" isshowmodal="false" data-test="user-form-template-exercise-managment"></exercise-managment-stub>
+  <form-buttons-stub id="dgoeg1ger" isloading="false" isedit="true" isemitcancel="false" isfixed="false" ishidebackbutton="true" data-test="template-form-buttons"></form-buttons-stub>
+</form>"
 `;

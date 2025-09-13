@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { DefineComponent, nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
@@ -15,6 +15,7 @@ const loginForm = dataTest('layout-default-login-form');
 const loginFormModal = dataTest('layout-default-login-form-modal');
 const registrationForm = dataTest('layout-default-registration-form');
 const registrationFormModal = dataTest('layout-default-registration-form-modal');
+const page = dataTest('layout-default-page');
 
 let wrapper: VueWrapper<InstanceType<typeof LayoutDefault>>;
 
@@ -65,10 +66,10 @@ describe('LayoutDefault', async () => {
     expect(wrapper.find(loginFormModal).attributes('modelvalue')).toBe('false');
   });
 
-  it('shows registration modal', async () => {
+  it('shows registration modal from header', async () => {
     expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
 
-    wrapper.findComponent<typeof TheHeader>(header).vm.$emit('showRegistration');
+    wrapper.findComponent<typeof TheHeader>(header).vm.$emit('register');
 
     await nextTick();
 
@@ -79,5 +80,15 @@ describe('LayoutDefault', async () => {
     await nextTick();
 
     expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
+  });
+
+  it('shows registration modal from page', async () => {
+    expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('false');
+
+    wrapper.findComponent<DefineComponent>(page).vm.$emit('register');
+
+    await nextTick();
+
+    expect(wrapper.find(registrationFormModal).attributes('modelvalue')).toBe('true');
   });
 });

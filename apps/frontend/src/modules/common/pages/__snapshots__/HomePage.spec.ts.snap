@@ -2,16 +2,16 @@
 
 exports[`HomePage > matches snapshot 1`] = `
 "<div column="" gap="64">
-  <promo-blocks-stub data-test="promo"></promo-blocks-stub>
+  <promo-blocks-stub data-test="home-page-promo-blocks"></promo-blocks-stub>
   <div column="" gap="16">
     <div class="_main_e45a14">
       <div class="_calendar_e45a14">
-        <activity-calendar-stub events="[object Object],[object Object]" data-test="activity-calendar"></activity-calendar-stub>
-        <activity-statistics-stub statistics="[object Object]" data-test="activity-statistics"></activity-statistics-stub>
+        <activity-calendar-stub events="[object Object],[object Object]" data-test="home-page-activity-calendar"></activity-calendar-stub>
+        <activity-statistics-stub statistics="[object Object]" data-test="home-page-activity-statistics"></activity-statistics-stub>
         <activity-chart-stub></activity-chart-stub>
       </div>
       <div class="_statistics_e45a14">
-        <exercise-statistics-stub statistics="[object Object],[object Object]" data-test="exercise-statistics"></exercise-statistics-stub>
+        <exercise-statistics-stub statistics="[object Object],[object Object]" data-test="home-page-exercise-statistics"></exercise-statistics-stub>
       </div>
     </div>
   </div>

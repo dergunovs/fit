@@ -1,19 +1,19 @@
 <template>
-  <UiFlex column grow>
+  <UiFlex column>
     <h3>{{ t('exercise.many') }}</h3>
 
-    <UiFlex column>
-      <ExerciseChoosenElement
-        v-for="(exercise, index) in props.choosenExercises"
-        :key="exercise._id"
-        :exercise="exercise"
-        :index="index + 1"
-        :isSetCreatable="isSetCreatable(props.choosenExercises, index, exercise.exercise?._id)"
-        @delete="(id) => emit('delete', id)"
-        @createSet="emit('createSet')"
-        data-test="exercise-choosen"
-      />
-    </UiFlex>
+    <ExerciseChoosenElement
+      v-for="(exercise, index) in props.choosenExercises"
+      :key="exercise._id"
+      :exercise="exercise"
+      :index="index"
+      :isLast="index === props.choosenExercises.length - 1"
+      :isSetCreatable="isSetCreatable(props.choosenExercises, index, exercise.exercise?._id)"
+      @delete="(id) => emit('delete', id)"
+      @createSet="emit('createSet')"
+      @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
+      data-test="exercise-choosen"
+    />
   </UiFlex>
 </template>
 
@@ -33,6 +33,7 @@ interface IProps {
 interface IEmit {
   delete: [id: string];
   createSet: [];
+  setIndex: [index: number];
 }
 
 const props = defineProps<IProps>();

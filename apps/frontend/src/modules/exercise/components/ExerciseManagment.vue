@@ -1,36 +1,39 @@
 <template>
-  <UiModal
-    :modelValue="props.isShowModal"
-    @update:modelValue="(value) => updateModal(value)"
-    isScrollable
-    data-test="exercise-modal"
-  >
-    <ExerciseChooseList
-      v-if="exercisesAll?.length"
-      :exercises="exercisesAll"
-      @choose="addExercises"
-      data-test="exercise-choose-list"
-    />
-  </UiModal>
+  <div>
+    <UiModal
+      :modelValue="props.isShowModal"
+      @update:modelValue="(value) => updateModal(value)"
+      isScrollable
+      data-test="exercise-modal"
+    >
+      <ExerciseChooseList
+        v-if="exercisesAll?.length"
+        :exercises="exercisesAll"
+        @choose="addExercises"
+        data-test="exercise-choose-list"
+      />
+    </UiModal>
 
-  <ExerciseChoosenList
-    v-if="props.modelValue?.length"
-    :choosenExercises="props.modelValue"
-    @delete="deleteExercise"
-    @createSet="createSet"
-    data-test="exercise-choosen-list"
-  />
+    <ExerciseChoosenList
+      v-if="props.modelValue?.length"
+      :choosenExercises="props.modelValue"
+      @delete="deleteExercise"
+      @createSet="createSet"
+      @setIndex="updateIndex"
+      data-test="exercise-choosen-list"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { UiModal } from 'mhz-ui';
-import { createTempId } from 'mhz-helpers';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { exerciseService } from '@/exercise/services';
+import { addSetToExercises, updateExercisesIndex } from '@/exercise/helpers';
 
 interface IProps {
   isShowModal: boolean;
@@ -64,11 +67,15 @@ function deleteExercise(idToDelete: string) {
 function createSet() {
   if (!props.modelValue) return;
 
-  const set = props.modelValue.slice(-2).map((exercise) => {
-    return { ...exercise, _id: createTempId() };
-  });
+  const updatedExercises = addSetToExercises(props.modelValue);
 
-  const updatedExercises = [...props.modelValue, ...set];
+  emit('update:modelValue', updatedExercises);
+}
+
+function updateIndex(updatedIndex: number) {
+  if (!props.modelValue) return;
+
+  const updatedExercises = updateExercisesIndex(props.modelValue, updatedIndex);
 
   emit('update:modelValue', updatedExercises);
 }

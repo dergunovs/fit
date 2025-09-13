@@ -1,27 +1,32 @@
 <template>
   <div :class="$style.exercise">
-    <span data-test="exercise-title">{{ exerciseTitle }}</span>
+    <UiFlex column gap="2" align="flex-start">
+      <div data-test="exercise-choosen-title">
+        {{ `${props.index + 1}. ${props.exercise.exercise?.[localeField('title', locale)]}` }}
+      </div>
 
-    <UiFlex>
-      <UiButton v-if="props.isSetCreatable" @click="emit('createSet')" layout="plain" data-test="exercise-create-set">
-        +{{ t('set.super') }}
-      </UiButton>
-
-      <UiClose
+      <ExerciseChoosenButtons
         v-if="props.exercise._id"
-        @click="emit('delete', props.exercise._id)"
-        isSmall
-        data-test="exercise-delete"
+        :repeats="props.exercise.repeats"
+        :weight="props.exercise.weight"
+        :index="props.index"
+        :isLast="props.isLast"
+        :isSetCreatable="props.isSetCreatable"
+        @createSet="emit('createSet')"
+        @delete="emit('delete', props.exercise._id)"
+        @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
+        data-test="exercise-choosen-buttons"
       />
     </UiFlex>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
-import { UiButton, UiClose, UiFlex } from 'mhz-ui';
+import { UiFlex } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
+
+import ExerciseChoosenButtons from '@/exercise/components/ExerciseChoosenButtons.vue';
 
 import { useTI18n } from '@/common/composables';
 
@@ -29,31 +34,29 @@ interface IProps {
   exercise: IExerciseChoosen;
   index: number;
   isSetCreatable: boolean;
+  isLast: boolean;
 }
 
 interface IEmit {
   delete: [id: string];
   createSet: [];
+  setIndex: [index: number];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useTI18n();
-
-const exerciseTitle = computed(
-  () => `${props.index}. ${props.exercise.exercise?.[localeField('title', locale.value)]} x${props.exercise.repeats}`
-);
+const { locale } = useTI18n();
 </script>
 
 <style module lang="scss">
 .exercise {
   display: flex;
-  gap: 16px;
-  align-items: center;
+  gap: 12px;
   justify-content: space-between;
-  padding: 6px 12px;
+  padding: 6px 10px;
   background-color: var(--color-gray-light);
-  border-radius: 16px;
+  border-bottom: 1px solid var(--color-gray);
+  border-radius: 12px;
 }
 </style>

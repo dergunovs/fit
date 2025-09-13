@@ -127,10 +127,10 @@ describe('TheHeader', async () => {
 
     await nextTick();
 
-    expect(wrapper.emitted()).not.toHaveProperty('showRegistration');
+    expect(wrapper.emitted()).not.toHaveProperty('register');
 
     await wrapper.find(registration).trigger('click');
 
-    expect(wrapper.emitted('showRegistration')).toHaveLength(1);
+    expect(wrapper.emitted('register')).toHaveLength(1);
   });
 });

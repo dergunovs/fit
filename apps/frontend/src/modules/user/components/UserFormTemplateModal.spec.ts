@@ -59,10 +59,6 @@ describe('UserFormTemplateModal', async () => {
 
     wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).vm.$emit('update:modelValue', updatedExercises);
 
-    await nextTick();
-
-    await wrapper.find(form).trigger('submit');
-
     expect(wrapper.emitted('edit')).toHaveLength(1);
     expect(wrapper.emitted()['edit'][0]).toStrictEqual([
       { _id: USER_TEMPLATE._id, title: USER_TEMPLATE.title, exercises: updatedExercises },

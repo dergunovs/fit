@@ -5,7 +5,7 @@ exports[`LayoutDefault > matches snapshot 1`] = `
   <the-header-stub isadmin="true" data-test="layout-default-header"></the-header-stub>
   <div class="_container_c5ab0f" data-auth="false">
     <main class="_main_c5ab0f" data-auth="false">
-      <router-view-stub name="default" class="_content_c5ab0f" data-auth="false"></router-view-stub>
+      <router-view-stub name="default" class="_content_c5ab0f" data-auth="false" data-test="layout-default-page"></router-view-stub>
     </main>
     <div modelvalue="false" data-test="layout-default-login-form-modal">
       <auth-form-stub issetup="false" data-test="layout-default-login-form"></auth-form-stub>

@@ -3,13 +3,18 @@
     <TheHeader
       :isAdmin="props.isAdmin"
       @showLogin="isShowLogin = true"
-      @showRegistration="isShowRegistration = true"
+      @register="isShowRegistration = true"
       data-test="layout-default-header"
     />
 
     <div :class="$style.container" :data-auth="isAuth">
       <main :class="$style.main" :data-auth="isAuth">
-        <RouterView :class="$style.content" @register="isShowRegistration = true" :data-auth="isAuth" />
+        <RouterView
+          @register="isShowRegistration = true"
+          :class="$style.content"
+          :data-auth="isAuth"
+          data-test="layout-default-page"
+        />
       </main>
 
       <UiModal v-model="isShowLogin" data-test="layout-default-login-form-modal">

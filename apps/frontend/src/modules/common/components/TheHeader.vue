@@ -29,7 +29,7 @@
       </template>
 
       <template v-else>
-        <UiButton @click="emit('showRegistration')" layout="plain" data-test="header-registration">
+        <UiButton @click="emit('register')" layout="plain" data-test="header-registration">
           {{ t('registration') }}
         </UiButton>
 
@@ -59,7 +59,7 @@ interface IProps {
 
 interface IEmit {
   showLogin: [];
-  showRegistration: [];
+  register: [];
   install: [];
 }
 

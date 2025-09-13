@@ -1,9 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseChoosenElement > matches snapshot 1`] = `
-"<div class="_exercise_2c3be5"><span data-test="exercise-title">1. Отжимание от скамьи x12</span>
-  <div><button layout="plain" data-test="exercise-create-set"> +Сет</button>
-    <ui-close-stub issmall="true" isdelete="false" data-test="exercise-delete"></ui-close-stub>
+"<div class="_exercise_2c3be5">
+  <div column="" gap="2" align="flex-start">
+    <div data-test="exercise-choosen-title">2. Отжимание от скамьи</div>
+    <exercise-choosen-buttons-stub repeats="12" weight="0" index="1" issetcreatable="true" islast="false" data-test="exercise-choosen-buttons"></exercise-choosen-buttons-stub>
   </div>
 </div>"
 `;

@@ -1,8 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseManagment > matches snapshot 1`] = `
-"<div modelvalue="false" isscrollable="" data-test="exercise-modal">
-  <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="exercise-choose-list"></exercise-choose-list-stub>
-</div>
-<exercise-choosen-list-stub choosenexercises="[object Object],[object Object]" data-test="exercise-choosen-list"></exercise-choosen-list-stub>"
+"<div>
+  <div modelvalue="false" isscrollable="" data-test="exercise-modal">
+    <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="exercise-choose-list"></exercise-choose-list-stub>
+  </div>
+  <exercise-choosen-list-stub choosenexercises="[object Object],[object Object]" data-test="exercise-choosen-list"></exercise-choosen-list-stub>
+</div>"
 `;
