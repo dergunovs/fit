@@ -1,7 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseChoosenButtons > matches snapshot 1`] = `
-"<div class="_buttons_4f7886"><button type="button" class="_arrow_4f7886 _button_4f7886" data-test="exercise-choose-buttons-index-down"> ⇑ </button><button type="button" class="_arrow_4f7886 _button_4f7886" data-test="exercise-choose-buttons-index-up"> ⇓ </button><button type="button" class="_button_4f7886 _set_4f7886" data-test="exercise-choose-buttons-create-set"> +Сет</button><span class="_button_4f7886" data-test="exercise-choose-buttons-repeats">x4</span>
+"<div class="_buttons_4f7886"><button type="button" class="_arrow_4f7886 _button_4f7886" data-test="exercise-choose-buttons-index-down">
+    <anonymous-stub width="16" height="16" class="_rotateArrow_4f7886"></anonymous-stub>
+  </button><button type="button" class="_arrow_4f7886 _button_4f7886" data-test="exercise-choose-buttons-index-up">
+    <anonymous-stub width="16" height="16"></anonymous-stub>
+  </button><button type="button" class="_button_4f7886 _set_4f7886" data-test="exercise-choose-buttons-create-set"> +Сет</button><span class="_button_4f7886" data-test="exercise-choose-buttons-repeats">x4</span>
   <div class="_button_4f7886" data-test="exercise-choose-buttons-weight">
     <anonymous-stub width="14" height="14"></anonymous-stub> 16 кг
   </div><button type="button" class="_button_4f7886 _delete_4f7886" data-test="exercise-choose-buttons-delete">Удалить</button>

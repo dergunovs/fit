@@ -7,7 +7,7 @@
       :class="[$style.arrow, $style.button]"
       data-test="exercise-choose-buttons-index-down"
     >
-      ⇑
+      <IconArrow width="16" height="16" :class="$style.rotateArrow" />
     </button>
 
     <button
@@ -17,7 +17,7 @@
       :class="[$style.arrow, $style.button]"
       data-test="exercise-choose-buttons-index-up"
     >
-      ⇓
+      <IconArrow width="16" height="16" />
     </button>
 
     <button
@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+import IconArrow from '@/common/icons/arrow.svg';
 import IconWeight from '@/common/icons/weight.svg';
 
 import { useTI18n } from '@/common/composables';
@@ -86,9 +87,9 @@ const { t } = useTI18n();
   gap: 2px;
   align-items: center;
   justify-content: center;
-  min-width: 26px;
+  min-width: 32px;
   height: 24px;
-  padding: 4px 8px;
+  padding: 0 6px;
   font-size: 0.875rem;
   -webkit-user-select: none;
   user-select: none;
@@ -121,6 +122,10 @@ const { t } = useTI18n();
   font-size: 1rem;
   color: var(--color-primary);
   cursor: pointer;
+}
+
+.rotateArrow {
+  rotate: 180deg;
 }
 
 .set {
