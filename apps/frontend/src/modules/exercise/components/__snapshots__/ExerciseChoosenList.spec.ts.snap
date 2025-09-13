@@ -4,8 +4,8 @@ exports[`ExerciseChoosenList > matches snapshot 1`] = `
 "<div column="">
   <h3>Упражнения</h3>
   <transition-group-stub name="list" tag="div" appear="false" persisted="false" css="true" class="_block_cca4eb">
-    <exercise-choosen-element-stub exercise="[object Object]" index="0" issetcreatable="false" islast="false" data-test="exercise-choosen"></exercise-choosen-element-stub>
-    <exercise-choosen-element-stub exercise="[object Object]" index="1" issetcreatable="true" islast="true" data-test="exercise-choosen"></exercise-choosen-element-stub>
+    <exercise-element-stub exercise="[object Object]" index="0" isedit="true" issetcreatable="false" islast="false" ishidetitle="false" isdone="false" istofailure="false" isfutureactivity="false" data-test="exercise-choosen-element"></exercise-element-stub>
+    <exercise-element-stub exercise="[object Object]" index="1" isedit="true" issetcreatable="true" islast="true" ishidetitle="false" isdone="false" istofailure="false" isfutureactivity="false" data-test="exercise-choosen-element"></exercise-element-stub>
   </transition-group-stub>
 </div>"
 `;

@@ -1,39 +1,44 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { dataTest } from 'mhz-helpers';
+import { dataTest, formatDuration } from 'mhz-helpers';
 
-import ExerciseChoosenButtons from './ExerciseChoosenButtons.vue';
+import ExerciseButtons from './ExerciseButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 
-const indexDown = dataTest('exercise-choose-buttons-index-down');
-const indexUp = dataTest('exercise-choose-buttons-index-up');
-const createSet = dataTest('exercise-choose-buttons-create-set');
-const repeats = dataTest('exercise-choose-buttons-repeats');
-const weight = dataTest('exercise-choose-buttons-weight');
-const deleteButton = dataTest('exercise-choose-buttons-delete');
+const indexDown = dataTest('exercise-buttons-index-down');
+const indexUp = dataTest('exercise-buttons-index-up');
+const createSet = dataTest('exercise-buttons-create-set');
+const repeats = dataTest('exercise-buttons-repeats');
+const weight = dataTest('exercise-buttons-weight');
+const notDone = dataTest('exercise-buttons-not-done');
+const toFailure = dataTest('exercise-buttons-to-failure');
+const duration = dataTest('exercise-buttons-duration');
+const deleteButton = dataTest('exercise-buttons-delete');
 
 const REPEATS = 4;
 const INDEX = 2;
 const WEIGHT = 16;
+const DURATION = 40;
 
-let wrapper: VueWrapper<InstanceType<typeof ExerciseChoosenButtons>>;
+let wrapper: VueWrapper<InstanceType<typeof ExerciseButtons>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChoosenButtons, {
-    repeats: REPEATS,
+  wrapper = wrapperFactory(ExerciseButtons, {
+    isEdit: true,
     isSetCreatable: true,
+    repeats: REPEATS,
     index: INDEX,
-    isLast: false,
     weight: WEIGHT,
+    duration: DURATION,
   });
 });
 
 enableAutoUnmount(afterEach);
 
-describe('ExerciseChoosenButtons', async () => {
+describe('ExerciseButtons', async () => {
   it('exists', async () => {
-    expect(wrapper.findComponent(ExerciseChoosenButtons)).toBeTruthy();
+    expect(wrapper.findComponent(ExerciseButtons)).toBeTruthy();
   });
 
   it('matches snapshot', async () => {
@@ -79,6 +84,43 @@ describe('ExerciseChoosenButtons', async () => {
   it('shows repeats and weight', async () => {
     expect(wrapper.find(repeats).text()).toBe(`x${REPEATS}`);
     expect(wrapper.find(weight).text()).toBe(`${WEIGHT} кг`);
+  });
+
+  it('hides not done, to failure and duration in edit mode', async () => {
+    expect(wrapper.find(notDone).exists()).toBe(false);
+    expect(wrapper.find(toFailure).exists()).toBe(false);
+    expect(wrapper.find(duration).exists()).toBe(false);
+  });
+
+  it('shows not done, to failure and duration in view mode, and hides buttons', async () => {
+    await wrapper.setProps({ isEdit: false, isToFailure: true });
+
+    expect(wrapper.find(notDone).exists()).toBe(true);
+    expect(wrapper.find(toFailure).exists()).toBe(true);
+    expect(wrapper.find(duration).exists()).toBe(true);
+
+    expect(wrapper.find(indexDown).exists()).toBe(false);
+    expect(wrapper.find(indexUp).exists()).toBe(false);
+    expect(wrapper.find(createSet).exists()).toBe(false);
+    expect(wrapper.find(deleteButton).exists()).toBe(false);
+  });
+
+  it('hides not done in future activities', async () => {
+    expect(wrapper.find(notDone).exists()).toBe(false);
+
+    await wrapper.setProps({ isEdit: false });
+
+    expect(wrapper.find(notDone).exists()).toBe(true);
+
+    await wrapper.setProps({ isEdit: false, isFutureActivity: true });
+
+    expect(wrapper.find(notDone).exists()).toBe(false);
+  });
+
+  it('shows formatted duration', async () => {
+    await wrapper.setProps({ isEdit: false });
+
+    expect(wrapper.find(duration).text()).toBe(formatDuration(DURATION));
   });
 
   it('emits updated index', async () => {

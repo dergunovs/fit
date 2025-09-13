@@ -7,7 +7,7 @@ import { API_ACTIVITY, API_ACTIVITY_CALENDAR } from 'fitness-tracker-contracts';
 import ActivityInfo from './ActivityInfo.vue';
 import ActivityTimeline from './ActivityTimeline.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
-import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
+import ExerciseElement from '@/exercise/components/ExerciseElement.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -35,7 +35,7 @@ const sets = dataTest('activity-info-sets');
 const toFailurePercent = dataTest('activity-info-to-failure-percent');
 const restPercent = dataTest('activity-info-rest-percent');
 const muscleStatistics = dataTest('activity-info-muscle-statistics');
-const exercise = dataTest('activity-info-exercise');
+const exercise = dataTest('activity-info-exercise-element');
 const startActivity = dataTest('activity-info-start');
 const deleteActivity = dataTest('activity-info-delete');
 const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
@@ -105,7 +105,7 @@ describe('ActivityInfo', async () => {
 
   it('shows exercises', async () => {
     expect(wrapper.findAll(exercise).length).toBe(exercises.length);
-    expect(wrapper.findComponent<typeof ExerciseTitle>(exercise).props('exercise')).toStrictEqual(exercises[0]);
+    expect(wrapper.findComponent<typeof ExerciseElement>(exercise).props('exercise')).toStrictEqual(exercises[0]);
   });
 
   it('starts activity in popup', async () => {

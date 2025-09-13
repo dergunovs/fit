@@ -1,0 +1,106 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
+import { dataTest } from 'mhz-helpers';
+
+import ExerciseElement from './ExerciseElement.vue';
+import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
+
+import { wrapperFactory } from '@/common/test';
+import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
+
+const title = dataTest('exercise-choosen-title');
+const buttons = dataTest('exercise-buttons');
+
+const INDEX = 1;
+const IS_SET_CREATABLE = true;
+const IS_LAST = false;
+const IS_EDIT = true;
+const IS_DONE = false;
+const IS_TO_FAILURE = false;
+const DURATION = 0;
+const IS_FUTURE_ACTIVITY = false;
+
+let wrapper: VueWrapper<InstanceType<typeof ExerciseElement>>;
+
+beforeEach(() => {
+  wrapper = wrapperFactory(ExerciseElement, {
+    exercise: EXERCISE_CHOOSEN_FIXTURE,
+    index: INDEX,
+    isSetCreatable: IS_SET_CREATABLE,
+    isLast: IS_LAST,
+    isEdit: IS_EDIT,
+    isDone: IS_DONE,
+    isToFailure: IS_TO_FAILURE,
+    duration: DURATION,
+    isFutureActivity: IS_FUTURE_ACTIVITY,
+  });
+});
+
+enableAutoUnmount(afterEach);
+
+describe('ExerciseElement', async () => {
+  it('exists', async () => {
+    expect(wrapper.findComponent(ExerciseElement)).toBeTruthy();
+  });
+
+  it('matches snapshot', async () => {
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it('shows and hides title', async () => {
+    expect(wrapper.find(title).text()).toBe(`${INDEX + 1}. ${EXERCISE_CHOOSEN_FIXTURE.exercise?.title}`);
+
+    await wrapper.setProps({ isEdit: false });
+
+    expect(wrapper.find(title).text()).toBe(EXERCISE_CHOOSEN_FIXTURE.exercise?.title);
+
+    await wrapper.setProps({ isHideTitle: true });
+
+    expect(wrapper.find(title).exists()).toBe(false);
+  });
+
+  it('passes props to buttons', async () => {
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('repeats')).toBe(
+      EXERCISE_CHOOSEN_FIXTURE.repeats
+    );
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('weight')).toBe(
+      EXERCISE_CHOOSEN_FIXTURE.weight
+    );
+
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('index')).toBe(INDEX);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isLast')).toBe(IS_LAST);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isSetCreatable')).toBe(IS_SET_CREATABLE);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isLast')).toBe(IS_LAST);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isEdit')).toBe(IS_EDIT);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isDone')).toBe(IS_DONE);
+  });
+
+  it('emits events from buttons', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('createSet');
+    expect(wrapper.emitted()).not.toHaveProperty('delete');
+    expect(wrapper.emitted()).not.toHaveProperty('setIndex');
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('createSet');
+
+    expect(wrapper.emitted('createSet')).toHaveLength(1);
+    expect(wrapper.emitted()['createSet'][0]).toStrictEqual([]);
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('delete', EXERCISE_CHOOSEN_FIXTURE._id);
+
+    expect(wrapper.emitted('delete')).toHaveLength(1);
+    expect(wrapper.emitted()['delete'][0]).toStrictEqual([EXERCISE_CHOOSEN_FIXTURE._id]);
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('setIndex', INDEX + 1);
+
+    expect(wrapper.emitted('setIndex')).toHaveLength(1);
+    expect(wrapper.emitted()['setIndex'][0]).toStrictEqual([INDEX + 1]);
+  });
+
+  it('hides buttons when no exercise id', async () => {
+    expect(wrapper.find(buttons).exists()).toBe(true);
+
+    await wrapper.setProps({ exercise: { _id: undefined, repeats: 0 } });
+
+    expect(wrapper.find(buttons).exists()).toBe(false);
+  });
+});

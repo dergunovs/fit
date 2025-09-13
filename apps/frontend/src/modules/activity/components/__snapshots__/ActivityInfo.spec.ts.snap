@@ -16,8 +16,8 @@ exports[`ActivityInfo > matches snapshot 1`] = `
   </div>
   <muscle-statistics-stub statistics="[object Object],[object Object],[object Object],[object Object]" data-test="activity-info-muscle-statistics"></muscle-statistics-stub>
   <div column="">
-    <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
-    <exercise-title-stub exercise="[object Object]" ishidetitle="false" ishideduration="false" data-test="activity-info-exercise"></exercise-title-stub>
+    <exercise-element-stub exercise="[object Object]" index="0" duration="43" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="true" istofailure="true" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
+    <exercise-element-stub exercise="[object Object]" index="1" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="false" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
   </div>
   <div>
     <div class="_margin_871dab" data-test="form-buttons-layout-margin"></div>

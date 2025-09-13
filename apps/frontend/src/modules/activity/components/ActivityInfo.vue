@@ -57,13 +57,17 @@
     />
 
     <UiFlex column>
-      <ExerciseTitle
+      <ExerciseElement
         v-for="(exercise, index) in props.exercises"
         :key="exercise._id"
         :exercise="exercise"
+        :index="index"
+        :duration="exercise.duration"
+        :isFutureActivity="isFutureActivity"
         :isHideTitle="isPrevExerciseSame(props.exercises, index, exercise.exercise?._id)"
-        :isHideDuration="isFutureActivity"
-        data-test="activity-info-exercise"
+        :isDone="exercise.isDone"
+        :isToFailure="exercise.isToFailure"
+        data-test="activity-info-exercise-element"
       />
     </UiFlex>
 
@@ -127,7 +131,7 @@ import {
 } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
-import ExerciseTitle from '@/exercise/components/ExerciseTitle.vue';
+import ExerciseElement from '@/exercise/components/ExerciseElement.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 import IconDate from '@/common/icons/date.svg';

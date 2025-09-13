@@ -3,17 +3,18 @@
     <h3>{{ t('exercise.many') }}</h3>
 
     <TransitionGroup name="list" tag="div" :class="$style.block">
-      <ExerciseChoosenElement
+      <ExerciseElement
         v-for="(exercise, index) in props.choosenExercises"
         :key="exercise._id"
         :exercise="exercise"
+        isEdit
         :index="index"
         :isLast="index === props.choosenExercises.length - 1"
         :isSetCreatable="isSetCreatable(props.choosenExercises, index, exercise.exercise?._id)"
         @delete="(id) => emit('delete', id)"
         @createSet="emit('createSet')"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
-        data-test="exercise-choosen"
+        data-test="exercise-choosen-element"
       />
     </TransitionGroup>
   </UiFlex>
@@ -23,7 +24,7 @@
 import { UiFlex } from 'mhz-ui';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
-import ExerciseChoosenElement from '@/exercise/components/ExerciseChoosenElement.vue';
+import ExerciseElement from '@/exercise/components/ExerciseElement.vue';
 
 import { isSetCreatable } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
