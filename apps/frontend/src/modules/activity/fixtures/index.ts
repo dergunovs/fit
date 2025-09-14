@@ -218,7 +218,7 @@ export const ACTIVITIES_STATISTICS_FIXTURE: TGetActivitiesStatisticsDTO = {
 export const ACTIVITY_CALENDAR_EVENTS: IActivityCalendarEvent<IExerciseDone>[] = [
   {
     _id: '1',
-    color: 'linear-gradient(135deg, #00CED1 36%, #000080 36%, #000080 72%, #C41E3A 72%, #C41E3A 100%)',
+    color: 'linear-gradient(135deg, #00CED1 36%, #0000ff 36%, #0000ff 72%, #C41E3A 72%, #C41E3A 100%)',
     content: [
       {
         _id: '1',

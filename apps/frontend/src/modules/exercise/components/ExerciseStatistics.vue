@@ -117,4 +117,16 @@ function showExercise(exercise: IExerciseStatistics) {
     align-self: flex-start;
   }
 }
+
+:global(.dark) {
+  .count {
+    color: var(--color-white);
+  }
+
+  .title {
+    &[data-equipment='false'] {
+      color: var(--color-gray-dark);
+    }
+  }
+}
 </style>

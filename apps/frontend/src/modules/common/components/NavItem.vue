@@ -46,7 +46,7 @@ const route = useRoute();
   &:hover,
   &[data-active='true'] {
     color: var(--color-white);
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
   }
 
   &[data-bottom='true'] {

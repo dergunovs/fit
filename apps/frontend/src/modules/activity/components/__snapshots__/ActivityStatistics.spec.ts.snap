@@ -3,16 +3,16 @@
 exports[`ActivityStatistics > matches snapshot 1`] = `
 "<div>
   <div column="">
-    <div column="" gap="0"><b>Данные за месяц</b>
-      <div><span>Время: <span data-test="activity-statistics-total-duration">387 мин. 01 сек.</span>
+    <div column="" gap="0"><b class="_text_54247b">Данные за месяц</b>
+      <div class="_text_54247b"><span>Время: <span data-test="activity-statistics-total-duration">387 мин. 01 сек.</span>
         <dynamic-percent-stub percent="10"></dynamic-percent-stub>, </span><span>занятия: <span data-test="activity-statistics-total-count">10</span>
         <dynamic-percent-stub percent="20"></dynamic-percent-stub>, </span><span>подходы: <span data-test="activity-statistics-total-sets">251</span>
         <dynamic-percent-stub percent="17"></dynamic-percent-stub>, </span><span>повторы: <span data-test="activity-statistics-total-repeats">3153</span>
         <dynamic-percent-stub percent="24"></dynamic-percent-stub></span>
       </div>
     </div>
-    <div column="" gap="0"><b>В среднем</b>
-      <div><span>Время: <span data-test="activity-statistics-average-duration">38 мин. 42 сек.</span>
+    <div column="" gap="0"><b class="_text_54247b">В среднем</b>
+      <div class="_text_54247b"><span>Время: <span data-test="activity-statistics-average-duration">38 мин. 42 сек.</span>
         <dynamic-percent-stub percent="-13"></dynamic-percent-stub>, </span><span>подходов в занятии: <span data-test="activity-statistics-average-sets">25</span>
         <dynamic-percent-stub percent="-4"></dynamic-percent-stub>, </span><span>повторов в подходе: <span data-test="activity-statistics-average-repeats">13</span>
         <dynamic-percent-stub percent="15"></dynamic-percent-stub>, </span><span>отдых: <span data-test="activity-statistics-average-rest">49%</span>

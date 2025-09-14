@@ -2,9 +2,9 @@
   <div>
     <UiFlex column>
       <UiFlex column gap="0">
-        <b>{{ t('activity.monthData') }}</b>
+        <b :class="$style.text">{{ t('activity.monthData') }}</b>
 
-        <div>
+        <div :class="$style.text">
           <span>
             {{ t('duration') }}:
             <span data-test="activity-statistics-total-duration">
@@ -30,9 +30,9 @@
       </UiFlex>
 
       <UiFlex column gap="0">
-        <b>{{ t('average') }}</b>
+        <b :class="$style.text">{{ t('average') }}</b>
 
-        <div>
+        <div :class="$style.text">
           <span>
             {{ t('duration') }}:
             <span data-test="activity-statistics-average-duration">{{
@@ -78,3 +78,11 @@ const props = defineProps<IProps>();
 
 const { t, locale } = useTI18n();
 </script>
+
+<style module lang="scss">
+:global(.dark) {
+  .text {
+    color: var(--color-white);
+  }
+}
+</style>

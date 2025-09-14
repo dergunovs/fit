@@ -22,15 +22,16 @@ const props = defineProps<IProps>();
 <style module lang="scss">
 .dynamics {
   font-size: 0.75rem;
-  color: var(--color-gray-dark-extra);
+  color: var(--color-gray-dark);
 
   &[data-positive='true'] {
-    color: var(--color-success-dark);
+    font-weight: 700;
+    color: var(--color-success);
   }
 
   &[data-negative='true'] {
     font-weight: 700;
-    color: var(--color-error-dark);
+    color: var(--color-error);
   }
 }
 </style>

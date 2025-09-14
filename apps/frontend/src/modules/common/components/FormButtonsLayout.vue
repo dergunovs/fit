@@ -39,4 +39,13 @@ const props = defineProps<IProps>();
     border-top: 2px solid var(--color-gray);
   }
 }
+
+:global(.dark) {
+  .buttons {
+    &[data-fixed='true'] {
+      background-color: var(--color-gray-dark-extra);
+      border-top: 2px solid var(--color-gray-dark);
+    }
+  }
+}
 </style>

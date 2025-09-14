@@ -10,7 +10,7 @@ exports[`MuscleStatistics > matches snapshot 1`] = `
         <td data-test="muscle-repeats">12</td>
       </tr>
       <tr data-test="muscle-row">
-        <td style="color: #000080;" data-test="muscle-title">Ноги</td>
+        <td style="color: #0000ff;" data-test="muscle-title">Ноги</td>
         <td data-test="muscle-sets">1</td>
         <td data-test="muscle-repeats">12</td>
       </tr>

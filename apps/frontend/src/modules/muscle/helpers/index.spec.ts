@@ -8,7 +8,7 @@ describe('muscle helpers', () => {
   test('generates muscle group statistics for ru locale', async () => {
     const muscleGroupStatistics = [
       { repeats: 12, sets: 1, title: 'Грудь', color: '#00CED1' },
-      { repeats: 12, sets: 1, title: 'Ноги', color: '#000080' },
+      { repeats: 12, sets: 1, title: 'Ноги', color: '#0000ff' },
       { repeats: 12, sets: 1, title: 'Плечи', color: '#C41E3A' },
       { repeats: 12, sets: 1, title: 'Пресс', color: '#32CD32' },
     ];
@@ -21,7 +21,7 @@ describe('muscle helpers', () => {
   test('generates muscle group statistics for en locale', async () => {
     const muscleGroupStatistics = [
       { repeats: 12, sets: 1, title: 'Chest', color: '#00CED1' },
-      { repeats: 12, sets: 1, title: 'Legs', color: '#000080' },
+      { repeats: 12, sets: 1, title: 'Legs', color: '#0000ff' },
       { repeats: 12, sets: 1, title: 'Shoulders', color: '#C41E3A' },
       { repeats: 12, sets: 1, title: 'Abs', color: '#32CD32' },
     ];

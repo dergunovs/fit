@@ -88,7 +88,7 @@ describe('activity helpers', () => {
     expect(getActivityColor(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE, false)).toBe('black');
 
     expect(getActivityColor(EXERCISES_DONE_FIXTURE, MUSCLES_FIXTURE, true)).toBe(
-      'linear-gradient(135deg, #00CED1 33%, #000080 33%, #000080 66%, #C41E3A 66%, #C41E3A 99%)'
+      'linear-gradient(135deg, #00CED1 33%, #0000ff 33%, #0000ff 66%, #C41E3A 66%, #C41E3A 99%)'
     );
 
     const musclesWithTwoColors = [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]];
@@ -105,7 +105,7 @@ describe('activity helpers', () => {
     ];
 
     expect(getActivityColor(exercisesWithTwoMuscles, musclesWithTwoColors, true)).toBe(
-      'linear-gradient(135deg, #00CED1 50%, #000080 50%, #000080 100%)'
+      'linear-gradient(135deg, #00CED1 50%, #0000ff 50%, #0000ff 100%)'
     );
   });
 });

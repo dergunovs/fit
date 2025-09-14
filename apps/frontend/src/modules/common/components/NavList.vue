@@ -42,7 +42,7 @@ const props = defineProps<IProps>();
     height: var(--panel-height);
     padding: 8px 16px;
     color: var(--color-white);
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
     border-top: 4px solid var(--color-accent);
   }
 }

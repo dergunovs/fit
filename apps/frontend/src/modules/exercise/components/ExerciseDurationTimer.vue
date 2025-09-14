@@ -49,4 +49,14 @@ onMounted(() => {
     color: var(--color-black);
   }
 }
+
+:global(.dark) {
+  .timer {
+    color: var(--color-gray-dark-extra);
+
+    &[data-active='true'] {
+      color: var(--color-gray);
+    }
+  }
+}
 </style>

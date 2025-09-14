@@ -12,7 +12,7 @@ exports[`MuscleList > matches snapshot 1`] = `
     <tr data-test="muscle-table-row">
       <td data-grow=""><a to="/muscles/edit/67debcc6e7b58ba56888a196" data-test="muscle-table-title-link">Ноги<span> (Legs)</span></a></td>
       <td>
-        <div style="color: #000080;">#000080</div>
+        <div style="color: #0000ff;">#0000ff</div>
       </td>
     </tr>
     <tr data-test="muscle-table-row">

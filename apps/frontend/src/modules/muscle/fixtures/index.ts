@@ -13,7 +13,7 @@ export const MUSCLES_FIXTURE: IMuscle[] = [
   {
     title: 'Ноги',
     title_en: 'Legs',
-    color: '#000080',
+    color: '#0000ff',
     _id: '67debcc6e7b58ba56888a196',
     dateCreated: '2025-03-22T13:36:06.250Z',
   },

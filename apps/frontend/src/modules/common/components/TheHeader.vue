@@ -10,6 +10,10 @@
     </RouterLink>
 
     <UiFlex justify="flex-end">
+      <UiButton @click="toggleDarkMode" layout="plain" data-test="header-dark-mode">
+        <IconDarkMode />
+      </UiButton>
+
       <UiButton @click="toggleLocale" layout="plain" data-test="header-locale">
         {{ locale.toUpperCase() }}
       </UiButton>
@@ -44,9 +48,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { UiButton, UiFlex } from 'mhz-ui';
-import { isAuth, logout, deleteAuthHeader } from 'mhz-helpers';
+import { isAuth, logout, deleteAuthHeader, useDarkMode } from 'mhz-helpers';
 
 import IconLogo from '@/common/icons/logo.svg';
+import IconDarkMode from '@/common/icons/dark-mode.svg';
 
 import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME, URL_HELP } from '@/common/constants';
@@ -70,6 +75,7 @@ const router = useRouter();
 
 const { t, locale } = useTI18n();
 const { toggleLocale } = useLocale();
+const { toggleDarkMode } = useDarkMode();
 
 const version = import.meta.env.VITE_VERSION;
 </script>
@@ -111,6 +117,18 @@ const version = import.meta.env.VITE_VERSION;
 @media (max-width: 960px) {
   .header {
     padding: 8px 12px;
+  }
+}
+
+:global(.dark) {
+  .header {
+    background-color: var(--color-black);
+    border-bottom: 1px solid var(--color-gray-dark-extra);
+  }
+
+  .logo,
+  .version {
+    color: var(--color-gray-light);
   }
 }
 </style>

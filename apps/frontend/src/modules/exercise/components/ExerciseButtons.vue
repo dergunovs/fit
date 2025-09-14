@@ -170,4 +170,22 @@ const { t, locale } = useTI18n();
 .error {
   color: var(--color-error);
 }
+
+:global(.dark) {
+  .buttons {
+    border-color: var(--color-gray-dark-extra);
+  }
+
+  .button {
+    border-left-color: var(--color-gray-dark-extra);
+  }
+
+  .success {
+    color: var(--color-success);
+  }
+
+  .error {
+    color: var(--color-error-light);
+  }
+}
 </style>

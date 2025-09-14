@@ -65,4 +65,16 @@ const widthWithPx = computed(() => `${width}px`);
     border-bottom-right-radius: 8px;
   }
 }
+
+:global(.dark) {
+  .step {
+    &[data-type='rest'] {
+      background-color: var(--color-gray-dark-extra);
+    }
+
+    &[data-type='exercise'] {
+      background-color: var(--color-primary-dark);
+    }
+  }
+}
 </style>

@@ -193,4 +193,21 @@ function sendDurationData(duration: number) {
     color: var(--color-black);
   }
 }
+
+:global(.dark) {
+  .element {
+    &[data-current='true'] {
+      border-top: 16px solid var(--color-gray-dark-extra);
+      border-bottom: 16px solid var(--color-gray-dark-extra);
+    }
+  }
+
+  .title {
+    color: var(--color-gray-dark);
+
+    &[data-current='true'] {
+      color: var(--color-gray);
+    }
+  }
+}
 </style>

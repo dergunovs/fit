@@ -81,12 +81,23 @@ const title = computed(() => {
   padding: 6px 10px;
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
-  border-radius: 10px;
+  border-radius: 8px;
 
   &[data-hide='true'] {
     margin-top: -14px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+}
+
+:global(.dark) {
+  .exercise {
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark-extra);
+
+    &[data-hide='true'] {
+      border-top: none;
+    }
   }
 }
 </style>
