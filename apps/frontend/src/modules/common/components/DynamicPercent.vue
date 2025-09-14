@@ -25,8 +25,7 @@ const props = defineProps<IProps>();
   color: var(--color-gray-dark);
 
   &[data-positive='true'] {
-    font-weight: 700;
-    color: var(--color-success);
+    color: var(--color-success-dark);
   }
 
   &[data-negative='true'] {
