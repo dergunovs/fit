@@ -92,7 +92,7 @@ function setCurrentMuscle(id?: string) {
   padding: 4px 1px;
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--color-gray-dark-extra);
+  color: var(--color-gray-dark);
   text-decoration: underline;
   cursor: pointer;
   background: none;

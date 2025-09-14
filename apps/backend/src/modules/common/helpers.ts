@@ -46,5 +46,5 @@ export async function sendMail(text: string, to: string) {
   await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'App-fit.ru', text });
 }
 
-export const defaultColor = '#4d44b2';
+export const defaultColor = '#484195';
 export const goalColor = '#bbb';

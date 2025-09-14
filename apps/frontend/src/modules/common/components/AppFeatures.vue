@@ -78,4 +78,10 @@ const APP_FEATURES = computed(() => [
     padding: 24px;
   }
 }
+
+:global(.dark) {
+  .title {
+    color: var(--color-white);
+  }
+}
 </style>

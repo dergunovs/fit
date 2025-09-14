@@ -44,7 +44,7 @@ const props = defineProps<IProps>();
   .buttons {
     &[data-fixed='true'] {
       background-color: var(--color-gray-dark-extra);
-      border-top: 2px solid var(--color-gray-dark);
+      border-top: 2px solid var(--color-primary-dark);
     }
   }
 }
