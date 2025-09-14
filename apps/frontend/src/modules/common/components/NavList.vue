@@ -57,7 +57,10 @@ const props = defineProps<IProps>();
 
 :global(.dark) {
   .nav {
+    background-color: var(--color-black);
+
     &[data-bottom='true'] {
+      background-color: var(--color-primary-dark);
       border-top: 4px solid var(--color-accent-dark);
     }
   }

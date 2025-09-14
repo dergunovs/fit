@@ -34,9 +34,9 @@ const props = defineProps<IProps>();
     z-index: 1;
     width: 100%;
     height: var(--form-buttons-height);
-    padding: 12px;
+    padding: 10px 12px;
     background-color: var(--color-white);
-    border-top: 2px solid var(--color-gray);
+    border-top: 4px solid var(--color-gray);
   }
 }
 
@@ -44,7 +44,7 @@ const props = defineProps<IProps>();
   .buttons {
     &[data-fixed='true'] {
       background-color: var(--color-gray-dark-extra);
-      border-top: 2px solid var(--color-primary-dark);
+      border-top: 4px solid var(--color-accent-dark);
     }
   }
 }
