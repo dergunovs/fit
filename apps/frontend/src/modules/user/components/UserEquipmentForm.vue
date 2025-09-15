@@ -33,9 +33,14 @@
       <div>{{ t('addedWeights') }}</div>
 
       <UiFlex wrap>
-        <UiChip v-for="weight in choosenEquipmentWeights" :key="weight" data-test="user-added-weights">
-          <IconWeight width="16" height="16" /><span data-test="user-added-weight">{{ weight }}</span> {{ t('kg') }}
-          <UiClose @click="deleteWeight(weight)" isSmall isDelete data-test="user-delete-weight" />
+        <UiChip
+          v-for="weight in choosenEquipmentWeights"
+          :key="weight"
+          isDelete
+          @delete="deleteWeight(weight)"
+          data-test="user-added-weight"
+        >
+          <IconWeight width="16" height="16" /><span data-test="user-added-weight-kg">{{ weight }}</span> {{ t('kg') }}
         </UiChip>
       </UiFlex>
     </UiFlex>
@@ -67,6 +72,10 @@
         <UiChip
           v-for="equipment in props.modelValue"
           :key="`${equipment.equipment?._id}-${equipment.weights?.join()}`"
+          :isEdit="equipment.equipment?.isWeights"
+          isDelete
+          @edit="editEquipment(equipment)"
+          @delete="deleteEquipment(equipment.equipment?._id)"
           data-test="user-equipment"
         >
           <span data-test="user-equipment-title">{{ equipment.equipment?.[localeField('title', locale)] }}</span>
@@ -74,24 +83,6 @@
           <span v-for="weight in equipment.weights" :key="weight" data-test="user-equipment-weights">
             <span data-test="user-equipment-weight">{{ weight }}</span> {{ t('kg') }}
           </span>
-
-          <button
-            v-if="equipment.equipment?.isWeights"
-            type="button"
-            @click="editEquipment(equipment)"
-            :class="$style.edit"
-            data-test="user-equipment-edit"
-          >
-            <IconEdit width="20" height="20" />
-          </button>
-
-          <UiClose
-            v-if="equipment.equipment?._id"
-            @click="deleteEquipment(equipment.equipment._id)"
-            isSmall
-            isDelete
-            data-test="user-delete-equipment"
-          />
         </UiChip>
       </UiFlex>
     </UiFlex>
@@ -101,11 +92,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { IEquipment, IUserEquipment } from 'fitness-tracker-contracts';
-import { UiButton, UiFlex, UiInput, UiSelect, UiChip, UiClose } from 'mhz-ui';
+import { UiButton, UiFlex, UiInput, UiSelect, UiChip } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
 import IconWeight from '@/common/icons/weight.svg';
-import IconEdit from '@/common/icons/edit.svg';
 
 import { excludeChoosenUserEquipment } from '@/user/helpers';
 import { useTI18n } from '@/common/composables';
@@ -190,8 +180,10 @@ function saveEquipment() {
   resetEquipment();
 }
 
-function deleteEquipment(_id: string) {
-  const updatedEquipments = props.modelValue?.filter((equipment) => equipment.equipment?._id !== _id);
+function deleteEquipment(id?: string) {
+  if (!id) return;
+
+  const updatedEquipments = props.modelValue?.filter((equipment) => equipment.equipment?._id !== id);
 
   emit('update:modelValue', updatedEquipments);
 }
@@ -204,20 +196,3 @@ function resetEquipment() {
   isEditEquipment.value = false;
 }
 </script>
-
-<style module lang="scss">
-.edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  color: var(--color-black);
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  background: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-}
-</style>

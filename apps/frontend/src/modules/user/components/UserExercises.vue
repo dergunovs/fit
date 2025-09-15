@@ -1,18 +1,15 @@
 <template>
   <UiFlex column gap="16">
     <UiFlex wrap>
-      <UiChip v-for="exercise in props.exercises" :key="exercise._id" align="center" data-test="user-exercises">
+      <UiChip
+        v-for="exercise in props.exercises"
+        :key="exercise._id"
+        isEdit
+        @edit="emit('edit', exercise)"
+        align="center"
+        data-test="user-exercise"
+      >
         <span data-test="user-exercise-title">{{ exercise[localeField('title', locale)] }}</span>
-
-        <button
-          v-if="exercise._id"
-          @click="emit('edit', exercise)"
-          type="button"
-          :class="$style.edit"
-          data-test="user-exercise-edit"
-        >
-          <IconEdit width="20" height="20" />
-        </button>
       </UiChip>
     </UiFlex>
   </UiFlex>
@@ -22,8 +19,6 @@
 import { UiFlex, UiChip } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 import { IExercise } from 'fitness-tracker-contracts';
-
-import IconEdit from '@/common/icons/edit.svg';
 
 import { useTI18n } from '@/common/composables';
 
@@ -40,20 +35,3 @@ const emit = defineEmits<IEmit>();
 
 const { locale } = useTI18n();
 </script>
-
-<style module lang="scss">
-.edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  color: var(--color-black);
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  background: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-}
-</style>

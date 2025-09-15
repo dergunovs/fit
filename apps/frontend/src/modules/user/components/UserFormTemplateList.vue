@@ -4,8 +4,8 @@
       v-for="template in props.templates"
       :key="template._id"
       :template="template"
-      @edit="(template) => emit('edit', template)"
-      @delete="(id) => emit('delete', id)"
+      @edit="emit('edit', template)"
+      @delete="emit('delete', template._id)"
       data-test="user-form-template-element"
     />
   </UiFlex>
@@ -23,7 +23,7 @@ interface IProps {
 
 interface IEmit {
   edit: [template: IUserTemplate];
-  delete: [id: string];
+  delete: [id?: string];
 }
 
 const props = defineProps<IProps>();

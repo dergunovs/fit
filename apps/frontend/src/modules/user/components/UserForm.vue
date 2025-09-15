@@ -127,6 +127,10 @@
         :description="t('user.exercisesInfo')"
         data-test="user-form-tab"
       >
+        <UiButton @click="createExercise" data-test="user-form-add-exercise">
+          {{ t('exercise.addCustom') }}
+        </UiButton>
+
         <UserExercises
           v-if="exercisesCustom?.length"
           :exercises="exercisesCustom"
@@ -134,17 +138,12 @@
           data-test="user-form-exercises"
         />
 
-        <UiButton @click="createExercise" data-test="user-form-add-exercise">
-          {{ t('exercise.addCustom') }}
-        </UiButton>
-
         <UiModal v-model="isShowCreateExercise" isScrollable data-test="user-form-exercise-form-modal">
-          <h3>{{ t('exercise.addCustom') }}</h3>
-
           <ExerciseForm
             :exercise="currentExercise"
             isDisableRedirect
             :isFixed="false"
+            :isEdit="!!currentExercise?._id"
             @hide="hideExerciseModal"
             data-test="user-form-exercise-form"
           />
@@ -331,14 +330,18 @@ function saveTemplate(template: IUserTemplate) {
   formData.value.templates = formData.value.templates?.map((templateToUpdate) => {
     return templateToUpdate._id === template._id ? template : templateToUpdate;
   });
+
+  currentTemplate.value = undefined;
 }
 
 function editTemplate(template: IUserTemplate) {
-  isShowTemplateModal.value = true;
   currentTemplate.value = template;
+  isShowTemplateModal.value = true;
 }
 
-function deleteTemplate(id: string) {
+function deleteTemplate(id?: string) {
+  if (!id) return;
+
   isShowTemplateModal.value = false;
   formData.value.templates = formData.value.templates?.filter((template) => template._id !== id);
 }

@@ -109,7 +109,7 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal, UiSelect, UiField, UiInput } from 'mhz-ui';
-import { deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
+import { clone, deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   API_AUTH_GET,
@@ -203,7 +203,9 @@ function createTemplate() {
 
   isShowTemplatesModal.value = false;
 
-  const templateToCreate = { title: templateTitle.value, exercises: deleteTempId(formData.value.exercises) };
+  const templateExercises = clone(formData.value.exercises);
+
+  const templateToCreate = { title: templateTitle.value, exercises: deleteTempId(templateExercises) };
 
   const templates = user.value?.templates ? [...user.value.templates, templateToCreate] : [templateToCreate];
 

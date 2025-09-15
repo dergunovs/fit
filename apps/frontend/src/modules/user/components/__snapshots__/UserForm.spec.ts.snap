@@ -37,10 +37,9 @@ exports[`UserForm > matches snapshot 1`] = `
     </div>
     <div column="" gap="16" data-test="user-form-tab" style="display: none;">
       <h3 data-test="user-form-tab-title">Упражнения</h3>
-      <p data-test="user-form-tab-description">Добавьте до 20 своих упражнений.</p>
-      <user-exercises-stub exercises="[object Object]" data-test="user-form-exercises"></user-exercises-stub><button data-test="user-form-add-exercise">Добавить своё упражнение</button>
+      <p data-test="user-form-tab-description">Добавьте до 20 своих упражнений.</p><button data-test="user-form-add-exercise">Добавить своё упражнение</button>
+      <user-exercises-stub exercises="[object Object]" data-test="user-form-exercises"></user-exercises-stub>
       <div modelvalue="false" isscrollable="" data-test="user-form-exercise-form-modal">
-        <h3>Добавить своё упражнение</h3>
         <exercise-form-stub isedit="false" isdisableredirect="true" isfixed="false" data-test="user-form-exercise-form"></exercise-form-stub>
       </div>
     </div>

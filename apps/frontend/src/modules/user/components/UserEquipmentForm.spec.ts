@@ -1,6 +1,8 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { IEquipment } from 'fitness-tracker-contracts';
+import { UiChip } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
 import UserEquipmentForm from './UserEquipmentForm.vue';
@@ -13,12 +15,10 @@ import { excludeChoosenUserEquipment } from '@/user/helpers';
 const weightsCount = USER_FIXTURE.equipments?.[0].weights?.length || 0;
 
 const options = dataTest('user-equipment-options');
-const edit = dataTest('user-equipment-edit');
 const weight = dataTest('user-weight');
 const addWeight = dataTest('user-add-weight');
-const addedWeights = dataTest('user-added-weights');
 const addedWeight = dataTest('user-added-weight');
-const deleteWeight = dataTest('user-delete-weight');
+const addedWeightKg = dataTest('user-added-weight-kg');
 const equipment = dataTest('user-equipment');
 const equipmentTitle = dataTest('user-equipment-title');
 const equipmentWeights = dataTest('user-equipment-weights');
@@ -26,7 +26,6 @@ const equipmentWeight = dataTest('user-equipment-weight');
 const save = dataTest('user-save-equipment');
 const reset = dataTest('user-reset-equipment');
 const addEquipment = dataTest('user-add-equipment');
-const deleteEquipment = dataTest('user-delete-equipment');
 
 let wrapper: VueWrapper<InstanceType<typeof UserEquipmentForm>>;
 
@@ -56,7 +55,9 @@ describe('UserEquipmentForm', async () => {
     expect(wrapper.find(options).attributes('modelvalue')).toStrictEqual(undefined);
     expect((wrapper.vm as unknown as { choosenEquipment: IEquipment }).choosenEquipment).toStrictEqual(undefined);
 
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     expect(wrapper.find(options).attributes('isdisabled')).toStrictEqual('true');
     expect(wrapper.find(options).attributes('modelvalue')).not.toStrictEqual(undefined);
@@ -73,7 +74,9 @@ describe('UserEquipmentForm', async () => {
   it('shows weight input when equipment can have a weight', async () => {
     expect(wrapper.find(weight).exists()).toBe(false);
 
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     expect(wrapper.find(weight).exists()).toBe(true);
   });
@@ -82,7 +85,9 @@ describe('UserEquipmentForm', async () => {
     const OLD_WEIGHT = USER_FIXTURE.equipments?.[0].weights?.[0];
     const NEW_WEIGHT = 7;
 
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     expect(wrapper.find(addWeight).attributes('isdisabled')).toStrictEqual('true');
 
@@ -94,12 +99,12 @@ describe('UserEquipmentForm', async () => {
 
     expect(wrapper.find(addWeight).attributes('isdisabled')).toStrictEqual('false');
 
-    expect(wrapper.findAll(addedWeights).length).toBe(weightsCount);
+    expect(wrapper.findAll(addedWeight).length).toBe(weightsCount);
 
     await wrapper.find(addWeight).trigger('click');
 
-    expect(wrapper.findAll(addedWeights).length).toBe(weightsCount + 1);
-    expect(wrapper.findAll(addedWeight)[weightsCount].text()).toBe(NEW_WEIGHT.toString());
+    expect(wrapper.findAll(addedWeight).length).toBe(weightsCount + 1);
+    expect(wrapper.findAll(addedWeightKg)[weightsCount].text()).toBe(NEW_WEIGHT.toString());
 
     await wrapper.find(save).trigger('click');
 
@@ -114,13 +119,17 @@ describe('UserEquipmentForm', async () => {
   });
 
   it('deletes weight', async () => {
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
 
-    expect(wrapper.findAll(addedWeights).length).toBe(weightsCount);
+    await nextTick();
 
-    await wrapper.findAll(deleteWeight)[weightsCount - 1].trigger('click');
+    expect(wrapper.findAll(addedWeight).length).toBe(weightsCount);
 
-    expect(wrapper.findAll(addedWeights).length).toBe(weightsCount - 1);
+    wrapper.findAllComponents<typeof UiChip>(addedWeight)[weightsCount - 1].vm.$emit('delete');
+
+    await nextTick();
+
+    expect(wrapper.findAll(addedWeight).length).toBe(weightsCount - 1);
 
     await wrapper.find(save).trigger('click');
 
@@ -137,7 +146,9 @@ describe('UserEquipmentForm', async () => {
   it('deletes and adds equipment', async () => {
     if (!USER_FIXTURE.equipments) return;
 
-    await wrapper.findAll(deleteEquipment)[USER_FIXTURE.equipments?.length - 1].trigger('click');
+    wrapper.findAllComponents<typeof UiChip>(equipment)[USER_FIXTURE.equipments?.length - 1].vm.$emit('delete');
+
+    await nextTick();
 
     const updatedEquipments = USER_FIXTURE.equipments.slice(0, -1);
 
@@ -171,7 +182,9 @@ describe('UserEquipmentForm', async () => {
   });
 
   it('disables add weight button when weight is invalid (less than 1)', async () => {
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     await wrapper.findComponent(weight).setValue(-1);
 
@@ -179,7 +192,9 @@ describe('UserEquipmentForm', async () => {
   });
 
   it('disables add weight button when weight is invalid (greater than 500)', async () => {
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     await wrapper.findComponent(weight).setValue(501);
 
@@ -187,7 +202,9 @@ describe('UserEquipmentForm', async () => {
   });
 
   it('disables add weight button when weight is not a number', async () => {
-    await wrapper.find(edit).trigger('click');
+    wrapper.findComponent<typeof UiChip>(equipment).vm.$emit('edit');
+
+    await nextTick();
 
     await wrapper.findComponent(weight).setValue('abc');
 

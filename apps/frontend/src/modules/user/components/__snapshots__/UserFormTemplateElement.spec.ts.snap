@@ -1,9 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UserFormTemplateElement > matches snapshot 1`] = `
-"<div><span data-test="user-form-template-title">Заголовок шаблона</span><button type="button" class="_edit_0dc2e6" data-test="user-form-template-edit">
-    <anonymous-stub width="20" height="20"></anonymous-stub>
-  </button>
-  <ui-close-stub issmall="true" isdelete="true" data-test="user-form-template-delete"></ui-close-stub>
-</div>"
-`;
+exports[`UserFormTemplateElement > matches snapshot 1`] = `"<div isedit="" isdelete="" data-test="user-form-template"><span data-test="user-form-template-title">Заголовок шаблона</span></div>"`;

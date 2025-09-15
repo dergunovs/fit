@@ -3,15 +3,9 @@
 exports[`UserExercises > matches snapshot 1`] = `
 "<div column="" gap="16">
   <div wrap="">
-    <div align="center" data-test="user-exercises"><span data-test="user-exercise-title">Отжимание от скамьи</span><button type="button" class="_edit_55fb12" data-test="user-exercise-edit">
-        <anonymous-stub width="20" height="20"></anonymous-stub>
-      </button></div>
-    <div align="center" data-test="user-exercises"><span data-test="user-exercise-title">Подтягивание</span><button type="button" class="_edit_55fb12" data-test="user-exercise-edit">
-        <anonymous-stub width="20" height="20"></anonymous-stub>
-      </button></div>
-    <div align="center" data-test="user-exercises"><span data-test="user-exercise-title">Жим лёжа</span><button type="button" class="_edit_55fb12" data-test="user-exercise-edit">
-        <anonymous-stub width="20" height="20"></anonymous-stub>
-      </button></div>
+    <div isedit="" align="center" data-test="user-exercise"><span data-test="user-exercise-title">Отжимание от скамьи</span></div>
+    <div isedit="" align="center" data-test="user-exercise"><span data-test="user-exercise-title">Подтягивание</span></div>
+    <div isedit="" align="center" data-test="user-exercise"><span data-test="user-exercise-title">Жим лёжа</span></div>
   </div>
 </div>"
 `;
