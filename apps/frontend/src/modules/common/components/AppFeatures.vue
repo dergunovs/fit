@@ -83,5 +83,9 @@ const APP_FEATURES = computed(() => [
   .title {
     color: var(--color-white);
   }
+
+  .icon {
+    color: var(--color-white);
+  }
 }
 </style>

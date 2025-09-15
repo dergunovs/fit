@@ -211,8 +211,13 @@ function resetEquipment() {
   align-items: center;
   justify-content: center;
   padding: 2px;
+  color: var(--color-black);
   cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   background: none;
   border: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 </style>

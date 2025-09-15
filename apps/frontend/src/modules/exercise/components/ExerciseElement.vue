@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.exercise" :data-hide="props.isHideTitle">
-    <UiFlex column gap="2" align="flex-start">
+    <UiFlex column gap="2" align="flex-start" grow>
       <div v-if="!props.isHideTitle" data-test="exercise-choosen-title">
         {{ title }}
       </div>
