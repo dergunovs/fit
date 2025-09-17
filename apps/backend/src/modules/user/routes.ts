@@ -64,7 +64,20 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostUserFeedbackDataDTO; Reply: { 200: TPostUserFeedbackDTO } }>(
     API_USER_FEEDBACK,
-    { ...userPostFeedbackSchema },
+    {
+      ...userPostFeedbackSchema,
+      config: {
+        rateLimit: {
+          max: 2,
+          timeWindow: 300000,
+          errorResponseBuilder: (_req, context) => ({
+            message: 'Too many attempts. Try again later.',
+            code: 429,
+            retryAfter: context.after,
+          }),
+        },
+      },
+    },
     async function (request, reply) {
       await userService.feedback(request.body);
 

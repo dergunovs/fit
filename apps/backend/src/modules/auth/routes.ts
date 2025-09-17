@@ -71,7 +71,7 @@ export default async function (fastify: IFastifyInstance) {
           max: 3,
           timeWindow: 300000,
           errorResponseBuilder: (_req, context) => ({
-            message: 'Too many registration attempts. Please try again later.',
+            message: 'Too many attempts. Try again later.',
             code: 429,
             retryAfter: context.after,
           }),

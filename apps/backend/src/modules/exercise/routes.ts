@@ -72,7 +72,21 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
     API_EXERCISE,
-    { preValidation: [fastify.onlyUser], ...exercisePostSchema },
+    {
+      preValidation: [fastify.onlyUser],
+      ...exercisePostSchema,
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: 10000,
+          errorResponseBuilder: (_req, context) => ({
+            message: 'Too many attempts. Try again later.',
+            code: 429,
+            retryAfter: context.after,
+          }),
+        },
+      },
+    },
     async function (request, reply) {
       await exerciseService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 

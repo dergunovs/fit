@@ -45,7 +45,21 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostEquipmentDataDTO; Reply: { 201: TPostEquipmentDTO } }>(
     API_EQUIPMENT,
-    { preValidation: [fastify.onlyAdmin], ...equipmentPostSchema },
+    {
+      preValidation: [fastify.onlyAdmin],
+      ...equipmentPostSchema,
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: 10000,
+          errorResponseBuilder: (_req, context) => ({
+            message: 'Too many attempts. Try again later.',
+            code: 429,
+            retryAfter: context.after,
+          }),
+        },
+      },
+    },
     async function (request, reply) {
       await equipmentService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 
