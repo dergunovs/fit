@@ -1,3 +1,4 @@
+import { RateLimitOptions } from '@fastify/rate-limit';
 import { IPaginatedReply } from 'fitness-tracker-contracts';
 import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
@@ -45,6 +46,16 @@ export async function sendMail(text: string, to: string) {
 
   await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'App-fit.ru', text });
 }
+
+export const rateLimit: RateLimitOptions = {
+  max: 5,
+  timeWindow: 10000,
+  errorResponseBuilder: (_req, context) => ({
+    message: 'Too many attempts. Try again later.',
+    code: 429,
+    retryAfter: context.after,
+  }),
+};
 
 export const defaultColor = '#484195';
 export const goalColor = '#bbb';

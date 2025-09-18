@@ -21,6 +21,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
+import { rateLimit } from '../common/helpers.js';
 import { activityService } from './service.js';
 import {
   activityDeleteSchema,
@@ -104,21 +105,7 @@ export default async function (fastify: IFastifyInstance) {
 
   fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO } }>(
     API_ACTIVITY,
-    {
-      preValidation: [fastify.onlyUser],
-      ...activityPostSchema,
-      config: {
-        rateLimit: {
-          max: 2,
-          timeWindow: 100000,
-          errorResponseBuilder: (_req, context) => ({
-            message: 'Too many attempts. Try again later.',
-            code: 429,
-            retryAfter: context.after,
-          }),
-        },
-      },
-    },
+    { preValidation: [fastify.onlyUser], ...activityPostSchema, config: { rateLimit } },
     async function (request, reply) {
       const id = await activityService.create(request.body, fastify.jwt.decode, request.headers.authorization);
 

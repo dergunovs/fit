@@ -21,6 +21,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { IFastifyInstance } from '../common/types.js';
+import { rateLimit } from '../common/helpers.js';
 import { authService } from './service.js';
 import {
   authGetSchema,
@@ -62,28 +63,11 @@ export default async function (fastify: IFastifyInstance) {
     Body: TPostAuthRegisterDataDTO;
     Querystring: TPostAuthRegisterQueryDTO;
     Reply: { 201: TPostAuthRegisterDTO };
-  }>(
-    API_AUTH_REGISTER,
-    {
-      ...authRegisterSchema,
-      config: {
-        rateLimit: {
-          max: 3,
-          timeWindow: 300000,
-          errorResponseBuilder: (_req, context) => ({
-            message: 'Too many attempts. Try again later.',
-            code: 429,
-            retryAfter: context.after,
-          }),
-        },
-      },
-    },
-    async function (request, reply) {
-      await authService.register(request.body, request.query.lang, fastify.jwt.sign);
+  }>(API_AUTH_REGISTER, { ...authRegisterSchema, config: { rateLimit } }, async function (request, reply) {
+    await authService.register(request.body, request.query.lang, fastify.jwt.sign);
 
-      reply.code(201).send({ message: 'User created' });
-    }
-  );
+    reply.code(201).send({ message: 'User created' });
+  });
 
   fastify.post<{ Body: TPostAuthConfirmTokenDataDTO; Reply: { 200: TPostAuthConfirmTokenDTO } }>(
     API_AUTH_CONFIRM,
