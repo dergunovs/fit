@@ -48,8 +48,8 @@ export async function sendMail(text: string, to: string) {
 }
 
 export const rateLimit: RateLimitOptions = {
-  max: 5,
-  timeWindow: 10000,
+  max: Number(process.env.RATE_LIMIT_MAX) || 5,
+  timeWindow: Number(process.env.RATE_LIMIT_TIME_WINDOW) || 10000,
   errorResponseBuilder: (_req, context) => ({
     message: 'Too many attempts. Try again later.',
     code: 429,
