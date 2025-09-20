@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseRepeats > matches snapshot 1`] = `"<div modelvalue="12" options="8,10,12,15,20" title="Повторы" istall="true" isinput="" data-test="exercise-repeats"><input type="number"></div>"`;

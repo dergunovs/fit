@@ -10,13 +10,7 @@
         />
       </UiField>
 
-      <UiButtongroup
-        v-model="choosenExercise.repeats"
-        :options="EXERCISE_REPEATS_OPTIONS"
-        :title="t('repeat.many')"
-        isInput
-        data-test="exercise-repeats"
-      />
+      <ExerciseRepeats v-model="choosenExercise.repeats" data-test="exercise-choosen-repeats" />
 
       <UiFlex justify="space-between">
         <UiButton @click="addExercises(1)" data-test="exercise-add-1">{{ t('add') }}</UiButton>
@@ -33,10 +27,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
-import { UiButton, UiButtongroup, UiField, UiFlex, UiSelect } from 'mhz-ui';
+import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
-import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
+import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
+
+import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
 import { getDefaultExerciseWeight } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
 

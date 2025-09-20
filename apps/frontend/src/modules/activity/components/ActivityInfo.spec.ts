@@ -5,13 +5,12 @@ import { UiModal } from 'mhz-ui';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR } from 'fitness-tracker-contracts';
 
 import ActivityInfo from './ActivityInfo.vue';
-import ActivityTimeline from './ActivityTimeline.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import ExerciseElement from '@/exercise/components/ExerciseElement.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
-import { EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
+import { EXERCISES_ALL_DONE_FIXTURE, EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
 import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { mockOnSuccess, spyDeleteActivity } from '@/activity/mocks';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
@@ -45,7 +44,7 @@ const goBackButton = dataTest('activity-info-go-back-button');
 const id = '123';
 const start = new Date('01-01-2025');
 const end = new Date('01-02-2025');
-const exercises = EXERCISES_DONE_FIXTURE;
+const exercises = EXERCISES_ALL_DONE_FIXTURE;
 const isPopup = false;
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityInfo>>;
@@ -73,13 +72,12 @@ describe('ActivityInfo', async () => {
     expect(wrapper.find(activityInfo).attributes('data-scrollable')).toBe(true.toString());
   });
 
-  it('shows timeline in popup', async () => {
+  it('shows timeline only when all exercises is done', async () => {
+    expect(wrapper.find(timeline).exists()).toBe(true);
+
+    await wrapper.setProps({ exercises: EXERCISES_DONE_FIXTURE });
+
     expect(wrapper.find(timeline).exists()).toBe(false);
-
-    await wrapper.setProps({ isPopup: true });
-
-    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).props('exercises')).toStrictEqual(exercises);
-    expect(wrapper.findComponent<typeof ActivityTimeline>(timeline).props('start')).toStrictEqual(start);
   });
 
   it('shows start and duration time', async () => {

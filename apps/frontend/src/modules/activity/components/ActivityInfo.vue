@@ -2,7 +2,7 @@
   <UiFlex column gap="16" :data-scrollable="props.isPopup" data-test="activity-info">
     <UiFlex gap="4" align="center" wrap>
       <ActivityTimeline
-        v-if="props.isPopup && props.exercises[0].dateUpdated"
+        v-if="isExercisesDone"
         :exercises="props.exercises"
         :start="props.start"
         data-test="activity-timeline"
@@ -178,7 +178,7 @@ const { data: muscles } = muscleService.getAll();
 const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 
 const isFutureActivity = computed(() => !!(props.start && props.start > new Date()));
-const isExercisesDone = computed(() => props.exercises.some((exercise) => exercise.isDone));
+const isExercisesDone = computed(() => !props.exercises.some((exercise) => !exercise.isDone));
 
 const { mutate: mutateDelete } = activityService.delete({
   onSuccess: async () => {

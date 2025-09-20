@@ -30,7 +30,9 @@
       +{{ t('set.super') }}
     </button>
 
-    <span :class="$style.button" data-test="exercise-buttons-repeats">x{{ props.repeats }}</span>
+    <button @click="handleEditRepeats" :class="$style.button" type="button" data-test="exercise-buttons-repeats">
+      x{{ props.repeats }}
+    </button>
 
     <div v-if="props.weight" :class="$style.button" data-test="exercise-buttons-weight">
       <IconWeight width="14" height="14" /> {{ props.weight }} {{ t('kg') }}
@@ -96,12 +98,17 @@ interface IEmit {
   delete: [];
   createSet: [];
   setIndex: [index: number];
+  editRepeats: [];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const { t, locale } = useTI18n();
+
+function handleEditRepeats() {
+  if (props.isEdit) emit('editRepeats');
+}
 </script>
 
 <style module lang="scss">
@@ -128,6 +135,7 @@ const { t, locale } = useTI18n();
   height: 24px;
   padding: 0 7px;
   font-size: 0.875rem;
+  cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   background: none;

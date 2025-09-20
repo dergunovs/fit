@@ -13,7 +13,7 @@ const exercise = dataTest('exercise-element');
 const title = dataTest('exercise-title');
 const button = dataTest('exercise-button');
 const toFailure = dataTest('exercise-to-failure');
-const repeats = dataTest('exercise-repeats');
+const repeats = dataTest('exercise-passing-repeats');
 const duration = dataTest('exercise-duration');
 
 let wrapper: VueWrapper<InstanceType<typeof ExercisePassingElement>>;
@@ -152,20 +152,5 @@ describe('ExercisePassingElement', async () => {
 
     expect(wrapper.find(toFailure).attributes('isdisabled')).toBe('false');
     expect(wrapper.find(toFailure).attributes('modelvalue')).toBe('false');
-  });
-
-  it('handles repeats choice', async () => {
-    await wrapper.setProps({ isCurrentExercise: true, activeExerciseId: exerciseNotDone._id });
-
-    expect(wrapper.find(repeats).attributes('options')).toBe(
-      [
-        exerciseNotDone.repeats - 2,
-        exerciseNotDone.repeats - 1,
-        exerciseNotDone.repeats,
-        exerciseNotDone.repeats + 1,
-        exerciseNotDone.repeats + 2,
-      ].join(',')
-    );
-    expect(wrapper.find(repeats).attributes('modelvalue')).toBe(exerciseNotDone.repeats.toString());
   });
 });

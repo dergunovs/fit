@@ -11,7 +11,7 @@ import { mockTempId } from '@/common/mocks';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { getAvailableExerciseWeights, getDefaultExerciseWeight } from '@/exercise/helpers';
 
-const exerciseRepeats = dataTest('exercise-repeats');
+const exerciseRepeats = dataTest('exercise-choosen-repeats');
 const exerciseWeight = dataTest('exercise-weight');
 const exerciseAdd1 = dataTest('exercise-add-1');
 const exerciseAdd2 = dataTest('exercise-add-2');

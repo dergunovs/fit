@@ -20,6 +20,7 @@
       @delete="deleteExercise"
       @createSet="createSet"
       @setIndex="updateIndex"
+      @setRepeats="updateRepeats"
       data-test="exercise-choosen-list"
     />
   </div>
@@ -76,6 +77,16 @@ function updateIndex(updatedIndex: number) {
   if (!props.modelValue) return;
 
   const updatedExercises = updateExercisesIndex(props.modelValue, updatedIndex);
+
+  emit('update:modelValue', updatedExercises);
+}
+
+function updateRepeats(updatedRepeats: number, id?: string) {
+  if (!props.modelValue || !id) return;
+
+  const updatedExercises = props.modelValue.map((exercise) =>
+    exercise._id === id ? { ...exercise, repeats: updatedRepeats } : exercise
+  );
 
   emit('update:modelValue', updatedExercises);
 }

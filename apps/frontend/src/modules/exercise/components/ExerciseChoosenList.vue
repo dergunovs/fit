@@ -14,6 +14,7 @@
         @delete="(id) => emit('delete', id)"
         @createSet="emit('createSet')"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
+        @setRepeats="(repeats) => emit('setRepeats', repeats, exercise._id)"
         data-test="exercise-choosen-element"
       />
     </TransitionGroup>
@@ -37,6 +38,7 @@ interface IEmit {
   delete: [id: string];
   createSet: [];
   setIndex: [index: number];
+  setRepeats: [repeats: number, id?: string];
 }
 
 const props = defineProps<IProps>();
@@ -57,13 +59,13 @@ const { t } = useTI18n();
 .list-enter-active,
 .list-leave-active,
 .list-move {
-  transition: all 300ms ease;
+  transition: all 200ms ease;
 }
 
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(-30px);
+  transform: translateY(-20px);
 }
 
 .list-leave-active {

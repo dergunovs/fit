@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.exercise" :data-hide="props.isHideTitle">
-    <UiFlex column gap="2" align="flex-start" grow>
+    <UiFlex column gap="4" align="flex-start" grow>
       <div v-if="!props.isHideTitle" data-test="exercise-choosen-title">
         {{ title }}
       </div>
@@ -20,19 +20,31 @@
         @createSet="emit('createSet')"
         @delete="emit('delete', props.exercise._id)"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
+        @editRepeats="toggleExerciseRepeats"
         data-test="exercise-buttons"
       />
+
+      <Transition name="slide" mode="out-in">
+        <ExerciseRepeats
+          v-show="isShowEditRepeats"
+          :modelValue="props.exercise.repeats"
+          :baseRepeat="props.exercise.repeats"
+          @update:modelValue="updateRepeats"
+          data-test="exercise-repeats"
+        />
+      </Transition>
     </UiFlex>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
 import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
+import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 
 import { useTI18n } from '@/common/composables';
 
@@ -53,12 +65,15 @@ interface IEmit {
   delete: [id: string];
   createSet: [];
   setIndex: [index: number];
+  setRepeats: [repeats: number];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const { t, locale } = useTI18n();
+
+const isShowEditRepeats = ref(false);
 
 const title = computed(() => {
   const isExerciseExists = !!props.exercise.exercise;
@@ -71,6 +86,16 @@ const title = computed(() => {
 
   return `${props.index + 1}. ${exerciseTitle}`;
 });
+
+function toggleExerciseRepeats() {
+  isShowEditRepeats.value = !isShowEditRepeats.value;
+}
+
+function updateRepeats(repeats: number) {
+  emit('setRepeats', repeats);
+
+  toggleExerciseRepeats();
+}
 </script>
 
 <style module lang="scss">
@@ -78,7 +103,7 @@ const title = computed(() => {
   display: flex;
   gap: 12px;
   justify-content: space-between;
-  padding: 6px 10px;
+  padding: 8px 12px;
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;
@@ -99,5 +124,18 @@ const title = computed(() => {
       border-top: none;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 200ms ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>

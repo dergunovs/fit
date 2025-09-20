@@ -77,8 +77,19 @@ export const EXERCISE_DONE_FIXTURE: IExerciseDone = {
   dateUpdated: new Date('2024-11-30T07:34:57.304Z'),
 };
 
-export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
+export const EXERCISE_DONE_FIXTURE_2: IExerciseDone = {
   _id: '2',
+  exercise: EXERCISE_FIXTURE_2,
+  repeats: EXERCISE_REPEATS_DEFAULT,
+  weight: 0,
+  duration: 17,
+  isToFailure: false,
+  isDone: true,
+  dateUpdated: new Date('2024-11-30T07:35:57.304Z'),
+};
+
+export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
+  _id: '3',
   exercise: EXERCISE_FIXTURE_2,
   repeats: EXERCISE_REPEATS_DEFAULT,
   weight: 0,
@@ -89,6 +100,8 @@ export const EXERCISE_NOT_DONE_FIXTURE: IExerciseDone = {
 };
 
 export const EXERCISES_DONE_FIXTURE: IExerciseDone[] = [EXERCISE_DONE_FIXTURE, EXERCISE_NOT_DONE_FIXTURE];
+
+export const EXERCISES_ALL_DONE_FIXTURE: IExerciseDone[] = [EXERCISE_DONE_FIXTURE, EXERCISE_DONE_FIXTURE_2];
 
 export const EXERCISE_STATISTICS_FIXTURE: IExerciseStatistics = {
   exercise: EXERCISE_FIXTURE,

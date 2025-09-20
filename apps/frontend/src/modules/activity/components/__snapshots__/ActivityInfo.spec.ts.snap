@@ -3,7 +3,7 @@
 exports[`ActivityInfo > matches snapshot 1`] = `
 "<div column="" gap="16" data-scrollable="false" data-test="activity-info">
   <div gap="4" align="center" wrap="">
-    <!--v-if-->
+    <activity-timeline-stub exercises="[object Object],[object Object]" start="Wed Jan 01 2025 00:00:00 GMT+0000 (Всемирное координированное время)" data-test="activity-timeline"></activity-timeline-stub>
     <div>
       <div gap="2" align="center" data-test="activity-info-start-date">
         <anonymous-stub width="16" height="16"></anonymous-stub> 1 янв. 2025 г.
@@ -17,7 +17,7 @@ exports[`ActivityInfo > matches snapshot 1`] = `
   <muscle-statistics-stub statistics="[object Object],[object Object],[object Object],[object Object]" data-test="activity-info-muscle-statistics"></muscle-statistics-stub>
   <div column="">
     <exercise-element-stub exercise="[object Object]" index="0" duration="43" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="true" istofailure="true" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
-    <exercise-element-stub exercise="[object Object]" index="1" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="false" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
+    <exercise-element-stub exercise="[object Object]" index="1" duration="17" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="true" istofailure="false" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
   </div>
   <div>
     <div class="_margin_871dab" data-test="form-buttons-layout-margin"></div>

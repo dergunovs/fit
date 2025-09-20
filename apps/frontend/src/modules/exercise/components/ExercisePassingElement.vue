@@ -31,13 +31,11 @@
         data-test="exercise-to-failure"
       />
 
-      <UiButtongroup
+      <ExerciseRepeats
         v-model="repeats"
-        :options="repeatsOptions"
-        :title="t('repeat.many')"
         isTall
-        isInput
-        data-test="exercise-repeats"
+        :baseRepeat="props.exercise.repeats"
+        data-test="exercise-passing-repeats"
       />
 
       <ExerciseDurationTimer :start="start" :stop="stop" @stop="sendDurationData" data-test="exercise-duration" />
@@ -47,10 +45,11 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { UiButton, UiCheckbox, UiButtongroup } from 'mhz-ui';
+import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
 import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';
+import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 
 import { getExercisePassingTitle } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
@@ -82,14 +81,6 @@ const repeats = ref(props.exercise.repeats);
 const isCurrentExerciseActive = computed(() => props.exercise._id === props.activeExerciseId);
 
 const isButtonDisabled = ref(false);
-
-const repeatsOptions = [
-  props.exercise.repeats - 2,
-  props.exercise.repeats - 1,
-  props.exercise.repeats,
-  props.exercise.repeats + 1,
-  props.exercise.repeats + 2,
-];
 
 const buttonTitle = computed(() => (isCurrentExerciseActive.value ? t('finish') : t('start')));
 
