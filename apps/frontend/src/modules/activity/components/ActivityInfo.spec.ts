@@ -72,10 +72,14 @@ describe('ActivityInfo', async () => {
     expect(wrapper.find(activityInfo).attributes('data-scrollable')).toBe(true.toString());
   });
 
-  it('shows timeline only when all exercises is done', async () => {
+  it('shows timeline only in popup when all exercises is done', async () => {
+    expect(wrapper.find(timeline).exists()).toBe(false);
+
+    await wrapper.setProps({ isPopup: true });
+
     expect(wrapper.find(timeline).exists()).toBe(true);
 
-    await wrapper.setProps({ exercises: EXERCISES_DONE_FIXTURE });
+    await wrapper.setProps({ isPopup: true, exercises: EXERCISES_DONE_FIXTURE });
 
     expect(wrapper.find(timeline).exists()).toBe(false);
   });

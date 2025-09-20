@@ -2,7 +2,7 @@
   <UiFlex column gap="16" :data-scrollable="props.isPopup" data-test="activity-info">
     <UiFlex gap="4" align="center" wrap>
       <ActivityTimeline
-        v-if="isExercisesDone"
+        v-if="props.isPopup && isExercisesDone"
         :exercises="props.exercises"
         :start="props.start"
         data-test="activity-timeline"

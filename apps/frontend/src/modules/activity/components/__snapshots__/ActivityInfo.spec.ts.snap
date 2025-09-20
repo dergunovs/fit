@@ -3,7 +3,7 @@
 exports[`ActivityInfo > matches snapshot 1`] = `
 "<div column="" gap="16" data-scrollable="false" data-test="activity-info">
   <div gap="4" align="center" wrap="">
-    <activity-timeline-stub exercises="[object Object],[object Object]" start="Wed Jan 01 2025 00:00:00 GMT+0000 (Всемирное координированное время)" data-test="activity-timeline"></activity-timeline-stub>
+    <!--v-if-->
     <div>
       <div gap="2" align="center" data-test="activity-info-start-date">
         <anonymous-stub width="16" height="16"></anonymous-stub> 1 янв. 2025 г.
