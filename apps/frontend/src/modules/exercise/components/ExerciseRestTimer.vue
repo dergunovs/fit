@@ -27,7 +27,7 @@ onBeforeUnmount(() => {
 .timer {
   padding-bottom: 12px;
   font-size: 2rem;
-  color: var(--color-gray-dark-extra);
+  color: var(--color-gray-dark);
   text-align: center;
 }
 </style>

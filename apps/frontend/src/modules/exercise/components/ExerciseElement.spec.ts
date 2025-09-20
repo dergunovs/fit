@@ -1,15 +1,24 @@
+import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
+import { IExercise } from 'fitness-tracker-contracts';
 
 import ExerciseElement from './ExerciseElement.vue';
+import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
+import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
+import { getAvailableExerciseWeights } from '@/exercise/helpers';
+import { USER_FIXTURE } from '@/user/fixtures';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
 const title = dataTest('exercise-choosen-title');
 const buttons = dataTest('exercise-buttons');
+const repeats = dataTest('exercise-repeats');
+const weight = dataTest('exercise-weight');
 
 const INDEX = 1;
 const IS_SET_CREATABLE = true;
@@ -66,6 +75,9 @@ describe('ExerciseElement', async () => {
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('weight')).toBe(
       EXERCISE_CHOOSEN_FIXTURE.weight
     );
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isWeights')).toBe(
+      EXERCISE_CHOOSEN_FIXTURE.exercise?.isWeights
+    );
 
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('index')).toBe(INDEX);
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isLast')).toBe(IS_LAST);
@@ -73,6 +85,9 @@ describe('ExerciseElement', async () => {
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isLast')).toBe(IS_LAST);
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isEdit')).toBe(IS_EDIT);
     expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isDone')).toBe(IS_DONE);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isToFailure')).toBe(IS_TO_FAILURE);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('duration')).toBe(DURATION);
+    expect(wrapper.findComponent<typeof ExerciseButtons>(buttons).props('isFutureActivity')).toBe(IS_FUTURE_ACTIVITY);
   });
 
   it('emits events from buttons', async () => {
@@ -94,6 +109,68 @@ describe('ExerciseElement', async () => {
 
     expect(wrapper.emitted('setIndex')).toHaveLength(1);
     expect(wrapper.emitted()['setIndex'][0]).toStrictEqual([INDEX + 1]);
+  });
+
+  it('updates repeats', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('setRepeats');
+
+    expect(wrapper.find(repeats).isVisible()).toBe(false);
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('editRepeats');
+
+    await nextTick();
+
+    expect(wrapper.find(repeats).isVisible()).toBe(true);
+
+    expect(wrapper.findComponent<typeof ExerciseRepeats>(repeats).props('modelValue')).toStrictEqual(
+      EXERCISE_CHOOSEN_FIXTURE.repeats
+    );
+    expect(wrapper.findComponent<typeof ExerciseRepeats>(repeats).props('baseRepeat')).toStrictEqual(
+      EXERCISE_CHOOSEN_FIXTURE.repeats
+    );
+
+    const newRepeats = 2;
+
+    wrapper.findComponent<typeof ExerciseRepeats>(repeats).vm.$emit('update:modelValue', newRepeats);
+
+    await nextTick();
+
+    expect(wrapper.emitted('setRepeats')).toHaveLength(1);
+    expect(wrapper.emitted()['setRepeats'][0]).toStrictEqual([newRepeats]);
+
+    expect(wrapper.find(repeats).isVisible()).toBe(false);
+  });
+
+  it('updates weight', async () => {
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
+
+    expect(wrapper.emitted()).not.toHaveProperty('setWeight');
+
+    expect(wrapper.find(weight).isVisible()).toBe(false);
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('editWeight');
+
+    await nextTick();
+
+    expect(wrapper.find(weight).isVisible()).toBe(true);
+
+    expect(wrapper.findComponent<typeof ExerciseWeight>(weight).props('modelValue')).toStrictEqual(
+      EXERCISE_CHOOSEN_FIXTURE.weight
+    );
+    expect(wrapper.findComponent<typeof ExerciseWeight>(weight).props('options')).toStrictEqual(
+      getAvailableExerciseWeights(EXERCISE_CHOOSEN_FIXTURE.exercise as IExercise, USER_FIXTURE)
+    );
+
+    const newWeight = 20;
+
+    wrapper.findComponent<typeof ExerciseWeight>(weight).vm.$emit('update:modelValue', newWeight);
+
+    await nextTick();
+
+    expect(wrapper.emitted('setWeight')).toHaveLength(1);
+    expect(wrapper.emitted()['setWeight'][0]).toStrictEqual([newWeight]);
+
+    expect(wrapper.find(weight).isVisible()).toBe(false);
   });
 
   it('hides buttons when no exercise id', async () => {

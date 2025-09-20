@@ -21,6 +21,7 @@
       @createSet="createSet"
       @setIndex="updateIndex"
       @setRepeats="updateRepeats"
+      @setWeight="updateWeight"
       data-test="exercise-choosen-list"
     />
   </div>
@@ -34,7 +35,12 @@ import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
 
 import { exerciseService } from '@/exercise/services';
-import { addSetToExercises, updateExercisesIndex } from '@/exercise/helpers';
+import {
+  addSetToExercises,
+  updateExercisesIndex,
+  updateExercisesRepeats,
+  updateExercisesWeight,
+} from '@/exercise/helpers';
 
 interface IProps {
   isShowModal: boolean;
@@ -81,12 +87,18 @@ function updateIndex(updatedIndex: number) {
   emit('update:modelValue', updatedExercises);
 }
 
-function updateRepeats(updatedRepeats: number, id?: string) {
+function updateRepeats(repeats: number, id?: string) {
   if (!props.modelValue || !id) return;
 
-  const updatedExercises = props.modelValue.map((exercise) =>
-    exercise._id === id ? { ...exercise, repeats: updatedRepeats } : exercise
-  );
+  const updatedExercises = updateExercisesRepeats(props.modelValue, repeats, id);
+
+  emit('update:modelValue', updatedExercises);
+}
+
+function updateWeight(weight: number, id?: string) {
+  if (!props.modelValue || !id) return;
+
+  const updatedExercises = updateExercisesWeight(props.modelValue, weight, id);
 
   emit('update:modelValue', updatedExercises);
 }

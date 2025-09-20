@@ -3,7 +3,7 @@
 exports[`ExerciseChooseElement > matches snapshot 1`] = `
 "<div>
   <div column="" gap="16">
-    <fieldset label="Вес, кг"><input type="text" modelvalue="1" options="1,2,3" lang="ru" data-test="exercise-weight"></fieldset>
+    <exercise-weight-stub modelvalue="1" options="1,2,3" data-test="exercise-choosen-weight"></exercise-weight-stub>
     <exercise-repeats-stub modelvalue="12" options="8,10,12,15,20" istall="false" data-test="exercise-choosen-repeats"></exercise-repeats-stub>
     <div justify="space-between"><button data-test="exercise-add-1">Добавить</button>
       <div><button layout="secondary" isnarrow="" data-test="exercise-add-2">+2</button><button layout="secondary" isnarrow="" data-test="exercise-add-3">+3</button></div>

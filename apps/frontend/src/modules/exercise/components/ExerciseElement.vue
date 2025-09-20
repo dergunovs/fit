@@ -17,10 +17,12 @@
         :isToFailure="props.isToFailure"
         :duration="props.duration"
         :isFutureActivity="props.isFutureActivity"
+        :isWeights="props.exercise.exercise?.isWeights"
         @createSet="emit('createSet')"
         @delete="emit('delete', props.exercise._id)"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
         @editRepeats="toggleExerciseRepeats"
+        @editWeight="toggleExerciseWeight"
         data-test="exercise-buttons"
       />
 
@@ -31,6 +33,17 @@
           :baseRepeat="props.exercise.repeats"
           @update:modelValue="updateRepeats"
           data-test="exercise-repeats"
+        />
+      </Transition>
+
+      <Transition name="slide" mode="out-in">
+        <ExerciseWeight
+          v-if="props.exercise.exercise && user"
+          v-show="isShowEditWeight"
+          @update:modelValue="updateWeight"
+          :modelValue="props.exercise.weight"
+          :options="getAvailableExerciseWeights(props.exercise.exercise, user)"
+          data-test="exercise-weight"
         />
       </Transition>
     </UiFlex>
@@ -45,8 +58,11 @@ import { localeField } from 'mhz-helpers';
 
 import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
+import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 
 import { useTI18n } from '@/common/composables';
+import { getAvailableExerciseWeights } from '@/exercise/helpers';
+import { useAuthCheck } from '@/auth/composables';
 
 interface IProps {
   exercise: IExerciseChoosen;
@@ -66,14 +82,17 @@ interface IEmit {
   createSet: [];
   setIndex: [index: number];
   setRepeats: [repeats: number];
+  setWeight: [weight: number];
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const { t, locale } = useTI18n();
+const { user } = useAuthCheck();
 
 const isShowEditRepeats = ref(false);
+const isShowEditWeight = ref(false);
 
 const title = computed(() => {
   const isExerciseExists = !!props.exercise.exercise;
@@ -89,12 +108,24 @@ const title = computed(() => {
 
 function toggleExerciseRepeats() {
   isShowEditRepeats.value = !isShowEditRepeats.value;
+  isShowEditWeight.value = false;
+}
+
+function toggleExerciseWeight() {
+  isShowEditWeight.value = !isShowEditWeight.value;
+  isShowEditRepeats.value = false;
 }
 
 function updateRepeats(repeats: number) {
   emit('setRepeats', repeats);
 
   toggleExerciseRepeats();
+}
+
+function updateWeight(weight: number) {
+  emit('setWeight', weight);
+
+  toggleExerciseWeight();
 }
 </script>
 

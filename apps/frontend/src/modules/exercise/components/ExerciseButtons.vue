@@ -34,9 +34,15 @@
       x{{ props.repeats }}
     </button>
 
-    <div v-if="props.weight" :class="$style.button" data-test="exercise-buttons-weight">
+    <button
+      @click="handleEditWeight"
+      v-if="props.isEdit ? props.isWeights : !!props.weight"
+      :class="$style.button"
+      type="button"
+      data-test="exercise-buttons-weight"
+    >
       <IconWeight width="14" height="14" /> {{ props.weight }} {{ t('kg') }}
-    </div>
+    </button>
 
     <span
       v-if="!props.isEdit && !props.isDone && !props.isFutureActivity"
@@ -92,6 +98,7 @@ interface IProps {
   isToFailure?: boolean;
   duration?: number;
   isFutureActivity?: boolean;
+  isWeights?: boolean;
 }
 
 interface IEmit {
@@ -99,6 +106,7 @@ interface IEmit {
   createSet: [];
   setIndex: [index: number];
   editRepeats: [];
+  editWeight: [];
 }
 
 const props = defineProps<IProps>();
@@ -108,6 +116,10 @@ const { t, locale } = useTI18n();
 
 function handleEditRepeats() {
   if (props.isEdit) emit('editRepeats');
+}
+
+function handleEditWeight() {
+  if (props.isEdit) emit('editWeight');
 }
 </script>
 
@@ -133,8 +145,9 @@ function handleEditRepeats() {
   justify-content: center;
   min-width: 32px;
   height: 24px;
-  padding: 0 7px;
+  padding: 0 6px;
   font-size: 0.875rem;
+  color: var(--color-black);
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
@@ -185,6 +198,7 @@ function handleEditRepeats() {
   }
 
   .button {
+    color: var(--color-white);
     border-left-color: var(--color-gray-dark-extra);
   }
 

@@ -7,7 +7,7 @@ import ExerciseChooseElement from './ExerciseChooseElement.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_FIXTURE } from '@/exercise/fixtures';
-import { filterExercisesByTitleAndMuscle, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { filterExercisesByTitleAndMuscle } from '@/exercise/helpers';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { spyUseAuthCheck } from '@/auth/mocks';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
@@ -57,9 +57,6 @@ describe('ExerciseChooseList', async () => {
 
     expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('exercise')).toStrictEqual(
       filteredExercises[0]
-    );
-    expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('weights')).toStrictEqual(
-      getAvailableExerciseWeights(filteredExercises[0], USER_FIXTURE)
     );
   });
 

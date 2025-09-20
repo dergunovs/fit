@@ -113,8 +113,8 @@ describe('exercise helpers', () => {
 
   test('gets available exercise weights', async () => {
     expect(getAvailableExerciseWeights(EXERCISE_FIXTURE, USER_FIXTURE)).toStrictEqual([1, 2, 3]);
-    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual(undefined);
-    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual(undefined);
+    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE_2)).toStrictEqual([]);
+    expect(getAvailableExerciseWeights(EXERCISE_FIXTURE_2, USER_FIXTURE)).toStrictEqual([]);
   });
 
   test('gets exercises to choose default weight', async () => {

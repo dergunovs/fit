@@ -8,7 +8,7 @@ exports[`ExerciseChooseList > matches snapshot 1`] = `
   </div>
   <div column="">
     <div title="Отжимание от скамьи" data-test="exercise-spoiler">
-      <exercise-choose-element-stub exercise="[object Object]" weights="1,2,3" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>
+      <exercise-choose-element-stub exercise="[object Object]" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>
     </div>
     <div title="Подтягивание" data-test="exercise-spoiler">
       <exercise-choose-element-stub exercise="[object Object]" user="[object Object]" data-test="exercise-choose-element"></exercise-choose-element-stub>

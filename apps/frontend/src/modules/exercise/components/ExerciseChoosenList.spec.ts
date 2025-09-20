@@ -36,24 +36,39 @@ describe('ExerciseChoosenList', async () => {
 
   it('emits choosen exercise events', async () => {
     const INDEX = 1;
+    const ID = EXERCISES_CHOOSEN_FIXTURE[0]._id;
+    const REPEATS = 8;
+    const WEIGHT = 20;
 
     expect(wrapper.emitted()).not.toHaveProperty('createSet');
     expect(wrapper.emitted()).not.toHaveProperty('delete');
     expect(wrapper.emitted()).not.toHaveProperty('setIndex');
+    expect(wrapper.emitted()).not.toHaveProperty('setRepeats');
+    expect(wrapper.emitted()).not.toHaveProperty('setWeight');
 
     wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('createSet');
 
     expect(wrapper.emitted('createSet')).toHaveLength(1);
     expect(wrapper.emitted()['createSet'][0]).toStrictEqual([]);
 
-    wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('delete', EXERCISES_CHOOSEN_FIXTURE[0]._id);
+    wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('delete', ID);
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
-    expect(wrapper.emitted()['delete'][0]).toStrictEqual([EXERCISES_CHOOSEN_FIXTURE[0]._id]);
+    expect(wrapper.emitted()['delete'][0]).toStrictEqual([ID]);
 
     wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('setIndex', INDEX);
 
     expect(wrapper.emitted('setIndex')).toHaveLength(1);
     expect(wrapper.emitted()['setIndex'][0]).toStrictEqual([INDEX]);
+
+    wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('setRepeats', REPEATS, ID);
+
+    expect(wrapper.emitted('setRepeats')).toHaveLength(1);
+    expect(wrapper.emitted()['setRepeats'][0]).toStrictEqual([REPEATS, ID]);
+
+    wrapper.findComponent<typeof ExerciseElement>(exerciseChoosen).vm.$emit('setWeight', WEIGHT, ID);
+
+    expect(wrapper.emitted('setWeight')).toHaveLength(1);
+    expect(wrapper.emitted()['setWeight'][0]).toStrictEqual([WEIGHT, ID]);
   });
 });

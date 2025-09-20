@@ -8,11 +8,11 @@ import { wrapperFactory } from '@/common/test';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 import { EXERCISE_REPEATS_DEFAULT, EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
 import { mockTempId } from '@/common/mocks';
-import { USER_FIXTURE } from '@/user/fixtures';
+import { USER_FIXTURE, USER_FIXTURE_2 } from '@/user/fixtures';
 import { getAvailableExerciseWeights, getDefaultExerciseWeight } from '@/exercise/helpers';
 
 const exerciseRepeats = dataTest('exercise-choosen-repeats');
-const exerciseWeight = dataTest('exercise-weight');
+const exerciseWeight = dataTest('exercise-choosen-weight');
 const exerciseAdd1 = dataTest('exercise-add-1');
 const exerciseAdd2 = dataTest('exercise-add-2');
 const exerciseAdd3 = dataTest('exercise-add-3');
@@ -23,7 +23,7 @@ const defaultWeight = getDefaultExerciseWeight(EXERCISE_FIXTURE, USER_FIXTURE, w
 let wrapper: VueWrapper<InstanceType<typeof ExerciseChooseElement>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseChooseElement, { exercise: EXERCISE_FIXTURE, user: USER_FIXTURE, weights });
+  wrapper = wrapperFactory(ExerciseChooseElement, { exercise: EXERCISE_FIXTURE, user: USER_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);
@@ -57,6 +57,7 @@ describe('ExerciseChooseElement', async () => {
         title_en: EXERCISE_FIXTURE.title_en,
         isWeights: EXERCISE_FIXTURE.isWeights,
         isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
+        equipmentForWeight: EXERCISE_FIXTURE.equipmentForWeight,
       },
       repeats: EXERCISE_REPEATS_DEFAULT,
       weight: defaultWeight,
@@ -81,13 +82,13 @@ describe('ExerciseChooseElement', async () => {
   it('does not render weight field when exercise does not require weights', async () => {
     const exerciseWithoutWeights = { ...EXERCISE_FIXTURE, isWeights: false };
 
-    await wrapper.setProps({ exercise: exerciseWithoutWeights, user: USER_FIXTURE, weights: [] });
+    await wrapper.setProps({ exercise: exerciseWithoutWeights, user: USER_FIXTURE });
 
     expect(wrapper.find(exerciseWeight).exists()).toBe(false);
   });
 
   it('does not render weight field when no weights available', async () => {
-    await wrapper.setProps({ exercise: EXERCISE_FIXTURE, user: USER_FIXTURE, weights: [] });
+    await wrapper.setProps({ exercise: EXERCISE_FIXTURE, user: USER_FIXTURE_2 });
 
     expect(wrapper.find(exerciseWeight).exists()).toBe(false);
   });

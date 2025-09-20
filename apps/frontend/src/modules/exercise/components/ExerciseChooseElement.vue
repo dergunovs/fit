@@ -1,14 +1,12 @@
 <template>
   <div>
     <UiFlex column gap="16">
-      <UiField v-if="props.exercise.isWeights && props.weights?.length" :label="`${t('weight')}, ${t('kg')}`">
-        <UiSelect
-          v-model="choosenExercise.weight"
-          :options="props.weights"
-          :lang="locale"
-          data-test="exercise-weight"
-        />
-      </UiField>
+      <ExerciseWeight
+        v-if="props.exercise.isWeights && options.length > 0"
+        v-model="choosenExercise.weight"
+        :options="options"
+        data-test="exercise-choosen-weight"
+      />
 
       <ExerciseRepeats v-model="choosenExercise.repeats" data-test="exercise-choosen-repeats" />
 
@@ -25,21 +23,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
-import { UiButton, UiField, UiFlex, UiSelect } from 'mhz-ui';
+import { UiButton, UiFlex } from 'mhz-ui';
 import { createTempId } from 'mhz-helpers';
 
+import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 
 import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
-import { getDefaultExerciseWeight } from '@/exercise/helpers';
+import { getDefaultExerciseWeight, getAvailableExerciseWeights } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
 
 interface IProps {
   exercise: IExercise;
   user: IUser;
-  weights?: number[];
 }
 
 interface IEmit {
@@ -49,11 +47,13 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useTI18n();
+const { t } = useTI18n();
+
+const options = computed(() => getAvailableExerciseWeights(props.exercise, props.user));
 
 const choosenExercise = ref({
   repeats: EXERCISE_REPEATS_DEFAULT,
-  weight: getDefaultExerciseWeight(props.exercise, props.user, props.weights),
+  weight: getDefaultExerciseWeight(props.exercise, props.user, options.value),
 });
 
 function addExercises(count: number) {
@@ -66,6 +66,7 @@ function addExercises(count: number) {
       title_en: props.exercise?.title_en,
       isWeights: props.exercise?.isWeights,
       isWeightsRequired: props.exercise?.isWeightsRequired,
+      equipmentForWeight: props.exercise?.equipmentForWeight,
     };
 
     exercises.push({ _id: createTempId(), exercise, ...choosenExercise.value });

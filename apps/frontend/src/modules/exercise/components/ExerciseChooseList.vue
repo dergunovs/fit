@@ -31,7 +31,6 @@
         <ExerciseChooseElement
           v-if="user"
           :exercise="exercise"
-          :weights="getAvailableExerciseWeights(exercise, user)"
           :user="user"
           @add="(choosenExercises) => emit('choose', choosenExercises)"
           data-test="exercise-choose-element"
@@ -51,7 +50,7 @@ import ExerciseChooseElement from '@/exercise/components/ExerciseChooseElement.v
 
 import { useAuthCheck } from '@/auth/composables';
 import { muscleService } from '@/muscle/services';
-import { filterExercisesByTitleAndMuscle, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { filterExercisesByTitleAndMuscle } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
 
 interface IProps {

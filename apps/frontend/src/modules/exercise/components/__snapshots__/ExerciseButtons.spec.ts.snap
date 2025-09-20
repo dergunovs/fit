@@ -5,10 +5,9 @@ exports[`ExerciseButtons > matches snapshot 1`] = `
     <anonymous-stub width="16" height="16" class="_rotateArrow_dedec9"></anonymous-stub>
   </button><button type="button" class="_arrow_dedec9 _pointer_dedec9 _button_dedec9" data-test="exercise-buttons-index-up">
     <anonymous-stub width="16" height="16"></anonymous-stub>
-  </button><button type="button" class="_button_dedec9 _pointer_dedec9 _success_dedec9" data-test="exercise-buttons-create-set"> +Сет</button><button class="_button_dedec9" type="button" data-test="exercise-buttons-repeats"> x4</button>
-  <div class="_button_dedec9" data-test="exercise-buttons-weight">
+  </button><button type="button" class="_button_dedec9 _pointer_dedec9 _success_dedec9" data-test="exercise-buttons-create-set"> +Сет</button><button class="_button_dedec9" type="button" data-test="exercise-buttons-repeats"> x4</button><button class="_button_dedec9" type="button" data-test="exercise-buttons-weight">
     <anonymous-stub width="14" height="14"></anonymous-stub> 16 кг
-  </div>
+  </button>
   <!--v-if-->
   <!--v-if-->
   <!--v-if--><button type="button" class="_button_dedec9 _pointer_dedec9 _error_dedec9" data-test="exercise-buttons-delete">Удалить</button>

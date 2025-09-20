@@ -146,7 +146,7 @@ export function getAvailableExerciseWeights(exercise: IExercise, user: IUser) {
     exercise.equipmentForWeight?.some((eq) => eq._id === equipment.equipment?._id)
   );
 
-  if (!equipments?.length) return undefined;
+  if (!equipments?.length) return [];
 
   const weights = getWeightsForUserEquipment(equipments);
 
@@ -203,6 +203,18 @@ export function updateExercisesIndex(exercises: IExerciseChoosen[], index: numbe
 
   updatedExercises.splice(index, 1);
   updatedExercises.splice(index - 1, 0, exerciseToMove);
+
+  return updatedExercises;
+}
+
+export function updateExercisesRepeats(exercises: IExerciseChoosen[], repeats: number, id: string) {
+  const updatedExercises = exercises.map((exercise) => (exercise._id === id ? { ...exercise, repeats } : exercise));
+
+  return updatedExercises;
+}
+
+export function updateExercisesWeight(exercises: IExerciseChoosen[], weight: number, id: string) {
+  const updatedExercises = exercises.map((exercise) => (exercise._id === id ? { ...exercise, weight } : exercise));
 
   return updatedExercises;
 }

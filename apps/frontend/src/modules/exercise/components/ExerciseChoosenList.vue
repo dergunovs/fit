@@ -15,6 +15,7 @@
         @createSet="emit('createSet')"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
         @setRepeats="(repeats) => emit('setRepeats', repeats, exercise._id)"
+        @setWeight="(weight) => emit('setWeight', weight, exercise._id)"
         data-test="exercise-choosen-element"
       />
     </TransitionGroup>
@@ -39,6 +40,7 @@ interface IEmit {
   createSet: [];
   setIndex: [index: number];
   setRepeats: [repeats: number, id?: string];
+  setWeight: [weight: number, id?: string];
 }
 
 const props = defineProps<IProps>();

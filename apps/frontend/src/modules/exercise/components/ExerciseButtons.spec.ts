@@ -27,6 +27,7 @@ beforeEach(() => {
   wrapper = wrapperFactory(ExerciseButtons, {
     isEdit: true,
     isSetCreatable: true,
+    isWeights: true,
     repeats: REPEATS,
     index: INDEX,
     weight: WEIGHT,
@@ -76,7 +77,7 @@ describe('ExerciseButtons', async () => {
   it('hides weight info if no weight', async () => {
     expect(wrapper.find(weight).exists()).toBe(true);
 
-    await wrapper.setProps({ weight: undefined });
+    await wrapper.setProps({ isWeights: false });
 
     expect(wrapper.find(weight).exists()).toBe(false);
   });
@@ -137,13 +138,25 @@ describe('ExerciseButtons', async () => {
     expect(wrapper.emitted()['setIndex'][1]).toStrictEqual([INDEX + 1]);
   });
 
-  it('createSet', async () => {
+  it('emites createSet, repeats and weight', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('createSet');
+    expect(wrapper.emitted()).not.toHaveProperty('editRepeats');
+    expect(wrapper.emitted()).not.toHaveProperty('editWeight');
 
     await wrapper.find(createSet).trigger('click');
 
     expect(wrapper.emitted('createSet')).toHaveLength(1);
     expect(wrapper.emitted()['createSet'][0]).toStrictEqual([]);
+
+    await wrapper.find(repeats).trigger('click');
+
+    expect(wrapper.emitted('editRepeats')).toHaveLength(1);
+    expect(wrapper.emitted()['editRepeats'][0]).toStrictEqual([]);
+
+    await wrapper.find(weight).trigger('click');
+
+    expect(wrapper.emitted('editWeight')).toHaveLength(1);
+    expect(wrapper.emitted()['editWeight'][0]).toStrictEqual([]);
   });
 
   it('emits delete', async () => {

@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseWeight > matches snapshot 1`] = `"<fieldset label="Вес, кг"><input type="text" modelvalue="70" options="50,60,70,80,90" lang="ru" data-test="exercise-weight"></fieldset>"`;
