@@ -6,9 +6,10 @@ import {
   IMuscle,
   TLocale,
 } from 'fitness-tracker-contracts';
-import { createTempId, formatDuration, subtractDates } from 'mhz-helpers';
+import { formatDuration, subtractDates } from 'mhz-helpers';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
+import { generateExerciseChoosen } from '@/exercise/helpers';
 
 function generateActivityCSSGradients(colors: { percent: number; color: string | undefined }[]) {
   if (colors.length === 0) return '#000';
@@ -130,19 +131,7 @@ export function convertActivityCalendarEvents(
 
 export function generateActivityExercises(exercisesDone: IExerciseDone[]): IExerciseChoosen[] {
   const activityExercises = exercisesDone.map((exercise) => {
-    return {
-      _id: createTempId(),
-      exercise: {
-        _id: exercise.exercise?._id || '',
-        title: exercise.exercise?.title || '',
-        title_en: exercise.exercise?.title_en || '',
-        muscles: exercise.exercise?.muscles || [],
-        isWeights: exercise.exercise?.isWeights || false,
-        isWeightsRequired: exercise.exercise?.isWeightsRequired || false,
-      },
-      repeats: exercise.repeats,
-      weight: exercise.weight,
-    };
+    return generateExerciseChoosen(exercise.repeats, exercise.weight, exercise.exercise);
   });
 
   return activityExercises?.length ? [...activityExercises] : [];

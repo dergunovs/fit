@@ -26,13 +26,12 @@
 import { ref, computed } from 'vue';
 import { IExercise, IExerciseChoosen, IUser } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex } from 'mhz-ui';
-import { createTempId } from 'mhz-helpers';
 
 import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 
 import { EXERCISE_REPEATS_DEFAULT } from '@/exercise/constants';
-import { getDefaultExerciseWeight, getAvailableExerciseWeights } from '@/exercise/helpers';
+import { getDefaultExerciseWeight, getAvailableExerciseWeights, generateExerciseChoosen } from '@/exercise/helpers';
 import { useTI18n } from '@/common/composables';
 
 interface IProps {
@@ -60,16 +59,13 @@ function addExercises(count: number) {
   const exercises = [];
 
   for (let i = 0; i < count; i++) {
-    const exercise = {
-      _id: props.exercise?._id,
-      title: props.exercise?.title,
-      title_en: props.exercise?.title_en,
-      isWeights: props.exercise?.isWeights,
-      isWeightsRequired: props.exercise?.isWeightsRequired,
-      equipmentForWeight: props.exercise?.equipmentForWeight,
-    };
+    const exercise = generateExerciseChoosen(
+      choosenExercise.value.repeats,
+      choosenExercise.value.weight,
+      props.exercise
+    );
 
-    exercises.push({ _id: createTempId(), exercise, ...choosenExercise.value });
+    exercises.push(exercise);
   }
 
   emit('add', exercises);

@@ -57,6 +57,7 @@ describe('ExerciseChooseElement', async () => {
         title_en: EXERCISE_FIXTURE.title_en,
         isWeights: EXERCISE_FIXTURE.isWeights,
         isWeightsRequired: EXERCISE_FIXTURE.isWeightsRequired,
+        muscles: EXERCISE_FIXTURE.muscles,
         equipmentForWeight: EXERCISE_FIXTURE.equipmentForWeight,
       },
       repeats: EXERCISE_REPEATS_DEFAULT,

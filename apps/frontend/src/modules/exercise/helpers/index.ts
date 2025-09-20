@@ -218,3 +218,20 @@ export function updateExercisesWeight(exercises: IExerciseChoosen[], weight: num
 
   return updatedExercises;
 }
+
+export function generateExerciseChoosen(repeats: number, weight?: number, exercise?: IExercise): IExerciseChoosen {
+  return {
+    _id: createTempId(),
+    exercise: {
+      _id: exercise?._id || '',
+      title: exercise?.title || '',
+      title_en: exercise?.title_en || '',
+      muscles: exercise?.muscles || [],
+      isWeights: exercise?.isWeights || false,
+      isWeightsRequired: exercise?.isWeightsRequired || false,
+      equipmentForWeight: exercise?.equipmentForWeight,
+    },
+    repeats,
+    weight,
+  };
+}

@@ -1,5 +1,6 @@
 import {
   IActivity,
+  IExerciseChoosen,
   IExerciseDone,
   TGetActivitiesCalendarDTO,
   TGetActivitiesChartDTO,
@@ -362,7 +363,7 @@ export const ACTIVITY_CHART_FIXTURE: TGetActivitiesChartDTO = {
   ],
 };
 
-export const EXERCISES_GENERATED = [
+export const EXERCISES_GENERATED: IExerciseChoosen[] = [
   {
     _id: mockTempId,
     exercise: {
@@ -372,6 +373,15 @@ export const EXERCISES_GENERATED = [
       muscles: [MUSCLES_FIXTURE[0], MUSCLES_FIXTURE[1]],
       isWeights: true,
       isWeightsRequired: true,
+      equipmentForWeight: [
+        {
+          _id: '147456456',
+          dateCreated: '2025-01-09T15:01:04.310Z',
+          dateUpdated: '2025-01-10T10:42:06.333Z',
+          isWeights: true,
+          title: 'Гантели',
+        },
+      ],
     },
     repeats: 12,
     weight: 8,
@@ -385,6 +395,7 @@ export const EXERCISES_GENERATED = [
       muscles: [MUSCLES_FIXTURE[2], MUSCLES_FIXTURE[3]],
       isWeights: false,
       isWeightsRequired: false,
+      equipmentForWeight: undefined,
     },
     repeats: 12,
     weight: 0,
