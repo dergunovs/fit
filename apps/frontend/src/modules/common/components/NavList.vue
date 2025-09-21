@@ -42,7 +42,7 @@ const props = defineProps<IProps>();
     height: var(--panel-height);
     padding: 8px 16px;
     color: var(--color-white);
-    background-color: var(--color-primary-dark);
+    background-color: var(--color-primary);
     border-top: 4px solid var(--color-accent);
   }
 }
@@ -60,8 +60,8 @@ const props = defineProps<IProps>();
     background-color: var(--color-black);
 
     &[data-bottom='true'] {
-      background-color: var(--color-primary-dark);
-      border-top: 4px solid var(--color-accent-dark);
+      background-color: var(--color-primary);
+      border-top: 4px solid var(--color-accent);
     }
   }
 }

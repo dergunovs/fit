@@ -1,6 +1,6 @@
 <template>
-  <div :class="$style.exercise" :data-hide="props.isHideTitle">
-    <UiFlex column gap="4" align="flex-start" grow>
+  <div :class="$style.exercise" :data-hide="props.isHideTitle" :data-edit="props.isEdit">
+    <UiFlex column :gap="props.isEdit ? '4' : '2'" align="flex-start" grow>
       <div v-if="!props.isHideTitle" data-test="exercise-choosen-title">
         {{ title }}
       </div>
@@ -134,10 +134,14 @@ function updateWeight(weight: number) {
   display: flex;
   gap: 12px;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 6px 12px;
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;
+
+  &[data-edit='true'] {
+    padding: 8px 12px;
+  }
 
   &[data-hide='true'] {
     margin-top: -14px;

@@ -133,7 +133,7 @@ function handleEditWeight() {
   border-radius: 6px;
 
   &[data-edit='true'] {
-    height: 32px;
+    height: 36px;
     pointer-events: all;
   }
 }
@@ -147,6 +147,7 @@ function handleEditWeight() {
   height: 24px;
   padding: 0 6px;
   font-size: 0.875rem;
+  line-height: 1;
   color: var(--color-black);
   cursor: pointer;
   -webkit-user-select: none;

@@ -104,14 +104,14 @@ const version = import.meta.env.VITE_VERSION;
   font-size: 2rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--color-primary-dark);
+  color: var(--color-black);
 }
 
 .version {
   padding-left: 2px;
   font-size: 0.75rem;
   line-height: 0.8;
-  color: var(--color-gray-dark-extra);
+  color: var(--color-gray-dark);
 }
 
 @media (max-width: 960px) {

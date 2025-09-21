@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseElement > matches snapshot 1`] = `
-"<div class="_exercise_30bc63" data-hide="false">
+"<div class="_exercise_30bc63" data-hide="false" data-edit="true">
   <div column="" gap="4" align="flex-start" grow="">
     <div data-test="exercise-choosen-title">2. Отжимание от скамьи</div>
     <exercise-buttons-stub repeats="12" weight="0" index="1" duration="0" issetcreatable="true" islast="false" isedit="true" isdone="false" istofailure="false" isfutureactivity="false" isweights="true" data-test="exercise-buttons"></exercise-buttons-stub>
