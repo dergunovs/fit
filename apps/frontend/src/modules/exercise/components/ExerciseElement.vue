@@ -144,7 +144,6 @@ function updateWeight(weight: number) {
   gap: 12px;
   justify-content: space-between;
   padding: 6px 12px;
-  overflow: hidden;
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;

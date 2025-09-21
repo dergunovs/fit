@@ -1,12 +1,14 @@
 <template>
-  <div v-if="!props.isHide" :class="$style.muscles">
-    <div
-      v-for="muscle in props.muscles"
-      :key="muscle._id"
-      :class="$style.muscle"
-      :style="`background: ${muscle.color}; height: ${100 / props.muscles.length}%`"
-      data-test="exercise-muscle-color"
-    ></div>
+  <div :class="$style.container">
+    <div v-if="!props.isHide" :class="$style.muscles">
+      <div
+        v-for="muscle in props.muscles"
+        :key="muscle._id"
+        :class="$style.muscle"
+        :style="`background: ${muscle.color}; height: ${100 / props.muscles.length}%`"
+        data-test="exercise-muscle-color"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -22,13 +24,20 @@ const props = defineProps<IProps>();
 </script>
 
 <style module lang="scss">
-.muscles {
+.container {
   position: absolute;
-  top: -6px;
-  left: -6px;
+  top: 0;
+  left: 0;
   width: 32px;
   height: 32px;
-  rotate: 45deg;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+}
+
+.muscles {
+  width: 32px;
+  height: 32px;
+  transform: rotate(45deg) translateX(-8px) translateY(0);
 }
 
 .muscle {
