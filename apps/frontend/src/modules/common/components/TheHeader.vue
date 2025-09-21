@@ -126,8 +126,7 @@ const version = import.meta.env.VITE_VERSION;
     border-bottom: 1px solid var(--color-gray-dark-extra);
   }
 
-  .logo,
-  .version {
+  .logo {
     color: var(--color-gray-light);
   }
 }

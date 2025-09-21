@@ -69,7 +69,7 @@ const widthWithPx = computed(() => `${width}px`);
 :global(.dark) {
   .step {
     &[data-type='rest'] {
-      background-color: var(--color-gray);
+      background-color: var(--color-gray-dark);
     }
 
     &[data-type='exercise'] {
