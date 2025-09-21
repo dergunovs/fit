@@ -8,6 +8,7 @@ import ExerciseElement from './ExerciseElement.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
+import ExerciseMuscleColors from '@/exercise/components/ExerciseMuscleColors.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISE_CHOOSEN_FIXTURE } from '@/exercise/fixtures';
@@ -15,7 +16,8 @@ import { getAvailableExerciseWeights } from '@/exercise/helpers';
 import { USER_FIXTURE } from '@/user/fixtures';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
-const title = dataTest('exercise-choosen-title');
+const muscleColors = dataTest('exercise-muscle-colors');
+const title = dataTest('exercise-title');
 const buttons = dataTest('exercise-buttons');
 const repeats = dataTest('exercise-repeats');
 const weight = dataTest('exercise-weight');
@@ -24,6 +26,7 @@ const INDEX = 1;
 const IS_SET_CREATABLE = true;
 const IS_LAST = false;
 const IS_EDIT = true;
+const IS_HIDE_TITLE = false;
 const IS_DONE = false;
 const IS_TO_FAILURE = false;
 const DURATION = 0;
@@ -38,6 +41,7 @@ beforeEach(() => {
     isSetCreatable: IS_SET_CREATABLE,
     isLast: IS_LAST,
     isEdit: IS_EDIT,
+    isHideTitle: IS_HIDE_TITLE,
     isDone: IS_DONE,
     isToFailure: IS_TO_FAILURE,
     duration: DURATION,
@@ -54,6 +58,15 @@ describe('ExerciseElement', async () => {
 
   it('matches snapshot', async () => {
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it('passes props to muscle colors', async () => {
+    expect(wrapper.findComponent<typeof ExerciseMuscleColors>(muscleColors).props('muscles')).toStrictEqual(
+      EXERCISE_CHOOSEN_FIXTURE.exercise?.muscles
+    );
+    expect(wrapper.findComponent<typeof ExerciseMuscleColors>(muscleColors).props('isHide')).toStrictEqual(
+      IS_HIDE_TITLE
+    );
   });
 
   it('shows and hides title', async () => {

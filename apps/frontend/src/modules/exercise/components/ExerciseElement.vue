@@ -1,7 +1,14 @@
 <template>
   <div :class="$style.exercise" :data-hide="props.isHideTitle" :data-edit="props.isEdit">
+    <ExerciseMuscleColors
+      v-if="props.exercise.exercise?.muscles"
+      :muscles="props.exercise.exercise?.muscles"
+      :isHide="props.isHideTitle"
+      data-test="exercise-muscle-colors"
+    />
+
     <UiFlex column :gap="props.isEdit ? '4' : '2'" align="flex-start" grow>
-      <div v-if="!props.isHideTitle" data-test="exercise-choosen-title">
+      <div v-if="!props.isHideTitle" data-test="exercise-title">
         {{ title }}
       </div>
 
@@ -56,9 +63,10 @@ import { IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
 
-import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
+import ExerciseMuscleColors from '@/exercise/components/ExerciseMuscleColors.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
+import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
 
 import { useTI18n } from '@/common/composables';
 import { getAvailableExerciseWeights } from '@/exercise/helpers';
@@ -131,10 +139,12 @@ function updateWeight(weight: number) {
 
 <style module lang="scss">
 .exercise {
+  position: relative;
   display: flex;
   gap: 12px;
   justify-content: space-between;
   padding: 6px 12px;
+  overflow: hidden;
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;

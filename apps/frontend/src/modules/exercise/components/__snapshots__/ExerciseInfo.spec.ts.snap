@@ -8,8 +8,8 @@ exports[`ExerciseInfo > matches snapshot 1`] = `
     <div>
       <div>Задействованные мышцы</div>
       <div>
-        <div data-test="exercise-info-muscles">Грудь</div>
-        <div data-test="exercise-info-muscles">Ноги</div>
+        <div data-test="exercise-info-muscles" style="border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: #00CED1;">Грудь</div>
+        <div data-test="exercise-info-muscles" style="border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: #0000ff;">Ноги</div>
       </div>
     </div>
     <div data-test="exercise-info-equipment">

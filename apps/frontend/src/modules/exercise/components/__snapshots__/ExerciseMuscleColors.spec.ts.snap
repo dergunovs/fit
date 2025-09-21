@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseMuscleColors > matches snapshot 1`] = `
+"<div class="_muscles_757c72">
+  <div class="_muscle_757c72" style="background: #00CED1; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+  <div class="_muscle_757c72" style="background: #0000ff; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+  <div class="_muscle_757c72" style="background: #C41E3A; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+  <div class="_muscle_757c72" style="background: #32CD32; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+  <div class="_muscle_757c72" style="background: #DA70D6; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+  <div class="_muscle_757c72" style="background: #FF8C00; height: 16.666666666666668%;" data-test="exercise-muscle-color"></div>
+</div>"
+`;

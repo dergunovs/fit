@@ -19,8 +19,13 @@
         <div>{{ t('muscle.involved') }}</div>
 
         <UiFlex>
-          <UiChip v-for="group in props.exercise.exercise.muscles" :key="group._id" data-test="exercise-info-muscles">
-            {{ group[localeField('title', locale)] }}
+          <UiChip
+            v-for="muscle in props.exercise.exercise.muscles"
+            :key="muscle._id"
+            data-test="exercise-info-muscles"
+            :style="`border-bottom: 2px solid ${muscle.color}`"
+          >
+            {{ muscle[localeField('title', locale)] }}
           </UiChip>
         </UiFlex>
       </div>
