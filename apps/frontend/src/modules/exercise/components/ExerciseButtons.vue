@@ -5,6 +5,7 @@
       @click="emit('setIndex', props.index)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-index-down"
     >
       <IconArrow width="16" height="16" :class="$style.rotateArrow" />
@@ -15,6 +16,7 @@
       @click="emit('setIndex', props.index + 1)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-index-up"
     >
       <IconArrow width="16" height="16" />
@@ -25,12 +27,19 @@
       @click="emit('createSet')"
       type="button"
       :class="[$style.button, $style.pointer, $style.success]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-create-set"
     >
       +{{ t('set.super') }}
     </button>
 
-    <button @click="handleEditRepeats" :class="$style.button" type="button" data-test="exercise-buttons-repeats">
+    <button
+      @click="handleEditRepeats"
+      :class="$style.button"
+      type="button"
+      :data-edit="props.isEdit"
+      data-test="exercise-buttons-repeats"
+    >
       x{{ props.repeats }}
     </button>
 
@@ -39,6 +48,7 @@
       v-if="props.isEdit ? props.isWeights : !!props.weight"
       :class="$style.button"
       type="button"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-weight"
     >
       <IconWeight width="14" height="14" /> {{ props.weight }} {{ t('kg') }}
@@ -47,6 +57,7 @@
     <span
       v-if="!props.isEdit && !props.isDone && !props.isFutureActivity"
       :class="[$style.button, $style.error]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-not-done"
     >
       <IconFail width="14" height="14" /> {{ t('notDone') }}
@@ -55,12 +66,18 @@
     <span
       v-if="!props.isEdit && props.isToFailure"
       :class="[$style.button, $style.success]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-to-failure"
     >
       <IconToFailure width="14" height="14" /> {{ t('toFailure') }}
     </span>
 
-    <span v-if="!props.isEdit && props.duration" :class="$style.button" data-test="exercise-buttons-duration">
+    <span
+      v-if="!props.isEdit && props.duration"
+      :class="$style.button"
+      :data-edit="props.isEdit"
+      data-test="exercise-buttons-duration"
+    >
       <IconDuration width="14" height="14" /> {{ formatDuration(props.duration, locale) }}
     </span>
 
@@ -69,6 +86,7 @@
       @click="emit('delete')"
       type="button"
       :class="[$style.button, $style.pointer, $style.error]"
+      :data-edit="props.isEdit"
       data-test="exercise-buttons-delete"
     >
       {{ t('delete') }}
@@ -145,8 +163,8 @@ function handleEditWeight() {
   justify-content: center;
   min-width: 32px;
   height: 24px;
-  padding: 0 6px;
-  font-size: 0.875rem;
+  padding: 0 5px;
+  font-size: 0.75rem;
   line-height: 1;
   color: var(--color-black);
   cursor: pointer;
@@ -169,6 +187,11 @@ function handleEditWeight() {
 
   :focus {
     outline: none;
+  }
+
+  &[data-edit='true'] {
+    padding: 0 6px;
+    font-size: 0.875rem;
   }
 }
 
