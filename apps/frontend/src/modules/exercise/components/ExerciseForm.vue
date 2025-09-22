@@ -165,6 +165,7 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.upd
 
 const { mutate: mutateDelete } = exerciseService.delete({
   onSuccess: async () => {
+    if (!props.isDisableRedirect) queryClient.removeQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
     toast.success(t('exercise.deleted'));

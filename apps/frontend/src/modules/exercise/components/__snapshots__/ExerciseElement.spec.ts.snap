@@ -2,7 +2,7 @@
 
 exports[`ExerciseElement > matches snapshot 1`] = `
 "<div class="_exercise_30bc63" data-hide="false" data-edit="true">
-  <exercise-muscle-colors-stub muscles="[object Object],[object Object]" ishide="false" data-test="exercise-muscle-colors"></exercise-muscle-colors-stub>
+  <exercise-muscle-colors-stub muscles="[object Object],[object Object]" data-test="exercise-muscle-colors"></exercise-muscle-colors-stub>
   <div column="" gap="4" align="flex-start" grow="">
     <div data-test="exercise-title">2. Отжимание от скамьи</div>
     <exercise-buttons-stub repeats="12" weight="0" index="1" duration="0" issetcreatable="true" islast="false" isedit="true" isdone="false" istofailure="false" isfutureactivity="false" isweights="true" data-test="exercise-buttons"></exercise-buttons-stub>

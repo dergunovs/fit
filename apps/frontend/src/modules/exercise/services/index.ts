@@ -54,6 +54,8 @@ export const exerciseService = {
     useQuery({
       queryKey: [API_EXERCISE, id],
       queryFn: async () => {
+        if (!id.value) return null;
+
         const { data } = await api.get<TGetExerciseDTO>(`${API_EXERCISE}/${id.value}`);
 
         return data.data;

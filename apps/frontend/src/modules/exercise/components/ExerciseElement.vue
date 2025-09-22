@@ -1,9 +1,8 @@
 <template>
   <div :class="$style.exercise" :data-hide="props.isHideTitle" :data-edit="props.isEdit">
     <ExerciseMuscleColors
-      v-if="props.exercise.exercise?.muscles"
+      v-if="props.exercise.exercise?.muscles && !props.isHideTitle"
       :muscles="props.exercise.exercise?.muscles"
-      :isHide="props.isHideTitle"
       data-test="exercise-muscle-colors"
     />
 

@@ -26,6 +26,8 @@ export const muscleService = {
     useQuery({
       queryKey: [API_MUSCLE, id],
       queryFn: async () => {
+        if (!id.value) return null;
+
         const { data } = await api.get<TGetMuscleDTO>(`${API_MUSCLE}/${id.value}`);
 
         return data.data;

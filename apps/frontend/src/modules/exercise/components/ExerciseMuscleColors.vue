@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.container">
-    <div v-if="!props.isHide" :class="$style.muscles">
+    <div :class="$style.muscles">
       <div
         v-for="muscle in props.muscles"
         :key="muscle._id"
@@ -17,7 +17,6 @@ import { IMuscle } from 'fitness-tracker-contracts';
 
 interface IProps {
   muscles: IMuscle[];
-  isHide?: boolean;
 }
 
 const props = defineProps<IProps>();

@@ -26,6 +26,8 @@ export const equipmentService = {
     useQuery({
       queryKey: [API_EQUIPMENT, id],
       queryFn: async () => {
+        if (!id.value) return null;
+
         const { data } = await api.get<TGetEquipmentDTO>(`${API_EQUIPMENT}/${id.value}`);
 
         return data.data;

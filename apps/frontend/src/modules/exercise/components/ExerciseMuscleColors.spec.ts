@@ -9,15 +9,10 @@ import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 
 const color = dataTest('exercise-muscle-color');
 
-const IS_HIDE = false;
-
 let wrapper: VueWrapper<InstanceType<typeof ExerciseMuscleColors>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseMuscleColors, {
-    muscles: MUSCLES_FIXTURE,
-    isHide: IS_HIDE,
-  });
+  wrapper = wrapperFactory(ExerciseMuscleColors, { muscles: MUSCLES_FIXTURE });
 });
 
 enableAutoUnmount(afterEach);
@@ -36,11 +31,5 @@ describe('ExerciseMuscleColors', async () => {
     expect(wrapper.find(color).attributes('style')).toStrictEqual(
       `background: ${MUSCLES_FIXTURE[0].color}; height: ${100 / MUSCLES_FIXTURE.length}%;`
     );
-  });
-
-  it('hides colors by props', async () => {
-    await wrapper.setProps({ isHide: true });
-
-    expect(wrapper.find(color).exists()).toBe(false);
   });
 });

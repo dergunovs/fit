@@ -64,9 +64,12 @@ describe('ExerciseElement', async () => {
     expect(wrapper.findComponent<typeof ExerciseMuscleColors>(muscleColors).props('muscles')).toStrictEqual(
       EXERCISE_CHOOSEN_FIXTURE.exercise?.muscles
     );
-    expect(wrapper.findComponent<typeof ExerciseMuscleColors>(muscleColors).props('isHide')).toStrictEqual(
-      IS_HIDE_TITLE
-    );
+  });
+
+  it('hides muscle colors by props', async () => {
+    await wrapper.setProps({ isHideTitle: true });
+
+    expect(wrapper.find(muscleColors).exists()).toBe(false);
   });
 
   it('shows and hides title', async () => {
