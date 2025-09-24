@@ -2,8 +2,8 @@ import type { IExercise, TDecode } from 'fitness-tracker-contracts';
 
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
-import { checkInvalidId, paginate } from '../common/helpers.js';
-import { getAdminAndUserExercises, getExercisesByUserId } from './helpers.js';
+import { checkInvalidId, paginate, cache } from '../common/helpers.js';
+import { exercisesCacheKey, getAdminAndUserExercises, getExercisesByUserId } from './helpers.js';
 import Exercise from './model.js';
 import { EXERCISE_POPULATE } from './constants.js';
 
@@ -43,7 +43,7 @@ export const exerciseService = {
   create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user?._id) throw new Error('User not found', { cause: { code: 404 } });
 
     const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user._id });
 
@@ -52,6 +52,8 @@ export const exerciseService = {
     if (!isAllowToCreateExercise) throw new Error('Not allowed to add exercise', { cause: { code: 500 } });
 
     await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
+
+    cache.delete(exercisesCacheKey(user._id));
   },
 
   update: async (_id: string, itemToUpdate: IExercise, decode?: TDecode, token?: string) => {
@@ -66,6 +68,8 @@ export const exerciseService = {
     await exercise.replaceOne({ ...itemToUpdate, dateUpdated: new Date() });
 
     await exercise.save();
+
+    cache.delete(exercisesCacheKey(exercise.createdBy._id));
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
@@ -78,5 +82,7 @@ export const exerciseService = {
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 
     await exercise.deleteOne();
+
+    cache.delete(exercisesCacheKey(exercise.createdBy._id));
   },
 };

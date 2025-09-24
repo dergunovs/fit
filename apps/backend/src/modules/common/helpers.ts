@@ -1,9 +1,30 @@
 import { RateLimitOptions } from '@fastify/rate-limit';
 import { IPaginatedReply } from 'fitness-tracker-contracts';
+import { LRUCache } from 'lru-cache';
 import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 
 import { IPopulate } from './types.js';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const lruCache = new LRUCache<string, any>({ max: 1000, ttl: 604800000, allowStale: false, updateAgeOnGet: false });
+
+export const defaultColor = '#484195';
+export const goalColor = '#bbb';
+
+export const cache = {
+  get<T>(key: string): T | undefined {
+    return lruCache.get(key) as T | undefined;
+  },
+
+  set<T>(key: string, value: T) {
+    lruCache.set(key, value);
+  },
+
+  delete(key: string) {
+    lruCache.delete(key);
+  },
+};
 
 export function checkInvalidId(id: string) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -56,6 +77,3 @@ export const rateLimit: RateLimitOptions = {
     retryAfter: context.after,
   }),
 };
-
-export const defaultColor = '#484195';
-export const goalColor = '#bbb';
