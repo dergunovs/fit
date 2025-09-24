@@ -1,25 +1,15 @@
-import type { IExercise, TDecode } from 'fitness-tracker-contracts';
+import type { TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
-import { checkInvalidId, cache } from '../common/helpers.js';
+import { checkInvalidId } from '../common/helpers.js';
 import User from '../user/model.js';
 import Exercise from './model.js';
 import { EXERCISE_POPULATE } from './constants.js';
 
-export function exercisesCacheKey(id: string) {
-  return `exercises:${id}`;
-}
-
 export async function getExercisesByUserId(userId: string) {
   checkInvalidId(userId);
 
-  const cached = cache.get<IExercise[]>(exercisesCacheKey(userId));
-
-  if (cached) return cached;
-
   const exercises = await Exercise.find({ createdBy: userId }).sort('title').populate(EXERCISE_POPULATE).lean();
-
-  cache.set(exercisesCacheKey(userId), exercises);
 
   return exercises;
 }
