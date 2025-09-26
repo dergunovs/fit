@@ -5,7 +5,7 @@ import { dataTest } from 'mhz-helpers';
 
 import ExerciseManagment from './ExerciseManagment.vue';
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
-import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_CHOOSEN_FIXTURE, EXERCISE_CHOOSEN_FIXTURE, EXERCISES_FIXTURE } from '@/exercise/fixtures';
@@ -21,7 +21,7 @@ const ID = EXERCISES_CHOOSEN_FIXTURE[0]._id;
 
 const modal = dataTest('exercise-modal');
 const chooseList = dataTest('exercise-choose-list');
-const choosenList = dataTest('exercise-choosen-list');
+const exercises = dataTest('exercise-element-list');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseManagment>>;
 
@@ -61,7 +61,7 @@ describe('ExerciseManagment', async () => {
   });
 
   it('passes exercises to choosen list', async () => {
-    expect(wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).props('choosenExercises')).toStrictEqual(
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exercises).props('exercises')).toStrictEqual(
       EXERCISES_CHOOSEN_FIXTURE
     );
   });
@@ -84,7 +84,7 @@ describe('ExerciseManagment', async () => {
   it('deletes exercise', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
 
-    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('delete', ID);
+    wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('delete', ID);
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([[EXERCISES_CHOOSEN_FIXTURE[1]]]);
@@ -93,7 +93,7 @@ describe('ExerciseManagment', async () => {
   it('adds set', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
 
-    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('createSet');
+    wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('createSet');
 
     const updatedExercises = addSetToExercises(EXERCISES_CHOOSEN_FIXTURE);
 
@@ -106,7 +106,7 @@ describe('ExerciseManagment', async () => {
 
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
 
-    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('setIndex', INDEX);
+    wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('setIndex', INDEX);
 
     const updatedExercises = updateExercisesIndex(EXERCISES_CHOOSEN_FIXTURE, INDEX);
 
@@ -119,7 +119,7 @@ describe('ExerciseManagment', async () => {
 
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
 
-    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('setRepeats', REPEATS, ID);
+    wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('setRepeats', REPEATS, ID);
 
     const updatedExercises = updateExercisesRepeats(EXERCISES_CHOOSEN_FIXTURE, REPEATS, ID as string);
 
@@ -132,7 +132,7 @@ describe('ExerciseManagment', async () => {
 
     expect(wrapper.emitted()).not.toHaveProperty('update:modelValue');
 
-    wrapper.findComponent<typeof ExerciseChoosenList>(choosenList).vm.$emit('setWeight', WEIGHT, ID);
+    wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('setWeight', WEIGHT, ID);
 
     const updatedExercises = updateExercisesWeight(EXERCISES_CHOOSEN_FIXTURE, WEIGHT, ID as string);
 

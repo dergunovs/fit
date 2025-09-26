@@ -5,6 +5,9 @@ exports[`ExerciseManagment > matches snapshot 1`] = `
   <div modelvalue="false" isscrollable="" data-test="exercise-modal">
     <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="exercise-choose-list"></exercise-choose-list-stub>
   </div>
-  <exercise-choosen-list-stub choosenexercises="[object Object],[object Object]" data-test="exercise-choosen-list"></exercise-choosen-list-stub>
+  <div column="">
+    <h3>Упражнения</h3>
+    <exercise-element-list-stub exercises="[object Object],[object Object]" isedit="true" ispassing="false" isfutureactivity="false" data-test="exercise-element-list"></exercise-element-list-stub>
+  </div>
 </div>"
 `;

@@ -11,14 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { UiButtongroup } from 'mhz-ui';
 
 import { EXERCISE_REPEATS_OPTIONS } from '@/exercise/constants';
 import { useTI18n } from '@/common/composables';
 
 interface IProps {
-  modelValue: number;
+  modelValue: number | undefined;
   options?: number[];
   isTall?: boolean;
   baseRepeat?: number;
@@ -42,4 +42,8 @@ const repeats = computed<number[]>(() =>
     ? [props.baseRepeat - 2, props.baseRepeat - 1, props.baseRepeat, props.baseRepeat + 1, props.baseRepeat + 2]
     : props.options
 );
+
+onMounted(() => {
+  if (!props.modelValue && props.baseRepeat) emit('update:modelValue', props.baseRepeat);
+});
 </script>

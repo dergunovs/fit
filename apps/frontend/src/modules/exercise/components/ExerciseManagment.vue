@@ -14,26 +14,31 @@
       />
     </UiModal>
 
-    <ExerciseChoosenList
-      v-if="props.modelValue?.length"
-      :choosenExercises="props.modelValue"
-      @delete="deleteExercise"
-      @createSet="createSet"
-      @setIndex="updateIndex"
-      @setRepeats="updateRepeats"
-      @setWeight="updateWeight"
-      data-test="exercise-choosen-list"
-    />
+    <UiFlex v-if="props.modelValue?.length" column>
+      <h3>{{ t('exercise.many') }}</h3>
+
+      <ExerciseElementList
+        :exercises="props.modelValue"
+        isEdit
+        @delete="deleteExercise"
+        @createSet="createSet"
+        @setIndex="updateIndex"
+        @setRepeats="updateRepeats"
+        @setWeight="updateWeight"
+        data-test="exercise-element-list"
+      />
+    </UiFlex>
   </div>
 </template>
 
 <script setup lang="ts">
-import { UiModal } from 'mhz-ui';
+import { UiFlex, UiModal } from 'mhz-ui';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
 import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
-import ExerciseChoosenList from '@/exercise/components/ExerciseChoosenList.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 
+import { useTI18n } from '@/common/composables';
 import { exerciseService } from '@/exercise/services';
 import {
   addSetToExercises,
@@ -54,6 +59,8 @@ interface IEmit {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
+
+const { t } = useTI18n();
 
 const { data: exercisesAll } = exerciseService.getAll();
 

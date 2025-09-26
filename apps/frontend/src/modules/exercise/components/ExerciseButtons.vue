@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.buttons" :data-edit="props.isEdit">
+  <div :class="$style.buttons" :data-tall="props.isEdit">
     <button
       v-if="props.isEdit && props.index !== 0"
       @click="emit('setIndex', props.index)"
@@ -55,7 +55,7 @@
     </button>
 
     <span
-      v-if="!props.isEdit && !props.isDone && !props.isFutureActivity"
+      v-if="!props.isEdit && !props.isDone && !props.isFutureActivity && !props.isPassing"
       :class="[$style.button, $style.error]"
       :data-edit="props.isEdit"
       data-test="exercise-buttons-not-done"
@@ -113,6 +113,7 @@ interface IProps {
   isLast?: boolean;
   isEdit?: boolean;
   isDone?: boolean;
+  isPassing?: boolean;
   isToFailure?: boolean;
   duration?: number;
   isFutureActivity?: boolean;
@@ -150,7 +151,7 @@ function handleEditWeight() {
   border: 1px solid var(--color-gray-dark);
   border-radius: 6px;
 
-  &[data-edit='true'] {
+  &[data-tall='true'] {
     height: 36px;
     pointer-events: all;
   }
@@ -189,7 +190,7 @@ function handleEditWeight() {
     outline: none;
   }
 
-  &[data-edit='true'] {
+  &[data-tall='true'] {
     padding: 0 6px;
     font-size: 0.875rem;
   }

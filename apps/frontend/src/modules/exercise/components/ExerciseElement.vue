@@ -1,5 +1,10 @@
 <template>
-  <div :class="$style.exercise" :data-hide="props.isHideTitle" :data-edit="props.isEdit">
+  <div
+    v-show="!props.isPassing || (props.isPassing && !props.isDone)"
+    :class="$style.exercise"
+    :data-hide="props.isHideTitle"
+    :data-edit="props.isEdit"
+  >
     <ExerciseMuscleColors
       v-if="props.exercise.exercise?.muscles && !props.isHideTitle"
       :muscles="props.exercise.exercise?.muscles"
@@ -20,6 +25,7 @@
         :isLast="props.isLast"
         :isSetCreatable="props.isSetCreatable"
         :isDone="props.isDone"
+        :isPassing="props.isPassing"
         :isToFailure="props.isToFailure"
         :duration="props.duration"
         :isFutureActivity="props.isFutureActivity"
@@ -52,6 +58,8 @@
           data-test="exercise-weight"
         />
       </Transition>
+
+      <slot></slot>
     </UiFlex>
   </div>
 </template>
@@ -82,6 +90,8 @@ interface IProps {
   isToFailure?: boolean;
   duration?: number;
   isFutureActivity?: boolean;
+  isPassing?: boolean;
+  exercisesCount?: number;
 }
 
 interface IEmit {
@@ -107,6 +117,8 @@ const title = computed(() => {
   if (!isExerciseExists) return t('exercise.deleted');
 
   const exerciseTitle = props.exercise.exercise?.[localeField('title', locale.value)];
+
+  if (props.isPassing) return `${props.index + 1} - ${props.exercisesCount}. ${exerciseTitle}`;
 
   if (!props.isEdit) return exerciseTitle;
 

@@ -5,7 +5,6 @@ import {
   getAverageRepeatsInSet,
   isPrevExerciseSame,
   isSetCreatable,
-  getExercisePassingTitle,
   generateTimeline,
   filterExercisesByTitleAndMuscle,
   getAvailableExerciseWeights,
@@ -55,21 +54,6 @@ describe('exercise helpers', () => {
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[0]._id)).toStrictEqual(false);
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 1, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(true);
     expect(isSetCreatable(EXERCISES_DONE_FIXTURE, 2, EXERCISES_DONE_FIXTURE[1]._id)).toStrictEqual(false);
-  });
-
-  test('gets exercise passing title', async () => {
-    expect(getExercisePassingTitle(1, true, 2, EXERCISES_DONE_FIXTURE[0], 'кг', 'ru')).toStrictEqual(
-      '1 - 2. Отжимание от скамьи 8 кг.'
-    );
-    expect(getExercisePassingTitle(2, true, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
-      '2 - 2. Подтягивание.'
-    );
-    expect(getExercisePassingTitle(2, false, 2, EXERCISES_DONE_FIXTURE[1], 'кг', 'ru')).toStrictEqual(
-      '2. Подтягивание.'
-    );
-    expect(getExercisePassingTitle(3, true, 5, EXERCISES_DONE_FIXTURE[0], 'lbs', 'en')).toStrictEqual(
-      '3 - 5. Bench Press 8 lbs.'
-    );
   });
 
   test('generates timeline', async () => {

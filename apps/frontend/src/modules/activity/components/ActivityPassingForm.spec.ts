@@ -4,22 +4,43 @@ import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { formatDateTime, dataTest } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
-import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
+import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 
-const exerciseList = dataTest('exercise-passing-list');
+const restTimer = dataTest('activity-passing-form-rest-timer');
+const exerciseElement = dataTest('activity-passing-form-exercise');
 const activityStart = dataTest('activity-start');
-const activityUpdated = dataTest('activity-updated');
 const activityFinish = dataTest('activity-finish');
 
 const activity = ACTIVITY_FIXTURE_2;
+const exercise = activity.exercises[0];
+const duration = 40;
+const isToFailure = false;
+const repeats = 12;
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityPassingForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityPassingForm, { activity });
+  wrapper = wrapperFactory(
+    ActivityPassingForm,
+    { activity },
+    {
+      ExerciseElementList: {
+        name: 'ExerciseElementList',
+        template: `
+          <div data-test="activity-passing-form-exercises">
+            <div v-for="(exercise, index) in exercises" :key="exercise._id">
+              <slot :exercise="exercise" :index="index"></slot>
+            </div>
+          </div>
+        `,
+        props: ['exercises', 'isPassing'],
+      },
+    }
+  );
 });
 
 enableAutoUnmount(afterEach);
@@ -33,27 +54,8 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('shows exercises', async () => {
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('exercises')).toStrictEqual(
-      activity.exercises
-    );
-
-    const activityWithoutExercises = { ...ACTIVITY_FIXTURE_2, exercises: [] };
-
-    await wrapper.setProps({ activity: activityWithoutExercises });
-
-    expect(wrapper.find(exerciseList).exists()).toBe(false);
-  });
-
-  it('shows start and update time', async () => {
+  it('shows start  time', async () => {
     expect(wrapper.find(activityStart).text()).toBe(formatDateTime(activity.dateCreated, 'ru'));
-    expect(wrapper.find(activityUpdated).text()).toBe(formatDateTime(activity.dateUpdated, 'ru'));
-
-    const activityWithoutDate = { ...ACTIVITY_FIXTURE_2, dateUpdated: undefined };
-
-    await wrapper.setProps({ activity: activityWithoutDate });
-
-    expect(wrapper.find(activityUpdated).exists()).toBe(false);
   });
 
   it('finishes activity early', async () => {
@@ -71,53 +73,34 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('starts and stops exercise', async () => {
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
-      undefined
+    expect(wrapper.find(restTimer).exists()).toStrictEqual(true);
+
+    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(
+      false
     );
 
-    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('start', activity.exercises[0]._id);
+    wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).vm.$emit('start', activity.exercises[1]._id);
 
     await nextTick();
 
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
-      activity.exercises[0]._id
-    );
+    expect(wrapper.find(restTimer).exists()).toStrictEqual(false);
+
+    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(true);
 
     expect(wrapper.emitted()).not.toHaveProperty('updateExercises');
     expect(wrapper.emitted()).not.toHaveProperty('setDateUpdated');
 
-    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('stop', activity.exercises[0]);
+    wrapper
+      .findComponent<typeof ExerciseElementList>(exerciseElement)
+      .vm.$emit('stop', exercise, duration, isToFailure, repeats);
 
     await nextTick();
 
-    expect(wrapper.findComponent<typeof ExercisePassingList>(exerciseList).props('activeExerciseId')).toStrictEqual(
-      undefined
+    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(
+      false
     );
 
     expect(wrapper.emitted('updateExercises')).toHaveLength(1);
     expect(wrapper.emitted('setDateUpdated')).toHaveLength(1);
-  });
-
-  it('sets date created when activity is not updated', async () => {
-    const activityWithoutDateUpdated = { ...ACTIVITY_FIXTURE_2, dateUpdated: undefined };
-
-    await wrapper.setProps({ activity: activityWithoutDateUpdated });
-
-    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('start', activity.exercises[0]._id);
-
-    await nextTick();
-
-    const exerciseDone = { ...activity.exercises[0], duration: 60 };
-
-    wrapper.findComponent<typeof ExercisePassingList>(exerciseList).vm.$emit('stop', exerciseDone);
-
-    await nextTick();
-
-    expect(wrapper.emitted('setDateCreated')).toHaveLength(1);
-
-    const emittedDate = wrapper.emitted('setDateCreated')?.[0][0] as Date;
-    const expectedDate = new Date(Date.now() - 60 * 1000);
-
-    expect(emittedDate.getTime()).toBeCloseTo(expectedDate.getTime(), -3);
   });
 });

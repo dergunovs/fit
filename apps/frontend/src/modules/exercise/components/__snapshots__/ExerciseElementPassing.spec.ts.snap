@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExerciseElementPassing > matches snapshot 1`] = `
+"<div class="_element_bde61e" data-active="false" data-test="exercise-passing-element"><button islargefont="" isdisabled="false" istall="" data-test="exercise-passing-button">Начать</button><input type="checkbox" modelvalue="false" label="Упражнение выполнено до отказа" isdisabled="true" data-test="exercise-passing-to-failure">
+  <exercise-repeats-stub options="8,10,12,15,20" istall="true" baserepeat="12" data-test="exercise-passing-repeats"></exercise-repeats-stub>
+  <exercise-duration-timer-stub start="false" stop="false" data-test="exercise-passing-duration"></exercise-duration-timer-stub>
+</div>"
+`;

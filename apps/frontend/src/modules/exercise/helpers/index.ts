@@ -5,9 +5,8 @@ import {
   IExerciseStatistics,
   IUser,
   IUserEquipment,
-  TLocale,
 } from 'fitness-tracker-contracts';
-import { createTempId, localeField } from 'mhz-helpers';
+import { createTempId } from 'mhz-helpers';
 
 import { ITimelineStep } from '@/activity/interface';
 import { getWeightsForUserEquipment } from '@/equipment/helpers';
@@ -83,20 +82,6 @@ export function isPrevExerciseSame(exercises: IExerciseDone[], index: number, id
 
 export function isSetCreatable(choosenExercises: IExerciseChoosen[], index: number, id?: string) {
   return !isPrevExerciseSame(choosenExercises, index, id) && index > 0 && index + 1 === choosenExercises.length;
-}
-
-export function getExercisePassingTitle(
-  index: number,
-  isCurrent: boolean,
-  count: number,
-  exercise: IExerciseDone,
-  weightTitle: string,
-  locale: TLocale
-) {
-  const currentCount = isCurrent ? ` - ${count}.` : `.`;
-  const weight = exercise.weight ? ` ${exercise.weight} ${weightTitle}.` : `.`;
-
-  return `${index}${currentCount} ${exercise.exercise?.[localeField('title', locale)] || '-'}${weight}`;
 }
 
 export function generateTimeline(exercises: IExerciseDone[], start: Date | string | null, ratio: number) {

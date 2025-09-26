@@ -1,26 +1,28 @@
 <template>
   <div>
     <UiFlex column>
-      <ExercisePassingList
-        v-if="props.activity.exercises?.length"
-        :exercises="props.activity.exercises"
-        :activeExerciseId="activeExerciseId"
-        @start="startExercise"
-        @stop="stopExercise"
-        data-test="exercise-passing-list"
+      <ExerciseRestTimer
+        v-if="!activeExerciseId && currentExerciseIndex && currentExerciseIndex !== props.activity.exercises.length"
+        data-test="activity-passing-form-rest-timer"
       />
+
+      <ExerciseElementList :exercises="props.activity.exercises" isPassing>
+        <template #default="{ exercise, index }">
+          <ExerciseElementPassing
+            v-if="index === currentExerciseIndex"
+            :exercise="exercise"
+            :isActive="exercise._id === activeExerciseId"
+            @start="startExercise"
+            @stop="stopExercise"
+            data-test="activity-passing-form-exercise"
+          />
+        </template>
+      </ExerciseElementList>
 
       <div>
         <div>
           {{ t('activity.created') }}
-          <span data-test="activity-start"> {{ formatDateTime(props.activity.dateCreated, locale) }}</span
-          >.
-        </div>
-
-        <div v-if="props.activity.dateUpdated">
-          {{ props.activity.isDone ? t('activity.finished') : t('activity.updated') }}
-          <span data-test="activity-updated">{{ formatDateTime(props.activity.dateUpdated, locale) }}</span
-          >.
+          <span data-test="activity-start"> {{ formatDateTime(props.activity.dateCreated, locale) }}</span>
         </div>
       </div>
 
@@ -38,12 +40,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { formatDateTime } from 'mhz-helpers';
 import { IActivity, IExerciseDone } from 'fitness-tracker-contracts';
 
-import ExercisePassingList from '@/exercise/components/ExercisePassingList.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
+import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
+import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
 
 import { useTI18n } from '@/common/composables';
 
@@ -66,26 +70,28 @@ const { t, locale } = useTI18n();
 
 const activeExerciseId = ref<string>();
 
+const currentExerciseIndex = computed(() => props.activity.exercises.filter((exercise) => exercise.isDone).length);
+
 function startExercise(id: string) {
   activeExerciseId.value = id;
 }
 
-function stopExercise(exerciseDone: IExerciseDone) {
+function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure: boolean, repeats?: number) {
+  if (!repeats) return;
+
   activeExerciseId.value = undefined;
 
   const updatedExercises = props.activity.exercises?.map((exercise) => {
-    if (exercise._id === exerciseDone._id) {
-      return {
-        ...exercise,
-        isDone: true,
-        duration: exerciseDone.duration,
-        isToFailure: exerciseDone.isToFailure,
-        repeats: exerciseDone.repeats,
-        dateUpdated: new Date(),
-      };
-    }
-
-    return exercise;
+    return exercise._id === exerciseDone._id
+      ? {
+          ...exercise,
+          isDone: true,
+          duration,
+          isToFailure,
+          repeats,
+          dateUpdated: new Date(),
+        }
+      : exercise;
   });
 
   emit('updateExercises', updatedExercises);

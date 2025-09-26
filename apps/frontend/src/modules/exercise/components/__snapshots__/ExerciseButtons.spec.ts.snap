@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExerciseButtons > matches snapshot 1`] = `
-"<div class="_buttons_dedec9" data-edit="true"><button type="button" class="_arrow_dedec9 _pointer_dedec9 _button_dedec9" data-edit="true" data-test="exercise-buttons-index-down">
+"<div class="_buttons_dedec9" data-tall="true"><button type="button" class="_arrow_dedec9 _pointer_dedec9 _button_dedec9" data-edit="true" data-test="exercise-buttons-index-down">
     <anonymous-stub width="16" height="16" class="_rotateArrow_dedec9"></anonymous-stub>
   </button><button type="button" class="_arrow_dedec9 _pointer_dedec9 _button_dedec9" data-edit="true" data-test="exercise-buttons-index-up">
     <anonymous-stub width="16" height="16"></anonymous-stub>

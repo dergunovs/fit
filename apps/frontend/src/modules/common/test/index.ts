@@ -12,7 +12,7 @@ export const router = createRouter({ history: createWebHistory('/'), routes });
 export function wrapperFactory<T>(
   component: Component<T>,
   props?: Partial<ComponentPublicInstance<T>['$props']>,
-  stubs?: { [title: string]: { template?: string | object; props?: string[] } }
+  stubs?: { [title: string]: { template?: string | object; props?: string[]; name?: string } }
 ) {
   document.body.innerHTML = '<div id="app"></div>';
 

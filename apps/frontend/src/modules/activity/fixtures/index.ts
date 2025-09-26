@@ -114,7 +114,7 @@ export const ACTIVITY_FIXTURE_2: IActivity = {
       weight: 9,
       isToFailure: false,
       duration: 37,
-      isDone: true,
+      isDone: false,
     },
   ],
   isDone: false,

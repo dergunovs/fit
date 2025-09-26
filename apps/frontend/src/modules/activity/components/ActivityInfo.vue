@@ -56,20 +56,11 @@
       data-test="activity-info-muscle-statistics"
     />
 
-    <UiFlex column>
-      <ExerciseElement
-        v-for="(exercise, index) in props.exercises"
-        :key="exercise._id"
-        :exercise="exercise"
-        :index="index"
-        :duration="exercise.duration"
-        :isFutureActivity="isFutureActivity"
-        :isHideTitle="isPrevExerciseSame(props.exercises, index, exercise.exercise?._id)"
-        :isDone="exercise.isDone"
-        :isToFailure="exercise.isToFailure"
-        data-test="activity-info-exercise-element"
-      />
-    </UiFlex>
+    <ExerciseElementList
+      :exercises="props.exercises"
+      :isFutureActivity="isFutureActivity"
+      data-test="activity-info-exercise-list"
+    />
 
     <FormButtonsLayout :isFixed="!isPopup">
       <UiButton
@@ -131,9 +122,10 @@ import {
 } from 'mhz-helpers';
 
 import ActivityTimeline from '@/activity/components/ActivityTimeline.vue';
-import ExerciseElement from '@/exercise/components/ExerciseElement.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import MuscleStatistics from '@/muscle/components/MuscleStatistics.vue';
 import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
+
 import IconDate from '@/common/icons/date.svg';
 import IconDuration from '@/common/icons/duration.svg';
 
@@ -144,7 +136,6 @@ import {
   getPotentialActivityDuration,
   generateActivityExercises,
 } from '@/activity/helpers';
-import { isPrevExerciseSame } from '@/exercise/helpers';
 import { activityService } from '@/activity/services';
 import { muscleService } from '@/muscle/services';
 import { generateMuscleStatistics } from '@/muscle/helpers';

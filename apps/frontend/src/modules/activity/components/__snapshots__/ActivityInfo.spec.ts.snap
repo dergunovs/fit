@@ -15,10 +15,7 @@ exports[`ActivityInfo > matches snapshot 1`] = `
     <div>Подходы: <span data-test="activity-info-sets">2</span>, отказы: <span data-test="activity-info-to-failure-percent">50%</span>, отдых: <span data-test="activity-info-rest-percent">99%</span></div><button layout="plain" data-test="activity-info-copy-to-clipboard">Скопировать в буфер</button>
   </div>
   <muscle-statistics-stub statistics="[object Object],[object Object],[object Object],[object Object]" data-test="activity-info-muscle-statistics"></muscle-statistics-stub>
-  <div column="">
-    <exercise-element-stub exercise="[object Object]" index="0" duration="43" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="true" istofailure="true" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
-    <exercise-element-stub exercise="[object Object]" index="1" duration="17" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isdone="true" istofailure="false" isfutureactivity="false" data-test="activity-info-exercise-element"></exercise-element-stub>
-  </div>
+  <exercise-element-list-stub exercises="[object Object],[object Object]" isedit="false" ispassing="false" isfutureactivity="false" data-test="activity-info-exercise-list"></exercise-element-list-stub>
   <div>
     <div class="_margin_871dab" data-test="form-buttons-layout-margin"></div>
     <div class="_buttons_871dab" data-fixed="true" data-test="form-buttons-layout-buttons">
