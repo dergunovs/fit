@@ -21,26 +21,22 @@ const duration = 40;
 const isToFailure = false;
 const repeats = 12;
 
-let wrapper: VueWrapper<InstanceType<typeof ActivityPassingForm>>;
-
-beforeEach(() => {
-  wrapper = wrapperFactory(
-    ActivityPassingForm,
-    { activity },
-    {
-      ExerciseElementList: {
-        name: 'ExerciseElementList',
-        template: `
+const exerciseElementListStub = {
+  name: 'ExerciseElementList',
+  template: `
           <div data-test="activity-passing-form-exercises">
             <div v-for="(exercise, index) in exercises" :key="exercise._id">
               <slot :exercise="exercise" :index="index"></slot>
             </div>
           </div>
         `,
-        props: ['exercises', 'isPassing'],
-      },
-    }
-  );
+  props: ['exercises', 'isPassing'],
+};
+
+let wrapper: VueWrapper<InstanceType<typeof ActivityPassingForm>>;
+
+beforeEach(() => {
+  wrapper = wrapperFactory(ActivityPassingForm, { activity }, { ExerciseElementList: exerciseElementListStub });
 });
 
 enableAutoUnmount(afterEach);
@@ -102,5 +98,34 @@ describe('ActivityPassingForm', async () => {
 
     expect(wrapper.emitted('updateExercises')).toHaveLength(1);
     expect(wrapper.emitted('setDateUpdated')).toHaveLength(1);
+  });
+
+  it('sets dateCreated when dateUpdated is not set', async () => {
+    const wrapperWithoutDateUpdated = wrapperFactory(
+      ActivityPassingForm,
+      { activity: { ...activity, dateUpdated: undefined } },
+      { ExerciseElementList: exerciseElementListStub }
+    );
+
+    wrapperWithoutDateUpdated
+      .findComponent<typeof ExerciseElementList>(exerciseElement)
+      .vm.$emit('stop', exercise, duration, isToFailure, repeats);
+
+    await nextTick();
+
+    expect(wrapperWithoutDateUpdated.emitted('setDateCreated')).toHaveLength(1);
+  });
+
+  it('does not update when repeats is falsy', async () => {
+    wrapper
+      .findComponent<typeof ExerciseElementList>(exerciseElement)
+      .vm.$emit('stop', exercise, duration, isToFailure);
+
+    await nextTick();
+
+    expect(wrapper.emitted()).not.toHaveProperty('updateExercises');
+    expect(wrapper.emitted()).not.toHaveProperty('setDateUpdated');
+    expect(wrapper.emitted()).not.toHaveProperty('setDateCreated');
+    expect(wrapper.emitted()).not.toHaveProperty('done');
   });
 });

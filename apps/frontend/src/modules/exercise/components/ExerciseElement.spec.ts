@@ -31,6 +31,7 @@ const IS_DONE = false;
 const IS_TO_FAILURE = false;
 const DURATION = 0;
 const IS_FUTURE_ACTIVITY = false;
+const EXERCISES_COUNT = 3;
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseElement>>;
 
@@ -46,6 +47,7 @@ beforeEach(() => {
     isToFailure: IS_TO_FAILURE,
     duration: DURATION,
     isFutureActivity: IS_FUTURE_ACTIVITY,
+    exercisesCount: EXERCISES_COUNT,
   });
 });
 
@@ -78,6 +80,12 @@ describe('ExerciseElement', async () => {
     await wrapper.setProps({ isEdit: false });
 
     expect(wrapper.find(title).text()).toBe(EXERCISE_CHOOSEN_FIXTURE.exercise?.title);
+
+    await wrapper.setProps({ isPassing: true });
+
+    expect(wrapper.find(title).text()).toBe(
+      `${INDEX + 1} - ${EXERCISES_COUNT}. ${EXERCISE_CHOOSEN_FIXTURE.exercise?.title}`
+    );
 
     await wrapper.setProps({ isHideTitle: true });
 
