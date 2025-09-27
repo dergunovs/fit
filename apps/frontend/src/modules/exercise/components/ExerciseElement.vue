@@ -7,7 +7,7 @@
   >
     <ExerciseMuscleColors
       v-if="props.exercise.exercise?.muscles && !props.isHideTitle"
-      :muscles="props.exercise.exercise?.muscles"
+      :muscles="props.exercise.exercise.muscles"
       data-test="exercise-muscle-colors"
     />
 
@@ -158,6 +158,7 @@ function updateWeight(weight: number) {
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;
+  transition: all 300ms;
 
   &[data-edit='true'] {
     padding: 8px 12px;

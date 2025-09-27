@@ -16,7 +16,9 @@
           :duration="exercise.duration"
           :isFutureActivity="props.isFutureActivity"
           :isToFailure="exercise.isToFailure"
-          :isHideTitle="isPrevExerciseSame(props.exercises, index, exercise.exercise?._id)"
+          :isHideTitle="
+            isPrevExerciseSame(props.exercises, index, exercise.exercise?._id) && !props.isEdit && !props.isPassing
+          "
           @delete="(id) => emit('delete', id)"
           @createSet="emit('createSet')"
           @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
@@ -70,7 +72,7 @@ const emit = defineEmits<IEmit>();
 .list-enter-active,
 .list-leave-active,
 .list-move {
-  transition: all 200ms ease;
+  transition: all 300ms ease;
 }
 
 .list-enter-from,
