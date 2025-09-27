@@ -18,6 +18,7 @@ import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
 import { spyUseAuthCheck } from '@/auth/mocks';
 import { USER_FIXTURE, USER_TEMPLATE } from '@/user/fixtures';
+import { generateActivityExercises } from '@/activity/helpers';
 
 const form = dataTest('activity-form');
 const formContainer = dataTest('activity-form-container');
@@ -33,6 +34,8 @@ const templatesModal = dataTest('activity-form-templates-modal');
 const potentialDuration = dataTest('activity-form-potential-duration');
 const createTemplate = dataTest('activity-form-create-template');
 const templateTitle = dataTest('activity-form-template-title');
+const templateSelect = dataTest('activity-form-template-select');
+const chooseTemplate = dataTest('activity-form-template-choose');
 
 let wrapper: VueWrapper<InstanceType<typeof ActivityForm>>;
 
@@ -119,13 +122,25 @@ describe('ActivityForm', async () => {
 
     expect(wrapper.find(formContainer).exists()).toBe(true);
 
+    expect(wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).props('isShowModal')).toStrictEqual(
+      false
+    );
+
     await wrapper.find(addExercise).trigger('click');
+
+    expect(wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).props('isShowModal')).toStrictEqual(true);
+
+    wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).vm.$emit('updateModal', false);
 
     wrapper
       .findComponent<typeof ExerciseManagment>(exerciseManagment)
       .vm.$emit('update:modelValue', USER_TEMPLATE.exercises);
 
     await nextTick();
+
+    expect(wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).props('isShowModal')).toStrictEqual(
+      false
+    );
 
     await wrapper.find(form).trigger('submit');
 
@@ -192,5 +207,21 @@ describe('ActivityForm', async () => {
     await wrapper.find(form).trigger('submit');
 
     expect(spyCreateActivity).toBeCalledTimes(0);
+  });
+
+  it('chooses template', async () => {
+    expect(wrapper.find(chooseTemplate).attributes('isdisabled')).toBe('true');
+
+    await wrapper.findComponent(templateSelect).setValue(USER_TEMPLATE);
+
+    expect(wrapper.find(chooseTemplate).attributes('isdisabled')).toBe('false');
+
+    expect(wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).props('modelValue')).toStrictEqual([]);
+
+    await wrapper.find(chooseTemplate).trigger('click');
+
+    expect(wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).props('modelValue')).toStrictEqual(
+      generateActivityExercises(USER_TEMPLATE.exercises)
+    );
   });
 });

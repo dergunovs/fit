@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDate, subtractDates, setAuth, dataTest } from 'mhz-helpers';
+import { formatDate, subtractDates, setAuth, dataTest, deleteTempId } from 'mhz-helpers';
 import { UiModal } from 'mhz-ui';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR } from 'fitness-tracker-contracts';
 
@@ -11,7 +11,7 @@ import FormButtonsLayout from '@/common/components/FormButtonsLayout.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_ALL_DONE_FIXTURE, EXERCISES_DONE_FIXTURE } from '@/exercise/fixtures';
-import { getRestPercent, getToFailurePercent } from '@/activity/helpers';
+import { generateActivityExercises, getRestPercent, getToFailurePercent } from '@/activity/helpers';
 import { mockOnSuccess, spyDeleteActivity } from '@/activity/mocks';
 import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
@@ -39,6 +39,7 @@ const startActivity = dataTest('activity-info-start');
 const deleteActivity = dataTest('activity-info-delete');
 const copyActivityToClipboard = dataTest('activity-info-copy-to-clipboard');
 const modal = dataTest('activity-info-modal');
+const createTemplateButton = dataTest('activity-info-create-template');
 const goBackButton = dataTest('activity-info-go-back-button');
 
 const id = '123';
@@ -173,5 +174,27 @@ describe('ActivityInfo', async () => {
 
     expect(spyRouterGo).toBeCalledTimes(1);
     expect(spyRouterGo).toBeCalledWith(-1);
+  });
+
+  it('creates user template when button is clicked', async () => {
+    expect(wrapper.emitted()).not.toHaveProperty('createTemplate');
+    expect(wrapper.find(createTemplateButton).exists()).toBe(false);
+
+    setAuth(true);
+    await wrapper.setProps({ isPopup: true });
+
+    expect(wrapper.find(createTemplateButton).exists()).toBe(true);
+
+    await wrapper.find(createTemplateButton).trigger('click');
+
+    const generatedExercises = generateActivityExercises(exercises);
+
+    const template = {
+      title: formatDate(start, 'ru'),
+      exercises: deleteTempId(generatedExercises),
+    };
+
+    expect(wrapper.emitted('createTemplate')).toHaveLength(1);
+    expect(wrapper.emitted()['createTemplate'][0]).toStrictEqual([template]);
   });
 });
