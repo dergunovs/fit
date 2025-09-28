@@ -18,17 +18,10 @@
       data-test="exercise-passing-to-failure"
     />
 
-    <ExerciseRepeats
-      v-model="repeats"
-      isTall
-      :baseRepeat="props.exercise.repeats"
-      data-test="exercise-passing-repeats"
-    />
-
     <ExerciseDurationTimer
       :start="start"
       :stop="stop"
-      @stop="(duration) => emit('stop', props.exercise, duration, isToFailure, repeats)"
+      @stop="(duration) => emit('stop', props.exercise, duration, isToFailure)"
       data-test="exercise-passing-duration"
     />
   </div>
@@ -39,7 +32,6 @@ import { ref } from 'vue';
 import { UiButton, UiCheckbox } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
-import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 import ExerciseDurationTimer from '@/exercise/components/ExerciseDurationTimer.vue';
 
 import { useTI18n } from '@/common/composables';
@@ -51,7 +43,7 @@ interface IProps {
 
 interface IEmit {
   start: [id: string];
-  stop: [exercise: IExerciseDone, duration: number, isToFailure: boolean, repeats?: number];
+  stop: [exercise: IExerciseDone, duration: number, isToFailure: boolean];
 }
 
 const props = defineProps<IProps>();
@@ -65,7 +57,6 @@ const start = ref(false);
 const stop = ref(false);
 
 const isToFailure = ref(false);
-const repeats = ref<number>();
 
 function handleClick(id: string, isActive: boolean) {
   isButtonDisabled.value = true;
@@ -80,7 +71,6 @@ function handleClick(id: string, isActive: boolean) {
 
     if (isActive) {
       isToFailure.value = false;
-      repeats.value = undefined;
     }
   }, 500);
 }

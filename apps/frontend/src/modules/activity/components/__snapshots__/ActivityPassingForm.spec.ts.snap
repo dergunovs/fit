@@ -4,7 +4,7 @@ exports[`ActivityPassingForm > matches snapshot 1`] = `
 "<div>
   <div column="">
     <exercise-rest-timer-stub data-test="activity-passing-form-rest-timer"></exercise-rest-timer-stub>
-    <div data-test="activity-passing-form-exercises">
+    <div data-test="activity-passing-form-exercise-list">
       <div></div>
       <div>
         <exercise-element-passing-stub exercise="[object Object]" isactive="false" data-test="activity-passing-form-exercise"></exercise-element-passing-stub>

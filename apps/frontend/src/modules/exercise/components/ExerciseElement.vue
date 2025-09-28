@@ -49,6 +49,7 @@
           v-show="isShowEditRepeats"
           :modelValue="props.exercise.repeats"
           :baseRepeat="props.exercise.repeats"
+          :isTall="props.isPassing"
           @update:modelValue="updateRepeats"
           data-test="exercise-repeats"
         />

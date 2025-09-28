@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.buttons" :data-tall="props.isEdit">
+  <div :class="$style.buttons" :data-tall="props.isEdit || props.isPassing">
     <button
       v-if="props.isEdit && props.index !== 0"
       @click="emit('setIndex', props.index)"
@@ -134,11 +134,11 @@ const emit = defineEmits<IEmit>();
 const { t, locale } = useTI18n();
 
 function handleEditRepeats() {
-  if (props.isEdit) emit('editRepeats');
+  if (props.isEdit || props.isPassing) emit('editRepeats');
 }
 
 function handleEditWeight() {
-  if (props.isEdit) emit('editWeight');
+  if (props.isEdit || props.isPassing) emit('editWeight');
 }
 </script>
 

@@ -6,7 +6,13 @@
         data-test="activity-passing-form-rest-timer"
       />
 
-      <ExerciseElementList :exercises="props.activity.exercises" isPassing>
+      <ExerciseElementList
+        :exercises="props.activity.exercises"
+        isPassing
+        @setRepeats="updateRepeats"
+        @setWeight="updateWeight"
+        data-test="activity-passing-form-exercise-list"
+      >
         <template #default="{ exercise, index }">
           <ExerciseElementPassing
             v-if="index === currentExerciseIndex"
@@ -50,6 +56,7 @@ import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing
 import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
 
 import { useTI18n } from '@/common/composables';
+import { updateExercisesRepeats, updateExercisesWeight } from '@/exercise/helpers';
 
 interface IProps {
   activity: IActivity;
@@ -76,9 +83,7 @@ function startExercise(id: string) {
   activeExerciseId.value = id;
 }
 
-function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure: boolean, repeats?: number) {
-  if (!repeats) return;
-
+function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure: boolean) {
   activeExerciseId.value = undefined;
 
   const updatedExercises = props.activity.exercises?.map((exercise) => {
@@ -88,7 +93,6 @@ function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure
           isDone: true,
           duration,
           isToFailure,
-          repeats,
           dateUpdated: new Date(),
         }
       : exercise;
@@ -110,5 +114,21 @@ function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure
 function finishActivity() {
   emit('done', true);
   emit('exit');
+}
+
+function updateRepeats(repeats: number, id?: string) {
+  if (!id) return;
+
+  const updatedExercises = updateExercisesRepeats(props.activity.exercises, repeats, id);
+
+  emit('updateExercises', updatedExercises);
+}
+
+function updateWeight(weight: number, id?: string) {
+  if (!id) return;
+
+  const updatedExercises = updateExercisesWeight(props.activity.exercises, weight, id);
+
+  emit('updateExercises', updatedExercises);
 }
 </script>

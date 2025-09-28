@@ -19,7 +19,6 @@ const activity = ACTIVITY_FIXTURE_2;
 const exercise = activity.exercises[0];
 const duration = 40;
 const isToFailure = false;
-const repeats = 12;
 
 const exerciseElementListStub = {
   name: 'ExerciseElementList',
@@ -88,7 +87,7 @@ describe('ActivityPassingForm', async () => {
 
     wrapper
       .findComponent<typeof ExerciseElementList>(exerciseElement)
-      .vm.$emit('stop', exercise, duration, isToFailure, repeats);
+      .vm.$emit('stop', exercise, duration, isToFailure);
 
     await nextTick();
 
@@ -109,23 +108,10 @@ describe('ActivityPassingForm', async () => {
 
     wrapperWithoutDateUpdated
       .findComponent<typeof ExerciseElementList>(exerciseElement)
-      .vm.$emit('stop', exercise, duration, isToFailure, repeats);
-
-    await nextTick();
-
-    expect(wrapperWithoutDateUpdated.emitted('setDateCreated')).toHaveLength(1);
-  });
-
-  it('does not update when repeats is falsy', async () => {
-    wrapper
-      .findComponent<typeof ExerciseElementList>(exerciseElement)
       .vm.$emit('stop', exercise, duration, isToFailure);
 
     await nextTick();
 
-    expect(wrapper.emitted()).not.toHaveProperty('updateExercises');
-    expect(wrapper.emitted()).not.toHaveProperty('setDateUpdated');
-    expect(wrapper.emitted()).not.toHaveProperty('setDateCreated');
-    expect(wrapper.emitted()).not.toHaveProperty('done');
+    expect(wrapperWithoutDateUpdated.emitted('setDateCreated')).toHaveLength(1);
   });
 });

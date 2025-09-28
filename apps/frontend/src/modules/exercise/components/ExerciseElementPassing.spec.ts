@@ -11,7 +11,6 @@ import { EXERCISE_NOT_DONE_FIXTURE } from '@/exercise/fixtures';
 const exercise = dataTest('exercise-passing-element');
 const button = dataTest('exercise-passing-button');
 const toFailure = dataTest('exercise-passing-to-failure');
-const repeats = dataTest('exercise-passing-repeats');
 const duration = dataTest('exercise-passing-duration');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseElementPassing>>;
@@ -82,12 +81,7 @@ describe('ExerciseElementPassing', async () => {
     wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$emit('stop', durationTime);
 
     expect(wrapper.emitted('stop')).toHaveLength(1);
-    expect(wrapper.emitted()['stop'][0]).toStrictEqual([
-      EXERCISE_NOT_DONE_FIXTURE,
-      durationTime,
-      isToFailure,
-      undefined,
-    ]);
+    expect(wrapper.emitted()['stop'][0]).toStrictEqual([EXERCISE_NOT_DONE_FIXTURE, durationTime, isToFailure]);
   });
 
   it('handles exercise to failure checkbox', async () => {
@@ -110,6 +104,5 @@ describe('ExerciseElementPassing', async () => {
 
     expect(wrapper.find(button).attributes('isdisabled')).toBe('false');
     expect(wrapper.find(toFailure).attributes('modelvalue')).toBe('false');
-    expect(wrapper.find(repeats).attributes('modelvalue')).toBeUndefined();
   });
 });
