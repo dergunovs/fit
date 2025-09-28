@@ -70,5 +70,10 @@ describe('ExerciseElementList', async () => {
 
     expect(wrapper.emitted('setWeight')).toHaveLength(1);
     expect(wrapper.emitted()['setWeight'][0]).toStrictEqual([WEIGHT, ID]);
+
+    wrapper.findComponent<typeof ExerciseElement>(exercise).vm.$emit('setIsToFailure', true);
+
+    expect(wrapper.emitted('setIsToFailure')).toHaveLength(1);
+    expect(wrapper.emitted()['setIsToFailure'][0]).toStrictEqual([true, ID]);
   });
 });

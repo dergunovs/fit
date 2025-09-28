@@ -10,12 +10,7 @@ import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import { wrapperFactory } from '@/common/test';
 import { EXERCISES_CHOOSEN_FIXTURE, EXERCISE_CHOOSEN_FIXTURE, EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { spyGetExercisesAll } from '@/exercise/mocks';
-import {
-  addSetToExercises,
-  updateExercisesIndex,
-  updateExercisesRepeats,
-  updateExercisesWeight,
-} from '@/exercise/helpers';
+import { addSetToExercises, updateExercisesIndex, updateExerciseField } from '@/exercise/helpers';
 
 const ID = EXERCISES_CHOOSEN_FIXTURE[0]._id;
 
@@ -121,7 +116,7 @@ describe('ExerciseManagment', async () => {
 
     wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('setRepeats', REPEATS, ID);
 
-    const updatedExercises = updateExercisesRepeats(EXERCISES_CHOOSEN_FIXTURE, REPEATS, ID as string);
+    const updatedExercises = updateExerciseField(EXERCISES_CHOOSEN_FIXTURE, 'repeats', REPEATS, ID as string);
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([updatedExercises]);
@@ -134,7 +129,7 @@ describe('ExerciseManagment', async () => {
 
     wrapper.findComponent<typeof ExerciseElementList>(exercises).vm.$emit('setWeight', WEIGHT, ID);
 
-    const updatedExercises = updateExercisesWeight(EXERCISES_CHOOSEN_FIXTURE, WEIGHT, ID as string);
+    const updatedExercises = updateExerciseField(EXERCISES_CHOOSEN_FIXTURE, 'weight', WEIGHT, ID as string);
 
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([updatedExercises]);

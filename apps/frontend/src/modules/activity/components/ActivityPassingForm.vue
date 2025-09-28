@@ -9,8 +9,17 @@
       <ExerciseElementList
         :exercises="props.activity.exercises"
         isPassing
-        @setRepeats="updateRepeats"
-        @setWeight="updateWeight"
+        @setRepeats="
+          (repeats, id) =>
+            emit('updateExercises', updateExerciseField(props.activity.exercises, 'repeats', repeats, id))
+        "
+        @setWeight="
+          (weight, id) => emit('updateExercises', updateExerciseField(props.activity.exercises, 'weight', weight, id))
+        "
+        @setIsToFailure="
+          (isToFailure, id) =>
+            emit('updateExercises', updateExerciseField(props.activity.exercises, 'isToFailure', isToFailure, id))
+        "
         data-test="activity-passing-form-exercise-list"
       >
         <template #default="{ exercise, index }">
@@ -56,7 +65,7 @@ import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing
 import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
 
 import { useTI18n } from '@/common/composables';
-import { updateExercisesRepeats, updateExercisesWeight } from '@/exercise/helpers';
+import { updateExerciseField } from '@/exercise/helpers';
 
 interface IProps {
   activity: IActivity;
@@ -83,18 +92,12 @@ function startExercise(id: string) {
   activeExerciseId.value = id;
 }
 
-function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure: boolean) {
+function stopExercise(exerciseDone: IExerciseDone, duration: number) {
   activeExerciseId.value = undefined;
 
   const updatedExercises = props.activity.exercises?.map((exercise) => {
     return exercise._id === exerciseDone._id
-      ? {
-          ...exercise,
-          isDone: true,
-          duration,
-          isToFailure,
-          dateUpdated: new Date(),
-        }
+      ? { ...exercise, isDone: true, duration, dateUpdated: new Date() }
       : exercise;
   });
 
@@ -114,21 +117,5 @@ function stopExercise(exerciseDone: IExerciseDone, duration: number, isToFailure
 function finishActivity() {
   emit('done', true);
   emit('exit');
-}
-
-function updateRepeats(repeats: number, id?: string) {
-  if (!id) return;
-
-  const updatedExercises = updateExercisesRepeats(props.activity.exercises, repeats, id);
-
-  emit('updateExercises', updatedExercises);
-}
-
-function updateWeight(weight: number, id?: string) {
-  if (!id) return;
-
-  const updatedExercises = updateExercisesWeight(props.activity.exercises, weight, id);
-
-  emit('updateExercises', updatedExercises);
 }
 </script>

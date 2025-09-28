@@ -41,6 +41,7 @@
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
         @editRepeats="toggleExerciseRepeats"
         @editWeight="toggleExerciseWeight"
+        @setIsToFailure="(isToFailure) => emit('setIsToFailure', isToFailure)"
         data-test="exercise-buttons"
       />
 
@@ -106,6 +107,7 @@ interface IEmit {
   setIndex: [index: number];
   setRepeats: [repeats: number];
   setWeight: [weight: number];
+  setIsToFailure: [isToFailure: boolean];
 }
 
 const props = defineProps<IProps>();

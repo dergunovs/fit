@@ -23,8 +23,14 @@
         @delete="deleteExercise"
         @createSet="createSet"
         @setIndex="updateIndex"
-        @setRepeats="updateRepeats"
-        @setWeight="updateWeight"
+        @setRepeats="
+          (repeats, id) =>
+            props.modelValue && emit('update:modelValue', updateExerciseField(props.modelValue, 'repeats', repeats, id))
+        "
+        @setWeight="
+          (weight, id) =>
+            props.modelValue && emit('update:modelValue', updateExerciseField(props.modelValue, 'weight', weight, id))
+        "
         data-test="exercise-element-list"
       />
     </UiFlex>
@@ -40,12 +46,7 @@ import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 
 import { useTI18n } from '@/common/composables';
 import { exerciseService } from '@/exercise/services';
-import {
-  addSetToExercises,
-  updateExercisesIndex,
-  updateExercisesRepeats,
-  updateExercisesWeight,
-} from '@/exercise/helpers';
+import { addSetToExercises, updateExercisesIndex, updateExerciseField } from '@/exercise/helpers';
 
 interface IProps {
   isShowModal: boolean;
@@ -90,22 +91,6 @@ function updateIndex(updatedIndex: number) {
   if (!props.modelValue) return;
 
   const updatedExercises = updateExercisesIndex(props.modelValue, updatedIndex);
-
-  emit('update:modelValue', updatedExercises);
-}
-
-function updateRepeats(repeats: number, id?: string) {
-  if (!props.modelValue || !id) return;
-
-  const updatedExercises = updateExercisesRepeats(props.modelValue, repeats, id);
-
-  emit('update:modelValue', updatedExercises);
-}
-
-function updateWeight(weight: number, id?: string) {
-  if (!props.modelValue || !id) return;
-
-  const updatedExercises = updateExercisesWeight(props.modelValue, weight, id);
 
   emit('update:modelValue', updatedExercises);
 }

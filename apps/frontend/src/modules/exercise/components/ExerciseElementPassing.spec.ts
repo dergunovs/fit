@@ -10,7 +10,6 @@ import { EXERCISE_NOT_DONE_FIXTURE } from '@/exercise/fixtures';
 
 const exercise = dataTest('exercise-passing-element');
 const button = dataTest('exercise-passing-button');
-const toFailure = dataTest('exercise-passing-to-failure');
 const duration = dataTest('exercise-passing-duration');
 
 let wrapper: VueWrapper<InstanceType<typeof ExerciseElementPassing>>;
@@ -76,33 +75,10 @@ describe('ExerciseElementPassing', async () => {
     await wrapper.find(button).trigger('click');
 
     const durationTime = 44;
-    const isToFailure = false;
 
     wrapper.findComponent<typeof ExerciseDurationTimer>(duration).vm.$emit('stop', durationTime);
 
     expect(wrapper.emitted('stop')).toHaveLength(1);
-    expect(wrapper.emitted()['stop'][0]).toStrictEqual([EXERCISE_NOT_DONE_FIXTURE, durationTime, isToFailure]);
-  });
-
-  it('handles exercise to failure checkbox', async () => {
-    expect(wrapper.find(toFailure).attributes('isdisabled')).toBe('true');
-
-    await wrapper.setProps({ isActive: true });
-
-    expect(wrapper.find(toFailure).attributes('isdisabled')).toBe('false');
-    expect(wrapper.find(toFailure).attributes('modelvalue')).toBe('false');
-  });
-
-  it('resets to failure and repeats when stopping active exercise', async () => {
-    await wrapper.setProps({ isActive: true });
-
-    await wrapper.find(button).trigger('click');
-
-    expect(wrapper.find(button).attributes('isdisabled')).toBe('true');
-
-    await wait(501);
-
-    expect(wrapper.find(button).attributes('isdisabled')).toBe('false');
-    expect(wrapper.find(toFailure).attributes('modelvalue')).toBe('false');
+    expect(wrapper.emitted()['stop'][0]).toStrictEqual([EXERCISE_NOT_DONE_FIXTURE, durationTime]);
   });
 });

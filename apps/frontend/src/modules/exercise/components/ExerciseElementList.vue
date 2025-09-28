@@ -24,6 +24,7 @@
           @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
           @setRepeats="(repeats) => emit('setRepeats', repeats, exercise._id)"
           @setWeight="(weight) => emit('setWeight', weight, exercise._id)"
+          @setIsToFailure="(isToFailure) => emit('setIsToFailure', isToFailure, exercise._id)"
           data-test="exercise-element"
         >
           <slot :exercise="exercise" :index="index"></slot>
@@ -54,6 +55,7 @@ interface IEmit {
   setIndex: [index: number];
   setRepeats: [repeats: number, id?: string];
   setWeight: [weight: number, id?: string];
+  setIsToFailure: [isToFailure: boolean, id?: string];
 }
 
 const props = defineProps<IProps>();

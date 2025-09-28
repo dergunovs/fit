@@ -192,16 +192,13 @@ export function updateExercisesIndex(exercises: IExerciseChoosen[], index: numbe
   return updatedExercises;
 }
 
-export function updateExercisesRepeats(exercises: IExerciseChoosen[], repeats: number, id: string) {
-  const updatedExercises = exercises.map((exercise) => (exercise._id === id ? { ...exercise, repeats } : exercise));
-
-  return updatedExercises;
-}
-
-export function updateExercisesWeight(exercises: IExerciseChoosen[], weight: number, id: string) {
-  const updatedExercises = exercises.map((exercise) => (exercise._id === id ? { ...exercise, weight } : exercise));
-
-  return updatedExercises;
+export function updateExerciseField<T extends keyof IExerciseDone>(
+  exercises: IExerciseChoosen[],
+  field: T,
+  value: IExerciseDone[T],
+  id?: string
+): IExerciseChoosen[] {
+  return exercises.map((exercise) => (exercise._id === id ? { ...exercise, [field]: value } : exercise));
 }
 
 export function generateExerciseChoosen(repeats: number, weight?: number, exercise?: IExercise): IExerciseChoosen {

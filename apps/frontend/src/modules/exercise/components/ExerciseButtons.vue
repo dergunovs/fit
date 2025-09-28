@@ -63,14 +63,16 @@
       <IconFail width="14" height="14" /> {{ t('notDone') }}
     </span>
 
-    <span
-      v-if="!props.isEdit && props.isToFailure"
-      :class="[$style.button, $style.success]"
+    <button
+      @click="handleToggleIsToFailure"
+      v-if="(!props.isEdit && props.isToFailure) || props.isPassing"
+      type="button"
+      :class="[$style.button, props.isToFailure && $style.success]"
       :data-edit="props.isEdit"
       data-test="exercise-buttons-to-failure"
     >
       <IconToFailure width="14" height="14" /> {{ t('toFailure') }}
-    </span>
+    </button>
 
     <span
       v-if="!props.isEdit && props.duration"
@@ -124,6 +126,7 @@ interface IEmit {
   delete: [];
   createSet: [];
   setIndex: [index: number];
+  setIsToFailure: [isToFailure: boolean];
   editRepeats: [];
   editWeight: [];
 }
@@ -139,6 +142,10 @@ function handleEditRepeats() {
 
 function handleEditWeight() {
   if (props.isEdit || props.isPassing) emit('editWeight');
+}
+
+function handleToggleIsToFailure() {
+  if (props.isPassing) emit('setIsToFailure', !props.isToFailure);
 }
 </script>
 

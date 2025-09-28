@@ -123,6 +123,11 @@ describe('ExerciseElement', async () => {
 
     expect(wrapper.emitted('setIndex')).toHaveLength(1);
     expect(wrapper.emitted()['setIndex'][0]).toStrictEqual([INDEX + 1]);
+
+    wrapper.findComponent<typeof ExerciseButtons>(buttons).vm.$emit('setIsToFailure', !IS_TO_FAILURE);
+
+    expect(wrapper.emitted('setIsToFailure')).toHaveLength(1);
+    expect(wrapper.emitted()['setIsToFailure'][0]).toStrictEqual([!IS_TO_FAILURE]);
   });
 
   it('updates repeats', async () => {
