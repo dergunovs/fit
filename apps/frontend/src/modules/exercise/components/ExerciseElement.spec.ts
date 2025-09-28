@@ -17,7 +17,7 @@ import { USER_FIXTURE } from '@/user/fixtures';
 import { spyUseAuthCheck } from '@/auth/mocks';
 
 const muscleColors = dataTest('exercise-muscle-colors');
-const title = dataTest('exercise-title');
+const title = dataTest('exercise-element-title');
 const buttons = dataTest('exercise-buttons');
 const repeats = dataTest('exercise-repeats');
 const weight = dataTest('exercise-weight');
@@ -75,17 +75,7 @@ describe('ExerciseElement', async () => {
   });
 
   it('shows and hides title', async () => {
-    expect(wrapper.find(title).text()).toBe(`${INDEX + 1}. ${EXERCISE_CHOOSEN_FIXTURE.exercise?.title}`);
-
-    await wrapper.setProps({ isEdit: false });
-
-    expect(wrapper.find(title).text()).toBe(EXERCISE_CHOOSEN_FIXTURE.exercise?.title);
-
-    await wrapper.setProps({ isPassing: true });
-
-    expect(wrapper.find(title).text()).toBe(
-      `${INDEX + 1} - ${EXERCISES_COUNT}. ${EXERCISE_CHOOSEN_FIXTURE.exercise?.title}`
-    );
+    expect(wrapper.find(title).exists()).toBe(true);
 
     await wrapper.setProps({ isHideTitle: true });
 

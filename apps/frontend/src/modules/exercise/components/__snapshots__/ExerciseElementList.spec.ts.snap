@@ -4,8 +4,8 @@ exports[`ExerciseElementList > matches snapshot 1`] = `
 "<div>
   <div column="">
     <transition-group-stub name="list" tag="div" appear="false" persisted="false" css="true" class="_block_72460c">
-      <exercise-element-stub exercise="[object Object]" exercisescount="2" index="0" isedit="false" issetcreatable="false" islast="false" ishidetitle="false" isfutureactivity="false" ispassing="false" data-test="exercise-element"></exercise-element-stub>
-      <exercise-element-stub exercise="[object Object]" exercisescount="2" index="1" isedit="false" issetcreatable="true" islast="true" ishidetitle="false" isfutureactivity="false" ispassing="false" data-test="exercise-element"></exercise-element-stub>
+      <exercise-element-stub exercise="[object Object]" exercisescount="2" index="0" isedit="false" ispassing="false" issetcreatable="false" islast="false" ishidetitle="false" isfutureactivity="false" data-test="exercise-element"></exercise-element-stub>
+      <exercise-element-stub exercise="[object Object]" exercisescount="2" index="1" isedit="false" ispassing="false" issetcreatable="true" islast="true" ishidetitle="false" isfutureactivity="false" data-test="exercise-element"></exercise-element-stub>
     </transition-group-stub>
   </div>
 </div>"

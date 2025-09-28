@@ -12,20 +12,26 @@
     />
 
     <UiFlex column :gap="props.isEdit ? '4' : '2'" align="flex-start" grow>
-      <div v-if="!props.isHideTitle" data-test="exercise-title">
-        {{ title }}
-      </div>
+      <ExerciseElementTitle
+        v-if="!props.isHideTitle"
+        :exercise="props.exercise.exercise"
+        :exercisesCount="props.exercisesCount"
+        :index="props.index"
+        :isEdit="props.isEdit"
+        :isPassing="props.isPassing"
+        data-test="exercise-element-title"
+      />
 
       <ExerciseButtons
         v-if="props.exercise._id"
         :isEdit="props.isEdit"
+        :isPassing="props.isPassing"
         :repeats="props.exercise.repeats"
         :weight="props.exercise.weight"
         :index="props.index"
         :isLast="props.isLast"
         :isSetCreatable="props.isSetCreatable"
         :isDone="props.isDone"
-        :isPassing="props.isPassing"
         :isToFailure="props.isToFailure"
         :duration="props.duration"
         :isFutureActivity="props.isFutureActivity"
@@ -65,17 +71,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiFlex } from 'mhz-ui';
-import { localeField } from 'mhz-helpers';
 
+import ExerciseElementTitle from '@/exercise/components/ExerciseElementTitle.vue';
 import ExerciseMuscleColors from '@/exercise/components/ExerciseMuscleColors.vue';
 import ExerciseRepeats from '@/exercise/components/ExerciseRepeats.vue';
 import ExerciseWeight from '@/exercise/components/ExerciseWeight.vue';
 import ExerciseButtons from '@/exercise/components/ExerciseButtons.vue';
 
-import { useTI18n } from '@/common/composables';
 import { getAvailableExerciseWeights } from '@/exercise/helpers';
 import { useAuthCheck } from '@/auth/composables';
 
@@ -83,6 +88,7 @@ interface IProps {
   exercise: IExerciseChoosen;
   index: number;
   isEdit?: boolean;
+  isPassing?: boolean;
   isSetCreatable?: boolean;
   isLast?: boolean;
   isHideTitle?: boolean;
@@ -90,7 +96,6 @@ interface IProps {
   isToFailure?: boolean;
   duration?: number;
   isFutureActivity?: boolean;
-  isPassing?: boolean;
   exercisesCount?: number;
 }
 
@@ -105,25 +110,10 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const { t, locale } = useTI18n();
 const { user } = useAuthCheck();
 
 const isShowEditRepeats = ref(false);
 const isShowEditWeight = ref(false);
-
-const title = computed(() => {
-  const isExerciseExists = !!props.exercise.exercise;
-
-  if (!isExerciseExists) return t('exercise.deleted');
-
-  const exerciseTitle = props.exercise.exercise?.[localeField('title', locale.value)];
-
-  if (props.isPassing) return `${props.index + 1} - ${props.exercisesCount}. ${exerciseTitle}`;
-
-  if (!props.isEdit) return exerciseTitle;
-
-  return `${props.index + 1}. ${exerciseTitle}`;
-});
 
 function toggleExerciseRepeats() {
   isShowEditRepeats.value = !isShowEditRepeats.value;
