@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.buttons" :data-tall="props.isEdit || props.isPassing">
     <button
-      v-if="props.isEdit && props.index !== 0 && !props.isOnlyOne"
+      v-if="(props.isEdit || (props.isPassing && !props.isActive && !props.isCurrent)) && props.index !== 0"
       @click="emit('setIndex', props.index)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"
@@ -12,7 +12,7 @@
     </button>
 
     <button
-      v-if="props.isEdit && !props.isLast && !props.isOnlyOne"
+      v-if="(props.isEdit || (props.isPassing && !props.isActive)) && !props.isLast"
       @click="emit('setIndex', props.index + 1)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"

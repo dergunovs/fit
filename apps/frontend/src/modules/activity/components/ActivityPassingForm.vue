@@ -2,26 +2,26 @@
   <div>
     <UiFlex column>
       <ExerciseRestTimer
-        v-if="!activeExerciseId && currentExerciseIndex && currentExerciseIndex !== props.activity.exercises.length"
+        v-if="!activeExerciseId && currentExerciseIndex && currentExerciseIndex !== formData.exercises.length"
         data-test="activity-passing-form-rest-timer"
       />
 
       <ExerciseElementList
-        :exercises="props.activity.exercises"
+        :exercises="formData.exercises"
         isPassing
         :currentExerciseIndex="currentExerciseIndex"
         :activeExerciseId="activeExerciseId"
         @delete="deleteExercise"
+        @setIndex="updateIndex"
         @setRepeats="
-          (repeats, id) =>
-            emit('updateExercises', updateExerciseField(props.activity.exercises, 'repeats', repeats, id))
+          (repeats, id) => (formData.exercises = updateExerciseField(formData.exercises, 'repeats', repeats, id))
         "
         @setWeight="
-          (weight, id) => emit('updateExercises', updateExerciseField(props.activity.exercises, 'weight', weight, id))
+          (weight, id) => (formData.exercises = updateExerciseField(formData.exercises, 'weight', weight, id))
         "
         @setIsToFailure="
           (isToFailure, id) =>
-            emit('updateExercises', updateExerciseField(props.activity.exercises, 'isToFailure', isToFailure, id))
+            (formData.exercises = updateExerciseField(formData.exercises, 'isToFailure', isToFailure, id))
         "
         data-test="activity-passing-form-exercise-list"
       >
@@ -30,7 +30,7 @@
             v-if="index === currentExerciseIndex"
             :exercise="exercise"
             :isActive="exercise._id === activeExerciseId"
-            @start="startExercise"
+            @start="(id) => (activeExerciseId = id)"
             @stop="stopExercise"
             data-test="activity-passing-form-exercise"
           />
@@ -40,12 +40,12 @@
       <div>
         <div>
           {{ t('activity.created') }}
-          <span data-test="activity-start"> {{ formatDateTime(props.activity.dateCreated, locale) }}</span>
+          <span data-test="activity-start"> {{ formatDateTime(formData.dateCreated, locale) }}</span>
         </div>
       </div>
 
       <UiButton
-        v-if="!props.activity.isDone"
+        v-if="!formData.isDone"
         @click="finishActivity"
         layout="secondary"
         :isDisabled="!!activeExerciseId"
@@ -58,73 +58,107 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { UiButton, UiFlex } from 'mhz-ui';
-import { formatDateTime } from 'mhz-helpers';
-import { IActivity, IExerciseDone } from 'fitness-tracker-contracts';
+import { ref, computed, onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
+import { toast, UiButton, UiFlex } from 'mhz-ui';
+import { clone, formatDateTime, useQueryClient } from 'mhz-helpers';
+import {
+  API_ACTIVITY,
+  API_ACTIVITY_CHART,
+  API_ACTIVITY_STATISTICS,
+  IActivity,
+  IExerciseDone,
+} from 'fitness-tracker-contracts';
 
 import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
 import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
 
 import { useTI18n } from '@/common/composables';
-import { updateExerciseField } from '@/exercise/helpers';
+import { updateExerciseField, updateExercisesIndex } from '@/exercise/helpers';
+import { URL_HOME } from '@/common/constants';
+import { activityService } from '@/activity/services';
 
 interface IProps {
   activity: IActivity;
 }
 
-interface IEmit {
-  exit: [];
-  done: [isDone: boolean];
-  updateExercises: [exercises: IExerciseDone[]];
-  setDateCreated: [dateCreated: Date];
-  setDateUpdated: [dateUpdated: Date];
-}
-
 const props = defineProps<IProps>();
-const emit = defineEmits<IEmit>();
 
+const router = useRouter();
 const { t, locale } = useTI18n();
+const queryClient = useQueryClient();
+
+const formData = ref<IActivity>({
+  exercises: [],
+  dateCreated: undefined,
+  dateUpdated: undefined,
+  isDone: false,
+});
 
 const activeExerciseId = ref<string>();
 
-const currentExerciseIndex = computed(() => props.activity.exercises.filter((exercise) => exercise.isDone).length);
+const currentExerciseIndex = computed(() => formData.value.exercises.filter((exercise) => exercise.isDone).length);
 
-function startExercise(id: string) {
-  activeExerciseId.value = id;
-}
+const { mutate: mutateUpdate } = activityService.update({
+  onSuccess: async () => {
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
+  },
+});
 
 function stopExercise(exerciseDone: IExerciseDone, duration: number) {
   activeExerciseId.value = undefined;
 
-  const updatedExercises = props.activity.exercises?.map((exercise) => {
+  const updatedExercises = formData.value.exercises.map((exercise) => {
     return exercise._id === exerciseDone._id
       ? { ...exercise, isDone: true, duration, dateUpdated: new Date() }
       : exercise;
   });
 
-  emit('updateExercises', updatedExercises);
+  formData.value.exercises = updatedExercises;
 
-  emit('done', !props.activity.exercises?.some((exercise) => !exercise.isDone));
+  formData.value.isDone = !formData.value.exercises.some((exercise) => !exercise.isDone);
 
-  if (!props.activity.dateUpdated) {
-    emit('setDateCreated', new Date(Date.now() - (exerciseDone.duration || 0) * 1000));
+  if (!formData.value.dateUpdated) {
+    formData.value.dateCreated = new Date(Date.now() - (exerciseDone.duration || 0) * 1000);
   }
 
-  emit('setDateUpdated', new Date());
+  formData.value.dateUpdated = new Date();
 
-  if (props.activity.isDone) emit('exit');
+  if (formData.value.isDone) exitActivity();
 }
 
 function finishActivity() {
-  emit('done', true);
-  emit('exit');
+  formData.value.isDone = true;
+  exitActivity();
 }
 
 function deleteExercise(idToDelete: string) {
-  const updatedExercises = props.activity.exercises?.filter((exercise) => exercise._id !== idToDelete) || [];
+  const updatedExercises = formData.value.exercises.filter((exercise) => exercise._id !== idToDelete);
 
-  emit('updateExercises', updatedExercises);
+  formData.value.exercises = updatedExercises;
 }
+
+function updateIndex(updatedIndex: number) {
+  const updatedExercises = updateExercisesIndex(formData.value.exercises, updatedIndex);
+
+  formData.value.exercises = updatedExercises;
+}
+
+function exitActivity() {
+  mutateUpdate(formData.value);
+
+  toast.success(t('activity.finished'));
+
+  setTimeout(async () => {
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+
+    router.push(URL_HOME);
+  }, 1000);
+}
+
+onBeforeMount(() => {
+  formData.value = clone(props.activity);
+});
 </script>

@@ -1,24 +1,22 @@
 import { nextTick } from 'vue';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
-import { formatDateTime, dataTest } from 'mhz-helpers';
+import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
+import { formatDateTime, dataTest, wait } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
-import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
+import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
+import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
+import { URL_HOME } from '@/common/constants';
 
 const restTimer = dataTest('activity-passing-form-rest-timer');
 const exerciseElement = dataTest('activity-passing-form-exercise');
 const activityStart = dataTest('activity-start');
 const activityFinish = dataTest('activity-finish');
-
-const activity = ACTIVITY_FIXTURE_2;
-const exercise = activity.exercises[0];
-const duration = 40;
-const isToFailure = false;
 
 const exerciseElementListStub = {
   name: 'ExerciseElementList',
@@ -35,7 +33,11 @@ const exerciseElementListStub = {
 let wrapper: VueWrapper<InstanceType<typeof ActivityPassingForm>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ActivityPassingForm, { activity }, { ExerciseElementList: exerciseElementListStub });
+  wrapper = wrapperFactory(
+    ActivityPassingForm,
+    { activity: ACTIVITY_FIXTURE_2 },
+    { ExerciseElementList: exerciseElementListStub }
+  );
 });
 
 enableAutoUnmount(afterEach);
@@ -49,69 +51,77 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('shows start  time', async () => {
-    expect(wrapper.find(activityStart).text()).toBe(formatDateTime(activity.dateCreated, 'ru'));
+  it('shows start time', async () => {
+    expect(wrapper.find(activityStart).text()).toBe(formatDateTime(ACTIVITY_FIXTURE_2.dateCreated, 'ru'));
+  });
+
+  it('shows rest timer', async () => {
+    expect(wrapper.find(restTimer).exists()).toBe(true);
   });
 
   it('finishes activity early', async () => {
-    expect(wrapper.emitted()).not.toHaveProperty('done');
-    expect(wrapper.emitted()).not.toHaveProperty('exit');
+    expect(spyUpdateActivity).toBeCalledTimes(0);
+    expect(spyRefetchQueries).toBeCalledTimes(0);
+    expect(spyToastSuccess).toBeCalledTimes(0);
 
-    expect(wrapper.find(activityFinish).attributes('isdisabled')).toBe(activity.isDone.toString());
+    expect(wrapper.find(activityFinish).attributes('isdisabled')).toBe(ACTIVITY_FIXTURE_2.isDone.toString());
 
     await wrapper.find(activityFinish).trigger('click');
 
-    expect(wrapper.emitted('done')).toHaveLength(1);
-    expect(wrapper.emitted()['done'][0]).toStrictEqual([true]);
+    expect(spyUpdateActivity).toBeCalledTimes(1);
+    expect(spyUpdateActivity).toBeCalledWith({ ...ACTIVITY_FIXTURE_2, isDone: true });
 
-    expect(wrapper.emitted('exit')).toHaveLength(1);
+    await mockOnSuccess.update?.();
+
+    expect(spyToastSuccess).toBeCalledTimes(1);
+
+    expect(wrapper.find(activityFinish).exists()).toBe(false);
+
+    await wait(1001);
+
+    expect(spyRefetchQueries).toBeCalledTimes(3);
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
+
+    expect(spyRouterPush).toBeCalledTimes(1);
+    expect(spyRouterPush).toBeCalledWith(URL_HOME);
   });
 
-  it('starts and stops exercise', async () => {
-    expect(wrapper.find(restTimer).exists()).toStrictEqual(true);
+  it('stops exercise', async () => {
+    const currentExerciseIndex = ACTIVITY_FIXTURE_2.exercises.filter((exercise) => exercise.isDone).length;
+    const exercise = ACTIVITY_FIXTURE_2.exercises[currentExerciseIndex];
+    const fixedDate = new Date();
 
-    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(
-      false
-    );
+    vi.setSystemTime(fixedDate);
 
-    wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).vm.$emit('start', activity.exercises[1]._id);
+    expect(wrapper.find(restTimer).exists()).toBe(true);
 
-    await nextTick();
-
-    expect(wrapper.find(restTimer).exists()).toStrictEqual(false);
-
-    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(true);
-
-    expect(wrapper.emitted()).not.toHaveProperty('updateExercises');
-    expect(wrapper.emitted()).not.toHaveProperty('setDateUpdated');
-
-    wrapper
-      .findComponent<typeof ExerciseElementList>(exerciseElement)
-      .vm.$emit('stop', exercise, duration, isToFailure);
+    wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).vm.$emit('start', exercise._id);
 
     await nextTick();
 
-    expect(wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).props('isActive')).toStrictEqual(
-      false
-    );
+    expect(wrapper.find(restTimer).exists()).toBe(false);
 
-    expect(wrapper.emitted('updateExercises')).toHaveLength(1);
-    expect(wrapper.emitted('setDateUpdated')).toHaveLength(1);
-  });
+    const exerciseDone = { _id: exercise._id };
 
-  it('sets dateCreated when dateUpdated is not set', async () => {
-    const wrapperWithoutDateUpdated = wrapperFactory(
-      ActivityPassingForm,
-      { activity: { ...activity, dateUpdated: undefined } },
-      { ExerciseElementList: exerciseElementListStub }
-    );
-
-    wrapperWithoutDateUpdated
-      .findComponent<typeof ExerciseElementList>(exerciseElement)
-      .vm.$emit('stop', exercise, duration, isToFailure);
+    wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).vm.$emit('stop', exerciseDone, 60);
 
     await nextTick();
 
-    expect(wrapperWithoutDateUpdated.emitted('setDateCreated')).toHaveLength(1);
+    expect(spyUpdateActivity).toBeCalledTimes(1);
+
+    const expectedExercises = ACTIVITY_FIXTURE_2.exercises.map((e) =>
+      e._id === exercise._id ? { ...e, isDone: true, duration: 60, dateUpdated: fixedDate } : e
+    );
+
+    expect(spyUpdateActivity).toBeCalledWith({
+      ...ACTIVITY_FIXTURE_2,
+      exercises: expectedExercises,
+      dateUpdated: fixedDate,
+      isDone: true,
+    });
+
+    vi.useRealTimers();
   });
 });
