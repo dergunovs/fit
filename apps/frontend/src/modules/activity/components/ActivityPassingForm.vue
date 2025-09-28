@@ -9,6 +9,9 @@
       <ExerciseElementList
         :exercises="props.activity.exercises"
         isPassing
+        :currentExerciseIndex="currentExerciseIndex"
+        :activeExerciseId="activeExerciseId"
+        @delete="deleteExercise"
         @setRepeats="
           (repeats, id) =>
             emit('updateExercises', updateExerciseField(props.activity.exercises, 'repeats', repeats, id))
@@ -117,5 +120,11 @@ function stopExercise(exerciseDone: IExerciseDone, duration: number) {
 function finishActivity() {
   emit('done', true);
   emit('exit');
+}
+
+function deleteExercise(idToDelete: string) {
+  const updatedExercises = props.activity.exercises?.filter((exercise) => exercise._id !== idToDelete) || [];
+
+  emit('updateExercises', updatedExercises);
 }
 </script>

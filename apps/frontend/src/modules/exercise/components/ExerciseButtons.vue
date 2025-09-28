@@ -1,22 +1,22 @@
 <template>
   <div :class="$style.buttons" :data-tall="props.isEdit || props.isPassing">
     <button
-      v-if="props.isEdit && props.index !== 0"
+      v-if="props.isEdit && props.index !== 0 && !props.isOnlyOne"
       @click="emit('setIndex', props.index)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-index-down"
     >
       <IconArrow width="16" height="16" :class="$style.rotateArrow" />
     </button>
 
     <button
-      v-if="props.isEdit && !props.isLast"
+      v-if="props.isEdit && !props.isLast && !props.isOnlyOne"
       @click="emit('setIndex', props.index + 1)"
       type="button"
       :class="[$style.arrow, $style.pointer, $style.button]"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-index-up"
     >
       <IconArrow width="16" height="16" />
@@ -27,7 +27,7 @@
       @click="emit('createSet')"
       type="button"
       :class="[$style.button, $style.pointer, $style.success]"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-create-set"
     >
       +{{ t('set.super') }}
@@ -37,7 +37,7 @@
       @click="handleEditRepeats"
       :class="$style.button"
       type="button"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-repeats"
     >
       x{{ props.repeats }}
@@ -48,7 +48,7 @@
       v-if="props.isEdit ? props.isWeights : !!props.weight"
       :class="$style.button"
       type="button"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-weight"
     >
       <IconWeight width="14" height="14" /> {{ props.weight }} {{ t('kg') }}
@@ -57,7 +57,7 @@
     <span
       v-if="!props.isEdit && !props.isDone && !props.isFutureActivity && !props.isPassing"
       :class="[$style.button, $style.error]"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-not-done"
     >
       <IconFail width="14" height="14" /> {{ t('notDone') }}
@@ -65,10 +65,11 @@
 
     <button
       @click="handleToggleIsToFailure"
-      v-if="(!props.isEdit && props.isToFailure) || props.isPassing"
+      v-if="(!props.isEdit && props.isToFailure) || (props.isPassing && props.isActive)"
       type="button"
-      :class="[$style.button, props.isToFailure && $style.success]"
-      :data-edit="props.isEdit"
+      :class="[$style.button, $style.isToFailure, props.isToFailure && $style.success]"
+      :data-tall="props.isEdit || props.isPassing"
+      :data-active="props.isActive"
       data-test="exercise-buttons-to-failure"
     >
       <IconToFailure width="14" height="14" /> {{ t('toFailure') }}
@@ -77,18 +78,18 @@
     <span
       v-if="!props.isEdit && props.duration"
       :class="$style.button"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-duration"
     >
       <IconDuration width="14" height="14" /> {{ formatDuration(props.duration, locale) }}
     </span>
 
     <button
-      v-if="props.isEdit"
+      v-if="props.isEdit || (props.isPassing && !props.isActive && !props.isOnlyOne)"
       @click="emit('delete')"
       type="button"
       :class="[$style.button, $style.pointer, $style.error]"
-      :data-edit="props.isEdit"
+      :data-tall="props.isEdit || props.isPassing"
       data-test="exercise-buttons-delete"
     >
       {{ t('delete') }}
@@ -120,6 +121,9 @@ interface IProps {
   duration?: number;
   isFutureActivity?: boolean;
   isWeights?: boolean;
+  isActive?: boolean;
+  isCurrent?: boolean;
+  isOnlyOne?: boolean;
 }
 
 interface IEmit {
@@ -159,7 +163,7 @@ function handleToggleIsToFailure() {
   border-radius: 6px;
 
   &[data-tall='true'] {
-    height: 36px;
+    height: 40px;
     pointer-events: all;
   }
 }
@@ -198,6 +202,7 @@ function handleToggleIsToFailure() {
   }
 
   &[data-tall='true'] {
+    height: 38px;
     padding: 0 6px;
     font-size: 0.875rem;
   }
@@ -210,6 +215,10 @@ function handleToggleIsToFailure() {
 
 .rotateArrow {
   rotate: 180deg;
+}
+
+.isToFailure {
+  color: var(--color-gray-dark);
 }
 
 .pointer {
@@ -232,6 +241,10 @@ function handleToggleIsToFailure() {
   .button {
     color: var(--color-white);
     border-left-color: var(--color-gray-dark-extra);
+  }
+
+  .isToFailure {
+    color: var(--color-gray);
   }
 
   .success {

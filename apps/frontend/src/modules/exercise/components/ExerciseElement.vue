@@ -19,6 +19,7 @@
         :index="props.index"
         :isEdit="props.isEdit"
         :isPassing="props.isPassing"
+        :isCurrent="props.isCurrent"
         data-test="exercise-element-title"
       />
 
@@ -36,6 +37,9 @@
         :duration="props.duration"
         :isFutureActivity="props.isFutureActivity"
         :isWeights="props.exercise.exercise?.isWeights"
+        :isCurrent="props.isCurrent"
+        :isActive="props.isActive"
+        :isOnlyOne="props.exercisesCount === 1 && props.exercisesCount === index + 1"
         @createSet="emit('createSet')"
         @delete="emit('delete', props.exercise._id)"
         @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
@@ -50,7 +54,7 @@
           v-show="isShowEditRepeats"
           :modelValue="props.exercise.repeats"
           :baseRepeat="props.exercise.repeats"
-          :isTall="props.isPassing"
+          isTall
           @update:modelValue="updateRepeats"
           data-test="exercise-repeats"
         />
@@ -96,6 +100,8 @@ interface IProps {
   isHideTitle?: boolean;
   isDone?: boolean;
   isToFailure?: boolean;
+  isActive?: boolean;
+  isCurrent?: boolean;
   duration?: number;
   isFutureActivity?: boolean;
   exercisesCount?: number;
@@ -151,7 +157,6 @@ function updateWeight(weight: number) {
   background-color: var(--color-gray-light-extra);
   border-bottom: 1px solid var(--color-gray);
   border-radius: 8px;
-  transition: all 300ms;
 
   &[data-edit='true'] {
     padding: 8px 12px;

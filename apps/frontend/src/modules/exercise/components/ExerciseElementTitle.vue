@@ -1,5 +1,5 @@
 <template>
-  <div data-test="exercise-title">{{ title }}</div>
+  <div data-test="exercise-title" :class="$style.title" :data-current="props.isCurrent">{{ title }}</div>
 </template>
 
 <script setup lang="ts">
@@ -15,6 +15,7 @@ interface IProps {
   exercisesCount?: number;
   isEdit?: boolean;
   isPassing?: boolean;
+  isCurrent?: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -35,3 +36,11 @@ const title = computed(() => {
   return `${props.index + 1}. ${exerciseTitle}`;
 });
 </script>
+
+<style module lang="scss">
+.title {
+  &[data-current='true'] {
+    font-weight: 700;
+  }
+}
+</style>

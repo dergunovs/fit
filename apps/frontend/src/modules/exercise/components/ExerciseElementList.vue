@@ -19,6 +19,8 @@
           :isHideTitle="
             isPrevExerciseSame(props.exercises, index, exercise.exercise?._id) && !props.isEdit && !props.isPassing
           "
+          :isActive="exercise._id === props.activeExerciseId"
+          :isCurrent="index === props.currentExerciseIndex"
           @delete="(id) => emit('delete', id)"
           @createSet="emit('createSet')"
           @setIndex="(updatedIndex) => emit('setIndex', updatedIndex)"
@@ -47,6 +49,8 @@ interface IProps {
   isEdit?: boolean;
   isPassing?: boolean;
   isFutureActivity?: boolean;
+  currentExerciseIndex?: number;
+  activeExerciseId?: string;
 }
 
 interface IEmit {
@@ -74,7 +78,7 @@ const emit = defineEmits<IEmit>();
 .list-enter-active,
 .list-leave-active,
 .list-move {
-  transition: all 300ms ease;
+  transition: all 200ms ease;
 }
 
 .list-enter-from,

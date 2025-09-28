@@ -76,6 +76,7 @@ function handleClick(id: string, isActive: boolean) {
   margin-bottom: 8px;
   border-top: 16px solid var(--color-gray);
   border-bottom: 16px solid var(--color-gray);
+  transition: all 200ms;
 
   &[data-active='true'] {
     border-color: var(--color-transparent);
