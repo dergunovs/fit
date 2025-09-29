@@ -13,7 +13,7 @@ import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
-import { updateExercisesIndex } from '@/exercise/helpers';
+import { updateExerciseField, updateExercisesIndex } from '@/exercise/helpers';
 
 const restTimer = dataTest('activity-passing-form-rest-timer');
 const exerciseList = dataTest('activity-passing-form-exercise-list');
@@ -94,7 +94,7 @@ describe('ActivityPassingForm', async () => {
   it('stops exercise', async () => {
     const currentExerciseIndex = ACTIVITY_FIXTURE_2.exercises.filter((exercise) => exercise.isDone).length;
     const exercise = ACTIVITY_FIXTURE_2.exercises[currentExerciseIndex];
-    const fixedDate = new Date();
+    const fixedDate = new Date('2025-09-29T08:45:22.896Z');
 
     vi.setSystemTime(fixedDate);
 
@@ -121,7 +121,9 @@ describe('ActivityPassingForm', async () => {
     expect(spyUpdateActivity).toBeCalledWith({
       ...ACTIVITY_FIXTURE_2,
       exercises: expectedExercises,
+      dateCreated: fixedDate,
       dateUpdated: fixedDate,
+      dateScheduled: undefined,
       isDone: true,
     });
 
@@ -155,6 +157,56 @@ describe('ActivityPassingForm', async () => {
 
     expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
       expectedAfterIndexUpdate
+    );
+  });
+
+  it('handles setRepeats, setWeight, setIsToFailure events correctly', async () => {
+    const initialExercises = ACTIVITY_FIXTURE_2.exercises;
+    const targetExercise = initialExercises[0];
+    const newRepeats = 8;
+    const newWeight = 15;
+    const newIsToFailure = true;
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      initialExercises
+    );
+
+    wrapper
+      .findComponent<typeof ExerciseElementList>(exerciseList)
+      .vm.$emit('setRepeats', newRepeats, targetExercise._id);
+    await nextTick();
+
+    const expectedAfterRepeats = updateExerciseField(initialExercises, 'repeats', newRepeats, targetExercise._id);
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      expectedAfterRepeats
+    );
+
+    wrapper
+      .findComponent<typeof ExerciseElementList>(exerciseList)
+      .vm.$emit('setWeight', newWeight, targetExercise._id);
+    await nextTick();
+
+    const expectedAfterWeight = updateExerciseField(expectedAfterRepeats, 'weight', newWeight, targetExercise._id);
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      expectedAfterWeight
+    );
+
+    wrapper
+      .findComponent<typeof ExerciseElementList>(exerciseList)
+      .vm.$emit('setIsToFailure', newIsToFailure, targetExercise._id);
+    await nextTick();
+
+    const expectedAfterIsToFailure = updateExerciseField(
+      expectedAfterWeight,
+      'isToFailure',
+      newIsToFailure,
+      targetExercise._id
+    );
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      expectedAfterIsToFailure
     );
   });
 });

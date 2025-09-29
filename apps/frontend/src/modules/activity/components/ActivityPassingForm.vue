@@ -30,7 +30,7 @@
             v-if="index === currentExerciseIndex"
             :exercise="exercise"
             :isActive="exercise._id === activeExerciseId"
-            @start="(id) => (activeExerciseId = id)"
+            @start="startExercise"
             @stop="stopExercise"
             data-test="activity-passing-form-exercise"
           />
@@ -93,10 +93,12 @@ const formData = ref<IActivity>({
   exercises: [],
   dateCreated: undefined,
   dateUpdated: undefined,
+  dateScheduled: undefined,
   isDone: false,
 });
 
 const activeExerciseId = ref<string>();
+const isActivityStarted = ref(false);
 
 const currentExerciseIndex = computed(() => formData.value.exercises.filter((exercise) => exercise.isDone).length);
 
@@ -106,24 +108,28 @@ const { mutate: mutateUpdate } = activityService.update({
   },
 });
 
-function stopExercise(exerciseDone: IExerciseDone, duration: number) {
-  activeExerciseId.value = undefined;
+function startExercise(id: string) {
+  activeExerciseId.value = id;
 
-  const updatedExercises = formData.value.exercises.map((exercise) => {
+  if (!isActivityStarted.value) {
+    isActivityStarted.value = true;
+    formData.value.dateCreated = new Date();
+    formData.value.dateScheduled = undefined;
+  }
+}
+
+function stopExercise(exerciseDone: IExerciseDone, duration: number) {
+  formData.value.exercises = formData.value.exercises.map((exercise) => {
     return exercise._id === exerciseDone._id
       ? { ...exercise, isDone: true, duration, dateUpdated: new Date() }
       : exercise;
   });
 
-  formData.value.exercises = updatedExercises;
+  formData.value.dateUpdated = new Date();
+
+  activeExerciseId.value = undefined;
 
   formData.value.isDone = !formData.value.exercises.some((exercise) => !exercise.isDone);
-
-  if (!formData.value.dateUpdated) {
-    formData.value.dateCreated = new Date(Date.now() - (exerciseDone.duration || 0) * 1000);
-  }
-
-  formData.value.dateUpdated = new Date();
 
   if (formData.value.isDone) exitActivity();
 }
