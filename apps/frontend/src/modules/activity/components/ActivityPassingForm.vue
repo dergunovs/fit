@@ -42,7 +42,7 @@
         <span data-test="activity-start"> {{ formatDateTime(formData.dateCreated, locale) }}</span>
       </div>
 
-      <UiFlex v-if="!formData.isDone" justify="space-between">
+      <UiFlex v-if="!formData.isDone" gap="4" justify="space-between">
         <UiButton
           @click="isShowExerciseModal = true"
           layout="secondary"
