@@ -5,6 +5,7 @@ import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitne
 import { formatDateTime, dataTest, wait } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
+import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
 
 import { wrapperFactory } from '@/common/test';
@@ -12,8 +13,10 @@ import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
 import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
+import { updateExercisesIndex } from '@/exercise/helpers';
 
 const restTimer = dataTest('activity-passing-form-rest-timer');
+const exerciseList = dataTest('activity-passing-form-exercise-list');
 const exerciseElement = dataTest('activity-passing-form-exercise');
 const activityStart = dataTest('activity-start');
 const activityFinish = dataTest('activity-finish');
@@ -123,5 +126,35 @@ describe('ActivityPassingForm', async () => {
     });
 
     vi.useRealTimers();
+  });
+
+  it('handles deleteExercise and updateIndex events correctly', async () => {
+    const initialExercises = ACTIVITY_FIXTURE_2.exercises;
+    const exerciseToDelete = initialExercises[0]._id;
+    const newIndex = 1;
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      initialExercises
+    );
+
+    wrapper.findComponent<typeof ExerciseElementList>(exerciseList).vm.$emit('delete', exerciseToDelete);
+
+    await nextTick();
+
+    const afterDeleteExercises = initialExercises.filter((e) => e._id !== exerciseToDelete);
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      afterDeleteExercises
+    );
+
+    wrapper.findComponent<typeof ExerciseElementList>(exerciseList).vm.$emit('setIndex', newIndex);
+
+    await nextTick();
+
+    const expectedAfterIndexUpdate = updateExercisesIndex(afterDeleteExercises, newIndex);
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      expectedAfterIndexUpdate
+    );
   });
 });

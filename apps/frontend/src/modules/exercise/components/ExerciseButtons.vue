@@ -45,7 +45,7 @@
 
     <button
       @click="handleEditWeight"
-      v-if="props.isEdit ? props.isWeights : !!props.weight"
+      v-if="((props.isEdit || props.isPassing) && props.isWeights) || !!props.weight"
       :class="$style.button"
       type="button"
       :data-tall="props.isEdit || props.isPassing"
@@ -190,11 +190,6 @@ function handleToggleIsToFailure() {
 
   &:first-child {
     border-left: none;
-  }
-
-  &:active {
-    background: var(--color-gray-light);
-    background-color: var(--color-gray-light);
   }
 
   :focus {

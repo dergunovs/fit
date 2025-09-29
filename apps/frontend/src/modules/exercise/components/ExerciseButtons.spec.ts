@@ -77,7 +77,7 @@ describe('ExerciseButtons', async () => {
   it('hides weight info if no weight', async () => {
     expect(wrapper.find(weight).exists()).toBe(true);
 
-    await wrapper.setProps({ isWeights: false });
+    await wrapper.setProps({ weight: 0, isEdit: false });
 
     expect(wrapper.find(weight).exists()).toBe(false);
   });

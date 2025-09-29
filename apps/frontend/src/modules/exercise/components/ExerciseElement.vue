@@ -180,16 +180,3 @@ function updateWeight(weight: number) {
   }
 }
 </style>
-
-<style lang="scss">
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 200ms ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>

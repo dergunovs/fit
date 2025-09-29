@@ -26,30 +26,32 @@
         </UiButton>
       </UiFlex>
 
-      <UiFlex v-if="isShowCalendar" column gap="16" data-test="activity-form-calendar-block">
-        <UiFlex gap="4">
-          <div>{{ dateScheduledText }}</div>
+      <Transition name="slide" mode="out-in">
+        <UiFlex v-if="isShowCalendar" column gap="16" data-test="activity-form-calendar-block">
+          <UiFlex gap="4">
+            <div>{{ dateScheduledText }}</div>
 
-          <b v-if="formData.dateScheduled" data-test="activity-form-date-scheduled">
-            {{ formatDate(formData.dateScheduled, locale) }}
-          </b>
+            <b v-if="formData.dateScheduled" data-test="activity-form-date-scheduled">
+              {{ formatDate(formData.dateScheduled, locale) }}
+            </b>
+          </UiFlex>
+
+          <UiButton
+            @click="submit(true)"
+            :isDisabled="!formData.dateScheduled || !isValid"
+            data-test="activity-form-save-to-calendar"
+          >
+            {{ t('activity.saveToCalendar') }}
+          </UiButton>
+
+          <UiCalendar
+            :minDate="new Date()"
+            :lang="locale"
+            @chooseDate="setScheduledDate"
+            data-test="activity-form-calendar"
+          />
         </UiFlex>
-
-        <UiButton
-          @click="submit(true)"
-          :isDisabled="!formData.dateScheduled || !isValid"
-          data-test="activity-form-save-to-calendar"
-        >
-          {{ t('activity.saveToCalendar') }}
-        </UiButton>
-
-        <UiCalendar
-          :minDate="new Date()"
-          :lang="locale"
-          @chooseDate="setScheduledDate"
-          data-test="activity-form-calendar"
-        />
-      </UiFlex>
+      </Transition>
 
       <UiModal v-model="isShowTemplatesModal" data-test="activity-form-templates-modal">
         <UiFlex column gap="32">

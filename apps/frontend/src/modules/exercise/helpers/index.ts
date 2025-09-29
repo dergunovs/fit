@@ -183,6 +183,8 @@ export function addSetToExercises(exercises: IExerciseChoosen[]) {
 }
 
 export function updateExercisesIndex(exercises: IExerciseChoosen[], index: number) {
+  if (index <= 0 || index >= exercises.length) return exercises;
+
   const updatedExercises = [...exercises];
   const exerciseToMove = updatedExercises[index];
 
