@@ -10,9 +10,11 @@ exports[`ActivityPassingForm > matches snapshot 1`] = `
         <exercise-element-passing-stub exercise="[object Object]" isactive="false" data-test="activity-passing-form-exercise"></exercise-element-passing-stub>
       </div>
     </div>
-    <div>
-      <div>Занятие создано <span data-test="activity-start">23 дек. 2024 г., 08:29</span></div>
-    </div><button layout="secondary" isdisabled="false" data-test="activity-finish">Завершить занятие досрочно</button>
+    <div>Занятие создано <span data-test="activity-start">23 дек. 2024 г., 08:29</span></div>
+    <div justify="space-between"><button layout="secondary" isnarrow="" isdisabled="false" data-test="activity-passing-add-exercise">Добавить упражнение</button><button layout="secondary" isnarrow="" isdisabled="false" data-test="activity-finish">Завершить досрочно</button></div>
+  </div>
+  <div modelvalue="false" isscrollable="" data-test="activity-exercise-modal">
+    <exercise-choose-list-stub exercises="[object Object],[object Object],[object Object]" data-test="activity-exercise-choose-list"></exercise-choose-list-stub>
   </div>
 </div>"
 `;

@@ -105,7 +105,7 @@
     "deleted": "@:activity.one deleted",
     "created": "@:activity.one created",
     "finished": "@:activity.one finished",
-    "finishEarly": "Finish @.lower:activity.one early",
+    "finishEarly": "Finish early",
     "updated": "@:activity.one updated",
     "passing": "@:activity.one passing",
     "monthData": "Last month"

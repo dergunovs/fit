@@ -2,11 +2,12 @@ import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY, API_ACTIVITY_CHART, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
-import { formatDateTime, dataTest, wait } from 'mhz-helpers';
+import { formatDateTime, dataTest, wait, deleteTempId } from 'mhz-helpers';
 
 import ActivityPassingForm from './ActivityPassingForm.vue';
 import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
+import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { ACTIVITY_FIXTURE_2 } from '@/activity/fixtures';
@@ -14,11 +15,15 @@ import { mockOnSuccess, spyUpdateActivity } from '@/activity/mocks';
 import { spyRefetchQueries, spyRouterPush, spyToastSuccess } from '@/common/mocks';
 import { URL_HOME } from '@/common/constants';
 import { updateExerciseField, updateExercisesIndex } from '@/exercise/helpers';
+import { spyGetExercisesAll } from '@/exercise/mocks';
 
 const restTimer = dataTest('activity-passing-form-rest-timer');
 const exerciseList = dataTest('activity-passing-form-exercise-list');
 const exerciseElement = dataTest('activity-passing-form-exercise');
 const activityStart = dataTest('activity-start');
+const addExerciseButton = dataTest('activity-passing-add-exercise');
+const addExerciseModal = dataTest('activity-exercise-modal');
+const exerciseChooseList = dataTest('activity-exercise-choose-list');
 const activityFinish = dataTest('activity-finish');
 
 const exerciseElementListStub = {
@@ -52,6 +57,10 @@ describe('ActivityPassingForm', async () => {
 
   it('matches snapshot', async () => {
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it('gets all exercises', async () => {
+    expect(spyGetExercisesAll).toBeCalledTimes(1);
   });
 
   it('shows start time', async () => {
@@ -208,5 +217,42 @@ describe('ActivityPassingForm', async () => {
     expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
       expectedAfterIsToFailure
     );
+  });
+
+  it('adds exercises through modal and removes temp ids', async () => {
+    expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('false');
+
+    await wrapper.find(addExerciseButton).trigger('click');
+
+    expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('true');
+
+    const exerciseToAdd = {
+      _id: 'temp-123',
+      name: 'Test Exercise',
+      repeats: 10,
+      weight: 20,
+      isToFailure: false,
+      isDone: false,
+      dateCreated: new Date(),
+      dateUpdated: new Date(),
+    };
+
+    wrapper.findComponent<typeof ExerciseChooseList>(exerciseChooseList).vm.$emit('choose', [exerciseToAdd]);
+
+    await nextTick();
+
+    expect(wrapper.find(addExerciseModal).attributes('modelvalue')).toBe('false');
+
+    const updatedExercises = [...ACTIVITY_FIXTURE_2.exercises, exerciseToAdd];
+
+    expect(wrapper.findComponent<typeof ExerciseElementList>(exerciseList).props('exercises')).toEqual(
+      updatedExercises
+    );
+
+    await wrapper.find(activityFinish).trigger('click');
+
+    const expectedActivity = { ...ACTIVITY_FIXTURE_2, exercises: deleteTempId(updatedExercises), isDone: true };
+
+    expect(spyUpdateActivity).toHaveBeenCalledWith(expectedActivity);
   });
 });

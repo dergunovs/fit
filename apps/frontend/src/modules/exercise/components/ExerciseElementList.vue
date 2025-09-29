@@ -73,3 +73,21 @@ const emit = defineEmits<IEmit>();
   gap: 8px;
 }
 </style>
+
+<style lang="scss">
+.list-enter-active,
+.list-leave-active,
+.list-move {
+  transition: all 200ms ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+</style>

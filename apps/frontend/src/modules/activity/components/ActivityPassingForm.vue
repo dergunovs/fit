@@ -38,46 +38,68 @@
       </ExerciseElementList>
 
       <div>
-        <div>
-          {{ t('activity.created') }}
-          <span data-test="activity-start"> {{ formatDateTime(formData.dateCreated, locale) }}</span>
-        </div>
+        {{ t('activity.created') }}
+        <span data-test="activity-start"> {{ formatDateTime(formData.dateCreated, locale) }}</span>
       </div>
 
-      <UiButton
-        v-if="!formData.isDone"
-        @click="finishActivity"
-        layout="secondary"
-        :isDisabled="!!activeExerciseId"
-        data-test="activity-finish"
-      >
-        {{ t('activity.finishEarly') }}
-      </UiButton>
+      <UiFlex v-if="!formData.isDone" justify="space-between">
+        <UiButton
+          @click="isShowExerciseModal = true"
+          layout="secondary"
+          isNarrow
+          :isDisabled="!!activeExerciseId"
+          data-test="activity-passing-add-exercise"
+        >
+          {{ t('exercise.add') }}
+        </UiButton>
+
+        <UiButton
+          @click="finishActivity"
+          layout="secondary"
+          isNarrow
+          :isDisabled="!!activeExerciseId"
+          data-test="activity-finish"
+        >
+          {{ t('activity.finishEarly') }}
+        </UiButton>
+      </UiFlex>
     </UiFlex>
+
+    <UiModal v-model="isShowExerciseModal" isScrollable data-test="activity-exercise-modal">
+      <ExerciseChooseList
+        v-if="exercisesAll?.length"
+        :exercises="exercisesAll"
+        @choose="addExercises"
+        data-test="activity-exercise-choose-list"
+      />
+    </UiModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { toast, UiButton, UiFlex } from 'mhz-ui';
-import { clone, formatDateTime, useQueryClient } from 'mhz-helpers';
+import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
+import { clone, formatDateTime, useQueryClient, deleteTempId } from 'mhz-helpers';
 import {
   API_ACTIVITY,
   API_ACTIVITY_CHART,
   API_ACTIVITY_STATISTICS,
   IActivity,
+  IExerciseChoosen,
   IExerciseDone,
 } from 'fitness-tracker-contracts';
 
 import ExerciseElementList from '@/exercise/components/ExerciseElementList.vue';
 import ExerciseElementPassing from '@/exercise/components/ExerciseElementPassing.vue';
 import ExerciseRestTimer from '@/exercise/components/ExerciseRestTimer.vue';
+import ExerciseChooseList from '@/exercise/components/ExerciseChooseList.vue';
 
 import { useTI18n } from '@/common/composables';
 import { updateExerciseField, updateExercisesIndex } from '@/exercise/helpers';
 import { URL_HOME } from '@/common/constants';
 import { activityService } from '@/activity/services';
+import { exerciseService } from '@/exercise/services';
 
 interface IProps {
   activity: IActivity;
@@ -99,6 +121,9 @@ const formData = ref<IActivity>({
 
 const activeExerciseId = ref<string>();
 const isActivityStarted = ref(false);
+const isShowExerciseModal = ref(false);
+
+const { data: exercisesAll } = exerciseService.getAll();
 
 const currentExerciseIndex = computed(() => formData.value.exercises.filter((exercise) => exercise.isDone).length);
 
@@ -134,9 +159,9 @@ function stopExercise(exerciseDone: IExerciseDone, duration: number) {
   if (formData.value.isDone) exitActivity();
 }
 
-function finishActivity() {
-  formData.value.isDone = true;
-  exitActivity();
+function addExercises(exercises: IExerciseChoosen[]) {
+  formData.value.exercises = [...formData.value.exercises, ...exercises];
+  isShowExerciseModal.value = false;
 }
 
 function deleteExercise(idToDelete: string) {
@@ -151,7 +176,13 @@ function updateIndex(updatedIndex: number) {
   formData.value.exercises = updatedExercises;
 }
 
+function finishActivity() {
+  formData.value.isDone = true;
+  exitActivity();
+}
+
 function exitActivity() {
+  formData.value.exercises = deleteTempId(formData.value.exercises);
   mutateUpdate(formData.value);
 
   toast.success(t('activity.finished'));
