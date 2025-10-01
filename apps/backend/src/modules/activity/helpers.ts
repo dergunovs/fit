@@ -32,10 +32,29 @@ function activitiesGetTotalDuration(activities: IActivity[]) {
     const dateFrom = new Date(current.dateUpdated || 0);
     const dateTo = new Date(current.dateCreated || 0);
 
-    const diff = Math.floor((dateFrom.getTime() - dateTo.getTime()) / 1000);
+    const diffInSeconds = Math.floor((dateFrom.getTime() - dateTo.getTime()) / 1000);
 
-    return acc + Math.max(diff, 0);
+    return acc + Math.max(diffInSeconds, 0);
   }, 0);
+}
+
+function calculateSetsCount(activities: IActivity[]): number {
+  return activities.reduce((totalSets, activity) => totalSets + (activity.exercises?.length || 0), 0);
+}
+
+function calculateRepeatsCount(activities: IActivity[]): number {
+  return activities.reduce((totalRepeats, activity) => {
+    return (
+      totalRepeats +
+      (activity.exercises?.reduce((exerciseRepeats, exercise) => exerciseRepeats + (exercise.repeats || 0), 0) || 0)
+    );
+  }, 0);
+}
+
+function calculateDurationInMinutes(activities: IActivity[]): number {
+  const totalSeconds = activitiesGetTotalDuration(activities);
+
+  return Math.floor(totalSeconds / 60);
 }
 
 function activitiesGetAverageRest(activities: IActivity[], duration: number) {
@@ -68,7 +87,7 @@ function getDataset(count: number, type: 'goal' | 'activity' | 'sets' | 'repeats
   };
 }
 
-function getActivitiesChart(
+function processActivityChart(
   activitiesCount: number,
   activitiesGoal: number,
   datasets: IActivityChartDataset[],
@@ -82,20 +101,16 @@ function getActivitiesChart(
   }
 }
 
-async function getSetsChart(
-  Entity: Model<IActivity>,
-  filter: IChartFilter,
+function processSetsChart(
+  activities: IActivity[],
   activitiesCount: number,
   setsGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
-
-  let count = activities.reduce((acc, current) => acc + (current.exercises.length || 0), 0);
-
-  if (isAverage) count = getAverage(count, activitiesCount);
+  const setsCount = calculateSetsCount(activities);
+  const count = isAverage ? getAverage(setsCount, activitiesCount) : setsCount;
 
   if (datasets.length >= 2) {
     datasets[0].data.push(count);
@@ -105,24 +120,16 @@ async function getSetsChart(
   }
 }
 
-async function getRepeatsChart(
-  Entity: Model<IActivity>,
-  filter: IChartFilter,
+function processRepeatsChart(
+  activities: IActivity[],
   activitiesCount: number,
   repeatsGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
-
-  let count = activities.reduce((acc, activity) => {
-    const repeats = activity.exercises.reduce((accEx, curEx) => accEx + (curEx.repeats || 0), 0);
-
-    return acc + repeats;
-  }, 0);
-
-  if (isAverage) count = getAverage(count, activitiesCount);
+  const repeatsCount = calculateRepeatsCount(activities);
+  const count = isAverage ? getAverage(repeatsCount, activitiesCount) : repeatsCount;
 
   if (datasets.length >= 2) {
     datasets[0].data.push(count);
@@ -132,20 +139,16 @@ async function getRepeatsChart(
   }
 }
 
-async function getDurationChart(
-  Entity: Model<IActivity>,
-  filter: IChartFilter,
+function processDurationChart(
+  activities: IActivity[],
   activitiesCount: number,
   durationGoal: number,
   isAverage: boolean,
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const activities = await Entity.find(filter).select('_id dateUpdated dateCreated').lean();
-
-  let count = Math.floor(activitiesGetTotalDuration(activities) / 60);
-
-  if (isAverage) count = getAverage(count, activitiesCount);
+  const durationInMinutes = calculateDurationInMinutes(activities);
+  const count = isAverage ? getAverage(durationInMinutes, activitiesCount) : durationInMinutes;
 
   if (datasets.length >= 2) {
     datasets[0].data.push(count);
@@ -154,6 +157,39 @@ async function getDurationChart(
     datasets.push(getDataset(count, 'duration', locale), getDataset(durationGoal, 'goal', locale));
   }
 }
+
+async function processMuscleChart(
+  Entity: Model<IActivity>,
+  week: IWeekDays,
+  activitiesCount: number,
+  muscles: IMuscle[],
+  isAverage: boolean,
+  datasets: IActivityChartDataset[],
+  locale: TLocale,
+  userId: string
+) {
+  await getMusclesChart(
+    Entity,
+    {
+      dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+      isDone: true,
+      createdBy: userId,
+    },
+    activitiesCount,
+    muscles,
+    isAverage,
+    datasets,
+    locale
+  );
+}
+
+const CHART_PROCESSORS = {
+  activity: processActivityChart,
+  set: processSetsChart,
+  repeat: processRepeatsChart,
+  duration: processDurationChart,
+  muscle: processMuscleChart,
+};
 
 async function getMusclesChart(
   Entity: Model<IActivity>,
@@ -333,17 +369,55 @@ export async function activitiesGetChartData(
 
   const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getUserGoals(isMonth, isAverage, user);
 
-  for (const week of weeks) {
-    const filter = { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy: user._id };
-    const count = await Entity.countDocuments(filter);
+  const weekPromises = weeks.map(async (week) => {
+    const filter = {
+      dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
+      isDone: true,
+      createdBy: user._id,
+    };
 
+    const activities = await Entity.find(filter).lean();
+    const activitiesCount = activities.length;
+
+    return { week, activities, activitiesCount };
+  });
+
+  const weekDataArray = await Promise.all(weekPromises);
+
+  for (const { week, activities, activitiesCount } of weekDataArray) {
     labels.push(week.label);
 
-    if (type === 'activity') getActivitiesChart(count, activitiesGoal, datasets, locale);
-    if (type === 'set') await getSetsChart(Entity, filter, count, setsGoal, isAverage, datasets, locale);
-    if (type === 'repeat') await getRepeatsChart(Entity, filter, count, repeatsGoal, isAverage, datasets, locale);
-    if (type === 'duration') await getDurationChart(Entity, filter, count, durationGoal, isAverage, datasets, locale);
-    if (type === 'muscle') await getMusclesChart(Entity, filter, count, muscles, isAverage, datasets, locale);
+    switch (type) {
+      case 'activity': {
+        CHART_PROCESSORS.activity(activitiesCount, activitiesGoal, datasets, locale);
+        break;
+      }
+      case 'set': {
+        CHART_PROCESSORS.set(activities, activitiesCount, setsGoal, isAverage, datasets, locale);
+        break;
+      }
+      case 'repeat': {
+        CHART_PROCESSORS.repeat(activities, activitiesCount, repeatsGoal, isAverage, datasets, locale);
+        break;
+      }
+      case 'duration': {
+        CHART_PROCESSORS.duration(activities, activitiesCount, durationGoal, isAverage, datasets, locale);
+        break;
+      }
+      case 'muscle': {
+        await CHART_PROCESSORS.muscle(
+          Entity,
+          week,
+          activitiesCount,
+          muscles,
+          isAverage,
+          datasets,
+          locale,
+          user._id || ''
+        );
+        break;
+      }
+    }
   }
 
   return { labels, datasets };

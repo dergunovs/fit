@@ -50,7 +50,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await muscleService.create(request.body);
 
-      reply.code(201).send({ message: 'Muscle groud added' });
+      reply.code(201).send({ message: 'Muscle group added' });
     }
   );
 
@@ -60,7 +60,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await muscleService.update(request.params.id, request.body);
 
-      reply.code(200).send({ message: 'Muscle groud updated' });
+      reply.code(200).send({ message: 'Muscle group updated' });
     }
   );
 
@@ -70,7 +70,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (request, reply) {
       await muscleService.delete(request.params.id);
 
-      reply.code(200).send({ message: 'Muscle groud updated' });
+      reply.code(200).send({ message: 'Muscle group updated' });
     }
   );
 }

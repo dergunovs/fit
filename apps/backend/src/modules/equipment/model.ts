@@ -12,4 +12,6 @@ const equipmentSchema = new Schema<IEquipment>(
   { versionKey: false }
 );
 
+equipmentSchema.index({ isWeights: 1 });
+
 export default model('Equipment', equipmentSchema);

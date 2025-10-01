@@ -12,4 +12,6 @@ const muscleSchema = new Schema<IMuscle>(
   { versionKey: false }
 );
 
+muscleSchema.index({ color: 1 });
+
 export default model('Muscle', muscleSchema);

@@ -5,6 +5,21 @@ import nodemailer from 'nodemailer';
 
 import { IPopulate } from './types.js';
 
+let emailTransporter: nodemailer.Transporter | null = null;
+
+function getEmailTransporter(): nodemailer.Transporter | null {
+  if (!emailTransporter && process.env.EMAIL_SMTP) {
+    emailTransporter = nodemailer.createTransport({
+      host: process.env.EMAIL_SMTP,
+      port: 465,
+      secure: true,
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
+    });
+  }
+
+  return emailTransporter;
+}
+
 export const defaultColor = '#484195';
 export const goalColor = '#bbb';
 
@@ -21,31 +36,47 @@ export async function paginate<T>(
   populate?: IPopulate[]
 ): Promise<IPaginatedReply<T>> {
   const page = Number(pageQuery) || 1;
-
   const limit = 24;
+  const skip = (page - 1) * limit;
 
-  const count = await Entity.countDocuments();
+  const sortField = sort?.replace('-', '') || 'dateCreated';
+  const sortDirection = sort?.startsWith('-') ? -1 : 1;
 
-  const total = Math.ceil(count / limit);
+  const result = await Entity.aggregate([
+    {
+      $facet: {
+        data: [
+          { $sort: { [sortField]: sortDirection } },
+          { $skip: skip },
+          { $limit: limit },
+          { $project: { password: 0 } },
+        ],
+        total: [{ $count: 'count' }],
+      },
+    },
+  ]);
 
-  const data = (await Entity.find()
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate(populate || [])
-    .select('-password')
-    .sort(sort || '-dateCreated')
-    .lean()) as T[];
+  let data = result[0]?.data || [];
+
+  if (populate?.length && data.length > 0) {
+    const ids = data.map((item: { _id: string }) => item._id);
+
+    data = await Entity.find({ _id: { $in: ids } })
+      .populate(populate)
+      .select('-password')
+      .sort({ [sortField]: sortDirection })
+      .lean();
+  }
+
+  const total = Math.ceil((result[0]?.total[0]?.count || 0) / limit);
 
   return { data, total };
 }
 
 export async function sendMail(text: string, to: string) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SMTP,
-    port: 465,
-    secure: true,
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
-  });
+  const transporter = getEmailTransporter();
+
+  if (!transporter) throw new Error('Email transporter not configured');
 
   await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'App-fit.ru', text });
 }

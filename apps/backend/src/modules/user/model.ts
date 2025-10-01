@@ -48,5 +48,9 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.index({ role: 1 });
+userSchema.index({ email: 1, confirmationToken: 1, isEmailConfirmed: 1 });
+userSchema.index({ isEmailConfirmed: 1 });
+userSchema.index({ dateLoggedIn: -1 });
+userSchema.index({ goalActivities: 1, goalSets: 1 });
 
 export default model('User', userSchema);

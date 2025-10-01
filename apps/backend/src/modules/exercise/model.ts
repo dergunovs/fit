@@ -21,5 +21,10 @@ const exerciseSchema = new Schema<IExercise>(
 );
 
 exerciseSchema.index({ createdBy: 1 });
+exerciseSchema.index({ createdBy: 1, isCustom: 1 });
+exerciseSchema.index({ muscles: 1 });
+exerciseSchema.index({ equipment: 1 });
+exerciseSchema.index({ createdBy: 1, title: 1 });
+exerciseSchema.index({ isCustom: 1, createdBy: 1 });
 
 export default model('Exercise', exerciseSchema);
