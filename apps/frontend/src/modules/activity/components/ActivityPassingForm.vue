@@ -2,7 +2,9 @@
   <div>
     <UiFlex column>
       <ExerciseRestTimer
-        v-if="!activeExerciseId && currentExerciseIndex && currentExerciseIndex !== formData.exercises.length"
+        v-show="isShowRestTimer"
+        :start="isShowRestTimer"
+        :stop="!isShowRestTimer"
         data-test="activity-passing-form-rest-timer"
       />
 
@@ -126,6 +128,13 @@ const isShowExerciseModal = ref(false);
 const { data: exercisesAll } = exerciseService.getAll();
 
 const currentExerciseIndex = computed(() => formData.value.exercises.filter((exercise) => exercise.isDone).length);
+
+const isShowRestTimer = computed(
+  () =>
+    !activeExerciseId.value &&
+    !!currentExerciseIndex.value &&
+    currentExerciseIndex.value !== formData.value.exercises.length
+);
 
 const { mutate: mutateUpdate } = activityService.update({
   onSuccess: async () => {

@@ -5,21 +5,32 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, watch } from 'vue';
 import { useTimer } from 'mhz-helpers';
 
 import { useTI18n } from '@/common/composables';
+
+interface IProps {
+  start: boolean;
+  stop: boolean;
+}
+
+const props = defineProps<IProps>();
 
 const { t } = useTI18n();
 
 const { timer, startTimer, stopTimer } = useTimer();
 
-onMounted(() => {
-  startTimer();
-});
+watch(
+  () => [props.start, props.stop],
+  () => {
+    if (props.start) startTimer();
+    if (props.stop) stopTimer();
+  }
+);
 
-onBeforeUnmount(() => {
-  stopTimer();
+onMounted(() => {
+  if (props.start) startTimer();
 });
 </script>
 

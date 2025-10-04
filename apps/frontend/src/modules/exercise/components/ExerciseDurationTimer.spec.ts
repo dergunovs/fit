@@ -51,6 +51,6 @@ describe('ExerciseDurationTimer', async () => {
 
     await wait(1000);
 
-    expect(wrapper.find(duration).text()).toBe('00:03');
+    expect(wrapper.find(duration).text()).toBe('00:00');
   });
 });

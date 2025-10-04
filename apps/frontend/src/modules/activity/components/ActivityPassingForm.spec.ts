@@ -107,13 +107,13 @@ describe('ActivityPassingForm', async () => {
 
     vi.setSystemTime(fixedDate);
 
-    expect(wrapper.find(restTimer).exists()).toBe(true);
+    expect(wrapper.find(restTimer).isVisible()).toBe(true);
 
     wrapper.findComponent<typeof ExerciseElementPassing>(exerciseElement).vm.$emit('start', exercise._id);
 
     await nextTick();
 
-    expect(wrapper.find(restTimer).exists()).toBe(false);
+    expect(wrapper.find(restTimer).isVisible()).toBe(false);
 
     const exerciseDone = { _id: exercise._id };
 
