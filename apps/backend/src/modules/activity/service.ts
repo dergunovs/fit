@@ -25,20 +25,19 @@ export const activityService = {
 
     if (!user) throw new Error('User not found', { cause: { code: 404 } });
 
-    const { dateFrom, dateTo, dateFromPrev } = getDatesByDayGap(gap);
+    const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const [current, previous] = await Promise.all([
-      Activity.find({
-        createdBy: user._id,
-        isDone: true,
-        dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) },
-      }).lean(),
-      Activity.find({
-        createdBy: user._id,
-        isDone: true,
-        dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateFrom) },
-      }).lean(),
+    const activities: { current: IActivity[]; previous: IActivity[] }[] = await Activity.aggregate([
+      { $match: { createdBy: user._id, isDone: true } },
+      {
+        $facet: {
+          current: [{ $match: { dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } } }],
+          previous: [{ $match: { dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) } } }],
+        },
+      },
     ]);
+
+    const { current, previous } = activities[0];
 
     const [activityStatistics, exercises] = await Promise.all([
       Promise.resolve(activitiesGetStatistics(current, previous)),
