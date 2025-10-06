@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.timer" :data-active="props.start" data-test="exercise-duration">
+  <div :class="$style.timer" :data-active="props.isActive" data-test="exercise-duration">
     {{ timer }}
   </div>
 </template>
@@ -9,8 +9,7 @@ import { watch, onMounted } from 'vue';
 import { useTimer } from 'mhz-helpers';
 
 interface IProps {
-  start: boolean;
-  stop: boolean;
+  isActive: boolean;
 }
 
 interface IEmit {
@@ -23,10 +22,11 @@ const emit = defineEmits<IEmit>();
 const { timer, duration, startTimer, stopTimer } = useTimer();
 
 watch(
-  () => [props.start, props.stop],
+  () => props.isActive,
   () => {
-    if (props.start) startTimer();
-    if (props.stop) {
+    if (props.isActive) {
+      startTimer();
+    } else {
       emit('stop', duration.value);
       stopTimer();
     }
@@ -34,7 +34,7 @@ watch(
 );
 
 onMounted(() => {
-  if (props.start) startTimer();
+  if (props.isActive) startTimer();
 });
 </script>
 

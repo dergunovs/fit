@@ -2,6 +2,6 @@
 
 exports[`ExerciseElementPassing > matches snapshot 1`] = `
 "<div class="_element_bde61e" data-active="false" data-test="exercise-passing-element"><button islargefont="" isdisabled="false" istall="" data-test="exercise-passing-button">Начать</button>
-  <exercise-duration-timer-stub start="false" stop="false" data-test="exercise-passing-duration"></exercise-duration-timer-stub>
+  <exercise-duration-timer-stub isactive="false" data-test="exercise-passing-duration"></exercise-duration-timer-stub>
 </div>"
 `;

@@ -11,7 +11,7 @@ const duration = dataTest('exercise-duration');
 let wrapper: VueWrapper<InstanceType<typeof ExerciseDurationTimer>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseDurationTimer, { start: false, stop: false });
+  wrapper = wrapperFactory(ExerciseDurationTimer, { isActive: false });
 });
 
 enableAutoUnmount(afterEach);
@@ -30,7 +30,7 @@ describe('ExerciseDurationTimer', async () => {
   });
 
   it('emits duration data and stops timer', async () => {
-    await wrapper.setProps({ start: true });
+    await wrapper.setProps({ isActive: true });
 
     expect(wrapper.emitted()).not.toHaveProperty('stop');
 
@@ -44,7 +44,7 @@ describe('ExerciseDurationTimer', async () => {
 
     await wait(1000);
 
-    await wrapper.setProps({ start: false, stop: true });
+    await wrapper.setProps({ isActive: false });
 
     expect(wrapper.emitted('stop')).toHaveLength(1);
     expect(wrapper.emitted()['stop'][0]).toStrictEqual([3]);

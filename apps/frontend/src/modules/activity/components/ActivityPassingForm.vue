@@ -1,12 +1,7 @@
 <template>
   <div>
     <UiFlex column>
-      <ExerciseRestTimer
-        v-show="isShowRestTimer"
-        :start="isShowRestTimer"
-        :stop="!isShowRestTimer"
-        data-test="activity-passing-form-rest-timer"
-      />
+      <ExerciseRestTimer v-show="isShowRestTimer" :isActive="isShowRestTimer" data-test="activity-rest-timer" />
 
       <ExerciseElementList
         :exercises="formData.exercises"

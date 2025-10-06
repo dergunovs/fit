@@ -11,8 +11,7 @@ import { useTimer } from 'mhz-helpers';
 import { useTI18n } from '@/common/composables';
 
 interface IProps {
-  start: boolean;
-  stop: boolean;
+  isActive: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -22,15 +21,18 @@ const { t } = useTI18n();
 const { timer, startTimer, stopTimer } = useTimer();
 
 watch(
-  () => [props.start, props.stop],
+  () => props.isActive,
   () => {
-    if (props.start) startTimer();
-    if (props.stop) stopTimer();
+    if (props.isActive) {
+      startTimer();
+    } else {
+      stopTimer();
+    }
   }
 );
 
 onMounted(() => {
-  if (props.start) startTimer();
+  if (props.isActive) startTimer();
 });
 </script>
 

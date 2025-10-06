@@ -17,7 +17,7 @@ import { URL_HOME } from '@/common/constants';
 import { updateExerciseField, updateExercisesIndex } from '@/exercise/helpers';
 import { spyGetExercisesAll } from '@/exercise/mocks';
 
-const restTimer = dataTest('activity-passing-form-rest-timer');
+const restTimer = dataTest('activity-rest-timer');
 const exerciseList = dataTest('activity-passing-form-exercise-list');
 const exerciseElement = dataTest('activity-passing-form-exercise');
 const activityStart = dataTest('activity-start');

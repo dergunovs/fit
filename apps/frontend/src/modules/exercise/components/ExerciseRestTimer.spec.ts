@@ -11,7 +11,7 @@ const rest = dataTest('exercise-rest');
 let wrapper: VueWrapper<InstanceType<typeof ExerciseRestTimer>>;
 
 beforeEach(() => {
-  wrapper = wrapperFactory(ExerciseRestTimer, { start: true, stop: false });
+  wrapper = wrapperFactory(ExerciseRestTimer, { isActive: true });
 });
 
 enableAutoUnmount(afterEach);
@@ -38,7 +38,7 @@ describe('ExerciseRestTimer', async () => {
   });
 
   it('does not start timer when start prop is false on mount', async () => {
-    const wrapperStopped = wrapperFactory(ExerciseRestTimer, { start: false, stop: true });
+    const wrapperStopped = wrapperFactory(ExerciseRestTimer, { isActive: false });
 
     expect(wrapperStopped.find(rest).text()).toBe('00:00');
 
@@ -54,7 +54,7 @@ describe('ExerciseRestTimer', async () => {
 
     expect(wrapper.find(rest).text()).toBe('00:01');
 
-    await wrapper.setProps({ stop: true });
+    await wrapper.setProps({ isActive: false });
 
     expect(wrapper.find(rest).text()).toBe('00:00');
 

@@ -2,7 +2,7 @@
   <div :class="$style.element" :data-active="props.isActive" data-test="exercise-passing-element">
     <UiButton
       v-if="props.exercise._id"
-      @click="handleClick(props.exercise._id, props.isActive)"
+      @click="handleClick(props.exercise._id)"
       isLargeFont
       :isDisabled="isButtonDisabled"
       isTall
@@ -12,8 +12,7 @@
     </UiButton>
 
     <ExerciseDurationTimer
-      :start="start"
-      :stop="stop"
+      :isActive="isTimerActive"
       @stop="(duration) => emit('stop', props.exercise, duration)"
       data-test="exercise-passing-duration"
     />
@@ -46,16 +45,14 @@ const { t } = useTI18n();
 
 const isButtonDisabled = ref(false);
 
-const start = ref(false);
-const stop = ref(false);
+const isTimerActive = ref(false);
 
-function handleClick(id: string, isActive: boolean) {
+function handleClick(id: string) {
   isButtonDisabled.value = true;
 
   emit('start', id);
 
-  start.value = !isActive;
-  stop.value = isActive;
+  isTimerActive.value = !props.isActive;
 
   setTimeout(() => {
     isButtonDisabled.value = false;
