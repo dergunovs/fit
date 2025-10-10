@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { UiButton, UiField, UiInput, UiTextarea, toast } from 'mhz-ui';
-import { useQueryClient, useValidator, required, email } from 'mhz-helpers';
+import { useQueryClient, useValidate, required, email } from 'mhz-helpers';
 import { API_USER_FEEDBACK, IUserFeedback } from 'fitness-tracker-contracts';
 
 import { userService } from '@/user/services';
@@ -50,7 +50,7 @@ const { mutate: mutatePost, isPending: isLoadingPost } = userService.feedback({
   },
 });
 
-const { error, isValid } = useValidator(
+const { error, isValid } = useValidate(
   formData,
   { name: [required], email: [required, email], message: [required] },
   locale.value

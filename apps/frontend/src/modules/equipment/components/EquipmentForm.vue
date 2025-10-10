@@ -31,7 +31,7 @@
 import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiCheckbox, UiField, UiFlex, UiInput, toast } from 'mhz-ui';
-import { useQueryClient, useValidator, required, clone } from 'mhz-helpers';
+import { useQueryClient, useValidate, required, clone } from 'mhz-helpers';
 import { API_EQUIPMENT, IEquipment } from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
@@ -81,7 +81,7 @@ const { mutate: mutateDelete } = equipmentService.delete({
   },
 });
 
-const { error, isValid } = useValidator(formData, { title: [required] }, locale.value);
+const { error, isValid } = useValidate(formData, { title: [required] }, locale.value);
 
 function submit() {
   if (!isValid()) return;

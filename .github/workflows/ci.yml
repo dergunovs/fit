@@ -18,7 +18,7 @@ jobs:
       - name: Install node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.6.0"
+          node-version: "24.10.0"
           cache: "npm"
 
       - name: Install deps

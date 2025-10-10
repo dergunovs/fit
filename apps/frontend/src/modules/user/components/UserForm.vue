@@ -168,7 +168,7 @@ import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiModal, toast, UiTabs, UiButtongroup } from 'mhz-ui';
 import {
   useQueryClient,
-  useValidator,
+  useValidate,
   required,
   email,
   clone,
@@ -278,7 +278,7 @@ const { mutate: mutateDelete } = userService.delete({
   },
 });
 
-const { error, isValid } = useValidator(
+const { error, isValid } = useValidate(
   formData,
   { email: [required, email], name: [required, letters], password: props.isEdit ? [] : [required, min(6)] },
   locale.value

@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
-import { useValidator, required, email, min, letters } from 'mhz-helpers';
+import { useValidate, required, email, min, letters } from 'mhz-helpers';
 import { IRegisterData } from 'fitness-tracker-contracts';
 
 import { authService } from '@/auth/services';
@@ -55,7 +55,7 @@ const { mutate: mutateRegister } = authService.register(locale.value, {
   },
 });
 
-const { error, isValid } = useValidator(
+const { error, isValid } = useValidate(
   formData,
   { email: [required, email], name: [required, min(2), letters], password: [required, min(6)] },
   locale.value

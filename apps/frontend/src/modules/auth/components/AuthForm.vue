@@ -41,7 +41,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
-import { useQueryClient, useAuth, setAuthHeader, useValidator, required, email, min } from 'mhz-helpers';
+import { useQueryClient, useAuth, setAuthHeader, useValidate, required, email, min } from 'mhz-helpers';
 import {
   API_ACTIVITY_CALENDAR,
   API_ACTIVITY_CHART,
@@ -125,7 +125,7 @@ const { mutate: mutateReset } = authService.resetPassword(locale.value, {
   },
 });
 
-const { error, isValid } = useValidator(
+const { error, isValid } = useValidate(
   formData,
   { email: [required, email], password: isPasswordReset.value ? [required, min(6)] : [] },
   locale.value

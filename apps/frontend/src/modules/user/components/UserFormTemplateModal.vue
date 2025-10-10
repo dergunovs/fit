@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
 import { UiField, UiInput, UiButton } from 'mhz-ui';
-import { useValidator, required, clone, deleteTempId } from 'mhz-helpers';
+import { useValidate, required, clone, deleteTempId } from 'mhz-helpers';
 import { IUserTemplate } from 'fitness-tracker-contracts';
 
 import ActivityPotentialDuration from '@/activity/components/ActivityPotentialDuration.vue';
@@ -61,7 +61,7 @@ const formData = ref<IUserTemplate>({
 
 const isShowModal = ref(false);
 
-const { error, isValid } = useValidator(formData, { title: [required] }, locale.value);
+const { error, isValid } = useValidate(formData, { title: [required] }, locale.value);
 
 function submit() {
   if (!isValid() || formData.value.exercises.length === 0) return;

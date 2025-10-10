@@ -18,7 +18,7 @@ function returnComputed<T>(value: T) {
 
 const mockIsValid = ref(true);
 
-vi.spyOn(helpers, 'useValidator').mockImplementation(() => {
+vi.spyOn(helpers, 'useValidate').mockImplementation(() => {
   return { error: () => undefined, isValid: () => mockIsValid.value, errors: returnComputed(undefined) };
 });
 
