@@ -204,8 +204,9 @@
   "activityPassingText": [
     "Add exercises. Specify the number of repetitions and weight. There are filters by muscle groups and exercise names. You can add 2 or 3 sets at once. If the last two exercises are different, a button to add a set will appear.",
     "Use templates to quickly create workouts. You can create templates in your user profile and when creating a workout. You can also convert past workouts from the calendar to a template in the pop-up window.",
-    "You can add a workout to the calendar: click the 'Open Calendar' button when creating a workout. Select a date and click the 'Save Workout to Calendar' button. Then in the calendar, select a future workout and click the 'Start' button.",
-    "After creating a workout, you can immediately start it by clicking the corresponding button. Click 'Start' on the workout screen to launch the timer for the first exercise. If a set is performed to failure, mark it as such. You can adjust the number of repetitions. After finishing the exercise, click the 'Complete' button.",
+    "You can add a workout to the calendar: click the 'Calendar' button when creating a workout. Select a date and click the 'Save workout to calendar' button. Then, in the calendar, select the future workout and click the 'Start' button. You can also start the workout immediately upon creation by clicking the corresponding button.",
+    "During the workout, you can add, remove, and change the order of exercises.",
+    "Then click 'Start' on the workout screen to start the timer for the first exercise. If the set is completed to failure, mark it accordingly. You can change the number of repetitions and weight. After completing the exercise, click the 'Finish' button.",
     "After completing all exercises, you will be redirected to the statistics page. Completed workouts in the calendar are colored according to the most involved muscle groups. The more a muscle group is engaged, the more space it occupies.",
     "Using the timer allows you to predict the duration of future workouts, track average rest time, and visually display workouts in statistics."
   ]

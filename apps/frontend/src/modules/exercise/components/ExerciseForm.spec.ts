@@ -18,6 +18,7 @@ import { filterEquipmentByWeights } from '@/equipment/helpers';
 import { EQUIPMENTS_FIXTURE } from '@/equipment/fixtures';
 import { MUSCLES_FIXTURE } from '@/muscle/fixtures';
 import { spyGetMuscles } from '@/muscle/mocks';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
 const TITLE = 'Упражнение';
 const TITLE_EN = 'Exercise';
@@ -63,6 +64,10 @@ describe('ExerciseForm', async () => {
 
   it('gets muscles', async () => {
     expect(spyGetMuscles).toBeCalledTimes(1);
+  });
+
+  it('gets isAdmin', async () => {
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
   });
 
   it('shows equipment for weights', async () => {

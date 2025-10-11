@@ -9,11 +9,11 @@
         <UiInput v-model="formData.title_en" data-test="exercise-form-title-en" />
       </UiField>
 
-      <UiField :label="t('description')">
+      <UiField v-if="isAdmin" :label="t('description')">
         <UiTextarea v-model="formData.description" data-test="exercise-form-description" />
       </UiField>
 
-      <UiField :label="`${t('description')} EN`">
+      <UiField v-if="isAdmin" :label="`${t('description')} EN`">
         <UiTextarea v-model="formData.description_en" data-test="exercise-form-description-en" />
       </UiField>
 
@@ -91,6 +91,7 @@ import { muscleService } from '@/muscle/services';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
 import { useTI18n } from '@/common/composables';
+import { useAuthCheck } from '@/auth/composables';
 
 interface IProps {
   exercise?: IExercise;
@@ -109,6 +110,7 @@ const emit = defineEmits<IEmit>();
 const router = useRouter();
 const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
+const { isAdmin } = useAuthCheck();
 
 const formData = ref<IExercise>({
   title: '',
