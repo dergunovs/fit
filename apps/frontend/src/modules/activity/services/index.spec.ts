@@ -30,8 +30,8 @@ const page = computed(() => 1);
 const id = computed(() => '123');
 
 const gap = 1;
-const dateFrom = ref('01-01-2020');
-const dateTo = ref('01-02-2020');
+const dateFrom = ref(new Date('01-01-2020'));
+const dateTo = ref(new Date('01-02-2020'));
 const type = ref<TActivityChartType>('set');
 const isMonth = ref(true);
 const isAverage = ref(true);
@@ -63,7 +63,7 @@ describe('activityService', () => {
     expect(await serviceMocks.lastQuery.queryFn()).toEqual(ACTIVITIES_FIXTURE);
     expect(serviceMocks.lastQuery.queryKey).toEqual([API_ACTIVITY_CALENDAR, dateFrom, dateTo]);
     expect(serviceMocks.http.get).toHaveBeenCalledWith(API_ACTIVITY_CALENDAR, {
-      params: { dateFrom: dateFrom.value, dateTo: dateTo.value },
+      params: { dateFrom: dateFrom.value.toISOString(), dateTo: dateTo.value.toISOString() },
     });
   });
 

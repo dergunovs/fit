@@ -46,11 +46,6 @@ describe('ActivityCalendar', async () => {
     expect(wrapper.emitted()).not.toHaveProperty('ready');
     expect(wrapper.emitted()).not.toHaveProperty('update');
 
-    wrapper.findComponent<typeof UiCalendar>(calendar).vm.$emit('ready', dates);
-
-    expect(wrapper.emitted('ready')).toHaveLength(1);
-    expect(wrapper.emitted()['ready'][0]).toStrictEqual([dates]);
-
     wrapper.findComponent<typeof UiCalendar>(calendar).vm.$emit('update', dates);
 
     expect(wrapper.emitted('update')).toHaveLength(1);

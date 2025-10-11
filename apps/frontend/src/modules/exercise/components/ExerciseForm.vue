@@ -10,11 +10,11 @@
       </UiField>
 
       <UiField :label="t('description')">
-        <UiEditor v-model="formData.description" data-test="exercise-form-description" />
+        <UiTextarea v-model="formData.description" data-test="exercise-form-description" />
       </UiField>
 
       <UiField :label="`${t('description')} EN`">
-        <UiEditor v-model="formData.description_en" data-test="exercise-form-description-en" />
+        <UiTextarea v-model="formData.description_en" data-test="exercise-form-description-en" />
       </UiField>
 
       <UiCheckbox v-model="formData.isWeights" :label="t('exercise.isWeights')" data-test="exercise-form-is-weights" />
@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiEditor } from 'mhz-ui';
+import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiTextarea } from 'mhz-ui';
 import { useQueryClient, useValidate, required, clone, localeField } from 'mhz-helpers';
 import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
 

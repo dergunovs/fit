@@ -5,8 +5,8 @@ import * as helpers from 'mhz-helpers';
 
 import * as commonHelpers from '@/common/helpers';
 
-const mockDateFrom = ref('2024-11-24T21:00:00.000Z');
-const mockDateTo = ref('2025-01-05T20:59:59.000Z');
+const mockDateFrom = ref(new Date('2024-11-24T21:00:00.000Z'));
+const mockDateTo = ref(new Date('2025-01-05T20:59:59.000Z'));
 const mockIsDatesReady = ref(true);
 const spyUpdateDates = vi.fn();
 

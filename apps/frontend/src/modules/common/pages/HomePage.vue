@@ -8,7 +8,6 @@
           <ActivityCalendar
             v-if="muscles"
             :events="convertActivityCalendarEvents(muscles, calendar)"
-            @ready="updateDates"
             @update="updateDates"
             @deleteEvent="refetch"
             data-test="home-page-activity-calendar"

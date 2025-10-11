@@ -86,16 +86,12 @@ describe('HomePage', async () => {
     );
   });
 
-  it('updates dates on ready and update activity calendar events', async () => {
+  it('updates dates on update activity calendar events', async () => {
     expect(spyUpdateDates).toBeCalledTimes(0);
-
-    wrapper.findComponent<typeof ActivityCalendar>(calendar).vm.$emit('ready');
-
-    expect(spyUpdateDates).toBeCalledTimes(1);
 
     wrapper.findComponent<typeof ActivityCalendar>(calendar).vm.$emit('update');
 
-    expect(spyUpdateDates).toBeCalledTimes(2);
+    expect(spyUpdateDates).toBeCalledTimes(1);
   });
 
   it('gets activity statistics', async () => {

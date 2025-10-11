@@ -6,10 +6,10 @@ exports[`ExerciseForm > matches snapshot 1`] = `
     <fieldset label="Название" isrequired=""><input type="text" modelvalue="" data-test="exercise-form-title"></fieldset>
     <fieldset label="Название EN"><input type="text" modelvalue="" data-test="exercise-form-title-en"></fieldset>
     <fieldset label="Описание">
-      <ui-editor-stub modelvalue="" data-test="exercise-form-description"></ui-editor-stub>
+      <ui-textarea-stub modelvalue="" isdisabled="false" data-test="exercise-form-description"></ui-textarea-stub>
     </fieldset>
     <fieldset label="Описание EN">
-      <ui-editor-stub modelvalue="" data-test="exercise-form-description-en"></ui-editor-stub>
+      <ui-textarea-stub modelvalue="" isdisabled="false" data-test="exercise-form-description-en"></ui-textarea-stub>
     </fieldset><input type="checkbox" modelvalue="false" label="Наличие веса у упражнения" data-test="exercise-form-is-weights">
     <!--v-if-->
     <fieldset label="Использованное оборудование"><input type="text" options="[object Object]" isclearable="" islocalefield="false" lang="ru"></fieldset>

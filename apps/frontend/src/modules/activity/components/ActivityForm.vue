@@ -45,10 +45,10 @@
           </UiButton>
 
           <UiCalendar
-            :minDate="new Date()"
-            :lang="locale"
             @chooseDate="setScheduledDate"
             data-test="activity-form-calendar"
+            isDisablePastDates
+            :lang="locale"
           />
         </UiFlex>
       </Transition>

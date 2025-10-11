@@ -48,11 +48,16 @@ export const activityService = {
       },
     }),
 
-  getCalendar: (options: object, dateFrom: Ref<string>, dateTo: Ref<string>) =>
+  getCalendar: (options: object, dateFrom: Ref<Date | undefined>, dateTo: Ref<Date | undefined>) =>
     useQuery({
       queryKey: [API_ACTIVITY_CALENDAR, dateFrom, dateTo],
       queryFn: async () => {
-        const params: TGetActivitiesCalendarQueryDTO = { dateFrom: dateFrom.value, dateTo: dateTo.value };
+        if (!dateFrom.value || !dateTo.value) return undefined;
+
+        const params: TGetActivitiesCalendarQueryDTO = {
+          dateFrom: dateFrom.value.toISOString(),
+          dateTo: dateTo.value.toISOString(),
+        };
 
         const { data } = await api.get<TGetActivitiesCalendarDTO>(API_ACTIVITY_CALENDAR, { params });
 
