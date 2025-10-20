@@ -58,6 +58,7 @@ describe('UserFormTemplateModal', async () => {
     const updatedExercises = [...USER_TEMPLATE.exercises, EXERCISE_CHOOSEN_2_FIXTURE];
 
     wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).vm.$emit('update:modelValue', updatedExercises);
+    wrapper.findComponent<typeof ExerciseManagment>(exerciseManagment).vm.$emit('updateModal', false);
 
     expect(wrapper.emitted('edit')).toHaveLength(1);
     expect(wrapper.emitted()['edit'][0]).toStrictEqual([
@@ -66,6 +67,10 @@ describe('UserFormTemplateModal', async () => {
   });
 
   it('emits create by template submit', async () => {
+    expect(wrapperWithoutTemplate.emitted()).not.toHaveProperty('create');
+
+    await wrapperWithoutTemplate.find(form).trigger('submit');
+
     expect(wrapperWithoutTemplate.emitted()).not.toHaveProperty('create');
 
     await wrapperWithoutTemplate.findComponent(title).setValue(USER_TEMPLATE.title);

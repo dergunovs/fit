@@ -58,6 +58,15 @@ describe('exerciseService', () => {
     expect(serviceMocks.http.get).toHaveBeenCalledWith(`${API_EXERCISE}/${id.value}`);
   });
 
+  it('getOne returns null when id is empty', async () => {
+    const emptyId = computed(() => '');
+
+    exerciseService.getOne({}, emptyId);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toBeNull();
+    expect(serviceMocks.http.get).not.toHaveBeenCalled();
+  });
+
   it('create', async () => {
     serviceMocks.http.mockPost<TPostExerciseDTO>(BASE_REPLY);
     exerciseService.create({});

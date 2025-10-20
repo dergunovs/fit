@@ -75,6 +75,19 @@ describe('ActivityTimeline', async () => {
     expect(generatedSteps.length).toBe(2);
   });
 
+  it('handles exercises with missing dateUpdated in last element', async () => {
+    const testExercises = [
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: new Date('2024-11-30T07:34:57.304Z') },
+      { ...EXERCISE_DONE_FIXTURE, dateUpdated: undefined },
+    ];
+
+    await wrapper.setProps({ exercises: testExercises });
+
+    const generatedSteps = generateTimeline(testExercises, start, 0);
+
+    expect(generatedSteps.length).toBe(1);
+  });
+
   it('sets ratio to 0 when lastStepDate is missing', async () => {
     const testExercises = [
       { ...EXERCISE_DONE_FIXTURE, dateUpdated: undefined },

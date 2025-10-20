@@ -36,7 +36,7 @@ import {
   mockIsValid,
   spyLogout,
 } from '@/common/mocks';
-import { URL_USER } from '@/user/constants';
+import { URL_USER, USER_GOALS_OPTIONS } from '@/user/constants';
 import { spyGetExercisesAll, spyGetExercisesCustom } from '@/exercise/mocks';
 import { EXERCISE_FIXTURE_CUSTOM, EXERCISES_FIXTURE } from '@/exercise/fixtures';
 import { URL_HOME } from '@/common/constants';
@@ -418,6 +418,11 @@ describe('UserForm', async () => {
     expect(wrapper.find(formGoalsSets).exists()).toBe(true);
     expect(wrapper.find(formGoalsRepeats).exists()).toBe(true);
     expect(wrapper.find(formGoalsDuration).exists()).toBe(true);
+
+    expect(wrapper.find(formGoalsActivities).attributes('options')).toBe(USER_GOALS_OPTIONS.activities.join(','));
+    expect(wrapper.find(formGoalsSets).attributes('options')).toBe(USER_GOALS_OPTIONS.sets.join(','));
+    expect(wrapper.find(formGoalsRepeats).attributes('options')).toBe(USER_GOALS_OPTIONS.repeats.join(','));
+    expect(wrapper.find(formGoalsDuration).attributes('options')).toBe(USER_GOALS_OPTIONS.duration.join(','));
   });
 
   it('handles password update event', async () => {

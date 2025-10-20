@@ -64,4 +64,15 @@ describe('ExerciseRepeats', async () => {
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
     expect(wrapper.emitted()['update:modelValue'][0]).toStrictEqual([choosenOption]);
   });
+
+  it('emits update:modelValue on mount if baseRepeats set', async () => {
+    wrapper.unmount();
+
+    const baseRepeat = 12;
+
+    const wrapperWithBaseRepeats = wrapperFactory(ExerciseRepeats, { modelValue: undefined, baseRepeat });
+
+    expect(wrapperWithBaseRepeats.emitted('update:modelValue')).toHaveLength(1);
+    expect(wrapperWithBaseRepeats.emitted()['update:modelValue'][0]).toStrictEqual([baseRepeat]);
+  });
 });

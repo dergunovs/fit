@@ -167,4 +167,15 @@ describe('ExerciseButtons', async () => {
     expect(wrapper.emitted('delete')).toHaveLength(1);
     expect(wrapper.emitted()['delete'][0]).toStrictEqual([]);
   });
+
+  it('toggles to failure when in passing mode', async () => {
+    await wrapper.setProps({ isPassing: true, isActive: true, isToFailure: false });
+
+    expect(wrapper.emitted()).not.toHaveProperty('setIsToFailure');
+
+    await wrapper.find(toFailure).trigger('click');
+
+    expect(wrapper.emitted('setIsToFailure')).toHaveLength(1);
+    expect(wrapper.emitted()['setIsToFailure'][0]).toStrictEqual([true]);
+  });
 });

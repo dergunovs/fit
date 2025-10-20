@@ -53,4 +53,14 @@ describe('ExerciseDurationTimer', async () => {
 
     expect(wrapper.find(duration).text()).toBe('00:00');
   });
+
+  it('starts timer on mount if isActive props is true', async () => {
+    wrapper.unmount();
+
+    const wrapperActive = wrapperFactory(ExerciseDurationTimer, { isActive: true });
+
+    await wait(1000);
+
+    expect(wrapperActive.find(duration).text()).toBe('00:01');
+  });
 });

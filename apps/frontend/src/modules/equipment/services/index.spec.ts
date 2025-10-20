@@ -35,6 +35,15 @@ describe('equipmentService', () => {
     expect(serviceMocks.http.get).toHaveBeenCalledWith(`${API_EQUIPMENT}/${id.value}`);
   });
 
+  it('getOne returns null when id is empty', async () => {
+    const emptyId = computed(() => '');
+
+    equipmentService.getOne({}, emptyId);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toBeNull();
+    expect(serviceMocks.http.get).not.toHaveBeenCalled();
+  });
+
   it('create', async () => {
     serviceMocks.http.mockPost<TPostEquipmentDTO>(BASE_REPLY);
     equipmentService.create({});

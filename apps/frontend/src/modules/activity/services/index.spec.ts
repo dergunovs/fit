@@ -67,6 +67,17 @@ describe('activityService', () => {
     });
   });
 
+  it('getCalendar with undefined dates', async () => {
+    const undefinedDateFrom = ref<Date | undefined>(undefined);
+    const undefinedDateTo = ref<Date | undefined>(undefined);
+
+    activityService.getCalendar({}, undefinedDateFrom, undefinedDateTo);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toEqual(undefined);
+    expect(serviceMocks.lastQuery.queryKey).toEqual([API_ACTIVITY_CALENDAR, undefinedDateFrom, undefinedDateTo]);
+    expect(serviceMocks.http.get).not.toHaveBeenCalled();
+  });
+
   it('getChart', async () => {
     serviceMocks.http.mockGet<TGetActivitiesChartDTO>(ACTIVITY_CHART_FIXTURE);
     activityService.getChart(type, isMonth, isAverage, locale);

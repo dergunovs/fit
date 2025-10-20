@@ -35,6 +35,15 @@ describe('muscleService', () => {
     expect(serviceMocks.http.get).toHaveBeenCalledWith(`${API_MUSCLE}/${id.value}`);
   });
 
+  it('getOne returns null when id is empty', async () => {
+    const emptyId = computed(() => '');
+
+    muscleService.getOne({}, emptyId);
+
+    expect(await serviceMocks.lastQuery.queryFn()).toBeNull();
+    expect(serviceMocks.http.get).not.toHaveBeenCalled();
+  });
+
   it('create', async () => {
     serviceMocks.http.mockPost<TPostMuscleDTO>(BASE_REPLY);
     muscleService.create({});

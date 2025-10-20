@@ -225,4 +225,17 @@ describe('ExerciseForm', async () => {
 
     expect(wrapper.emitted('hide')).toHaveLength(1);
   });
+
+  it('updates equipment when checkbox is toggled', async () => {
+    await wrapper.findComponent(formIsWeights).setValue(true);
+
+    expect(wrapper.find(formEquipmentForWeight).exists()).toBe(true);
+
+    await wrapper.findComponent(formEquipmentForWeight).setValue(true);
+
+    await wrapper.findComponent(formEquipmentForWeight).setValue(false);
+
+    await wrapper.findComponent(formIsWeights).setValue(false);
+    expect(wrapper.find(formEquipmentForWeight).exists()).toBe(false);
+  });
 });
