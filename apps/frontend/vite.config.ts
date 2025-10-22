@@ -63,7 +63,7 @@ export default defineConfig({
     environment: 'happy-dom',
     include: ['**/*.spec.ts'],
     coverage: {
-      provider: 'istanbul',
+      provider: 'v8',
       reporter: ['text'],
       include: [
         'src/modules/**/*.vue',
@@ -71,10 +71,11 @@ export default defineConfig({
         'src/modules/**/composables/*.ts',
         'src/modules/**/services/*.ts',
       ],
-      all: true,
     },
     css: false,
-    deps: { inline: true },
+    server: {
+      deps: { inline: [/^(?!.*vitest).*$/] },
+    },
     env: { TZ: 'UTC' },
   },
 });

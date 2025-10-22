@@ -32,14 +32,14 @@
     "fastify": "5.6.1",
     "fastify-plugin": "5.1.0",
     "fitness-tracker-contracts": "*",
-    "mongoose": "8.19.1",
-    "mhz-helpers": "1.2.24",
+    "mongoose": "8.19.2",
+    "mhz-helpers": "1.2.26",
     "nodemailer": "7.0.9"
   },
   "devDependencies": {
     "@eslint/js": "9.38.0",
     "@types/bcryptjs": "2.4.6",
-    "@types/node": "24.8.1",
+    "@types/node": "24.9.1",
     "@types/nodemailer": "7.0.2",
     "esbuild": "0.25.11",
     "eslint": "9.38.0",
@@ -54,7 +54,7 @@
     "nodemon": "3.1.10",
     "prettier": "3.6.2",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.1"
+    "typescript-eslint": "8.46.2"
   },
   "engines": {
     "npm": ">=11.6.1",
