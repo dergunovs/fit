@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "fitness-tracker-contracts": "*",
-    "mhz-ui": "1.2.51",
+    "mhz-ui": "1.2.52",
     "mhz-helpers": "1.2.27",
     "vue": "3.5.22",
     "vue-i18n": "11.1.12",
