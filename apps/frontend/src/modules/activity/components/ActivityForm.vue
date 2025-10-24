@@ -183,7 +183,7 @@ const { mutate: mutateUpdate } = userService.update({
 const { mutate: mutatePost, isPending: isLoadingPost } = activityService.create({
   onSuccess: async (activityId: TPostActivityDTO) => {
     await queryClient.refetchQueries({ queryKey: [API_ACTIVITY] });
-    toast.success(formData.value.dateScheduled ? t('activity.savedToCalendar') : t('activity.started'));
+    toast.success(formData.value.dateScheduled ? t('activity.saved') : t('activity.started'));
     router.push(formData.value.dateScheduled ? URL_HOME : `${URL_ACTIVITY_EDIT}/${activityId}`);
   },
 });

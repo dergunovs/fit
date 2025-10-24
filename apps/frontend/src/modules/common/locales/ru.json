@@ -101,7 +101,7 @@
     "chooseDate": "Выберите дату @.lower:activity.many",
     "start": "Начать @.lower:activity.one",
     "started": "@:activity.one начато",
-    "savedToCalendar": "@:activity.one сохранено в @.lower:calendar",
+    "saved": "@:activity.one сохранено",
     "deleted": "@:activity.one удалено",
     "created": "@:activity.one создано",
     "finished": "@:activity.one завершено",

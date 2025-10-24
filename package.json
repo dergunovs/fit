@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "ts": "turbo run ts",
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "build:apk": "npx tauri android build --apk true --target aarch64 && npm run tauri icon src-tauri/icons/icon.png",
+    "build:apk": "npm run tauri icon src-tauri/app-icon.png && npx tauri android build --apk true --target aarch64",
     "test": "turbo run test",
     "test:cov": "turbo run test:cov",
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish",

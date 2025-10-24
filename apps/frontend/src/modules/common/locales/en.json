@@ -101,7 +101,7 @@
     "chooseDate": "Choose @.lower:activity.one date",
     "start": "Start @.lower:activity.one",
     "started": "@:activity.one started",
-    "savedToCalendar": "@:activity.one saved to @.lower:calendar",
+    "saved": "@:activity.one saved",
     "deleted": "@:activity.one deleted",
     "created": "@:activity.one created",
     "finished": "@:activity.one finished",
