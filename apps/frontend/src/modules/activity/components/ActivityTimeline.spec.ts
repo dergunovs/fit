@@ -68,7 +68,7 @@ describe('ActivityTimeline', async () => {
 
     await wrapper.setProps({ exercises: testExercises });
 
-    const expectedRatio = 86400000 / 308;
+    const expectedRatio = 86400000 / 300;
 
     const generatedSteps = generateTimeline(testExercises, start, expectedRatio);
 
