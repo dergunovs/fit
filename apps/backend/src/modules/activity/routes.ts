@@ -66,11 +66,7 @@ export default async function (fastify: IFastifyInstance) {
     API_ACTIVITY_STATISTICS,
     { ...activityGetStatisticsSchema },
     async function (request, reply) {
-      const data = await activityService.getStatistics(
-        request.query.gap,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const data = await activityService.getStatistics(365, fastify.jwt.decode, request.headers.authorization);
 
       reply.code(200).send(data);
     }
