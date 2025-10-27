@@ -2,7 +2,7 @@
 
 exports[`LayoutContainer > matches snapshot 1`] = `
 "<div>
-  <the-header-stub isadmin="true" isloaded="false" data-test="layout-header"></the-header-stub>
+  <the-header-stub isadmin="true" isauthchecked="true" data-test="layout-header"></the-header-stub>
   <div class="_layout_fb2575">
     <div class="_wrapper_fb2575" data-auth="false">
       <!--v-if-->

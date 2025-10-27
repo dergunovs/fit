@@ -2,7 +2,7 @@
   <div>
     <TheHeader
       :isAdmin="isAdmin"
-      :isLoaded="isLoaded"
+      :isAuthChecked="isAuthChecked"
       @showLogin="isShowLogin = true"
       @register="isShowRegistration = true"
       data-test="layout-header"

@@ -42,10 +42,10 @@ describe('TheHeader', async () => {
     expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
   });
 
-  it('shows links when loaded', async () => {
+  it('shows links when auth checked', async () => {
     expect(wrapper.find(links).isVisible()).toBe(false);
 
-    await wrapper.setProps({ isLoaded: true });
+    await wrapper.setProps({ isAuthChecked: true });
 
     expect(wrapper.find(links).isVisible()).toBe(true);
   });
