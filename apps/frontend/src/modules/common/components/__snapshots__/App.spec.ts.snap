@@ -1,8 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`App > matches snapshot 1`] = `
-"<div>
-  <!--v-if-->
-  <pwa-update-modal-stub></pwa-update-modal-stub>
-</div>"
-`;
+exports[`App > matches snapshot 1`] = `"<layout-container-stub></layout-container-stub>"`;

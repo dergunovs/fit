@@ -12,6 +12,7 @@ import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
 
 const logo = dataTest('header-logo');
+const links = dataTest('header-links');
 const help = dataTest('header-help');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
@@ -39,6 +40,14 @@ describe('TheHeader', async () => {
 
   it('sets logo link', async () => {
     expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
+  });
+
+  it('shows links when loaded', async () => {
+    expect(wrapper.find(links).isVisible()).toBe(false);
+
+    await wrapper.setProps({ isLoaded: true });
+
+    expect(wrapper.find(links).isVisible()).toBe(true);
   });
 
   it('always shows help link', async () => {

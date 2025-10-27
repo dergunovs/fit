@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LayoutContainer > matches snapshot 1`] = `
+"<div>
+  <the-header-stub isadmin="true" isloaded="false" data-test="layout-header"></the-header-stub>
+  <div class="_layout_fb2575">
+    <div class="_wrapper_fb2575" data-auth="false">
+      <!--v-if-->
+    </div>
+    <!--v-if-->
+  </div>
+  <div modelvalue="false" data-test="layout-login-form-modal">
+    <auth-form-stub issetup="false" data-test="layout-login-form"></auth-form-stub>
+  </div>
+  <div modelvalue="false" data-test="layout-registration-form-modal">
+    <registration-form-stub data-test="layout-registration-form"></registration-form-stub>
+  </div>
+  <pwa-update-modal-stub></pwa-update-modal-stub>
+</div>"
+`;

@@ -9,7 +9,7 @@
       </UiFlex>
     </RouterLink>
 
-    <UiFlex justify="flex-end">
+    <UiFlex v-show="props.isLoaded" justify="flex-end" data-test="header-links">
       <UiButton @click="toggleDarkMode" layout="plain" data-test="header-dark-mode">
         <IconDarkMode />
       </UiButton>
@@ -60,6 +60,7 @@ import { useLocale, useTI18n } from '@/common/composables';
 
 interface IProps {
   isAdmin: boolean;
+  isLoaded: boolean;
 }
 
 interface IEmit {
