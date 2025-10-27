@@ -85,7 +85,7 @@ export const activityService = {
 
     const isMonth = month === 'true';
 
-    const weeks = getFirstAndLastDays(12, isMonth);
+    const weeks = getFirstAndLastDays(13, isMonth);
 
     const { labels, datasets } = await activitiesGetChartData(
       Activity,
