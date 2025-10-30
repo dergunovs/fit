@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 import pluginVue from 'eslint-plugin-vue';
 import vueParser from 'vue-eslint-parser';
 import pluginImportX from 'eslint-plugin-import-x';
@@ -13,7 +14,7 @@ import { parser, options, ignores, settings, rules } from 'vue-linters-config';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default tseslint.config(
+export default defineConfig(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/strongly-recommended'],

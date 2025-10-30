@@ -24,7 +24,7 @@ let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 beforeAll(() => localStorage.setItem('locale', 'ru'));
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader, { isAdmin: true });
+  wrapper = wrapperFactory(TheHeader, { isAdmin: true, isAuthChecked: false });
 });
 
 enableAutoUnmount(afterEach);
