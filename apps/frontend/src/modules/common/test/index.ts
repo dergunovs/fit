@@ -6,24 +6,17 @@ import { uiStubs } from 'mhz-ui';
 
 import { routes } from '@/common/router/routes';
 import { i18n } from '@/common/plugins';
+import { IStubs, TComponentProps } from '@/common/interface';
 
-export const router = createRouter({ history: createWebHistory('/'), routes });
+export const router = createRouter({ history: createWebHistory(), routes });
 
-export function wrapperFactory<T>(
-  component: Component<T>,
-  props?: Partial<ComponentPublicInstance<T>['$props']>,
-  stubs?: { [title: string]: { template?: string | object; props?: string[]; name?: string } }
-) {
+export function wrapperFactory<T>(component: Component<T>, props?: TComponentProps<T>, stubs?: IStubs) {
   document.body.innerHTML = '<div id="app"></div>';
 
   return shallowMount(component, {
     global: {
       plugins: [router, VueQueryPlugin, i18n],
-      stubs: {
-        RouterLink: { template: '<a><slot></slot></a>' },
-        ...stubs,
-        ...uiStubs,
-      },
+      stubs: { RouterLink: { template: '<a><slot></slot></a>' }, ...stubs, ...uiStubs },
     },
     props: props as ComponentPublicInstance<T>['$props'],
     attachTo: document.querySelector('#app') as HTMLElement,
