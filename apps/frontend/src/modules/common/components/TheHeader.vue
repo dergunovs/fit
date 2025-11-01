@@ -84,6 +84,7 @@ const version = import.meta.env.VITE_VERSION;
 <style module lang="scss">
 .header {
   position: fixed;
+  top: env(safe-area-inset-top);
   z-index: 1;
   display: flex;
   align-items: center;

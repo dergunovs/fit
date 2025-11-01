@@ -60,13 +60,13 @@ const isShowLogin = ref(false);
 .layout {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  min-height: calc(100dvh - env(safe-area-inset-top));
 }
 
 .wrapper {
   display: flex;
-  height: calc(100dvh - var(--panel-height));
-  margin-top: var(--panel-height);
+  height: calc(100dvh - var(--panel-height) - env(safe-area-inset-top));
+  margin-top: calc(var(--panel-height) + env(safe-area-inset-top));
   overflow-y: auto;
 
   &[data-auth='true'] {

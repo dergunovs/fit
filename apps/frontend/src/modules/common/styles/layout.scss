@@ -1,11 +1,11 @@
 .main {
   flex: 1;
-  height: calc(100dvh - var(--panel-height));
+  height: calc(100dvh - var(--panel-height) - env(safe-area-inset-top));
   overflow-y: auto;
   background-color: var(--color-gray-light);
 
   &[data-auth='true'] {
-    height: calc(100dvh - var(--panel-height) * 2);
+    height: calc(100dvh - var(--panel-height) * 2 - env(safe-area-inset-top));
   }
 }
 
