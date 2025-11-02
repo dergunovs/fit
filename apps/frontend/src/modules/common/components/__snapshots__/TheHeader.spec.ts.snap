@@ -8,7 +8,7 @@ exports[`TheHeader > matches snapshot 1`] = `
       <div class="_version_ad8e33">v. 0.5.2</div>
     </div>
   </a>
-  <div justify="flex-end" data-test="header-links" style="display: none;"><button layout="plain" data-test="header-dark-mode">
+  <div justify="flex-end"><button layout="plain" data-test="header-dark-mode">
       <anonymous-stub></anonymous-stub>
     </button><button layout="plain" data-test="header-locale">RU</button><button layout="plain" data-test="header-help">Помощь</button><button layout="plain" data-test="header-registration">Регистрация</button><button layout="plain" data-test="header-login">Вход</button></div>
 </header>"

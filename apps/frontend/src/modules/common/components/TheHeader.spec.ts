@@ -10,9 +10,9 @@ import { URL_HELP, URL_HOME } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { spyRouterPush, spyLogout } from '@/common/mocks';
 import { TOKEN_NAME } from '@/auth/constants';
+import { spyUseAuthCheck } from '@/auth/mocks';
 
 const logo = dataTest('header-logo');
-const links = dataTest('header-links');
 const help = dataTest('header-help');
 const admin = dataTest('header-admin');
 const login = dataTest('header-login');
@@ -24,7 +24,7 @@ let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 beforeAll(() => localStorage.setItem('locale', 'ru'));
 
 beforeEach(() => {
-  wrapper = wrapperFactory(TheHeader, { isAdmin: true, isAuthChecked: false });
+  wrapper = wrapperFactory(TheHeader);
 });
 
 enableAutoUnmount(afterEach);
@@ -38,16 +38,12 @@ describe('TheHeader', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('sets logo link', async () => {
-    expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
+  it('shows checks auth', async () => {
+    expect(spyUseAuthCheck).toBeCalledTimes(1);
   });
 
-  it('shows links when auth checked', async () => {
-    expect(wrapper.find(links).isVisible()).toBe(false);
-
-    await wrapper.setProps({ isAuthChecked: true });
-
-    expect(wrapper.find(links).isVisible()).toBe(true);
+  it('sets logo link', async () => {
+    expect(wrapper.find(logo).attributes('to')).toBe(URL_HOME);
   });
 
   it('always shows help link', async () => {
@@ -78,18 +74,6 @@ describe('TheHeader', async () => {
 
     expect(wrapper.find(admin).exists()).toBe(true);
     expect(wrapper.find(logout).exists()).toBe(true);
-  });
-
-  it('hides admin link by props', async () => {
-    setAuth(true);
-
-    await nextTick();
-
-    expect(wrapper.find(admin).exists()).toBe(true);
-
-    await wrapper.setProps({ isAdmin: false });
-
-    expect(wrapper.find(admin).exists()).toBe(false);
   });
 
   it('navigates to admin', async () => {

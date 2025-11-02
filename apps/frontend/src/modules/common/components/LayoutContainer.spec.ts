@@ -8,9 +8,6 @@ import TheHeader from '@/common/components/TheHeader.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
-import { spyUseLayout, mockIsLoaded, mockLayoutDefaultName } from '@/common/mocks';
-import { spyUseAuthCheck } from '@/auth/mocks';
-
 import { wrapperFactory } from '@/common/test';
 
 const layout = dataTest('layout');
@@ -37,20 +34,8 @@ describe('LayoutContainer', async () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('checks auth', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
-  });
-
   it('shows layout component', async () => {
-    expect(wrapper.find(layout).exists()).toBe(false);
-
-    expect(spyUseLayout).toBeCalledTimes(1);
-    mockIsLoaded.value = true;
-
-    await nextTick();
-
     expect(wrapper.find(layout).exists()).toBe(true);
-    expect(wrapper.find(layout).attributes('data-layout')).toBe(mockLayoutDefaultName);
   });
 
   it('shows login modal', async () => {

@@ -1,10 +1,6 @@
-import { ref, computed, onBeforeMount, Ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { computed, onBeforeMount, Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { TLocale } from 'fitness-tracker-contracts';
-
-import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
-import LayoutDefault from '@/common/components/LayoutDefault.vue';
 
 import IconExercise from '@/common/icons/exercise.svg?component';
 import IconActivity from '@/common/icons/activity.svg?component';
@@ -19,25 +15,6 @@ import { URL_EQUIPMENT } from '@/equipment/constants';
 import { URL_MUSCLE } from '@/muscle/constants';
 import { URL_HOME } from '@/common/constants';
 import { INavItem } from '@/common/interface';
-
-export function useLayout() {
-  const router = useRouter();
-  const route = useRoute();
-
-  const isLoaded = ref(false);
-
-  const layoutComponent = computed(() => (route.meta.layout === 'admin' ? LayoutAdmin : LayoutDefault));
-
-  onBeforeMount(async () => {
-    await router.isReady();
-    isLoaded.value = true;
-  });
-
-  return {
-    isLoaded,
-    layoutComponent,
-  };
-}
 
 export function useTI18n() {
   const { t, tm, rt, availableLocales, locale } = useI18n();

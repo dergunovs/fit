@@ -1,17 +1,10 @@
 <template>
   <div>
-    <TheHeader
-      :isAdmin="isAdmin"
-      :isAuthChecked="isAuthChecked"
-      @showLogin="isShowLogin = true"
-      @register="isShowRegistration = true"
-      data-test="layout-header"
-    />
+    <TheHeader @showLogin="isShowLogin = true" @register="isShowRegistration = true" data-test="layout-header" />
 
     <div :class="$style.layout">
       <div :class="$style.wrapper" :data-auth="isAuth">
         <component
-          v-if="isLoaded && isAuthChecked"
           @register="isShowRegistration = true"
           :is="layoutComponent"
           :data-layout="layoutComponent.name"
@@ -35,25 +28,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, shallowRef, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { UiModal } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
+import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
+import LayoutDefault from '@/common/components/LayoutDefault.vue';
 import TheHeader from '@/common/components/TheHeader.vue';
 import NavList from '@/common/components/NavList.vue';
 import PwaUpdateModal from '@/common/components/PwaUpdateModal.vue';
 import AuthForm from '@/auth/components/AuthForm.vue';
 import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
-import { useLayout, useNavItems } from '@/common/composables';
-import { useAuthCheck } from '@/auth/composables';
+import { useNavItems } from '@/common/composables';
 
-const { isLoaded, layoutComponent } = useLayout();
-const { isAdmin, isAuthChecked } = useAuthCheck();
+const route = useRoute();
 const { BOTTOM_NAV_ITEMS } = useNavItems();
 
 const isShowRegistration = ref(false);
 const isShowLogin = ref(false);
+
+const layoutComponent = shallowRef<typeof LayoutDefault | typeof LayoutAdmin>(LayoutDefault);
+
+watch(
+  () => route.meta.layout,
+  () => {
+    layoutComponent.value = route.meta.layout === 'admin' ? LayoutAdmin : LayoutDefault;
+  }
+);
 </script>
 
 <style module lang="scss">

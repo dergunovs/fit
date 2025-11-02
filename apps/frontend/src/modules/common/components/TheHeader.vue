@@ -9,7 +9,7 @@
       </UiFlex>
     </RouterLink>
 
-    <UiFlex v-show="props.isAuthChecked" justify="flex-end" data-test="header-links">
+    <UiFlex v-if="isAuthChecked" justify="flex-end">
       <UiButton @click="toggleDarkMode" layout="plain" data-test="header-dark-mode">
         <IconDarkMode />
       </UiButton>
@@ -23,7 +23,7 @@
       </UiButton>
 
       <template v-if="isAuth">
-        <UiButton v-if="props.isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
+        <UiButton v-if="isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
           {{ t('adminPanel') }}
         </UiButton>
 
@@ -57,11 +57,7 @@ import { TOKEN_NAME } from '@/auth/constants';
 import { URL_HOME, URL_HELP } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { useLocale, useTI18n } from '@/common/composables';
-
-interface IProps {
-  isAdmin: boolean;
-  isAuthChecked: boolean;
-}
+import { useAuthCheck } from '@/auth/composables';
 
 interface IEmit {
   showLogin: [];
@@ -69,7 +65,6 @@ interface IEmit {
   install: [];
 }
 
-const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
@@ -77,6 +72,7 @@ const router = useRouter();
 const { t, locale } = useTI18n();
 const { toggleLocale } = useLocale();
 const { toggleDarkMode } = useDarkMode();
+const { isAdmin, isAuthChecked } = useAuthCheck();
 
 const version = import.meta.env.VITE_VERSION;
 </script>
