@@ -1,6 +1,6 @@
 [package]
 name = "FiT"
-version = "0.5.3"
+version = "0.5.4"
 description = "FiT - календарь домашних силовых тренировок"
 authors = ["dergunovs@mail.ru"]
 license = "MIT"
@@ -26,7 +26,7 @@ tauri-plugin-log = "2.7.1"
 
 [profile.release]
 codegen-units = 1
-lto = true
-opt-level = "s"
+lto = "thin"
+opt-level = "z"
 panic = "abort"
 strip = true

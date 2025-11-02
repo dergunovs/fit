@@ -29,7 +29,7 @@ export default async function (fastify: IFastifyInstance) {
     async function (_request, reply) {
       const data = await muscleService.getAll();
 
-      reply.header('Cache-Control', 'public, max-age=604800');
+      reply.header('Cache-Control', 'public, max-age=1000000');
       reply.code(200).send(data);
     }
   );
