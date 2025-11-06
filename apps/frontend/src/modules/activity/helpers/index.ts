@@ -37,6 +37,54 @@ function generateActivityCSSGradients(colors: { percent: number; color: string |
   return `linear-gradient(135deg, ${firstColor} ${firstPercent}, ${secondColor} ${firstPercent}, ${secondColor} ${secondPercent}, ${thirdColor} ${secondPercent}, ${thirdColor} ${thirdPercent})`;
 }
 
+function checkActivityStatus(isFinished: boolean, dateScheduled?: Date | string): string | null {
+  if (dateScheduled) {
+    const scheduled = new Date(dateScheduled);
+    const now = new Date();
+
+    if (scheduled > now) return 'gray';
+    if (scheduled < now) return 'darkred';
+  }
+
+  if (!isFinished) return 'black';
+
+  return null;
+}
+
+function calculateMuscleRepeats(exercises: IExerciseDone[], muscles: IMuscle[]): { repeats: number; color: string }[] {
+  const muscleMap = new Map(muscles.map((muscle) => [muscle._id, { color: muscle.color, repeats: 0 }]));
+
+  for (const exercise of exercises) {
+    if (!exercise.exercise?.muscles) continue;
+
+    const muscleIds = new Set(exercise.exercise.muscles.map((m) => m._id));
+
+    for (const [muscleId, stats] of muscleMap) {
+      if (muscleIds.has(muscleId)) {
+        stats.repeats += exercise.repeats || 0;
+      }
+    }
+  }
+
+  return [...muscleMap.values()]
+    .filter((stats) => stats.repeats > 0)
+    .map((stats) => ({ repeats: stats.repeats, color: stats.color }));
+}
+
+function prepareColorData(groups: { repeats: number; color: string }[]) {
+  const primaryGroups = groups.sort((a, b) => b.repeats - a.repeats).slice(0, 3);
+
+  if (primaryGroups.length === 0) return [];
+
+  const totalRepeats = primaryGroups.reduce((sum, group) => sum + group.repeats, 0);
+
+  return primaryGroups.map((group) => {
+    const percent = Math.round((group.repeats / totalRepeats) * 100);
+
+    return { percent, color: group.color };
+  });
+}
+
 export function getPotentialActivityDuration(
   exercises: IExerciseDone[],
   locale: TLocale,
@@ -45,12 +93,12 @@ export function getPotentialActivityDuration(
 ): string {
   if (!averageRestPercent || !exerciseStatistics) return '-';
 
-  const totalDuration = exercises.reduce((acc, exercise) => {
-    const averageDuration =
-      exerciseStatistics?.find((choosenExercise) => choosenExercise.exercise._id === exercise.exercise?._id)
-        ?.averageDuration || 0;
+  const exerciseStatsMap = new Map(exerciseStatistics.map((stat) => [stat.exercise._id, stat.averageDuration || 0]));
 
-    return acc + averageDuration * exercise.repeats;
+  const totalDuration = exercises.reduce((acc, exercise) => {
+    const averageDuration = exerciseStatsMap.get(exercise.exercise?._id) || 0;
+
+    return acc + averageDuration * (exercise.repeats || 0);
   }, 0);
 
   const durationWithRest = Math.round(totalDuration / (1 - averageRestPercent / 100));
@@ -64,36 +112,13 @@ export function getActivityColor(
   isFinished: boolean,
   dateScheduled?: Date | string
 ) {
-  const scheduled = new Date(`${dateScheduled}`);
+  const statusColor = checkActivityStatus(isFinished, dateScheduled);
 
-  if (scheduled > new Date()) return 'gray';
-  if (scheduled < new Date()) return 'darkred';
-  if (!isFinished) return 'black';
+  if (statusColor) return statusColor;
 
-  const groups: { repeats: number; color?: string }[] = [];
+  const groups = calculateMuscleRepeats(exercises, muscles);
 
-  muscles.forEach((muscle: IMuscle) => {
-    const color = muscle.color;
-    let repeats = 0;
-
-    exercises.forEach((exercise: IExerciseDone) => {
-      if (exercise.exercise?.muscles?.some((groupToFilter) => groupToFilter._id === muscle._id)) {
-        repeats += exercise.repeats;
-      }
-    });
-
-    if (repeats) groups.push({ repeats, color });
-  });
-
-  const primaryGroups = groups.sort((a, b) => b.repeats - a.repeats).slice(0, 3);
-
-  const totalRepeats = primaryGroups.reduce((acc, current) => acc + current.repeats, 0);
-
-  const colors = primaryGroups.map((group) => {
-    const percent = Number(((group.repeats / totalRepeats) * 100).toFixed(0));
-
-    return { percent, color: group.color };
-  });
+  const colors = prepareColorData(groups);
 
   return generateActivityCSSGradients(colors);
 }
@@ -140,7 +165,13 @@ export function getToFailurePercent(exercises: IExerciseDone[]) {
 
   if (!allExercises) return '0%';
 
-  const toFailureExercises = exercises.filter((exercise) => exercise.isToFailure).length;
+  let toFailureExercises = 0;
+
+  for (const exercise of exercises) {
+    if (exercise.isToFailure) {
+      toFailureExercises++;
+    }
+  }
 
   return `${Math.floor((toFailureExercises / allExercises) * 100)}%`;
 }

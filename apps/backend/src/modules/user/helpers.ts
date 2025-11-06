@@ -15,15 +15,13 @@ function getUserEquipmentParams(exercise: IExercise, user: IUser) {
     };
   }
 
-  const isUserHasEquipment = user.equipments.some(
-    (equipment) => equipment.equipment?._id?.toString() === exercise.equipment?._id?.toString()
-  );
+  const userEquipmentIds = new Set(user.equipments.map((equipment) => equipment.equipment?._id?.toString()));
 
-  const isUserHasEquipmentForWeight = user.equipments.some((equipment) =>
-    exercise.equipmentForWeight?.some(
-      (equipmentForWeight) => equipmentForWeight._id?.toString() === equipment.equipment?._id?.toString()
-    )
-  );
+  const isUserHasEquipment = exercise.equipment?._id ? userEquipmentIds.has(exercise.equipment._id.toString()) : false;
+
+  const isUserHasEquipmentForWeight = exercise.equipmentForWeight
+    ? exercise.equipmentForWeight.some((equipment) => userEquipmentIds.has(equipment._id?.toString()))
+    : false;
 
   return {
     isExerciseHasEquipment,

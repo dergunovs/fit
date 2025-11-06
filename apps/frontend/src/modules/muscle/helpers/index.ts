@@ -2,27 +2,41 @@ import { IExerciseDone, IMuscle, IMuscleStatistics, TLocale } from 'fitness-trac
 import { localeField } from 'mhz-helpers';
 
 export function generateMuscleStatistics(exercises: IExerciseDone[], muscles: IMuscle[], locale: TLocale) {
+  const muscleMap = new Map<string, { title: string; color: string; sets: number; repeats: number }>();
+
+  for (const muscle of muscles) {
+    const id = muscle._id?.toString();
+
+    if (id) {
+      muscleMap.set(id, {
+        title: muscle[localeField('title', locale)] || '',
+        color: muscle.color || '#000',
+        sets: 0,
+        repeats: 0,
+      });
+    }
+  }
+
+  for (const exercise of exercises) {
+    if (!exercise.exercise?.muscles) continue;
+
+    const muscleIds = new Set(exercise.exercise.muscles.map((m) => m._id?.toString()).filter(Boolean));
+
+    for (const [muscleId, stats] of muscleMap) {
+      if (muscleIds.has(muscleId)) {
+        stats.sets++;
+        stats.repeats += exercise.repeats || 0;
+      }
+    }
+  }
+
   const muscleStatistics: IMuscleStatistics[] = [];
 
-  muscles.forEach((muscle: IMuscle) => {
-    const title = muscle[localeField('title', locale)];
-    const color = muscle.color || '#000';
-    let sets = 0;
-    let repeats = 0;
-
-    exercises.forEach((exercise: IExerciseDone) => {
-      const setsCount =
-        exercise.exercise?.muscles?.filter((muscleToFilter) => muscleToFilter._id === muscle._id).length || 0;
-
-      sets += setsCount;
-
-      if (exercise.exercise?.muscles?.some((groupToFilter) => groupToFilter._id === muscle._id)) {
-        repeats += exercise.repeats;
-      }
-    });
-
-    if (sets) muscleStatistics.push({ title, color, sets, repeats });
-  });
+  for (const [, stats] of muscleMap) {
+    if (stats.sets > 0) {
+      muscleStatistics.push({ title: stats.title, color: stats.color, sets: stats.sets, repeats: stats.repeats });
+    }
+  }
 
   return muscleStatistics.sort((a, b) => b.repeats - a.repeats);
 }
