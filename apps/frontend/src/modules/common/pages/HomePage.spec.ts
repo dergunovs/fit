@@ -58,7 +58,7 @@ describe('HomePage', async () => {
     expect(spyUseRouteId).toBeCalledTimes(1);
     expect(spyUseRouteId).toBeCalledWith('token', true);
 
-    await wait(2000);
+    await wait(500);
 
     expect(spyConfirmToken).toBeCalledTimes(3);
     expect(spyConfirmToken).toBeCalledWith({ token: mockRouteId.value });

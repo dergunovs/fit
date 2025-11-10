@@ -38,7 +38,7 @@ vi.spyOn(helpers, 'deleteTempId').mockImplementation((array) => array);
 
 const spyAuth = vi.fn();
 
-vi.spyOn(helpers, 'useAuth').mockReturnValue({ auth: spyAuth, redirectIfAuth: () => undefined });
+vi.spyOn(helpers, 'useAuth').mockReturnValue({ auth: spyAuth });
 
 const spySetAuthHeader = vi.spyOn(helpers, 'setAuthHeader').mockImplementation((token: string) => token);
 const spyLogout = vi.spyOn(helpers, 'logout');

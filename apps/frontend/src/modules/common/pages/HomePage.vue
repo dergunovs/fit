@@ -74,7 +74,7 @@ onMounted(() => {
 
   setTimeout(() => {
     if (!isAuth.value && token.value) mutateConfirm({ token: token.value });
-  }, 2000);
+  }, 500);
 });
 </script>
 
