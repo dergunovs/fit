@@ -1,4 +1,4 @@
-import Fastify from 'fastify';
+import Fastify, { type FastifyError } from 'fastify';
 import dotenv from 'dotenv';
 import { Schema, connect } from 'mongoose';
 
@@ -19,7 +19,7 @@ async function buildApp() {
   registerPluginsAndRoutes(fastify);
   addSchemas(fastify);
 
-  fastify.setErrorHandler((error, _request, reply) => errorHandler(error, reply));
+  fastify.setErrorHandler((error, _request, reply) => errorHandler(error as FastifyError, reply));
 
   return fastify;
 }
