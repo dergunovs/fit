@@ -1,15 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`TheHeader > matches snapshot 1`] = `
-"<header class="_header_ad8e33"><a to="/" class="_link_ad8e33" aria-label="Logo" data-test="header-logo">
+"<header class="_header_ad8e33"><a to="/" data-disabled="false" class="_logoLink_ad8e33 _link_ad8e33" aria-label="Logo" data-test="header-logo">
     <anonymous-stub width="30" height="30"></anonymous-stub>
     <div column="" gap="0">
       <div class="_logo_ad8e33">FiT</div>
-      <div class="_version_ad8e33">v. 0.5.4</div>
+      <div class="_version_ad8e33">v. 0.5.5</div>
     </div>
   </a>
   <div justify="flex-end"><button layout="plain" data-test="header-dark-mode">
       <anonymous-stub></anonymous-stub>
-    </button><button layout="plain" data-test="header-locale">RU</button><button layout="plain" data-test="header-help">Помощь</button><button layout="plain" data-test="header-registration">Регистрация</button><button layout="plain" data-test="header-login">Вход</button></div>
+    </button><button layout="plain" data-test="header-locale">RU</button><button layout="plain" class="_link_ad8e33" data-disabled="false" data-test="header-help">help</button><button layout="plain" data-test="header-registration">registration</button><button layout="plain" data-test="header-login">login</button></div>
 </header>"
 `;

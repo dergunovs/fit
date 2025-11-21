@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,
@@ -28,14 +28,14 @@
     "prettier": "3.6.2",
     "turbo": "2.6.1"
   },
-  "packageManager": "npm@11.6.1",
+  "packageManager": "npm@11.6.2",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "engines": {
-    "npm": ">=11.6.1",
-    "node": ">=24.10.0"
+    "npm": ">=11.6.2",
+    "node": ">=25.2.1"
   },
   "homepage": "https://app-fit.ru"
 }

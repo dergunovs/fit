@@ -1,6 +1,12 @@
 <template>
   <header :class="$style.header">
-    <RouterLink :to="URL_HOME" :class="$style.link" aria-label="Logo" data-test="header-logo">
+    <RouterLink
+      :to="URL_HOME"
+      :data-disabled="isActivityPassing"
+      :class="[$style.logoLink, $style.link]"
+      aria-label="Logo"
+      data-test="header-logo"
+    >
       <IconLogo width="30" height="30" />
 
       <UiFlex column gap="0">
@@ -18,16 +24,35 @@
         {{ locale.toUpperCase() }}
       </UiButton>
 
-      <UiButton @click="router.push(URL_HELP)" layout="plain" data-test="header-help">
+      <UiButton
+        @click="router.push(URL_HELP)"
+        layout="plain"
+        :class="$style.link"
+        :data-disabled="isActivityPassing"
+        data-test="header-help"
+      >
         {{ t('help') }}
       </UiButton>
 
       <template v-if="isAuth">
-        <UiButton v-if="isAdmin" @click="router.push(URL_EXERCISE)" layout="plain" data-test="header-admin">
+        <UiButton
+          v-if="isAdmin"
+          @click="router.push(URL_EXERCISE)"
+          layout="plain"
+          :class="$style.link"
+          :data-disabled="isActivityPassing"
+          data-test="header-admin"
+        >
           {{ t('adminPanel') }}
         </UiButton>
 
-        <UiButton @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)" layout="plain" data-test="header-logout">
+        <UiButton
+          @click="logout(URL_HOME, deleteAuthHeader, TOKEN_NAME)"
+          layout="plain"
+          :class="$style.link"
+          :data-disabled="isActivityPassing"
+          data-test="header-logout"
+        >
           {{ t('exit') }}
         </UiButton>
       </template>
@@ -46,7 +71,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { UiButton, UiFlex } from 'mhz-ui';
 import { isAuth, logout, deleteAuthHeader, useDarkMode } from 'mhz-helpers';
 
@@ -58,6 +84,7 @@ import { URL_HOME, URL_HELP } from '@/common/constants';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { useLocale, useTI18n } from '@/common/composables';
 import { useAuthCheck } from '@/auth/composables';
+import { URL_ACTIVITY_EDIT } from '@/activity/constants';
 
 interface IEmit {
   showLogin: [];
@@ -68,6 +95,7 @@ interface IEmit {
 const emit = defineEmits<IEmit>();
 
 const router = useRouter();
+const route = useRoute();
 
 const { t, locale } = useTI18n();
 const { toggleLocale } = useLocale();
@@ -75,6 +103,8 @@ const { toggleDarkMode } = useDarkMode();
 const { isAdmin, isAuthChecked } = useAuthCheck();
 
 const version = import.meta.env.VITE_VERSION;
+
+const isActivityPassing = computed(() => route.path.includes(URL_ACTIVITY_EDIT));
 </script>
 
 <style module lang="scss">
@@ -92,7 +122,7 @@ const version = import.meta.env.VITE_VERSION;
   border-bottom: 1px solid var(--color-gray);
 }
 
-.link {
+.logoLink {
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -110,6 +140,10 @@ const version = import.meta.env.VITE_VERSION;
   font-size: 0.75rem;
   line-height: 0.8;
   color: var(--color-gray-dark);
+}
+
+.link[data-disabled='true'] {
+  pointer-events: none;
 }
 
 @media (max-width: 960px) {

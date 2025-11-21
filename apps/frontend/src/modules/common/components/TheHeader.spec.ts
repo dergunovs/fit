@@ -1,7 +1,13 @@
+/* eslint-disable import-x/first */
 import { nextTick } from 'vue';
-import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll, vi } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { deleteAuthHeader, setAuth, dataTest } from 'mhz-helpers';
+
+vi.mock('@/common/composables', () => ({
+  useTI18n: () => ({ t: (key: string) => key, locale: 'ru' }),
+  useLocale: () => ({ toggleLocale: vi.fn() }),
+}));
 
 import TheHeader from './TheHeader.vue';
 
@@ -21,7 +27,24 @@ const logout = dataTest('header-logout');
 
 let wrapper: VueWrapper<InstanceType<typeof TheHeader>>;
 
-beforeAll(() => localStorage.setItem('locale', 'ru'));
+beforeAll(() => {
+  const mockStorage = {
+    store: {} as { [key: string]: string },
+    getItem(key: string) {
+      return this.store[key] || null;
+    },
+    setItem(key: string, value: string) {
+      this.store[key] = value;
+    },
+    clear() {
+      this.store = {};
+    },
+  };
+
+  Object.defineProperty(globalThis, 'localStorage', { value: mockStorage, writable: true });
+
+  localStorage.setItem('locale', 'ru');
+});
 
 beforeEach(() => {
   wrapper = wrapperFactory(TheHeader);
