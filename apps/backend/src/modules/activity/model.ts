@@ -27,6 +27,7 @@ const activitySchema = new Schema<IActivity>(
 
 activitySchema.index({ dateCreated: 1 });
 activitySchema.index({ createdBy: 1, dateCreated: -1 });
+activitySchema.index({ createdBy: 1, dateScheduled: 1, dateCreated: 1 });
 activitySchema.index({ createdBy: 1, isDone: 1, dateCreated: -1 });
 activitySchema.index({ createdBy: 1, dateCreated: 1, isDone: 1 });
 activitySchema.index({ createdBy: 1, isDone: 1 });
