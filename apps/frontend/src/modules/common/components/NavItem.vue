@@ -3,7 +3,7 @@
     :to="props.navItem.url"
     :class="$style.item"
     :data-active="isLinkActive(route.path, props.navItem.url)"
-    :data-disabled="route.path.includes(URL_ACTIVITY_EDIT)"
+    :data-disabled="isActivityPassing"
     :data-bottom="props.isBottom"
     data-test="nav-item"
   >
@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { isLinkActive } from 'mhz-helpers';
 
@@ -30,6 +31,8 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const route = useRoute();
+
+const isActivityPassing = computed(() => route.path.includes(URL_ACTIVITY_EDIT));
 </script>
 
 <style module lang="scss">

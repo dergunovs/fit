@@ -14,7 +14,7 @@
 
 ## Development
 
-1. Install Node.js 24.10 and MongoDB 8.2
+1. Install Node.js 25 and MongoDB 8.2
 2. `npm install` - install deps
 3. Create .env files inside `/apps/frontend` and `/apps/backend`
 4. `npm run dev` - start app in dev mode
