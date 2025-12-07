@@ -26,7 +26,7 @@ export const equipmentService = {
 
     if (!user) throw new Error('User not found', { cause: { code: 404 } });
 
-    await Equipment.create({ ...equipmentToCreate, createdBy: user._id });
+    await Equipment.create(equipmentToCreate);
   },
 
   update: async (_id: string, itemToUpdate: IEquipment) => {

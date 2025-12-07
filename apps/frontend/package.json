@@ -67,7 +67,7 @@
     "vitest": "4.0.15",
     "vue-eslint-parser": "10.2.0",
     "vue-linters-config": "0.5.4",
-    "vue-tsc": "3.1.5"
+    "vue-tsc": "3.1.6"
   },
   "engines": {
     "npm": ">=11.6.2",

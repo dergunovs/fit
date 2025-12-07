@@ -176,15 +176,11 @@ async function processMuscleChart(
   isAverage: boolean,
   datasets: IActivityChartDataset[],
   locale: TLocale,
-  userId: string
+  createdBy: IUser
 ) {
   await getMusclesChart(
     Entity,
-    {
-      dateCreated: { $gte: week.dateFrom, $lt: week.dateTo },
-      isDone: true,
-      createdBy: userId,
-    },
+    { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy },
     activitiesCount,
     muscles,
     isAverage,
@@ -444,7 +440,7 @@ export async function activitiesGetChartData(
   const allActivities = await Entity.find({
     dateCreated: { $gte: minDate, $lt: maxDate },
     isDone: true,
-    createdBy: user._id,
+    createdBy: user,
   }).lean();
 
   const weekActivitiesMap = new Map<number, IActivity[]>();
@@ -498,16 +494,7 @@ export async function activitiesGetChartData(
 
     case 'muscle': {
       for (const { week, activitiesCount } of weekDataArray) {
-        await CHART_PROCESSORS.muscle(
-          Entity,
-          week,
-          activitiesCount,
-          muscles,
-          isAverage,
-          datasets,
-          locale,
-          user._id || ''
-        );
+        await CHART_PROCESSORS.muscle(Entity, week, activitiesCount, muscles, isAverage, datasets, locale, user);
       }
       break;
     }

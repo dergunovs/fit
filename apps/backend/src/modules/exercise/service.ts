@@ -3,7 +3,7 @@ import type { IExercise, TDecode } from 'fitness-tracker-contracts';
 import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 
 import { checkInvalidId, paginate } from '../common/helpers.js';
-import { getAdminAndUserExercises, getExercisesByUserId } from './helpers.js';
+import { getAdminAndUserExercises, getExercisesByUser } from './helpers.js';
 import Exercise from './model.js';
 import { EXERCISE_POPULATE } from './constants.js';
 
@@ -23,9 +23,9 @@ export const exerciseService = {
   getCustom: async (decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user?._id) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw new Error('User not found', { cause: { code: 404 } });
 
-    const exercises = await getExercisesByUserId(user._id);
+    const exercises = await getExercisesByUser(user);
 
     return { data: exercises };
   },
@@ -45,13 +45,13 @@ export const exerciseService = {
 
     if (!user?._id) throw new Error('User not found', { cause: { code: 404 } });
 
-    const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user._id });
+    const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user });
 
     const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < 21;
 
     if (!isAllowToCreateExercise) throw new Error('Not allowed to add exercise', { cause: { code: 500 } });
 
-    await Exercise.create({ ...exerciseToCreate, createdBy: user._id, isCustom: user.role !== 'admin' });
+    await Exercise.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
   },
 
   update: async (_id: string, itemToUpdate: IExercise, decode?: TDecode, token?: string) => {

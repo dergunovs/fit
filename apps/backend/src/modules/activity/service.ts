@@ -57,7 +57,7 @@ export const activityService = {
     if (!user) throw new Error('User not found', { cause: { code: 404 } });
 
     const calendarData = await Activity.find({
-      createdBy: user._id,
+      createdBy: user,
       $or: [
         { dateScheduled: { $gte: new Date(dateFrom), $lte: new Date(dateTo), $ne: null } },
         { dateScheduled: null, dateCreated: { $gte: new Date(dateFrom), $lte: new Date(dateTo) } },

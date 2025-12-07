@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifySchema, FastifyError, FastifyReply } from 'fastify';
+import { IUser } from 'fitness-tracker-contracts';
 
 export interface IFastifyInstance extends FastifyInstance {
   onlyUser?: () => void;
@@ -12,7 +13,7 @@ export interface ISchema {
 export interface IChartFilter {
   dateCreated: { $gte: Date; $lt: Date };
   isDone: boolean;
-  createdBy: string | undefined;
+  createdBy?: IUser;
 }
 
 export interface IErrorCause {
