@@ -11,7 +11,7 @@
       data-test="exercise-muscle-colors"
     />
 
-    <UiFlex column :gap="props.isEdit ? '4' : '2'" align="flex-start" grow>
+    <div :class="$style.element">
       <ExerciseElementTitle
         v-if="!props.isHideTitle"
         :exercise="props.exercise.exercise"
@@ -72,14 +72,13 @@
       </Transition>
 
       <slot></slot>
-    </UiFlex>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
-import { UiFlex } from 'mhz-ui';
 
 import ExerciseElementTitle from '@/exercise/components/ExerciseElementTitle.vue';
 import ExerciseMuscleColors from '@/exercise/components/ExerciseMuscleColors.vue';
@@ -167,6 +166,14 @@ function updateWeight(weight: number) {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+}
+
+.element {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
 }
 
 :global(.dark) {

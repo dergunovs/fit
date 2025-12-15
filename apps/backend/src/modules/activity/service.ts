@@ -23,7 +23,7 @@ export const activityService = {
 
     const user = await User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean();
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
@@ -54,7 +54,7 @@ export const activityService = {
 
     const user = await User.findOne(filter).select('_id').lean();
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
 
     const calendarData = await Activity.find({
       createdBy: user,
@@ -84,7 +84,7 @@ export const activityService = {
       Muscle.find().lean(),
     ]);
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
 
     const isMonth = month === 'true';
 
