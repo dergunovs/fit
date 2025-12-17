@@ -1,7 +1,7 @@
 .main {
   flex: 1;
   height: calc(100dvh - var(--panel-height) - env(safe-area-inset-top));
-  overflow-y: auto;
+  overflow-y: scroll;
   background-color: var(--color-gray-light);
 
   &[data-auth='true'] {
