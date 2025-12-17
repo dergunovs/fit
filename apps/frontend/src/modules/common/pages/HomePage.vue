@@ -4,7 +4,7 @@
 
     <UiFlex column gap="16">
       <div :class="$style.main">
-        <div v-if="statistics" :class="$style.calendar">
+        <div :class="$style.calendar">
           <ActivityCalendar
             v-if="muscles"
             :events="convertActivityCalendarEvents(muscles, calendar)"
@@ -13,9 +13,13 @@
             data-test="home-page-activity-calendar"
           />
 
-          <ActivityStatistics :statistics="statistics.activity" data-test="home-page-activity-statistics" />
+          <ActivityStatistics
+            v-if="statistics"
+            :statistics="statistics.activity"
+            data-test="home-page-activity-statistics"
+          />
 
-          <ActivityChart />
+          <ActivityChart v-show="statistics" />
         </div>
 
         <div v-if="statistics" :class="$style.statistics">
@@ -55,8 +59,8 @@ const emit = defineEmits<IEmit>();
 const { dateFrom, dateTo, isDatesReady, updateDates } = useCalendar();
 
 const { data: calendar, refetch } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
-const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 const { data: muscles } = muscleService.getAll();
+const { data: statistics } = activityService.getStatistics(ACTIVITY_STATISTICS_GAP);
 
 const router = useRouter();
 const { t } = useTI18n();
@@ -92,7 +96,7 @@ onMounted(() => {
 }
 
 .statistics {
-  width: 40%;
+  width: calc(40% - 48px);
 }
 
 @media (max-width: 960px) {

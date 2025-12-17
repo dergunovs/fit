@@ -105,9 +105,11 @@ const { mutate: mutateLogin } = authService.login({
     if (response.user?.role === 'admin') setAdmin(true);
     emit('login');
 
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CALENDAR] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CALENDAR] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] }),
+    ]);
   },
 });
 

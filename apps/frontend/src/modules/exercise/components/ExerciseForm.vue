@@ -148,8 +148,11 @@ function updateEquipment(equipment: IEquipment, isChecked: boolean) {
 
 const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create({
   onSuccess: async () => {
-    await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_EXERCISE] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+    ]);
+
     toast.success(t('exercise.added'));
     if (!props.isDisableRedirect) router.push(URL_EXERCISE);
     emit('hide');
@@ -158,8 +161,11 @@ const { mutate: mutatePost, isPending: isLoadingPost } = exerciseService.create(
 
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.update({
   onSuccess: async () => {
-    await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_EXERCISE] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+    ]);
+
     toast.success(t('exercise.updated'));
     emit('hide');
   },
@@ -168,8 +174,12 @@ const { mutate: mutateUpdate, isPending: isLoadingUpdate } = exerciseService.upd
 const { mutate: mutateDelete } = exerciseService.delete({
   onSuccess: async () => {
     if (!props.isDisableRedirect) queryClient.removeQueries({ queryKey: [API_EXERCISE] });
-    await queryClient.refetchQueries({ queryKey: [API_EXERCISE] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
+
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_EXERCISE] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+    ]);
+
     toast.success(t('exercise.deleted'));
     if (!props.isDisableRedirect) router.push(URL_EXERCISE);
     emit('hide');

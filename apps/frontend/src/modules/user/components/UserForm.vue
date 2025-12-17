@@ -255,10 +255,13 @@ const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
 
 const { mutate: mutateUpdate, isPending: isLoadingUpdate } = userService.update({
   onSuccess: async () => {
-    await queryClient.refetchQueries({ queryKey: [API_USER] });
-    await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_USER] }),
+      queryClient.refetchQueries({ queryKey: [API_AUTH_GET] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] }),
+    ]);
+
     toast.success(t('user.updated'));
     if (props.user) formData.value = clone(props.user);
   },

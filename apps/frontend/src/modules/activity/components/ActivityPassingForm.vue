@@ -192,8 +192,10 @@ function exitActivity() {
   toast.success(t('activity.finished'));
 
   setTimeout(async () => {
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] });
-    await queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_STATISTICS] }),
+      queryClient.refetchQueries({ queryKey: [API_ACTIVITY_CHART] }),
+    ]);
 
     router.push(URL_HOME);
   }, 1000);

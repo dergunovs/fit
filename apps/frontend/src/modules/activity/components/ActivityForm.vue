@@ -174,8 +174,11 @@ function chooseTemplate() {
 
 const { mutate: mutateUpdate } = userService.update({
   onSuccess: async () => {
-    await queryClient.refetchQueries({ queryKey: [API_USER] });
-    await queryClient.refetchQueries({ queryKey: [API_AUTH_GET] });
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: [API_USER] }),
+      queryClient.refetchQueries({ queryKey: [API_AUTH_GET] }),
+    ]);
+
     toast.success(t('template.added'));
   },
 });
