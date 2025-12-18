@@ -1,6 +1,6 @@
 <template>
   <UiFlex column gap="64">
-    <PromoBlocks v-if="!isAuth" @register="emit('register')" data-test="home-page-promo-blocks" />
+    <PromoBlocks v-if="!isAuth && statistics" @register="emit('register')" data-test="home-page-promo-blocks" />
 
     <UiFlex column gap="16">
       <div :class="$style.main">
