@@ -45,12 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, defineAsyncComponent } from 'vue';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
 
-import ExerciseInfo from '@/exercise/components/ExerciseInfo.vue';
 import DynamicPercent from '@/common/components/DynamicPercent.vue';
 
 import { getAverageDuration, getAverageRepeatsInSet } from '@/exercise/helpers';
@@ -61,6 +60,8 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const ExerciseInfo = defineAsyncComponent(() => import('@/exercise/components/ExerciseInfo.vue'));
 
 const { t, locale } = useTI18n();
 

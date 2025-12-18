@@ -28,20 +28,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef, watch } from 'vue';
+import { defineAsyncComponent, ref, shallowRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { UiModal } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
 
-import LayoutAdmin from '@/common/components/LayoutAdmin.vue';
 import LayoutDefault from '@/common/components/LayoutDefault.vue';
 import TheHeader from '@/common/components/TheHeader.vue';
 import NavList from '@/common/components/NavList.vue';
 import PwaUpdateModal from '@/common/components/PwaUpdateModal.vue';
-import AuthForm from '@/auth/components/AuthForm.vue';
-import RegistrationForm from '@/auth/components/RegistrationForm.vue';
 
 import { useNavItems } from '@/common/composables';
+
+const LayoutAdmin = defineAsyncComponent(() => import('@/common/components/LayoutAdmin.vue'));
+const AuthForm = defineAsyncComponent(() => import('@/auth/components/AuthForm.vue'));
+const RegistrationForm = defineAsyncComponent(() => import('@/auth/components/RegistrationForm.vue'));
 
 const route = useRoute();
 const { BOTTOM_NAV_ITEMS } = useNavItems();

@@ -1,4 +1,4 @@
-import { computed, onBeforeMount, Ref } from 'vue';
+import { computed, Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { TLocale } from 'fitness-tracker-contracts';
 
@@ -42,8 +42,6 @@ export function useLocale() {
       if (isLanguageSupported) locale.value = defaultLanguage;
     }
   }
-
-  onBeforeMount(() => initLocale());
 
   return {
     toggleLocale,

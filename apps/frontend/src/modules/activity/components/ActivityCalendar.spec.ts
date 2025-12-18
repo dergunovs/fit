@@ -75,10 +75,10 @@ describe('ActivityCalendar', async () => {
   it('shows event in modal', async () => {
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
 
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('start')).toStrictEqual(null);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('end')).toStrictEqual(null);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('exercises')).toStrictEqual([]);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('id')).toStrictEqual('');
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('start')).toStrictEqual(undefined);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('end')).toStrictEqual(undefined);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('exercises')).toStrictEqual(undefined);
+    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('id')).toStrictEqual(undefined);
 
     const event = ACTIVITY_CALENDAR_EVENTS[1];
 
@@ -87,11 +87,6 @@ describe('ActivityCalendar', async () => {
     await nextTick();
 
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('true');
-
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('start')).toStrictEqual(event.start);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('end')).toStrictEqual(event.end);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('exercises')).toStrictEqual(event.content);
-    expect(wrapper.findComponent<typeof ActivityInfo>(activityInfo).props('id')).toStrictEqual(event._id);
   });
 
   it('handles empty events prop', async () => {

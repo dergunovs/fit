@@ -10,7 +10,7 @@ exports[`LayoutContainer > matches snapshot 1`] = `
     <!--v-if-->
   </div>
   <div modelvalue="false" data-test="layout-login-form-modal">
-    <auth-form-stub issetup="false" data-test="layout-login-form"></auth-form-stub>
+    <auth-form-stub data-test="layout-login-form"></auth-form-stub>
   </div>
   <div modelvalue="false" data-test="layout-registration-form-modal">
     <registration-form-stub data-test="layout-registration-form"></registration-form-stub>

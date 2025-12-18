@@ -24,12 +24,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import { API_AUTH_GET, API_USER, IExerciseDone, IUserTemplate } from 'fitness-tracker-contracts';
 import { toast, UiCalendar, UiModal } from 'mhz-ui';
 import { ICalendarDates, useQueryClient } from 'mhz-helpers';
-
-import ActivityInfo from '@/activity/components/ActivityInfo.vue';
 
 import { IActivityCalendarEvent } from '@/activity/interface';
 import { useTI18n } from '@/common/composables';
@@ -47,6 +45,8 @@ interface IEmit {
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
+
+const ActivityInfo = defineAsyncComponent(() => import('@/activity/components/ActivityInfo.vue'));
 
 const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
