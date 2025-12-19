@@ -1,12 +1,16 @@
 <template>
   <UiFlex column gap="64">
-    <PromoBlocks v-if="!isAuth && statistics" @register="emit('register')" data-test="home-page-promo-blocks" />
+    <PromoBlocks
+      v-if="isAuthChecked && !isAuth && muscles"
+      @register="emit('register')"
+      data-test="home-page-promo-blocks"
+    />
 
     <UiFlex column gap="16">
       <div :class="$style.main">
         <div :class="$style.calendar">
           <ActivityCalendar
-            v-if="muscles"
+            v-if="isAuthChecked && muscles"
             :events="convertActivityCalendarEvents(muscles, calendar)"
             @update="updateDates"
             @deleteEvent="refetch"
@@ -31,11 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiFlex } from 'mhz-ui';
 import { isAuth, scrollToTop, useRouteId, useCalendar } from 'mhz-helpers';
 
+import PromoBlocks from '@/common/components/PromoBlocks.vue';
 import ActivityCalendar from '@/activity/components/ActivityCalendar.vue';
 import ActivityStatistics from '@/activity/components/ActivityStatistics.vue';
 import ActivityChart from '@/activity/components/ActivityChart.vue';
@@ -48,6 +53,7 @@ import { convertActivityCalendarEvents } from '@/activity/helpers';
 import { ACTIVITY_STATISTICS_GAP } from '@/activity/constants';
 import { URL_HOME } from '@/common/constants';
 import { useTI18n } from '@/common/composables';
+import { useAuthCheck } from '@/auth/composables';
 
 interface IEmit {
   register: [];
@@ -55,9 +61,8 @@ interface IEmit {
 
 const emit = defineEmits<IEmit>();
 
-const PromoBlocks = defineAsyncComponent(() => import('@/common/components/PromoBlocks.vue'));
-
 const { dateFrom, dateTo, isDatesReady, updateDates } = useCalendar();
+const { isAuthChecked } = useAuthCheck();
 
 const { data: calendar, refetch } = activityService.getCalendar({ enabled: isDatesReady }, dateFrom, dateTo);
 const { data: muscles } = muscleService.getAll();
