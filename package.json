@@ -24,18 +24,18 @@
     "@changesets/cli": "2.29.8"
   },
   "devDependencies": {
-    "@turbo/gen": "2.7.5",
+    "@turbo/gen": "2.7.6",
     "prettier": "3.8.1",
-    "turbo": "2.7.5"
+    "turbo": "2.7.6"
   },
-  "packageManager": "npm@11.6.2",
+  "packageManager": "npm@11.7.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "engines": {
-    "npm": ">=11.6.2",
-    "node": ">=25.2.1"
+    "npm": ">=11.7.0",
+    "node": ">=25.4.0"
   },
   "homepage": "https://app-fit.ru"
 }

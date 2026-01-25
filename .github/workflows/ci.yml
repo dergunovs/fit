@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "25.2.1"
+          node-version: "25.4.0"
           cache: "npm"
 
       - name: Install deps

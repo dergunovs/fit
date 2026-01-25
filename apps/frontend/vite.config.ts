@@ -8,6 +8,7 @@ import svgLoader from 'vite-svg-loader';
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { removeDataTest } from 'mhz-helpers';
+import type { CompilerOptions } from 'vue/compiler-sfc';
 
 export default defineConfig({
   clearScreen: false,
@@ -27,7 +28,9 @@ export default defineConfig({
   plugins: [
     vue({
       template: {
-        compilerOptions: { nodeTransforms: process.env.NODE_ENV === 'production' ? [removeDataTest] : [] },
+        compilerOptions: {
+          nodeTransforms: process.env.NODE_ENV === 'production' ? [removeDataTest] : [],
+        } as CompilerOptions,
       },
     }),
     svgLoader(),
