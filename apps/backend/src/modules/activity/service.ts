@@ -9,7 +9,7 @@ import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
 import Activity from './model.js';
 import { ACTIVITY_POPULATE } from './constants.js';
-import { activitiesGetStatistics, exerciseGetStatistics, activitiesGetChartData } from './helpers.js';
+import { getActivitiesStatistics, getExercisesStatistics, getActivitiesChartData } from './helpers.js';
 
 export const activityService = {
   getMany: async (page?: number) => {
@@ -40,11 +40,11 @@ export const activityService = {
     const { current, previous } = activities[0];
 
     const [activityStatistics, exercises] = await Promise.all([
-      Promise.resolve(activitiesGetStatistics(current, previous)),
+      Promise.resolve(getActivitiesStatistics(current, previous)),
       getAdminAndUserExercises(decode, token),
     ]);
 
-    const exerciseStatistics = exerciseGetStatistics(current, previous, exercises, user);
+    const exerciseStatistics = getExercisesStatistics(current, previous, exercises, user);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
@@ -90,7 +90,7 @@ export const activityService = {
 
     const weeks = getFirstAndLastDays(7, isMonth);
 
-    const { labels, datasets } = await activitiesGetChartData(
+    const { labels, datasets } = await getActivitiesChartData(
       Activity,
       weeks,
       type,

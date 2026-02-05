@@ -16,7 +16,29 @@ import { IChartFilter } from '../common/types.js';
 import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
 import { ACTIVITY_POPULATE, CHART_LABELS } from './constants.js';
 
-function activitiesGetCount(activities: IActivity[]) {
+const CHART_PROCESSORS = {
+  activity: processActivityChart,
+  set: processSetsChart,
+  repeat: processRepeatsChart,
+  duration: processDurationChart,
+  muscle: processMuscleChart,
+};
+
+interface IMuscleInfo {
+  id: string;
+  label: string;
+  label_en: string;
+  color: string;
+  count: number;
+}
+
+interface IStatisticsMap {
+  sets: number;
+  repeats: number;
+  duration: number;
+}
+
+function getActivitiesSetsRepeatsCount(activities: IActivity[]) {
   let activitiesCount = 0;
   let setsCount = 0;
   let repeatsCount = 0;
@@ -33,7 +55,7 @@ function activitiesGetCount(activities: IActivity[]) {
   return { activitiesCount, setsCount, repeatsCount };
 }
 
-function activitiesGetTotalDuration(activities: IActivity[]) {
+function getActivitiesDuration(activities: IActivity[]) {
   return activities.reduce((acc, current) => {
     const dateFrom = new Date(current.dateUpdated || 0);
     const dateTo = new Date(current.dateCreated || 0);
@@ -44,11 +66,11 @@ function activitiesGetTotalDuration(activities: IActivity[]) {
   }, 0);
 }
 
-function calculateSetsCount(activities: IActivity[]): number {
+function getSetsCount(activities: IActivity[]): number {
   return activities.reduce((totalSets, activity) => totalSets + (activity.exercises?.length || 0), 0);
 }
 
-function calculateRepeatsCount(activities: IActivity[]): number {
+function getRepeatsCount(activities: IActivity[]): number {
   let totalRepeats = 0;
 
   for (const activity of activities) {
@@ -62,13 +84,13 @@ function calculateRepeatsCount(activities: IActivity[]): number {
   return totalRepeats;
 }
 
-function calculateDurationInMinutes(activities: IActivity[]): number {
-  const totalSeconds = activitiesGetTotalDuration(activities);
+function getDurationInMinutes(activities: IActivity[]): number {
+  const totalSeconds = getActivitiesDuration(activities);
 
   return Math.floor(totalSeconds / 60);
 }
 
-function activitiesGetAverageRest(activities: IActivity[], duration: number) {
+function getAverageRest(activities: IActivity[], duration: number) {
   if (duration <= 0) return 0;
 
   let exercisesDurationSum = 0;
@@ -97,18 +119,28 @@ function getDataset(count: number, type: 'goal' | 'activity' | 'sets' | 'repeats
   };
 }
 
+function updateChartDataset(
+  datasets: IActivityChartDataset[],
+  count: number,
+  goal: number,
+  type: 'activity' | 'sets' | 'repeats' | 'duration',
+  locale: TLocale
+) {
+  if (datasets.length >= 2) {
+    datasets[0].data.push(count);
+    datasets[1].data.push(goal);
+  } else {
+    datasets.push(getDataset(count, type, locale), getDataset(goal, 'goal', locale));
+  }
+}
+
 function processActivityChart(
   activitiesCount: number,
   activitiesGoal: number,
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  if (datasets.length >= 2) {
-    datasets[0].data.push(activitiesCount);
-    datasets[1].data.push(activitiesGoal);
-  } else {
-    datasets.push(getDataset(activitiesCount, 'activity', locale), getDataset(activitiesGoal, 'goal', locale));
-  }
+  updateChartDataset(datasets, activitiesCount, activitiesGoal, 'activity', locale);
 }
 
 function processSetsChart(
@@ -119,15 +151,10 @@ function processSetsChart(
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const setsCount = calculateSetsCount(activities);
+  const setsCount = getSetsCount(activities);
   const count = isAverage ? getAverage(setsCount, activitiesCount) : setsCount;
 
-  if (datasets.length >= 2) {
-    datasets[0].data.push(count);
-    datasets[1].data.push(setsGoal);
-  } else {
-    datasets.push(getDataset(count, 'sets', locale), getDataset(setsGoal, 'goal', locale));
-  }
+  updateChartDataset(datasets, count, setsGoal, 'sets', locale);
 }
 
 function processRepeatsChart(
@@ -138,15 +165,10 @@ function processRepeatsChart(
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const repeatsCount = calculateRepeatsCount(activities);
+  const repeatsCount = getRepeatsCount(activities);
   const count = isAverage ? getAverage(repeatsCount, activitiesCount) : repeatsCount;
 
-  if (datasets.length >= 2) {
-    datasets[0].data.push(count);
-    datasets[1].data.push(repeatsGoal);
-  } else {
-    datasets.push(getDataset(count, 'repeats', locale), getDataset(repeatsGoal, 'goal', locale));
-  }
+  updateChartDataset(datasets, count, repeatsGoal, 'repeats', locale);
 }
 
 function processDurationChart(
@@ -157,15 +179,10 @@ function processDurationChart(
   datasets: IActivityChartDataset[],
   locale: TLocale
 ) {
-  const durationInMinutes = calculateDurationInMinutes(activities);
+  const durationInMinutes = getDurationInMinutes(activities);
   const count = isAverage ? getAverage(durationInMinutes, activitiesCount) : durationInMinutes;
 
-  if (datasets.length >= 2) {
-    datasets[0].data.push(count);
-    datasets[1].data.push(durationGoal);
-  } else {
-    datasets.push(getDataset(count, 'duration', locale), getDataset(durationGoal, 'goal', locale));
-  }
+  updateChartDataset(datasets, count, durationGoal, 'duration', locale);
 }
 
 async function processMuscleChart(
@@ -189,20 +206,21 @@ async function processMuscleChart(
   );
 }
 
-const CHART_PROCESSORS = {
-  activity: processActivityChart,
-  set: processSetsChart,
-  repeat: processRepeatsChart,
-  duration: processDurationChart,
-  muscle: processMuscleChart,
-};
+function updateMuscleCount(activities: IActivity[], muscleMap: Map<string, IMuscleInfo>) {
+  for (const activity of activities) {
+    if (!activity.exercises) continue;
 
-interface IMuscleInfo {
-  id: string;
-  label: string;
-  label_en: string;
-  color: string;
-  count: number;
+    for (const exercise of activity.exercises) {
+      if (!exercise.exercise?.muscles) continue;
+
+      for (const muscleToFind of exercise.exercise.muscles) {
+        const muscleId = `${muscleToFind._id}`;
+        const muscleInfo = muscleMap.get(muscleId);
+
+        if (muscleInfo) muscleInfo.count++;
+      }
+    }
+  }
 }
 
 async function getMusclesChart(
@@ -230,7 +248,7 @@ async function getMusclesChart(
 
   const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
 
-  updateMuscleCounts(activities, muscleMap);
+  updateMuscleCount(activities, muscleMap);
 
   const muscleData = [...muscleMap.values()].map((muscle) => {
     if (isAverage && activitiesCount > 0) {
@@ -241,23 +259,6 @@ async function getMusclesChart(
   });
 
   updateDatasets(datasets, muscleData, locale);
-}
-
-function updateMuscleCounts(activities: IActivity[], muscleMap: Map<string, IMuscleInfo>) {
-  for (const activity of activities) {
-    if (!activity.exercises) continue;
-
-    for (const exercise of activity.exercises) {
-      if (!exercise.exercise?.muscles) continue;
-
-      for (const muscleToFind of exercise.exercise.muscles) {
-        const muscleId = `${muscleToFind._id}`;
-        const muscleInfo = muscleMap.get(muscleId);
-
-        if (muscleInfo) muscleInfo.count++;
-      }
-    }
-  }
 }
 
 function updateDatasets(datasets: IActivityChartDataset[], muscleData: IMuscleInfo[], locale: TLocale) {
@@ -326,19 +327,21 @@ function findWeekIndex(date: Date, sortedWeeks: IWeekDays[]): number {
   return -1;
 }
 
-export function activitiesGetStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {
-  const { activitiesCount, setsCount, repeatsCount } = activitiesGetCount(activities);
+export function getActivitiesStatistics(activities: IActivity[], activitiesPrev: IActivity[]) {
+  const { activitiesCount, setsCount, repeatsCount } = getActivitiesSetsRepeatsCount(activities);
+
   const {
     activitiesCount: activitiesCountPrev,
     setsCount: setsCountPrev,
     repeatsCount: repeatsCountPrev,
-  } = activitiesGetCount(activitiesPrev);
+  } = getActivitiesSetsRepeatsCount(activitiesPrev);
+
   const activitiesCountDynamics = getPercentDiff(activitiesCount, activitiesCountPrev);
   const setsCountDynamics = getPercentDiff(setsCount, setsCountPrev);
   const repeatsCountDynamics = getPercentDiff(repeatsCount, repeatsCountPrev);
 
-  const duration = activitiesGetTotalDuration(activities);
-  const durationPrev = activitiesGetTotalDuration(activitiesPrev);
+  const duration = getActivitiesDuration(activities);
+  const durationPrev = getActivitiesDuration(activitiesPrev);
   const durationDynamics = getPercentDiff(duration, durationPrev);
 
   const averageSetsPerActivity = activitiesCount ? Math.round(setsCount / activitiesCount) : 0;
@@ -353,8 +356,8 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   const averageDurationPrev = activitiesCountPrev ? Math.round(durationPrev / activitiesCountPrev) : 0;
   const averageDurationDynamics = getPercentDiff(averageDuration, averageDurationPrev);
 
-  const averageRestPercent = duration ? activitiesGetAverageRest(activities, duration) : 0;
-  const averageRestPercentPrev = durationPrev ? activitiesGetAverageRest(activitiesPrev, durationPrev) : 0;
+  const averageRestPercent = duration ? getAverageRest(activities, duration) : 0;
+  const averageRestPercentPrev = durationPrev ? getAverageRest(activitiesPrev, durationPrev) : 0;
   const averageRestPercentDynamics = getPercentDiff(averageRestPercent, averageRestPercentPrev);
 
   const activityStatistics: IActivityStatistics = {
@@ -371,7 +374,7 @@ export function activitiesGetStatistics(activities: IActivity[], activitiesPrev:
   return activityStatistics;
 }
 
-export function exerciseGetStatistics(
+export function getExercisesStatistics(
   activities: IActivity[],
   activitiesPrev: IActivity[],
   exercises: IExercise[],
@@ -399,8 +402,8 @@ export function exerciseGetStatistics(
     });
   }
 
-  const currentStats = new Map<string, { sets: number; repeats: number; duration: number }>();
-  const prevStats = new Map<string, { sets: number; repeats: number; duration: number }>();
+  const currentStats = new Map<string, IStatisticsMap>();
+  const prevStats = new Map<string, IStatisticsMap>();
 
   processActivities(activities, statsMap, currentStats);
   processActivities(activitiesPrev, statsMap, prevStats);
@@ -419,7 +422,7 @@ export function exerciseGetStatistics(
   return [...statsMap.values()].sort((a, b) => b.sets - a.sets);
 }
 
-export async function activitiesGetChartData(
+export async function getActivitiesChartData(
   Entity: Model<IActivity>,
   weeks: IWeekDays[],
   type: TActivityChartType,
