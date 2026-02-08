@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker",
   "description": "Fitness tracker app",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "ts": "turbo run ts",
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "build:apk": "npm run tauri icon src-tauri/app-icon.png && npx tauri android build --apk true --target aarch64",
+    "build:apk": "npm run tauri icon src-tauri/app-icon.png && npx tauri android build --apk --target aarch64",
     "test": "turbo run test",
     "test:cov": "turbo run test:cov",
     "pub": "turbo run build --filter=fitness-tracker-frontend && changeset version && changeset publish",
@@ -24,9 +24,9 @@
     "@changesets/cli": "2.29.8"
   },
   "devDependencies": {
-    "@turbo/gen": "2.7.6",
+    "@turbo/gen": "2.8.3",
     "prettier": "3.8.1",
-    "turbo": "2.7.6"
+    "turbo": "2.8.3"
   },
   "packageManager": "npm@11.7.0",
   "workspaces": [
