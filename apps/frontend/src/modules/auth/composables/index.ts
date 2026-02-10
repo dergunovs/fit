@@ -1,11 +1,11 @@
-import { ref, watch, readonly } from 'vue';
+import { shallowRef, watch, readonly } from 'vue';
 import { getCookieToken, setAuth, setAuthHeader } from 'mhz-helpers';
 
 import { authService } from '@/auth/services';
 import { TOKEN_NAME } from '@/auth/constants';
 
-const isAdminStore = ref(false);
-const isAuthCheckedStore = ref(false);
+const isAdminStore = shallowRef(false);
+const isAuthCheckedStore = shallowRef(false);
 
 export function setAdmin(isAdmin: boolean) {
   isAdminStore.value = isAdmin;

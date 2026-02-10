@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { shallowRef, computed } from 'vue';
 import { IEquipment, IUserEquipment } from 'fitness-tracker-contracts';
 import { UiButton, UiFlex, UiInput, UiSelect, UiChip } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
@@ -114,11 +114,11 @@ const emit = defineEmits<IEmit>();
 
 const { t, locale } = useTI18n();
 
-const choosenEquipment = ref<IEquipment>();
-const choosenEquipmentWeight = ref<number>(0);
-const choosenEquipmentWeights = ref<number[]>([]);
+const choosenEquipment = shallowRef<IEquipment>();
+const choosenEquipmentWeight = shallowRef<number>(0);
+const choosenEquipmentWeights = shallowRef<number[]>([]);
 
-const isEditEquipment = ref(false);
+const isEditEquipment = shallowRef(false);
 
 const isAddWeightDisabled = computed(
   () =>

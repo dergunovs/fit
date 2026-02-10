@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { ref, shallowRef, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiField, UiFlex, UiInput, UiModal, toast, UiTabs, UiButtongroup } from 'mhz-ui';
 import {
@@ -237,13 +237,13 @@ const formData = ref<IUser>({
 
 const { TABS } = useUserFormTabs(props.isEdit, isAdmin);
 
-const currentTab = ref(TABS.value[0].value);
-const currentExercise = ref<IExercise>();
-const currentTemplate = ref<IUserTemplate>();
+const currentTab = shallowRef(TABS.value[0].value);
+const currentExercise = shallowRef<IExercise>();
+const currentTemplate = shallowRef<IUserTemplate>();
 
-const isShowCreateExercise = ref(false);
-const isShowTemplateModal = ref(false);
-const isPasswordUpdated = ref(false);
+const isShowCreateExercise = shallowRef(false);
+const isShowTemplateModal = shallowRef(false);
+const isPasswordUpdated = shallowRef(false);
 
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.create({
   onSuccess: async () => {

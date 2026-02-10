@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiButton, UiModal, UiFlex } from 'mhz-ui';
 
@@ -67,7 +67,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>();
 
-const isShowConfirm = ref(false);
+const isShowConfirm = shallowRef(false);
 
 const router = useRouter();
 const { t, locale } = useTI18n();

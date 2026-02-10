@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { ref, shallowRef, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiTextarea } from 'mhz-ui';
 import { useQueryClient, useValidate, required, clone, localeField } from 'mhz-helpers';
@@ -124,8 +124,8 @@ const formData = ref<IExercise>({
   equipmentForWeight: [],
 });
 
-const choosenMuscles = ref<IMuscle[]>([]);
-const choosenEquipmentForWeight = ref<IEquipment[]>([]);
+const choosenMuscles = shallowRef<IMuscle[]>([]);
+const choosenEquipmentForWeight = shallowRef<IEquipment[]>([]);
 
 const { data: equipments } = equipmentService.getAll();
 const { data: muscles } = muscleService.getAll();

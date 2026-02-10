@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { shallowRef, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { API_ACTIVITY, API_ACTIVITY_CALENDAR, IExerciseDone, IUserTemplate } from 'fitness-tracker-contracts';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
@@ -162,7 +162,7 @@ const router = useRouter();
 const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 
-const isShowConfirm = ref(false);
+const isShowConfirm = shallowRef(false);
 
 const { data: muscles } = muscleService.getAll();
 

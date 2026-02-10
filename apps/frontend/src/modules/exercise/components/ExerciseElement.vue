@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import { IExerciseChoosen } from 'fitness-tracker-contracts';
 
 import ExerciseElementTitle from '@/exercise/components/ExerciseElementTitle.vue';
@@ -120,8 +120,8 @@ const emit = defineEmits<IEmit>();
 
 const { user } = useAuthCheck();
 
-const isShowEditRepeats = ref(false);
-const isShowEditWeight = ref(false);
+const isShowEditRepeats = shallowRef(false);
+const isShowEditWeight = shallowRef(false);
 
 function toggleExerciseRepeats() {
   isShowEditRepeats.value = !isShowEditRepeats.value;

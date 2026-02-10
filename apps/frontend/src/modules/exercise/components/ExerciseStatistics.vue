@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineAsyncComponent } from 'vue';
+import { shallowRef, computed, defineAsyncComponent } from 'vue';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiTable, UiButton, UiModal } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
@@ -65,9 +65,8 @@ const ExerciseInfo = defineAsyncComponent(() => import('@/exercise/components/Ex
 
 const { t, locale } = useTI18n();
 
-const isShowModal = ref(false);
-
-const currentExercise = ref<IExerciseStatistics>();
+const isShowModal = shallowRef(false);
+const currentExercise = shallowRef<IExerciseStatistics>();
 
 const EXERCISE_STATISTICS_HEADERS = computed(() => [
   { title: t('exercise.one') },

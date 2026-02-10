@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeMount } from 'vue';
+import { ref, shallowRef, computed, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiFlex, UiModal } from 'mhz-ui';
 import { clone, formatDateTime, useQueryClient, deleteTempId } from 'mhz-helpers';
@@ -116,9 +116,9 @@ const formData = ref<IActivity>({
   isDone: false,
 });
 
-const activeExerciseId = ref<string>();
-const isActivityStarted = ref(false);
-const isShowExerciseModal = ref(false);
+const activeExerciseId = shallowRef<string>();
+const isActivityStarted = shallowRef(false);
+const isShowExerciseModal = shallowRef(false);
 
 const { data: exercisesAll } = exerciseService.getAll();
 

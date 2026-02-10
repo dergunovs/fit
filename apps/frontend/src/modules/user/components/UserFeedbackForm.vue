@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 import { UiButton, UiField, UiInput, UiTextarea, toast } from 'mhz-ui';
 import { useQueryClient, useValidate, required, email } from 'mhz-helpers';
 import { API_USER_FEEDBACK, IUserFeedback } from 'fitness-tracker-contracts';
@@ -40,7 +40,7 @@ const formData = ref<IUserFeedback>({
   message: '',
 });
 
-const isSended = ref(false);
+const isSended = shallowRef(false);
 
 const { mutate: mutatePost, isPending: isLoadingPost } = userService.feedback({
   onSuccess: async () => {

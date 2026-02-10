@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import { UiButton, UiFlex, UiInput, UiSpoiler, toast } from 'mhz-ui';
 
 import { userService } from '@/user/services';
@@ -40,8 +40,8 @@ const emit = defineEmits<IEmit>();
 
 const { t } = useTI18n();
 
-const isShowUpdatePassword = ref(false);
-const newPassword = ref('');
+const isShowUpdatePassword = shallowRef(false);
+const newPassword = shallowRef('');
 
 const { mutate: mutateUpdatePassword } = userService.updatePassword({
   onSuccess: async () => {

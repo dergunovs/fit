@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import { UiButton } from 'mhz-ui';
 import { IExerciseDone } from 'fitness-tracker-contracts';
 
@@ -43,9 +43,8 @@ const emit = defineEmits<IEmit>();
 
 const { t } = useTI18n();
 
-const isButtonDisabled = ref(false);
-
-const isTimerActive = ref(false);
+const isButtonDisabled = shallowRef(false);
+const isTimerActive = shallowRef(false);
 
 function handleClick(id: string) {
   isButtonDisabled.value = true;

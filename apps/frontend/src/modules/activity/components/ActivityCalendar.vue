@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from 'vue';
+import { defineAsyncComponent, shallowRef } from 'vue';
 import { API_AUTH_GET, API_USER, IExerciseDone, IUserTemplate } from 'fitness-tracker-contracts';
 import { toast, UiCalendar, UiModal } from 'mhz-ui';
 import { ICalendarDates, useQueryClient } from 'mhz-helpers';
@@ -52,12 +52,12 @@ const { t, locale } = useTI18n();
 const queryClient = useQueryClient();
 const { user } = useAuthCheck();
 
-const isShowModal = ref(false);
+const isShowModal = shallowRef(false);
 
-const start = ref<Date | null>(null);
-const end = ref<Date | null>(null);
-const exercises = ref<IExerciseDone[]>([]);
-const id = ref('');
+const start = shallowRef<Date | null>(null);
+const end = shallowRef<Date | null>(null);
+const exercises = shallowRef<IExerciseDone[]>([]);
+const id = shallowRef('');
 
 const { mutate: mutateUpdate } = userService.update({
   onSuccess: async () => {

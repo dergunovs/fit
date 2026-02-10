@@ -108,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast, UiButton, UiCalendar, UiFlex, UiModal, UiSelect, UiField, UiInput } from 'mhz-ui';
 import { clone, deleteTempId, formatDate, useQueryClient } from 'mhz-helpers';
@@ -148,13 +148,13 @@ const formData = ref<IActivity>({
   dateScheduled: undefined,
 });
 
-const isShowTemplatesModal = ref(false);
-const isShowExercisesModal = ref(false);
-const isShowForm = ref(true);
-const isShowCalendar = ref(false);
+const isShowTemplatesModal = shallowRef(false);
+const isShowExercisesModal = shallowRef(false);
+const isShowForm = shallowRef(true);
+const isShowCalendar = shallowRef(false);
 
-const currentTemplate = ref<IUserTemplate>();
-const templateTitle = ref('');
+const currentTemplate = shallowRef<IUserTemplate>();
+const templateTitle = shallowRef('');
 
 const dateScheduledText = computed(() =>
   formData.value.dateScheduled ? t('activity.date') : t('activity.chooseDate')

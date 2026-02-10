@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { shallowRef, computed } from 'vue';
 import { UiChart, UiCheckbox, UiFlex, UiTabs } from 'mhz-ui';
 import { TActivityChartType } from 'fitness-tracker-contracts';
 
@@ -58,10 +58,10 @@ const CHART_TYPES = computed<{ title: string; value: TActivityChartType }[]>(() 
   { title: t('muscle.many'), value: 'muscle' },
 ]);
 
-const type = ref<TActivityChartType>(CHART_TYPES.value[0].value);
+const type = shallowRef<TActivityChartType>(CHART_TYPES.value[0].value);
 
-const isMonth = ref(false);
-const isAverage = ref(false);
+const isMonth = shallowRef(false);
+const isAverage = shallowRef(false);
 
 const { data: chart } = activityService.getChart(type, isMonth, isAverage, locale);
 </script>

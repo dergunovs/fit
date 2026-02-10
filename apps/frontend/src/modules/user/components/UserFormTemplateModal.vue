@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { ref, shallowRef, onBeforeMount } from 'vue';
 import { UiField, UiInput, UiButton } from 'mhz-ui';
 import { useValidate, required, clone, deleteTempId } from 'mhz-helpers';
 import { IUserTemplate } from 'fitness-tracker-contracts';
@@ -59,7 +59,7 @@ const formData = ref<IUserTemplate>({
   exercises: [],
 });
 
-const isShowModal = ref(false);
+const isShowModal = shallowRef(false);
 
 const { error, isValid } = useValidate(formData, { title: [required] }, locale.value);
 

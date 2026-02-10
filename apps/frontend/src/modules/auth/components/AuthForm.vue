@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, shallowRef, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UiFlex, UiButton, UiField, UiInput, toast } from 'mhz-ui';
 import { useQueryClient, useAuth, setAuthHeader, useValidate, required, email, min } from 'mhz-helpers';
@@ -79,7 +79,7 @@ const formData = ref<IAuthData>({
   password: '',
 });
 
-const isPasswordReset = ref(false);
+const isPasswordReset = shallowRef(false);
 
 const header = computed(() => {
   if (props.isSetup) return t('createAdmin');

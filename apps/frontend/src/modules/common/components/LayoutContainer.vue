@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, ref, shallowRef, watch } from 'vue';
+import { defineAsyncComponent, shallowRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { UiModal } from 'mhz-ui';
 import { isAuth } from 'mhz-helpers';
@@ -47,8 +47,8 @@ const RegistrationForm = defineAsyncComponent(() => import('@/auth/components/Re
 const route = useRoute();
 const { BOTTOM_NAV_ITEMS } = useNavItems();
 
-const isShowRegistration = ref(false);
-const isShowLogin = ref(false);
+const isShowRegistration = shallowRef(false);
+const isShowLogin = shallowRef(false);
 
 const layoutComponent = shallowRef<typeof LayoutDefault | typeof LayoutAdmin>(LayoutDefault);
 
