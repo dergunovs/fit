@@ -8,9 +8,16 @@ import { errorHandler } from './modules/common/errorHandler.js';
 
 dotenv.config({ quiet: true });
 
-function connectToDatabase() {
+async function connectToDatabase() {
+  const DATABASE_PATH = `mongodb://127.0.0.1/${process.env.DATABASE}`;
+
   Schema.Types.Boolean.convertToFalse.add('');
-  connect(`mongodb://127.0.0.1/${process.env.DATABASE}`);
+
+  try {
+    await connect(DATABASE_PATH);
+  } catch {
+    process.exit(1);
+  }
 }
 
 async function buildApp() {
@@ -25,7 +32,7 @@ async function buildApp() {
 }
 
 async function startApp() {
-  connectToDatabase();
+  await connectToDatabase();
 
   const app = await buildApp();
 

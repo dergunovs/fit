@@ -31,7 +31,7 @@
           :datasets="chart.datasets"
           :isShowLegend="type === 'muscle'"
           type="Line"
-          :key="`${locale}-${type}-${isMonth}-${chart?.datasets[0].data.join()}-${chart?.datasets[1].data.join()}`"
+          :key="`${type}-${isMonth}-${isAverage}-${locale}`"
           :class="$style.chart"
           data-test="activity-chart"
         />
@@ -59,7 +59,6 @@ const CHART_TYPES = computed<{ title: string; value: TActivityChartType }[]>(() 
 ]);
 
 const type = shallowRef<TActivityChartType>(CHART_TYPES.value[0].value);
-
 const isMonth = shallowRef(false);
 const isAverage = shallowRef(false);
 
