@@ -25,7 +25,7 @@ export const authService = {
 
     if (!user?.password) throw new Error('User not found', { cause: { code: 404 } });
 
-    let isValid = false;
+    let isValid: boolean;
 
     if (user.isResetPassword && user.passwordTemporary) {
       const isPasswordValid = await bcrypt.compare(password, user.password);
