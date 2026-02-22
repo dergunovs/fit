@@ -30,11 +30,11 @@ describe('ExerciseEditPage', async () => {
   });
 
   it('gets and sets exercise to form', async () => {
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('exercise');
+    expect(spyUseRouteId).toHaveBeenCalledTimes(1);
+    expect(spyUseRouteId).toHaveBeenCalledWith('exercise');
 
-    expect(spyGetExercise).toBeCalledTimes(1);
-    expect(spyGetExercise).toBeCalledWith({ enabled: true }, mockRouteId);
+    expect(spyGetExercise).toHaveBeenCalledTimes(1);
+    expect(spyGetExercise).toHaveBeenCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof ExerciseForm>(exerciseForm).props('exercise')).toStrictEqual(EXERCISE_FIXTURE);
   });

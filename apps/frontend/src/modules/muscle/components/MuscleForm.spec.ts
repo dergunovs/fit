@@ -51,16 +51,16 @@ describe('MuscleForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateMuscle).toBeCalledTimes(0);
+    expect(spyCreateMuscle).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('creates muscle', async () => {
-    expect(spyCreateMuscle).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyCreateMuscle).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
     await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
@@ -73,24 +73,24 @@ describe('MuscleForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateMuscle).toBeCalledTimes(1);
-    expect(spyCreateMuscle).toBeCalledWith({ title: TITLE, title_en: TITLE_EN, color: COLOR });
+    expect(spyCreateMuscle).toHaveBeenCalledTimes(1);
+    expect(spyCreateMuscle).toHaveBeenCalledWith({ title: TITLE, title_en: TITLE_EN, color: COLOR });
 
     await mockOnSuccess.create?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_MUSCLE] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_MUSCLE] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_MUSCLE);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_MUSCLE);
   });
 
   it('updates muscle', async () => {
-    expect(spyUpdateMuscle).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUpdateMuscle).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     const NEW_TITLE = 'Новое название';
 
@@ -98,8 +98,8 @@ describe('MuscleForm', async () => {
 
     await wrapperWithMuscle.find(form).trigger('submit');
 
-    expect(spyUpdateMuscle).toBeCalledTimes(1);
-    expect(spyUpdateMuscle).toBeCalledWith({
+    expect(spyUpdateMuscle).toHaveBeenCalledTimes(1);
+    expect(spyUpdateMuscle).toHaveBeenCalledWith({
       _id: muscle._id,
       title: NEW_TITLE,
       title_en: muscle.title_en,
@@ -109,36 +109,36 @@ describe('MuscleForm', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_MUSCLE] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_MUSCLE] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 
   it('deletes muscle', async () => {
-    expect(spyDeleteMuscle).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyDeleteMuscle).toHaveBeenCalledTimes(0);
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     wrapperWithMuscle.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', muscle._id);
 
-    expect(spyDeleteMuscle).toBeCalledTimes(1);
-    expect(spyDeleteMuscle).toBeCalledWith(muscle._id);
+    expect(spyDeleteMuscle).toHaveBeenCalledTimes(1);
+    expect(spyDeleteMuscle).toHaveBeenCalledWith(muscle._id);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_MUSCLE] });
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(spyRemoveQueries).toHaveBeenCalledWith({ queryKey: [API_MUSCLE] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_MUSCLE] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_MUSCLE] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_MUSCLE);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_MUSCLE);
   });
 
   it('sets form buttons id', async () => {

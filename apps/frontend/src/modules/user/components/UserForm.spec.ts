@@ -120,16 +120,16 @@ describe('UserForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateUser).toBeCalledTimes(0);
+    expect(spyCreateUser).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('creates user', async () => {
-    expect(spyCreateUser).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyCreateUser).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formEmail).setValue(EMAIL);
     await wrapper.findComponent(formName).setValue(NAME);
@@ -137,8 +137,8 @@ describe('UserForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateUser).toBeCalledTimes(1);
-    expect(spyCreateUser).toBeCalledWith({
+    expect(spyCreateUser).toHaveBeenCalledTimes(1);
+    expect(spyCreateUser).toHaveBeenCalledWith({
       email: EMAIL,
       name: NAME,
       password: PASSWORD,
@@ -150,19 +150,19 @@ describe('UserForm', async () => {
 
     await mockOnSuccess.create?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_USER);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_USER);
   });
 
   it('updates user', async () => {
-    expect(spyUpdateUser).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUpdateUser).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     const NEW_NAME = 'Олег';
 
@@ -170,8 +170,8 @@ describe('UserForm', async () => {
 
     await wrapperWithUser.find(form).trigger('submit');
 
-    expect(spyUpdateUser).toBeCalledTimes(1);
-    expect(spyUpdateUser).toBeCalledWith({
+    expect(spyUpdateUser).toHaveBeenCalledTimes(1);
+    expect(spyUpdateUser).toHaveBeenCalledWith({
       _id: USER_FIXTURE._id,
       email: USER_FIXTURE.email,
       name: NEW_NAME,
@@ -188,61 +188,61 @@ describe('UserForm', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(4);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(4);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_AUTH_GET] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_CHART] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 
   it('deletes user', async () => {
-    expect(spyDeleteUser).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyLogout).toBeCalledTimes(0);
+    expect(spyDeleteUser).toHaveBeenCalledTimes(0);
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyLogout).toHaveBeenCalledTimes(0);
 
     wrapperWithUser.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', USER_FIXTURE._id);
 
-    expect(spyDeleteUser).toBeCalledTimes(1);
-    expect(spyDeleteUser).toBeCalledWith(USER_FIXTURE._id);
+    expect(spyDeleteUser).toHaveBeenCalledTimes(1);
+    expect(spyDeleteUser).toHaveBeenCalledWith(USER_FIXTURE._id);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_USER] });
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(spyRemoveQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyLogout).toBeCalledTimes(1);
-    expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
+    expect(spyLogout).toHaveBeenCalledTimes(1);
+    expect(spyLogout).toHaveBeenCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
   });
 
   it('deletes user with no logout when admin', async () => {
     setAdmin(true);
 
-    expect(spyLogout).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyLogout).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     wrapperWithUser.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', USER_FIXTURE._id);
 
-    expect(spyDeleteUser).toBeCalledTimes(1);
+    expect(spyDeleteUser).toHaveBeenCalledTimes(1);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyLogout).toBeCalledTimes(0);
+    expect(spyLogout).toHaveBeenCalledTimes(0);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_USER);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_USER);
   });
 
   it('gets equipments', async () => {
-    expect(spyGetEquipments).toBeCalledTimes(1);
+    expect(spyGetEquipments).toHaveBeenCalledTimes(1);
   });
 
   it('sets form buttons id', async () => {
@@ -251,7 +251,7 @@ describe('UserForm', async () => {
   });
 
   it('gets and sets default weights and exercises', async () => {
-    expect(spyGetExercisesAll).toBeCalledTimes(1);
+    expect(spyGetExercisesAll).toHaveBeenCalledTimes(1);
 
     expect(
       wrapperWithUser.findComponent<typeof UserDefaultWeightsForm>(formDefaultWeights).props('exercises')
@@ -263,7 +263,7 @@ describe('UserForm', async () => {
   });
 
   it('gets and sets user custom exercises', async () => {
-    expect(spyGetExercisesCustom).toBeCalledTimes(1);
+    expect(spyGetExercisesCustom).toHaveBeenCalledTimes(1);
     expect(wrapper.findComponent<typeof UserExercises>(formExercises).props('exercises')).toStrictEqual([
       EXERCISE_FIXTURE_CUSTOM,
     ]);
@@ -510,7 +510,7 @@ describe('UserForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyUpdateUser).toBeCalledTimes(1);
+    expect(spyUpdateUser).toHaveBeenCalledTimes(1);
     const calledWith = spyUpdateUser.mock.calls[0][0];
 
     expect(calledWith.templates?.[0]._id).not.toContain('temp_');

@@ -59,15 +59,15 @@ describe('ExerciseForm', async () => {
   });
 
   it('gets equipment', async () => {
-    expect(spyGetEquipments).toBeCalledTimes(1);
+    expect(spyGetEquipments).toHaveBeenCalledTimes(1);
   });
 
   it('gets muscles', async () => {
-    expect(spyGetMuscles).toBeCalledTimes(1);
+    expect(spyGetMuscles).toHaveBeenCalledTimes(1);
   });
 
   it('gets isAdmin', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
   });
 
   it('shows equipment for weights', async () => {
@@ -87,7 +87,7 @@ describe('ExerciseForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateExercise).toBeCalledTimes(0);
+    expect(spyCreateExercise).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
@@ -95,10 +95,10 @@ describe('ExerciseForm', async () => {
   it('creates exercise', async () => {
     const CHECKBOX_INDEX = 1;
 
-    expect(spyCreateExercise).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyCreateExercise).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
     await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
@@ -123,8 +123,8 @@ describe('ExerciseForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateExercise).toBeCalledTimes(1);
-    expect(spyCreateExercise).toBeCalledWith({
+    expect(spyCreateExercise).toHaveBeenCalledTimes(1);
+    expect(spyCreateExercise).toHaveBeenCalledWith({
       title: TITLE,
       title_en: TITLE_EN,
       description: DESCRIPTION,
@@ -138,22 +138,22 @@ describe('ExerciseForm', async () => {
 
     await mockOnSuccess.create?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(2);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(2);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_EXERCISE);
 
     expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 
   it('updates exercise', async () => {
-    expect(spyUpdateExercise).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUpdateExercise).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     const NEW_TITLE = 'Новое название';
 
@@ -161,8 +161,8 @@ describe('ExerciseForm', async () => {
 
     await wrapperWithExercise.find(form).trigger('submit');
 
-    expect(spyUpdateExercise).toBeCalledTimes(1);
-    expect(spyUpdateExercise).toBeCalledWith({
+    expect(spyUpdateExercise).toHaveBeenCalledTimes(1);
+    expect(spyUpdateExercise).toHaveBeenCalledWith({
       _id: EXERCISE_FIXTURE._id,
       title: NEW_TITLE,
       title_en: EXERCISE_FIXTURE.title_en,
@@ -177,40 +177,40 @@ describe('ExerciseForm', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(2);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(2);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
     expect(wrapper.emitted('hide')).toHaveLength(1);
   });
 
   it('deletes exercise', async () => {
-    expect(spyDeleteExercise).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyDeleteExercise).toHaveBeenCalledTimes(0);
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     wrapperWithExercise.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', EXERCISE_FIXTURE._id);
 
-    expect(spyDeleteExercise).toBeCalledTimes(1);
-    expect(spyDeleteExercise).toBeCalledWith(EXERCISE_FIXTURE._id);
+    expect(spyDeleteExercise).toHaveBeenCalledTimes(1);
+    expect(spyDeleteExercise).toHaveBeenCalledWith(EXERCISE_FIXTURE._id);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(spyRemoveQueries).toHaveBeenCalledWith({ queryKey: [API_EXERCISE] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(2);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EXERCISE] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(2);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EXERCISE] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_EXERCISE);
 
     expect(wrapper.emitted('hide')).toHaveLength(1);
   });

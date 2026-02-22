@@ -30,11 +30,11 @@ describe('MuscleEditPage', async () => {
   });
 
   it('gets and sets muscle to form', async () => {
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('muscle');
+    expect(spyUseRouteId).toHaveBeenCalledTimes(1);
+    expect(spyUseRouteId).toHaveBeenCalledWith('muscle');
 
-    expect(spyGetMuscle).toBeCalledTimes(1);
-    expect(spyGetMuscle).toBeCalledWith({ enabled: true }, mockRouteId);
+    expect(spyGetMuscle).toHaveBeenCalledTimes(1);
+    expect(spyGetMuscle).toHaveBeenCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof MuscleForm>(muscleForm).props('muscle')).toStrictEqual(MUSCLE_FIXTURE);
   });

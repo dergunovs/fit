@@ -39,14 +39,14 @@ describe('RegistrationForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyRegister).toBeCalledTimes(0);
+    expect(spyRegister).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('handles registration by form submit', async () => {
-    expect(spyRegister).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyRegister).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
     expect(wrapper.emitted()).not.toHaveProperty('register');
 
     await wrapper.findComponent(formEmail).setValue(EMAIL);
@@ -55,12 +55,12 @@ describe('RegistrationForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyRegister).toBeCalledTimes(1);
-    expect(spyRegister).toBeCalledWith({ email: EMAIL, name: NAME, password: PASSWORD });
+    expect(spyRegister).toHaveBeenCalledTimes(1);
+    expect(spyRegister).toHaveBeenCalledWith({ email: EMAIL, name: NAME, password: PASSWORD });
 
     await mockOnSuccess.register?.();
 
     expect(wrapper.emitted('register')).toHaveLength(1);
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 });

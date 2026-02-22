@@ -55,7 +55,7 @@ describe('ActivityForm', async () => {
   });
 
   it('gets initial data', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
   });
 
   it('shows potential duration component with exercises', async () => {
@@ -99,26 +99,26 @@ describe('ActivityForm', async () => {
 
     date.setHours(23, 59, 59);
 
-    expect(spyCreateActivity).toBeCalledTimes(1);
+    expect(spyCreateActivity).toHaveBeenCalledTimes(1);
 
     const activityId = '123123';
 
     await mockOnSuccess.create?.(activityId);
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_HOME);
   });
 
   it('creates activity', async () => {
-    expect(spyCreateActivity).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyCreateActivity).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     expect(wrapper.find(formContainer).exists()).toBe(true);
 
@@ -146,19 +146,19 @@ describe('ActivityForm', async () => {
 
     expect(wrapper.find(formContainer).exists()).toBe(false);
 
-    expect(spyCreateActivity).toBeCalledTimes(1);
+    expect(spyCreateActivity).toHaveBeenCalledTimes(1);
 
     const activityId = '123123';
 
     await mockOnSuccess.create?.(activityId);
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(`${URL_ACTIVITY_EDIT}/${activityId}`);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(`${URL_ACTIVITY_EDIT}/${activityId}`);
   });
 
   it('opens templates modal', async () => {
@@ -188,25 +188,25 @@ describe('ActivityForm', async () => {
 
     await mockOnSuccessUser.update?.();
 
-    expect(spyUpdateUser).toBeCalledTimes(1);
-    expect(spyUpdateUser).toBeCalledWith({
+    expect(spyUpdateUser).toHaveBeenCalledTimes(1);
+    expect(spyUpdateUser).toHaveBeenCalledWith({
       ...USER_FIXTURE,
       templates: [USER_TEMPLATE, { title: TEMPLATE_TITLE, exercises: USER_TEMPLATE.exercises }],
     });
 
-    expect(spyRefetchQueries).toBeCalledTimes(2);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(2);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_AUTH_GET] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 
   it('prevents submission when no exercises selected', async () => {
-    expect(spyCreateActivity).toBeCalledTimes(0);
+    expect(spyCreateActivity).toHaveBeenCalledTimes(0);
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateActivity).toBeCalledTimes(0);
+    expect(spyCreateActivity).toHaveBeenCalledTimes(0);
   });
 
   it('chooses template', async () => {

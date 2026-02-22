@@ -29,12 +29,12 @@ describe('PwaUpdateModal', async () => {
   });
 
   it('updates pwa', async () => {
-    expect(spyUpdateServiceWorker).toBeCalledTimes(0);
-    expect(spyUseRegisterSW).toBeCalledTimes(1);
+    expect(spyUpdateServiceWorker).toHaveBeenCalledTimes(0);
+    expect(spyUseRegisterSW).toHaveBeenCalledTimes(1);
 
     await wrapper.find(submit).trigger('click');
 
-    expect(spyUpdateServiceWorker).toBeCalledTimes(1);
+    expect(spyUpdateServiceWorker).toHaveBeenCalledTimes(1);
   });
 
   it('hides pwa modal by cancel button click', async () => {

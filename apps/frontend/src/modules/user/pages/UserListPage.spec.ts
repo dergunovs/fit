@@ -39,13 +39,13 @@ describe('UserListPage', async () => {
   });
 
   it('gets and sets users to list', async () => {
-    expect(spyUsePageNumber).toBeCalledTimes(1);
+    expect(spyUsePageNumber).toHaveBeenCalledTimes(1);
 
-    expect(spyGetUsers).toBeCalledTimes(1);
-    expect(spyGetUsers).toBeCalledWith(mockPageNumber);
+    expect(spyGetUsers).toHaveBeenCalledTimes(1);
+    expect(spyGetUsers).toHaveBeenCalledWith(mockPageNumber);
 
-    expect(spyUsePagination).toBeCalledTimes(1);
-    expect(spyUsePagination).toBeCalledWith(ref(mockGetUsersData));
+    expect(spyUsePagination).toHaveBeenCalledTimes(1);
+    expect(spyUsePagination).toHaveBeenCalledWith(ref(mockGetUsersData));
 
     expect(wrapper.findComponent<typeof UserList>(userList).props('users')).toStrictEqual(USERS_FIXTURE);
   });
@@ -58,6 +58,6 @@ describe('UserListPage', async () => {
   it('updates pagination', async () => {
     wrapper.findComponent<typeof UiPagination>(userListPagination).vm.$emit('update', 2);
 
-    expect(spySetPage).toBeCalledTimes(1);
+    expect(spySetPage).toHaveBeenCalledTimes(1);
   });
 });

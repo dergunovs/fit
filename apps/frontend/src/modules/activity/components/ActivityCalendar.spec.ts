@@ -100,7 +100,7 @@ describe('ActivityCalendar', async () => {
   });
 
   it('creates user template', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
 
     expect(wrapper.find(calendarModal).attributes('modelvalue')).toBe('false');
 
@@ -116,13 +116,13 @@ describe('ActivityCalendar', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyUpdateUser).toBeCalledTimes(1);
-    expect(spyUpdateUser).toBeCalledWith({ ...USER_FIXTURE, templates: [USER_TEMPLATE, USER_TEMPLATE] });
+    expect(spyUpdateUser).toHaveBeenCalledTimes(1);
+    expect(spyUpdateUser).toHaveBeenCalledWith({ ...USER_FIXTURE, templates: [USER_TEMPLATE, USER_TEMPLATE] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(2);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_AUTH_GET] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(2);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_AUTH_GET] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 });

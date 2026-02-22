@@ -30,11 +30,11 @@ describe('UserEditPage', async () => {
   });
 
   it('gets and sets user to form', async () => {
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('user');
+    expect(spyUseRouteId).toHaveBeenCalledTimes(1);
+    expect(spyUseRouteId).toHaveBeenCalledWith('user');
 
-    expect(spyGetUser).toBeCalledTimes(1);
-    expect(spyGetUser).toBeCalledWith({ enabled: true }, mockRouteId);
+    expect(spyGetUser).toHaveBeenCalledTimes(1);
+    expect(spyGetUser).toHaveBeenCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof UserForm>(userForm).props('user')).toStrictEqual(USER_FIXTURE);
   });

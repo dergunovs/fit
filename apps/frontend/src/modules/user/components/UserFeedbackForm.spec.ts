@@ -38,16 +38,16 @@ describe('UserFeedbackForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyUserFeedback).toBeCalledTimes(0);
+    expect(spyUserFeedback).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('sends user feedback', async () => {
     expect(wrapper.find(feedbackText).exists()).toBe(false);
-    expect(spyUserFeedback).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUserFeedback).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(name).setValue(USER_FEEDBACK.name);
     await wrapper.findComponent(email).setValue(USER_FEEDBACK.email);
@@ -55,15 +55,15 @@ describe('UserFeedbackForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyUserFeedback).toBeCalledTimes(1);
-    expect(spyUserFeedback).toBeCalledWith(USER_FEEDBACK);
+    expect(spyUserFeedback).toHaveBeenCalledTimes(1);
+    expect(spyUserFeedback).toHaveBeenCalledWith(USER_FEEDBACK);
 
     await mockOnSuccess.feedback?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_USER_FEEDBACK] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_USER_FEEDBACK] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
     expect(wrapper.find(form).exists()).toBe(false);
     expect(wrapper.find(feedbackText).exists()).toBe(true);

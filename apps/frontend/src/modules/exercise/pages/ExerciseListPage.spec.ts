@@ -39,13 +39,13 @@ describe('ExerciseListPage', async () => {
   });
 
   it('gets and sets exercises to list', async () => {
-    expect(spyUsePageNumber).toBeCalledTimes(1);
+    expect(spyUsePageNumber).toHaveBeenCalledTimes(1);
 
-    expect(spyGetExercises).toBeCalledTimes(1);
-    expect(spyGetExercises).toBeCalledWith(mockPageNumber);
+    expect(spyGetExercises).toHaveBeenCalledTimes(1);
+    expect(spyGetExercises).toHaveBeenCalledWith(mockPageNumber);
 
-    expect(spyUsePagination).toBeCalledTimes(1);
-    expect(spyUsePagination).toBeCalledWith(ref(mockGetExercisesData));
+    expect(spyUsePagination).toHaveBeenCalledTimes(1);
+    expect(spyUsePagination).toHaveBeenCalledWith(ref(mockGetExercisesData));
 
     expect(wrapper.findComponent<typeof ExerciseList>(exerciseList).props('exercises')).toStrictEqual(
       EXERCISES_FIXTURE
@@ -60,6 +60,6 @@ describe('ExerciseListPage', async () => {
   it('updates pagination', async () => {
     wrapper.findComponent<typeof UiPagination>(exerciseListPagination).vm.$emit('update', 2);
 
-    expect(spySetPage).toBeCalledTimes(1);
+    expect(spySetPage).toHaveBeenCalledTimes(1);
   });
 });

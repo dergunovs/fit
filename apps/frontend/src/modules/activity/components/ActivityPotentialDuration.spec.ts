@@ -31,8 +31,8 @@ describe('ActivityPotentialDuration', () => {
   });
 
   it('shows potential duration when exercises and statistics are provided', async () => {
-    expect(spyGetActivitiesStatistics).toBeCalledTimes(1);
-    expect(spyGetActivitiesStatistics).toBeCalledWith(ACTIVITY_STATISTICS_GAP);
+    expect(spyGetActivitiesStatistics).toHaveBeenCalledTimes(1);
+    expect(spyGetActivitiesStatistics).toHaveBeenCalledWith(ACTIVITY_STATISTICS_GAP);
 
     expect(wrapper.find(activityPotentialDuration).exists()).toBe(true);
 

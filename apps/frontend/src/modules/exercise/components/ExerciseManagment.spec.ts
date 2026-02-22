@@ -36,7 +36,7 @@ describe('ExerciseManagment', async () => {
   });
 
   it('gets exercises data', async () => {
-    expect(spyGetExercisesAll).toBeCalledTimes(1);
+    expect(spyGetExercisesAll).toHaveBeenCalledTimes(1);
     expect(wrapper.findComponent<typeof ExerciseChooseList>(chooseList).props('exercises')).toStrictEqual(
       EXERCISES_FIXTURE
     );

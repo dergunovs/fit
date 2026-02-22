@@ -49,16 +49,16 @@ describe('EquipmentForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateEquipment).toBeCalledTimes(0);
+    expect(spyCreateEquipment).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('creates equipment', async () => {
-    expect(spyCreateEquipment).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyCreateEquipment).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formTitle).setValue(TITLE);
     await wrapper.findComponent(formTitleEn).setValue(TITLE_EN);
@@ -66,24 +66,24 @@ describe('EquipmentForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyCreateEquipment).toBeCalledTimes(1);
-    expect(spyCreateEquipment).toBeCalledWith({ title: TITLE, title_en: TITLE_EN, isWeights: IS_WEIGHTS });
+    expect(spyCreateEquipment).toHaveBeenCalledTimes(1);
+    expect(spyCreateEquipment).toHaveBeenCalledWith({ title: TITLE, title_en: TITLE_EN, isWeights: IS_WEIGHTS });
 
     await mockOnSuccess.create?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EQUIPMENT] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EQUIPMENT] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_EQUIPMENT);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_EQUIPMENT);
   });
 
   it('updates equipment', async () => {
-    expect(spyUpdateEquipment).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUpdateEquipment).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     const NEW_TITLE = 'Штанга';
 
@@ -91,8 +91,8 @@ describe('EquipmentForm', async () => {
 
     await wrapperWithEquipment.find(form).trigger('submit');
 
-    expect(spyUpdateEquipment).toBeCalledTimes(1);
-    expect(spyUpdateEquipment).toBeCalledWith({
+    expect(spyUpdateEquipment).toHaveBeenCalledTimes(1);
+    expect(spyUpdateEquipment).toHaveBeenCalledWith({
       _id: EQUIPMENT_FIXTURE._id,
       dateCreated: EQUIPMENT_FIXTURE.dateCreated,
       dateUpdated: EQUIPMENT_FIXTURE.dateUpdated,
@@ -102,36 +102,36 @@ describe('EquipmentForm', async () => {
 
     await mockOnSuccess.update?.();
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EQUIPMENT] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EQUIPMENT] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 
   it('deletes equipment', async () => {
-    expect(spyDeleteEquipment).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyDeleteEquipment).toHaveBeenCalledTimes(0);
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     wrapperWithEquipment.findComponent<typeof FormButtons>(formButtons).vm.$emit('delete', EQUIPMENT_FIXTURE._id);
 
-    expect(spyDeleteEquipment).toBeCalledTimes(1);
-    expect(spyDeleteEquipment).toBeCalledWith(EQUIPMENT_FIXTURE._id);
+    expect(spyDeleteEquipment).toHaveBeenCalledTimes(1);
+    expect(spyDeleteEquipment).toHaveBeenCalledWith(EQUIPMENT_FIXTURE._id);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_EQUIPMENT] });
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(spyRemoveQueries).toHaveBeenCalledWith({ queryKey: [API_EQUIPMENT] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_EQUIPMENT] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_EQUIPMENT] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_EQUIPMENT);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_EQUIPMENT);
   });
 
   it('sets form buttons id', async () => {

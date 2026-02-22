@@ -23,7 +23,7 @@ describe('copyToClipboard helper', () => {
 
     Object.defineProperty(navigator, 'clipboard', { value: { writeText: mockWriteText }, writable: true });
 
-    await expect(copyToClipboard(text, toastText)).rejects.toThrowError('Error');
+    await expect(copyToClipboard(text, toastText)).rejects.toThrow('Error');
     expect(spyToastSuccess).toHaveBeenCalledTimes(0);
   });
 });

@@ -62,12 +62,12 @@ describe('FormButtons', async () => {
   });
 
   it('pushed to previous page by back button click', async () => {
-    expect(spyRouterGo).toBeCalledTimes(0);
+    expect(spyRouterGo).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(buttonsBack).trigger('click');
 
-    expect(spyRouterGo).toBeCalledTimes(1);
-    expect(spyRouterGo).toBeCalledWith(-1);
+    expect(spyRouterGo).toHaveBeenCalledTimes(1);
+    expect(spyRouterGo).toHaveBeenCalledWith(-1);
 
     expect(wrapper.emitted()).not.toHaveProperty('cancel');
   });
@@ -77,7 +77,7 @@ describe('FormButtons', async () => {
 
     await wrapper.find(buttonsBack).trigger('click');
 
-    expect(spyRouterGo).toBeCalledTimes(0);
+    expect(spyRouterGo).toHaveBeenCalledTimes(0);
 
     expect(wrapper.emitted('cancel')).toHaveLength(1);
   });

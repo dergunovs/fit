@@ -65,62 +65,62 @@ describe('AuthForm', async () => {
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyLogin).toBeCalledTimes(0);
+    expect(spyLogin).toHaveBeenCalledTimes(0);
 
     mockIsValid.value = true;
   });
 
   it('handles login by form submit', async () => {
-    expect(spyLogin).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyAuth).toBeCalledTimes(0);
+    expect(spyLogin).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyAuth).toHaveBeenCalledTimes(0);
     expect(wrapper.emitted()).not.toHaveProperty('login');
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formEmail).setValue(EMAIL);
     await wrapper.findComponent(formPassword).setValue(PASSWORD);
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyLogin).toBeCalledTimes(1);
-    expect(spyLogin).toBeCalledWith({ email: EMAIL, password: PASSWORD });
+    expect(spyLogin).toHaveBeenCalledTimes(1);
+    expect(spyLogin).toHaveBeenCalledWith({ email: EMAIL, password: PASSWORD });
 
     await mockOnSuccess.login?.({ user: { _id: ID, email: EMAIL, name: NAME }, token: TOKEN_FIXTURE });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyAuth).toBeCalledTimes(1);
-    expect(spyAuth).toBeCalledWith(TOKEN_FIXTURE, spySetAuthHeader, TOKEN_NAME);
+    expect(spyAuth).toHaveBeenCalledTimes(1);
+    expect(spyAuth).toHaveBeenCalledWith(TOKEN_FIXTURE, spySetAuthHeader, TOKEN_NAME);
 
     expect(wrapper.emitted('login')).toHaveLength(1);
 
-    expect(spyRefetchQueries).toBeCalledTimes(3);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CALENDAR] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(3);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_CALENDAR] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_CHART] });
   });
 
   it('handles setup by form submit', async () => {
     await wrapper.setProps({ isSetup: true });
 
-    expect(spySetup).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spySetup).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(formEmail).setValue(EMAIL);
     await wrapper.findComponent(formPassword).setValue(PASSWORD);
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spySetup).toBeCalledTimes(1);
-    expect(spySetup).toBeCalledWith({ email: EMAIL, password: PASSWORD });
+    expect(spySetup).toHaveBeenCalledTimes(1);
+    expect(spySetup).toHaveBeenCalledWith({ email: EMAIL, password: PASSWORD });
 
     await mockOnSuccess.setup?.();
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_HOME);
   });
 
   it('shows reset password info and hides password input', async () => {
@@ -136,20 +136,20 @@ describe('AuthForm', async () => {
   it('resets password', async () => {
     await wrapper.find(formPasswordResetButton).trigger('click');
 
-    expect(spyResetPassword).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyResetPassword).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
     expect(wrapper.emitted()).not.toHaveProperty('reset');
 
     await wrapper.findComponent(formEmail).setValue(EMAIL);
 
     await wrapper.find(form).trigger('submit');
 
-    expect(spyResetPassword).toBeCalledTimes(1);
-    expect(spyResetPassword).toBeCalledWith({ email: EMAIL });
+    expect(spyResetPassword).toHaveBeenCalledTimes(1);
+    expect(spyResetPassword).toHaveBeenCalledWith({ email: EMAIL });
 
     await mockOnSuccess.resetPassword?.();
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
     expect(wrapper.emitted('reset')).toHaveLength(1);
   });

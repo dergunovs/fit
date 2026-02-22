@@ -46,8 +46,8 @@ describe('UserFormUpdatePassword', () => {
   });
 
   it('updates password', async () => {
-    expect(spyToastSuccess).toBeCalledTimes(0);
-    expect(spyUpdateUserPassword).toBeCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
+    expect(spyUpdateUserPassword).toHaveBeenCalledTimes(0);
 
     await wrapper.findComponent(input).setValue('123456');
 
@@ -55,8 +55,8 @@ describe('UserFormUpdatePassword', () => {
 
     await mockOnSuccess.updatePassword?.();
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
-    expect(spyUpdateUserPassword).toBeCalledTimes(1);
-    expect(spyUpdateUserPassword).toBeCalledWith({ password: NEW_PASSWORD, id: ID });
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
+    expect(spyUpdateUserPassword).toHaveBeenCalledTimes(1);
+    expect(spyUpdateUserPassword).toHaveBeenCalledWith({ password: NEW_PASSWORD, id: ID });
   });
 });

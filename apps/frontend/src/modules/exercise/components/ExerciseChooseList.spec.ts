@@ -36,7 +36,7 @@ describe('ExerciseChooseList', async () => {
   });
 
   it('gets muscles data', async () => {
-    expect(spyGetMuscles).toBeCalledTimes(1);
+    expect(spyGetMuscles).toHaveBeenCalledTimes(1);
   });
 
   it('shows muscles buttons', async () => {
@@ -61,7 +61,7 @@ describe('ExerciseChooseList', async () => {
   });
 
   it('gets and sets user data', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
 
     expect(wrapper.findComponent<typeof ExerciseChooseElement>(exerciseChooseElement).props('user')).toStrictEqual(
       USER_FIXTURE

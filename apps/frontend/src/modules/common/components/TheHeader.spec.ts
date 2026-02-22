@@ -62,7 +62,7 @@ describe('TheHeader', async () => {
   });
 
   it('shows checks auth', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
   });
 
   it('sets logo link', async () => {
@@ -100,30 +100,30 @@ describe('TheHeader', async () => {
   });
 
   it('navigates to admin', async () => {
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.find(admin).trigger('click');
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_EXERCISE);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_EXERCISE);
   });
 
   it('navigates to help page', async () => {
-    expect(spyRouterPush).toBeCalledTimes(0);
+    expect(spyRouterPush).toHaveBeenCalledTimes(0);
 
     await wrapper.find(help).trigger('click');
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HELP);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_HELP);
   });
 
   it('logouts', async () => {
-    expect(spyLogout).toBeCalledTimes(0);
+    expect(spyLogout).toHaveBeenCalledTimes(0);
 
     await wrapper.find(logout).trigger('click');
 
-    expect(spyLogout).toBeCalledTimes(1);
-    expect(spyLogout).toBeCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
+    expect(spyLogout).toHaveBeenCalledTimes(1);
+    expect(spyLogout).toHaveBeenCalledWith(URL_HOME, deleteAuthHeader, TOKEN_NAME);
   });
 
   it('emits show login', async () => {

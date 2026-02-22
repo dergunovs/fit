@@ -30,11 +30,11 @@ describe('ActivityEditPage', async () => {
   });
 
   it('gets activity and sets props to info', async () => {
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('activity');
+    expect(spyUseRouteId).toHaveBeenCalledTimes(1);
+    expect(spyUseRouteId).toHaveBeenCalledWith('activity');
 
-    expect(spyGetActivity).toBeCalledTimes(1);
-    expect(spyGetActivity).toBeCalledWith({ enabled: true }, mockRouteId);
+    expect(spyGetActivity).toHaveBeenCalledTimes(1);
+    expect(spyGetActivity).toHaveBeenCalledWith({ enabled: true }, mockRouteId);
 
     expect(wrapper.findComponent<typeof ActivityInfo>(info).props('id')).toStrictEqual(ACTIVITY_FIXTURE._id);
 

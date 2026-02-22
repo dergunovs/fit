@@ -60,7 +60,7 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('gets all exercises', async () => {
-    expect(spyGetExercisesAll).toBeCalledTimes(1);
+    expect(spyGetExercisesAll).toHaveBeenCalledTimes(1);
   });
 
   it('shows start time', async () => {
@@ -72,32 +72,32 @@ describe('ActivityPassingForm', async () => {
   });
 
   it('finishes activity early', async () => {
-    expect(spyUpdateActivity).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyUpdateActivity).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     expect(wrapper.find(activityFinish).attributes('isdisabled')).toBe(ACTIVITY_FIXTURE_2.isDone.toString());
 
     await wrapper.find(activityFinish).trigger('click');
 
-    expect(spyUpdateActivity).toBeCalledTimes(1);
-    expect(spyUpdateActivity).toBeCalledWith({ ...ACTIVITY_FIXTURE_2, isDone: true });
+    expect(spyUpdateActivity).toHaveBeenCalledTimes(1);
+    expect(spyUpdateActivity).toHaveBeenCalledWith({ ...ACTIVITY_FIXTURE_2, isDone: true });
 
     await mockOnSuccess.update?.();
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
     expect(wrapper.find(activityFinish).exists()).toBe(false);
 
     await wait(1001);
 
-    expect(spyRefetchQueries).toBeCalledTimes(3);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY_CHART] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(3);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_STATISTICS] });
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY_CHART] });
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_HOME);
   });
 
   it('stops exercise', async () => {
@@ -121,13 +121,13 @@ describe('ActivityPassingForm', async () => {
 
     await nextTick();
 
-    expect(spyUpdateActivity).toBeCalledTimes(1);
+    expect(spyUpdateActivity).toHaveBeenCalledTimes(1);
 
     const expectedExercises = ACTIVITY_FIXTURE_2.exercises.map((e) =>
       e._id === exercise._id ? { ...e, isDone: true, duration: 60, dateUpdated: fixedDate } : e
     );
 
-    expect(spyUpdateActivity).toBeCalledWith({
+    expect(spyUpdateActivity).toHaveBeenCalledWith({
       ...ACTIVITY_FIXTURE_2,
       exercises: expectedExercises,
       dateCreated: fixedDate,

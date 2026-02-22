@@ -161,7 +161,7 @@ describe('ExerciseElement', async () => {
   });
 
   it('updates weight', async () => {
-    expect(spyUseAuthCheck).toBeCalledTimes(1);
+    expect(spyUseAuthCheck).toHaveBeenCalledTimes(1);
 
     expect(wrapper.emitted()).not.toHaveProperty('setWeight');
 

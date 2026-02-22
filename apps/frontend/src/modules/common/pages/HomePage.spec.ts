@@ -53,33 +53,33 @@ describe('HomePage', async () => {
   });
 
   it('confirms registration', async () => {
-    expect(spyConfirmToken).toBeCalledTimes(0);
+    expect(spyConfirmToken).toHaveBeenCalledTimes(0);
 
-    expect(spyUseRouteId).toBeCalledTimes(1);
-    expect(spyUseRouteId).toBeCalledWith('token', true);
+    expect(spyUseRouteId).toHaveBeenCalledTimes(1);
+    expect(spyUseRouteId).toHaveBeenCalledWith('token', true);
 
     await wait(500);
 
-    expect(spyConfirmToken).toBeCalledTimes(3);
-    expect(spyConfirmToken).toBeCalledWith({ token: mockRouteId.value });
+    expect(spyConfirmToken).toHaveBeenCalledTimes(3);
+    expect(spyConfirmToken).toHaveBeenCalledWith({ token: mockRouteId.value });
 
     await mockOnSuccess.confirmToken?.();
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(URL_HOME);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(URL_HOME);
   });
 
   it('gets muscle data', async () => {
-    expect(spyGetMuscles).toBeCalledTimes(1);
+    expect(spyGetMuscles).toHaveBeenCalledTimes(1);
   });
 
   it('gets and formats activity calendar data', async () => {
-    expect(spyUseCalendar).toBeCalledTimes(1);
+    expect(spyUseCalendar).toHaveBeenCalledTimes(1);
 
-    expect(spyGetActivitiesCalendar).toBeCalledTimes(1);
-    expect(spyGetActivitiesCalendar).toBeCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
+    expect(spyGetActivitiesCalendar).toHaveBeenCalledTimes(1);
+    expect(spyGetActivitiesCalendar).toHaveBeenCalledWith({ enabled: mockIsDatesReady }, mockDateFrom, mockDateTo);
 
     expect(wrapper.findComponent<typeof ActivityCalendar>(calendar).props('events')).toStrictEqual(
       convertActivityCalendarEvents(MUSCLES_FIXTURE, ACTIVITIES_CALENDAR_FIXTURE)
@@ -87,16 +87,16 @@ describe('HomePage', async () => {
   });
 
   it('updates dates on update activity calendar events', async () => {
-    expect(spyUpdateDates).toBeCalledTimes(0);
+    expect(spyUpdateDates).toHaveBeenCalledTimes(0);
 
     wrapper.findComponent<typeof ActivityCalendar>(calendar).vm.$emit('update');
 
-    expect(spyUpdateDates).toBeCalledTimes(1);
+    expect(spyUpdateDates).toHaveBeenCalledTimes(1);
   });
 
   it('gets activity statistics', async () => {
-    expect(spyGetActivitiesStatistics).toBeCalledTimes(1);
-    expect(spyGetActivitiesStatistics).toBeCalledWith(ACTIVITY_STATISTICS_GAP);
+    expect(spyGetActivitiesStatistics).toHaveBeenCalledTimes(1);
+    expect(spyGetActivitiesStatistics).toHaveBeenCalledWith(ACTIVITY_STATISTICS_GAP);
   });
 
   it('sets activity statistics', async () => {

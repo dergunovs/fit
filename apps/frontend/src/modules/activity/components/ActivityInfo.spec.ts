@@ -97,7 +97,7 @@ describe('ActivityInfo', async () => {
   });
 
   it('gets and sets data to muscle statistics table', async () => {
-    expect(spyGetMuscles).toBeCalledTimes(1);
+    expect(spyGetMuscles).toHaveBeenCalledTimes(1);
 
     const statistics = generateMuscleStatistics(exercises, MUSCLES_FIXTURE, 'ru');
 
@@ -123,15 +123,15 @@ describe('ActivityInfo', async () => {
 
     await wrapper.find(startActivity).trigger('click');
 
-    expect(spyRouterPush).toBeCalledTimes(1);
-    expect(spyRouterPush).toBeCalledWith(`${URL_ACTIVITY_EDIT}/${id}`);
+    expect(spyRouterPush).toHaveBeenCalledTimes(1);
+    expect(spyRouterPush).toHaveBeenCalledWith(`${URL_ACTIVITY_EDIT}/${id}`);
   });
 
   it('deletes activity in popup', async () => {
-    expect(spyDeleteActivity).toBeCalledTimes(0);
-    expect(spyRemoveQueries).toBeCalledTimes(0);
-    expect(spyRefetchQueries).toBeCalledTimes(0);
-    expect(spyToastSuccess).toBeCalledTimes(0);
+    expect(spyDeleteActivity).toHaveBeenCalledTimes(0);
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(0);
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(0);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(0);
 
     expect(wrapper.emitted()).not.toHaveProperty('delete');
 
@@ -145,35 +145,35 @@ describe('ActivityInfo', async () => {
 
     wrapper.findComponent<typeof UiModal>(modal).vm.$emit('confirm');
 
-    expect(spyDeleteActivity).toBeCalledTimes(1);
-    expect(spyDeleteActivity).toBeCalledWith(id);
+    expect(spyDeleteActivity).toHaveBeenCalledTimes(1);
+    expect(spyDeleteActivity).toHaveBeenCalledWith(id);
 
     await mockOnSuccess.delete?.();
 
-    expect(spyRemoveQueries).toBeCalledTimes(1);
-    expect(spyRemoveQueries).toBeCalledWith({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
+    expect(spyRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(spyRemoveQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
 
-    expect(spyRefetchQueries).toBeCalledTimes(1);
-    expect(spyRefetchQueries).toBeCalledWith({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
+    expect(spyRefetchQueries).toHaveBeenCalledTimes(1);
+    expect(spyRefetchQueries).toHaveBeenCalledWith({ queryKey: [API_ACTIVITY, API_ACTIVITY_CALENDAR] });
 
-    expect(spyToastSuccess).toBeCalledTimes(1);
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
 
     expect(wrapper.emitted('delete')).toHaveLength(1);
   });
 
   it('copies activity to clipboard', async () => {
-    expect(spyCopyToClipboard).toBeCalledTimes(0);
+    expect(spyCopyToClipboard).toHaveBeenCalledTimes(0);
 
     await wrapper.find(copyActivityToClipboard).trigger('click');
 
-    expect(spyCopyToClipboard).toBeCalledTimes(1);
+    expect(spyCopyToClipboard).toHaveBeenCalledTimes(1);
   });
 
   it('handle go back button click', async () => {
     await wrapper.find(goBackButton).trigger('click');
 
-    expect(spyRouterGo).toBeCalledTimes(1);
-    expect(spyRouterGo).toBeCalledWith(-1);
+    expect(spyRouterGo).toHaveBeenCalledTimes(1);
+    expect(spyRouterGo).toHaveBeenCalledWith(-1);
   });
 
   it('creates user template when button is clicked', async () => {

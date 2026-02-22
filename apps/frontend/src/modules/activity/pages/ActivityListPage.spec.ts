@@ -33,13 +33,13 @@ describe('ActivityListPage', async () => {
   });
 
   it('gets activity and sets props to list', async () => {
-    expect(spyUsePageNumber).toBeCalledTimes(1);
+    expect(spyUsePageNumber).toHaveBeenCalledTimes(1);
 
-    expect(spyGetActivities).toBeCalledTimes(1);
-    expect(spyGetActivities).toBeCalledWith(mockPageNumber);
+    expect(spyGetActivities).toHaveBeenCalledTimes(1);
+    expect(spyGetActivities).toHaveBeenCalledWith(mockPageNumber);
 
-    expect(spyUsePagination).toBeCalledTimes(1);
-    expect(spyUsePagination).toBeCalledWith(ref(mockGetActivitiesData));
+    expect(spyUsePagination).toHaveBeenCalledTimes(1);
+    expect(spyUsePagination).toHaveBeenCalledWith(ref(mockGetActivitiesData));
 
     expect(wrapper.findComponent<typeof ActivityAdminList>(list).props('activities')).toStrictEqual(ACTIVITIES_FIXTURE);
   });
@@ -52,6 +52,6 @@ describe('ActivityListPage', async () => {
   it('updates pagination', async () => {
     wrapper.findComponent<typeof UiPagination>(pagination).vm.$emit('update', 2);
 
-    expect(spySetPage).toBeCalledTimes(1);
+    expect(spySetPage).toHaveBeenCalledTimes(1);
   });
 });

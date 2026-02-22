@@ -36,7 +36,7 @@ describe('ActivityChart', async () => {
   });
 
   it('gets chart data and sets props', async () => {
-    expect(spyGetActivitiesChart).toBeCalledTimes(1);
+    expect(spyGetActivitiesChart).toHaveBeenCalledTimes(1);
 
     expect(wrapper.findComponent<typeof UiChart>(chart).props('type')).toStrictEqual('Line');
 
