@@ -32,8 +32,8 @@
     "fastify": "5.8.2",
     "fastify-plugin": "5.1.0",
     "fitness-tracker-contracts": "*",
-    "mongoose": "9.3.0",
-    "mhz-helpers": "1.4.13",
+    "mongoose": "9.3.1",
+    "mhz-helpers": "1.4.14",
     "nodemailer": "8.0.2"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "nodemon": "3.1.14",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.57.0"
+    "typescript-eslint": "8.57.1"
   },
   "engines": {
     "npm": ">=11.7.0",

@@ -8,7 +8,7 @@
         :page="page"
         :total="total"
         :lang="locale"
-        @update="(value: number) => setPage(setPaginationPage(value, page))"
+        @update="(value: number) => setPage(setPaginationPage(value))"
         data-test="activities-pagination"
       />
     </UiFlex>
