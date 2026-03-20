@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { shallowRef, computed } from 'vue';
+import { shallowRef, computed, ref } from 'vue';
 import { IExercise, IExerciseChoosen } from 'fitness-tracker-contracts';
 import { UiField, UiFlex, UiInput, UiSpoiler } from 'mhz-ui';
 import { localeField } from 'mhz-helpers';
@@ -67,7 +67,7 @@ const emit = defineEmits<IEmit>();
 const { t, locale } = useTI18n();
 const { user } = useAuthCheck();
 
-const exerciseSpoilers = shallowRef([]);
+const exerciseSpoilers = ref([]);
 
 const currentMuscle = shallowRef<string>('');
 const title = shallowRef('');
