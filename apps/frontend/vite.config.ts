@@ -65,6 +65,7 @@ export default defineConfig({
     clearMocks: true,
     environment: 'happy-dom',
     include: ['**/*.spec.ts'],
+    setupFiles: ['./src/modules/common/test/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text'],
