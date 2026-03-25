@@ -21,7 +21,9 @@ async function connectToDatabase() {
 }
 
 async function buildApp() {
-  const fastify = Fastify({ logger: true });
+  const isDev = process.env.IS_DEV === 'true';
+
+  const fastify = Fastify({ logger: isDev, disableRequestLogging: !isDev });
 
   registerPluginsAndRoutes(fastify);
   addSchemas(fastify);
