@@ -21,7 +21,10 @@ export const activityService = {
   getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
     const filter = adminOrUserFilter(decode, token);
 
-    const user = await User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean();
+    const [user, exercises] = await Promise.all([
+      User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean(),
+      getAdminAndUserExercises(decode, token),
+    ]);
 
     if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
 
@@ -39,10 +42,7 @@ export const activityService = {
 
     const { current, previous } = activities[0];
 
-    const [activityStatistics, exercises] = await Promise.all([
-      Promise.resolve(getActivitiesStatistics(current, previous)),
-      getAdminAndUserExercises(decode, token),
-    ]);
+    const activityStatistics = getActivitiesStatistics(current, previous);
 
     const exerciseStatistics = getExercisesStatistics(current, previous, exercises, user);
 

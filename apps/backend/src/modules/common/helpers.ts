@@ -39,17 +39,18 @@ export async function paginate<T>(
 
   const limit = 24;
 
-  const count = await Entity.countDocuments();
+  const [count, data] = await Promise.all([
+    Entity.countDocuments(),
+    Entity.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate(populate || [])
+      .select('-password')
+      .sort(sort || '-dateCreated')
+      .lean() as Promise<T[]>,
+  ]);
 
   const total = Math.ceil(count / limit);
-
-  const data = (await Entity.find()
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate(populate || [])
-    .select('-password')
-    .sort(sort || '-dateCreated')
-    .lean()) as T[];
 
   return { data, total };
 }

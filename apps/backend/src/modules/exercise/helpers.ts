@@ -17,17 +17,18 @@ export async function getExercisesByUser(user: IUser) {
 }
 
 export async function getAdminAndUserExercises(decode?: TDecode, token?: string) {
-  const admin = await User.findOne({ role: 'admin' }).lean();
+  const [admin, user] = await Promise.all([
+    User.findOne({ role: 'admin' }).lean(),
+    Promise.resolve(decodeToken(decode, token)),
+  ]);
 
   if (!admin) throw new Error('Administrator not found', { cause: { code: 404 } });
 
-  const adminExercises = await getExercisesByUser(admin);
+  if (!user?._id || user.role === 'admin') {
+    return getExercisesByUser(admin);
+  }
 
-  const user = decodeToken(decode, token);
-
-  if (!user?._id || user.role === 'admin') return adminExercises;
-
-  const userExercises = await getExercisesByUser(user);
+  const [adminExercises, userExercises] = await Promise.all([getExercisesByUser(admin), getExercisesByUser(user)]);
 
   return [...userExercises, ...adminExercises];
 }
