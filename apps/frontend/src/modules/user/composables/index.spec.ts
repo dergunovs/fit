@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { ref } from 'vue';
 import { withSetup } from 'mhz-helpers';
 
@@ -9,10 +9,6 @@ vi.mock('@/common/composables', () => ({
     t: (key: string) => key,
   }),
 }));
-
-beforeEach(() => {
-  vi.clearAllMocks();
-});
 
 describe('useUserFormTabs composables', () => {
   it('should return only general tab when isEdit is false', async () => {

@@ -14,7 +14,6 @@ const spyGetCookieToken = vi.spyOn(helpers, 'getCookieToken').mockReturnValue(TO
 
 describe('useAuthCheck composables', () => {
   afterEach(() => {
-    vi.clearAllMocks();
     setAdmin(false);
     setIsAuthChecked(false);
   });
