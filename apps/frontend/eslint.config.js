@@ -27,6 +27,8 @@ export default defineConfig(
 
   parser(vueParser, tseslint.parser, dirname),
 
+  { languageOptions: { parserOptions: { tsconfigRootDir: dirname } } },
+
   { ...options(globals), ...settings, ...rules },
 
   pluginPrettierRecommended
