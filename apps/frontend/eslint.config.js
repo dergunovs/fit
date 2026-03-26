@@ -27,7 +27,11 @@ export default defineConfig(
 
   parser(vueParser, tseslint.parser, dirname),
 
-  { languageOptions: { parserOptions: { tsconfigRootDir: dirname } } },
+  {
+    languageOptions: {
+      parserOptions: { tsconfigRootDir: dirname, project: ['./tsconfig.json'], extraFileExtensions: ['.vue'] },
+    },
+  },
 
   { ...options(globals), ...settings, ...rules },
 
