@@ -1,6 +1,6 @@
 import type { IEquipment, TDecode } from 'fitness-tracker-contracts';
 
-import { decodeToken } from '../auth/helpers.js';
+import { getAuthenticatedUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import Equipment from './model.js';
@@ -23,9 +23,7 @@ export const equipmentService = {
   },
 
   create: async (equipmentToCreate: IEquipment, decode?: TDecode, token?: string) => {
-    const user = decodeToken(decode, token);
-
-    if (!user) throw error.notFound();
+    getAuthenticatedUser(decode, token);
 
     await Equipment.create(equipmentToCreate);
   },

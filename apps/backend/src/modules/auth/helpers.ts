@@ -32,12 +32,22 @@ export function filterUserData(user: IUser, isToken?: boolean) {
   return filteredUser;
 }
 
-export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, token?: string) {
+export function getAuthenticatedUser(decode?: TDecode, token?: string): IUser {
   const user = decodeToken(decode, token);
 
-  const isRestrictAccess = user?.role !== 'admin' && id.toString() !== user?._id;
+  if (!user) throw error.unauthorized();
+
+  return user;
+}
+
+export function allowAccessToAdminAndCurrentUser(userId: string, decode?: TDecode, token?: string): IUser {
+  const user = getAuthenticatedUser(decode, token);
+
+  const isRestrictAccess = user.role !== 'admin' && userId.toString() !== user._id;
 
   if (isRestrictAccess) throw error.forbidden();
+
+  return user;
 }
 
 export function adminOrUserFilter(decode?: TDecode, token?: string) {

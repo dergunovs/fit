@@ -1,6 +1,6 @@
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
-import { decodeToken } from '../auth/helpers.js';
+import { getAuthenticatedUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import User from '../user/model.js';
@@ -20,12 +20,12 @@ export async function getExercisesByUser(user: IUser) {
 export async function getAdminAndUserExercises(decode?: TDecode, token?: string) {
   const [admin, user] = await Promise.all([
     User.findOne({ role: 'admin' }).lean(),
-    Promise.resolve(decodeToken(decode, token)),
+    Promise.resolve(getAuthenticatedUser(decode, token)),
   ]);
 
   if (!admin) throw error.notFound();
 
-  if (!user?._id || user.role === 'admin') {
+  if (user.role === 'admin') {
     return getExercisesByUser(admin);
   }
 

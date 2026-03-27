@@ -1,6 +1,6 @@
 import type { IExercise, TDecode } from 'fitness-tracker-contracts';
 
-import { allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
+import { getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId, paginate } from '../common/helpers.js';
 import { getAdminAndUserExercises, getExercisesByUser } from './helpers.js';
@@ -21,9 +21,7 @@ export const exerciseService = {
   },
 
   getCustom: async (decode?: TDecode, token?: string) => {
-    const user = decodeToken(decode, token);
-
-    if (!user) throw error.notFound();
+    const user = getAuthenticatedUser(decode, token);
 
     const exercises = await getExercisesByUser(user);
 
@@ -41,9 +39,7 @@ export const exerciseService = {
   },
 
   create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
-    const user = decodeToken(decode, token);
-
-    if (!user?._id) throw error.notFound();
+    const user = getAuthenticatedUser(decode, token);
 
     const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user });
 

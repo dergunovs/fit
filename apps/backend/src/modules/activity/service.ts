@@ -1,7 +1,7 @@
 import type { IActivity, TActivityChartType, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
-import { adminOrUserFilter, allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
+import { adminOrUserFilter, getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { paginate, checkInvalidId } from '../common/helpers.js';
@@ -118,9 +118,7 @@ export const activityService = {
   },
 
   create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
-    const user = decodeToken(decode, token);
-
-    if (!user) throw error.notFound();
+    const user = getAuthenticatedUser(decode, token);
 
     const activity = new Activity({ ...activityToCreate, createdBy: user._id });
 
