@@ -20,3 +20,6 @@ export const CHART_LABELS = {
   repeats: { ru: 'Повторы', en: 'Repeats' },
   duration: { ru: 'Длительность', en: 'Duration' },
 };
+
+export const DEFAULT_COLOR = '#484195';
+export const GOAL_COLOR = '#bbb';

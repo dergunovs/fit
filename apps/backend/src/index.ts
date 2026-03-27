@@ -5,11 +5,12 @@ import { Schema, connect } from 'mongoose';
 import { addSchemas } from './modules/common/addSchemas.js';
 import { registerPluginsAndRoutes } from './modules/common/registerPluginsAndRoutes.js';
 import { errorHandler } from './modules/common/errorHandler.js';
+import { DB_HOST, SERVER_HOST } from './modules/common/constants.js';
 
 dotenv.config({ quiet: true });
 
 async function connectToDatabase() {
-  const DATABASE_PATH = `mongodb://127.0.0.1/${process.env.DATABASE}`;
+  const DATABASE_PATH = `mongodb://${DB_HOST}/${process.env.DATABASE}`;
 
   Schema.Types.Boolean.convertToFalse.add('');
 
@@ -39,7 +40,7 @@ async function startApp() {
   const app = await buildApp();
 
   const port = Number(process.env.PORT);
-  const host = 'localhost';
+  const host = SERVER_HOST;
 
   try {
     await app.listen({ port, host });

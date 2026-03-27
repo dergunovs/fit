@@ -6,12 +6,18 @@ import dotenv from 'dotenv';
 
 dotenv.config({ quiet: true });
 
+const SWAGGER_HOST = 'localhost:5000';
+const SWAGGER_TITLE = 'FiT swagger';
+const SWAGGER_VERSION = '1.0.0';
+const SWAGGER_DESCRIPTION = 'FiT on Github';
+const SWAGGER_ROUTE_PREFIX = '/api-docs';
+
 export default fp(async function (fastify) {
   fastify.register(swagger, {
     swagger: {
-      info: { title: 'FiT swagger', version: '1.0.0' },
-      externalDocs: { url: 'https://github.com/dergunovs/fit', description: 'FiT on Github' },
-      host: 'localhost:5000',
+      info: { title: SWAGGER_TITLE, version: SWAGGER_VERSION },
+      externalDocs: { url: 'https://github.com/dergunovs/fit', description: SWAGGER_DESCRIPTION },
+      host: SWAGGER_HOST,
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
@@ -21,7 +27,7 @@ export default fp(async function (fastify) {
 
   if (process.env.IS_DEV) {
     fastify.register(swaggerUi, {
-      routePrefix: '/api-docs',
+      routePrefix: SWAGGER_ROUTE_PREFIX,
       uiConfig: { docExpansion: 'list', defaultModelsExpandDepth: 0, tryItOutEnabled: true },
     });
   }

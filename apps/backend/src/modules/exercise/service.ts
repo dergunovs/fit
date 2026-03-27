@@ -5,7 +5,7 @@ import { error } from '../common/errorHandler.js';
 import { checkInvalidId, paginate } from '../common/helpers.js';
 import { getAdminAndUserExercises, getExercisesByUser } from './helpers.js';
 import Exercise from './model.js';
-import { EXERCISE_POPULATE } from './constants.js';
+import { EXERCISE_POPULATE, MAX_CUSTOM_EXERCISES } from './constants.js';
 
 export const exerciseService = {
   getMany: async (page: number) => {
@@ -43,7 +43,7 @@ export const exerciseService = {
 
     const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user });
 
-    const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < 21;
+    const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < MAX_CUSTOM_EXERCISES;
 
     if (!isAllowToCreateExercise) throw error.forbidden();
 

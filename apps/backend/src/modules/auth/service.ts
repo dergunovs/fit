@@ -6,6 +6,7 @@ import User from '../user/model.js';
 import { USER_POPULATE } from '../user/constants.js';
 import { sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
+import { ACCESS_TOKEN_TTL, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.js';
 import { decodeToken, filterUserData } from './helpers.js';
 
 export const authService = {
@@ -51,7 +52,7 @@ export const authService = {
       throw error.unauthorized();
     }
 
-    const token = sign(filterUserData(user, true), { expiresIn: '365d' });
+    const token = sign(filterUserData(user, true), { expiresIn: ACCESS_TOKEN_TTL });
 
     user.dateLoggedIn = new Date();
 
@@ -65,7 +66,7 @@ export const authService = {
 
     if (usersCount > 0) throw error.conflict();
 
-    const password = await bcrypt.hash(adminToCreate.password, 10);
+    const password = await bcrypt.hash(adminToCreate.password, BCRYPT_SALT_ROUNDS);
 
     await User.create({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
   },
@@ -75,8 +76,8 @@ export const authService = {
 
     if (existingUser > 0) throw error.conflict();
 
-    const password = await bcrypt.hash(userToCreate.password, 10);
-    const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
+    const password = await bcrypt.hash(userToCreate.password, BCRYPT_SALT_ROUNDS);
+    const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: CONFIRM_TOKEN_TTL });
 
     await User.create({
       email: userToCreate.email,
@@ -111,7 +112,7 @@ export const authService = {
     if (!user) throw error.notFound();
 
     const newPassword = generatePassword();
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
 
     await User.updateOne(
       { _id: user._id },

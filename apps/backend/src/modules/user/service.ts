@@ -4,8 +4,9 @@ import type { IUserFeedback, IUser, TDecode } from 'fitness-tracker-contracts';
 import { checkInvalidId, paginate, sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
-import User from './model.js';
+import { BCRYPT_SALT_ROUNDS } from '../auth/constants.js';
 import { USER_POPULATE } from './constants.js';
+import User from './model.js';
 
 export const userService = {
   getMany: async (page?: number) => {
@@ -34,7 +35,7 @@ export const userService = {
 
     if (!user.password) throw error.internal();
 
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = await bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS);
 
     await user.save();
   },
@@ -52,7 +53,7 @@ export const userService = {
 
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
-    const newPassword = await bcrypt.hash(password, 10);
+    const newPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
     await User.findOneAndUpdate(
       { _id },

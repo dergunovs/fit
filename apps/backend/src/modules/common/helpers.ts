@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer';
 
 import { error } from './errorHandler.js';
 import { IPopulate } from './types.js';
+import { EMAIL_PORT, EMAIL_SUBJECT, PAGINATION_LIMIT, RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW } from './constants.js';
 
 let emailTransporter: nodemailer.Transporter | null = null;
 
@@ -12,7 +13,7 @@ function getEmailTransporter(): nodemailer.Transporter | null {
   if (!emailTransporter && process.env.EMAIL_SMTP) {
     emailTransporter = nodemailer.createTransport({
       host: process.env.EMAIL_SMTP,
-      port: 465,
+      port: EMAIL_PORT,
       secure: true,
       auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
     });
@@ -20,9 +21,6 @@ function getEmailTransporter(): nodemailer.Transporter | null {
 
   return emailTransporter;
 }
-
-export const defaultColor = '#484195';
-export const goalColor = '#bbb';
 
 export function checkInvalidId(id: string) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -38,20 +36,18 @@ export async function paginate<T>(
 ): Promise<IPaginatedReply<T>> {
   const page = Number(pageQuery) || 1;
 
-  const limit = 24;
-
   const [count, data] = await Promise.all([
     Entity.countDocuments(),
     Entity.find()
-      .skip((page - 1) * limit)
-      .limit(limit)
+      .skip((page - 1) * PAGINATION_LIMIT)
+      .limit(PAGINATION_LIMIT)
       .populate(populate || [])
       .select('-password')
       .sort(sort || '-dateCreated')
       .lean() as Promise<T[]>,
   ]);
 
-  const total = Math.ceil(count / limit);
+  const total = Math.ceil(count / PAGINATION_LIMIT);
 
   return { data, total };
 }
@@ -61,12 +57,12 @@ export async function sendMail(text: string, to: string) {
 
   if (!transporter) throw new Error('Email transporter not configured');
 
-  await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: 'App-fit.ru', text });
+  await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: EMAIL_SUBJECT, text });
 }
 
 export const rateLimit: RateLimitOptions = {
-  max: Number(process.env.RATE_LIMIT_MAX) || 5,
-  timeWindow: Number(process.env.RATE_LIMIT_TIME_WINDOW) || 10000,
+  max: Number(process.env.RATE_LIMIT_MAX) || RATE_LIMIT_MAX,
+  timeWindow: Number(process.env.RATE_LIMIT_TIME_WINDOW) || RATE_LIMIT_TIME_WINDOW,
   errorResponseBuilder: (_req, context) => ({
     message: 'Too many attempts. Try again later.',
     code: 429,

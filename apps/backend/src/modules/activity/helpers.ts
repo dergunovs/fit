@@ -11,10 +11,9 @@ import {
 } from 'fitness-tracker-contracts';
 import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
-import { defaultColor, goalColor } from '../common/helpers.js';
 import { IChartFilter } from '../common/types.js';
 import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
-import { ACTIVITY_POPULATE, CHART_LABELS } from './constants.js';
+import { ACTIVITY_POPULATE, CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.js';
 
 const CHART_PROCESSORS = {
   activity: processActivityChart,
@@ -114,8 +113,8 @@ function getDataset(count: number, type: 'goal' | 'activity' | 'sets' | 'repeats
   return {
     data: [count],
     label: CHART_LABELS[type][locale],
-    borderColor: isGoal ? goalColor : defaultColor,
-    backgroundColor: isGoal ? goalColor : defaultColor,
+    borderColor: isGoal ? GOAL_COLOR : DEFAULT_COLOR,
+    backgroundColor: isGoal ? GOAL_COLOR : DEFAULT_COLOR,
   };
 }
 

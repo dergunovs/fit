@@ -6,3 +6,5 @@ export const EXERCISE_POPULATE: IPopulate[] = [
   { path: 'equipmentForWeight' },
   { path: 'muscles' },
 ];
+
+export const MAX_CUSTOM_EXERCISES = 21;
