@@ -2,18 +2,17 @@ import bcrypt from 'bcryptjs';
 import type { IAuthData, IRegisterData, IUser, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { generatePassword } from 'mhz-helpers';
 
-import User from '../user/model.js';
-import { USER_POPULATE } from '../user/constants.js';
 import { sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { ACCESS_TOKEN_TTL, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.js';
 import { decodeToken, filterUserData } from './helpers.js';
+import { authRepository } from './repository.js';
 
 export const authService = {
   check: async (request: { jwtVerify: () => Promise<IUser> }) => {
     const verifiedUser = await request.jwtVerify();
 
-    const user = await User.findOne({ email: verifiedUser.email }).populate(USER_POPULATE).lean();
+    const user = await authRepository.findByEmail(verifiedUser.email);
 
     if (!user) throw error.notFound();
 
@@ -23,7 +22,7 @@ export const authService = {
   login: async (loginData: IAuthData, sign: (payload: IUser, options: object) => string) => {
     const { email, password } = loginData;
 
-    const user = await User.findOne({ email }).populate(USER_POPULATE);
+    const user = await authRepository.findByEmailWithPassword(email);
 
     if (!user?.password) throw error.notFound();
 
@@ -56,30 +55,30 @@ export const authService = {
 
     user.dateLoggedIn = new Date();
 
-    await user.save();
+    await authRepository.saveUser(user);
 
     return { user: filterUserData(user), token };
   },
 
   setup: async (adminToCreate: IAuthData) => {
-    const usersCount = await User.countDocuments();
+    const usersCount = await authRepository.countUsers();
 
     if (usersCount > 0) throw error.conflict();
 
     const password = await bcrypt.hash(adminToCreate.password, BCRYPT_SALT_ROUNDS);
 
-    await User.create({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
+    await authRepository.createUser({ email: adminToCreate.email, password, isEmailConfirmed: true, role: 'admin' });
   },
 
   register: async (userToCreate: IRegisterData, lang: TLocale, sign: (payload: IUser, options: object) => string) => {
-    const existingUser = await User.countDocuments({ email: userToCreate.email });
+    const existingUser = await authRepository.countByEmail(userToCreate.email);
 
     if (existingUser > 0) throw error.conflict();
 
     const password = await bcrypt.hash(userToCreate.password, BCRYPT_SALT_ROUNDS);
     const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: CONFIRM_TOKEN_TTL });
 
-    await User.create({
+    await authRepository.createUser({
       email: userToCreate.email,
       name: userToCreate.name,
       password,
@@ -100,24 +99,25 @@ export const authService = {
 
     if (!decodedUser) throw error.badRequest();
 
-    await User.updateOne(
+    await authRepository.updateByEmail(
       { email: decodedUser.email, isEmailConfirmed: false, confirmationToken: token },
-      { $set: { isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() } }
+      { isEmailConfirmed: true, confirmationToken: '', dateUpdated: new Date() }
     );
   },
 
   reset: async (email: string, lang: TLocale) => {
-    const user = await User.findOne({ email }).lean();
+    const user = await authRepository.findByEmail(email);
 
     if (!user) throw error.notFound();
 
     const newPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
 
-    await User.updateOne(
-      { _id: user._id },
-      { $set: { passwordTemporary: hashedPassword, isResetPassword: true, dateUpdated: new Date() } }
-    );
+    await authRepository.updateById(user._id, {
+      passwordTemporary: hashedPassword,
+      isResetPassword: true,
+      dateUpdated: new Date(),
+    });
 
     const text =
       lang === 'ru'

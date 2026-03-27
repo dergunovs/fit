@@ -2,28 +2,43 @@ import type { IExercise, TDecode } from 'fitness-tracker-contracts';
 
 import { getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
-import { checkInvalidId, paginate } from '../common/helpers.js';
-import { getAdminAndUserExercises, getExercisesByUser } from './helpers.js';
-import Exercise from './model.js';
-import { EXERCISE_POPULATE, MAX_CUSTOM_EXERCISES } from './constants.js';
+import { checkInvalidId } from '../common/helpers.js';
+import { exerciseRepository } from './repository.js';
+import { MAX_CUSTOM_EXERCISES } from './constants.js';
 
 export const exerciseService = {
   getMany: async (page: number) => {
-    const { data, total } = await paginate(Exercise, page, '-dateCreated', EXERCISE_POPULATE);
+    const { data, total } = await exerciseRepository.getMany(page);
 
     return { data, total };
   },
 
   getAll: async (decode?: TDecode, token?: string) => {
-    const exercises = await getAdminAndUserExercises(decode, token);
+    const [admin, user] = await Promise.all([
+      exerciseRepository.findAdminUser(),
+      Promise.resolve(getAuthenticatedUser(decode, token)),
+    ]);
 
-    return { data: exercises };
+    if (!admin) throw error.notFound();
+
+    if (user.role === 'admin') {
+      const exercises = await exerciseRepository.getByUser(admin);
+
+      return { data: exercises };
+    }
+
+    const [adminExercises, userExercises] = await Promise.all([
+      exerciseRepository.getByUser(admin),
+      exerciseRepository.getByUser(user),
+    ]);
+
+    return { data: [...userExercises, ...adminExercises] };
   },
 
   getCustom: async (decode?: TDecode, token?: string) => {
     const user = getAuthenticatedUser(decode, token);
 
-    const exercises = await getExercisesByUser(user);
+    const exercises = await exerciseRepository.getByUser(user);
 
     return { data: exercises };
   },
@@ -31,7 +46,7 @@ export const exerciseService = {
   getOne: async (_id: string) => {
     checkInvalidId(_id);
 
-    const exercise = await Exercise.findOne({ _id }).populate(EXERCISE_POPULATE).lean();
+    const exercise = await exerciseRepository.getOne(_id);
 
     if (!exercise) throw error.notFound();
 
@@ -41,38 +56,36 @@ export const exerciseService = {
   create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
     const user = getAuthenticatedUser(decode, token);
 
-    const exercisesCount = user.role === 'admin' ? 1 : await Exercise.countDocuments({ createdBy: user });
+    const exercisesCount = user.role === 'admin' ? 1 : await exerciseRepository.countByUser(user);
 
     const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < MAX_CUSTOM_EXERCISES;
 
     if (!isAllowToCreateExercise) throw error.forbidden();
 
-    await Exercise.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
+    await exerciseRepository.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
   },
 
   update: async (_id: string, itemToUpdate: IExercise, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const exercise = await Exercise.findOne({ _id });
+    const exercise = await exerciseRepository.findExerciseById(_id);
 
     if (!exercise?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 
-    await exercise.replaceOne({ ...itemToUpdate, dateUpdated: new Date() });
-
-    await exercise.save();
+    await exerciseRepository.replaceOne(exercise, itemToUpdate);
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const exercise = await Exercise.findOne({ _id });
+    const exercise = await exerciseRepository.findExerciseById(_id);
 
     if (!exercise?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
 
-    await exercise.deleteOne();
+    await exerciseRepository.deleteOne(exercise);
   },
 };

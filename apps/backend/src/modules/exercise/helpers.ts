@@ -3,23 +3,21 @@ import type { IUser, TDecode } from 'fitness-tracker-contracts';
 import { getAuthenticatedUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import User from '../user/model.js';
-import Exercise from './model.js';
-import { EXERCISE_POPULATE } from './constants.js';
+import { exerciseRepository } from './repository.js';
 
 export async function getExercisesByUser(user: IUser) {
   if (!user._id) return [];
 
   checkInvalidId(user._id);
 
-  const exercises = await Exercise.find({ createdBy: user }).sort('title').populate(EXERCISE_POPULATE).lean();
+  const exercises = await exerciseRepository.getByUser(user);
 
   return exercises;
 }
 
 export async function getAdminAndUserExercises(decode?: TDecode, token?: string) {
   const [admin, user] = await Promise.all([
-    User.findOne({ role: 'admin' }).lean(),
+    exerciseRepository.findAdminUser(),
     Promise.resolve(getAuthenticatedUser(decode, token)),
   ]);
 

@@ -9,11 +9,10 @@ import {
   IUser,
   TLocale,
 } from 'fitness-tracker-contracts';
-import { Model } from 'mongoose';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
 import { IChartFilter } from '../common/types.js';
 import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
-import { ACTIVITY_POPULATE, CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.js';
+import { CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.js';
 
 const CHART_PROCESSORS = {
   activity: processActivityChart,
@@ -185,7 +184,7 @@ function processDurationChart(
 }
 
 async function processMuscleChart(
-  Entity: Model<IActivity>,
+  repository: { getMuscleActivities: (filter: IChartFilter) => Promise<IActivity[]> },
   week: IWeekDays,
   activitiesCount: number,
   muscles: IMuscle[],
@@ -195,7 +194,7 @@ async function processMuscleChart(
   createdBy: IUser
 ) {
   await getMusclesChart(
-    Entity,
+    repository,
     { dateCreated: { $gte: week.dateFrom, $lt: week.dateTo }, isDone: true, createdBy },
     activitiesCount,
     muscles,
@@ -223,7 +222,7 @@ function updateMuscleCount(activities: IActivity[], muscleMap: Map<string, IMusc
 }
 
 async function getMusclesChart(
-  Entity: Model<IActivity>,
+  repository: { getMuscleActivities: (filter: IChartFilter) => Promise<IActivity[]> },
   filter: IChartFilter,
   activitiesCount: number,
   muscles: IMuscle[],
@@ -245,7 +244,7 @@ async function getMusclesChart(
     });
   }
 
-  const activities = await Entity.find(filter).select('_id exercises dateCreated').populate(ACTIVITY_POPULATE).lean();
+  const activities = await repository.getMuscleActivities(filter);
 
   updateMuscleCount(activities, muscleMap);
 
@@ -422,7 +421,10 @@ export function getExercisesStatistics(
 }
 
 export async function getActivitiesChartData(
-  Entity: Model<IActivity>,
+  repository: {
+    getMuscleActivities: (filter: IChartFilter) => Promise<IActivity[]>;
+    getChartActivities: (filter: IChartFilter) => Promise<IActivity[]>;
+  },
   weeks: IWeekDays[],
   type: TActivityChartType,
   locale: TLocale,
@@ -437,13 +439,13 @@ export async function getActivitiesChartData(
   const { activitiesGoal, setsGoal, repeatsGoal, durationGoal } = getUserGoals(isMonth, isAverage, user);
 
   const minDate = weeks[0].dateFrom;
-  const maxDate = weeks.at(-1)?.dateTo;
+  const maxDate = weeks.at(-1)?.dateTo || new Date();
 
-  const allActivities = await Entity.find({
+  const allActivities = await repository.getChartActivities({
     dateCreated: { $gte: minDate, $lt: maxDate },
     isDone: true,
     createdBy: user,
-  }).lean();
+  });
 
   const weekActivitiesMap = new Map<number, IActivity[]>();
 
@@ -496,7 +498,7 @@ export async function getActivitiesChartData(
 
     case 'muscle': {
       for (const { week, activitiesCount } of weekDataArray) {
-        await CHART_PROCESSORS.muscle(Entity, week, activitiesCount, muscles, isAverage, datasets, locale, user);
+        await CHART_PROCESSORS.muscle(repository, week, activitiesCount, muscles, isAverage, datasets, locale, user);
       }
       break;
     }

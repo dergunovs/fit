@@ -4,17 +4,16 @@ import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 import { adminOrUserFilter, getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { error } from '../common/errorHandler.js';
-import { paginate, checkInvalidId } from '../common/helpers.js';
+import { checkInvalidId } from '../common/helpers.js';
 import { USER_POPULATE } from '../user/constants.js';
 import User from '../user/model.js';
 import Muscle from '../muscle/model.js';
-import Activity from './model.js';
-import { ACTIVITY_POPULATE } from './constants.js';
+import { activityRepository } from './repository.js';
 import { getActivitiesStatistics, getExercisesStatistics, getActivitiesChartData } from './helpers.js';
 
 export const activityService = {
   getMany: async (page?: number) => {
-    const { data, total } = await paginate(Activity, page, '-dateCreated', ACTIVITY_POPULATE);
+    const { data, total } = await activityRepository.getMany(page);
 
     return { data, total };
   },
@@ -31,15 +30,13 @@ export const activityService = {
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
-    const activities: { current: IActivity[]; previous: IActivity[] }[] = await Activity.aggregate([
-      { $match: { createdBy: user._id, isDone: true } },
-      {
-        $facet: {
-          current: [{ $match: { dateCreated: { $gte: new Date(dateFrom), $lt: new Date(dateTo) } } }],
-          previous: [{ $match: { dateCreated: { $gte: new Date(dateFromPrev), $lt: new Date(dateToPrev) } } }],
-        },
-      },
-    ]);
+    const activities: { current: IActivity[]; previous: IActivity[] }[] = await activityRepository.getStatistics(
+      user._id,
+      new Date(dateFrom),
+      new Date(dateTo),
+      new Date(dateFromPrev),
+      new Date(dateToPrev)
+    );
 
     const { current, previous } = activities[0];
 
@@ -57,15 +54,7 @@ export const activityService = {
 
     if (!user) throw error.notFound();
 
-    const calendarData = await Activity.find({
-      createdBy: user,
-      $or: [
-        { dateScheduled: { $gte: new Date(dateFrom), $lte: new Date(dateTo), $ne: null } },
-        { dateScheduled: null, dateCreated: { $gte: new Date(dateFrom), $lte: new Date(dateTo) } },
-      ],
-    })
-      .populate(ACTIVITY_POPULATE)
-      .lean();
+    const calendarData = await activityRepository.getCalendar(user._id, new Date(dateFrom), new Date(dateTo));
 
     return calendarData;
   },
@@ -92,7 +81,7 @@ export const activityService = {
     const weeks = getFirstAndLastDays(7, isMonth);
 
     const { labels, datasets } = await getActivitiesChartData(
-      Activity,
+      activityRepository,
       weeks,
       type,
       locale,
@@ -108,7 +97,7 @@ export const activityService = {
   getOne: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
+    const activity = await activityRepository.getOne(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
@@ -120,38 +109,34 @@ export const activityService = {
   create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
     const user = getAuthenticatedUser(decode, token);
 
-    const activity = new Activity({ ...activityToCreate, createdBy: user._id });
+    const newActivityId = await activityRepository.create({ ...activityToCreate, createdBy: user });
 
-    const newActivity = await activity.save();
+    if (!newActivityId) throw error.internal();
 
-    if (!newActivity._id) throw error.internal();
-
-    return newActivity._id;
+    return newActivityId;
   },
 
   update: async (_id: string, itemToUpdate: IActivity, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id });
+    const activity = await activityRepository.findActivityById(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await activity.updateOne({ ...itemToUpdate, dateScheduled: '', dateUpdated: new Date() });
-
-    await activity.save();
+    await activityRepository.updateOne(activity, itemToUpdate);
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
     checkInvalidId(_id);
 
-    const activity = await Activity.findOne({ _id });
+    const activity = await activityRepository.findActivityById(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
-    await activity.deleteOne();
+    await activityRepository.deleteOne(activity);
   },
 };

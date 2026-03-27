@@ -1,16 +1,15 @@
 import bcrypt from 'bcryptjs';
 import type { IUserFeedback, IUser, TDecode } from 'fitness-tracker-contracts';
 
-import { checkInvalidId, paginate, sendMail } from '../common/helpers.js';
+import { checkInvalidId, sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { BCRYPT_SALT_ROUNDS } from '../auth/constants.js';
-import { USER_POPULATE } from './constants.js';
-import User from './model.js';
+import { userRepository } from './repository.js';
 
 export const userService = {
   getMany: async (page?: number) => {
-    const { data, total } = await paginate(User, page, '-dateCreated', USER_POPULATE);
+    const { data, total } = await userRepository.getMany(page);
 
     return { data, total };
   },
@@ -18,12 +17,7 @@ export const userService = {
   getOne: async (_id: string) => {
     checkInvalidId(_id);
 
-    const user = await User.findOne({ _id })
-      .select(
-        '_id name role email equipments defaultWeights isResetPassword templates goalActivities goalSets goalRepeats goalDuration'
-      )
-      .populate(USER_POPULATE)
-      .lean();
+    const user = await userRepository.getOne(_id);
 
     if (!user) throw error.notFound();
 
@@ -31,13 +25,11 @@ export const userService = {
   },
 
   create: async (userToCreate: IUser) => {
-    const user = new User(userToCreate);
+    if (!userToCreate.password) throw error.internal();
 
-    if (!user.password) throw error.internal();
+    userToCreate.password = await bcrypt.hash(userToCreate.password, BCRYPT_SALT_ROUNDS);
 
-    user.password = await bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS);
-
-    await user.save();
+    await userRepository.create(userToCreate);
   },
 
   update: async (_id: string, itemToUpdate: IUser, decode?: TDecode, token?: string) => {
@@ -45,7 +37,7 @@ export const userService = {
 
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
-    await User.findOneAndUpdate({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
+    await userRepository.updateOne(_id, itemToUpdate);
   },
 
   updatePassword: async (_id: string, password: string, decode?: TDecode, token?: string) => {
@@ -55,10 +47,7 @@ export const userService = {
 
     const newPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
-    await User.findOneAndUpdate(
-      { _id },
-      { password: newPassword, passwordTemporary: '', isResetPassword: false, dateUpdated: new Date() }
-    );
+    await userRepository.updatePassword(_id, newPassword);
   },
 
   delete: async (_id: string, decode?: TDecode, token?: string) => {
@@ -66,7 +55,7 @@ export const userService = {
 
     allowAccessToAdminAndCurrentUser(_id, decode, token);
 
-    await User.findOneAndDelete({ _id });
+    await userRepository.deleteOne(_id);
   },
 
   feedback: async (feedback: IUserFeedback) => {

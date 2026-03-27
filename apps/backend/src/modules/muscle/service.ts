@@ -2,11 +2,11 @@ import type { IMuscle } from 'fitness-tracker-contracts';
 
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import Muscle from './model.js';
+import { muscleRepository } from './repository.js';
 
 export const muscleService = {
   getAll: async () => {
-    const muscles = await Muscle.find().sort('title').lean();
+    const muscles = await muscleRepository.getAll();
 
     return { data: muscles };
   },
@@ -14,7 +14,7 @@ export const muscleService = {
   getOne: async (_id: string) => {
     checkInvalidId(_id);
 
-    const muscle = await Muscle.findOne({ _id }).lean();
+    const muscle = await muscleRepository.getOne(_id);
 
     if (!muscle) throw error.notFound();
 
@@ -22,18 +22,18 @@ export const muscleService = {
   },
 
   create: async (muscleToCreate: IMuscle) => {
-    await Muscle.create(muscleToCreate);
+    await muscleRepository.create(muscleToCreate);
   },
 
   update: async (_id: string, itemToUpdate: IMuscle) => {
     checkInvalidId(_id);
 
-    await Muscle.findOneAndReplace({ _id }, { ...itemToUpdate, dateUpdated: new Date() });
+    await muscleRepository.updateOne(_id, itemToUpdate);
   },
 
   delete: async (_id: string) => {
     checkInvalidId(_id);
 
-    await Muscle.findOneAndDelete({ _id });
+    await muscleRepository.deleteOne(_id);
   },
 };
