@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifySchema, FastifyError, FastifyReply } from 'fastify';
+import type { FastifyInstance, FastifySchema, FastifyError } from 'fastify';
 import { IUser } from 'fitness-tracker-contracts';
 
 export interface IFastifyInstance extends FastifyInstance {
@@ -16,16 +16,14 @@ export interface IChartFilter {
   createdBy?: IUser;
 }
 
-export interface IErrorCause {
-  code: number;
-}
-
-export interface IStatusHandler {
-  [key: number]: (reply: FastifyReply, error: FastifyError) => void;
-}
-
 export interface IPopulate {
   path: string;
   select?: string | string[];
   populate?: IPopulate[];
+}
+
+export interface IAppError extends FastifyError {
+  statusCode: number;
+  code: string;
+  message: string;
 }

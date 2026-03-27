@@ -1,6 +1,7 @@
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
+import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import User from '../user/model.js';
 import Exercise from './model.js';
@@ -22,7 +23,7 @@ export async function getAdminAndUserExercises(decode?: TDecode, token?: string)
     Promise.resolve(decodeToken(decode, token)),
   ]);
 
-  if (!admin) throw new Error('Administrator not found', { cause: { code: 404 } });
+  if (!admin) throw error.notFound();
 
   if (!user?._id || user.role === 'admin') {
     return getExercisesByUser(admin);

@@ -1,5 +1,7 @@
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
+import { error } from '../common/errorHandler.js';
+
 export function decodeToken(decode?: TDecode, authorizationHeader?: string): IUser | null {
   const token = authorizationHeader ? authorizationHeader.split('Bearer ')[1] : undefined;
 
@@ -35,7 +37,7 @@ export function allowAccessToAdminAndCurrentUser(id: string, decode?: TDecode, t
 
   const isRestrictAccess = user?.role !== 'admin' && id.toString() !== user?._id;
 
-  if (isRestrictAccess) throw new Error('Auth error', { cause: { code: 403 } });
+  if (isRestrictAccess) throw error.forbidden();
 }
 
 export function adminOrUserFilter(decode?: TDecode, token?: string) {

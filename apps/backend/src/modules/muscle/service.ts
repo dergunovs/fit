@@ -1,5 +1,6 @@
 import type { IMuscle } from 'fitness-tracker-contracts';
 
+import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import Muscle from './model.js';
 
@@ -15,7 +16,7 @@ export const muscleService = {
 
     const muscle = await Muscle.findOne({ _id }).lean();
 
-    if (!muscle) throw new Error('Muscle not found', { cause: { code: 404 } });
+    if (!muscle) throw error.notFound();
 
     return { data: muscle };
   },

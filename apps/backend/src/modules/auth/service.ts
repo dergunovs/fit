@@ -5,6 +5,7 @@ import { generatePassword } from 'mhz-helpers';
 import User from '../user/model.js';
 import { USER_POPULATE } from '../user/constants.js';
 import { sendMail } from '../common/helpers.js';
+import { error } from '../common/errorHandler.js';
 import { decodeToken, filterUserData } from './helpers.js';
 
 export const authService = {
@@ -13,7 +14,7 @@ export const authService = {
 
     const user = await User.findOne({ email: verifiedUser.email }).populate(USER_POPULATE).lean();
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     return filterUserData(user);
   },
@@ -23,7 +24,7 @@ export const authService = {
 
     const user = await User.findOne({ email }).populate(USER_POPULATE);
 
-    if (!user?.password) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user?.password) throw error.notFound();
 
     let isValid: boolean;
 
@@ -44,10 +45,10 @@ export const authService = {
       isValid = await bcrypt.compare(password, user.password);
     }
 
-    if (!isValid) throw new Error('Wrong password', { cause: { code: 401 } });
+    if (!isValid) throw error.unauthorized();
 
     if (user.isEmailConfirmed === false && user.role !== 'admin') {
-      throw new Error('Email in not confirmed', { cause: { code: 401 } });
+      throw error.unauthorized();
     }
 
     const token = sign(filterUserData(user, true), { expiresIn: '365d' });
@@ -62,7 +63,7 @@ export const authService = {
   setup: async (adminToCreate: IAuthData) => {
     const usersCount = await User.countDocuments();
 
-    if (usersCount > 0) throw new Error('Users exists', { cause: { code: 500 } });
+    if (usersCount > 0) throw error.conflict();
 
     const password = await bcrypt.hash(adminToCreate.password, 10);
 
@@ -72,7 +73,7 @@ export const authService = {
   register: async (userToCreate: IRegisterData, lang: TLocale, sign: (payload: IUser, options: object) => string) => {
     const existingUser = await User.countDocuments({ email: userToCreate.email });
 
-    if (existingUser > 0) throw new Error('User exists', { cause: { code: 500 } });
+    if (existingUser > 0) throw error.conflict();
 
     const password = await bcrypt.hash(userToCreate.password, 10);
     const confirmationToken = sign({ email: userToCreate.email }, { expiresIn: '24h' });
@@ -96,7 +97,7 @@ export const authService = {
   confirm: async (token: string, decode?: TDecode) => {
     const decodedUser = decodeToken(decode, `Bearer ${token}`);
 
-    if (!decodedUser) throw new Error('Email is not confirmed', { cause: { code: 500 } });
+    if (!decodedUser) throw error.badRequest();
 
     await User.updateOne(
       { email: decodedUser.email, isEmailConfirmed: false, confirmationToken: token },
@@ -107,7 +108,7 @@ export const authService = {
   reset: async (email: string, lang: TLocale) => {
     const user = await User.findOne({ email }).lean();
 
-    if (!user) throw new Error('No such user', { cause: { code: 500 } });
+    if (!user) throw error.notFound();
 
     const newPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(newPassword, 10);

@@ -3,6 +3,7 @@ import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
 import { adminOrUserFilter, allowAccessToAdminAndCurrentUser, decodeToken } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
+import { error } from '../common/errorHandler.js';
 import { paginate, checkInvalidId } from '../common/helpers.js';
 import { USER_POPULATE } from '../user/constants.js';
 import User from '../user/model.js';
@@ -26,7 +27,7 @@ export const activityService = {
       getAdminAndUserExercises(decode, token),
     ]);
 
-    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
@@ -54,7 +55,7 @@ export const activityService = {
 
     const user = await User.findOne(filter).select('_id').lean();
 
-    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     const calendarData = await Activity.find({
       createdBy: user,
@@ -84,7 +85,7 @@ export const activityService = {
       Muscle.find().lean(),
     ]);
 
-    if (!user) throw new Error('Create administrator here: /setup', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     const isMonth = month === 'true';
 
@@ -109,7 +110,7 @@ export const activityService = {
 
     const activity = await Activity.findOne({ _id }).populate(ACTIVITY_POPULATE).lean();
 
-    if (!activity?.createdBy?._id) throw new Error('Activity not found', { cause: { code: 404 } });
+    if (!activity?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
@@ -119,13 +120,13 @@ export const activityService = {
   create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     const activity = new Activity({ ...activityToCreate, createdBy: user._id });
 
     const newActivity = await activity.save();
 
-    if (!newActivity._id) throw new Error('Activity not created', { cause: { code: 500 } });
+    if (!newActivity._id) throw error.internal();
 
     return newActivity._id;
   },
@@ -135,7 +136,7 @@ export const activityService = {
 
     const activity = await Activity.findOne({ _id });
 
-    if (!activity?.createdBy?._id) throw new Error('Activity not found', { cause: { code: 404 } });
+    if (!activity?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 
@@ -149,7 +150,7 @@ export const activityService = {
 
     const activity = await Activity.findOne({ _id });
 
-    if (!activity?.createdBy?._id) throw new Error('Activity not found', { cause: { code: 404 } });
+    if (!activity?.createdBy?._id) throw error.notFound();
 
     allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
 

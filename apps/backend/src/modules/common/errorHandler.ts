@@ -1,19 +1,31 @@
 import type { FastifyReply, FastifyError } from 'fastify';
 
-import { IErrorCause, IStatusHandler } from './types.js';
+import { IAppError } from './types.js';
 
-const statusHandlers: IStatusHandler = {
-  401: (reply, error) => reply.code(401).send({ message: error.message || 'Не авторизован' }),
-  403: (reply, error) => reply.code(403).send({ message: error.message || 'Ошибка доступа' }),
-  404: (reply, error) => reply.code(404).send({ message: error.message || 'Не найдено' }),
-  422: (reply, error) => reply.code(422).send({ message: error.message || 'Ошибка валидации' }),
-  500: (reply, error) => reply.code(500).send({ message: error.message || 'Ошибка сервера' }),
-  503: (reply, error) => reply.code(503).send({ message: error.message || 'Сервис  недоступен' }),
+function createError(message: string, statusCode: number, code: string): IAppError {
+  const error = new Error(message) as IAppError;
+
+  error.statusCode = statusCode;
+  error.code = code;
+
+  return error;
+}
+
+export const error = {
+  notFound: () => createError('Not found', 404, 'NOT_FOUND'),
+  unauthorized: () => createError('Unauthorized', 401, 'UNAUTHORIZED'),
+  forbidden: () => createError('Access denied', 403, 'FORBIDDEN'),
+  validation: () => createError('Validation error', 422, 'VALIDATION_ERROR'),
+  conflict: () => createError('Already exists', 409, 'CONFLICT'),
+  badRequest: () => createError('Bad request', 400, 'BAD_REQUEST'),
+  internal: () => createError('Internal server error', 500, 'INTERNAL_ERROR'),
 };
 
-export function errorHandler(error: FastifyError, reply: FastifyReply) {
-  const statusCode =
-    error.cause && typeof error.cause === 'object' && 'code' in error.cause ? (error.cause as IErrorCause).code : 500;
+export function errorHandler(err: FastifyError, reply: FastifyReply) {
+  const appError = err as unknown as IAppError;
+  const statusCode = appError.statusCode || 500;
+  const code = appError.code || 'INTERNAL_ERROR';
+  const message = err.message || 'Internal server error';
 
-  statusHandlers[statusCode](reply, error);
+  reply.code(statusCode).send({ message, code });
 }

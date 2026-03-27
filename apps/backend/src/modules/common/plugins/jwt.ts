@@ -3,6 +3,8 @@ import fp from 'fastify-plugin';
 import jwt from '@fastify/jwt';
 import { IUser } from 'fitness-tracker-contracts';
 
+import { error } from '../errorHandler.js';
+
 export default fp(async function (fastify) {
   const secret = process.env.SECRET;
 
@@ -13,8 +15,8 @@ export default fp(async function (fastify) {
   fastify.decorate('onlyUser', async function (request: FastifyRequest, reply: FastifyReply) {
     try {
       await request.jwtVerify();
-    } catch (error: unknown) {
-      reply.code(403).send({ message: error || 'Auth error' });
+    } catch (error_: unknown) {
+      reply.code(403).send({ message: error_ || 'Auth error' });
     }
   });
 
@@ -22,9 +24,9 @@ export default fp(async function (fastify) {
     try {
       const user = await request.jwtVerify<IUser>();
 
-      if (user.role !== 'admin') throw new Error('Auth error', { cause: { code: 403 } });
-    } catch (error: unknown) {
-      reply.code(403).send({ message: error || 'Auth error' });
+      if (user.role !== 'admin') throw error.forbidden();
+    } catch (error_: unknown) {
+      reply.code(403).send({ message: error_ || 'Auth error' });
     }
   });
 });

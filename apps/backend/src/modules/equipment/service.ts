@@ -1,6 +1,7 @@
 import type { IEquipment, TDecode } from 'fitness-tracker-contracts';
 
 import { decodeToken } from '../auth/helpers.js';
+import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import Equipment from './model.js';
 
@@ -16,7 +17,7 @@ export const equipmentService = {
 
     const equipment = await Equipment.findOne({ _id }).lean();
 
-    if (!equipment) throw new Error('Equipment not found', { cause: { code: 404 } });
+    if (!equipment) throw error.notFound();
 
     return { data: equipment };
   },
@@ -24,7 +25,7 @@ export const equipmentService = {
   create: async (equipmentToCreate: IEquipment, decode?: TDecode, token?: string) => {
     const user = decodeToken(decode, token);
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     await Equipment.create(equipmentToCreate);
   },

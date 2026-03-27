@@ -3,6 +3,7 @@ import { IPaginatedReply } from 'fitness-tracker-contracts';
 import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 
+import { error } from './errorHandler.js';
 import { IPopulate } from './types.js';
 
 let emailTransporter: nodemailer.Transporter | null = null;
@@ -25,7 +26,7 @@ export const goalColor = '#bbb';
 
 export function checkInvalidId(id: string) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error('Invalid ID', { cause: { code: 500 } });
+    throw error.badRequest();
   }
 }
 

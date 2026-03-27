@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import type { IUserFeedback, IUser, TDecode } from 'fitness-tracker-contracts';
 
 import { checkInvalidId, paginate, sendMail } from '../common/helpers.js';
+import { error } from '../common/errorHandler.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import User from './model.js';
 import { USER_POPULATE } from './constants.js';
@@ -23,7 +24,7 @@ export const userService = {
       .populate(USER_POPULATE)
       .lean();
 
-    if (!user) throw new Error('User not found', { cause: { code: 404 } });
+    if (!user) throw error.notFound();
 
     return { data: user };
   },
@@ -31,7 +32,7 @@ export const userService = {
   create: async (userToCreate: IUser) => {
     const user = new User(userToCreate);
 
-    if (!user.password) throw new Error('User create error', { cause: { code: 500 } });
+    if (!user.password) throw error.internal();
 
     user.password = await bcrypt.hash(user.password, 10);
 
