@@ -1,3 +1,4 @@
+import type { FastifyInstance } from 'fastify';
 import {
   API_USER,
   API_USER_FEEDBACK,
@@ -17,7 +18,6 @@ import {
   type TPostUserFeedbackDTO,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../common/types.js';
 import { rateLimit } from '../common/helpers.js';
 import { userService } from './service.js';
 import {
@@ -30,7 +30,7 @@ import {
   userPostFeedbackSchema,
 } from './schema.js';
 
-export default async function (fastify: IFastifyInstance) {
+export default async function (fastify: FastifyInstance) {
   if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Querystring: TGetUsersQueryDTO; Reply: { 200: TGetUsersDTO } }>(

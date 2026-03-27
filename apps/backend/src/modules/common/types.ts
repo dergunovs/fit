@@ -1,9 +1,17 @@
-import type { FastifyInstance, FastifySchema, FastifyError } from 'fastify';
+import type { FastifySchema, FastifyError } from 'fastify';
 import { IUser } from 'fitness-tracker-contracts';
 
-export interface IFastifyInstance extends FastifyInstance {
-  onlyUser?: () => void;
-  onlyAdmin?: () => void;
+declare module 'fastify' {
+  interface FastifyInstance {
+    onlyUser: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+    onlyAdmin: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+  }
+}
+
+export interface IAppError extends FastifyError {
+  statusCode: number;
+  code: string;
+  message: string;
 }
 
 export interface ISchema {
@@ -20,10 +28,4 @@ export interface IPopulate {
   path: string;
   select?: string | string[];
   populate?: IPopulate[];
-}
-
-export interface IAppError extends FastifyError {
-  statusCode: number;
-  code: string;
-  message: string;
 }

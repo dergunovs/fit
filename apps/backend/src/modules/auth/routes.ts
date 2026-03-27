@@ -1,3 +1,4 @@
+import type { FastifyInstance } from 'fastify';
 import {
   API_AUTH_CONFIRM,
   API_AUTH_GET,
@@ -20,7 +21,6 @@ import {
   type TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../common/types.js';
 import { rateLimit } from '../common/helpers.js';
 import { authService } from './service.js';
 import {
@@ -32,7 +32,7 @@ import {
   authResetSchema,
 } from './schema.js';
 
-export default async function (fastify: IFastifyInstance) {
+export default async function (fastify: FastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
     const user = await authService.check(request);
 

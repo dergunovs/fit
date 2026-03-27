@@ -1,3 +1,4 @@
+import type { FastifyInstance } from 'fastify';
 import {
   API_EXERCISE,
   API_EXERCISE_ALL,
@@ -15,7 +16,6 @@ import {
   type TGetExercisesCustomDTO,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../common/types.js';
 import { rateLimit } from '../common/helpers.js';
 import { exerciseService } from './service.js';
 import {
@@ -28,7 +28,7 @@ import {
   exerciseDeleteSchema,
 } from './schema.js';
 
-export default async function (fastify: IFastifyInstance) {
+export default async function (fastify: FastifyInstance) {
   if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Querystring: TGetExercisesQueryDTO; Reply: { 200: TGetExercisesDTO } }>(

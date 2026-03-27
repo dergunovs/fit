@@ -1,3 +1,4 @@
+import type { FastifyInstance } from 'fastify';
 import {
   API_EQUIPMENT,
   type IBaseParams,
@@ -10,7 +11,6 @@ import {
   type TDeleteEquipmentDTO,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../common/types.js';
 import { rateLimit } from '../common/helpers.js';
 import { equipmentService } from './service.js';
 import {
@@ -21,7 +21,7 @@ import {
   equipmentUpdateSchema,
 } from './schema.js';
 
-export default async function (fastify: IFastifyInstance) {
+export default async function (fastify: FastifyInstance) {
   if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Reply: { 200: TGetEquipmentsDTO } }>(

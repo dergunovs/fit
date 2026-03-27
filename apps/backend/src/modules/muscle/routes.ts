@@ -1,3 +1,4 @@
+import type { FastifyInstance } from 'fastify';
 import {
   API_MUSCLE,
   type IBaseParams,
@@ -10,7 +11,6 @@ import {
   type TDeleteMuscleDTO,
 } from 'fitness-tracker-contracts';
 
-import { IFastifyInstance } from '../common/types.js';
 import { muscleService } from './service.js';
 import {
   muscleDeleteSchema,
@@ -20,7 +20,7 @@ import {
   muscleUpdateSchema,
 } from './schema.js';
 
-export default async function (fastify: IFastifyInstance) {
+export default async function (fastify: FastifyInstance) {
   if (!fastify.onlyUser || !fastify.onlyAdmin) return;
 
   fastify.get<{ Reply: { 200: TGetMusclesDTO } }>(
