@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { vi } from 'vitest';
 import { IUser } from 'fitness-tracker-contracts';
 
-import { mockEquipment } from '../equipment/mocks.js';
+import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
+import { createMockRepository } from '../common/test/mockFactories.js';
 import { IUserRepository } from './repository.js';
 
 export const userId = new mongoose.Types.ObjectId().toString();
@@ -28,15 +28,59 @@ export const mockAdmin: IUser = {
   dateLoggedIn: new Date(),
 };
 
+export const mockUserNoEquipments: IUser = {
+  _id: new mongoose.Types.ObjectId().toString(),
+  name: 'User No Equipments',
+  email: 'noequip@example.com',
+  role: 'user' as const,
+  isResetPassword: false,
+  dateLoggedIn: new Date(),
+};
+
+export const mockUserEmptyEquipments: IUser = {
+  _id: new mongoose.Types.ObjectId().toString(),
+  name: 'User Empty Equipments',
+  email: 'empty@example.com',
+  role: 'user' as const,
+  isResetPassword: false,
+  dateLoggedIn: new Date(),
+  equipments: [],
+};
+
+export const mockUserWithEquipmentForWeight: IUser = {
+  _id: new mongoose.Types.ObjectId().toString(),
+  name: 'User With Equipment For Weight',
+  email: 'weight@example.com',
+  role: 'user' as const,
+  isResetPassword: false,
+  dateLoggedIn: new Date(),
+  equipments: [{ equipment: mockEquipment }, { equipment: mockEquipmentForWeight }],
+};
+
+export const mockUserWithCustomGoals: IUser = {
+  _id: new mongoose.Types.ObjectId().toString(),
+  name: 'User With Custom Goals',
+  email: 'goals@example.com',
+  role: 'user' as const,
+  isResetPassword: false,
+  dateLoggedIn: new Date(),
+  goalActivities: 5,
+  goalSets: 30,
+  goalRepeats: 15,
+  goalDuration: 60,
+};
+
 export const mockUserRepository = {
-  findUserForActivityStats: vi.fn(),
-  findUserForChart: vi.fn(),
-  getMany: vi.fn(),
-  getOne: vi.fn(),
-  findByFilter: vi.fn(),
-  findByFilterWithEquipments: vi.fn(),
-  create: vi.fn(),
-  updateOne: vi.fn(),
-  deleteOne: vi.fn(),
-  updatePassword: vi.fn(),
+  ...createMockRepository<IUserRepository>([
+    'findUserForActivityStats',
+    'findUserForChart',
+    'getMany',
+    'getOne',
+    'findByFilter',
+    'findByFilterWithEquipments',
+    'create',
+    'updateOne',
+    'deleteOne',
+    'updatePassword',
+  ]),
 } satisfies IUserRepository;

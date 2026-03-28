@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
-import { IExercise } from 'fitness-tracker-contracts';
+import { IExercise, IExerciseDone } from 'fitness-tracker-contracts';
 
-import { mockEquipment } from '../equipment/mocks.js';
+import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
+import { createMockRepository } from '../common/test/mockFactories.js';
 import { IExerciseRepository } from './repository.js';
 
 export const mockExercise: IExercise = {
@@ -22,14 +22,111 @@ export const mockExercise2: IExercise = {
   equipment: mockEquipment,
 };
 
+export const mockExerciseNoEquipment: IExercise = {
+  _id: 'ex3',
+  title: 'Running',
+  title_en: 'Running',
+  isWeights: false,
+  isWeightsRequired: false,
+};
+
+export const mockExerciseOnlyEquipmentForWeight: IExercise = {
+  _id: 'ex4',
+  title: 'Dumbbell Press',
+  title_en: 'Dumbbell Press',
+  isWeights: true,
+  isWeightsRequired: false,
+  equipmentForWeight: [mockEquipmentForWeight],
+};
+
+export const mockExerciseWithBothEquipments: IExercise = {
+  _id: 'ex5',
+  title: 'Weighted Squats',
+  title_en: 'Weighted Squats',
+  isWeights: true,
+  isWeightsRequired: false,
+  equipment: mockEquipment,
+  equipmentForWeight: [mockEquipmentForWeight],
+};
+
+export const mockExerciseWeightsRequired: IExercise = {
+  _id: 'ex6',
+  title: 'Deadlift',
+  title_en: 'Deadlift',
+  isWeights: true,
+  isWeightsRequired: true,
+  equipment: mockEquipment,
+  equipmentForWeight: [mockEquipmentForWeight],
+};
+
+export const mockExerciseNoEquipmentId: IExercise = {
+  _id: 'ex7',
+  title: 'Exercise No Equipment Id',
+  title_en: 'Exercise No Equipment Id',
+  isWeights: false,
+  isWeightsRequired: false,
+  equipment: { ...mockEquipment, _id: undefined },
+};
+
+export const mockExerciseEmptyEquipmentForWeight: IExercise = {
+  _id: 'ex8',
+  title: 'Exercise Empty Equipment For Weight',
+  title_en: 'Exercise Empty Equipment For Weight',
+  isWeights: false,
+  isWeightsRequired: false,
+  equipmentForWeight: [],
+};
+
+export const mockExerciseDone: IExerciseDone = {
+  exercise: mockExercise,
+  repeats: 10,
+  duration: 60,
+};
+
+export const mockExerciseDone2: IExerciseDone = {
+  exercise: mockExercise2,
+  repeats: 15,
+  duration: 90,
+};
+
+export const mockExerciseDoneWithWeight: IExerciseDone = {
+  exercise: mockExerciseOnlyEquipmentForWeight,
+  repeats: 12,
+  weight: 20,
+  duration: 45,
+};
+
+export const mockExerciseDoneWithDuration: IExerciseDone = {
+  exercise: mockExerciseNoEquipment,
+  repeats: 1,
+  duration: 300,
+};
+
+export const mockExerciseDoneIsDone: IExerciseDone = {
+  exercise: mockExercise,
+  repeats: 10,
+  duration: 60,
+  isDone: true,
+};
+
+export const mockExerciseDoneToFailure: IExerciseDone = {
+  exercise: mockExerciseWeightsRequired,
+  repeats: 8,
+  weight: 50,
+  isToFailure: true,
+  duration: 40,
+};
+
 export const mockExerciseRepository = {
-  getMany: vi.fn(),
-  getByUser: vi.fn(),
-  getOne: vi.fn(),
-  countByUser: vi.fn(),
-  create: vi.fn(),
-  deleteOne: vi.fn(),
-  findExerciseById: vi.fn(),
-  replaceOne: vi.fn(),
-  findAdminUser: vi.fn(),
+  ...createMockRepository<IExerciseRepository>([
+    'getMany',
+    'getByUser',
+    'getOne',
+    'countByUser',
+    'create',
+    'deleteOne',
+    'findExerciseById',
+    'replaceOne',
+    'findAdminUser',
+  ]),
 } satisfies IExerciseRepository;

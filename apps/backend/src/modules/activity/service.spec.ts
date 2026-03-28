@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+import {
+  testNotFoundScenario,
+  testInvalidIdScenario,
+  testAccessDeniedScenario,
+  testSuccessScenario,
+} from '../common/test/testHelpers.js';
 import { mockExerciseRepository } from '../exercise/mocks.js';
 import { mockMuscleRepository } from '../muscle/mocks.js';
 import { mockUser, mockAdmin, otherUserId, mockUserRepository } from '../user/mocks.js';
@@ -59,11 +65,7 @@ describe('createActivityService', () => {
       expect(result).toHaveProperty('exercise');
     });
 
-    it('throws not found when user not found', async () => {
-      mockUserRepository.findUserForActivityStats.mockResolvedValue(null);
-
-      await expect(service.getStatistics(7, mockUser)).rejects.toThrow('Not found');
-    });
+    testNotFoundScenario(service.getStatistics, mockUserRepository.findUserForActivityStats, 7, mockUser);
   });
 
   describe('getCalendar', () => {
@@ -80,11 +82,13 @@ describe('createActivityService', () => {
       expect(result).toEqual(mockCalendarData);
     });
 
-    it('throws not found when user not found', async () => {
-      mockUserRepository.findUserForActivityStats.mockResolvedValue(null);
-
-      await expect(service.getCalendar('2024-01-01', '2024-01-31', mockUser)).rejects.toThrow('Not found');
-    });
+    testNotFoundScenario(
+      service.getCalendar,
+      mockUserRepository.findUserForActivityStats,
+      '2024-01-01',
+      '2024-01-31',
+      mockUser
+    );
   });
 
   describe('getChart', () => {
@@ -102,48 +106,42 @@ describe('createActivityService', () => {
       expect(result).toHaveProperty('datasets');
     });
 
-    it('throws not found when user not found', async () => {
-      mockUserRepository.findUserForChart.mockResolvedValue(null);
-
-      await expect(service.getChart('muscle', 'false', 'false', 'en', mockUser)).rejects.toThrow('Not found');
-    });
+    testNotFoundScenario(
+      service.getChart,
+      mockUserRepository.findUserForChart,
+      'muscle',
+      'false',
+      'false',
+      'en',
+      mockUser
+    );
   });
 
   describe('getOne', () => {
-    it('returns activity for admin user', async () => {
-      mockActivityRepository.getOne.mockResolvedValue(mockActivity);
-
-      const result = await service.getOne(activityId, mockAdmin);
-
-      expect(mockActivityRepository.getOne).toHaveBeenCalledWith(activityId);
-      expect(result).toEqual({ data: mockActivity });
+    testSuccessScenario({
+      setupMocks: () => {
+        mockActivityRepository.getOne.mockResolvedValue(mockActivity);
+      },
+      serviceMethod: service.getOne,
+      repositoryMethod: mockActivityRepository.getOne,
+      ownerArgs: [activityId, mockUser],
+      adminArgs: [activityId, mockAdmin],
     });
 
-    it('returns activity for owner user', async () => {
-      mockActivityRepository.getOne.mockResolvedValue(mockActivity);
+    testNotFoundScenario(service.getOne, mockActivityRepository.getOne, activityId, mockAdmin);
 
-      const result = await service.getOne(activityId, mockUser);
+    testAccessDeniedScenario({
+      setupMocks: () => {
+        const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
 
-      expect(result).toEqual({ data: mockActivity });
+        mockActivityRepository.getOne.mockResolvedValue(otherUserActivity);
+      },
+      serviceMethod: service.getOne,
+      mockRepository: mockActivityRepository,
+      args: [activityId, mockUser],
     });
 
-    it('throws not found when activity does not exist', async () => {
-      mockActivityRepository.getOne.mockResolvedValue(null);
-
-      await expect(service.getOne(activityId, mockAdmin)).rejects.toThrow('Not found');
-    });
-
-    it('throws forbidden for non-owner non-admin user', async () => {
-      const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
-
-      mockActivityRepository.getOne.mockResolvedValue(otherUserActivity);
-
-      await expect(service.getOne(activityId, mockUser)).rejects.toThrow('Access denied');
-    });
-
-    it('throws bad request for invalid id', async () => {
-      await expect(service.getOne('invalid-id', mockUser)).rejects.toThrow('Bad request');
-    });
+    testInvalidIdScenario(service.getOne, 'invalid-id', mockUser);
   });
 
   describe('create', () => {
@@ -169,80 +167,58 @@ describe('createActivityService', () => {
   });
 
   describe('update', () => {
-    it('updates activity successfully for owner', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
-      mockActivityRepository.updateOne.mockResolvedValue(undefined);
-
-      await service.update(activityId, mockActivity, mockUser);
-
-      expect(mockActivityRepository.findActivityById).toHaveBeenCalledWith(activityId);
-      expect(mockActivityRepository.updateOne).toHaveBeenCalled();
+    testSuccessScenario({
+      setupMocks: () => {
+        mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
+        mockActivityRepository.updateOne.mockResolvedValue(undefined);
+      },
+      serviceMethod: service.update,
+      repositoryMethod: mockActivityRepository.updateOne,
+      ownerArgs: [activityId, mockActivity, mockUser],
+      adminArgs: [activityId, mockActivity, mockAdmin],
     });
 
-    it('updates activity successfully for admin', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
-      mockActivityRepository.updateOne.mockResolvedValue(undefined);
+    testNotFoundScenario(service.update, mockActivityRepository.findActivityById, activityId, mockActivity, mockUser);
 
-      await service.update(activityId, mockActivity, mockAdmin);
+    testAccessDeniedScenario({
+      setupMocks: () => {
+        const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
 
-      expect(mockActivityRepository.updateOne).toHaveBeenCalled();
+        mockActivityRepository.findActivityById.mockResolvedValue(otherUserActivity);
+      },
+      serviceMethod: service.update,
+      mockRepository: mockActivityRepository,
+      args: [activityId, mockActivity, mockUser],
     });
 
-    it('throws not found when activity does not exist', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(null);
-
-      await expect(service.update(activityId, mockActivity, mockUser)).rejects.toThrow('Not found');
-    });
-
-    it('throws forbidden for non-owner non-admin user', async () => {
-      const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
-
-      mockActivityRepository.findActivityById.mockResolvedValue(otherUserActivity);
-
-      await expect(service.update(activityId, mockActivity, mockUser)).rejects.toThrow('Access denied');
-    });
-
-    it('throws bad request for invalid id', async () => {
-      await expect(service.update('invalid-id', mockActivity, mockUser)).rejects.toThrow('Bad request');
-    });
+    testInvalidIdScenario(service.update, 'invalid-id', mockActivity, mockUser);
   });
 
   describe('delete', () => {
-    it('deletes activity successfully for owner', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
-      mockActivityRepository.deleteOne.mockResolvedValue(undefined);
-
-      await service.delete(activityId, mockUser);
-
-      expect(mockActivityRepository.findActivityById).toHaveBeenCalledWith(activityId);
-      expect(mockActivityRepository.deleteOne).toHaveBeenCalled();
+    testSuccessScenario({
+      setupMocks: () => {
+        mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
+        mockActivityRepository.deleteOne.mockResolvedValue(undefined);
+      },
+      serviceMethod: service.delete,
+      repositoryMethod: mockActivityRepository.deleteOne,
+      ownerArgs: [activityId, mockUser],
+      adminArgs: [activityId, mockAdmin],
     });
 
-    it('deletes activity successfully for admin', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(mockActivity);
-      mockActivityRepository.deleteOne.mockResolvedValue(undefined);
+    testNotFoundScenario(service.delete, mockActivityRepository.findActivityById, activityId, mockUser);
 
-      await service.delete(activityId, mockAdmin);
+    testAccessDeniedScenario({
+      setupMocks: () => {
+        const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
 
-      expect(mockActivityRepository.deleteOne).toHaveBeenCalled();
+        mockActivityRepository.findActivityById.mockResolvedValue(otherUserActivity);
+      },
+      serviceMethod: service.delete,
+      mockRepository: mockActivityRepository,
+      args: [activityId, mockUser],
     });
 
-    it('throws not found when activity does not exist', async () => {
-      mockActivityRepository.findActivityById.mockResolvedValue(null);
-
-      await expect(service.delete(activityId, mockUser)).rejects.toThrow('Not found');
-    });
-
-    it('throws forbidden for non-owner non-admin user', async () => {
-      const otherUserActivity = { ...mockActivity, createdBy: { _id: otherUserId } };
-
-      mockActivityRepository.findActivityById.mockResolvedValue(otherUserActivity);
-
-      await expect(service.delete(activityId, mockUser)).rejects.toThrow('Access denied');
-    });
-
-    it('throws bad request for invalid id', async () => {
-      await expect(service.delete('invalid-id', mockUser)).rejects.toThrow('Bad request');
-    });
+    testInvalidIdScenario(service.delete, 'invalid-id', mockUser);
   });
 });

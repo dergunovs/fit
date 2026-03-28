@@ -1,18 +1,23 @@
-import { vi } from 'vitest';
+import mongoose from 'mongoose';
 import { IEquipment } from 'fitness-tracker-contracts';
 
+import { createMockRepository } from '../common/test/mockFactories.js';
 import { IEquipmentRepository } from './repository.js';
 
+export const equipmentId = new mongoose.Types.ObjectId().toString();
+
 export const mockEquipment: IEquipment = {
-  _id: 'eq1',
+  _id: equipmentId,
   title: 'Mat',
   isWeights: false,
 };
 
+export const mockEquipmentForWeight: IEquipment = {
+  _id: new mongoose.Types.ObjectId().toString(),
+  title: 'Dumbbells',
+  isWeights: true,
+};
+
 export const mockEquipmentRepository = {
-  getAll: vi.fn(),
-  getOne: vi.fn(),
-  create: vi.fn(),
-  updateOne: vi.fn(),
-  deleteOne: vi.fn(),
+  ...createMockRepository<IEquipmentRepository>(['getAll', 'getOne', 'create', 'updateOne', 'deleteOne']),
 } satisfies IEquipmentRepository;
