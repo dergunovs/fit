@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import mongoose from 'mongoose';
-import { IActivity } from 'fitness-tracker-contracts';
+import type { IActivity } from 'fitness-tracker-contracts';
 
 import { mockUser } from '../user/mocks.js';
 import { mockExerciseDone, mockExerciseDone2 } from '../exercise/mocks.js';
@@ -53,3 +54,26 @@ export const mockActivityRepository = {
     'deleteOne',
   ]),
 } satisfies IActivityRepository;
+
+export const mockActivityService = {
+  getMany: vi.fn().mockResolvedValue({ data: [], total: 0 }),
+  getOne: vi.fn().mockResolvedValue({ data: null }),
+  getStatistics: vi.fn().mockResolvedValue({
+    activity: {
+      activitiesCount: { cur: 0, dynamics: 0 },
+      setsCount: { cur: 0, dynamics: 0 },
+      repeatsCount: { cur: 0, dynamics: 0 },
+      duration: { cur: 0, dynamics: 0 },
+      averageSetsPerActivity: { cur: 0, dynamics: 0 },
+      averageRepeatsPerSet: { cur: 0, dynamics: 0 },
+      averageDuration: { cur: 0, dynamics: 0 },
+      averageRestPercent: { cur: 0, dynamics: 0 },
+    },
+    exercise: [],
+  }),
+  getCalendar: vi.fn().mockResolvedValue([]),
+  getChart: vi.fn().mockResolvedValue({ labels: [], datasets: [] }),
+  create: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn(),
+};

@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import mongoose from 'mongoose';
-import { IUser } from 'fitness-tracker-contracts';
+import type { IUser } from 'fitness-tracker-contracts';
 
 import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
 import { createMockRepository } from '../common/test/mockFactories.js';
@@ -84,3 +85,15 @@ export const mockUserRepository = {
     'updatePassword',
   ]),
 } satisfies IUserRepository;
+
+export const mockUserService = {
+  getMany: vi.fn(),
+  getOne: vi.fn(),
+  create: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn(),
+  updatePassword: vi.fn(),
+  feedback: vi.fn(),
+  findUserForActivityStats: vi.fn().mockResolvedValue(mockUser),
+  findUserForChart: vi.fn().mockResolvedValue(mockUser),
+};

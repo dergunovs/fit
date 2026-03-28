@@ -181,7 +181,7 @@ export const activitiesStatisticsQuery: JSONSchemaType<TGetActivitiesStatisticsQ
   $id: 'ActivitiesStatisticsQuery',
   type: 'object',
   properties: {
-    gap: { type: 'number' },
+    gap: { type: 'string' },
   },
   required: ['gap'],
   $schema: 'http://json-schema.org/draft-07/schema#',

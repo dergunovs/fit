@@ -43,7 +43,7 @@
     "@types/bcryptjs": "2.4.6",
     "@types/node": "25.5.0",
     "@types/nodemailer": "7.0.11",
-    "@vitest/coverage-v8": "4.1.1",
+    "@vitest/coverage-v8": "4.1.2",
     "esbuild": "0.27.4",
     "eslint": "10.1.0",
     "eslint-config-prettier": "10.1.8",
@@ -51,14 +51,14 @@
     "eslint-plugin-import-x": "4.16.2",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-sonarjs": "4.0.2",
-    "eslint-plugin-unicorn": "63.0.0",
+    "eslint-plugin-unicorn": "64.0.0",
     "fastify-linters-config": "0.3.3",
     "globals": "17.4.0",
     "nodemon": "3.1.14",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.57.2",
-    "vitest": "4.1.1"
+    "vitest": "4.1.2"
   },
   "engines": {
     "npm": ">=11.7.0",

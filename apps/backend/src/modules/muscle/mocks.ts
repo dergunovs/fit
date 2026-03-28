@@ -1,4 +1,5 @@
-import { IMuscle } from 'fitness-tracker-contracts';
+import { vi } from 'vitest';
+import type { IMuscle } from 'fitness-tracker-contracts';
 
 import { createMockRepository } from '../common/test/mockFactories.js';
 import { IMuscleRepository } from './repository.js';
@@ -24,3 +25,11 @@ export const mockMuscle2: IMuscle = {
 export const mockMuscleRepository = {
   ...createMockRepository<IMuscleRepository>(['findAll', 'getAll', 'getOne', 'create', 'updateOne', 'deleteOne']),
 } satisfies IMuscleRepository;
+
+export const mockMuscleService = {
+  getAll: vi.fn().mockResolvedValue({ data: [] }),
+  getOne: vi.fn().mockResolvedValue({ data: null }),
+  create: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn(),
+};

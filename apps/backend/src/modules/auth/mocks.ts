@@ -54,3 +54,12 @@ export const mockEmail = 'test@example.com';
 export const mockPassword = 'password123';
 export const mockToken = 'test-token';
 export const mockSign = vi.fn(() => 'mock-jwt-token');
+
+export const mockAuthService = {
+  check: vi.fn(),
+  login: vi.fn(),
+  setup: vi.fn(),
+  register: vi.fn(),
+  confirm: vi.fn(),
+  reset: vi.fn(),
+};

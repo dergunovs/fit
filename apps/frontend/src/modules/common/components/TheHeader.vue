@@ -139,7 +139,7 @@ const isActivityPassing = computed(() => route.path.includes(URL_ACTIVITY_EDIT))
   padding-left: 2px;
   font-size: 0.75rem;
   line-height: 0.8;
-  color: var(--color-gray-dark);
+  color: var(--color-gray-dark-extra);
 }
 
 .link[data-disabled='true'] {

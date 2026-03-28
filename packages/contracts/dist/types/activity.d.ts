@@ -68,7 +68,7 @@ export type TGetActivitiesStatisticsDTO = {
   activity: IActivityStatistics;
   exercise: IExerciseStatistics[];
 };
-export type TGetActivitiesStatisticsQueryDTO = { gap: number };
+export type TGetActivitiesStatisticsQueryDTO = { gap: string };
 export type TGetActivitiesChartDTO = IActivityChart;
 export type TGetActivitiesChartQueryDTO = {
   type: TActivityChartType;

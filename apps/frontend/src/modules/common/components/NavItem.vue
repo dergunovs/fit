@@ -57,7 +57,7 @@ const isActivityPassing = computed(() => route.path.includes(URL_ACTIVITY_EDIT))
     padding: 8px;
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--color-gray-dark);
+    color: var(--color-gray);
 
     &:hover,
     &[data-active='true'] {

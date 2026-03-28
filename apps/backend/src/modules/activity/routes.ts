@@ -67,7 +67,7 @@ export function createActivityRoutes(deps: { activityService: ReturnType<typeof 
       API_ACTIVITY_STATISTICS,
       { ...activityGetStatisticsSchema },
       async function (request, reply) {
-        const data = await activityService.getStatistics(request.query.gap, request.currentUser);
+        const data = await activityService.getStatistics(Number(request.query.gap), request.currentUser);
 
         reply.code(200).send(data);
       }

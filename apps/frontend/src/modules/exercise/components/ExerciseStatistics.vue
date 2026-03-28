@@ -105,7 +105,7 @@ function showExercise(exercise: IExerciseStatistics) {
 .duration {
   align-self: flex-end;
   font-size: 0.875rem;
-  color: var(--color-gray-dark);
+  color: var(--color-gray-dark-extra);
 }
 
 @media (max-width: 960px) {

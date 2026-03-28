@@ -36,7 +36,7 @@ export const activityService = {
       },
     }),
 
-  getStatistics: (gap: number) =>
+  getStatistics: (gap: string) =>
     useQuery({
       queryKey: [API_ACTIVITY_STATISTICS],
       queryFn: async () => {

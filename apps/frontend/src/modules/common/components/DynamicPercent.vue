@@ -22,7 +22,7 @@ const props = defineProps<IProps>();
 <style module lang="scss">
 .dynamics {
   font-size: 0.75rem;
-  color: var(--color-gray-dark);
+  color: var(--color-gray-dark-extra);
 
   &[data-positive='true'] {
     color: var(--color-success-dark);

@@ -29,7 +29,7 @@ import { BASE_REPLY, paginatedReply, LANG_FIXTURE } from '@/common/fixtures';
 const page = computed(() => 1);
 const id = computed(() => '123');
 
-const gap = 1;
+const gap = '1';
 const dateFrom = ref(new Date('01-01-2020'));
 const dateTo = ref(new Date('01-02-2020'));
 const type = ref<TActivityChartType>('set');

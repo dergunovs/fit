@@ -1,4 +1,5 @@
-import { IExercise, IExerciseDone } from 'fitness-tracker-contracts';
+import { vi } from 'vitest';
+import type { IExercise, IExerciseDone } from 'fitness-tracker-contracts';
 
 import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
 import { createMockRepository } from '../common/test/mockFactories.js';
@@ -130,3 +131,13 @@ export const mockExerciseRepository = {
     'findAdminUser',
   ]),
 } satisfies IExerciseRepository;
+
+export const mockExerciseService = {
+  getMany: vi.fn().mockResolvedValue({ data: [], total: 0 }),
+  getAll: vi.fn().mockResolvedValue({ data: [] }),
+  getCustom: vi.fn().mockResolvedValue({ data: [] }),
+  getOne: vi.fn().mockResolvedValue({ data: null }),
+  create: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn(),
+};
