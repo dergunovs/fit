@@ -19,17 +19,7 @@ import { createExerciseService } from '../exercise/service.js';
 import { createEquipmentService } from '../equipment/service.js';
 import { createMuscleService } from '../muscle/service.js';
 
-import corsPlugin from './plugins/cors.js';
-import helmetPlugin from './plugins/helmet.js';
-import jwtPlugin from './plugins/jwt.js';
-import ratePlugin from './plugins/rate.js';
-import swaggerPlugin from './plugins/swagger.js';
-
-const plugins = [corsPlugin, helmetPlugin, jwtPlugin, ratePlugin, swaggerPlugin];
-
-export function registerPluginsAndRoutes(fastify: FastifyInstance) {
-  plugins.forEach((plugin) => fastify.register(plugin));
-
+export function createRoutes(fastify: FastifyInstance) {
   const authRepository = createAuthRepository();
   const userRepository = createUserRepository();
   const activityRepository = createActivityRepository();
@@ -49,10 +39,12 @@ export function registerPluginsAndRoutes(fastify: FastifyInstance) {
   const equipmentService = createEquipmentService({ equipmentRepository });
   const muscleService = createMuscleService({ muscleRepository });
 
-  fastify.register(createAuthRoutes({ authService }), { prefix: '/api' });
-  fastify.register(createUserRoutes({ userService }), { prefix: '/api' });
-  fastify.register(createActivityRoutes({ activityService }), { prefix: '/api' });
-  fastify.register(createExerciseRoutes({ exerciseService }), { prefix: '/api' });
-  fastify.register(createEquipmentRoutes({ equipmentService }), { prefix: '/api' });
-  fastify.register(createMuscleRoutes({ muscleService }), { prefix: '/api' });
+  const OPTIONS = { prefix: '/api' };
+
+  fastify.register(createAuthRoutes({ authService }), OPTIONS);
+  fastify.register(createUserRoutes({ userService }), OPTIONS);
+  fastify.register(createActivityRoutes({ activityService }), OPTIONS);
+  fastify.register(createExerciseRoutes({ exerciseService }), OPTIONS);
+  fastify.register(createEquipmentRoutes({ equipmentService }), OPTIONS);
+  fastify.register(createMuscleRoutes({ muscleService }), OPTIONS);
 }

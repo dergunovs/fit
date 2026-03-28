@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import { Schema, connect } from 'mongoose';
 
 import { addSchemas } from './modules/common/addSchemas.js';
-import { registerPluginsAndRoutes } from './modules/common/registerPluginsAndRoutes.js';
+import { registerPlugins } from './modules/common/registerPlugins.js';
+import { createRoutes } from './modules/common/createRoutes.js';
 import { errorHandler } from './modules/common/errorHandler.js';
 import { DB_HOST, SERVER_HOST } from './modules/common/constants.js';
 
@@ -26,7 +27,8 @@ async function buildApp() {
 
   const fastify = Fastify({ logger: isDev, disableRequestLogging: !isDev });
 
-  registerPluginsAndRoutes(fastify);
+  registerPlugins(fastify);
+  createRoutes(fastify);
   addSchemas(fastify);
 
   fastify.setErrorHandler((error, _request, reply) => errorHandler(error as FastifyError, reply));
