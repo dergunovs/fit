@@ -1,7 +1,7 @@
-import type { IActivity, TActivityChartType, TDecode, TLocale } from 'fitness-tracker-contracts';
+import type { IActivity, IUser, TActivityChartType, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
-import { adminOrUserFilter, getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
+import { adminOrUserFilter, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
@@ -17,20 +17,20 @@ export const activityService = {
     return { data, total };
   },
 
-  getStatistics: async (gap: number, decode?: TDecode, token?: string) => {
-    const filter = adminOrUserFilter(decode, token);
+  getStatistics: async (gap: number, user?: IUser) => {
+    const filter = adminOrUserFilter(user);
 
-    const [user, exercises] = await Promise.all([
+    const [foundUser, exercises] = await Promise.all([
       userRepository.findUserForActivityStats(filter),
-      getAdminAndUserExercises(decode, token),
+      getAdminAndUserExercises(user),
     ]);
 
-    if (!user) throw error.notFound();
+    if (!foundUser) throw error.notFound();
 
     const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
 
     const activities: { current: IActivity[]; previous: IActivity[] }[] = await activityRepository.getStatistics(
-      user._id,
+      foundUser._id,
       new Date(dateFrom),
       new Date(dateTo),
       new Date(dateFromPrev),
@@ -41,36 +41,32 @@ export const activityService = {
 
     const activityStatistics = getActivitiesStatistics(current, previous);
 
-    const exerciseStatistics = getExercisesStatistics(current, previous, exercises, user);
+    const exerciseStatistics = getExercisesStatistics(current, previous, exercises, foundUser);
 
     return { activity: activityStatistics, exercise: exerciseStatistics };
   },
 
-  getCalendar: async (dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
-    const filter = adminOrUserFilter(decode, token);
+  getCalendar: async (dateFrom: string, dateTo: string, user?: IUser) => {
+    const filter = adminOrUserFilter(user);
 
-    const user = await userRepository.findUserForActivityStats(filter);
+    const foundUser = await userRepository.findUserForActivityStats(filter);
 
-    if (!user) throw error.notFound();
+    if (!foundUser) throw error.notFound();
 
-    const calendarData = await activityRepository.getCalendar(user._id, new Date(dateFrom), new Date(dateTo));
+    const calendarData = await activityRepository.getCalendar(foundUser._id, new Date(dateFrom), new Date(dateTo));
 
     return calendarData;
   },
 
-  getChart: async (
-    type: TActivityChartType,
-    month: string,
-    average: string,
-    locale: TLocale,
-    decode?: TDecode,
-    token?: string
-  ) => {
-    const filter = adminOrUserFilter(decode, token);
+  getChart: async (type: TActivityChartType, month: string, average: string, locale: TLocale, user?: IUser) => {
+    const filter = adminOrUserFilter(user);
 
-    const [user, muscles] = await Promise.all([userRepository.findUserForChart(filter), muscleRepository.findAll()]);
+    const [foundUser, muscles] = await Promise.all([
+      userRepository.findUserForChart(filter),
+      muscleRepository.findAll(),
+    ]);
 
-    if (!user) throw error.notFound();
+    if (!foundUser) throw error.notFound();
 
     const isMonth = month === 'true';
 
@@ -81,7 +77,7 @@ export const activityService = {
       weeks,
       type,
       locale,
-      user,
+      foundUser,
       muscles,
       isMonth,
       average === 'true'
@@ -90,21 +86,19 @@ export const activityService = {
     return { labels, datasets };
   },
 
-  getOne: async (_id: string, decode?: TDecode, token?: string) => {
+  getOne: async (_id: string, user: IUser) => {
     checkInvalidId(_id);
 
     const activity = await activityRepository.getOne(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
-    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, user);
 
     return { data: activity };
   },
 
-  create: async (activityToCreate: IActivity, decode?: TDecode, token?: string) => {
-    const user = getAuthenticatedUser(decode, token);
-
+  create: async (activityToCreate: IActivity, user: IUser) => {
     const newActivityId = await activityRepository.create({ ...activityToCreate, createdBy: user });
 
     if (!newActivityId) throw error.internal();
@@ -112,26 +106,26 @@ export const activityService = {
     return newActivityId;
   },
 
-  update: async (_id: string, itemToUpdate: IActivity, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IActivity, user: IUser) => {
     checkInvalidId(_id);
 
     const activity = await activityRepository.findActivityById(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
-    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, user);
 
     await activityRepository.updateOne(activity, itemToUpdate);
   },
 
-  delete: async (_id: string, decode?: TDecode, token?: string) => {
+  delete: async (_id: string, user: IUser) => {
     checkInvalidId(_id);
 
     const activity = await activityRepository.findActivityById(_id);
 
     if (!activity?.createdBy?._id) throw error.notFound();
 
-    allowAccessToAdminAndCurrentUser(activity.createdBy._id, decode, token);
+    allowAccessToAdminAndCurrentUser(activity.createdBy._id, user);
 
     await activityRepository.deleteOne(activity);
   },

@@ -49,7 +49,7 @@ export default async function (fastify: FastifyInstance) {
     API_EQUIPMENT,
     { preValidation: [fastify.onlyAdmin], ...equipmentPostSchema, config: { rateLimit } },
     async function (request, reply) {
-      await equipmentService.create(request.body, fastify.jwt.decode, request.headers.authorization);
+      await equipmentService.create(request.body);
 
       reply.code(201).send({ message: 'Equipment added' });
     }

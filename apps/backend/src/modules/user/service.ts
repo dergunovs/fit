@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import type { IUserFeedback, IUser, TDecode } from 'fitness-tracker-contracts';
+import type { IUserFeedback, IUser } from 'fitness-tracker-contracts';
 
 import { checkInvalidId, sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
@@ -32,28 +32,28 @@ export const userService = {
     await userRepository.create(userToCreate);
   },
 
-  update: async (_id: string, itemToUpdate: IUser, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IUser, user: IUser) => {
     checkInvalidId(_id);
 
-    allowAccessToAdminAndCurrentUser(_id, decode, token);
+    allowAccessToAdminAndCurrentUser(_id, user);
 
     await userRepository.updateOne(_id, itemToUpdate);
   },
 
-  updatePassword: async (_id: string, password: string, decode?: TDecode, token?: string) => {
+  updatePassword: async (_id: string, password: string, user: IUser) => {
     checkInvalidId(_id);
 
-    allowAccessToAdminAndCurrentUser(_id, decode, token);
+    allowAccessToAdminAndCurrentUser(_id, user);
 
     const newPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
     await userRepository.updatePassword(_id, newPassword);
   },
 
-  delete: async (_id: string, decode?: TDecode, token?: string) => {
+  delete: async (_id: string, user: IUser) => {
     checkInvalidId(_id);
 
-    allowAccessToAdminAndCurrentUser(_id, decode, token);
+    allowAccessToAdminAndCurrentUser(_id, user);
 
     await userRepository.deleteOne(_id);
   },

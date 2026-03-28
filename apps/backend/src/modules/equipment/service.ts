@@ -1,6 +1,5 @@
-import type { IEquipment, TDecode } from 'fitness-tracker-contracts';
+import type { IEquipment } from 'fitness-tracker-contracts';
 
-import { getAuthenticatedUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import { equipmentRepository } from './repository.js';
@@ -22,9 +21,7 @@ export const equipmentService = {
     return { data: equipment };
   },
 
-  create: async (equipmentToCreate: IEquipment, decode?: TDecode, token?: string) => {
-    getAuthenticatedUser(decode, token);
-
+  create: async (equipmentToCreate: IEquipment) => {
     await equipmentRepository.create(equipmentToCreate);
   },
 

@@ -1,6 +1,6 @@
-import type { IExercise, TDecode } from 'fitness-tracker-contracts';
+import type { IExercise, IUser } from 'fitness-tracker-contracts';
 
-import { getAuthenticatedUser, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
+import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
 import { exerciseRepository } from './repository.js';
@@ -13,11 +13,8 @@ export const exerciseService = {
     return { data, total };
   },
 
-  getAll: async (decode?: TDecode, token?: string) => {
-    const [admin, user] = await Promise.all([
-      exerciseRepository.findAdminUser(),
-      Promise.resolve(getAuthenticatedUser(decode, token)),
-    ]);
+  getAll: async (user: IUser) => {
+    const admin = await exerciseRepository.findAdminUser();
 
     if (!admin) throw error.notFound();
 
@@ -35,9 +32,7 @@ export const exerciseService = {
     return { data: [...userExercises, ...adminExercises] };
   },
 
-  getCustom: async (decode?: TDecode, token?: string) => {
-    const user = getAuthenticatedUser(decode, token);
-
+  getCustom: async (user: IUser) => {
     const exercises = await exerciseRepository.getByUser(user);
 
     return { data: exercises };
@@ -53,9 +48,7 @@ export const exerciseService = {
     return { data: exercise };
   },
 
-  create: async (exerciseToCreate: IExercise, decode?: TDecode, token?: string) => {
-    const user = getAuthenticatedUser(decode, token);
-
+  create: async (exerciseToCreate: IExercise, user: IUser) => {
     const exercisesCount = user.role === 'admin' ? 1 : await exerciseRepository.countByUser(user);
 
     const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < MAX_CUSTOM_EXERCISES;
@@ -65,26 +58,26 @@ export const exerciseService = {
     await exerciseRepository.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
   },
 
-  update: async (_id: string, itemToUpdate: IExercise, decode?: TDecode, token?: string) => {
+  update: async (_id: string, itemToUpdate: IExercise, user: IUser) => {
     checkInvalidId(_id);
 
     const exercise = await exerciseRepository.findExerciseById(_id);
 
     if (!exercise?.createdBy?._id) throw error.notFound();
 
-    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
+    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
 
     await exerciseRepository.replaceOne(exercise, itemToUpdate);
   },
 
-  delete: async (_id: string, decode?: TDecode, token?: string) => {
+  delete: async (_id: string, user: IUser) => {
     checkInvalidId(_id);
 
     const exercise = await exerciseRepository.findExerciseById(_id);
 
     if (!exercise?.createdBy?._id) throw error.notFound();
 
-    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, decode, token);
+    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
 
     await exerciseRepository.deleteOne(exercise);
   },

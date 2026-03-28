@@ -22,6 +22,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { rateLimit } from '../common/helpers.js';
+import { requireUser } from '../auth/helpers.js';
 import { activityService } from './service.js';
 import {
   activityDeleteSchema,
@@ -49,12 +50,7 @@ export default async function (fastify: FastifyInstance) {
     API_ACTIVITY_CALENDAR,
     { ...activityGetCalendarSchema },
     async function (request, reply) {
-      const data = await activityService.getCalendar(
-        request.query.dateFrom,
-        request.query.dateTo,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const data = await activityService.getCalendar(request.query.dateFrom, request.query.dateTo, request.currentUser);
 
       reply.code(200).send(data);
     }
@@ -64,11 +60,7 @@ export default async function (fastify: FastifyInstance) {
     API_ACTIVITY_STATISTICS,
     { ...activityGetStatisticsSchema },
     async function (request, reply) {
-      const data = await activityService.getStatistics(
-        request.query.gap,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      const data = await activityService.getStatistics(request.query.gap, request.currentUser);
 
       reply.code(200).send(data);
     }
@@ -83,8 +75,7 @@ export default async function (fastify: FastifyInstance) {
         request.query.month,
         request.query.average,
         request.query.locale,
-        fastify.jwt.decode,
-        request.headers.authorization
+        request.currentUser
       );
 
       reply.code(200).send(data);
@@ -95,7 +86,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
     async function (request, reply) {
-      const data = await activityService.getOne(request.params.id, fastify.jwt.decode, request.headers.authorization);
+      const data = await activityService.getOne(request.params.id, requireUser(request));
 
       reply.code(200).send(data);
     }
@@ -105,7 +96,7 @@ export default async function (fastify: FastifyInstance) {
     API_ACTIVITY,
     { preValidation: [fastify.onlyUser], ...activityPostSchema, config: { rateLimit } },
     async function (request, reply) {
-      const id = await activityService.create(request.body, fastify.jwt.decode, request.headers.authorization);
+      const id = await activityService.create(request.body, requireUser(request));
 
       reply.code(201).send(id);
     }
@@ -115,7 +106,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityUpdateSchema },
     async function (request, reply) {
-      await activityService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
+      await activityService.update(request.params.id, request.body, requireUser(request));
 
       reply.code(200).send({ message: 'Activity updated' });
     }
@@ -125,7 +116,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_ACTIVITY}/:id`,
     { preValidation: [fastify.onlyUser], ...activityDeleteSchema },
     async function (request, reply) {
-      await activityService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
+      await activityService.delete(request.params.id, requireUser(request));
 
       reply.code(200).send({ message: 'Activity deleted' });
     }

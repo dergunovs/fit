@@ -6,7 +6,6 @@ import {
   API_AUTH_REGISTER,
   API_AUTH_RESET,
   API_AUTH_SETUP,
-  type IUser,
   type TGetAuthDTO,
   type TPostAuthConfirmTokenDTO,
   type TPostAuthConfirmTokenDataDTO,
@@ -23,6 +22,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { rateLimit } from '../common/helpers.js';
+import { requireUser } from './helpers.js';
 import { authService } from './service.js';
 import {
   authGetSchema,
@@ -35,9 +35,7 @@ import {
 
 export default async function (fastify: FastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
-    const verifiedUser = await request.jwtVerify<IUser>();
-
-    const user = await authService.check(verifiedUser);
+    const user = await authService.check(requireUser(request));
 
     reply.code(200).send(user);
   });

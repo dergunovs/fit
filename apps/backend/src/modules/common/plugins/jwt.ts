@@ -5,6 +5,12 @@ import { IUser } from 'fitness-tracker-contracts';
 
 import { error } from '../errorHandler.js';
 
+declare module 'fastify' {
+  interface FastifyRequest {
+    currentUser?: IUser;
+  }
+}
+
 export default fp(async function (fastify) {
   const secret = process.env.SECRET;
 
@@ -12,21 +18,23 @@ export default fp(async function (fastify) {
 
   fastify.register(jwt, { secret });
 
-  fastify.decorate('onlyUser', async function (request: FastifyRequest, reply: FastifyReply) {
+  fastify.addHook('onRequest', async (request: FastifyRequest) => {
     try {
-      await request.jwtVerify();
-    } catch (error_: unknown) {
-      reply.code(403).send({ message: error_ || 'Auth error' });
+      request.currentUser = await request.jwtVerify<IUser>();
+    } catch {
+      request.currentUser = undefined;
+    }
+  });
+
+  fastify.decorate('onlyUser', async function (request: FastifyRequest, reply: FastifyReply) {
+    if (!request.currentUser) {
+      reply.code(403).send({ message: 'Auth error' });
     }
   });
 
   fastify.decorate('onlyAdmin', async function (request: FastifyRequest, reply: FastifyReply) {
-    try {
-      const user = await request.jwtVerify<IUser>();
-
-      if (user.role !== 'admin') throw error.forbidden();
-    } catch (error_: unknown) {
-      reply.code(403).send({ message: error_ || 'Auth error' });
+    if (!request.currentUser || request.currentUser.role !== 'admin') {
+      reply.code(403).send({ message: error.forbidden().message });
     }
   });
 });

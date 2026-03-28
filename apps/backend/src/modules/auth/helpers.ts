@@ -1,3 +1,4 @@
+import type { FastifyRequest } from 'fastify';
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
 import { error } from '../common/errorHandler.js';
@@ -32,26 +33,18 @@ export function filterUserData(user: IUser, isToken?: boolean) {
   return filteredUser;
 }
 
-export function getAuthenticatedUser(decode?: TDecode, token?: string): IUser {
-  const user = decodeToken(decode, token);
-
-  if (!user) throw error.unauthorized();
-
-  return user;
-}
-
-export function allowAccessToAdminAndCurrentUser(userId: string, decode?: TDecode, token?: string): IUser {
-  const user = getAuthenticatedUser(decode, token);
-
+export function allowAccessToAdminAndCurrentUser(userId: string, user: IUser): void {
   const isRestrictAccess = user.role !== 'admin' && userId.toString() !== user._id;
 
   if (isRestrictAccess) throw error.forbidden();
-
-  return user;
 }
 
-export function adminOrUserFilter(decode?: TDecode, token?: string) {
-  const decodedUser = decodeToken(decode, token);
+export function adminOrUserFilter(user: IUser | undefined) {
+  return user ? { email: user.email } : { role: 'admin' };
+}
 
-  return decodedUser ? { email: decodedUser.email } : { role: 'admin' };
+export function requireUser(request: FastifyRequest): IUser {
+  if (!request.currentUser) throw error.unauthorized();
+
+  return request.currentUser;
 }

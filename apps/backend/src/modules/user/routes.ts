@@ -19,6 +19,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { rateLimit } from '../common/helpers.js';
+import { requireUser } from '../auth/helpers.js';
 import { userService } from './service.js';
 import {
   userPostSchema,
@@ -77,7 +78,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser], ...userUpdateSchema },
     async function (request, reply) {
-      await userService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
+      await userService.update(request.params.id, request.body, requireUser(request));
 
       reply.code(200).send({ message: 'User updated' });
     }
@@ -87,12 +88,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_USER_PASSWORD}/:id`,
     { preValidation: [fastify.onlyUser], ...userUpdatePasswordSchema },
     async function (request, reply) {
-      await userService.updatePassword(
-        request.params.id,
-        request.body.password,
-        fastify.jwt.decode,
-        request.headers.authorization
-      );
+      await userService.updatePassword(request.params.id, request.body.password, requireUser(request));
 
       reply.code(200).send({ message: 'Users password updated' });
     }
@@ -102,7 +98,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_USER}/:id`,
     { preValidation: [fastify.onlyUser], ...userDeleteSchema },
     async function (request, reply) {
-      await userService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
+      await userService.delete(request.params.id, requireUser(request));
 
       reply.code(200).send({ message: 'User deleted' });
     }

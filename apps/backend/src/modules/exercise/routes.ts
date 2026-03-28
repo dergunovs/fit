@@ -17,6 +17,7 @@ import {
 } from 'fitness-tracker-contracts';
 
 import { rateLimit } from '../common/helpers.js';
+import { requireUser } from '../auth/helpers.js';
 import { exerciseService } from './service.js';
 import {
   exerciseGetManySchema,
@@ -45,7 +46,7 @@ export default async function (fastify: FastifyInstance) {
     API_EXERCISE_ALL,
     { ...exerciseGetAllSchema },
     async function (request, reply) {
-      const data = await exerciseService.getAll(fastify.jwt.decode, request.headers.authorization);
+      const data = await exerciseService.getAll(requireUser(request));
 
       reply.code(200).send(data);
     }
@@ -55,7 +56,7 @@ export default async function (fastify: FastifyInstance) {
     API_EXERCISE_CUSTOM,
     { ...exerciseGetCustomSchema },
     async function (request, reply) {
-      const data = await exerciseService.getCustom(fastify.jwt.decode, request.headers.authorization);
+      const data = await exerciseService.getCustom(requireUser(request));
 
       reply.code(200).send(data);
     }
@@ -75,7 +76,7 @@ export default async function (fastify: FastifyInstance) {
     API_EXERCISE,
     { preValidation: [fastify.onlyUser], ...exercisePostSchema, config: { rateLimit } },
     async function (request, reply) {
-      await exerciseService.create(request.body, fastify.jwt.decode, request.headers.authorization);
+      await exerciseService.create(request.body, requireUser(request));
 
       reply.code(201).send({ message: 'Exercise added' });
     }
@@ -85,7 +86,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_EXERCISE}/:id`,
     { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
     async function (request, reply) {
-      await exerciseService.update(request.params.id, request.body, fastify.jwt.decode, request.headers.authorization);
+      await exerciseService.update(request.params.id, request.body, requireUser(request));
 
       reply.code(200).send({ message: 'Exercise updated' });
     }
@@ -95,7 +96,7 @@ export default async function (fastify: FastifyInstance) {
     `${API_EXERCISE}/:id`,
     { preValidation: [fastify.onlyUser], ...exerciseDeleteSchema },
     async function (request, reply) {
-      await exerciseService.delete(request.params.id, fastify.jwt.decode, request.headers.authorization);
+      await exerciseService.delete(request.params.id, requireUser(request));
 
       reply.code(200).send({ message: 'Exercises deleted' });
     }
