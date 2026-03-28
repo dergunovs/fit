@@ -4,7 +4,7 @@ import { generatePassword } from 'mhz-helpers';
 
 import { sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
-import { ACCESS_TOKEN_TTL, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.js';
+import { ACCESS_TOKEN_TTL, AUTH_TEXTS, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.js';
 import { decodeToken, filterUserData } from './helpers.js';
 import { IAuthRepository } from './repository.js';
 
@@ -87,12 +87,7 @@ export function createAuthService(deps: { authRepository: IAuthRepository }) {
         role: 'user',
       });
 
-      const text =
-        lang === 'ru'
-          ? 'для подтверждения регистрации перейдите по ссылке'
-          : 'to confirm registration, follow the link';
-
-      const template = `${userToCreate.name}, ${text} ${process.env.APP_URL}?token=${confirmationToken}`;
+      const template = `${userToCreate.name}, ${AUTH_TEXTS.register[lang]} ${process.env.APP_URL}?token=${confirmationToken}`;
 
       await sendMail(template, userToCreate.email);
     },
@@ -122,12 +117,7 @@ export function createAuthService(deps: { authRepository: IAuthRepository }) {
         dateUpdated: new Date(),
       });
 
-      const text =
-        lang === 'ru'
-          ? 'войдите в приложение с новым паролем. Если вы не отправляли заявку на смену пароля, то используйте свой текущий пароль. Новый пароль'
-          : 'login to the app with a new password. If you have not submitted a request to change your password, then use your current password. New password';
-
-      const template = `${user.name}, ${text}: ${newPassword}`;
+      const template = `${user.name}, ${AUTH_TEXTS.reset[lang]}: ${newPassword}`;
 
       await sendMail(template, email);
     },

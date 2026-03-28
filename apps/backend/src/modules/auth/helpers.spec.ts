@@ -38,6 +38,14 @@ describe('decodeToken', () => {
 
     expect(result).toBeNull();
   });
+
+  it('returns null when decode returns null', () => {
+    const mockDecode = vi.fn().mockReturnValue(null);
+    const result = decodeToken(mockDecode, 'Bearer valid-token');
+
+    expect(mockDecode).toHaveBeenCalledWith('valid-token');
+    expect(result).toBeNull();
+  });
 });
 
 describe('filterUserData', () => {

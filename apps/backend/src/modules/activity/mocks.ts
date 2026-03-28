@@ -29,6 +29,19 @@ export const mockActivityPrev: IActivity = {
   createdBy: mockUser,
 };
 
+export const mockWeeks = [
+  {
+    dateFrom: new Date('2024-01-01'),
+    dateTo: new Date('2024-01-08'),
+    label: 'Week 1',
+  },
+  {
+    dateFrom: new Date('2024-01-08'),
+    dateTo: new Date('2024-01-15'),
+    label: 'Week 2',
+  },
+];
+
 export const mockActivityRepository = {
   getMany: vi.fn(),
   getOne: vi.fn(),

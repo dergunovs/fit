@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mockExerciseRepository } from '../exercise/mocks.js';
 import { mockMuscleRepository } from '../muscle/mocks.js';
 import { mockUser, mockAdmin, otherUserId, mockUserRepository } from '../user/mocks.js';
-import { mockActivityRepository, mockActivity, activityId } from './mocks.js';
+import { mockActivityRepository, mockActivity, mockActivityPrev, activityId } from './mocks.js';
 import { createActivityService } from './service.js';
 
 const service = createActivityService({
@@ -39,6 +39,73 @@ describe('createActivityService', () => {
 
       expect(mockActivityRepository.getMany).toHaveBeenCalledWith(undefined);
       expect(result).toEqual(mockData);
+    });
+  });
+
+  describe('getStatistics', () => {
+    it('returns statistics for user', async () => {
+      const mockActivities = [{ current: [mockActivity], previous: [mockActivityPrev] }];
+
+      mockUserRepository.findUserForActivityStats.mockResolvedValue(mockUser);
+      mockExerciseRepository.findAdminUser.mockResolvedValue(mockAdmin);
+      mockExerciseRepository.getByUser.mockResolvedValue([]);
+      mockActivityRepository.getStatistics.mockResolvedValue(mockActivities);
+
+      const result = await service.getStatistics(7, mockUser);
+
+      expect(mockUserRepository.findUserForActivityStats).toHaveBeenCalled();
+      expect(mockActivityRepository.getStatistics).toHaveBeenCalled();
+      expect(result).toHaveProperty('activity');
+      expect(result).toHaveProperty('exercise');
+    });
+
+    it('throws not found when user not found', async () => {
+      mockUserRepository.findUserForActivityStats.mockResolvedValue(null);
+
+      await expect(service.getStatistics(7, mockUser)).rejects.toThrow('Not found');
+    });
+  });
+
+  describe('getCalendar', () => {
+    it('returns calendar data for user', async () => {
+      const mockCalendarData = [{ date: '2024-01-15', count: 2 }];
+
+      mockUserRepository.findUserForActivityStats.mockResolvedValue(mockUser);
+      mockActivityRepository.getCalendar.mockResolvedValue(mockCalendarData);
+
+      const result = await service.getCalendar('2024-01-01', '2024-01-31', mockUser);
+
+      expect(mockUserRepository.findUserForActivityStats).toHaveBeenCalled();
+      expect(mockActivityRepository.getCalendar).toHaveBeenCalled();
+      expect(result).toEqual(mockCalendarData);
+    });
+
+    it('throws not found when user not found', async () => {
+      mockUserRepository.findUserForActivityStats.mockResolvedValue(null);
+
+      await expect(service.getCalendar('2024-01-01', '2024-01-31', mockUser)).rejects.toThrow('Not found');
+    });
+  });
+
+  describe('getChart', () => {
+    it('returns chart data for user', async () => {
+      mockUserRepository.findUserForChart.mockResolvedValue(mockUser);
+      mockMuscleRepository.findAll.mockResolvedValue([]);
+      mockActivityRepository.getChartActivities.mockResolvedValue([mockActivity]);
+      mockActivityRepository.getMuscleActivities.mockResolvedValue([]);
+
+      const result = await service.getChart('muscle', 'false', 'false', 'en', mockUser);
+
+      expect(mockUserRepository.findUserForChart).toHaveBeenCalled();
+      expect(mockMuscleRepository.findAll).toHaveBeenCalled();
+      expect(result).toHaveProperty('labels');
+      expect(result).toHaveProperty('datasets');
+    });
+
+    it('throws not found when user not found', async () => {
+      mockUserRepository.findUserForChart.mockResolvedValue(null);
+
+      await expect(service.getChart('muscle', 'false', 'false', 'en', mockUser)).rejects.toThrow('Not found');
     });
   });
 
