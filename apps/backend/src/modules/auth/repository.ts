@@ -1,4 +1,5 @@
 import { IUser } from 'fitness-tracker-contracts';
+
 import { USER_POPULATE } from '../user/constants.js';
 import User from '../user/model.js';
 

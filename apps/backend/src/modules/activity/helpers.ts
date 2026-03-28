@@ -10,6 +10,7 @@ import {
   TLocale,
 } from 'fitness-tracker-contracts';
 import { getPercentDiff, IWeekDays } from 'mhz-helpers';
+
 import { IChartFilter } from '../common/types.js';
 import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
 import { CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.js';
