@@ -6,9 +6,9 @@
 
 **Overview and documentation:** https://deepwiki.com/dergunovs/fit or https://zread.ai/dergunovs/fit
 
-**Frontend:** Typescript, Vite, Vue, Tanstack Query, Vitest, Vue I18n, Tauri
+**Frontend:** Typescript, Vitest, Vite, Vue, Tanstack Query, Vue I18n, Tauri
 
-**Backend:** Typescript, Fastify, Mongoose, MongoDB, Swagger
+**Backend:** Typescript, Vitest, Esbuild, Fastify, Mongoose, MongoDB, Swagger
 
 **Video:** https://youtube.com/playlist?list=PLOICX-WjKEZcaT9VXzntq0inHwTBQKXkr or https://vkvideo.ru/playlist/15313879_11
 
