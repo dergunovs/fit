@@ -20,7 +20,7 @@ import {
 
 import { rateLimit } from '../common/helpers.js';
 import { requireUser } from '../auth/helpers.js';
-import { userService } from './service.js';
+import type { createUserService } from './service.js';
 import {
   userPostSchema,
   userDeleteSchema,
@@ -31,76 +31,78 @@ import {
   userPostFeedbackSchema,
 } from './schema.js';
 
-export default async function (fastify: FastifyInstance) {
-  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
+export function createUserRoutes(deps: { userService: ReturnType<typeof createUserService> }) {
+  const { userService } = deps;
 
-  fastify.get<{ Querystring: TGetUsersQueryDTO; Reply: { 200: TGetUsersDTO } }>(
-    API_USER,
-    { preValidation: [fastify.onlyAdmin], ...userGetManySchema },
-    async function (request, reply) {
-      const data = await userService.getMany(request.query.page);
+  return async function (fastify: FastifyInstance) {
+    fastify.get<{ Querystring: TGetUsersQueryDTO; Reply: { 200: TGetUsersDTO } }>(
+      API_USER,
+      { preValidation: [fastify.onlyAdmin], ...userGetManySchema },
+      async function (request, reply) {
+        const data = await userService.getMany(request.query.page);
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.get<{ Params: IBaseParams; Reply: { 200: TGetUserDTO } }>(
-    `${API_USER}/:id`,
-    { preValidation: [fastify.onlyAdmin], ...userGetOneSchema },
-    async function (request, reply) {
-      const data = await userService.getOne(request.params.id);
+    fastify.get<{ Params: IBaseParams; Reply: { 200: TGetUserDTO } }>(
+      `${API_USER}/:id`,
+      { preValidation: [fastify.onlyAdmin], ...userGetOneSchema },
+      async function (request, reply) {
+        const data = await userService.getOne(request.params.id);
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.post<{ Body: TPostUserDataDTO; Reply: { 201: TPostUserDTO } }>(
-    API_USER,
-    { preValidation: [fastify.onlyAdmin], ...userPostSchema },
-    async function (request, reply) {
-      await userService.create(request.body);
+    fastify.post<{ Body: TPostUserDataDTO; Reply: { 201: TPostUserDTO } }>(
+      API_USER,
+      { preValidation: [fastify.onlyAdmin], ...userPostSchema },
+      async function (request, reply) {
+        await userService.create(request.body);
 
-      reply.code(201).send({ message: 'User added' });
-    }
-  );
+        reply.code(201).send({ message: 'User added' });
+      }
+    );
 
-  fastify.post<{ Body: TPostUserFeedbackDataDTO; Reply: { 200: TPostUserFeedbackDTO } }>(
-    API_USER_FEEDBACK,
-    { ...userPostFeedbackSchema, config: { rateLimit } },
-    async function (request, reply) {
-      await userService.feedback(request.body);
+    fastify.post<{ Body: TPostUserFeedbackDataDTO; Reply: { 200: TPostUserFeedbackDTO } }>(
+      API_USER_FEEDBACK,
+      { ...userPostFeedbackSchema, config: { rateLimit } },
+      async function (request, reply) {
+        await userService.feedback(request.body);
 
-      reply.code(200).send({ message: 'Feedback sended' });
-    }
-  );
+        reply.code(200).send({ message: 'Feedback sended' });
+      }
+    );
 
-  fastify.patch<{ Body: TUpdateUserDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserDTO } }>(
-    `${API_USER}/:id`,
-    { preValidation: [fastify.onlyUser], ...userUpdateSchema },
-    async function (request, reply) {
-      await userService.update(request.params.id, request.body, requireUser(request));
+    fastify.patch<{ Body: TUpdateUserDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserDTO } }>(
+      `${API_USER}/:id`,
+      { preValidation: [fastify.onlyUser], ...userUpdateSchema },
+      async function (request, reply) {
+        await userService.update(request.params.id, request.body, requireUser(request));
 
-      reply.code(200).send({ message: 'User updated' });
-    }
-  );
+        reply.code(200).send({ message: 'User updated' });
+      }
+    );
 
-  fastify.patch<{ Body: TUpdateUserPasswordDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserPasswordDTO } }>(
-    `${API_USER_PASSWORD}/:id`,
-    { preValidation: [fastify.onlyUser], ...userUpdatePasswordSchema },
-    async function (request, reply) {
-      await userService.updatePassword(request.params.id, request.body.password, requireUser(request));
+    fastify.patch<{ Body: TUpdateUserPasswordDataDTO; Params: IBaseParams; Reply: { 200: TUpdateUserPasswordDTO } }>(
+      `${API_USER_PASSWORD}/:id`,
+      { preValidation: [fastify.onlyUser], ...userUpdatePasswordSchema },
+      async function (request, reply) {
+        await userService.updatePassword(request.params.id, request.body.password, requireUser(request));
 
-      reply.code(200).send({ message: 'Users password updated' });
-    }
-  );
+        reply.code(200).send({ message: 'Users password updated' });
+      }
+    );
 
-  fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
-    `${API_USER}/:id`,
-    { preValidation: [fastify.onlyUser], ...userDeleteSchema },
-    async function (request, reply) {
-      await userService.delete(request.params.id, requireUser(request));
+    fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteUserDTO } }>(
+      `${API_USER}/:id`,
+      { preValidation: [fastify.onlyUser], ...userDeleteSchema },
+      async function (request, reply) {
+        await userService.delete(request.params.id, requireUser(request));
 
-      reply.code(200).send({ message: 'User deleted' });
-    }
-  );
+        reply.code(200).send({ message: 'User deleted' });
+      }
+    );
+  };
 }

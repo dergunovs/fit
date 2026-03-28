@@ -2,38 +2,42 @@ import type { IEquipment } from 'fitness-tracker-contracts';
 
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import { equipmentRepository } from './repository.js';
+import { IEquipmentRepository } from './repository.js';
 
-export const equipmentService = {
-  getAll: async () => {
-    const equipments = await equipmentRepository.getAll();
+export function createEquipmentService(deps: { equipmentRepository: IEquipmentRepository }) {
+  const { equipmentRepository } = deps;
 
-    return { data: equipments };
-  },
+  return {
+    getAll: async () => {
+      const equipments = await equipmentRepository.getAll();
 
-  getOne: async (_id: string) => {
-    checkInvalidId(_id);
+      return { data: equipments };
+    },
 
-    const equipment = await equipmentRepository.getOne(_id);
+    getOne: async (_id: string) => {
+      checkInvalidId(_id);
 
-    if (!equipment) throw error.notFound();
+      const equipment = await equipmentRepository.getOne(_id);
 
-    return { data: equipment };
-  },
+      if (!equipment) throw error.notFound();
 
-  create: async (equipmentToCreate: IEquipment) => {
-    await equipmentRepository.create(equipmentToCreate);
-  },
+      return { data: equipment };
+    },
 
-  update: async (_id: string, itemToUpdate: IEquipment) => {
-    checkInvalidId(_id);
+    create: async (equipmentToCreate: IEquipment) => {
+      await equipmentRepository.create(equipmentToCreate);
+    },
 
-    await equipmentRepository.updateOne(_id, itemToUpdate);
-  },
+    update: async (_id: string, itemToUpdate: IEquipment) => {
+      checkInvalidId(_id);
 
-  delete: async (_id: string) => {
-    checkInvalidId(_id);
+      await equipmentRepository.updateOne(_id, itemToUpdate);
+    },
 
-    await equipmentRepository.deleteOne(_id);
-  },
-};
+    delete: async (_id: string) => {
+      checkInvalidId(_id);
+
+      await equipmentRepository.deleteOne(_id);
+    },
+  };
+}

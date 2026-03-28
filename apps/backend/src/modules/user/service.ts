@@ -5,62 +5,66 @@ import { checkInvalidId, sendMail } from '../common/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { BCRYPT_SALT_ROUNDS } from '../auth/constants.js';
-import { userRepository } from './repository.js';
+import { IUserRepository } from './repository.js';
 
-export const userService = {
-  getMany: async (page?: number) => {
-    const { data, total } = await userRepository.getMany(page);
+export function createUserService(deps: { userRepository: IUserRepository }) {
+  const { userRepository } = deps;
 
-    return { data, total };
-  },
+  return {
+    getMany: async (page?: number) => {
+      const { data, total } = await userRepository.getMany(page);
 
-  getOne: async (_id: string) => {
-    checkInvalidId(_id);
+      return { data, total };
+    },
 
-    const user = await userRepository.getOne(_id);
+    getOne: async (_id: string) => {
+      checkInvalidId(_id);
 
-    if (!user) throw error.notFound();
+      const user = await userRepository.getOne(_id);
 
-    return { data: user };
-  },
+      if (!user) throw error.notFound();
 
-  create: async (userToCreate: IUser) => {
-    if (!userToCreate.password) throw error.internal();
+      return { data: user };
+    },
 
-    userToCreate.password = await bcrypt.hash(userToCreate.password, BCRYPT_SALT_ROUNDS);
+    create: async (userToCreate: IUser) => {
+      if (!userToCreate.password) throw error.internal();
 
-    await userRepository.create(userToCreate);
-  },
+      userToCreate.password = await bcrypt.hash(userToCreate.password, BCRYPT_SALT_ROUNDS);
 
-  update: async (_id: string, itemToUpdate: IUser, user: IUser) => {
-    checkInvalidId(_id);
+      await userRepository.create(userToCreate);
+    },
 
-    allowAccessToAdminAndCurrentUser(_id, user);
+    update: async (_id: string, itemToUpdate: IUser, user: IUser) => {
+      checkInvalidId(_id);
 
-    await userRepository.updateOne(_id, itemToUpdate);
-  },
+      allowAccessToAdminAndCurrentUser(_id, user);
 
-  updatePassword: async (_id: string, password: string, user: IUser) => {
-    checkInvalidId(_id);
+      await userRepository.updateOne(_id, itemToUpdate);
+    },
 
-    allowAccessToAdminAndCurrentUser(_id, user);
+    updatePassword: async (_id: string, password: string, user: IUser) => {
+      checkInvalidId(_id);
 
-    const newPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+      allowAccessToAdminAndCurrentUser(_id, user);
 
-    await userRepository.updatePassword(_id, newPassword);
-  },
+      const newPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
-  delete: async (_id: string, user: IUser) => {
-    checkInvalidId(_id);
+      await userRepository.updatePassword(_id, newPassword);
+    },
 
-    allowAccessToAdminAndCurrentUser(_id, user);
+    delete: async (_id: string, user: IUser) => {
+      checkInvalidId(_id);
 
-    await userRepository.deleteOne(_id);
-  },
+      allowAccessToAdminAndCurrentUser(_id, user);
 
-  feedback: async (feedback: IUserFeedback) => {
-    const template = `Обратная связь от пользователя ${feedback.name} (${feedback.email}): ${feedback.message}`;
+      await userRepository.deleteOne(_id);
+    },
 
-    await sendMail(template, `${process.env.EMAIL_USER}`);
-  },
-};
+    feedback: async (feedback: IUserFeedback) => {
+      const template = `Обратная связь от пользователя ${feedback.name} (${feedback.email}): ${feedback.message}`;
+
+      await sendMail(template, `${process.env.EMAIL_USER}`);
+    },
+  };
+}

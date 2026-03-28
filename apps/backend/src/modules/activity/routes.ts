@@ -23,7 +23,7 @@ import {
 
 import { rateLimit } from '../common/helpers.js';
 import { requireUser } from '../auth/helpers.js';
-import { activityService } from './service.js';
+import type { createActivityService } from './service.js';
 import {
   activityDeleteSchema,
   activityGetCalendarSchema,
@@ -35,90 +35,98 @@ import {
   activityUpdateSchema,
 } from './schema.js';
 
-export default async function (fastify: FastifyInstance) {
-  fastify.get<{ Querystring: TGetActivitiesQueryDTO; Reply: { 200: TGetActivitiesDTO } }>(
-    API_ACTIVITY,
-    { preValidation: [fastify.onlyAdmin], ...activityGetManySchema },
-    async function (request, reply) {
-      const data = await activityService.getMany(request.query.page);
+export function createActivityRoutes(deps: { activityService: ReturnType<typeof createActivityService> }) {
+  const { activityService } = deps;
 
-      reply.code(200).send(data);
-    }
-  );
+  return async function (fastify: FastifyInstance) {
+    fastify.get<{ Querystring: TGetActivitiesQueryDTO; Reply: { 200: TGetActivitiesDTO } }>(
+      API_ACTIVITY,
+      { preValidation: [fastify.onlyAdmin], ...activityGetManySchema },
+      async function (request, reply) {
+        const data = await activityService.getMany(request.query.page);
 
-  fastify.get<{ Querystring: TGetActivitiesCalendarQueryDTO; Reply: { 200: TGetActivitiesCalendarDTO } }>(
-    API_ACTIVITY_CALENDAR,
-    { ...activityGetCalendarSchema },
-    async function (request, reply) {
-      const data = await activityService.getCalendar(request.query.dateFrom, request.query.dateTo, request.currentUser);
+        reply.code(200).send(data);
+      }
+    );
 
-      reply.code(200).send(data);
-    }
-  );
+    fastify.get<{ Querystring: TGetActivitiesCalendarQueryDTO; Reply: { 200: TGetActivitiesCalendarDTO } }>(
+      API_ACTIVITY_CALENDAR,
+      { ...activityGetCalendarSchema },
+      async function (request, reply) {
+        const data = await activityService.getCalendar(
+          request.query.dateFrom,
+          request.query.dateTo,
+          request.currentUser
+        );
 
-  fastify.get<{ Querystring: TGetActivitiesStatisticsQueryDTO; Reply: { 200: TGetActivitiesStatisticsDTO } }>(
-    API_ACTIVITY_STATISTICS,
-    { ...activityGetStatisticsSchema },
-    async function (request, reply) {
-      const data = await activityService.getStatistics(request.query.gap, request.currentUser);
+        reply.code(200).send(data);
+      }
+    );
 
-      reply.code(200).send(data);
-    }
-  );
+    fastify.get<{ Querystring: TGetActivitiesStatisticsQueryDTO; Reply: { 200: TGetActivitiesStatisticsDTO } }>(
+      API_ACTIVITY_STATISTICS,
+      { ...activityGetStatisticsSchema },
+      async function (request, reply) {
+        const data = await activityService.getStatistics(request.query.gap, request.currentUser);
 
-  fastify.get<{ Querystring: TGetActivitiesChartQueryDTO; Reply: { 200: TGetActivitiesChartDTO } }>(
-    API_ACTIVITY_CHART,
-    { ...activityGetChartSchema },
-    async function (request, reply) {
-      const data = await activityService.getChart(
-        request.query.type,
-        request.query.month,
-        request.query.average,
-        request.query.locale,
-        request.currentUser
-      );
+        reply.code(200).send(data);
+      }
+    );
 
-      reply.code(200).send(data);
-    }
-  );
+    fastify.get<{ Querystring: TGetActivitiesChartQueryDTO; Reply: { 200: TGetActivitiesChartDTO } }>(
+      API_ACTIVITY_CHART,
+      { ...activityGetChartSchema },
+      async function (request, reply) {
+        const data = await activityService.getChart(
+          request.query.type,
+          request.query.month,
+          request.query.average,
+          request.query.locale,
+          request.currentUser
+        );
 
-  fastify.get<{ Params: IBaseParams; Reply: { 200: TGetActivityDTO } }>(
-    `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
-    async function (request, reply) {
-      const data = await activityService.getOne(request.params.id, requireUser(request));
+        reply.code(200).send(data);
+      }
+    );
 
-      reply.code(200).send(data);
-    }
-  );
+    fastify.get<{ Params: IBaseParams; Reply: { 200: TGetActivityDTO } }>(
+      `${API_ACTIVITY}/:id`,
+      { preValidation: [fastify.onlyUser], ...activityGetOneSchema },
+      async function (request, reply) {
+        const data = await activityService.getOne(request.params.id, requireUser(request));
 
-  fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO } }>(
-    API_ACTIVITY,
-    { preValidation: [fastify.onlyUser], ...activityPostSchema, config: { rateLimit } },
-    async function (request, reply) {
-      const id = await activityService.create(request.body, requireUser(request));
+        reply.code(200).send(data);
+      }
+    );
 
-      reply.code(201).send(id);
-    }
-  );
+    fastify.post<{ Body: TPostActivityDataDTO; Reply: { 201: TPostActivityDTO } }>(
+      API_ACTIVITY,
+      { preValidation: [fastify.onlyUser], ...activityPostSchema, config: { rateLimit } },
+      async function (request, reply) {
+        const id = await activityService.create(request.body, requireUser(request));
 
-  fastify.patch<{ Body: TUpdateActivityDataDTO; Params: IBaseParams; Reply: { 200: TUpdateActivityDTO } }>(
-    `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyUser], ...activityUpdateSchema },
-    async function (request, reply) {
-      await activityService.update(request.params.id, request.body, requireUser(request));
+        reply.code(201).send(id);
+      }
+    );
 
-      reply.code(200).send({ message: 'Activity updated' });
-    }
-  );
+    fastify.patch<{ Body: TUpdateActivityDataDTO; Params: IBaseParams; Reply: { 200: TUpdateActivityDTO } }>(
+      `${API_ACTIVITY}/:id`,
+      { preValidation: [fastify.onlyUser], ...activityUpdateSchema },
+      async function (request, reply) {
+        await activityService.update(request.params.id, request.body, requireUser(request));
 
-  fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteActivityDTO } }>(
-    `${API_ACTIVITY}/:id`,
-    { preValidation: [fastify.onlyUser], ...activityDeleteSchema },
-    async function (request, reply) {
-      await activityService.delete(request.params.id, requireUser(request));
+        reply.code(200).send({ message: 'Activity updated' });
+      }
+    );
 
-      reply.code(200).send({ message: 'Activity deleted' });
-    }
-  );
+    fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteActivityDTO } }>(
+      `${API_ACTIVITY}/:id`,
+      { preValidation: [fastify.onlyUser], ...activityDeleteSchema },
+      async function (request, reply) {
+        await activityService.delete(request.params.id, requireUser(request));
+
+        reply.code(200).send({ message: 'Activity deleted' });
+      }
+    );
+  };
 }

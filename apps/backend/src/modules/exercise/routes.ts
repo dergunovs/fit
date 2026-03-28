@@ -18,7 +18,7 @@ import {
 
 import { rateLimit } from '../common/helpers.js';
 import { requireUser } from '../auth/helpers.js';
-import { exerciseService } from './service.js';
+import type { createExerciseService } from './service.js';
 import {
   exerciseGetManySchema,
   exerciseGetAllSchema,
@@ -29,76 +29,78 @@ import {
   exerciseDeleteSchema,
 } from './schema.js';
 
-export default async function (fastify: FastifyInstance) {
-  if (!fastify.onlyUser || !fastify.onlyAdmin) return;
+export function createExerciseRoutes(deps: { exerciseService: ReturnType<typeof createExerciseService> }) {
+  const { exerciseService } = deps;
 
-  fastify.get<{ Querystring: TGetExercisesQueryDTO; Reply: { 200: TGetExercisesDTO } }>(
-    API_EXERCISE,
-    { preValidation: [fastify.onlyAdmin], ...exerciseGetManySchema },
-    async function (request, reply) {
-      const data = await exerciseService.getMany(request.query.page);
+  return async function (fastify: FastifyInstance) {
+    fastify.get<{ Querystring: TGetExercisesQueryDTO; Reply: { 200: TGetExercisesDTO } }>(
+      API_EXERCISE,
+      { preValidation: [fastify.onlyAdmin], ...exerciseGetManySchema },
+      async function (request, reply) {
+        const data = await exerciseService.getMany(request.query.page);
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.get<{ Reply: { 200: TGetExercisesAllDTO } }>(
-    API_EXERCISE_ALL,
-    { ...exerciseGetAllSchema },
-    async function (request, reply) {
-      const data = await exerciseService.getAll(requireUser(request));
+    fastify.get<{ Reply: { 200: TGetExercisesAllDTO } }>(
+      API_EXERCISE_ALL,
+      { ...exerciseGetAllSchema },
+      async function (request, reply) {
+        const data = await exerciseService.getAll(requireUser(request));
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.get<{ Reply: { 200: TGetExercisesCustomDTO } }>(
-    API_EXERCISE_CUSTOM,
-    { ...exerciseGetCustomSchema },
-    async function (request, reply) {
-      const data = await exerciseService.getCustom(requireUser(request));
+    fastify.get<{ Reply: { 200: TGetExercisesCustomDTO } }>(
+      API_EXERCISE_CUSTOM,
+      { ...exerciseGetCustomSchema },
+      async function (request, reply) {
+        const data = await exerciseService.getCustom(requireUser(request));
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.get<{ Params: IBaseParams; Reply: { 200: TGetExerciseDTO } }>(
-    `${API_EXERCISE}/:id`,
-    { ...exerciseGetOneSchema },
-    async function (request, reply) {
-      const data = await exerciseService.getOne(request.params.id);
+    fastify.get<{ Params: IBaseParams; Reply: { 200: TGetExerciseDTO } }>(
+      `${API_EXERCISE}/:id`,
+      { ...exerciseGetOneSchema },
+      async function (request, reply) {
+        const data = await exerciseService.getOne(request.params.id);
 
-      reply.code(200).send(data);
-    }
-  );
+        reply.code(200).send(data);
+      }
+    );
 
-  fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
-    API_EXERCISE,
-    { preValidation: [fastify.onlyUser], ...exercisePostSchema, config: { rateLimit } },
-    async function (request, reply) {
-      await exerciseService.create(request.body, requireUser(request));
+    fastify.post<{ Body: TPostExerciseDataDTO; Reply: { 201: TPostExerciseDTO } }>(
+      API_EXERCISE,
+      { preValidation: [fastify.onlyUser], ...exercisePostSchema, config: { rateLimit } },
+      async function (request, reply) {
+        await exerciseService.create(request.body, requireUser(request));
 
-      reply.code(201).send({ message: 'Exercise added' });
-    }
-  );
+        reply.code(201).send({ message: 'Exercise added' });
+      }
+    );
 
-  fastify.patch<{ Body: TUpdateExerciseDataDTO; Params: IBaseParams; Reply: { 200: TUpdateExerciseDTO } }>(
-    `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
-    async function (request, reply) {
-      await exerciseService.update(request.params.id, request.body, requireUser(request));
+    fastify.patch<{ Body: TUpdateExerciseDataDTO; Params: IBaseParams; Reply: { 200: TUpdateExerciseDTO } }>(
+      `${API_EXERCISE}/:id`,
+      { preValidation: [fastify.onlyUser], ...exerciseUpdateSchema },
+      async function (request, reply) {
+        await exerciseService.update(request.params.id, request.body, requireUser(request));
 
-      reply.code(200).send({ message: 'Exercise updated' });
-    }
-  );
+        reply.code(200).send({ message: 'Exercise updated' });
+      }
+    );
 
-  fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteExerciseDTO } }>(
-    `${API_EXERCISE}/:id`,
-    { preValidation: [fastify.onlyUser], ...exerciseDeleteSchema },
-    async function (request, reply) {
-      await exerciseService.delete(request.params.id, requireUser(request));
+    fastify.delete<{ Params: IBaseParams; Reply: { 200: TDeleteExerciseDTO } }>(
+      `${API_EXERCISE}/:id`,
+      { preValidation: [fastify.onlyUser], ...exerciseDeleteSchema },
+      async function (request, reply) {
+        await exerciseService.delete(request.params.id, requireUser(request));
 
-      reply.code(200).send({ message: 'Exercises deleted' });
-    }
-  );
+        reply.code(200).send({ message: 'Exercises deleted' });
+      }
+    );
+  };
 }

@@ -2,28 +2,39 @@ import type { IMuscle } from 'fitness-tracker-contracts';
 
 import Muscle from './model.js';
 
-export const muscleRepository = {
-  getAll: async () => {
-    return Muscle.find().sort('title').lean();
-  },
+export interface IMuscleRepository {
+  getAll: () => Promise<IMuscle[]>;
+  findAll: () => Promise<IMuscle[]>;
+  getOne: (_id: string) => Promise<IMuscle | null>;
+  create: (muscleToCreate: IMuscle) => Promise<void>;
+  updateOne: (_id: string, data: IMuscle) => Promise<void>;
+  deleteOne: (_id: string) => Promise<void>;
+}
 
-  findAll: async () => {
-    return Muscle.find().lean();
-  },
+export function createMuscleRepository(): IMuscleRepository {
+  return {
+    getAll: async () => {
+      return Muscle.find().sort('title').lean();
+    },
 
-  getOne: async (_id: string) => {
-    return Muscle.findOne({ _id }).lean();
-  },
+    findAll: async () => {
+      return Muscle.find().lean();
+    },
 
-  create: async (muscleToCreate: IMuscle) => {
-    await Muscle.create(muscleToCreate);
-  },
+    getOne: async (_id: string) => {
+      return Muscle.findOne({ _id }).lean();
+    },
 
-  updateOne: async (_id: string, data: IMuscle) => {
-    await Muscle.findOneAndReplace({ _id }, { ...data, dateUpdated: new Date() });
-  },
+    create: async (muscleToCreate: IMuscle) => {
+      await Muscle.create(muscleToCreate);
+    },
 
-  deleteOne: async (_id: string) => {
-    await Muscle.findOneAndDelete({ _id });
-  },
-};
+    updateOne: async (_id: string, data: IMuscle) => {
+      await Muscle.findOneAndReplace({ _id }, { ...data, dateUpdated: new Date() });
+    },
+
+    deleteOne: async (_id: string) => {
+      await Muscle.findOneAndDelete({ _id });
+    },
+  };
+}

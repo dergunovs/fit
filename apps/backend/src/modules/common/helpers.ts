@@ -55,7 +55,7 @@ export async function paginate<T>(
 export async function sendMail(text: string, to: string) {
   const transporter = getEmailTransporter();
 
-  if (!transporter) throw new Error('Email transporter not configured');
+  if (!transporter) throw error.internal();
 
   await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject: EMAIL_SUBJECT, text });
 }

@@ -2,38 +2,42 @@ import type { IMuscle } from 'fitness-tracker-contracts';
 
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import { muscleRepository } from './repository.js';
+import { IMuscleRepository } from './repository.js';
 
-export const muscleService = {
-  getAll: async () => {
-    const muscles = await muscleRepository.getAll();
+export function createMuscleService(deps: { muscleRepository: IMuscleRepository }) {
+  const { muscleRepository } = deps;
 
-    return { data: muscles };
-  },
+  return {
+    getAll: async () => {
+      const muscles = await muscleRepository.getAll();
 
-  getOne: async (_id: string) => {
-    checkInvalidId(_id);
+      return { data: muscles };
+    },
 
-    const muscle = await muscleRepository.getOne(_id);
+    getOne: async (_id: string) => {
+      checkInvalidId(_id);
 
-    if (!muscle) throw error.notFound();
+      const muscle = await muscleRepository.getOne(_id);
 
-    return { data: muscle };
-  },
+      if (!muscle) throw error.notFound();
 
-  create: async (muscleToCreate: IMuscle) => {
-    await muscleRepository.create(muscleToCreate);
-  },
+      return { data: muscle };
+    },
 
-  update: async (_id: string, itemToUpdate: IMuscle) => {
-    checkInvalidId(_id);
+    create: async (muscleToCreate: IMuscle) => {
+      await muscleRepository.create(muscleToCreate);
+    },
 
-    await muscleRepository.updateOne(_id, itemToUpdate);
-  },
+    update: async (_id: string, itemToUpdate: IMuscle) => {
+      checkInvalidId(_id);
 
-  delete: async (_id: string) => {
-    checkInvalidId(_id);
+      await muscleRepository.updateOne(_id, itemToUpdate);
+    },
 
-    await muscleRepository.deleteOne(_id);
-  },
-};
+    delete: async (_id: string) => {
+      checkInvalidId(_id);
+
+      await muscleRepository.deleteOne(_id);
+    },
+  };
+}

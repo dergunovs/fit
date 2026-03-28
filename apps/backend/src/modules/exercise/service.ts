@@ -3,82 +3,86 @@ import type { IExercise, IUser } from 'fitness-tracker-contracts';
 import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import { exerciseRepository } from './repository.js';
 import { MAX_CUSTOM_EXERCISES } from './constants.js';
+import { IExerciseRepository } from './repository.js';
 
-export const exerciseService = {
-  getMany: async (page: number) => {
-    const { data, total } = await exerciseRepository.getMany(page);
+export function createExerciseService(deps: { exerciseRepository: IExerciseRepository }) {
+  const { exerciseRepository } = deps;
 
-    return { data, total };
-  },
+  return {
+    getMany: async (page: number) => {
+      const { data, total } = await exerciseRepository.getMany(page);
 
-  getAll: async (user: IUser) => {
-    const admin = await exerciseRepository.findAdminUser();
+      return { data, total };
+    },
 
-    if (!admin) throw error.notFound();
+    getAll: async (user: IUser) => {
+      const admin = await exerciseRepository.findAdminUser();
 
-    if (user.role === 'admin') {
-      const exercises = await exerciseRepository.getByUser(admin);
+      if (!admin) throw error.notFound();
+
+      if (user.role === 'admin') {
+        const exercises = await exerciseRepository.getByUser(admin);
+
+        return { data: exercises };
+      }
+
+      const [adminExercises, userExercises] = await Promise.all([
+        exerciseRepository.getByUser(admin),
+        exerciseRepository.getByUser(user),
+      ]);
+
+      return { data: [...userExercises, ...adminExercises] };
+    },
+
+    getCustom: async (user: IUser) => {
+      const exercises = await exerciseRepository.getByUser(user);
 
       return { data: exercises };
-    }
+    },
 
-    const [adminExercises, userExercises] = await Promise.all([
-      exerciseRepository.getByUser(admin),
-      exerciseRepository.getByUser(user),
-    ]);
+    getOne: async (_id: string) => {
+      checkInvalidId(_id);
 
-    return { data: [...userExercises, ...adminExercises] };
-  },
+      const exercise = await exerciseRepository.getOne(_id);
 
-  getCustom: async (user: IUser) => {
-    const exercises = await exerciseRepository.getByUser(user);
+      if (!exercise) throw error.notFound();
 
-    return { data: exercises };
-  },
+      return { data: exercise };
+    },
 
-  getOne: async (_id: string) => {
-    checkInvalidId(_id);
+    create: async (exerciseToCreate: IExercise, user: IUser) => {
+      const exercisesCount = user.role === 'admin' ? 1 : await exerciseRepository.countByUser(user);
 
-    const exercise = await exerciseRepository.getOne(_id);
+      const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < MAX_CUSTOM_EXERCISES;
 
-    if (!exercise) throw error.notFound();
+      if (!isAllowToCreateExercise) throw error.forbidden();
 
-    return { data: exercise };
-  },
+      await exerciseRepository.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
+    },
 
-  create: async (exerciseToCreate: IExercise, user: IUser) => {
-    const exercisesCount = user.role === 'admin' ? 1 : await exerciseRepository.countByUser(user);
+    update: async (_id: string, itemToUpdate: IExercise, user: IUser) => {
+      checkInvalidId(_id);
 
-    const isAllowToCreateExercise = user.role === 'admin' || exercisesCount < MAX_CUSTOM_EXERCISES;
+      const exercise = await exerciseRepository.findExerciseById(_id);
 
-    if (!isAllowToCreateExercise) throw error.forbidden();
+      if (!exercise?.createdBy?._id) throw error.notFound();
 
-    await exerciseRepository.create({ ...exerciseToCreate, createdBy: user, isCustom: user.role !== 'admin' });
-  },
+      allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
 
-  update: async (_id: string, itemToUpdate: IExercise, user: IUser) => {
-    checkInvalidId(_id);
+      await exerciseRepository.replaceOne(exercise, itemToUpdate);
+    },
 
-    const exercise = await exerciseRepository.findExerciseById(_id);
+    delete: async (_id: string, user: IUser) => {
+      checkInvalidId(_id);
 
-    if (!exercise?.createdBy?._id) throw error.notFound();
+      const exercise = await exerciseRepository.findExerciseById(_id);
 
-    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
+      if (!exercise?.createdBy?._id) throw error.notFound();
 
-    await exerciseRepository.replaceOne(exercise, itemToUpdate);
-  },
+      allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
 
-  delete: async (_id: string, user: IUser) => {
-    checkInvalidId(_id);
-
-    const exercise = await exerciseRepository.findExerciseById(_id);
-
-    if (!exercise?.createdBy?._id) throw error.notFound();
-
-    allowAccessToAdminAndCurrentUser(exercise.createdBy._id, user);
-
-    await exerciseRepository.deleteOne(exercise);
-  },
-};
+      await exerciseRepository.deleteOne(exercise);
+    },
+  };
+}
