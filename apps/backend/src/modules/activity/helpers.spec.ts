@@ -26,7 +26,6 @@ describe('getActivitiesStatistics', () => {
   it('calculates dynamics correctly', () => {
     const result = getActivitiesStatistics([mockActivity], [mockActivityPrev]);
 
-    // Current has 1 activity, previous has 1 activity -> 0% change
     expect(result.activitiesCount.dynamics).toBe(0);
   });
 

@@ -8,7 +8,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text'],
-      include: ['src/modules/**/helpers/*.ts', 'src/modules/**/service.ts'],
+      include: ['src/modules/**/helpers.ts', 'src/modules/**/service.ts'],
     },
     env: { TZ: 'UTC' },
   },
