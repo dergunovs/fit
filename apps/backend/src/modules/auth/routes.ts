@@ -6,6 +6,7 @@ import {
   API_AUTH_REGISTER,
   API_AUTH_RESET,
   API_AUTH_SETUP,
+  type IUser,
   type TGetAuthDTO,
   type TPostAuthConfirmTokenDTO,
   type TPostAuthConfirmTokenDataDTO,
@@ -34,7 +35,9 @@ import {
 
 export default async function (fastify: FastifyInstance) {
   fastify.get<{ Reply: { 200: TGetAuthDTO } }>(API_AUTH_GET, { ...authGetSchema }, async function (request, reply) {
-    const user = await authService.check(request);
+    const verifiedUser = await request.jwtVerify<IUser>();
+
+    const user = await authService.check(verifiedUser);
 
     reply.code(200).send(user);
   });

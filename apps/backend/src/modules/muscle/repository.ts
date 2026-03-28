@@ -7,6 +7,10 @@ export const muscleRepository = {
     return Muscle.find().sort('title').lean();
   },
 
+  findAll: async () => {
+    return Muscle.find().lean();
+  },
+
   getOne: async (_id: string) => {
     return Muscle.findOne({ _id }).lean();
   },

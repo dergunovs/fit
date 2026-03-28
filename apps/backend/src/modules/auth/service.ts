@@ -9,9 +9,7 @@ import { decodeToken, filterUserData } from './helpers.js';
 import { authRepository } from './repository.js';
 
 export const authService = {
-  check: async (request: { jwtVerify: () => Promise<IUser> }) => {
-    const verifiedUser = await request.jwtVerify();
-
+  check: async (verifiedUser: IUser) => {
     const user = await authRepository.findByEmail(verifiedUser.email);
 
     if (!user) throw error.notFound();

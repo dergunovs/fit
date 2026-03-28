@@ -48,4 +48,12 @@ export const userRepository = {
   deleteOne: async (_id: string) => {
     return User.findOneAndDelete({ _id });
   },
+
+  findUserForActivityStats: async (filter: { [key: string]: unknown }) => {
+    return User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean();
+  },
+
+  findUserForChart: async (filter: { [key: string]: unknown }) => {
+    return User.findOne(filter).select('_id goalActivities goalSets goalRepeats goalDuration').lean();
+  },
 };

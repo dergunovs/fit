@@ -5,9 +5,8 @@ import { adminOrUserFilter, getAuthenticatedUser, allowAccessToAdminAndCurrentUs
 import { getAdminAndUserExercises } from '../exercise/helpers.js';
 import { error } from '../common/errorHandler.js';
 import { checkInvalidId } from '../common/helpers.js';
-import { USER_POPULATE } from '../user/constants.js';
-import User from '../user/model.js';
-import Muscle from '../muscle/model.js';
+import { userRepository } from '../user/repository.js';
+import { muscleRepository } from '../muscle/repository.js';
 import { activityRepository } from './repository.js';
 import { getActivitiesStatistics, getExercisesStatistics, getActivitiesChartData } from './helpers.js';
 
@@ -22,7 +21,7 @@ export const activityService = {
     const filter = adminOrUserFilter(decode, token);
 
     const [user, exercises] = await Promise.all([
-      User.findOne(filter).select('_id name role email equipments').populate(USER_POPULATE).lean(),
+      userRepository.findUserForActivityStats(filter),
       getAdminAndUserExercises(decode, token),
     ]);
 
@@ -50,7 +49,7 @@ export const activityService = {
   getCalendar: async (dateFrom: string, dateTo: string, decode?: TDecode, token?: string) => {
     const filter = adminOrUserFilter(decode, token);
 
-    const user = await User.findOne(filter).select('_id').lean();
+    const user = await userRepository.findUserForActivityStats(filter);
 
     if (!user) throw error.notFound();
 
@@ -69,10 +68,7 @@ export const activityService = {
   ) => {
     const filter = adminOrUserFilter(decode, token);
 
-    const [user, muscles] = await Promise.all([
-      User.findOne(filter).select('_id goalActivities goalSets goalRepeats goalDuration').lean(),
-      Muscle.find().lean(),
-    ]);
+    const [user, muscles] = await Promise.all([userRepository.findUserForChart(filter), muscleRepository.findAll()]);
 
     if (!user) throw error.notFound();
 
