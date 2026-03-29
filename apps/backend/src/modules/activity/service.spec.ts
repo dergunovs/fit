@@ -57,7 +57,7 @@ describe('createActivityService', () => {
       mockExerciseRepository.getByUser.mockResolvedValue([]);
       mockActivityRepository.getStatistics.mockResolvedValue(mockActivities);
 
-      const result = await service.getStatistics(7, mockUser);
+      const result = await service.getStatistics('7', mockUser);
 
       expect(mockUserRepository.findUserForActivityStats).toHaveBeenCalled();
       expect(mockActivityRepository.getStatistics).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('createActivityService', () => {
       expect(result).toHaveProperty('exercise');
     });
 
-    testNotFoundScenario(service.getStatistics, mockUserRepository.findUserForActivityStats, 7, mockUser);
+    testNotFoundScenario(service.getStatistics, mockUserRepository.findUserForActivityStats, '7', mockUser);
   });
 
   describe('getCalendar', () => {

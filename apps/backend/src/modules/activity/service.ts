@@ -36,7 +36,7 @@ export function createActivityService(deps: {
 
       if (!foundUser) throw error.notFound();
 
-      const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(60);
+      const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(Number(gap));
 
       const activities: { current: IActivity[]; previous: IActivity[] }[] = await activityRepository.getStatistics(
         foundUser._id as string,
