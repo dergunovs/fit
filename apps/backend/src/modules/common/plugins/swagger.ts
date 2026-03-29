@@ -11,13 +11,24 @@ const SWAGGER_ROUTE_PREFIX = '/api-docs';
 export default fp(async function (fastify) {
   fastify.register(swagger, {
     swagger: {
-      info: { title: SWAGGER_TITLE, version: SWAGGER_VERSION },
+      info: {
+        title: SWAGGER_TITLE,
+        version: SWAGGER_VERSION,
+        description: 'REST API фитнес-трекера FiT',
+      },
       externalDocs: { url: 'https://github.com/dergunovs/fit', description: SWAGGER_DESCRIPTION },
       host: SWAGGER_HOST,
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
-      securityDefinitions: { token: { type: 'apiKey', name: 'Authorization', in: 'header' } },
+      securityDefinitions: {
+        token: {
+          type: 'apiKey',
+          name: 'Authorization',
+          in: 'header',
+          description: 'JWT токен. Формат: Bearer "token"',
+        },
+      },
     },
   });
 

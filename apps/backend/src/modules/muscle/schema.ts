@@ -47,6 +47,7 @@ export const muscleReply: JSONSchemaType<TGetMuscleDTO> = {
 export const muscleGetAllSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить все группы мышц',
     response: { 200: musclesReply },
   },
 };
@@ -54,6 +55,7 @@ export const muscleGetAllSchema: ISchema = {
 export const muscleGetOneSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить группу мышц по ID',
     response: { 200: muscleReply },
     params: baseParams,
   },
@@ -62,6 +64,7 @@ export const muscleGetOneSchema: ISchema = {
 export const musclePostSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создать группу мышц',
     response: { 201: baseReply },
     body: muscleModel,
     security: [{ token: [] }],
@@ -71,6 +74,7 @@ export const musclePostSchema: ISchema = {
 export const muscleUpdateSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить группу мышц',
     response: { 200: baseReply },
     body: muscleModel,
     params: baseParams,
@@ -81,6 +85,7 @@ export const muscleUpdateSchema: ISchema = {
 export const muscleDeleteSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Удалить группу мышц',
     response: { 200: baseReply },
     params: baseParams,
     security: [{ token: [] }],

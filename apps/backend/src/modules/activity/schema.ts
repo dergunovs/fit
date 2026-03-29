@@ -208,6 +208,7 @@ export const postActivityReply: JSONSchemaType<TPostActivityDTO> = {
 export const activityGetManySchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить список занятий',
     response: { 200: activitiesReply },
     querystring: paginatedQuery,
     security: [{ token: [] }],
@@ -217,6 +218,7 @@ export const activityGetManySchema: ISchema = {
 export const activityGetCalendarSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить занятия для календаря',
     response: { 200: activitiesCalendarReply },
     querystring: activitiesCalendarQuery,
   },
@@ -225,6 +227,7 @@ export const activityGetCalendarSchema: ISchema = {
 export const activityGetChartSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить данные для графика',
     response: { 200: activitiesChartReply },
     querystring: activitiesChartQuery,
   },
@@ -233,6 +236,7 @@ export const activityGetChartSchema: ISchema = {
 export const activityGetStatisticsSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить статистику занятий',
     response: { 200: activitiesStatisticsReply },
     querystring: activitiesStatisticsQuery,
   },
@@ -241,6 +245,7 @@ export const activityGetStatisticsSchema: ISchema = {
 export const activityGetOneSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить занятие по ID',
     response: { 200: activityReply },
     params: baseParams,
     security: [{ token: [] }],
@@ -250,6 +255,7 @@ export const activityGetOneSchema: ISchema = {
 export const activityPostSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создать занятие',
     response: { 201: postActivityReply },
     body: activityModel,
     security: [{ token: [] }],
@@ -259,6 +265,7 @@ export const activityPostSchema: ISchema = {
 export const activityUpdateSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить занятие',
     response: { 200: baseReply },
     body: activityModel,
     params: baseParams,
@@ -269,6 +276,7 @@ export const activityUpdateSchema: ISchema = {
 export const activityDeleteSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Удалить занятие',
     response: { 200: baseReply },
     params: baseParams,
     security: [{ token: [] }],

@@ -47,6 +47,7 @@ export const equipmentReply: JSONSchemaType<TGetEquipmentDTO> = {
 export const equipmentGetAllSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить все оборудование',
     response: { 200: equipmentsReply },
   },
 };
@@ -54,6 +55,7 @@ export const equipmentGetAllSchema: ISchema = {
 export const equipmentGetOneSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить оборудование по ID',
     response: { 200: equipmentReply },
     params: baseParams,
   },
@@ -62,6 +64,7 @@ export const equipmentGetOneSchema: ISchema = {
 export const equipmentPostSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создать оборудование',
     response: { 201: baseReply },
     body: equipmentModel,
     security: [{ token: [] }],
@@ -71,6 +74,7 @@ export const equipmentPostSchema: ISchema = {
 export const equipmentUpdateSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить оборудование',
     response: { 200: baseReply },
     body: equipmentModel,
     params: baseParams,
@@ -81,6 +85,7 @@ export const equipmentUpdateSchema: ISchema = {
 export const equipmentDeleteSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Удалить оборудование',
     response: { 200: baseReply },
     params: baseParams,
     security: [{ token: [] }],

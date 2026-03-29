@@ -84,6 +84,7 @@ export const authReply: JSONSchemaType<TGetAuthDTO> = {
 export const authGetSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить текущего пользователя',
     response: { 200: authReply },
     security: [{ token: [] }],
   },
@@ -92,6 +93,7 @@ export const authGetSchema: ISchema = {
 export const authLoginSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Авторизация',
     body: authDataModel,
     response: { 200: loginReply },
   },
@@ -100,6 +102,7 @@ export const authLoginSchema: ISchema = {
 export const authSetupSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создание администратора',
     body: authDataModel,
     response: { 200: baseReply },
   },
@@ -108,6 +111,7 @@ export const authSetupSchema: ISchema = {
 export const authRegisterSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Регистрация пользователя',
     body: registerDataModel,
     response: { 200: baseReply },
   },
@@ -116,6 +120,7 @@ export const authRegisterSchema: ISchema = {
 export const authConfirmSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Подтверждение email',
     body: confirmTokenDataModel,
     response: { 200: baseReply },
   },
@@ -124,6 +129,7 @@ export const authConfirmSchema: ISchema = {
 export const authResetSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Сброс пароля',
     body: resetPasswordDataModel,
     response: { 200: baseReply },
   },

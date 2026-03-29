@@ -120,6 +120,7 @@ export const userReply: JSONSchemaType<TGetUserDTO> = {
 export const userGetManySchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить список пользователей',
     response: { 200: usersReply },
     querystring: paginatedQuery,
     security: [{ token: [] }],
@@ -129,6 +130,7 @@ export const userGetManySchema: ISchema = {
 export const userGetOneSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить пользователя по ID',
     response: { 200: userReply },
     params: baseParams,
     security: [{ token: [] }],
@@ -138,6 +140,7 @@ export const userGetOneSchema: ISchema = {
 export const userPostSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создать пользователя',
     response: { 201: baseReply },
     body: userModel,
     security: [{ token: [] }],
@@ -147,6 +150,7 @@ export const userPostSchema: ISchema = {
 export const userPostFeedbackSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Отправить обратную связь',
     response: { 201: baseReply },
     body: userFeedbackModel,
   },
@@ -155,6 +159,7 @@ export const userPostFeedbackSchema: ISchema = {
 export const userUpdateSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить пользователя',
     response: { 200: baseReply },
     body: userModel,
     params: baseParams,
@@ -165,6 +170,7 @@ export const userUpdateSchema: ISchema = {
 export const userUpdatePasswordSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить пароль пользователя',
     response: { 200: baseReply },
     body: userPasswordModel,
     params: baseParams,
@@ -175,6 +181,7 @@ export const userUpdatePasswordSchema: ISchema = {
 export const userDeleteSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Удалить пользователя',
     response: { 200: baseReply },
     params: baseParams,
     security: [{ token: [] }],

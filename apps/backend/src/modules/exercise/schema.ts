@@ -109,6 +109,7 @@ export const exerciseReply: JSONSchemaType<TGetExerciseDTO> = {
 export const exerciseGetManySchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить список упражнений',
     response: { 200: exercisesReply },
     querystring: paginatedQuery,
     security: [{ token: [] }],
@@ -118,6 +119,7 @@ export const exerciseGetManySchema: ISchema = {
 export const exerciseGetAllSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить все упражнения',
     response: { 200: exercisesAllReply },
   },
 };
@@ -125,6 +127,7 @@ export const exerciseGetAllSchema: ISchema = {
 export const exerciseGetCustomSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить пользовательские упражнения',
     response: { 200: exercisesAllReply },
   },
 };
@@ -132,6 +135,7 @@ export const exerciseGetCustomSchema: ISchema = {
 export const exerciseGetOneSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Получить упражнение по ID',
     response: { 200: exerciseReply },
     params: baseParams,
   },
@@ -140,6 +144,7 @@ export const exerciseGetOneSchema: ISchema = {
 export const exercisePostSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Создать упражнение',
     response: { 201: baseReply },
     body: exerciseModel,
     security: [{ token: [] }],
@@ -149,6 +154,7 @@ export const exercisePostSchema: ISchema = {
 export const exerciseUpdateSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Обновить упражнение',
     response: { 200: baseReply },
     body: exerciseModel,
     params: baseParams,
@@ -159,6 +165,7 @@ export const exerciseUpdateSchema: ISchema = {
 export const exerciseDeleteSchema: ISchema = {
   schema: {
     tags,
+    summary: 'Удалить упражнение',
     response: { 200: baseReply },
     params: baseParams,
     security: [{ token: [] }],
