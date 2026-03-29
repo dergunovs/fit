@@ -2,10 +2,6 @@ import fp from 'fastify-plugin';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 
-import dotenv from 'dotenv';
-
-dotenv.config({ quiet: true });
-
 const SWAGGER_HOST = 'localhost:5000';
 const SWAGGER_TITLE = 'FiT swagger';
 const SWAGGER_VERSION = '1.0.0';

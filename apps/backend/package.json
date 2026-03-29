@@ -13,8 +13,8 @@
     "directory": "apps/backend"
   },
   "scripts": {
-    "dev": "node --watch src/index.ts",
-    "start": "node dist/index.js",
+    "dev": "node --env-file=.env --watch src/index.ts",
+    "start": "node --env-file=.env dist/index.js",
     "build": "esbuild src/index.ts --platform=node --outdir=dist --format=esm --bundle --minify --legal-comments=none --banner:js='import{createRequire as __cr}from\"node:module\";import{fileURLToPath as __f}from\"node:url\";import{dirname as __d}from\"node:path\";if(typeof require===\"undefined\")globalThis.require=__cr(import.meta.url);const __filename=__f(import.meta.url);const __dirname=__d(__filename);'",
     "lint": "eslint src/**/*.{js,ts}",
     "ts": "tsc -p tsconfig.json --noEmit",
@@ -30,7 +30,6 @@
     "@fastify/swagger-ui": "5.2.5",
     "ajv": "8.18.0",
     "bcryptjs": "3.0.3",
-    "dotenv": "17.3.1",
     "fastify": "5.8.4",
     "fastify-plugin": "5.1.0",
     "fitness-tracker-contracts": "*",

@@ -1,5 +1,4 @@
 import Fastify, { type FastifyError } from 'fastify';
-import dotenv from 'dotenv';
 import { Schema, connect } from 'mongoose';
 
 import { addSchemas } from './modules/common/addSchemas.ts';
@@ -7,8 +6,6 @@ import { registerPlugins } from './modules/common/registerPlugins.ts';
 import { createRoutes } from './modules/common/createRoutes.ts';
 import { errorHandler } from './modules/common/errorHandler.ts';
 import { DB_HOST, SERVER_HOST } from './modules/common/constants.ts';
-
-dotenv.config({ quiet: true });
 
 async function connectToDatabase() {
   const DATABASE_PATH = `mongodb://${DB_HOST}/${process.env.DATABASE}`;
