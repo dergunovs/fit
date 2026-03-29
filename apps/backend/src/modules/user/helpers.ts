@@ -1,4 +1,4 @@
-import { IExercise, IUser } from 'fitness-tracker-contracts';
+import type { IExercise, IUser } from 'fitness-tracker-contracts';
 
 function getUserEquipmentParams(exercise: IExercise, user: IUser) {
   const isExerciseHasEquipment = !!exercise.equipment;

@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
 import type { IUserFeedback, IUser } from 'fitness-tracker-contracts';
 
-import { checkInvalidId, sendMail } from '../common/helpers.js';
-import { error } from '../common/errorHandler.js';
-import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
-import { BCRYPT_SALT_ROUNDS } from '../auth/constants.js';
-import { IUserRepository } from './repository.js';
+import { checkInvalidId, sendMail } from '../common/helpers.ts';
+import { error } from '../common/errorHandler.ts';
+import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.ts';
+import { BCRYPT_SALT_ROUNDS } from '../auth/constants.ts';
+import type { IUserRepository } from './repository.ts';
 
 export function createUserService(deps: { userRepository: IUserRepository }) {
   const { userRepository } = deps;

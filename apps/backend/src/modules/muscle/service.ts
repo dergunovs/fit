@@ -1,8 +1,8 @@
 import type { IMuscle } from 'fitness-tracker-contracts';
 
-import { error } from '../common/errorHandler.js';
-import { checkInvalidId } from '../common/helpers.js';
-import { IMuscleRepository } from './repository.js';
+import { error } from '../common/errorHandler.ts';
+import { checkInvalidId } from '../common/helpers.ts';
+import type { IMuscleRepository } from './repository.ts';
 
 export function createMuscleService(deps: { muscleRepository: IMuscleRepository }) {
   const { muscleRepository } = deps;

@@ -1,11 +1,11 @@
-import { RateLimitOptions } from '@fastify/rate-limit';
-import { IPaginatedReply } from 'fitness-tracker-contracts';
+import type { RateLimitOptions } from '@fastify/rate-limit';
+import type { IPaginatedReply } from 'fitness-tracker-contracts';
 import mongoose, { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 
-import { error } from './errorHandler.js';
-import { IPopulate } from './types.js';
-import { EMAIL_PORT, EMAIL_SUBJECT, PAGINATION_LIMIT, RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW } from './constants.js';
+import { error } from './errorHandler.ts';
+import type { IPopulate } from './types.ts';
+import { EMAIL_PORT, EMAIL_SUBJECT, PAGINATION_LIMIT, RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW } from './constants.ts';
 
 let emailTransporter: nodemailer.Transporter | null = null;
 

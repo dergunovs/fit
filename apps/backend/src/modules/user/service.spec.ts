@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import bcrypt from 'bcryptjs';
 
-import { testAccessDeniedScenario } from '../common/test/testHelpers.js';
-import { mockUser, mockAdmin, userId, otherUserId, mockUserRepository } from './mocks.js';
-import { createUserService } from './service.js';
+import { testAccessDeniedScenario } from '../common/test/testHelpers.ts';
+import { mockUser, mockAdmin, userId, otherUserId, mockUserRepository } from './mocks.ts';
+import { createUserService } from './service.ts';
 
 vi.mock('bcryptjs', () => ({
   default: {
@@ -11,16 +11,16 @@ vi.mock('bcryptjs', () => ({
   },
 }));
 
-vi.mock('../common/helpers.js', () => ({
+vi.mock('../common/helpers.ts', () => ({
   checkInvalidId: vi.fn(),
   sendMail: vi.fn(),
 }));
 
-vi.mock('../auth/helpers.js', () => ({
+vi.mock('../auth/helpers.ts', () => ({
   allowAccessToAdminAndCurrentUser: vi.fn(),
 }));
 
-vi.mock('../common/errorHandler.js', () => ({
+vi.mock('../common/errorHandler.ts', () => ({
   error: {
     notFound: () => new Error('Not found'),
     forbidden: () => new Error('Access denied'),
@@ -29,8 +29,8 @@ vi.mock('../common/errorHandler.js', () => ({
   },
 }));
 
-const { checkInvalidId, sendMail } = await import('../common/helpers.js');
-const { allowAccessToAdminAndCurrentUser } = await import('../auth/helpers.js');
+const { checkInvalidId, sendMail } = await import('../common/helpers.ts');
+const { allowAccessToAdminAndCurrentUser } = await import('../auth/helpers.ts');
 
 const service = createUserService({
   userRepository: mockUserRepository,

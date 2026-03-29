@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mockUser } from '../user/mocks.js';
+import { mockUser } from '../user/mocks.ts';
 import {
   mockAuthRepository,
   mockAuthUser,
@@ -12,11 +12,11 @@ import {
   mockPassword,
   mockToken,
   mockSign,
-} from './mocks.js';
-import { AUTH_TEXTS } from './constants.js';
-import { createAuthService } from './service.js';
+} from './mocks.ts';
+import { AUTH_TEXTS } from './constants.ts';
+import { createAuthService } from './service.ts';
 
-vi.mock('../common/helpers.js', () => ({
+vi.mock('../common/helpers.ts', () => ({
   sendMail: vi.fn(),
 }));
 
@@ -158,7 +158,7 @@ describe('createAuthService', () => {
 
   describe('register', () => {
     it('creates user and sends confirmation email with English text', async () => {
-      const { sendMail } = await import('../common/helpers.js');
+      const { sendMail } = await import('../common/helpers.ts');
 
       mockAuthRepository.countByEmail.mockResolvedValue(0);
       (bcrypt.hash as ReturnType<typeof vi.fn>).mockResolvedValue('hashed-password');
@@ -191,7 +191,7 @@ describe('createAuthService', () => {
     });
 
     it('sends Russian email text when lang is ru', async () => {
-      const { sendMail } = await import('../common/helpers.js');
+      const { sendMail } = await import('../common/helpers.ts');
 
       mockAuthRepository.countByEmail.mockResolvedValue(0);
       (bcrypt.hash as ReturnType<typeof vi.fn>).mockResolvedValue('hashed-password');
@@ -228,7 +228,7 @@ describe('createAuthService', () => {
 
   describe('reset', () => {
     it('resets password and sends email with English text', async () => {
-      const { sendMail } = await import('../common/helpers.js');
+      const { sendMail } = await import('../common/helpers.ts');
 
       mockAuthRepository.findByEmail.mockResolvedValue(mockAuthUser);
       (bcrypt.hash as ReturnType<typeof vi.fn>).mockResolvedValue('hashed-new-password');
@@ -253,7 +253,7 @@ describe('createAuthService', () => {
     });
 
     it('sends Russian email text when lang is ru', async () => {
-      const { sendMail } = await import('../common/helpers.js');
+      const { sendMail } = await import('../common/helpers.ts');
 
       mockAuthRepository.findByEmail.mockResolvedValue(mockAuthUser);
       (bcrypt.hash as ReturnType<typeof vi.fn>).mockResolvedValue('hashed-new-password');

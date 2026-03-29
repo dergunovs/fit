@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { testNotFoundScenario, testInvalidIdScenario } from '../common/test/testHelpers.js';
-import { mockMuscle, mockMuscle2, mockMuscleRepository } from './mocks.js';
-import { createMuscleService } from './service.js';
+import { testNotFoundScenario, testInvalidIdScenario } from '../common/test/testHelpers.ts';
+import { mockMuscle, mockMuscle2, mockMuscleRepository } from './mocks.ts';
+import { createMuscleService } from './service.ts';
 
 const service = createMuscleService({ muscleRepository: mockMuscleRepository });
 

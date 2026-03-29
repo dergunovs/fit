@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
 import type { IMuscle } from 'fitness-tracker-contracts';
 
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IMuscleRepository } from './repository.js';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IMuscleRepository } from './repository.ts';
 
 export const mockMuscle: IMuscle = {
   _id: 'muscle1',

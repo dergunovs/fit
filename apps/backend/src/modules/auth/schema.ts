@@ -8,8 +8,8 @@ import type {
   TPostAuthResetPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 
-import { ISchema } from '../common/types.js';
-import { baseReply } from '../common/schema.js';
+import type { ISchema } from '../common/types.ts';
+import { baseReply } from '../common/schema.ts';
 
 const tags = ['Auth'];
 

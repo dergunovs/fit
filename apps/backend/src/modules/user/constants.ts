@@ -1,4 +1,4 @@
-import { IPopulate } from '../common/types.js';
+import type { IPopulate } from '../common/types.ts';
 
 export const USER_POPULATE: IPopulate[] = [
   { path: 'equipments.equipment' },

@@ -1,4 +1,4 @@
-import {
+import type {
   IActivity,
   IActivityStatistics,
   IExercise,
@@ -9,11 +9,11 @@ import {
   IUser,
   TLocale,
 } from 'fitness-tracker-contracts';
-import { getPercentDiff, IWeekDays } from 'mhz-helpers';
+import { getPercentDiff, type IWeekDays } from 'mhz-helpers';
 
-import { IChartFilter } from '../common/types.js';
-import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.js';
-import { CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.js';
+import type { IChartFilter } from '../common/types.ts';
+import { isUserEquipmentMatches, getUserGoals } from '../user/helpers.ts';
+import { CHART_LABELS, DEFAULT_COLOR, GOAL_COLOR } from './constants.ts';
 
 const CHART_PROCESSORS = {
   activity: processActivityChart,

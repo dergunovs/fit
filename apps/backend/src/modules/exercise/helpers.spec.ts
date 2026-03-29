@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mockUser, mockAdmin } from '../user/mocks.js';
-import { getExercisesByUser, getAdminAndUserExercises } from './helpers.js';
-import { mockExercise, mockExercise2, mockExerciseRepository } from './mocks.js';
+import { mockUser, mockAdmin } from '../user/mocks.ts';
+import { getExercisesByUser, getAdminAndUserExercises } from './helpers.ts';
+import { mockExercise, mockExercise2, mockExerciseRepository } from './mocks.ts';
 
 describe('getExercisesByUser', () => {
   beforeEach(() => {

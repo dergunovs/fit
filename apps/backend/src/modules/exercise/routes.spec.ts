@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { type FastifyInstance } from 'fastify';
 
-import { createTestApp, generateTestToken } from '../common/test/createTestApp.js';
-import { mockUser, mockAdmin } from '../user/mocks.js';
-import { mockExerciseService, mockExercise } from './mocks.js';
+import { createTestApp, generateTestToken } from '../common/test/createTestApp.ts';
+import { mockUser, mockAdmin } from '../user/mocks.ts';
+import { mockExerciseService, mockExercise } from './mocks.ts';
 
 const exerciseId = 'ex1';
 

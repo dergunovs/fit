@@ -2,19 +2,19 @@ import Fastify, { type FastifyInstance, type FastifyRequest, type FastifyReply }
 import jwt from '@fastify/jwt';
 import type { IUser } from 'fitness-tracker-contracts';
 
-import type { createAuthService } from '../../auth/service.js';
-import type { createActivityService } from '../../activity/service.js';
-import type { createUserService } from '../../user/service.js';
-import type { createExerciseService } from '../../exercise/service.js';
-import type { createEquipmentService } from '../../equipment/service.js';
-import type { createMuscleService } from '../../muscle/service.js';
-import { addSchemas } from '../addSchemas.js';
-import { createAuthRoutes } from '../../auth/routes.js';
-import { createActivityRoutes } from '../../activity/routes.js';
-import { createUserRoutes } from '../../user/routes.js';
-import { createExerciseRoutes } from '../../exercise/routes.js';
-import { createEquipmentRoutes } from '../../equipment/routes.js';
-import { createMuscleRoutes } from '../../muscle/routes.js';
+import type { createAuthService } from '../../auth/service.ts';
+import type { createActivityService } from '../../activity/service.ts';
+import type { createUserService } from '../../user/service.ts';
+import type { createExerciseService } from '../../exercise/service.ts';
+import type { createEquipmentService } from '../../equipment/service.ts';
+import type { createMuscleService } from '../../muscle/service.ts';
+import { addSchemas } from '../addSchemas.ts';
+import { createAuthRoutes } from '../../auth/routes.ts';
+import { createActivityRoutes } from '../../activity/routes.ts';
+import { createUserRoutes } from '../../user/routes.ts';
+import { createExerciseRoutes } from '../../exercise/routes.ts';
+import { createEquipmentRoutes } from '../../equipment/routes.ts';
+import { createMuscleRoutes } from '../../muscle/routes.ts';
 
 const TEST_SECRET = 'test-secret';
 const PREFIX = '/api';

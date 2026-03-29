@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { type FastifyInstance } from 'fastify';
 
-import { createTestApp, generateTestToken } from '../common/test/createTestApp.js';
-import { mockUser, mockAdmin } from '../user/mocks.js';
-import { mockEquipmentService, mockEquipment, equipmentId } from './mocks.js';
+import { createTestApp, generateTestToken } from '../common/test/createTestApp.ts';
+import { mockUser, mockAdmin } from '../user/mocks.ts';
+import { mockEquipmentService, mockEquipment, equipmentId } from './mocks.ts';
 
 describe('Equipment Routes', () => {
   let app: FastifyInstance;

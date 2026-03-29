@@ -21,9 +21,9 @@ import {
   type TDeleteActivityDTO,
 } from 'fitness-tracker-contracts';
 
-import { rateLimit } from '../common/helpers.js';
-import { requireUser } from '../auth/helpers.js';
-import type { createActivityService } from './service.js';
+import { rateLimit } from '../common/helpers.ts';
+import { requireUser } from '../auth/helpers.ts';
+import type { createActivityService } from './service.ts';
 import {
   activityDeleteSchema,
   activityGetCalendarSchema,
@@ -33,7 +33,7 @@ import {
   activityGetStatisticsSchema,
   activityPostSchema,
   activityUpdateSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createActivityRoutes(deps: { activityService: ReturnType<typeof createActivityService> }) {
   const { activityService } = deps;
@@ -67,7 +67,7 @@ export function createActivityRoutes(deps: { activityService: ReturnType<typeof 
       API_ACTIVITY_STATISTICS,
       { ...activityGetStatisticsSchema },
       async function (request, reply) {
-        const data = await activityService.getStatistics(Number(request.query.gap), request.currentUser);
+        const data = await activityService.getStatistics(request.query.gap, request.currentUser);
 
         reply.code(200).send(data);
       }

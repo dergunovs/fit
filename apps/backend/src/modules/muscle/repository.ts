@@ -1,6 +1,6 @@
 import type { IMuscle } from 'fitness-tracker-contracts';
 
-import Muscle from './model.js';
+import Muscle from './model.ts';
 
 export interface IMuscleRepository {
   getAll: () => Promise<IMuscle[]>;

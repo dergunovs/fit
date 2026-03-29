@@ -9,10 +9,10 @@ import type {
   TGetExercisesDTO,
 } from 'fitness-tracker-contracts';
 
-import { muscleModel } from '../muscle/schema.js';
-import { equipmentModel } from '../equipment/schema.js';
-import { ISchema } from '../common/types.js';
-import { baseParams, baseReply, paginatedQuery } from '../common/schema.js';
+import { muscleModel } from '../muscle/schema.ts';
+import { equipmentModel } from '../equipment/schema.ts';
+import type { ISchema } from '../common/types.ts';
+import { baseParams, baseReply, paginatedQuery } from '../common/schema.ts';
 
 const tags = ['Exercise'];
 

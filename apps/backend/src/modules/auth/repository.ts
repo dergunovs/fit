@@ -1,7 +1,7 @@
-import { IUser } from 'fitness-tracker-contracts';
+import type { IUser } from 'fitness-tracker-contracts';
 
-import { USER_POPULATE } from '../user/constants.js';
-import User from '../user/model.js';
+import { USER_POPULATE } from '../user/constants.ts';
+import User from '../user/model.ts';
 
 export interface IAuthRepository {
   findByEmail: (email: string) => Promise<(IUser & { _id: string; __v: number }) | null>;

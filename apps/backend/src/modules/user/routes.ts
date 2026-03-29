@@ -18,9 +18,9 @@ import {
   type TPostUserFeedbackDTO,
 } from 'fitness-tracker-contracts';
 
-import { rateLimit } from '../common/helpers.js';
-import { requireUser } from '../auth/helpers.js';
-import type { createUserService } from './service.js';
+import { rateLimit } from '../common/helpers.ts';
+import { requireUser } from '../auth/helpers.ts';
+import type { createUserService } from './service.ts';
 import {
   userPostSchema,
   userDeleteSchema,
@@ -29,7 +29,7 @@ import {
   userUpdateSchema,
   userUpdatePasswordSchema,
   userPostFeedbackSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createUserRoutes(deps: { userService: ReturnType<typeof createUserService> }) {
   const { userService } = deps;

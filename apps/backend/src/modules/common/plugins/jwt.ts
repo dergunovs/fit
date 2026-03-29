@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
 import jwt from '@fastify/jwt';
-import { IUser } from 'fitness-tracker-contracts';
+import type { IUser } from 'fitness-tracker-contracts';
 
-import { error } from '../errorHandler.js';
+import { error } from '../errorHandler.ts';
 
 declare module 'fastify' {
   interface FastifyRequest {

@@ -5,12 +5,12 @@ import {
   testInvalidIdScenario,
   testAccessDeniedScenario,
   testSuccessScenario,
-} from '../common/test/testHelpers.js';
-import { mockExerciseRepository } from '../exercise/mocks.js';
-import { mockMuscleRepository } from '../muscle/mocks.js';
-import { mockUser, mockAdmin, otherUserId, mockUserRepository } from '../user/mocks.js';
-import { mockActivityRepository, mockActivity, mockActivityPrev, activityId } from './mocks.js';
-import { createActivityService } from './service.js';
+} from '../common/test/testHelpers.ts';
+import { mockExerciseRepository } from '../exercise/mocks.ts';
+import { mockMuscleRepository } from '../muscle/mocks.ts';
+import { mockUser, mockAdmin, otherUserId, mockUserRepository } from '../user/mocks.ts';
+import { mockActivityRepository, mockActivity, mockActivityPrev, activityId } from './mocks.ts';
+import { createActivityService } from './service.ts';
 
 const service = createActivityService({
   activityRepository: mockActivityRepository,

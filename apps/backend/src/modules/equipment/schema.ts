@@ -1,8 +1,8 @@
 import type { JSONSchemaType } from 'ajv';
 import type { IEquipment, TGetEquipmentDTO, TGetEquipmentsDTO } from 'fitness-tracker-contracts';
 
-import { ISchema } from '../common/types.js';
-import { baseParams, baseReply } from '../common/schema.js';
+import type { ISchema } from '../common/types.ts';
+import { baseParams, baseReply } from '../common/schema.ts';
 
 const tags = ['Equipment'];
 

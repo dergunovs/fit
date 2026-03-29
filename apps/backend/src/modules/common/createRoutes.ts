@@ -1,23 +1,23 @@
 import type { FastifyInstance } from 'fastify';
 
-import { createActivityRoutes } from '../activity/routes.js';
-import { createAuthRoutes } from '../auth/routes.js';
-import { createEquipmentRoutes } from '../equipment/routes.js';
-import { createExerciseRoutes } from '../exercise/routes.js';
-import { createMuscleRoutes } from '../muscle/routes.js';
-import { createUserRoutes } from '../user/routes.js';
-import { createAuthRepository } from '../auth/repository.js';
-import { createUserRepository } from '../user/repository.js';
-import { createActivityRepository } from '../activity/repository.js';
-import { createExerciseRepository } from '../exercise/repository.js';
-import { createEquipmentRepository } from '../equipment/repository.js';
-import { createMuscleRepository } from '../muscle/repository.js';
-import { createAuthService } from '../auth/service.js';
-import { createUserService } from '../user/service.js';
-import { createActivityService } from '../activity/service.js';
-import { createExerciseService } from '../exercise/service.js';
-import { createEquipmentService } from '../equipment/service.js';
-import { createMuscleService } from '../muscle/service.js';
+import { createActivityRoutes } from '../activity/routes.ts';
+import { createAuthRoutes } from '../auth/routes.ts';
+import { createEquipmentRoutes } from '../equipment/routes.ts';
+import { createExerciseRoutes } from '../exercise/routes.ts';
+import { createMuscleRoutes } from '../muscle/routes.ts';
+import { createUserRoutes } from '../user/routes.ts';
+import { createAuthRepository } from '../auth/repository.ts';
+import { createUserRepository } from '../user/repository.ts';
+import { createActivityRepository } from '../activity/repository.ts';
+import { createExerciseRepository } from '../exercise/repository.ts';
+import { createEquipmentRepository } from '../equipment/repository.ts';
+import { createMuscleRepository } from '../muscle/repository.ts';
+import { createAuthService } from '../auth/service.ts';
+import { createUserService } from '../user/service.ts';
+import { createActivityService } from '../activity/service.ts';
+import { createExerciseService } from '../exercise/service.ts';
+import { createEquipmentService } from '../equipment/service.ts';
+import { createMuscleService } from '../muscle/service.ts';
 
 export function createRoutes(fastify: FastifyInstance) {
   const authRepository = createAuthRepository();

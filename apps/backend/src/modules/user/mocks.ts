@@ -2,9 +2,9 @@ import { vi } from 'vitest';
 import mongoose from 'mongoose';
 import type { IUser } from 'fitness-tracker-contracts';
 
-import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IUserRepository } from './repository.js';
+import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.ts';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IUserRepository } from './repository.ts';
 
 export const userId = new mongoose.Types.ObjectId().toString();
 export const adminId = new mongoose.Types.ObjectId().toString();

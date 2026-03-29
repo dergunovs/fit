@@ -1,6 +1,6 @@
 import type { IEquipment } from 'fitness-tracker-contracts';
 
-import Equipment from './model.js';
+import Equipment from './model.ts';
 
 export interface IEquipmentRepository {
   getAll: () => Promise<IEquipment[]>;

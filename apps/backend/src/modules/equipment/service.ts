@@ -1,8 +1,8 @@
 import type { IEquipment } from 'fitness-tracker-contracts';
 
-import { error } from '../common/errorHandler.js';
-import { checkInvalidId } from '../common/helpers.js';
-import { IEquipmentRepository } from './repository.js';
+import { error } from '../common/errorHandler.ts';
+import { checkInvalidId } from '../common/helpers.ts';
+import type { IEquipmentRepository } from './repository.ts';
 
 export function createEquipmentService(deps: { equipmentRepository: IEquipmentRepository }) {
   const { equipmentRepository } = deps;

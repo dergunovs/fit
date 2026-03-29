@@ -2,25 +2,25 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import mongoose from 'mongoose';
 import nodemailer from 'nodemailer';
 
-import { PAGINATION_LIMIT, RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW } from './constants.js';
+import { PAGINATION_LIMIT, RATE_LIMIT_MAX, RATE_LIMIT_TIME_WINDOW } from './constants.ts';
 
 vi.mock('nodemailer');
 
-let checkInvalidId: typeof import('./helpers.js').checkInvalidId;
-let paginate: typeof import('./helpers.js').paginate;
-let sendMail: typeof import('./helpers.js').sendMail;
-let getRateLimit: () => Promise<typeof import('./helpers.js').rateLimit>;
+let checkInvalidId: typeof import('./helpers.ts').checkInvalidId;
+let paginate: typeof import('./helpers.ts').paginate;
+let sendMail: typeof import('./helpers.ts').sendMail;
+let getRateLimit: () => Promise<typeof import('./helpers.ts').rateLimit>;
 
 beforeEach(async () => {
   vi.resetModules();
 
-  const helpers = await import('./helpers.js');
+  const helpers = await import('./helpers.ts');
 
   checkInvalidId = helpers.checkInvalidId;
   paginate = helpers.paginate;
   sendMail = helpers.sendMail;
   getRateLimit = async () => {
-    const helpersModule = await import('./helpers.js');
+    const helpersModule = await import('./helpers.ts');
 
     return helpersModule.rateLimit;
   };
@@ -238,7 +238,7 @@ describe('rateLimit', () => {
 
     vi.resetModules();
 
-    const { rateLimit: rateLimitConfig } = await import('./helpers.js');
+    const { rateLimit: rateLimitConfig } = await import('./helpers.ts');
 
     expect(rateLimitConfig.max).toBe(10);
     expect(rateLimitConfig.timeWindow).toBe(60000);

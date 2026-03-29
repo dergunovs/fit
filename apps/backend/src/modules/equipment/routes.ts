@@ -11,15 +11,15 @@ import {
   type TDeleteEquipmentDTO,
 } from 'fitness-tracker-contracts';
 
-import { rateLimit } from '../common/helpers.js';
-import type { createEquipmentService } from './service.js';
+import { rateLimit } from '../common/helpers.ts';
+import type { createEquipmentService } from './service.ts';
 import {
   equipmentDeleteSchema,
   equipmentGetAllSchema,
   equipmentGetOneSchema,
   equipmentPostSchema,
   equipmentUpdateSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createEquipmentRoutes(deps: { equipmentService: ReturnType<typeof createEquipmentService> }) {
   const { equipmentService } = deps;

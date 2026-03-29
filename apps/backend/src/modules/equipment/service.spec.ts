@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { testNotFoundScenario, testInvalidIdScenario } from '../common/test/testHelpers.js';
-import { mockEquipmentRepository, mockEquipment, equipmentId } from './mocks.js';
-import { createEquipmentService } from './service.js';
+import { testNotFoundScenario, testInvalidIdScenario } from '../common/test/testHelpers.ts';
+import { mockEquipmentRepository, mockEquipment, equipmentId } from './mocks.ts';
+import { createEquipmentService } from './service.ts';
 
 const service = createEquipmentService({ equipmentRepository: mockEquipmentRepository });
 

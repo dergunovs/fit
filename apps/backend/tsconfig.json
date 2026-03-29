@@ -17,12 +17,15 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
+    "erasableSyntaxOnly": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
     "baseUrl": "./",
     "rootDir": "src",
-    "outDir": "build",
+    "outDir": "dist",
     "types": ["vitest/globals"]
   },
 
   "include": ["src"],
-  "exclude": ["node_modules", "build", "public"]
+  "exclude": ["node_modules", "dist", "public"]
 }

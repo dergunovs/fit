@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyError } from 'fastify';
 
-import { IAppError } from './types.js';
+import type { IAppError } from './types.ts';
 
 function createError(message: string, statusCode: number, code: string): IAppError {
   const error = new Error(message) as IAppError;

@@ -8,7 +8,7 @@ import {
   mockExerciseWeightsRequired,
   mockExerciseNoEquipmentId,
   mockExerciseEmptyEquipmentForWeight,
-} from '../exercise/mocks.js';
+} from '../exercise/mocks.ts';
 import {
   mockUser,
   mockAdmin,
@@ -16,8 +16,8 @@ import {
   mockUserEmptyEquipments,
   mockUserWithEquipmentForWeight,
   mockUserWithCustomGoals,
-} from './mocks.js';
-import { isUserEquipmentMatches, getUserGoals } from './helpers.js';
+} from './mocks.ts';
+import { isUserEquipmentMatches, getUserGoals } from './helpers.ts';
 
 describe('isUserEquipmentMatches', () => {
   it('returns true when exercise has no equipment and no equipmentForWeight', () => {

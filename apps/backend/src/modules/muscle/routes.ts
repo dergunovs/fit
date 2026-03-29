@@ -11,14 +11,14 @@ import {
   type TDeleteMuscleDTO,
 } from 'fitness-tracker-contracts';
 
-import type { createMuscleService } from './service.js';
+import type { createMuscleService } from './service.ts';
 import {
   muscleDeleteSchema,
   muscleGetAllSchema,
   muscleGetOneSchema,
   musclePostSchema,
   muscleUpdateSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createMuscleRoutes(deps: { muscleService: ReturnType<typeof createMuscleService> }) {
   const { muscleService } = deps;

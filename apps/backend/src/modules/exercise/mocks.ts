@@ -1,9 +1,9 @@
 import { vi } from 'vitest';
 import type { IExercise, IExerciseDone } from 'fitness-tracker-contracts';
 
-import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.js';
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IExerciseRepository } from './repository.js';
+import { mockEquipment, mockEquipmentForWeight } from '../equipment/mocks.ts';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IExerciseRepository } from './repository.ts';
 
 export const mockExercise: IExercise = {
   _id: 'ex1',

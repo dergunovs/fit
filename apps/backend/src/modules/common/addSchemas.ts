@@ -6,12 +6,12 @@ import {
   userEquipmentModel,
   userPasswordModel,
   userFeedbackModel,
-} from '../user/schema.js';
-import { authDataModel, registerDataModel, confirmTokenDataModel, resetPasswordDataModel } from '../auth/schema.js';
-import { exerciseModel, exerciseDoneModel, exerciseChoosenModel } from '../exercise/schema.js';
-import { activityModel, activityStatisticsValuesModel } from '../activity/schema.js';
-import { equipmentModel } from '../equipment/schema.js';
-import { muscleModel } from '../muscle/schema.js';
+} from '../user/schema.ts';
+import { authDataModel, registerDataModel, confirmTokenDataModel, resetPasswordDataModel } from '../auth/schema.ts';
+import { exerciseModel, exerciseDoneModel, exerciseChoosenModel } from '../exercise/schema.ts';
+import { activityModel, activityStatisticsValuesModel } from '../activity/schema.ts';
+import { equipmentModel } from '../equipment/schema.ts';
+import { muscleModel } from '../muscle/schema.ts';
 
 const schemas = [
   authDataModel,

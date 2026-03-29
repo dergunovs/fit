@@ -9,9 +9,9 @@ import type {
   TUpdateUserPasswordDataDTO,
 } from 'fitness-tracker-contracts';
 
-import { ISchema } from '../common/types.js';
-import { paginatedQuery, baseParams, baseReply } from '../common/schema.js';
-import { exerciseChoosenModel } from '../exercise/schema.js';
+import type { ISchema } from '../common/types.ts';
+import { paginatedQuery, baseParams, baseReply } from '../common/schema.ts';
+import { exerciseChoosenModel } from '../exercise/schema.ts';
 
 const tags = ['User'];
 

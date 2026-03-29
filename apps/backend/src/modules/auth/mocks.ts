@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
 
-import { mockUser, mockAdmin } from '../user/mocks.js';
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IAuthRepository } from './repository.js';
+import { mockUser, mockAdmin } from '../user/mocks.ts';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IAuthRepository } from './repository.ts';
 
 export const mockAuthRepository = {
   ...createMockRepository<IAuthRepository>([

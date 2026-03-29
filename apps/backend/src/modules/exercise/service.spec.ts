@@ -5,11 +5,11 @@ import {
   testInvalidIdScenario,
   testAccessDeniedScenario,
   testSuccessScenario,
-} from '../common/test/testHelpers.js';
-import { mockUser, mockAdmin, otherUserId } from '../user/mocks.js';
-import { mockExercise, mockExercise2, mockExerciseRepository } from './mocks.js';
-import { MAX_CUSTOM_EXERCISES } from './constants.js';
-import { createExerciseService } from './service.js';
+} from '../common/test/testHelpers.ts';
+import { mockUser, mockAdmin, otherUserId } from '../user/mocks.ts';
+import { mockExercise, mockExercise2, mockExerciseRepository } from './mocks.ts';
+import { MAX_CUSTOM_EXERCISES } from './constants.ts';
+import { createExerciseService } from './service.ts';
 
 const service = createExerciseService({ exerciseRepository: mockExerciseRepository });
 

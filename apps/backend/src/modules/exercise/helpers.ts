@@ -1,8 +1,8 @@
 import type { IUser } from 'fitness-tracker-contracts';
 
-import { error } from '../common/errorHandler.js';
-import { checkInvalidId } from '../common/helpers.js';
-import { IExerciseRepository } from './repository.js';
+import { error } from '../common/errorHandler.ts';
+import { checkInvalidId } from '../common/helpers.ts';
+import type { IExerciseRepository } from './repository.ts';
 
 export async function getExercisesByUser(exerciseRepository: IExerciseRepository, user: IUser) {
   if (!user._id) return [];

@@ -1,8 +1,8 @@
 import type { IUser } from 'fitness-tracker-contracts';
 
-import { paginate } from '../common/helpers.js';
-import { USER_POPULATE } from './constants.js';
-import User from './model.js';
+import { paginate } from '../common/helpers.ts';
+import { USER_POPULATE } from './constants.ts';
+import User from './model.ts';
 
 export interface IUserRepository {
   getMany: (page?: number) => Promise<{ data: IUser[]; total: number }>;

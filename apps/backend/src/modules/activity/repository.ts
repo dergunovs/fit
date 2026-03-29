@@ -1,10 +1,10 @@
 import type { IActivity } from 'fitness-tracker-contracts';
 import mongoose from 'mongoose';
 
-import { IChartFilter } from '../common/types.js';
-import { paginate } from '../common/helpers.js';
-import { ACTIVITY_POPULATE } from './constants.js';
-import Activity from './model.js';
+import type { IChartFilter } from '../common/types.ts';
+import { paginate } from '../common/helpers.ts';
+import { ACTIVITY_POPULATE } from './constants.ts';
+import Activity from './model.ts';
 
 export interface IActivityRepository {
   getMany: (page?: number) => Promise<{ data: IActivity[]; total: number }>;

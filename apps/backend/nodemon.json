@@ -1,6 +1,0 @@
-{
-  "watch": ["src"],
-  "ext": "ts",
-  "exec": "esbuild ./src/**/*.ts --platform=node --outdir=build --format=esm && node build",
-  "legacyWatch": true
-}

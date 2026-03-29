@@ -2,10 +2,10 @@ import { vi } from 'vitest';
 import mongoose from 'mongoose';
 import type { IActivity } from 'fitness-tracker-contracts';
 
-import { mockUser } from '../user/mocks.js';
-import { mockExerciseDone, mockExerciseDone2 } from '../exercise/mocks.js';
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IActivityRepository } from './repository.js';
+import { mockUser } from '../user/mocks.ts';
+import { mockExerciseDone, mockExerciseDone2 } from '../exercise/mocks.ts';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IActivityRepository } from './repository.ts';
 
 export const activityId = new mongoose.Types.ObjectId().toString();
 

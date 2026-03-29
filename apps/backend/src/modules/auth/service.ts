@@ -2,11 +2,11 @@ import bcrypt from 'bcryptjs';
 import type { IAuthData, IRegisterData, IUser, TDecode, TLocale } from 'fitness-tracker-contracts';
 import { generatePassword } from 'mhz-helpers';
 
-import { sendMail } from '../common/helpers.js';
-import { error } from '../common/errorHandler.js';
-import { ACCESS_TOKEN_TTL, AUTH_TEXTS, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.js';
-import { decodeToken, filterUserData } from './helpers.js';
-import { IAuthRepository } from './repository.js';
+import { sendMail } from '../common/helpers.ts';
+import { error } from '../common/errorHandler.ts';
+import { ACCESS_TOKEN_TTL, AUTH_TEXTS, BCRYPT_SALT_ROUNDS, CONFIRM_TOKEN_TTL } from './constants.ts';
+import { decodeToken, filterUserData } from './helpers.ts';
+import type { IAuthRepository } from './repository.ts';
 
 export function createAuthService(deps: { authRepository: IAuthRepository }) {
   const { authRepository } = deps;

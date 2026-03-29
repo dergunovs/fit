@@ -16,9 +16,9 @@ import {
   type TGetExercisesCustomDTO,
 } from 'fitness-tracker-contracts';
 
-import { rateLimit } from '../common/helpers.js';
-import { requireUser } from '../auth/helpers.js';
-import type { createExerciseService } from './service.js';
+import { rateLimit } from '../common/helpers.ts';
+import { requireUser } from '../auth/helpers.ts';
+import type { createExerciseService } from './service.ts';
 import {
   exerciseGetManySchema,
   exerciseGetAllSchema,
@@ -27,7 +27,7 @@ import {
   exercisePostSchema,
   exerciseUpdateSchema,
   exerciseDeleteSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createExerciseRoutes(deps: { exerciseService: ReturnType<typeof createExerciseService> }) {
   const { exerciseService } = deps;

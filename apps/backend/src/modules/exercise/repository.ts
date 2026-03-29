@@ -1,9 +1,9 @@
 import type { IExercise, IUser } from 'fitness-tracker-contracts';
 
-import { paginate } from '../common/helpers.js';
-import User from '../user/model.js';
-import Exercise from './model.js';
-import { EXERCISE_POPULATE } from './constants.js';
+import { paginate } from '../common/helpers.ts';
+import User from '../user/model.ts';
+import Exercise from './model.ts';
+import { EXERCISE_POPULATE } from './constants.ts';
 
 export interface IExerciseRepository {
   getMany: (page: number) => Promise<{ data: IExercise[]; total: number }>;

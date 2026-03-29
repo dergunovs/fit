@@ -1,15 +1,15 @@
 import type { IActivity, IUser, TActivityChartType, TLocale } from 'fitness-tracker-contracts';
 import { getDatesByDayGap, getFirstAndLastDays } from 'mhz-helpers';
 
-import { adminOrUserFilter, allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
-import { getAdminAndUserExercises } from '../exercise/helpers.js';
-import { error } from '../common/errorHandler.js';
-import { checkInvalidId } from '../common/helpers.js';
-import { IUserRepository } from '../user/repository.js';
-import { IMuscleRepository } from '../muscle/repository.js';
-import { IExerciseRepository } from '../exercise/repository.js';
-import { IActivityRepository } from './repository.js';
-import { getActivitiesStatistics, getExercisesStatistics, getActivitiesChartData } from './helpers.js';
+import { adminOrUserFilter, allowAccessToAdminAndCurrentUser } from '../auth/helpers.ts';
+import { getAdminAndUserExercises } from '../exercise/helpers.ts';
+import { error } from '../common/errorHandler.ts';
+import { checkInvalidId } from '../common/helpers.ts';
+import type { IUserRepository } from '../user/repository.ts';
+import type { IMuscleRepository } from '../muscle/repository.ts';
+import type { IExerciseRepository } from '../exercise/repository.ts';
+import type { IActivityRepository } from './repository.ts';
+import { getActivitiesStatistics, getExercisesStatistics, getActivitiesChartData } from './helpers.ts';
 
 export function createActivityService(deps: {
   activityRepository: IActivityRepository;
@@ -26,7 +26,7 @@ export function createActivityService(deps: {
       return { data, total };
     },
 
-    getStatistics: async (gap: number, user?: IUser) => {
+    getStatistics: async (gap: string, user?: IUser) => {
       const filter = adminOrUserFilter(user);
 
       const [foundUser, exercises] = await Promise.all([
@@ -36,14 +36,14 @@ export function createActivityService(deps: {
 
       if (!foundUser) throw error.notFound();
 
-      const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(gap);
+      const { dateFrom, dateTo, dateFromPrev, dateToPrev } = getDatesByDayGap(60);
 
       const activities: { current: IActivity[]; previous: IActivity[] }[] = await activityRepository.getStatistics(
         foundUser._id as string,
-        new Date(dateFrom),
-        new Date(dateTo),
-        new Date(dateFromPrev),
-        new Date(dateToPrev)
+        dateFrom,
+        dateTo,
+        dateFromPrev,
+        dateToPrev
       );
 
       const { current, previous } = activities[0];

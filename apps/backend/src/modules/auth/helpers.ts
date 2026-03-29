@@ -1,7 +1,7 @@
 import type { FastifyRequest } from 'fastify';
 import type { IUser, TDecode } from 'fitness-tracker-contracts';
 
-import { error } from '../common/errorHandler.js';
+import { error } from '../common/errorHandler.ts';
 
 export function decodeToken(decode?: TDecode, authorizationHeader?: string): IUser | null {
   const token = authorizationHeader ? authorizationHeader.split('Bearer ')[1] : undefined;

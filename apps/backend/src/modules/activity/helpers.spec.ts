@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mockExercise, mockExercise2 } from '../exercise/mocks.js';
-import { mockMuscle, mockMuscle2 } from '../muscle/mocks.js';
-import { mockUser } from '../user/mocks.js';
-import { getActivitiesChartData, getActivitiesStatistics, getExercisesStatistics } from './helpers.js';
-import { mockActivity, mockActivityPrev, mockWeeks, mockActivityRepository } from './mocks.js';
+import { mockExercise, mockExercise2 } from '../exercise/mocks.ts';
+import { mockMuscle, mockMuscle2 } from '../muscle/mocks.ts';
+import { mockUser } from '../user/mocks.ts';
+import { getActivitiesChartData, getActivitiesStatistics, getExercisesStatistics } from './helpers.ts';
+import { mockActivity, mockActivityPrev, mockWeeks, mockActivityRepository } from './mocks.ts';
 
 describe('getActivitiesStatistics', () => {
   it('calculates activity statistics correctly', () => {

@@ -2,11 +2,11 @@ import Fastify, { type FastifyError } from 'fastify';
 import dotenv from 'dotenv';
 import { Schema, connect } from 'mongoose';
 
-import { addSchemas } from './modules/common/addSchemas.js';
-import { registerPlugins } from './modules/common/registerPlugins.js';
-import { createRoutes } from './modules/common/createRoutes.js';
-import { errorHandler } from './modules/common/errorHandler.js';
-import { DB_HOST, SERVER_HOST } from './modules/common/constants.js';
+import { addSchemas } from './modules/common/addSchemas.ts';
+import { registerPlugins } from './modules/common/registerPlugins.ts';
+import { createRoutes } from './modules/common/createRoutes.ts';
+import { errorHandler } from './modules/common/errorHandler.ts';
+import { DB_HOST, SERVER_HOST } from './modules/common/constants.ts';
 
 dotenv.config({ quiet: true });
 

@@ -29,6 +29,7 @@ export default fp(async function (fastify) {
     fastify.register(swaggerUi, {
       routePrefix: SWAGGER_ROUTE_PREFIX,
       uiConfig: { docExpansion: 'list', defaultModelsExpandDepth: 0, tryItOutEnabled: true },
+      logo: { type: 'image/svg+xml', content: '' },
     });
   }
 });

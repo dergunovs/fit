@@ -21,9 +21,9 @@ import {
   type TPostAuthSetupDataDTO,
 } from 'fitness-tracker-contracts';
 
-import { rateLimit } from '../common/helpers.js';
-import { requireUser } from './helpers.js';
-import type { createAuthService } from './service.js';
+import { rateLimit } from '../common/helpers.ts';
+import { requireUser } from './helpers.ts';
+import type { createAuthService } from './service.ts';
 import {
   authGetSchema,
   authLoginSchema,
@@ -31,7 +31,7 @@ import {
   authRegisterSchema,
   authConfirmSchema,
   authResetSchema,
-} from './schema.js';
+} from './schema.ts';
 
 export function createAuthRoutes(deps: { authService: ReturnType<typeof createAuthService> }) {
   const { authService } = deps;

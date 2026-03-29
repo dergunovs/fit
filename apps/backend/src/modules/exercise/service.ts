@@ -1,10 +1,10 @@
 import type { IExercise, IUser } from 'fitness-tracker-contracts';
 
-import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.js';
-import { error } from '../common/errorHandler.js';
-import { checkInvalidId } from '../common/helpers.js';
-import { MAX_CUSTOM_EXERCISES } from './constants.js';
-import { IExerciseRepository } from './repository.js';
+import { allowAccessToAdminAndCurrentUser } from '../auth/helpers.ts';
+import { error } from '../common/errorHandler.ts';
+import { checkInvalidId } from '../common/helpers.ts';
+import { MAX_CUSTOM_EXERCISES } from './constants.ts';
+import type { IExerciseRepository } from './repository.ts';
 
 export function createExerciseService(deps: { exerciseRepository: IExerciseRepository }) {
   const { exerciseRepository } = deps;

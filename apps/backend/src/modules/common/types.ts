@@ -1,5 +1,5 @@
 import type { FastifySchema, FastifyError } from 'fastify';
-import { IUser } from 'fitness-tracker-contracts';
+import type { IUser } from 'fitness-tracker-contracts';
 
 declare module 'fastify' {
   interface FastifyInstance {

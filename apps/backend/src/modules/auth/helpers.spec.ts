@@ -1,14 +1,14 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { FastifyRequest } from 'fastify';
 
-import { mockUser, mockAdmin } from '../user/mocks.js';
+import { mockUser, mockAdmin } from '../user/mocks.ts';
 import {
   decodeToken,
   filterUserData,
   allowAccessToAdminAndCurrentUser,
   adminOrUserFilter,
   requireUser,
-} from './helpers.js';
+} from './helpers.ts';
 
 describe('decodeToken', () => {
   it('decodes valid token', () => {

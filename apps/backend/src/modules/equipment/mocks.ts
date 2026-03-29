@@ -2,8 +2,8 @@ import { vi } from 'vitest';
 import mongoose from 'mongoose';
 import type { IEquipment } from 'fitness-tracker-contracts';
 
-import { createMockRepository } from '../common/test/mockFactories.js';
-import { IEquipmentRepository } from './repository.js';
+import { createMockRepository } from '../common/test/mockFactories.ts';
+import type { IEquipmentRepository } from './repository.ts';
 
 export const equipmentId = new mongoose.Types.ObjectId().toString();
 

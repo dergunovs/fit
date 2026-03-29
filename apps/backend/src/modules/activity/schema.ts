@@ -13,9 +13,9 @@ import type {
   TPostActivityDTO,
 } from 'fitness-tracker-contracts';
 
-import { ISchema } from '../common/types.js';
-import { paginatedQuery, baseParams, baseReply } from '../common/schema.js';
-import { exerciseDoneModel } from '../exercise/schema.js';
+import type { ISchema } from '../common/types.ts';
+import { paginatedQuery, baseParams, baseReply } from '../common/schema.ts';
+import { exerciseDoneModel } from '../exercise/schema.ts';
 
 const tags = ['Activity'];
 

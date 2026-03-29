@@ -1,4 +1,4 @@
 .env
 .turbo
 node_modules
-build
+dist

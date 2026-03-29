@@ -1,4 +1,4 @@
-import { IPopulate } from '../common/types.js';
+import type { IPopulate } from '../common/types.ts';
 
 export const EXERCISE_POPULATE: IPopulate[] = [
   { path: 'createdBy', select: '_id name email' },
