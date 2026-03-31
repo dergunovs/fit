@@ -3,7 +3,7 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "module": "ES2022",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "strict": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -17,8 +17,7 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "baseUrl": "./",
-    "paths": { "@/*": ["src/modules/*"] },
+    "paths": { "@/*": ["./src/modules/*"] },
     "types": ["vite/client", "vite-svg-loader", "vite-plugin-pwa/vue", "node", "@intlify/unplugin-vue-i18n/messages"],
     "noEmit": true
   },

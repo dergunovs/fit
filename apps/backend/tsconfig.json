@@ -20,7 +20,6 @@
     "erasableSyntaxOnly": true,
     "rewriteRelativeImportExtensions": true,
     "verbatimModuleSyntax": true,
-    "baseUrl": "./",
     "rootDir": "src",
     "outDir": "dist",
     "types": ["vitest/globals"]
