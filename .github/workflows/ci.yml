@@ -45,6 +45,7 @@ jobs:
           envkey_EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           envkey_RATE_LIMIT_MAX: ${{ secrets.RATE_LIMIT_MAX }}
           envkey_RATE_LIMIT_TIME_WINDOW: ${{ secrets.RATE_LIMIT_TIME_WINDOW }}
+          envkey_UPLOAD_DIR: ${{ secrets.UPLOAD_DIR }}
           directory: apps/backend/
 
       - name: Build

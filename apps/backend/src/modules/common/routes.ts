@@ -1,16 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { pipeline } from 'node:stream/promises';
 import type { FastifyInstance } from 'fastify';
 
 import { API_UPLOAD_IMAGE } from 'fitness-tracker-contracts';
 import type { ISchema } from './types.ts';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
-
-const uploadDir = path.resolve(dirname, '../../../upload');
 
 export const uploadImageSchema: ISchema = {
   schema: {
@@ -19,9 +13,7 @@ export const uploadImageSchema: ISchema = {
     response: {
       201: {
         type: 'object',
-        properties: {
-          url: { type: 'string' },
-        },
+        properties: { url: { type: 'string' } },
         required: ['url'],
       },
     },
@@ -32,11 +24,7 @@ export function createUploadRoutes() {
   return async function (fastify: FastifyInstance) {
     fastify.post(API_UPLOAD_IMAGE, { ...uploadImageSchema }, async function (request, reply) {
       try {
-        const file = await request.file({
-          limits: {
-            fileSize: 10 * 1024 * 1024,
-          },
-        });
+        const file = await request.file({ limits: { fileSize: 10 * 1024 * 1024 } });
 
         if (!file) {
           reply.code(400).send({ message: 'File is required' });
@@ -55,6 +43,10 @@ export function createUploadRoutes() {
         const timestamp = Date.now();
         const extension = '.jpg';
         const uploadedFilename = `${timestamp}${extension}`;
+        const uploadDir = process.env.UPLOAD_DIR;
+
+        if (!uploadDir) return;
+
         const filePath = path.join(uploadDir, uploadedFilename);
 
         await pipeline(file.file, fs.createWriteStream(filePath));
