@@ -69,6 +69,8 @@
   "tempPasswordSent": "The @.lower:password has been sent by email",
   "followTheEmailLink": "Follow the link from the mail",
   "emailConfirmed": "Email confirmed. You can login.",
+  "image": "Image",
+  "imageAdded": "Image added",
   "calendar": "Calendar",
   "set": {
     "one": "Set",

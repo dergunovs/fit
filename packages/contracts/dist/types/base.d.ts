@@ -1,3 +1,5 @@
+export { API_UPLOAD_IMAGE } from "../index";
+
 export type TLocale = "ru" | "en";
 
 export interface IEntity {
@@ -22,3 +24,6 @@ export interface IPaginatedReply<T> {
   data: T[];
   total: number;
 }
+
+export type TPostUploadImageDTO = { url: string };
+export type TPostUploadImageDataDTO = File;

@@ -34,6 +34,7 @@ export const exerciseModel: JSONSchemaType<IExercise> = {
     equipment: { type: 'object', $ref: 'Equipment', required: ['title', 'isWeights'], nullable: true },
     equipmentForWeight: { type: 'array', items: equipmentModel, nullable: true },
     isCustom: { type: 'boolean', nullable: true },
+    image: { type: 'string', nullable: true },
   },
   required: ['title'],
   $schema: 'http://json-schema.org/draft-07/schema#',

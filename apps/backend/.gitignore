@@ -2,3 +2,4 @@
 .turbo
 node_modules
 dist
+upload

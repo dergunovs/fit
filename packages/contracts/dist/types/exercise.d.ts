@@ -17,6 +17,7 @@ export interface IExercise extends IEntity {
   equipment?: IEquipment;
   equipmentForWeight?: IEquipment[];
   isCustom?: boolean;
+  image?: string;
 }
 
 export interface IExerciseChoosen {

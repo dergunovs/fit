@@ -17,6 +17,23 @@
         <UiTextarea v-model="formData.description_en" data-test="exercise-form-description-en" />
       </UiField>
 
+      <UiUpload
+        v-if="isAdmin"
+        :label="t('image')"
+        :file="imageFile"
+        isSingle
+        isRequired
+        :isDisabled="!!formData.image"
+        :extensions="['jpg']"
+        :error="error('image')"
+        @add="addImageFile"
+        @remove="removeImageFile"
+        @upload="!!imageFile && mutateUploadFile(imageFile)"
+        :lang="locale"
+      />
+
+      <ImagePreview v-if="formData.image" :url="formData.image" @delete="deleteImageInForm" />
+
       <UiCheckbox v-model="formData.isWeights" :label="t('exercise.isWeights')" data-test="exercise-form-is-weights" />
 
       <UiCheckbox
@@ -79,14 +96,23 @@
 <script setup lang="ts">
 import { ref, shallowRef, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiTextarea } from 'mhz-ui';
+import { UiField, UiInput, UiCheckbox, toast, UiSelect, UiFlex, UiTextarea, UiUpload } from 'mhz-ui';
 import { useQueryClient, useValidate, required, clone, localeField } from 'mhz-helpers';
-import { IExercise, IMuscle, IEquipment, API_EXERCISE, API_ACTIVITY_STATISTICS } from 'fitness-tracker-contracts';
+import {
+  IExercise,
+  IMuscle,
+  IEquipment,
+  API_EXERCISE,
+  API_ACTIVITY_STATISTICS,
+  TPostUploadImageDTO,
+} from 'fitness-tracker-contracts';
 
 import FormButtons from '@/common/components/FormButtons.vue';
+import ImagePreview from '@/common/components/ImagePreview.vue';
 
 import { exerciseService } from '@/exercise/services';
 import { equipmentService } from '@/equipment/services';
+import { commonService } from '@/common/services';
 import { muscleService } from '@/muscle/services';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { filterEquipmentByWeights } from '@/equipment/helpers';
@@ -122,10 +148,33 @@ const formData = ref<IExercise>({
   isWeightsRequired: false,
   equipment: undefined,
   equipmentForWeight: [],
+  image: '',
 });
 
 const choosenMuscles = shallowRef<IMuscle[]>([]);
 const choosenEquipmentForWeight = shallowRef<IEquipment[]>([]);
+
+const imageFile = ref<File>();
+
+function addImageFile(file: File) {
+  imageFile.value = file;
+}
+
+function removeImageFile() {
+  imageFile.value = undefined;
+}
+
+function deleteImageInForm() {
+  formData.value.image = '';
+}
+
+const { mutate: mutateUploadFile } = commonService.uploadImage({
+  onSuccess: (data: TPostUploadImageDTO) => {
+    formData.value.image = data.url;
+    removeImageFile();
+    toast.success(t('imageAdded'));
+  },
+});
 
 const { data: equipments } = equipmentService.getAll();
 const { data: muscles } = muscleService.getAll();

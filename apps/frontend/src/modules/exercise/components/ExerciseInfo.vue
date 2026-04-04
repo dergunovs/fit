@@ -61,15 +61,21 @@
       </div>
     </UiFlex>
 
-    <div
-      v-if="props.exercise.exercise.description"
-      v-html="props.exercise.exercise[localeField('description', locale)]"
-      data-test="exercise-info-description"
-    ></div>
+    <img
+      v-if="props.exercise.exercise.image"
+      :src="imagePath"
+      :alt="props.exercise.exercise[localeField('title', locale)]"
+      crossorigin="anonymous"
+    />
+
+    <div v-if="props.exercise.exercise.description" data-test="exercise-info-description">
+      {{ props.exercise.exercise[localeField('description', locale)] }}
+    </div>
   </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { IExerciseStatistics } from 'fitness-tracker-contracts';
 import { UiFlex, UiChip } from 'mhz-ui';
 import { isAuth, localeField } from 'mhz-helpers';
@@ -83,6 +89,8 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const { t, locale } = useTI18n();
+
+const imagePath = computed(() => `${import.meta.env.VITE_PATH_UPLOAD}${props.exercise.exercise.image}`);
 </script>
 
 <style module lang="scss">

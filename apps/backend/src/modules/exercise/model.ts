@@ -16,6 +16,7 @@ const exerciseSchema = new Schema<IExercise>(
     dateCreated: { type: Date, default: Date.now },
     dateUpdated: { type: Date },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    image: { type: String },
   },
   { versionKey: false }
 );

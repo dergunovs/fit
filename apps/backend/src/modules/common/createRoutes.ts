@@ -18,6 +18,7 @@ import { createActivityService } from '../activity/service.ts';
 import { createExerciseService } from '../exercise/service.ts';
 import { createEquipmentService } from '../equipment/service.ts';
 import { createMuscleService } from '../muscle/service.ts';
+import { createUploadRoutes } from './routes.ts';
 
 export function createRoutes(fastify: FastifyInstance) {
   const authRepository = createAuthRepository();
@@ -47,4 +48,5 @@ export function createRoutes(fastify: FastifyInstance) {
   fastify.register(createExerciseRoutes({ exerciseService }), OPTIONS);
   fastify.register(createEquipmentRoutes({ equipmentService }), OPTIONS);
   fastify.register(createMuscleRoutes({ muscleService }), OPTIONS);
+  fastify.register(createUploadRoutes(), OPTIONS);
 }

@@ -10,7 +10,9 @@ exports[`ExerciseForm > matches snapshot 1`] = `
     </fieldset>
     <fieldset label="Описание EN">
       <ui-textarea-stub modelvalue="" isdisabled="false" data-test="exercise-form-description-en"></ui-textarea-stub>
-    </fieldset><input type="checkbox" modelvalue="false" label="Наличие веса у упражнения" data-test="exercise-form-is-weights">
+    </fieldset>
+    <ui-upload-stub label="Изображение" files="" extensions="jpg" isdisabled="false" isrequired="true" issingle="true" ishideuploadbutton="false" lang="ru" limit="10485760" uploadbuttontext=""></ui-upload-stub>
+    <!--v-if--><input type="checkbox" modelvalue="false" label="Наличие веса у упражнения" data-test="exercise-form-is-weights">
     <!--v-if-->
     <fieldset label="Использованное оборудование"><input type="text" options="[object Object]" isclearable="" islocalefield="false" lang="ru"></fieldset>
     <!--v-if-->

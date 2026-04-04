@@ -28,6 +28,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v2
         with:
           envkey_VITE_API: ${{ secrets.VITE_API }}
+          envkey_VITE_PATH_UPLOAD: ${{ secrets.VITE_PATH_UPLOAD }}
           envkey_VITE_VERSION: ${npm_package_version}
           directory: apps/frontend/
 

@@ -134,6 +134,7 @@ describe('ExerciseForm', async () => {
       equipmentForWeight: [filterEquipmentByWeights(EQUIPMENTS_FIXTURE, true)[0]],
       isWeights: true,
       isWeightsRequired: true,
+      image: '',
     });
 
     await mockOnSuccess.create?.();

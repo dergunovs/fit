@@ -25,6 +25,7 @@ exports[`ExerciseInfo > matches snapshot 1`] = `
       </div>
     </div>
   </div>
+  <!--v-if-->
   <div data-test="exercise-info-description">Описание 1</div>
 </div>"
 `;
