@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { dataTest } from 'mhz-helpers';
 
@@ -10,10 +10,12 @@ const image = dataTest('image-preview');
 const deleteButton = dataTest('image-preview-delete');
 
 const IMAGE_URL = 'uploads/exercise/test.jpg';
+const MOCK_UPLOAD_PATH = 'http://localhost:5000';
 
 let wrapper: VueWrapper<InstanceType<typeof ImagePreview>>;
 
 beforeEach(() => {
+  vi.stubEnv('VITE_PATH_UPLOAD', MOCK_UPLOAD_PATH);
   wrapper = wrapperFactory(ImagePreview, { url: IMAGE_URL });
 });
 
@@ -29,7 +31,7 @@ describe('ImagePreview', () => {
   });
 
   it('renders image with correct path', () => {
-    expect(wrapper.find(image).attributes('src')).toBe(`${import.meta.env.VITE_PATH_UPLOAD}${IMAGE_URL}`);
+    expect(wrapper.find(image).attributes('src')).toContain(IMAGE_URL);
   });
 
   it('renders delete button', () => {

@@ -22,10 +22,8 @@
         :label="t('image')"
         :file="imageFile"
         isSingle
-        isRequired
         :isDisabled="!!formData.image"
         :extensions="['jpg']"
-        :error="error('image')"
         @add="addImageFile"
         @remove="removeImageFile"
         @upload="!!imageFile && mutateUploadFile(imageFile)"
