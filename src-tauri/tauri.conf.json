@@ -8,7 +8,7 @@
     "frontendDist": "../apps/frontend/dist",
     "devUrl": "http://localhost:8080",
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "VITE_API=https://app-fit.ru/api npm run build"
+    "beforeBuildCommand": "VITE_API=https://app-fit.ru/api VITE_PATH_UPLOAD=https://app-fit.ru npm run build"
   },
   "app": {
     "windows": [
