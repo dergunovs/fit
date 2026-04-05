@@ -30,9 +30,15 @@
         @remove="removeImageFile"
         @upload="!!imageFile && mutateUploadFile(imageFile)"
         :lang="locale"
+        data-test="exercise-form-image-upload"
       />
 
-      <ImagePreview v-if="formData.image" :url="formData.image" @delete="deleteImageInForm" />
+      <ImagePreview
+        v-if="formData.image"
+        :url="formData.image"
+        @delete="deleteImageInForm"
+        data-test="exercise-form-image-preview"
+      />
 
       <UiCheckbox v-model="formData.isWeights" :label="t('exercise.isWeights')" data-test="exercise-form-is-weights" />
 

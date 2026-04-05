@@ -31,4 +31,5 @@ export interface IOnSuccess {
   confirmToken?: () => Promise<void>;
   resetPassword?: () => Promise<void>;
   feedback?: () => Promise<void>;
+  uploadImage?: () => Promise<void>;
 }

@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.image">
-    <img :src="pathToImage" width="200" alt="Image" crossorigin="anonymous" />
+    <img :src="pathToImage" width="200" alt="Image" crossorigin="anonymous" data-test="image-preview" />
     <UiButton @click="emit('delete')" layout="plain" data-test="image-preview-delete">{{ t('delete') }}</UiButton>
   </div>
 </template>

@@ -2,7 +2,7 @@ import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { VueWrapper, enableAutoUnmount } from '@vue/test-utils';
 import { API_ACTIVITY_STATISTICS, API_EXERCISE } from 'fitness-tracker-contracts';
-import { UiCheckbox } from 'mhz-ui';
+import { UiCheckbox, UiUpload } from 'mhz-ui';
 import { dataTest } from 'mhz-helpers';
 
 import ExerciseForm from './ExerciseForm.vue';
@@ -10,7 +10,14 @@ import FormButtons from '@/common/components/FormButtons.vue';
 
 import { wrapperFactory } from '@/common/test';
 import { mockOnSuccess, spyCreateExercise, spyUpdateExercise, spyDeleteExercise } from '@/exercise/mocks';
-import { spyRefetchQueries, spyRouterPush, spyToastSuccess, mockIsValid, spyRemoveQueries } from '@/common/mocks';
+import {
+  spyRefetchQueries,
+  spyRouterPush,
+  spyToastSuccess,
+  mockIsValid,
+  spyRemoveQueries,
+  spyUploadImage,
+} from '@/common/mocks';
 import { URL_EXERCISE } from '@/exercise/constants';
 import { EXERCISE_FIXTURE } from '@/exercise/fixtures';
 import { spyGetEquipments } from '@/equipment/mocks';
@@ -25,6 +32,8 @@ const TITLE_EN = 'Exercise';
 const DESCRIPTION = 'Описание упражнения';
 const DESCRIPTION_EN = 'Exercise descriptions';
 
+const IMAGE_FILE = new File(['test content'], 'test.jpg', { type: 'image/jpeg' });
+
 const form = dataTest('exercise-form');
 const formTitle = dataTest('exercise-form-title');
 const formTitleEn = dataTest('exercise-form-title-en');
@@ -34,6 +43,8 @@ const formIsWeights = dataTest('exercise-form-is-weights');
 const formIsWeightsRequired = dataTest('exercise-form-is-weights-required');
 const formEquipmentForWeight = dataTest('exercise-form-equipment-for-weight');
 const formMuscleGroups = dataTest('exercise-form-muscle-groups');
+const formImageUpload = dataTest('exercise-form-image-upload');
+const formImagePreview = dataTest('exercise-form-image-preview');
 const formButtons = dataTest('exercise-form-buttons');
 
 const wrapperWithExercise: VueWrapper<InstanceType<typeof ExerciseForm>> = wrapperFactory(ExerciseForm, {
@@ -233,10 +244,22 @@ describe('ExerciseForm', async () => {
     expect(wrapper.find(formEquipmentForWeight).exists()).toBe(true);
 
     await wrapper.findComponent(formEquipmentForWeight).setValue(true);
-
     await wrapper.findComponent(formEquipmentForWeight).setValue(false);
-
     await wrapper.findComponent(formIsWeights).setValue(false);
+
     expect(wrapper.find(formEquipmentForWeight).exists()).toBe(false);
+  });
+
+  it('uploads image file', async () => {
+    expect(wrapper.findComponent(formImagePreview).exists()).toBe(false);
+
+    wrapper.findComponent<typeof UiUpload>(formImageUpload).vm.$emit('add', IMAGE_FILE);
+    wrapper.findComponent<typeof UiUpload>(formImageUpload).vm.$emit('upload');
+
+    expect(spyUploadImage).toHaveBeenCalledTimes(1);
+
+    await mockOnSuccess.create?.();
+
+    expect(spyToastSuccess).toHaveBeenCalledTimes(1);
   });
 });

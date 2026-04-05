@@ -4,3 +4,4 @@ export * from './router';
 export * from './pwa';
 export * from './service';
 export * from './moduleMockFactory';
+export * from './upload';
