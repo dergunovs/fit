@@ -8,6 +8,7 @@
   "color": "Цвет",
   "required": "Обязательно",
   "installation": "Установка",
+  "available": "Доступно",
   "help": "Помощь",
   "all": "Все",
   "goals": "Цели",
@@ -123,7 +124,6 @@
     "isWeights": "Наличие веса у @.lower:exercise.many",
     "isWeightsRequired": "Обязательность веса",
     "filterByTitle": "Фильтр по названию @.lower:exercise.many",
-    "equipmentMatches": "Упражнение соответствует оборудованию",
     "doneToFailure": "@:exercise.one выполнено до отказа",
     "noAvailable": "Нет доступных упражнений для выбора"
   },
@@ -135,8 +135,8 @@
     "updated": "@:equipment.one обновлено",
     "deleted": "@:equipment.one удалено",
     "used": "Использованное @.lower:equipment.one",
-    "suitable": "Подходящее @.lower:equipment.one для веса",
-    "required": "Необходимое @.lower:equipment.one",
+    "suitable": "@:equipment.one для веса",
+    "required": "Необходимо @.lower:equipment.one",
     "save": "@:save @.lower:equipment.one"
   },
   "user": {
@@ -157,7 +157,6 @@
   },
   "muscle": {
     "many": "Мышцы",
-    "involved": "Задействованные @.lower:muscle.many",
     "add": "@:add @.lower:muscle.many",
     "added": "@:muscle.many добавлены",
     "updated": "@:muscle.many обновлены",

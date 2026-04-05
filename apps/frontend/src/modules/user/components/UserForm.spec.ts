@@ -184,6 +184,7 @@ describe('UserForm', async () => {
       goalSets: USER_FIXTURE.goalSets,
       goalRepeats: USER_FIXTURE.goalRepeats,
       goalDuration: USER_FIXTURE.goalDuration,
+      isEmailConfirmed: true,
     });
 
     await mockOnSuccess.update?.();

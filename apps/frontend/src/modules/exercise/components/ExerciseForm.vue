@@ -71,7 +71,7 @@
       </UiFlex>
 
       <UiFlex column>
-        <div>{{ t('muscle.involved') }}</div>
+        <div>{{ t('muscle.many') }}</div>
 
         <UiCheckbox
           v-for="muscle in muscles"

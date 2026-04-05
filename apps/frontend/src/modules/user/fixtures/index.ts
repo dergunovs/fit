@@ -33,6 +33,7 @@ export const USER_FIXTURE: IUser = {
   _id: '15546435',
   role: 'admin',
   name: 'Александр',
+  isEmailConfirmed: true,
   equipments: [
     { equipment: EQUIPMENT_FIXTURE, weights: [1, 2, 3] },
     { equipment: EQUIPMENT_FIXTURE_2, weights: [] },
@@ -54,6 +55,7 @@ export const USER_FIXTURE_2: IUser = {
   _id: '264564564',
   role: 'user',
   name: 'Иван',
+  isEmailConfirmed: false,
   equipments: [],
 };
 

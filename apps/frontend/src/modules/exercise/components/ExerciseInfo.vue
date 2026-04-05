@@ -1,29 +1,27 @@
 <template>
   <UiFlex column gap="16">
     <UiFlex column>
-      <h3 data-test="exercise-info-title">{{ props.exercise.exercise[localeField('title', locale)] }}</h3>
+      <h3 data-test="exercise-info-title">
+        {{ props.exercise.exercise[localeField('title', locale)] }}
+      </h3>
 
-      <div
-        v-if="isAuth"
-        :class="$style.isMatches"
-        :data-matches="props.exercise.isUserEquipmentMatches"
-        data-test="exercise-info-matches"
+      <span
+        v-if="isAuth && props.exercise.isUserEquipmentMatches"
+        :class="$style.available"
+        data-test="exercise-info-available"
       >
-        {{ t('exercise.equipmentMatches') }} -
-        <span data-test="exercise-info-matches-text">
-          {{ props.exercise.isUserEquipmentMatches ? t('yes').toLowerCase() : t('no').toLowerCase() }}
-        </span>
-      </div>
+        {{ t('available') }}
+      </span>
 
       <div>
-        <div>{{ t('muscle.involved') }}</div>
+        <div>{{ t('muscle.many') }}</div>
 
         <UiFlex>
           <UiChip
             v-for="muscle in props.exercise.exercise.muscles"
             :key="muscle._id"
-            data-test="exercise-info-muscles"
-            :style="`border-bottom: 2px solid ${muscle.color}`"
+            data-test="exercise-info-muscle"
+            :style="`border-bottom: 3px solid ${muscle.color}`"
           >
             {{ muscle[localeField('title', locale)] }}
           </UiChip>
@@ -94,11 +92,9 @@ const imagePath = computed(() => `${import.meta.env.VITE_PATH_UPLOAD}${props.exe
 </script>
 
 <style module lang="scss">
-.isMatches {
-  color: var(--color-error);
-
-  &[data-matches='true'] {
-    color: var(--color-success-dark);
-  }
+.available {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-success-dark);
 }
 </style>

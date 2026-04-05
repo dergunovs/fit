@@ -12,9 +12,8 @@ const exercise = EXERCISES_STATISTICS_FIXTURE[0];
 const exerciseWithoutEquipment = EXERCISES_STATISTICS_FIXTURE[1];
 
 const title = dataTest('exercise-info-title');
-const matches = dataTest('exercise-info-matches');
-const matchesText = dataTest('exercise-info-matches-text');
-const muscles = dataTest('exercise-info-muscles');
+const available = dataTest('exercise-info-available');
+const muscles = dataTest('exercise-info-muscle');
 const equipment = dataTest('exercise-info-equipment');
 const equipmentTitle = dataTest('exercise-info-equipment-title');
 const isWeights = dataTest('exercise-info-is-weights');
@@ -44,18 +43,17 @@ describe('ExerciseInfo', async () => {
   });
 
   it('checks if equipment matches', async () => {
-    expect(wrapper.find(matches).exists()).toBe(false);
+    expect(wrapper.find(available).exists()).toBe(false);
 
     setAuth(true);
 
     await nextTick();
 
-    expect(wrapper.find(matches).exists()).toBe(true);
-    expect(wrapper.find(matches).attributes('data-matches')).toBe(exercise.isUserEquipmentMatches.toString());
-  });
+    expect(wrapper.find(available).exists()).toBe(false);
 
-  it('shows equipment matches text', async () => {
-    expect(wrapper.find(matchesText).text()).toBe('нет');
+    await wrapper.setProps({ exercise: exerciseWithoutEquipment });
+
+    expect(wrapper.find(available).exists()).toBe(true);
   });
 
   it('shows muscle groups', async () => {

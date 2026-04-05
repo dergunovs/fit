@@ -36,4 +36,14 @@ describe('UserList', async () => {
   it('sets user page link', async () => {
     expect(wrapper.find(userTableEmailLink).attributes('to')).toBe(`${URL_USER_EDIT}/${USERS_FIXTURE[0]._id}`);
   });
+
+  it('shows confirmed status for users', async () => {
+    const confirmedCells = wrapper.findAll('td[data-confirmed]');
+
+    expect(confirmedCells.length).toBe(USERS_FIXTURE.length);
+    expect(confirmedCells[0].attributes('data-confirmed')).toBe('true');
+    expect(confirmedCells[1].attributes('data-confirmed')).toBe('false');
+    expect(confirmedCells[0].text()).toBe('Да');
+    expect(confirmedCells[1].text()).toBe('Нет');
+  });
 });

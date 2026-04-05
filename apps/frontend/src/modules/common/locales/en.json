@@ -8,6 +8,7 @@
   "color": "Color",
   "required": "Required",
   "installation": "Installation",
+  "available": "Available",
   "help": "Help",
   "all": "All",
   "goals": "Goals",
@@ -123,7 +124,6 @@
     "isWeights": "Has weight",
     "isWeightsRequired": "Is weight required",
     "filterByTitle": "Filter by @.lower:exercise.one title",
-    "equipmentMatches": "Matching the @.lower:exercise.one to your @.lower:equipment.one",
     "doneToFailure": "@:exercise.one done to failure",
     "noAvailable": "No available @.lower:exercise.many to choose"
   },
@@ -135,7 +135,7 @@
     "updated": "@:equipment.one updated",
     "deleted": "@:equipment.one deleted",
     "used": "Used @.lower:equipment.one",
-    "suitable": "Suitable weight @.lower:equipment.one",
+    "suitable": "Weight @.lower:equipment.one",
     "required": "Required @.lower:equipment.one",
     "save": "@:save @.lower:equipment.one"
   },
@@ -157,7 +157,6 @@
   },
   "muscle": {
     "many": "Muscles",
-    "involved": "@:muscle.many involved",
     "add": "@:add @.lower:muscle.many",
     "added": "@:muscle.many added",
     "updated": "@:muscle.many updated",

@@ -6,20 +6,20 @@ exports[`ExerciseInfo > matches snapshot 1`] = `
     <h3 data-test="exercise-info-title">Отжимание от скамьи</h3>
     <!--v-if-->
     <div>
-      <div>Задействованные мышцы</div>
+      <div>Мышцы</div>
       <div>
-        <div data-test="exercise-info-muscles" style="border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: #00CED1;">Грудь</div>
-        <div data-test="exercise-info-muscles" style="border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: #0000ff;">Ноги</div>
+        <div data-test="exercise-info-muscle" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #00CED1;">Грудь</div>
+        <div data-test="exercise-info-muscle" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #0000ff;">Ноги</div>
       </div>
     </div>
     <div data-test="exercise-info-equipment">
-      <div>Необходимое оборудование</div>
+      <div>Необходимо оборудование</div>
       <div>
         <div data-test="exercise-info-equipment-title">Скамья</div>
       </div>
     </div>
     <div data-test="exercise-info-is-weights">
-      <div><span>Подходящее оборудование для веса</span><span data-test="exercise-info-is-weights-required"><b> (обязательно)</b></span></div>
+      <div><span>Оборудование для веса</span><span data-test="exercise-info-is-weights-required"><b> (обязательно)</b></span></div>
       <div>
         <div data-test="exercise-info-equipment-for-weight">Гантели</div>
       </div>
