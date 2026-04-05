@@ -1,29 +1,19 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { pipeline } from 'node:stream/promises';
 import type { FastifyInstance } from 'fastify';
-
 import { API_UPLOAD_IMAGE } from 'fitness-tracker-contracts';
-import type { ISchema } from './types.ts';
 
-export const uploadImageSchema: ISchema = {
-  schema: {
-    tags: ['Upload'],
-    summary: 'Загрузить изображение',
-    response: {
-      201: {
-        type: 'object',
-        properties: { url: { type: 'string' } },
-        required: ['url'],
-      },
-    },
-  },
-};
+import type { createUploadService } from './service.ts';
+import { uploadImageSchema } from './schema.ts';
 
-export function createUploadRoutes() {
+export function createUploadRoutes(deps: { uploadService: ReturnType<typeof createUploadService> }) {
+  const { uploadService } = deps;
+
   return async function (fastify: FastifyInstance) {
-    fastify.post(API_UPLOAD_IMAGE, { ...uploadImageSchema }, async function (request, reply) {
-      try {
+    fastify.post(
+      API_UPLOAD_IMAGE,
+      { preValidation: [fastify.onlyAdmin], ...uploadImageSchema },
+      async function (request, reply) {
+        const uploadDir = process.env.UPLOAD_DIR;
+
         const file = await request.file({ limits: { fileSize: 10 * 1024 * 1024 } });
 
         if (!file) {
@@ -32,29 +22,16 @@ export function createUploadRoutes() {
           return;
         }
 
-        const allowedTypes = ['image/jpeg', 'image/jpg'];
-
-        if (!allowedTypes.includes(file.mimetype)) {
-          reply.code(400).send({ message: 'Only JPG/JPEG files are allowed' });
+        if (!uploadDir) {
+          reply.code(500).send({ message: 'Upload directory not configured' });
 
           return;
         }
 
-        const timestamp = Date.now();
-        const extension = '.jpg';
-        const uploadedFilename = `${timestamp}${extension}`;
-        const uploadDir = process.env.UPLOAD_DIR;
+        const url = await uploadService.uploadImage(file, uploadDir);
 
-        if (!uploadDir) return;
-
-        const filePath = path.join(uploadDir, uploadedFilename);
-
-        await pipeline(file.file, fs.createWriteStream(filePath));
-
-        reply.code(201).send({ url: `/upload/${uploadedFilename}` });
-      } catch {
-        reply.code(500).send({ message: 'Failed to save file' });
+        reply.code(201).send({ url });
       }
-    });
+    );
   };
 }

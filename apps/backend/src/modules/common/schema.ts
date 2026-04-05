@@ -1,5 +1,7 @@
 import type { JSONSchemaType } from 'ajv';
-import type { IPaginatedQuery, IBaseParams, IBaseReply } from 'fitness-tracker-contracts';
+import type { IPaginatedQuery, IBaseParams, IBaseReply, TPostUploadImageDTO } from 'fitness-tracker-contracts';
+
+import type { ISchema } from './types.ts';
 
 export const baseParams: JSONSchemaType<IBaseParams> = {
   $id: 'BaseParams',
@@ -32,4 +34,23 @@ export const paginatedQuery: JSONSchemaType<IPaginatedQuery> = {
   },
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
+};
+
+export const uploadImageReply: JSONSchemaType<TPostUploadImageDTO> = {
+  $id: 'UploadImageReply',
+  type: 'object',
+  properties: {
+    url: { type: 'string' },
+  },
+  required: ['url'],
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+};
+
+export const uploadImageSchema: ISchema = {
+  schema: {
+    tags: ['Upload'],
+    summary: 'Загрузить изображение',
+    response: { 201: uploadImageReply },
+  },
 };

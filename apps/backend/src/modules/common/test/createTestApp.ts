@@ -1,5 +1,6 @@
 import Fastify, { type FastifyInstance, type FastifyRequest, type FastifyReply } from 'fastify';
 import jwt from '@fastify/jwt';
+import multipart from '@fastify/multipart';
 import type { IUser } from 'fitness-tracker-contracts';
 
 import type { createAuthService } from '../../auth/service.ts';
@@ -8,6 +9,7 @@ import type { createUserService } from '../../user/service.ts';
 import type { createExerciseService } from '../../exercise/service.ts';
 import type { createEquipmentService } from '../../equipment/service.ts';
 import type { createMuscleService } from '../../muscle/service.ts';
+import type { createUploadService } from '../service.ts';
 import { addSchemas } from '../addSchemas.ts';
 import { createAuthRoutes } from '../../auth/routes.ts';
 import { createActivityRoutes } from '../../activity/routes.ts';
@@ -15,6 +17,7 @@ import { createUserRoutes } from '../../user/routes.ts';
 import { createExerciseRoutes } from '../../exercise/routes.ts';
 import { createEquipmentRoutes } from '../../equipment/routes.ts';
 import { createMuscleRoutes } from '../../muscle/routes.ts';
+import { createUploadRoutes } from '../routes.ts';
 
 const TEST_SECRET = 'test-secret';
 const PREFIX = '/api';
@@ -26,6 +29,7 @@ interface TestAppServices {
   exerciseService?: ReturnType<typeof createExerciseService>;
   equipmentService?: ReturnType<typeof createEquipmentService>;
   muscleService?: ReturnType<typeof createMuscleService>;
+  uploadService?: ReturnType<typeof createUploadService>;
 }
 
 declare module 'fastify' {
@@ -42,6 +46,7 @@ export async function createTestApp(services: TestAppServices): Promise<FastifyI
   const fastify = Fastify();
 
   await fastify.register(jwt, { secret: TEST_SECRET });
+  await fastify.register(multipart);
 
   addSchemas(fastify);
 
@@ -82,6 +87,9 @@ export async function createTestApp(services: TestAppServices): Promise<FastifyI
   }
   if (services.muscleService) {
     await fastify.register(createMuscleRoutes({ muscleService: services.muscleService }), { prefix: PREFIX });
+  }
+  if (services.uploadService) {
+    await fastify.register(createUploadRoutes({ uploadService: services.uploadService }), { prefix: PREFIX });
   }
 
   await fastify.ready();
