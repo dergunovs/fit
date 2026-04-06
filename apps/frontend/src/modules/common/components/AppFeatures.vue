@@ -43,6 +43,7 @@ const APP_FEATURES = computed(() => [
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
+  width: 33%;
   padding: 32px;
   overflow: hidden;
   border: 1px solid var(--color-gray);
@@ -75,6 +76,7 @@ const APP_FEATURES = computed(() => [
   }
 
   .feature {
+    width: 100%;
     padding: 24px;
   }
 }

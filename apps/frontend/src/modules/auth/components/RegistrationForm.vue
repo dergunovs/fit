@@ -2,6 +2,8 @@
   <UiFlex column>
     <h2>{{ t('registration') }}</h2>
 
+    <p>{{ t('registrationDescription') }}</p>
+
     <form @submit.prevent="submit" :class="$style.form" data-test="registration-form">
       <UiField :label="t('name')" isRequired :error="error('name')">
         <UiInput v-model="formData.name" data-test="registration-form-name" />

@@ -56,6 +56,7 @@
   "email": "Email",
   "register": "Register",
   "registration": "Registration",
+  "registrationDescription": "Create an account for free and start using the FiT",
   "createAdmin": "Create administrator",
   "adminCreated": "Administrator created",
   "password": "Password",
@@ -163,21 +164,21 @@
     "deleted": "@:muscle.many deleted"
   },
   "hero": {
-    "title": "FiT - home workout calendar",
+    "title": "FiT - workout calendar",
     "benefits": [
-      "Calendar with planning and visualization of workouts",
+      "Calendar with planning of workouts",
       "Templates for your future workouts",
-      "General and individual exercises with and without equipment",
+      "Exercises with illustrations",
       "Free app for PC, Android and iOS"
     ]
   },
   "features": {
     "progressTitle": "Track Progress",
-    "progressText": "A table with exercise statistics. Charts tracking progress by workouts, sets, repetitions, duration and muscle groups.",
+    "progressText": "Exercise statistics. Charts tracking progress by workouts, duration and muscle groups.",
     "shareTitle": "Share Results",
-    "shareText": "Copy data from a completed workout in your calendar with one click, including the time of each set.",
+    "shareText": "Copy data from a completed workout in your calendar with one click, including each set.",
     "planTitle": "Plan Workouts",
-    "planText": "Create and use workout templates. Workout duration is estimated based on your statistics."
+    "planText": "Create workout templates. Workout duration is estimated based on your statistics."
   },
   "pwa": {
     "updateApp": "Update app",
@@ -187,7 +188,7 @@
     "title": "The best workout is the one you came to!",
     "text": "Tracking sets, rest periods, and workload increases workout efficiency by 40%. This helps avoid plateaus, reduces the risk of overtraining, and achieve goals 3 months faster."
   },
-  "callToAction": "More than 100 people are already using the app to improve their athletic performance and quality of life.",
+  "callToAction": "More than 150 people are already using the app to improve their athletic performance and quality of life.",
   "statistics": "Statistics",
   "sourceCode": "Source code",
   "videoLinks": "Video links about app development",
