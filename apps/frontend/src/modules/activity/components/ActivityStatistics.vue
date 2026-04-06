@@ -8,7 +8,7 @@
           <span>
             {{ t('duration') }}:
             <span data-test="activity-statistics-total-duration">
-              {{ formatDuration(props.statistics.duration.cur, locale) }}</span
+              {{ formatDuration(props.statistics.duration.cur, locale, true) }}</span
             ><DynamicPercent :percent="props.statistics.duration.dynamics" />,
           </span>
           <span>
@@ -36,7 +36,7 @@
           <span>
             {{ t('duration') }}:
             <span data-test="activity-statistics-average-duration">{{
-              formatDuration(props.statistics.averageDuration.cur, locale)
+              formatDuration(props.statistics.averageDuration.cur, locale, true)
             }}</span
             ><DynamicPercent :percent="props.statistics.averageDuration.dynamics" />,
           </span>
