@@ -1,6 +1,7 @@
 @use 'mhz-ui/dist/colors';
 @use 'mhz-ui/dist/fonts';
 @use 'mhz-ui/dist/base';
+@use 'animations';
 
 :root {
   --color-primary-light-extra: #eae9f6;
@@ -24,15 +25,4 @@ h1,
 h2,
 h3 {
   margin-bottom: 0;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 200ms ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
 }
