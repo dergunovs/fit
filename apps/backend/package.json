@@ -1,7 +1,7 @@
 {
   "name": "fitness-tracker-backend",
   "description": "Fitness tracker backend",
-  "version": "0.5.16",
+  "version": "0.5.17",
   "author": "Alexandr Dergunov <dergunovs@mail.ru> (https://github.com/dergunovs)",
   "license": "MIT",
   "type": "module",
@@ -25,9 +25,9 @@
     "@fastify/cors": "11.2.0",
     "@fastify/helmet": "13.0.2",
     "@fastify/jwt": "10.0.0",
-    "@fastify/multipart": "9.4.0",
+    "@fastify/multipart": "10.0.0",
     "@fastify/rate-limit": "10.3.0",
-    "@fastify/static": "9.0.0",
+    "@fastify/static": "9.1.0",
     "@fastify/swagger": "9.7.0",
     "@fastify/swagger-ui": "5.2.5",
     "ajv": "8.18.0",
@@ -35,16 +35,16 @@
     "fastify": "5.8.4",
     "fastify-plugin": "5.1.0",
     "fitness-tracker-contracts": "*",
-    "mhz-helpers": "1.4.23",
+    "mhz-helpers": "1.4.24",
     "mongoose": "9.4.1",
-    "nodemailer": "8.0.4"
+    "nodemailer": "8.0.5"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "25.5.2",
     "@types/nodemailer": "8.0.0",
-    "@vitest/coverage-v8": "4.1.2",
+    "@vitest/coverage-v8": "4.1.4",
     "esbuild": "0.28.0",
     "eslint": "10.2.0",
     "eslint-config-prettier": "10.1.8",
@@ -57,8 +57,8 @@
     "globals": "17.4.0",
     "prettier": "3.8.1",
     "typescript": "6.0.2",
-    "typescript-eslint": "8.58.0",
-    "vitest": "4.1.2"
+    "typescript-eslint": "8.58.1",
+    "vitest": "4.1.4"
   },
   "engines": {
     "npm": ">=11.6.2",
