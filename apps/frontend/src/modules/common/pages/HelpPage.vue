@@ -23,7 +23,7 @@
     </div>
 
     <div>
-      <video controls width="360">
+      <video controls width="360" poster="/pwa-512.png">
         <source :src="videoPath" type="video/mp4" />
       </video>
     </div>
