@@ -22,6 +22,12 @@
       <p>{{ t('emailLink') }}: mail@app-fit.ru</p>
     </div>
 
+    <div>
+      <video controls width="360">
+        <source :src="videoPath" type="video/mp4" />
+      </video>
+    </div>
+
     <h3>{{ t('installation') }}</h3>
 
     <div>
@@ -58,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { UiFlex } from 'mhz-ui';
 import { scrollToTop } from 'mhz-helpers';
 
@@ -67,6 +73,8 @@ import UserFeedbackForm from '@/user/components/UserFeedbackForm.vue';
 import { useTI18n } from '@/common/composables';
 
 const { t, tm, rt } = useTI18n();
+
+const videoPath = computed(() => `${import.meta.env.VITE_PATH_UPLOAD}/upload/help.mp4`);
 
 onMounted(() => scrollToTop('main'));
 </script>
