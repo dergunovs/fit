@@ -21,12 +21,12 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@changesets/cli": "2.30.0"
+    "@changesets/cli": "2.31.0"
   },
   "devDependencies": {
-    "@turbo/gen": "2.9.5",
-    "prettier": "3.8.1",
-    "turbo": "2.9.5"
+    "@turbo/gen": "2.9.6",
+    "prettier": "3.8.3",
+    "turbo": "2.9.6"
   },
   "packageManager": "npm@11.7.0",
   "workspaces": [
