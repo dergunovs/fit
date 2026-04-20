@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "fitness-tracker-contracts": "*",
-    "mhz-ui": "1.4.25",
-    "mhz-helpers": "1.4.25",
+    "mhz-ui": "1.4.27",
+    "mhz-helpers": "1.4.27",
     "vue": "3.6.0-beta.10",
     "vue-i18n": "11.3.2",
     "vue-router": "5.0.4"
@@ -61,7 +61,7 @@
     "stylelint-prettier": "5.0.3",
     "typescript": "6.0.3",
     "typescript-eslint": "8.58.2",
-    "vite": "8.0.8",
+    "vite": "8.0.9",
     "vite-plugin-pwa": "1.2.0",
     "vite-svg-loader": "5.1.1",
     "vitest": "4.1.4",
