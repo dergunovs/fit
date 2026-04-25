@@ -66,8 +66,6 @@ describe('ExerciseRepeats', async () => {
   });
 
   it('emits update:modelValue on mount if baseRepeats set', async () => {
-    wrapper.unmount();
-
     const baseRepeat = 12;
 
     const wrapperWithBaseRepeats = wrapperFactory(ExerciseRepeats, { modelValue: undefined, baseRepeat });

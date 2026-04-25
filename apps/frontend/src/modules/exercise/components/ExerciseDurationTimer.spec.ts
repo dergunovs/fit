@@ -55,8 +55,6 @@ describe('ExerciseDurationTimer', async () => {
   });
 
   it('starts timer on mount if isActive props is true', async () => {
-    wrapper.unmount();
-
     const wrapperActive = wrapperFactory(ExerciseDurationTimer, { isActive: true });
 
     await wait(1000);
